@@ -1,0 +1,8 @@
+__turbopack_load_page_chunks__("/Registrierung-Jobs-Form1", [
+  "static/chunks/node_modules_next_f80f03._.js",
+  "static/chunks/node_modules_react-dom_82bb97._.js",
+  "static/chunks/node_modules_1b7400._.js",
+  "static/chunks/[root of the server]__3b36f1._.js",
+  "static/chunks/src_pages_Registrierung-Jobs-Form1_5771e1._.js",
+  "static/chunks/src_pages_Registrierung-Jobs-Form1_ca671d._.js"
+])

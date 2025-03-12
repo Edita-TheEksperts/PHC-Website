@@ -1,0 +1,18 @@
+{
+  "devFiles": [],
+  "ampDevFiles": [],
+  "polyfillFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [],
+  "pages": {
+    "/Registrierung-Jobs-Form2": [
+      "static/chunks/node_modules_next_f80f03._.js",
+      "static/chunks/node_modules_react-dom_82bb97._.js",
+      "static/chunks/node_modules_1b7400._.js",
+      "static/chunks/[root of the server]__e9201d._.js",
+      "static/chunks/src_pages_Registrierung-Jobs-Form2_5771e1._.js",
+      "static/chunks/src_pages_Registrierung-Jobs-Form2_5d4a23._.js"
+    ]
+  },
+  "ampFirstPages": []
+}
