@@ -1,6 +1,6 @@
 import React, { useState } from "react"; // ✅ Import React and useState
 import Link from 'next/link';
-import blogsData from "./blogsData"; // Import blog data
+import blogsData from "../data/blogsData"; // Import blog data
 
 export default function BlogPage() {
     const blogsPerPage = 12;

@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import blogsData from "./blogsData";
+import blogsData from "../data/blogsData";
 
 export default function BlogPost() {
   const { id } = useParams();
