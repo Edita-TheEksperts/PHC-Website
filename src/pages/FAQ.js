@@ -79,7 +79,7 @@ export default function FAQ() {
       </div>
 
       {/* FAQ Content */}
-      <div className="max-w-[1100px] mx-auto mt-20 lg:mt-[120px] lg:px-6 mb-[80px]">
+      <div className="max-w-[1150px] mx-auto mt-20 lg:mt-[120px] lg:px-6 mb-[80px]">
         {faqData.map((section, sectionIndex) => (
           <div key={sectionIndex} className="mt-8 lg:mt-[60px]">
             
