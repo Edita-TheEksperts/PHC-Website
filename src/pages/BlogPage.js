@@ -24,32 +24,32 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto px-6">
+    <div className="max-w-[1430px] mx-auto lg:px-6 p-4">
       
       {/* Header */}
-      <div className="bg-[#B99B5F] text-center py-[60px] rounded-[20px] mb-[50px]">
-        <h1 className="text-white text-[44px] font-semibold leading-[52px] font-['Instrument Sans']">
+      <div className="bg-[#B99B5F] max-w-[1400px] text-center py-[90px] rounded-[20px] mb-[120px]">
+        <h1 className="text-white text-[44px] lg:text-[65px] lg:leading-[84px] font-semibold leading-[52px] font-['Instrument Sans']">
           Blog & article
         </h1>
         <p className="text-white text-[16px] font-normal leading-[25.6px] font-['Inter']">
-          Gain expert experience while exploring insights of the latest trends and developments in Home Care.
+          Gain expert experience while exploring insights of the latest trends and<br></br> developments in Home Care.
         </p>
       </div>
 
       {/* Blog Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="px-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-[60px]">
         {currentBlogs.map((blog, index) => (
-          <div key={index} className="bg-white shadow-md rounded-[10px] overflow-hidden">
+          <div key={index} className="bg-white  rounded-[10px] overflow-hidden">
             
             {/* Blog Image */}
-            <img src={blog.image} alt={blog.title} className="w-full h-[200px] object-cover" />
+            <img src={blog.image} alt={blog.title} className="w-full h-[300px]" />
 
             {/* Blog Details */}
-            <div className="p-4">
+            <div className="py-5">
               <span className="bg-[#04436F] text-white text-[14px] font-medium px-3 py-1 rounded-full">
                 {blog.category}
               </span>
-              <h3 className="text-[#04436F] text-[20px] font-semibold mt-2">
+              <h3 className="text-[#04436F] text-[26px] leading-[33px] font-semibold mt-2">
                 {blog.title}
               </h3>
               <p className="text-[#666] text-[14px] mt-1">{blog.date}</p>
