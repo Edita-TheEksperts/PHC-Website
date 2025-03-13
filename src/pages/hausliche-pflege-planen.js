@@ -27,7 +27,7 @@ Willkommen bei Prime Home Care – Ihr zuverlässiger Partner für die Organisat
         <section className="mt-[120px] px-6  flex flex-col lg:flex-row items-center gap-20">
           <img src="/images/intro1.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[647px] items-start flex justify-start align-top" />
           <div className="lg:w-1/2 text-left">
-          <p className="lg:w-[220px] flex flex-col items-start px-[10px] pr-[100px] py-[2px] 
+          <p className="lg:w-[250px] flex flex-col items-start px-[10px] pr-[100px] py-[2px] 
               rounded-l-[50px] 
               bg-[linear-gradient(94deg,#04436F_0%,rgba(0,0,0,0)_100%)] 
               text-[#FAFCFF] text-[18px] font-normal leading-[23.4px] font-['Inter'] mb-2">
@@ -70,7 +70,7 @@ Während der laufenden Betreuung bleiben wir an Ihrer Seite und können den Pfle
         </section>
   
         {/* Call-to-Action Section */}
-        <section className="mt-[120px] px-6 py-6 text-left bg-[#EDF2FB] lg:py-[120px] lg:px-[70px]">
+        <section className="rounded-[20px] mt-[120px] px-6 py-6 text-left bg-[#EDF2FB] lg:py-[120px] lg:px-[70px]">
         <p className="text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
   Sie müssen private Betreuung für sich <br></br>oder für einen nahen Angehörigen<br></br> organisieren?
 </p>
