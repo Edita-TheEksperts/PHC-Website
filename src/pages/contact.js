@@ -50,7 +50,7 @@ export default function ContactPage() {
         </div>
   
         {/* Image & Contact Form */}
-        <div className="flex flex-col lg:flex-row gap-[60px] items-center justify-between mt-[60px]">
+        <div className="flex flex-col lg:flex-row gap-[60px] items-center justify-between mt-[120px]">
           {/* Image Section */}
           <div className="relative w-full lg:w-1/2">
             <img
