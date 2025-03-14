@@ -3,7 +3,7 @@ import "../styles/globals.css";
 
 export default function Home() {
   return (
-    <div className=" max-w-[1430] mx-auto">
+    <div className="bg-[#FFFFFF] px-4 mx-auto max-w-[1430px]">
       {/* Hero Section */}
       <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row items-center gap-6 lg:px-[70px]  px-6 py-12 lg:py-20">
         {/* Left Content */}
@@ -154,8 +154,8 @@ export default function Home() {
       </div>
 
       {/* Contact Options */}
-      <div className="marginclass mt-10 lg:mt-[-80px] z-999 lg:ml-[650px] absolute flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-[40px]">
-        {/* Online Session */}
+      <div className="marginclass mt-10 lg:mt-[-80px] z-999 lg:ml-[650px] relative flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-[40px]">
+      {/* Online Session */}
         <div className="flex flex-col items-right text-right">
         <p className="text-[#04436F] font-['Instrument Sans'] text-[22px] font-medium leading-[26.4px] text-right">
   Call us for home service
