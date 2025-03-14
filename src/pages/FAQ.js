@@ -65,7 +65,7 @@ export default function FAQ() {
   };
 
   return (
-    <div className="p-4 lg:p-2" >
+    <div className="p-4 lg:p-2 max-w-[1430px]" >
       
       {/* Header Section */}
       <div className="bg-[#B99B5F] text-center  rounded-[20px] py-[90px] max-w-[1390px] mx-auto">

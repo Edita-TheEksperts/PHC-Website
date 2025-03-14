@@ -15,7 +15,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="flex justify-between items-center lg:px-[70px] p-4 bg-white z-50">
+    <header className="flex justify-between items-center mx-auto max-w-[1430px] p-4 bg-white z-50">
       {/* Desktop and Tablet View */}
       <div className="flex items-center gap-8 hidden lg:flex">
         {navLinks.map((link) => (

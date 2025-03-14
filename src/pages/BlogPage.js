@@ -46,15 +46,25 @@ export default function BlogPage() {
 
             {/* Blog Details */}
             <div className="py-5">
-              <span className="bg-[#04436F] text-white text-[14px] font-medium px-3 py-1 rounded-full">
+                <div className="flex flex-row justify-between">
+                <span
+                className="bg-[#04436F] text-[14px] text-center justify-center flex font-[400] leading-[25px] px-4 py-2 rounded-l-[20px] relative"
+                style={{
+                    background: "linear-gradient(94deg, #04436F 0%, rgba(0, 0, 0, 0.00) 100%)",
+                    padding: "4px 12px", // px-3 → 12px, py-1 → 4px
+                }}
+                >
                 {blog.category}
-              </span>
-              <h3 className="text-[#04436F] text-[26px] leading-[33px] font-semibold mt-2">
+                </span>
+
+              <p className="text-[#04436F] text-[14px] font-[400] leading-[25px]">{blog.date}</p>
+
+              </div>
+              <h3 className="text-[#04436F] text-[26px] leading-[33px] font-[600] mt-2">
                 {blog.title}
               </h3>
-              <p className="text-[#666] text-[14px] mt-1">{blog.date}</p>
               <Link href={`/blog/${blog.id}`}>
-              <button className="bg-[#04436F] text-white mt-4 py-2 px-4 rounded-full text-[16px] font-medium hover:bg-[#B99B5F] transition">
+              <button className="bg-[#04436F] text-white mt-4 py-2 px-4 rounded-[20px] text-[16px] font-medium hover:bg-[#B99B5F] transition">
                   Read More
                 </button>
               </Link>
@@ -65,23 +75,23 @@ export default function BlogPage() {
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center mt-10 space-x-4">
+      <div className="flex justify-center lg:justify-between mt-10 space-x-4">
         <button 
           onClick={prevPage} 
           disabled={currentPage === 1}
-          className={`px-6 py-2 rounded-full text-white bg-[#04436F] transition hover:bg-[#B99B5F] ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`px-6 py-2 lg:px-[150px] lg:py-[14px] rounded-full text-white bg-[#04436F] transition hover:bg-[#B99B5F] ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Previous
         </button>
         
-        <span className="text-[#04436F] text-[18px] font-medium">
+        <span className="text-[#04436F] text-[18px] font-medium mt-4">
           {currentPage} / {totalPages}
         </span>
         
         <button 
           onClick={nextPage} 
           disabled={currentPage === totalPages}
-          className={`px-6 py-2 rounded-full text-white bg-[#04436F] transition hover:bg-[#B99B5F] ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`px-6 py-2 lg:px-[150px] lg:py-[14px] rounded-full text-white bg-[#04436F] transition hover:bg-[#B99B5F] ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Next
         </button>

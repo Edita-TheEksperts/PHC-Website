@@ -7,7 +7,7 @@ const teamMembers = [
 ];
 export default function About() {
   return (
-    <div className="bg-white px-4 py-4 lg:px-[70px] lg:py-0">
+    <div className="bg-white px-4 py-4 max-w-[1430px] mx-auto lg:py-0">
         <section className="bg-[#B99B5F] p-4 rounded-[20px]">
         <h1 className="mt-[200px] text-[#FAFCFF] text-center text-[65px] font-semibold leading-[84.5px]">
         About Prime Home Care</h1>

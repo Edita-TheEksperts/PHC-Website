@@ -1,6 +1,6 @@
 export default function ContactPage() {
     return (
-      <section className="bg-[#FAFCFF] px-4 lg:px-[70px] py-16">
+      <section className="bg-[#FAFCFF] px-4 mx-auto py-16 max-w-[1430px]">
         {/* Header Section */}
       {/* Header Section */}
 <div className="bg-[rgba(4,67,111,0.10)] p-10 rounded-[20px] flex flex-col gap-8 lg:gap-[140px] lg:flex-row justify-between items-center">
@@ -39,7 +39,7 @@ export default function ContactPage() {
             { icon: "location", title: "Where to find us", description: "Lorem" },
             { icon: "clock", title: "Service hours", description: "Lorem" }
           ].map((item, index) => (
-            <div key={index} className="lg:w-[315px] w-[280px] p-[24px] bg-[#EAF1F8] gap-[8px] rounded-[20px] flex flex-col items-left">
+            <div key={index} className="lg:w-[315px] w-[250px] p-[24px] bg-[#EAF1F8] gap-[8px] rounded-[20px] flex flex-col items-left">
                 <div className="w-[60px] h-[60px] bg-[#04436F] rounded-full justify-center flex items-center mb-2">              
                      <img src={`/images/${item.icon}.svg`} alt={item.title} className="bg-[#04436F] rounded-full w-[40px] h-[40px] " />
                 </div>
