@@ -92,7 +92,7 @@ const Footer = () => {
         </div>
 
         {/* Right Section */}
-        <div className="bg-[#F1F1F1] p-4 lg:p-[45px] lg:rounded-tr-[20px] lg:rounded-br-[20px]">
+        <div className="bg-[#F1F1F1] p-4 lg:p-[45px]  lg:rounded-tr-[20px] lg:rounded-br-[20px]">
           <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]" >Contact Information</h3>
           <p className="] text-[#04436F] text-[18px] leading-[25.2px] font-normal">Address</p>
           <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">Lorem</p>

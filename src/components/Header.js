@@ -20,7 +20,7 @@ const Header = () => {
       <div className="flex items-center gap-8 hidden lg:flex">
         {navLinks.map((link) => (
           <Link key={link.name} href={link.path}
-              className={`text-[18px] font-medium leading-[25.6px] font-[Inter] ${
+              className={`text-[18px] font-medium leading-[25.6px] font-[Metropolis] ${
                 router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'
               } hover:text-[#A99558]`}
             >
@@ -38,10 +38,10 @@ const Header = () => {
       </div>
       {/* Register and Login Buttons */}
       <div className="flex gap-4 hidden lg:flex">
-        <Link href="/register" className="px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-medium leading-normal tracking-[-0.225px]">
+        <Link href="/register" className=" px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-[Metropolis] font-medium leading-normal tracking-[-0.225px]">
           Register
         </Link>
-        <Link href="/login" className="px-[34px] py-[12px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">
+        <Link href="/login" className="px-[34px] py-[12px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] font-[Metropolis] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">
           Log in
         </Link>
       </div>

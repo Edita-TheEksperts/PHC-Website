@@ -7,13 +7,13 @@ export default function Home() {
       <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row items-center gap-6 lg:px-[70px]  px-6 py-12 lg:py-20">
         {/* Left Content */}
         <div className="lg:w-1/2 gap-[32px]">
-        <h1 className="text-[#04436F] font-['Instrument Sans'] text-[45px] lg:text-[65px] font-semibold lg:leading-[84.5px]">
+        <h1 className="text-[#04436F] text-[45px] lg:text-[65px] font-semibold lg:leading-[84.5px]">
   Empowering <br></br>home care<br></br> solutions.
 </h1>
 
 
 <button className="mt-6 px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
-                   font-['Inter'] text-[18px] font-medium leading-[21.6px] 
+                   text-[18px] font-medium leading-[21.6px] 
                    rounded-[50px] flex items-center justify-center 
                    hover:bg-[#033559] transition 
                    text-center">
@@ -33,11 +33,11 @@ export default function Home() {
           </div>
           
           <div className="mt-[30px]">
-          <h1 className="text-[#04436F] font-['Instrument Sans'] text-[22px] font-semibold leading-[26.4px]">
+          <h1 className="text-[#04436F] text-[22px] font-semibold leading-[26.4px]">
   24/7 availability
 </h1>
           </div>
-          <ul className="mt-2 space-y-2 text-[#04436F] font-['Inter'] text-[16px] font-normal leading-[25.6px] pl-[30px] list-disc">
+          <ul className="mt-2 space-y-2 text-[#04436F] text-[16px] font-normal leading-[25.6px] pl-[30px] list-disc">
           <li>Continuous monitoring</li>
             <li>Assistance with activities of daily living</li>
           </ul>
@@ -51,14 +51,14 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="bg-[#EDF2FB] rounded-[20px] max-w-[1430px] mx-auto px-6 mt-[120px] ">
-      <h2 className="text-[#04436F] text-center font-['Instrument Sans'] text-[55px] font-semibold leading-[71.5px] pt-4">
+      <section className="max-w-[1430px] mx-auto px-6 mt-[120px] ">
+      <h2 className="text-[#04436F] text-center text-[40px] leading-[42px] lg:text-[55px] font-semibold lg:leading-[71.5px] pt-4">
   Explore our comprehensive services
 </h2>
 
 
        {/* Services Grid */}
-<div className="mt-10 lg:mt-[70px] grid grid-cols-1 px-[120px] md:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-[60px] pb-[120px]">
+<div className="mt-10 lg:mt-[70px] grid grid-cols-1 lg:px-[120px] md:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-[60px] ">
   {[
     {
       title: "Skilled nursing care",
@@ -97,12 +97,12 @@ export default function Home() {
       </div>
 
       {/* Title */}
-      <h3 className="text-[#04436F] text-center font-['Instrument Sans'] text-[28px] font-semibold leading-[33.6px]">
+      <h3 className="text-[#04436F] text-center text-[28px] font-semibold leading-[33.6px]">
         {service.title}
       </h3>
 
       {/* Description */}
-      <p className="text-[#04436F] text-center font-['Inter'] text-[16px] font-normal leading-[25.6px] mt-[10px]">
+      <p className="text-[#04436F] text-center text-[16px] font-normal leading-[25.6px] mt-[10px]">
         {service.description}
       </p>
     </div>
@@ -130,20 +130,20 @@ export default function Home() {
         />
         {/* Overlay */}
         <div className="absolute inset-0 lg:mt-[-100px]  rounded-[20px] flex flex-col gap-3 lg:gap-[30px] justify-center items-center text-center px-6 ">
-        <p className="text-[#FAFCFF] text-[18px] font-['Inter'] font-normal leading-[23.4px] 
+        <p className="text-[#FAFCFF] text-[18px]  font-normal leading-[23.4px] 
             px-[10px] py-[2px] flex flex-col items-start 
             rounded-l-[50px] rounded-r-none 
             bg-[linear-gradient(97deg,#04436F_0%,rgba(0,0,0,0.00)_100%)] text-center">
             Get in Touch
             </p>
 
-            <h2 className="text-[#FAFCFF] text-center font-['Instrument Sans'] 
+            <h2 className="text-[#FAFCFF] text-center
             text-[32px] lg:text-[55px] font-semibold leading-[38px] lg:leading-[71.5px] mt-2">
             Have a question or are you <br /> ready to schedule a <br /> consultation?
             </h2>
 
             <button className="mt-4 px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
-   text-[18px] font-['Inter'] font-medium leading-[21.6px] 
+   text-[18px] font-medium leading-[21.6px] 
    rounded-[50px] flex flex-col items-center text-center 
    hover:bg-[#033559] transition">
   Schedule a home visit
@@ -156,11 +156,11 @@ export default function Home() {
       <div className="marginclass mt-10 lg:mt-[-80px] z-999 lg:ml-[650px] relative flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-[40px]">
       {/* Online Session */}
         <div className="flex flex-col items-right text-right">
-        <p className="text-[#04436F] font-['Instrument Sans'] text-[22px] font-medium leading-[26.4px] text-right">
+        <p className="text-[#04436F] text-[22px] font-medium leading-[26.4px] text-right">
   Call us for home service
 </p>
 
-<p className="text-[#04436F] font-['Inter'] text-[16px] font-normal leading-[25.6px] text-right underline">
+<p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] text-right underline">
   Lorem
 </p>
         </div>
@@ -273,18 +273,18 @@ export default function Home() {
           </div>
         {/* Home Service */}
         <div className="flex flex-col  items-start  text-left">
-        <p className="text-[#04436F] font-['Instrument Sans'] text-[22px] font-medium leading-[26.4px] text-right">
+        <p className="text-[#04436F] text-[22px] font-medium leading-[26.4px] text-right">
   Call us for home service
 </p>
 
-<p className="text-[#04436F] font-['Inter'] text-[16px] font-normal leading-[25.6px] text-right underline">
+<p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] text-right underline">
   Lorem
 </p>
         </div>
       </div>
     </section>
 
-    <section className="max-w-[1400] mt-[120px] mx-auto p-4 lg:px-0 flex flex-col lg:flex-row items-center gap-12 lg:gap-[80px]">
+    <section className="max-w-[1400] mt-[120px] mx-auto p-2 lg:px-0 flex flex-col lg:flex-row items-center gap-12 lg:gap-[80px]">
       
       {/* Left: Image with Custom Cropped Shape */}
       <div className="relative w-full lg:w-[610px] h-[400px] lg:h-[730px]">
@@ -308,7 +308,7 @@ export default function Home() {
 
 
         {/* Main Title */}
-        <h2 className="text-[#04436F] font-['Instrument Sans'] text-[32px] lg:text-[55px] font-semibold leading-[40px] lg:leading-[71.5px] mb-10 lg:mb-[70px]">
+        <h2 className="text-[#04436F] text-[32px] lg:text-[55px] font-semibold leading-[40px] lg:leading-[71.5px] mb-10 lg:mb-[70px]">
   Easy care in three steps
 </h2>
 
@@ -341,21 +341,21 @@ export default function Home() {
               textColor: "text-white",
             },
           ].map((step, index) => (
-            <div key={index} className="flex items-start gap-4">
+            <div key={index} className="flex items-start gap-2 lg:gap-4">
               {/* Step Number */}
               <div
-                className={`w-[70px] h-[70px] text-[36px] flex items-center justify-center leading-[500] font-[500] rounded-full ${step.bgColor} ${step.textColor}`}
+                className={`lg:w-[70px] lg:h-[70px] h-[35px] w-[40px] text-[22px] lg:text-[36px] flex items-center justify-center  font-[500] rounded-full ${step.bgColor} ${step.textColor}`}
               >
                 {step.number}
               </div>
 
               {/* Step Content */}
               <div>
-                <h3 className="text-[#04436F] font-['Instrument Sans'] text-[22px] lg:text-[28px] font-medium leading-[28px] lg:leading-[33.6px]">
+                <h3 className="text-[#04436F] text-[22px] lg:text-[28px] font-medium leading-[28px] lg:leading-[33.6px]">
                 {step.title}
                 </h3>
 
-                <p className="text-[#04436F] lg:w-[500px] font-['Inter'] text-[16px] font-normal leading-[25.6px]">
+                <p className="text-[#04436F] lg:w-[500px] text-[16px] font-normal leading-[25.6px]">
                 {step.description}
                 </p>
 
@@ -368,7 +368,7 @@ export default function Home() {
 
 
     <section className="text-center mt-[120px]">
-        <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px] font-['Instrument Sans'] text-center">
+        <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px] text-center">
             Pricing
          </h2>
 
@@ -381,16 +381,16 @@ export default function Home() {
     <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#EDF2FB] text-[#000000]">
 
 {/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px] font-['Instrument Sans']">
+<h3 className="text-[22px] font-medium leading-[30.8px]">
   Hourly Care Plan
 </h3>
 
 {/* Price Section - Now properly aligned */}
 <div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-[#04436F] text-[70px] font-semibold leading-[70px] font-['Instrument Sans']">
+  <span className="text-[#04436F] text-[70px] font-semibold leading-[70px] ">
     $19
   </span>
-  <span className="text-[#04436F] text-[22px] font-normal leading-[22px] font-['Inter']">
+  <span className="text-[#04436F] text-[22px] font-normal leading-[22px] ">
     /hour
   </span>
 </div>
@@ -399,7 +399,7 @@ export default function Home() {
 
 <div className="p-[50px] flex flex-col justify-center">
   {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] font-['Inter'] list-disc pl-[20px]">
+  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
     <li>Personal care assistance</li>
     <li>Medication reminders</li>
     <li>Meal preparation and feeding assistance</li>
@@ -425,16 +425,16 @@ export default function Home() {
     <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#B99B5F] text-white">
 
 {/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px] font-['Instrument Sans']">
+<h3 className="text-[22px] font-medium leading-[30.8px] ">
   Hourly Care Plan
 </h3>
 
 {/* Price Section - Now properly aligned */}
 <div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-white text-[70px] font-semibold leading-[70px] font-['Instrument Sans']">
+  <span className="text-white text-[70px] font-semibold leading-[70px] ">
     $199
   </span>
-  <span className="text-white text-[22px] font-normal leading-[22px] font-['Inter']">
+  <span className="text-white text-[22px] font-normal leading-[22px]">
     /month
   </span>
 </div>
@@ -443,7 +443,7 @@ export default function Home() {
 
 <div className="p-[50px] flex flex-col justify-center">
   {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] font-['Inter'] list-disc pl-[20px]">
+  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
     <li>Personal care assistance</li>
     <li>Medication reminders</li>
     <li>Meal preparation and feeding assistance</li>
@@ -472,16 +472,16 @@ export default function Home() {
   <div className="p-[50px] lg:h-[730px] rounded-[20px] text-center bg-[#EDF2FB] flex flex-col justify-between h-full">
     
     {/* Header */}
-    <div className="w-full text-left text-[22px] font-medium leading-[30.8px] font-['Instrument Sans'] 
+    <div className="w-full text-left text-[22px] font-medium leading-[30.8px] 
                     rounded-t-[20px]  text-black">
       Customized Care Plan
     </div>
-    <p className="text-[#04436F] text-left text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-[20px] mb-[20px]">
+    <p className="text-[#04436F] text-left text-[16px] font-normal leading-[25.6px]  mt-[20px] mb-[20px]">
   At Prime Home Care, we understand<br></br> that every individual has unique care<br></br> needs.
 </p>
 
     {/* Features */}
-    <ul className="mt-4 text-left space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] font-['Inter'] list-disc pl-[20px]">
+    <ul className="mt-4 text-left space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px]  list-disc pl-[20px]">
     <li>Personal care assistance</li>
     <li>Medication reminders</li>
     <li>Meal preparation and feeding assistance</li>
@@ -610,7 +610,7 @@ export default function Home() {
 
              {/* FAQ Section */}
              <section className="mt-[120px] mb-[120px] text-center">
-             <h2 className="text-[#04436F] text-center font-['Instrument Sans'] text-[55px] font-semibold leading-[71.5px]">
+             <h2 className="text-[#04436F] text-center text-[55px] font-semibold leading-[71.5px]">
                 Have questions?<br /> (FAQs)
             </h2>
 
@@ -652,5 +652,6 @@ export default function Home() {
 
         </section>
     </div>
+   
   );
 }
