@@ -10,7 +10,7 @@ export default function HomeCarePage() {
   <span className="text-[#FFFFFF]"> services</span>
 </h1>
 
-<p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2">
+<p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] mt-2">
 Discover a range of services designed to provide compassionate and
 professional care in the comfort of your home.</p>
 
@@ -34,13 +34,13 @@ professional care in the comfort of your home.</p>
                 <div className="flex justify-center items-center p-4 bg-white w-[100px] h-[100px] rounded-full mb-[10px] lg:mb-[30px]">
               <img src={`/images/${service.icon}.svg`} alt={service.title} className="w-[40px] h-[40px]" />
               </div>
-              <h3 className="text-[#04436F] text-[28px] mb-2 font-semibold leading-[33.6px] font-['Instrument Sans']">
+              <h3 className="text-[#04436F] text-[28px] mb-2 font-semibold leading-[33.6px] ">
                 {service.title}
                 </h3>
-                <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter']">
+                <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] ">
                 {service.description}
                 </p>
-                <p className="text-[#04436F] text-[16px] font-medium leading-[25.6px] font-['Inter'] mt-[10px] lg:mt-[30px]">
+                <p className="text-[#04436F] text-[16px] font-medium leading-[25.6px]  mt-[10px] lg:mt-[30px]">
   Learn more
 </p>
             </div>
@@ -53,7 +53,7 @@ professional care in the comfort of your home.</p>
   style={{ backgroundImage: "url('/images/community-bg.png')" }} // Update with your image path
 >
   {/* Heading */}
-  <h2 className="text-[#FAFCFF] text-[44px] font-semibold leading-[52.8px] font-['Instrument Sans']">
+  <h2 className="text-[#FAFCFF] text-[44px] font-semibold leading-[52.8px]">
     Join our community of care
   </h2>
 
@@ -67,10 +67,10 @@ Schedule a consultation  </button>
         {/* Why Choose Us */}
         <section className="flex flex-col gap-[70px] lg:flex-row items-center justify-between mt-[120px] mx-auto">
           <div className="lg:w-1/2">
-          <h2 className="text-[#04436F] text-[55px] font-semibold leading-[71.5px] font-['Instrument Sans']">
+          <h2 className="text-[#04436F] text-[55px] font-semibold leading-[71.5px] ">
   Why choose<br></br> <span className="text-[#B99B5F]">Prime Home Care?</span>
 </h2>
-<p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2">
+<p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2">
   We uphold the highest standards of medical excellence and patient safety, ensuring that
   every patient receives personalized attention and support throughout their healthcare
   journey.
@@ -89,10 +89,10 @@ Schedule a consultation  </button>
 
       {/* Text Content */}
       <div>
-        <h3 className="text-[#04436F] text-[22px] lg:text-[30px] font-semibold leading-[36px] font-['Instrument Sans']">
+        <h3 className="text-[#04436F] text-[22px] lg:text-[30px] font-semibold leading-[36px] font-[Metropolis]">
           {item.title}
         </h3>
-        <p className="text-[#04436F] text-[14px] lg:text-[16px] font-normal leading-[25.6px] w-[300px] lg:w-full font-['Inter']">
+        <p className="text-[#04436F] text-[14px] lg:text-[16px] font-normal leading-[25.6px] w-[300px] lg:w-full font-[Metropolis]">
           {item.description}
         </p>
       </div>
@@ -108,7 +108,7 @@ Schedule a consultation  </button>
   
         {/* Pricing Section */}
         <section className="text-center mt-[120px]">
-        <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px] font-['Instrument Sans'] text-center">
+        <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px] text-center">
             Pricing
          </h2>
 
@@ -121,16 +121,16 @@ Schedule a consultation  </button>
     <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#EDF2FB] text-[#000000]">
 
 {/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px] font-['Instrument Sans']">
+<h3 className="text-[22px] font-medium leading-[30.8px] ">
   Hourly Care Plan
 </h3>
 
 {/* Price Section - Now properly aligned */}
 <div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-[#04436F] text-[70px] font-semibold leading-[70px] font-['Instrument Sans']">
+  <span className="text-[#04436F] text-[70px] font-semibold leading-[70px] font-[Metropolis]">
     $19
   </span>
-  <span className="text-[#04436F] text-[22px] font-normal leading-[22px] font-['Inter']">
+  <span className="text-[#04436F] text-[22px] font-normal leading-[22px] font-[Metropolis]">
     /hour
   </span>
 </div>
@@ -139,7 +139,7 @@ Schedule a consultation  </button>
 
 <div className="p-[50px] flex flex-col justify-center">
   {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] font-['Inter'] list-disc pl-[20px]">
+  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
     <li>Personal care assistance</li>
     <li>Medication reminders</li>
     <li>Meal preparation and feeding assistance</li>
@@ -165,16 +165,16 @@ Schedule a consultation  </button>
     <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#B99B5F] text-white">
 
 {/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px] font-['Instrument Sans']">
+<h3 className="text-[22px] font-medium leading-[30.8px]">
   Hourly Care Plan
 </h3>
 
 {/* Price Section - Now properly aligned */}
 <div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-white text-[70px] font-semibold leading-[70px] font-['Instrument Sans']">
+  <span className="text-white text-[70px] font-semibold leading-[70px] ">
     $199
   </span>
-  <span className="text-white text-[22px] font-normal leading-[22px] font-['Inter']">
+  <span className="text-white text-[22px] font-normal leading-[22px]">
     /month
   </span>
 </div>
@@ -183,7 +183,7 @@ Schedule a consultation  </button>
 
 <div className="p-[50px] flex flex-col justify-center">
   {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] font-['Inter'] list-disc pl-[20px]">
+  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
     <li>Personal care assistance</li>
     <li>Medication reminders</li>
     <li>Meal preparation and feeding assistance</li>
@@ -212,16 +212,16 @@ Schedule a consultation  </button>
   <div className="p-[50px] lg:h-[730px] rounded-[20px] text-center bg-[#EDF2FB] flex flex-col justify-between h-full">
     
     {/* Header */}
-    <div className="w-full text-left text-[22px] font-medium leading-[30.8px] font-['Instrument Sans'] 
+    <div className="w-full text-left text-[22px] font-medium leading-[30.8px]
                     rounded-t-[20px]  text-black">
       Customized Care Plan
     </div>
-    <p className="text-[#04436F] text-left text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-[20px] mb-[20px]">
+    <p className="text-[#04436F] text-left text-[16px] font-normal leading-[25.6px] mt-[20px] mb-[20px]">
   At Prime Home Care, we understand<br></br> that every individual has unique care<br></br> needs.
 </p>
 
     {/* Features */}
-    <ul className="mt-4 text-left space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] font-['Inter'] list-disc pl-[20px]">
+    <ul className="mt-4 text-left space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
     <li>Personal care assistance</li>
     <li>Medication reminders</li>
     <li>Meal preparation and feeding assistance</li>

@@ -63,7 +63,7 @@ const Header = () => {
       >
         {navLinks.map((link) => (
           <Link key={link.name} href={link.path}
-              className={`mt-[-70px] text-[18px] font-medium leading-[25.6px] font-[Inter] ${
+              className={`mt-[-70px] text-[18px] font-medium leading-[25.6px] font-[Metropolis] ${
                 router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'
               } hover:text-[#A99558]`}
               onClick={() => setIsMobileMenuOpen(false)} // Close the menu on item click

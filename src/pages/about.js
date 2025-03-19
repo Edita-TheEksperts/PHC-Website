@@ -47,13 +47,13 @@ export default function About() {
       <section className="bg-[#F1F1F1] p-12 rounded-[20px] text-center mt-[120px] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-[60px] h-[60px] bg-white rounded-br-[40px]"></div>
         <div className="absolute bottom-0 right-0 w-[60px] h-[60px] bg-white rounded-tl-[40px]"></div>
-        <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px] font-['Instrument Sans']">
+        <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
           Join our community of care
         </h2>
-        <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2 mb-10">
+        <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
           At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
         </p>
-        <button className="bg-[#04436F] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] font-['Inter'] py-3 px-5 rounded-[50px]">
+        <button className="bg-[#04436F] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
           Get started
         </button>
       </section>
@@ -76,10 +76,10 @@ export default function About() {
 
       {/* Text Content */}
       <div className=" text-left">
-        <h2 className="text-[#04436F] text-[55px] font-semibold leading-[71.5px] font-['Instrument Sans']">
+        <h2 className="text-[#04436F] text-[55px] font-semibold leading-[71.5px]">
           Our value
         </h2>
-        <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2">
+        <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2">
           Our values guide everything we do. We believe in Compassion,<br></br> Integrity, Excellence, Respect, and Innovation.
         </p>
 
@@ -99,7 +99,7 @@ export default function About() {
               </svg>
 
               {/* Checklist Text */}
-              <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter']">
+              <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px]">
                 {item}
               </p>
             </div>
