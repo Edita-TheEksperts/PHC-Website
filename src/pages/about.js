@@ -7,7 +7,7 @@ const teamMembers = [
 ];
 export default function About() {
   return (
-    <div className="bg-white px-4 py-4 max-w-[1430px] mx-auto lg:py-0">
+    <div className="bg-[#FAFCFF] px-4 py-4 max-w-[1430px] mx-auto lg:py-0">
         <section className="bg-[#B99B5F] p-4 rounded-[20px]">
         <h1 className="mt-[200px] text-[#FAFCFF] text-center text-[65px] font-semibold leading-[84.5px]">
         About Prime Home Care</h1>
@@ -39,14 +39,14 @@ export default function About() {
         
         </div>
         <div className="mt-10 lg:mt-0 lg:max-w-[625px] flex-1">
-          <img src="/images/about-image.png" alt="Elderly care" className="w-full h-auto rounded-lg" />
+          <img src="/images/phc-about-image.png" alt="Elderly care" className="w-full h-auto rounded-lg" />
         </div>
       </section>
 
 
       <section className="bg-[#F1F1F1] p-12 rounded-[20px] text-center mt-[120px] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-[60px] h-[60px] bg-white rounded-br-[40px]"></div>
-        <div className="absolute bottom-0 right-0 w-[60px] h-[60px] bg-white rounded-tl-[40px]"></div>
+        <div className="absolute top-0 left-0 w-[60px] h-[60px] bg-[#FAFCFF] rounded-br-[40px]"></div>
+        <div className="absolute bottom-0 right-0 w-[60px] h-[60px] bg-[#FAFCFF] rounded-tl-[40px]"></div>
         <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
           Join our community of care
         </h2>
@@ -68,7 +68,7 @@ export default function About() {
           className="lg:max-w-[294.59px] lg:h-[306px] lg:mt-[150px] w-full h-auto rounded-[20px]"
         />
         <img
-          src="/images/photo2.png"
+          src="/images/phc-2-container.png"
           alt="Elderly care 2"
           className="max-w-[368.25px] lg:h-[406px] w-full h-auto rounded-[20px]"
         />

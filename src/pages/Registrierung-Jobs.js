@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
     return (
-        <div className="bg-[#F1F1F1] p-4">
+        <div className="bg-[#FAFCFF] p-4">
           <section className="lg:block hidden relative max-w-[1300px] h-[800px] mx-auto mt-2 md:mt-[20px] lg:mb-[160px]">
                    {/* Logo Positioned on Top Left */}
                    <div className="absolute top-[5px] left-[5px] md:top-[12px] md:left-[58px] z-10">

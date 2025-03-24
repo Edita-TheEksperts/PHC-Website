@@ -1,6 +1,6 @@
 export default function HomeCarePage() {
     return (
-      <div className="bg-[#FFFFFF] px-4 mx-auto max-w-[1430px]">
+      <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
         
         {/* Hero Section */}
         <section className="bg-[#B99B5F] gap-10 lg:gap-[100px] text-white p-4 lg:p-[60px] rounded-[20px] flex flex-col lg:flex-row items-start">

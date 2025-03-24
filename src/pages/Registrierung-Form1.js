@@ -64,7 +64,7 @@ export default function FormPage01() {
      };
   return (
 
-    <div className="bg-[#F1F1F1] text-[#B99B5F] min-h-screen p-4">
+    <div className="bg-[#FAFCFF] text-[#B99B5F] min-h-screen p-4">
       {/* Section 1: Logo and Zuruk */}
       <section className="lg:block hidden lg:flex justify-center items-center pt-[25px] md:pt-[25px]">
         <div className="absolute top-6 left-4 lg:left-[170px]">

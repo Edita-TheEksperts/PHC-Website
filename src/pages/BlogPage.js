@@ -24,7 +24,7 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="max-w-[1430px] mx-auto lg:px-6 p-4">
+    <div className="bg-[#FAFCFF] max-w-[1430px] mx-auto lg:px-6 p-4">
       
       {/* Header */}
       <div className="bg-[#B99B5F] max-w-[1400px] text-center py-[90px] rounded-[20px] mb-[120px]">

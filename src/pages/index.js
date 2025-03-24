@@ -2,9 +2,9 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="bg-[#FFFFFF] px-4 mx-auto max-w-[1430px]">
+    <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
       {/* Hero Section */}
-      <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row items-center gap-6 lg:px-[70px]  px-6 py-12 lg:py-20">
+      <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row items-center gap-6 lg:px-[70px]  px-4 py-12 lg:py-20">
         {/* Left Content */}
         <div className="lg:w-1/2 gap-[32px]">
         <h1 className="text-[#04436F] text-[45px] lg:text-[65px] font-semibold lg:leading-[84.5px]">
@@ -24,10 +24,10 @@ export default function Home() {
           <div className="mt-4 flex items-center gap-4">
             {/* Staff Avatars */}
             <div className="flex -space-x-4">
-              <Image src="/images/avatar1.png" alt="Staff 1" width={50} height={50} className="rounded-full border border-white" />
-              <Image src="/images/avatar2.png" alt="Staff 2" width={50} height={50} className="rounded-full border border-white" />
-              <Image src="/images/avatar3.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
-              <Image src="/images/avatar4.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
+              <Image src="/images/phc-avatar1.png" alt="Staff 1" width={50} height={50} className="rounded-full border border-white" />
+              <Image src="/images/phc-avatar2.png" alt="Staff 2" width={50} height={50} className="rounded-full border border-white" />
+              <Image src="/images/phc-avatar3.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
+              <Image src="/images/phc-avatar4.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
 
             </div>
           </div>
@@ -45,7 +45,7 @@ export default function Home() {
 
         {/* Right Image */}
         <div className="lg:w-1/2">
-          <Image src="/images/hero-phc123.png" alt="Elderly care" width={800} height={600} className="rounded-[20px]" />
+          <Image src="/images/phc-hero-phc123.png" alt="Elderly care" width={800} height={600} className="rounded-[20px]" />
           
         </div>
       </section>
@@ -63,32 +63,32 @@ export default function Home() {
     {
       title: "Skilled nursing care",
       description: "Killed nursing care refers to specialized medical care provided by licensed nurses under the supervision of healthcare professionals.",
-      icon: "/images/icon-nursing.png",
+      icon: "/images/phc-icon-nursing.png",
     },
     {
       title: "Companion services",
       description: "Companion services involve non-medical support and companionship provided to individuals who require assistance.",
-      icon: "/images/icon-companion.png",
+      icon: "/images/phc-icon-companion.png",
     },
     {
       title: "Home health aides",
       description: "Meal Preparation: Planning and preparing nutritious meals based on dietary needs and preferences.",
-      icon: "/images/icon-health-aides.png",
+      icon: "/images/phc-icon-health-aides.png",
     },
     {
       title: "Medication management",
       description: "Home health aides may administer medications according to a prescribed schedule, ensuring that the correct dosage is taken at the right time.",
-      icon: "/images/icon-medication.png",
+      icon: "/images/phc-icon-medication.png",
     },
     {
       title: "Personalized care plan",
       description: "A thorough assessment is conducted to evaluate the individual's current health status, medical history, functional abilities, and any specific care needs.",
-      icon: "/images/icon-care-plan.png",
+      icon: "/images/phc-icon-care-plan.png",
     },
   ].map((service, index, array) => (
     <div
       key={index}
-      className={`bg-white p-[40px] rounded-[20px] flex flex-col justify-center items-center text-center 
+      className={`bg-[FAFCFF] p-[40px] rounded-[20px] flex flex-col justify-center items-center text-center 
       ${index === array.length - 1 ? "md:col-span-2 lg:col-span-2 flex justify-center lg:w-[541px] lg:h-[330px] mx-auto" : ""}`}
     >
       {/* Icon Background */}
@@ -115,19 +115,19 @@ export default function Home() {
       {/* Background Image */}
       <div className="relative w-full h-[350px] lg:h-[576px] overflow-hidden rounded-[20px]">
         <Image
-          src="/images/bg-hero-1.png"  // Change this to your image path
+          src="/images/phc-bg-hero.png"  // Change this to your image path
           alt="Consultation"
           layout="fill"
           objectFit="cover"
           className="rounded-[20px] lg:block hidden "
         />
            <Image
-          src="/images/consultation-bg.png"  // Change this to your image path
+          src="/images/phc-bg-hero-mobile.jpg"  // Change this to your image path
           alt="Consultation"
           layout="fill"
           objectFit="cover"
-          className="rounded-[20px] lg:hidden block "
-        />
+          className="rounded-[20px] lg:hidden block bg-black bg-opacity-60"
+          />
         {/* Overlay */}
         <div className="absolute inset-0 lg:mt-[-100px]  rounded-[20px] flex flex-col gap-3 lg:gap-[30px] justify-center items-center text-center px-6 ">
         <p className="text-[#FAFCFF] text-[18px]  font-normal leading-[23.4px] 
@@ -284,15 +284,15 @@ export default function Home() {
       </div>
     </section>
 
-    <section className="max-w-[1400] mt-[120px] mx-auto p-2 lg:px-0 flex flex-col lg:flex-row items-center gap-12 lg:gap-[80px]">
+    <section className="max-w-[1400] mt-[120px] mx-auto p-4 lg:px-4 flex flex-col lg:flex-row items-center gap-12 lg:gap-[80px]">
       
       {/* Left: Image with Custom Cropped Shape */}
       <div className="relative w-full lg:w-[610px] h-[400px] lg:h-[730px]">
         <Image
-          src="/images/easy-care-steps.png"  // Change to your actual image path
+          src="/images/phc-easy-care-steps.png"  // Change to your actual image path
           alt="Easy Care"
           layout="fill"
-          objectFit="cover"
+          objectFit="cover rounded-[20px]"
         />
       </div>
 
@@ -510,7 +510,7 @@ export default function Home() {
 
         </section>
 
-        <section className="bg-[#EDF2FB] mt-[180px] max-w-[1430px] mx-auto  px-6 py-6 lg:px-[70px] lg:py-[120px] rounded-[20px]">
+        <section className="bg-[#EDF2FB] mt-[180px] max-w-[1430px] mx-auto p-4 px-4 py-4 lg:px-[70px] lg:py-[120px] rounded-[20px]">
         <h2 className="text-[#003588] font-['Metropolis'] text-left text-[32px] lg:text-[42px] font-semibold  mb-[50px]">
         What our clients say
       </h2>
@@ -544,7 +544,7 @@ export default function Home() {
         <div className="relative group cursor-pointer rounded-[20px] overflow-hidden w-full lg:w-[396px] lg:h-[547px]">
       {/* Background Image */}
       <Image
-        src="/images/hero-phc.png"
+        src="/images/phc-container-testimonials.png"
         width={400}
         height={250}
         className="w-full h-full object-cover"
