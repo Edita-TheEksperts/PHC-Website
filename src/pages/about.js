@@ -17,7 +17,7 @@ export default function About() {
         </section>
 
       {/* Content with Image */}
-      <section className="flex flex-col lg:flex-row items-center justify-between mt-[120px] gap-[50px]">
+      <section className="flex flex-col p-4 lg:flex-row items-center justify-between mt-[120px] gap-[50px]">
         <div className="flex-1">
           <h2 className="text-[#04436F] text-[50px] font-semibold leading-[65px] ">
             Dedicated to providing compassionate elder <br></br>home care
