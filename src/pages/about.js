@@ -44,19 +44,20 @@ export default function About() {
       </section>
 
 
-      <section className="bg-[#F1F1F1] p-12 rounded-[20px] text-center mt-[120px] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-[60px] h-[60px] bg-[#FAFCFF] rounded-br-[40px]"></div>
-        <div className="absolute bottom-0 right-0 w-[60px] h-[60px] bg-[#FAFCFF] rounded-tl-[40px]"></div>
-        <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
-          Join our community of care
-        </h2>
-        <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
-          At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
-        </p>
-        <button className="bg-[#04436F] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
-          Get started
-        </button>
-      </section>
+      <section 
+  className="bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden" 
+  style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+>
+  <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
+    Join our community of care
+  </h2>
+  <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
+    At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
+  </p>
+  <button className="bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
+    Get started
+  </button>
+</section>
 
 
       <section className="flex flex-col lg:flex-row items-center justify-between mx-auto mt-[120px] lg:px-[70px] gap-[70px] ">

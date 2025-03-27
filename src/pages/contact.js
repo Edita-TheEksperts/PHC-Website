@@ -54,9 +54,9 @@ export default function ContactPage() {
           {/* Image Section */}
           <div className="relative w-full lg:w-1/2">
             <img
-              src="/images/support-image.png"
+              src="/images/phc-contact-image.png"
               alt="Support Team"
-              className="w-full lg:max-h-[752px] h-auto rounded-lg"
+              className="w-full lg:max-h-[750px] h-auto rounded-lg"
             />
           </div>
   

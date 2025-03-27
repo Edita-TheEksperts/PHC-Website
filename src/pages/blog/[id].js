@@ -49,7 +49,7 @@ export default function BlogPost() {
   return (
     <div className="max-w-[1410px] mx-auto px-6">
       {/* Header Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div className="grid grid-cols-1 mt-[50px] lg:grid-cols-2 gap-8 items-center">
         {/* Left: Title & Main Text */}
         <div>
         <h1 className="text-[#003588] font-['Instrument Sans'] text-[64px] font-semibold leading-[72px] mt-10">
@@ -64,27 +64,38 @@ export default function BlogPost() {
 </p>
           )}
 
+<div className="flex flex-row gap-[8px]">
           {/* Read Blog Button */}
           <button
   className="mt-6 px-6 py-3 bg-[#04436F] text-[#FAFCFF] text-center font-['Inter'] text-[18px] font-medium leading-[21.6px] 
-             underline rounded-[50px] flex items-center gap-2 hover:bg-[#033559] transition"
+             underline rounded-[100px] flex items-center gap-2 hover:bg-[#033559] transition"
   onClick={() => scrollToSection(0)}
 >
-  Weiter lesen 
+Unten weiterlesen 
   <div>
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="23" viewBox="0 0 16 23" fill="none">
-    <g clipPath="url(#clip0_1352_2658)">
-      <path d="M7.75 1.33496L7.75 21.335M7.75 21.335L1.5 15.085M7.75 21.335L14 15.085" stroke="#B99B5F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </g>
-    <defs>
-      <clipPath id="clip0_1352_2658">
-        <rect width="22" height="15" fill="white" transform="translate(0.5 22.335) rotate(-90)"/>
-      </clipPath>
-    </defs>
-  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="22" viewBox="0 0 16 22" fill="none" className="ml-2">
+  <g clip-path="url(#clip0_1541_6690)">
+    <path d="M7.75 1L7.75 21M7.75 21L1.5 14.75M7.75 21L14 14.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_1541_6690">
+      <rect width="22" height="15" fill="white" transform="translate(0.5 22) rotate(-90)"/>
+    </clipPath>
+  </defs>
+</svg>
   </div>
 </button>
 
+    {/* Read Blog Button */}
+    <span
+  className="mt-6 px-6 py-3 bg-[#B99B5F] text-[#FAFCFF] text-center font-['Inter'] text-[18px] font-medium leading-[20px] 
+             rounded-[100px] flex items-center hover:bg-[#033559] transition">
+  {blog.category}
+  <div>
+
+  </div>
+</span>
+</div>
         </div>
 
         {/* Right: Blog Image */}

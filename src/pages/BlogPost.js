@@ -11,7 +11,7 @@ export default function BlogPost() {
   const recommendedBlogs = blogsData.filter((post) => post.id !== blog.id).slice(0, 3);
 
   return (
-    <div className="bg-[#FAFCFF] max-w-[900px] mx-auto px-6">
+    <div className="bg-[#FAFCFF]  max-w-[900px] mx-auto px-6">
       
       {/* Blog Header */}
       <div className="bg-[#B99B5F] text-center py-[60px] rounded-[20px] mb-[50px]">

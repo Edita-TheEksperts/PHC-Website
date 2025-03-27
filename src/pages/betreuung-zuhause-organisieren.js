@@ -19,14 +19,14 @@ Prime Home Care – Ihr zuverlässiger Partner für die Seniorenbetreuung <br></
 
           </div>
           <div className="lg:w-1/2 mt-6 lg:mt-0">
-            <img src="/images/hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
+            <img src="/images/phc-hero-servicess.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
           </div>
           
         </section>
   
         {/* Introduction Section */}
         <section className="mt-[120px] px-6  flex flex-col lg:flex-row items-center gap-20">
-          <img src="/images/intro2.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[810px] items-start flex justify-start align-top" />
+          <img src="/images/phc-intro2.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[810px] items-start flex justify-start align-top" />
           <div className="lg:w-1/2 text-left">
           <p className="lg:w-[250px] flex flex-col items-start px-[10px] pr-[100px] py-[2px] 
               rounded-l-[50px] 
@@ -160,30 +160,19 @@ Bei der Organisation professioneller Seniorenbetreuung in der Schweiz ist dieser
 
         </section>
   
-        {/* Join Our Community Section */}
-        <section className="bg-[#F1F1F1] lg:py-[50px] lg:px-[330px] px-6 py-6 
-                    rounded-[20px] text-center mt-[120px] relative">
-  
-  {/* Cropped Background Corners */}
-  <div className="absolute top-0 left-0 w-[80px] h-[80px] bg-white rounded-br-[40px]"></div>
-  <div className="absolute bottom-0 right-0 w-[80px] h-[80px] bg-white rounded-tl-[40px]"></div>
-
-  {/* Heading */}
-  <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px] font-['Instrument Sans'] text-center">
+        <section 
+  className="bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden" 
+  style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+>
+  <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
     Join our community of care
   </h2>
-
-  {/* Paragraph */}
-  <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter'] text-center mt-1">
+  <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
     At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
   </p>
-
-  {/* Button */}
-  <button className="bg-[#04436F] text-white py-3 px-6 rounded-full text-[18px] font-medium mt-4 
-                     lg:mt-[40px] transition duration-300 hover:bg-[#B99B5F]">
+  <button className="bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
     Get started
   </button>
-
 </section>
 
 
@@ -191,7 +180,7 @@ Bei der Organisation professioneller Seniorenbetreuung in der Schweiz ist dieser
   
         {/* Flexible Care Models */}
         <section className="mt-[120px]  flex flex-col lg:flex-row items-start gap-10">
-          <img src="/images/flexible-care.png" alt="Care model" className="lg:h-[500px] w-full lg:w-1/2 rounded-[20px]" />
+          <img src="/images/phc-section1.png" alt="Care model" className="lg:h-[500px] w-full lg:w-1/2 rounded-[20px]" />
           <div className="lg:w-1/2 text-left px-6">
           <h3 className="text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
           Qualifizierte Betreuungskräfte</h3>
@@ -220,11 +209,11 @@ Dank der Beteiligung der Krankenkassen an den Betreuungskosten können Sie den P
 </p>
 
           </div>
-          <img src="/images/flexible-care.png" alt="Care model" className="lg:h-[500px] w-full lg:w-1/2 rounded-[20px]" />
+          <img src="/images/phc-section3.png" alt="Care model" className="lg:h-[500px] w-full lg:w-1/2 rounded-[20px]" />
 
         </section>
         <section className="mt-[120px]  flex flex-col lg:flex-row items-start gap-10">
-          <img src="/images/flexible-care.png" alt="Care model" className="lg:h-[500px] w-full lg:w-1/2 rounded-[20px]" />
+          <img src="/images/phc-section2.png" alt="Care model" className="lg:h-[500px] w-full lg:w-1/2 rounded-[20px]" />
           <div className="lg:w-1/2 text-left px-6">
           <h3 className="text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
           Transparente und faire Preise</h3>

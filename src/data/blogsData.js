@@ -1,7 +1,7 @@
 const blogsData = [
     {
       id: "1",
-      image: "/images/blog1.png",
+      image: "/images/phc-blog1.png",
       category: "Home Care",
       title: "The Importance of Home Care",
       date: "January 24, 2024",
@@ -10,7 +10,7 @@ const blogsData = [
         id: "author-1",
         name: "John Doe",
         position: "Senior Care Specialist",
-        image: "/images/author1.png",
+        image: "/images/phc-author.png",
         description:
           "John Doe has 15+ years of experience in home care services. He specializes in elderly care, ensuring comfort and health at home.",
       },

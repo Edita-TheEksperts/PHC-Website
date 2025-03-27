@@ -5,7 +5,7 @@ export default function HomeCarePage() {
         {/* Hero Section */}
         <section className="bg-[#B99B5F] gap-10 lg:gap-[100px] text-white p-4 lg:p-[60px] rounded-[20px] flex flex-col lg:flex-row items-start">
         <div className="lg:w-1/2 mt-6 lg:mt-0">
-            <img src="/images/hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
+            <img src="/images/phc-heroo-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
           </div>
         <div className="lg:w-1/2 flex flex-col justify-start items-start">
         <p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] font-['Inter']">
@@ -34,7 +34,7 @@ Mit Prime Home Care sind Sie in der ganzen Schweiz stets optimal beraten. Aus ei
         <section className="mt-[120px] px-6 flex flex-col lg:flex-row-reverse justify-between mx-auto items-center gap-10 lg:gap-16 max-w-[1440px]">
   {/* Image Section */}
   <div className="w-full lg:w-[470px] flex-shrink-0">
-    <img src="/images/contaaa.png" alt="Senior care" className="w-full h-auto rounded-lg lg:max-h-[647px] object-cover" />
+    <img src="/images/phc-personal.png" alt="Senior care" className="w-full h-auto rounded-lg lg:max-h-[647px] object-cover" />
   </div>
 
   {/* Text Section */}
@@ -85,15 +85,15 @@ Sichern Sie sich unsere kostenlose Online-Beratung. Mit Prime<br></br> Home Care
         </section>
   
         {/* Image & Text Grid */}
-        <section className="mt-[120px] px-6 lg:px-0 grid grid-cols-1  lg:grid-cols-2 gap-10">
+        <section className="mt-[120px] px-6 lg:px-2 grid grid-cols-1  lg:grid-cols-2 gap-10">
   
   {/* Left Side - Images */}
   <div className="flex lg:flex-row flex-col gap-8 lg:gap-0 items-start">
     <img src="/images/photo1testt.png" alt="Care 1" 
          className="rounded-lg lg:max-w-[220px] w-full lg:mt-[305px]" />
-    <img src="/images/photo2testt.png" alt="Care 2" 
+    <img src="/images/phc-foto2.png" alt="Care 2" 
          className="rounded-lg lg:max-w-[328.25px] w-full  lg:ml-[-120px]" />
-    <img src="/images/photo2testt.png" alt="Care 3" 
+    <img src="/images/phc-foto3.png" alt="Care 3" 
          className="rounded-lg lg:max-w-[328.25px] w-full lg:mt-[220px] lg:ml-[-140px]" />
   </div>
 
@@ -169,35 +169,23 @@ Anschliessend helfen wir Ihnen dabei, geeignete Partner für die Vermittlung qua
 <p className="text-[#04436F] text-[16px] font-light leading-[24.6px] font-['Metropolis'] mt-4">
 Während der laufenden Betreuung bleiben wir an Ihrer Seite und können den Pflegeplan an sich verändernde Bedürfnisse anpassen. Wir legen grossen Wert auf transparente Kommunikation und ständige Erreichbarkeit. So haben wir stets ein offenes Ohr für Ihre Anliegen und stellen sicher, dass Sie und Ihre Angehörigen sich gut aufgehoben fühlen.</p>
           </div>
-          <img src="/images/image123.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[547px] items-start flex justify-start align-top" />
+          <img src="/images/phc-image123.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[547px] items-start flex justify-start align-top" />
 
         </section>
 
-  
-        {/* Join Our Community Section */}
-        <section className="bg-[#F1F1F1] lg:py-[50px] lg:px-[330px] px-6 py-6 
-                    rounded-[20px] text-center mt-[120px] relative">
-  
-  {/* Cropped Background Corners */}
-  <div className="absolute top-0 left-0 w-[80px] h-[80px] bg-white rounded-br-[40px]"></div>
-  <div className="absolute bottom-0 right-0 w-[80px] h-[80px] bg-white rounded-tl-[40px]"></div>
-
-  {/* Heading */}
-  <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px] font-['Instrument Sans'] text-center">
+        <section 
+  className="bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden" 
+  style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+>
+  <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
     Join our community of care
   </h2>
-
-  {/* Paragraph */}
-  <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter'] text-center mt-1">
+  <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
     At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
   </p>
-
-  {/* Button */}
-  <button className="bg-[#04436F] text-white py-3 px-6 rounded-full text-[18px] font-medium mt-4 
-                     lg:mt-[40px] transition duration-300 hover:bg-[#B99B5F]">
+  <button className="bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
     Get started
   </button>
-
 </section>
 
   

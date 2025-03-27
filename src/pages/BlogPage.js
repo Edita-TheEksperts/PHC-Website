@@ -13,6 +13,7 @@ export default function BlogPage() {
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogsData.slice(indexOfFirstBlog, indexOfLastBlog);
+  const categories = [...new Set(blogsData.map((blog) => blog.category))];
 
   // Change page
   const nextPage = () => {
@@ -34,6 +35,25 @@ export default function BlogPage() {
         <p className="text-white text-[16px] font-normal leading-[25.6px] font-['Inter']">
           Gain expert experience while exploring insights of the latest trends and<br></br> developments in Home Care.
         </p>
+      </div>
+
+       {/* Blog Categories */}
+       <div className="mb-[120px]">
+        <h1 className="text-[#04436F] text-center font-metropolis text-[55px] font-semibold leading-[71.5px]">
+          Blog Categories
+        </h1>
+        
+        {/* Render categories dynamically */}
+        <div className="mt-4 flex justify-center gap-4">
+          {categories.map((category, index) => (
+            <span
+              key={index}
+              className="category-item hover:bg-[#04436F] text-[#FAFCFF] bg-[#B7B6BA] text-[16px] font-medium p-[12px] rounded-[10px] cursor-pointer"
+            >
+              {category}
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Blog Grid */}
@@ -75,7 +95,7 @@ export default function BlogPage() {
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center lg:justify-between mt-10 space-x-4">
+      <div className="flex justify-center mb-[100px] lg:justify-between mt-10 space-x-4">
         <button 
           onClick={prevPage} 
           disabled={currentPage === 1}

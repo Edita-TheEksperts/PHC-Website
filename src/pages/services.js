@@ -16,12 +16,12 @@ professional care in the comfort of your home.</p>
 
           </div>
           <div className="lg:w-1/2 mt-6 lg:mt-0">
-            <img src="/images/hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
+            <img src="/images/phc-hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
           </div>
         </section>
   
         {/* Services Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[50px] mt-[120px]">
+        <section className="grid grid-cols-1 p-2 md:grid-cols-2 lg:grid-cols-3 gap-[50px] mt-[120px]">
           {[
             { icon: "user", title: "Personal care assistance", description: "Lorem ipsum dolor sit amet." },
             { icon: "heart", title: "Specialized care", description: "Customized care solutions." },
@@ -30,7 +30,7 @@ professional care in the comfort of your home.</p>
             { icon: "wheelchair", title: "Rehabilitation support", description: "Helping individuals recover safely." },
             { icon: "medkit", title: "Palliative care services", description: "Compassionate end-of-life care." },
           ].map((service, index) => (
-            <div key={index} className="p-8 bg-[#EDF2FB] rounded-[10px] flex flex-col items-left  justify-starttext-left hover:bg-[#E8F5E9]">
+            <div key={index} className="p-8 bg-[#EDF2FB] rounded-[10px] flex flex-col items-left  justify-starttext-left ">
                 <div className="flex justify-center items-center p-4 bg-white w-[100px] h-[100px] rounded-full mb-[10px] lg:mb-[30px]">
               <img src={`/images/${service.icon}.svg`} alt={service.title} className="w-[40px] h-[40px]" />
               </div>
@@ -49,7 +49,7 @@ professional care in the comfort of your home.</p>
   
         {/* Join Community Section */}
         <section 
-  className="bg-cover  bg-center bg-no-repeat p-[90px] rounded-[20px]  text-center mt-[120px] relative "
+  className="bg-cover  bg-center bg-no-repeat lg:h-[310px] p-3 h-[400px] flex flex-col justify-center items-center rounded-[20px]  text-center mt-[120px] relative "
   style={{ backgroundImage: "url('/images/community-bg.png')" }} // Update with your image path
 >
   {/* Heading */}
@@ -65,7 +65,7 @@ Schedule a consultation  </button>
 
   
         {/* Why Choose Us */}
-        <section className="flex flex-col gap-[70px] lg:flex-row items-center justify-between mt-[120px] mx-auto">
+        <section className="flex flex-col gap-[70px] p-2 lg:flex-row items-center justify-between mt-[120px] mx-auto">
           <div className="lg:w-1/2">
           <h2 className="text-[#04436F] text-[55px] font-semibold leading-[71.5px] ">
   Why choose<br></br> <span className="text-[#B99B5F]">Prime Home Care?</span>

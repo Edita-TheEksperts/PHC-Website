@@ -46,6 +46,7 @@ export default function FormPage01() {
        return (
          formData.region &&
          formData.name &&
+         formData.vorname &&
          emailRegex.test(formData.email) &&
          formData.cv
        );
@@ -245,6 +246,17 @@ Wählen Sie die gewünschte <br></br>Region und geben Sie<br></br>Ihre E-Mail Ad
           }}
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        />
+          <input
+          type="text"
+          placeholder="Vorname"
+          required
+          className="w-[271px] h-[75px] px-[13px] py-[17px] text-[18px] border border-[#B7B6BA] rounded-lg bg-white text-[#1C1B1D]  placeholder-[#1C1B1D]"
+          style={{
+            fontFamily: "Metropolis",
+          }}
+          value={formData.vorname}
+          onChange={(e) => setFormData({ ...formData, vorname: e.target.value })}
         />
         <input
           type="email"
