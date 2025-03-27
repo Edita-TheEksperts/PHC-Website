@@ -38,7 +38,7 @@ export default function BlogPage() {
       </div>
 
        {/* Blog Categories */}
-       <div className="mb-[120px]">
+       <div className="mb-[60px]">
         <h1 className="text-[#04436F] text-center font-metropolis text-[55px] font-semibold leading-[71.5px]">
           Blog Categories
         </h1>
