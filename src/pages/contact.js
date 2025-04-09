@@ -3,19 +3,20 @@ export default function ContactPage() {
       <section className="bg-[#FAFCFF] px-4 mx-auto py-16 max-w-[1430px]">
         {/* Header Section */}
       {/* Header Section */}
-<div className="bg-[rgba(4,67,111,0.10)] p-10 rounded-[20px] flex flex-col gap-8 lg:gap-[140px] lg:flex-row justify-between items-center">
+<div className="bg-[rgba(4,67,111,0.10)] p-8 rounded-[20px] flex flex-col gap-8 lg:gap-[140px] lg:flex-row justify-between items-center">
   {/* Left Side - Heading */}
   <div className="lg:w-1/2 text-left">
-    <h1 className="text-[62px] font-semibold leading-[80.6px] font-['Instrument Sans']">
-      <span className="text-[#04436F]">Connect with</span> <span className="text-[#B99B5F]">customer </span><span className="text-[#04436F]">support</span>
+    <h1 className=" text-[50px] leading-[62px] lg:text-[60px] font-semibold lg:leading-[80px] font-['Instrument Sans']">
+      <span className="text-[#04436F]">Wir sind für Sie da –<br></br>
+      kontaktieren Sie uns</span>
     </h1>
   </div>
 
   {/* Right Side - Paragraph & Icons */}
   <div className="lg:w-1/2 flex flex-col lg:items-start text-left lg:text-left">
     <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2 mb-4">
-      Our dedicated customer support team is here to assist you with any questions, concerns, or feedback you may have.
-    </p>
+    Unser motiviertes Team ist hier um Sie bei Fragen, Anliegen oder einfach für ein Feedback zu unterstützen
+        </p>
 
     {/* Social Media Icons */}
     <div className="flex gap-4">
@@ -34,17 +35,14 @@ export default function ContactPage() {
         {/* Contact Info Cards */}
         <div className="flex flex-wrap justify-center gap-[40px] mt-[120px]">
           {[
-            { icon: "phone", title: "Talk to our support experts", description: "Lorem" },
-            { icon: "email", title: "Send your queries", description: "Lorem" },
-            { icon: "location", title: "Where to find us", description: "Lorem" },
-            { icon: "clock", title: "Service hours", description: "Lorem" }
+            { icon: "location", title: "Schulhausstrasse 1, 8834 Schindellegi" },
+            { icon: "clock", title: "8:30 - 11:00 und 13:30 - 16:00 Uhr" }
           ].map((item, index) => (
-            <div key={index} className="lg:w-[315px] w-[250px] p-[24px] bg-[#EAF1F8] gap-[8px] rounded-[20px] flex flex-col items-left">
-                <div className="w-[60px] h-[60px] bg-[#04436F] rounded-full justify-center flex items-center mb-2">              
+            <div key={index} className="lg:w-[675px] w-[350px] py-[20px] px-[10px] lg:py-[20px] lg:px-[60px] bg-[#EAF1F8] gap-[20px] lg:gap-[24px] rounded-[20px] flex flex-row items-left">
+                <div className="w-[60px] h-[60px] bg-[#04436F] rounded-full justify-center flex items-center lg:mb-2">              
                      <img src={`/images/${item.icon}.svg`} alt={item.title} className="bg-[#04436F] rounded-full w-[40px] h-[40px] " />
                 </div>
-              <h3 className="text-[#04436F] text-[18px] font-semibold">{item.title}</h3>
-              <p className="text-[#04436F] text-[16px] font-normal leading-[27px] underline">{item.description}</p>
+              <h3 className="text-[#04436F] w-[160px] lg:w-auto text-[17px] lg:text-[24px] font-semibold leading-[25.6px] justify-center flex items-center">{item.title}</h3>
             </div>
           ))}
         </div>
@@ -54,7 +52,7 @@ export default function ContactPage() {
           {/* Image Section */}
           <div className="relative w-full lg:w-1/2">
             <img
-              src="/images/phc-contact-image.png"
+              src="/images/phc-contact-image-1.png"
               alt="Support Team"
               className="w-full lg:max-h-[750px] h-auto rounded-lg"
             />

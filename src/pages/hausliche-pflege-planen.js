@@ -8,10 +8,8 @@ export default function HomeCarePage() {
             <img src="/images/hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
           </div>
         <div className="lg:w-1/2 flex flex-col justify-start items-start">
-        <p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] font-['Inter']">
-  Unsere Pflegeplanung
-</p>
-        <h1 className="text-[40px] lg:text-[52px] font-semibold leading-[47px] mt-2 lg:leading-[60px] tracking-[-1.04px] font-['Metropolis']">
+  
+        <h1 className="text-[40px] lg:text-[52px] font-semibold leading-[47px] mt-2 lg:mt-[38px] lg:leading-[60px] tracking-[-1.04px] font-['Metropolis']">
   <span className="text-[#FFFFFF]">Beratung und Organisation von<br /> Betreuung zu Hause</span>
 </h1>
 
@@ -24,46 +22,33 @@ Willkommen bei Prime Home Care – Ihr zuverlässiger Partner für die Organisat
         </section>
   
         {/* Introduction Section */}
-        <section className="mt-[120px] px-6  flex flex-col lg:flex-row items-center gap-20">
+        <section className="mt-[120px] px-6 lg:px-2 flex flex-col lg:flex-row items-center gap-20">
           <img src="/images/phc-intro1.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[647px] items-start flex justify-start align-top" />
           <div className="lg:w-1/2 text-left">
-          <p className="lg:w-[250px] flex flex-col items-start px-[10px] pr-[100px] py-[2px] 
-              rounded-l-[50px] 
-              bg-[linear-gradient(94deg,#04436F_0%,rgba(0,0,0,0)_100%)] 
-              text-[#FAFCFF] text-[18px] font-normal leading-[23.4px] font-['Inter'] mb-2">
-  Lorem ipsum
-</p>
 
 
           <h2 className="text-[#04436F] text-[40px] lg:text-[56px] font-semibold leading-[50px] lg:leading-[64px] font-['Instrument Sans']">
-  Unsere Beratung & Organisation – <br></br>Für bessere Seniorenbetreuung im Alter
+  Unsere Organisation – <br></br>Für bessere Seniorenbetreuung im Alter
 </h2>
 
 <p className="text-[#04436F] text-[16px] lg:text-[18px] font-light leading-[25.6px] lg:leading-[28px] font-['Metropolis'] mt-2">
-Die Prime Home Care AG bietet Beratung und vielfältige Dienstleistungen rund um die Organisation der häuslichen Altenpflege. Für Sie und Ihre Angehörige entwickeln wir das richtige Betreuungs- und Pflegemodell und organisieren alles, was dafür notwendig ist. 
+Die Prime Home Care AG ist Ihre moderne Partnerin für stundenweise Betreuung zu Hause – flexibel, digital organisiert und persönlich umgesetzt. Ob Gesellschaft leisten, Begleitung zu Terminen, Unterstützung im Haushalt oder bei Freizeitaktivitäten: Unsere Dienstleistungen lassen sich individuell kombinieren und bequem digital planen. So erhalten Sie genau die Unterstützung, die Sie brauchen – zur richtigen Zeit und mit vertrauten Betreuungspersonen. Als digitales Unternehmen setzen wir auf einfache Abläufe, schnelle Verfügbarkeit und transparente Kommunikation – ganz ohne Papierkram. Die Betreuung bleibt menschlich und herzlich – die Organisation übernehmen wir im Hintergrund effizient und unkompliziert. Prime Home Care AG – moderne Betreuung mit Herz und System.
 </p>
-<p className="text-[#04436F] text-[16px] lg:text-[18px] font-light leading-[25.6px] lg:leading-[28px] font-['Metropolis'] mt-4">
-Unser Blick auf das Thema ist ganzheitlich und umfasst neben Beratung und Treuhand-Dienstleistungen auch die Veranlassung baulicher Massnahmen sowie die Unterstützung bei der Beschaffung von Hilfsmitteln, Hygieneprodukten oder Mobilitätshilfen. Alle diese organisatorischen Massnahmen fassen wir unter dem Begriff «Pflegeplanung» zusammen.
-</p>
+
 
 
           </div>
         </section>
   
-        <section className="mt-[120px] px-6  flex flex-col lg:flex-row items-center gap-20">
+        <section className="mt-[120px] px-6 lg:px-2  flex flex-col lg:flex-row items-start gap-20">
           <div className="lg:w-1/2 text-left">
 
           <h2 className="text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
-  Betreuungs-Organisation aus einer Hand​
+          Die Prime Home Care AG bietet ein breites Spektrum an Leistungen für die<br></br> stundenweise Betreuung
 </h2>
 
 <p className="text-[#04436F] text-[16px]  font-light leading-[24.6px]  font-['Metropolis'] mt-2">
-Unsere Pflegeplanung beginnt mit einer umfassenden Beratung sowie einer individuellen Bedarfsanalyse. Gemeinsam mit Ihnen und Ihren Angehörigen erstellen wir einen individuellen Pflegeplan, der genau auf Ihre Bedürfnisse zugeschnitten ist.</p>
-<p className="text-[#04436F] text-[16px]  font-light leading-[24.6px]  font-['Metropolis'] mt-4">
-Anschliessend helfen wir Ihnen dabei, geeignete Partner für die Vermittlung qualifizierter Pflegekräfte auszuwählen. Wir können Sie darin beraten, welche Betreuungs- und Pflegekräfte zu Ihnen passen und über welche Erfahrungen diese dafür verfügen müssen.Dies gilt auch für bauliche oder organisatorische Massnahmen oder benötigte Hilfsmittel, die für eine Betreuung und Pflege im eigenen zuhause unerlässlich sind.
-</p>
-<p className="text-[#04436F] text-[16px] font-light leading-[24.6px] font-['Metropolis'] mt-4">
-Während der laufenden Betreuung bleiben wir an Ihrer Seite und können den Pflegeplan an sich verändernde Bedürfnisse anpassen. Wir legen grossen Wert auf transparente Kommunikation und ständige Erreichbarkeit. So haben wir stets ein offenes Ohr für Ihre Anliegen und stellen sicher, dass Sie und Ihre Angehörigen sich gut aufgehoben fühlen.</p>
+Von Alltagsbegleitung, Besorgungen und Hauswirtschaft bis hin zu sozialen Aktivitäten wie gemeinsamen Spaziergängen, Vorlesen oder Ausflügen. Auch bei der Grundpflege und der Unterstützung im Alltag stehen wir zuverlässig zur Seite. Alle Leistungen lassen sich flexibel buchen – digital, transparent und individuell auf Ihre Bedürfnisse abgestimmt. So ermöglichen wir unseren Kund:innen mehr Lebensqualität und Sicherheit im eigenen Zuhause – genau so, wie sie es sich wünschen.</p>
           </div>
           <img src="/images/phc-image222.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[547px] items-start flex justify-start align-top" />
 
@@ -78,11 +63,10 @@ Während der laufenden Betreuung bleiben wir an Ihrer Seite und können den Pfle
 <p className="text-[#003588] text-[24px] font-normal leading-[32px] font-['Metropolis'] mt-[16px]">
   Sie haben das Gefühl, nicht alle Fakten zu kennen und sollen<br></br> weitreichende und kostspielige Entscheidungen erst noch unter<br></br> Zeitdruck treffen?<br></br>
 Nehmen Sie zuerst mit uns Kontakt auf, bevor Sie einen Entscheid<br></br> treffen!<br></br>
-Sichern Sie sich unsere kostenlose Online-Beratung. Mit Prime<br></br> Home Care erhalten Sie alle Informationen rund um das Thema<br></br> Seniorenbetreuung zu Hause!
-</p>
+Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und einfach</p>
 
           <button className="bg-[#04436F] text-white lg:mt-[60px] px-6 py-3 rounded-full text-[18px] font-medium mt-6 transition duration-300 hover:bg-[#6FCF97]">
-          Jetzt bessere Betreuung organisieren
+          Jetzt registrieren
                     </button>
         </section>
   
@@ -104,7 +88,7 @@ Sichern Sie sich unsere kostenlose Online-Beratung. Mit Prime<br></br> Home Care
     
     {/* Heading */}
     <h3 className="text-[#04436F] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
-      Unsere Lösungen für eine optimale Betreuungs-Organisation
+    Unsere Lösungen für eine optimale Ihre <br></br>Betreuung – einfach<br></br> digital organisiert
     </h3>
 
     {/* Description */}
@@ -112,8 +96,7 @@ Sichern Sie sich unsere kostenlose Online-Beratung. Mit Prime<br></br> Home Care
       Wir bei Prime Home Care haben viele Jahre Erfahrung in der professionellen Betreuung von 
       Senioren und pflegebedürftigen Menschen gesammelt. Hand in Hand mit externen 
       Pflegefachleuten, die uns bei der Bedarfsanalyse unterstützen, organisieren wir für Sie 
-      und Ihre Angehörigen individuelle und ganzheitliche Betreuungslösungen.
-      <br /><br />
+      und Ihre Angehörigen individuelle und ganzheitliche Betreuungslösungen.<br></br>
       Wir haben uns zum Ziel gesetzt, unseren Kunden eine umfassende und neutrale Beratung sowie 
       eine nahtlose Organisation rund um das Thema Pflege und Seniorenbetreuung zuhause zu bieten. 
       Im Folgenden stellen wir Ihnen einige unserer Lösungen vor.
@@ -161,13 +144,11 @@ Sichern Sie sich unsere kostenlose Online-Beratung. Mit Prime<br></br> Home Care
   className="bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden" 
   style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
 >
-  <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
-    Join our community of care
+  <h2 className="text-[#04436F] text-[35px] leading-[45px] lg:text-[44px] font-semibold lg:leading-[52.8px]">
+  Registrieren Sie sich jetzt und erhalten <br></br>Sie direkt ein individuelles Angebot
   </h2>
-  <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
-    At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
-  </p>
-  <button className="bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
+  
+  <button className="bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] mt-[40px] py-3 px-5 rounded-[50px]">
     Get started
   </button>
 </section>

@@ -30,10 +30,10 @@ export default function BlogPage() {
       {/* Header */}
       <div className="bg-[#B99B5F] max-w-[1400px] text-center py-[90px] rounded-[20px] mb-[120px]">
         <h1 className="text-white text-[44px] lg:text-[65px] lg:leading-[84px] font-semibold leading-[52px] font-['Instrument Sans']">
-          Blog & article
+          Blogs
         </h1>
         <p className="text-white text-[16px] font-normal leading-[25.6px] font-['Inter']">
-          Gain expert experience while exploring insights of the latest trends and<br></br> developments in Home Care.
+        Erhalten Sie fundierte Experteneinschätzungen und detaillierte<br></br> Analysen zu aktuellen Trends und Entwicklungen in der Altenpflege
         </p>
       </div>
 

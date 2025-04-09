@@ -1,0 +1,1761 @@
+module.exports = {
+
+"[externals]/next/dist/compiled/next-server/pages.runtime.dev.js [external] (next/dist/compiled/next-server/pages.runtime.dev.js, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("next/dist/compiled/next-server/pages.runtime.dev.js", () => require("next/dist/compiled/next-server/pages.runtime.dev.js"));
+
+module.exports = mod;
+}}),
+"[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("react/jsx-dev-runtime", () => require("react/jsx-dev-runtime"));
+
+module.exports = mod;
+}}),
+"[externals]/react/jsx-runtime [external] (react/jsx-runtime, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("react/jsx-runtime", () => require("react/jsx-runtime"));
+
+module.exports = mod;
+}}),
+"[externals]/react [external] (react, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("react", () => require("react"));
+
+module.exports = mod;
+}}),
+"[externals]/path [external] (path, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("path", () => require("path"));
+
+module.exports = mod;
+}}),
+"[externals]/next/dist/compiled/@opentelemetry/api [external] (next/dist/compiled/@opentelemetry/api, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("next/dist/compiled/@opentelemetry/api", () => require("next/dist/compiled/@opentelemetry/api"));
+
+module.exports = mod;
+}}),
+"[project]/src/pages/_document.js [ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
+{
+__turbopack_esm__({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__ = __turbopack_import__("[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$document$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/document.js [ssr] (ecmascript)");
+;
+;
+class MyDocument extends __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$document$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"] {
+    render() {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$document$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["Html"], {
+            lang: "en",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$document$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["Head"], {
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("link", {
+                        href: "https://fonts.googleapis.com/css2?family=Metropolis:wght@400;600&display=swap",
+                        rel: "stylesheet"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/_document.js",
+                        lineNumber: 8,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/_document.js",
+                    lineNumber: 7,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("body", {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$document$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["Main"], {}, void 0, false, {
+                            fileName: "[project]/src/pages/_document.js",
+                            lineNumber: 14,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$document$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["NextScript"], {}, void 0, false, {
+                            fileName: "[project]/src/pages/_document.js",
+                            lineNumber: 15,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/pages/_document.js",
+                    lineNumber: 13,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/pages/_document.js",
+            lineNumber: 6,
+            columnNumber: 7
+        }, this);
+    }
+}
+const __TURBOPACK__default__export__ = MyDocument;
+}}),
+"[project]/src/context/FormContext.js [ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
+{
+__turbopack_esm__({
+    "FormContext": (()=>FormContext),
+    "FormProvider": (()=>FormProvider)
+});
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__ = __turbopack_import__("[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__ = __turbopack_import__("[externals]/react [external] (react, cjs)");
+;
+;
+const FormContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["createContext"])();
+const FormProvider = ({ children })=>{
+    const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])({
+        region: "",
+        name: "",
+        email: "",
+        questions: "",
+        // Shto të dhëna për Form-Page-3 dhe Form-Page-4
+        selectedTopics: [],
+        additionalQuestion: ""
+    });
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(FormContext.Provider, {
+        value: {
+            formData,
+            setFormData
+        },
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/src/context/FormContext.js",
+        lineNumber: 18,
+        columnNumber: 5
+    }, this);
+};
+}}),
+"[externals]/next/head.js [external] (next/head.js, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("next/head.js", () => require("next/head.js"));
+
+module.exports = mod;
+}}),
+"[externals]/react-dom [external] (react-dom, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("react-dom", () => require("react-dom"));
+
+module.exports = mod;
+}}),
+"[externals]/fs [external] (fs, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("fs", () => require("fs"));
+
+module.exports = mod;
+}}),
+"[externals]/stream [external] (stream, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("stream", () => require("stream"));
+
+module.exports = mod;
+}}),
+"[externals]/zlib [external] (zlib, cjs)": (function(__turbopack_context__) {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+const mod = __turbopack_external_require__("zlib", () => require("zlib"));
+
+module.exports = mod;
+}}),
+"[project]/src/components/Header.js [ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
+{
+__turbopack_esm__({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__ = __turbopack_import__("[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/link.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/image.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/router.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__ = __turbopack_import__("[externals]/react [external] (react, cjs)");
+;
+;
+;
+;
+;
+const Header = ()=>{
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(false);
+    const navLinks = [
+        {
+            name: 'Home',
+            path: '/'
+        },
+        {
+            name: 'About',
+            path: '/about'
+        },
+        {
+            name: 'Pages',
+            path: '/pages'
+        },
+        {
+            name: 'Services',
+            path: '/services'
+        }
+    ];
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("header", {
+        className: "flex justify-between items-center mx-auto max-w-[1430px] p-4 bg-[#FAFCFF] z-50",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "flex items-center gap-8 hidden lg:flex",
+                children: navLinks.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                        href: link.path,
+                        className: `text-[18px] font-medium leading-[25.6px] font-[Metropolis] ${router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'} hover:text-[#A99558]`,
+                        children: link.name
+                    }, link.name, false, {
+                        fileName: "[project]/src/components/Header.js",
+                        lineNumber: 22,
+                        columnNumber: 11
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/src/components/Header.js",
+                lineNumber: 20,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "lg:block hidden flex items-center gap-4 xl:mr-[100px]",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                    src: "/Link - home.png",
+                    alt: "PHC Logo",
+                    width: 140,
+                    height: 70
+                }, void 0, false, {
+                    fileName: "[project]/src/components/Header.js",
+                    lineNumber: 34,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/Header.js",
+                lineNumber: 33,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "lg:hidden block flex items-center gap-4 lg:mr-[120px]",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                    src: "/Link - home.png",
+                    alt: "PHC Logo",
+                    width: 100,
+                    height: 50
+                }, void 0, false, {
+                    fileName: "[project]/src/components/Header.js",
+                    lineNumber: 37,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/Header.js",
+                lineNumber: 36,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "flex gap-4 hidden lg:flex",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/register",
+                        className: " px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-[Metropolis] font-medium leading-normal tracking-[-0.225px]",
+                        children: "Register"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Header.js",
+                        lineNumber: 41,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/login",
+                        className: "px-[34px] py-[12px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] font-[Metropolis] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]",
+                        children: "Log in"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Header.js",
+                        lineNumber: 44,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/Header.js",
+                lineNumber: 40,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "lg:hidden flex items-center",
+                onClick: ()=>setIsMobileMenuOpen(!isMobileMenuOpen),
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
+                    className: "text-[#04436F] flex flex-col justify-between items-center w-8 h-8",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                            className: "w-full h-[3px] bg-[#04436F]"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Header.js",
+                            lineNumber: 53,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                            className: "w-full h-[3px] bg-[#04436F]"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Header.js",
+                            lineNumber: 54,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                            className: "w-full h-[3px] bg-[#04436F]"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Header.js",
+                            lineNumber: 55,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Header.js",
+                    lineNumber: 51,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/Header.js",
+                lineNumber: 50,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: `lg:hidden fixed top-0 left-0 w-full h-full bg-white z-40 flex flex-col items-center justify-center space-y-4 ${isMobileMenuOpen ? 'block' : 'hidden'}`,
+                style: {
+                    top: '70px'
+                },
+                children: [
+                    navLinks.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                            href: link.path,
+                            className: `mt-[-70px] text-[18px] font-medium leading-[25.6px] font-[Metropolis] ${router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'} hover:text-[#A99558]`,
+                            onClick: ()=>setIsMobileMenuOpen(false),
+                            children: link.name
+                        }, link.name, false, {
+                            fileName: "[project]/src/components/Header.js",
+                            lineNumber: 65,
+                            columnNumber: 11
+                        }, this)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "flex flex-col gap-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                href: "/register",
+                                className: "px-[44px] py-[15px] rounded-[6px] bg-[#A99558] text-white text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]",
+                                children: "Register"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Header.js",
+                                lineNumber: 76,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                href: "/login",
+                                className: "px-[44px] py-[15px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]",
+                                children: "Log in"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Header.js",
+                                lineNumber: 79,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Header.js",
+                        lineNumber: 75,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/Header.js",
+                lineNumber: 60,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/Header.js",
+        lineNumber: 18,
+        columnNumber: 5
+    }, this);
+};
+const __TURBOPACK__default__export__ = Header;
+}}),
+"[project]/src/components/Footer.js [ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
+{
+__turbopack_esm__({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__ = __turbopack_import__("[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)");
+;
+const Footer = ()=>{
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("footer", {
+        className: "bg-[#FAFCFF]",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+            className: "max-w-[1430px] p-4 mx-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                    className: "bg-[#ECF2FF] lg:p-[45px] p-4 rounded-[20px] lg:mr-[50px] mr-0 mb-[50px] lg:mb-0 ",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("svg", {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            width: "160",
+                            height: "79",
+                            viewBox: "0 0 160 79",
+                            fill: "none",
+                            className: "lg:mb-[200px] mb-[80px]",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("g", {
+                                    "clip-path": "url(#clip0_1205_2745)",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M130.59 10.5035C133.902 8.76016 137.788 7.8929 142.253 7.8929C144.951 7.8929 147.486 8.15571 149.885 8.69008C152.271 9.2376 155.596 10.4027 158.715 11.7474V3.43392C153.508 1.51542 147.999 0.560547 142.174 0.560547C136.349 0.560547 131.038 1.75632 126.524 4.1435C122.002 6.53943 118.506 9.90338 116.028 14.2616C113.563 18.6067 112.317 23.6395 112.317 29.3293C112.317 35.0191 113.563 40.2577 116.028 44.7167C118.506 49.1757 121.989 52.6229 126.48 55.0714C130.968 57.5111 136.156 58.7332 142.016 58.7332C145.67 58.7332 148.986 58.3915 151.942 57.7301C154.035 57.2527 156.285 56.508 158.715 55.4831V46.9725C155.697 48.6369 152.934 49.7889 150.412 50.4284C147.876 51.0767 145.056 51.3964 141.937 51.3964C137.744 51.3964 134.012 50.5423 130.766 48.8165C127.511 47.0951 124.963 44.5853 123.134 41.2871C121.305 37.9801 120.392 33.9854 120.392 29.3205C120.392 24.9185 121.261 21.1078 123.007 17.9147C124.752 14.7215 127.292 12.2468 130.59 10.4991V10.5035Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 10,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M0 64.1953H5.58364C6.5179 64.1953 7.37321 64.3837 8.14518 64.756C8.91716 65.1283 9.53123 65.6539 9.97862 66.3241C10.426 66.9986 10.6497 67.752 10.6497 68.593C10.6497 69.434 10.426 70.1873 9.97862 70.8619C9.53123 71.5364 8.92154 72.0577 8.14518 72.43C7.37321 72.8023 6.5179 72.9906 5.58364 72.9906H1.56149V77.927H0V64.1953ZM5.30292 71.5101C6.43895 71.5101 7.34689 71.2517 8.03553 70.7305C8.72416 70.2092 9.06629 69.4997 9.06629 68.593C9.06629 67.6863 8.72416 66.9723 8.03553 66.4555C7.34689 65.9342 6.43895 65.6758 5.30292 65.6758H1.56149V71.5145H5.30292V71.5101Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 11,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M15.5929 67.9624C16.2991 67.555 17.1281 67.3535 18.0755 67.3535V68.6938C17.3035 68.6938 16.6105 68.8428 16.0052 69.1319C15.3999 69.4253 14.9262 69.8371 14.5841 70.3627C14.242 70.8883 14.0753 71.484 14.0753 72.1498V77.9272H12.5752V67.5944H14.0753V69.6137C14.3823 68.9216 14.8911 68.3697 15.5973 67.9624H15.5929Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 12,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M19.7861 65.4129C19.5931 65.2115 19.4966 64.9793 19.4966 64.7121C19.4966 64.4449 19.5931 64.2172 19.7861 64.0244C19.9791 63.8317 20.2159 63.7354 20.4966 63.7354C20.7774 63.7354 20.9923 63.8317 21.1853 64.0244C21.3783 64.2172 21.4748 64.4493 21.4748 64.7121C21.4748 64.9749 21.3783 65.2115 21.1853 65.4129C20.9923 65.6144 20.7598 65.7108 20.4966 65.7108C20.2159 65.7108 19.9791 65.6101 19.7861 65.4129ZM19.7378 67.5943H21.2379V77.927H19.7378V67.5943Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 13,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M36.9537 67.8611C37.5151 68.2028 37.9493 68.6758 38.2651 69.2803C38.5766 69.8848 38.7345 70.5768 38.7345 71.3477V77.9267H37.2344V71.5492C37.2344 70.7082 37.0107 70.0249 36.5633 69.4905C36.1159 68.9562 35.5457 68.689 34.8527 68.689C34.0237 68.689 33.3526 68.9387 32.8306 69.438C32.3087 69.9373 32.0499 70.5724 32.0499 71.3477V77.9267H30.5498V71.5492C30.5498 70.7082 30.3261 70.0249 29.8787 69.4905C29.4313 68.9562 28.8611 68.689 28.1681 68.689C27.3391 68.689 26.668 68.9387 26.1461 69.438C25.6241 69.9373 25.3653 70.5724 25.3653 71.3477V77.9267H23.8652V67.594H25.3653V69.1139C25.6329 68.5663 26.0276 68.1371 26.5584 67.8261C27.0847 67.5151 27.69 67.3574 28.3699 67.3574C29.1418 67.3574 29.8261 67.5545 30.4138 67.9487C31.0016 68.343 31.4358 68.8773 31.7165 69.5563C31.9315 68.8905 32.3438 68.3561 32.9578 67.9575C33.5719 67.5589 34.2737 67.3574 35.0588 67.3574C35.765 67.3574 36.401 67.5282 36.9624 67.8655L36.9537 67.8611Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 14,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M47.8928 76.4681C48.5113 76.2272 48.985 75.9337 49.3052 75.5877L50.2263 76.5688C49.7877 77.0506 49.1692 77.4361 48.3753 77.7296C47.5814 78.023 46.8094 78.1676 46.0638 78.1676C45.1427 78.1676 44.283 77.9354 43.4803 77.4668C42.6776 77.0025 42.0372 76.3498 41.5504 75.5176C41.0635 74.6854 40.8179 73.7568 40.8179 72.7274C40.8179 71.6981 41.046 70.8133 41.5065 69.9899C41.9671 69.162 42.5855 68.5181 43.3663 68.0495C44.147 67.5852 44.9979 67.3486 45.919 67.3486C47.4674 67.3486 48.6736 67.8874 49.5333 68.9693C50.393 70.0468 50.8228 71.501 50.8228 73.3275H42.3574C42.4627 74.3525 42.8531 75.1935 43.5285 75.8461C44.204 76.4987 45.0418 76.8273 46.0418 76.8273C46.6559 76.8273 47.2744 76.709 47.8928 76.4681ZM43.5768 69.6C42.9101 70.2045 42.5109 71.0017 42.375 71.9872H49.3403C49.235 71.0017 48.8929 70.2045 48.3183 69.6C47.7437 68.9956 46.9629 68.689 45.976 68.689C45.0418 68.689 44.2391 68.9912 43.5724 69.6H43.5768Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 15,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M69.5827 64.1953V77.927H68.0212V71.6722H59.9155V77.927H58.354V64.1953H59.9155V70.1917H68.0212V64.1953H69.5827Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 16,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M74.425 77.4273C73.596 76.9324 72.9381 76.271 72.4512 75.4387C71.9644 74.6065 71.7188 73.7086 71.7188 72.7493C71.7188 71.7901 71.96 70.8965 72.4512 70.0687C72.9381 69.2409 73.596 68.5838 74.425 68.0889C75.254 67.5939 76.14 67.3486 77.0875 67.3486C78.0349 67.3486 78.9209 67.5939 79.7411 68.0889C80.5613 68.5838 81.2149 69.2409 81.7018 70.0687C82.1886 70.8965 82.4343 71.7857 82.4343 72.7493C82.4343 73.713 82.1886 74.6065 81.7018 75.4387C81.2149 76.271 80.5613 76.9368 79.7411 77.4273C78.9209 77.9223 78.0349 78.1676 77.0875 78.1676C76.14 78.1676 75.254 77.9223 74.425 77.4273ZM78.9604 76.2666C79.5394 75.8943 79.9999 75.3949 80.342 74.7773C80.6842 74.1597 80.8508 73.4808 80.8508 72.7493C80.8508 72.0179 80.6798 71.3565 80.342 70.7301C79.9999 70.1037 79.5394 69.6088 78.9604 69.2409C78.3814 68.8729 77.7542 68.689 77.0875 68.689C76.4208 68.689 75.776 68.8729 75.197 69.2409C74.618 69.6088 74.1575 70.1037 73.8154 70.7301C73.4732 71.3565 73.3066 72.031 73.3066 72.7493C73.3066 73.4677 73.4776 74.1597 73.8154 74.7773C74.1575 75.3949 74.618 75.8943 75.197 76.2666C75.776 76.6389 76.4076 76.8273 77.0875 76.8273C77.7673 76.8273 78.377 76.6389 78.9604 76.2666Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 17,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M97.606 67.8611C98.1674 68.2028 98.6017 68.6758 98.9175 69.2803C99.2289 69.8848 99.3868 70.5768 99.3868 71.3477V77.9267H97.8867V71.5492C97.8867 70.7082 97.663 70.0249 97.2156 69.4905C96.7682 68.9562 96.198 68.689 95.505 68.689C94.676 68.689 94.0049 68.9387 93.483 69.438C92.961 69.9373 92.7022 70.5724 92.7022 71.3477V77.9267H91.2022V71.5492C91.2022 70.7082 90.9785 70.0249 90.5311 69.4905C90.0837 68.9562 89.5135 68.689 88.8204 68.689C87.9915 68.689 87.3204 68.9387 86.7984 69.438C86.2764 69.9373 86.0177 70.5724 86.0177 71.3477V77.9267H84.5176V67.594H86.0177V69.1139C86.2852 68.5663 86.68 68.1371 87.2107 67.8261C87.7371 67.5151 88.3424 67.3574 89.0222 67.3574C89.7942 67.3574 90.4784 67.5545 91.0662 67.9487C91.6539 68.343 92.0882 68.8773 92.3689 69.5563C92.5838 68.8905 92.9961 68.3561 93.6102 67.9575C94.2242 67.5589 94.926 67.3574 95.7112 67.3574C96.4174 67.3574 97.0534 67.5282 97.6148 67.8655L97.606 67.8611Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 18,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M108.546 76.4681C109.164 76.2272 109.638 75.9337 109.958 75.5877L110.879 76.5688C110.44 77.0506 109.822 77.4361 109.028 77.7296C108.234 78.023 107.462 78.1676 106.717 78.1676C105.796 78.1676 104.936 77.9354 104.133 77.4668C103.33 77.0025 102.69 76.3498 102.203 75.5176C101.716 74.6854 101.471 73.7568 101.471 72.7274C101.471 71.6981 101.699 70.8133 102.159 69.9899C102.62 69.162 103.238 68.5181 104.019 68.0495C104.8 67.5852 105.651 67.3486 106.572 67.3486C108.12 67.3486 109.326 67.8874 110.186 68.9693C111.046 70.0468 111.476 71.501 111.476 73.3275H103.01C103.116 74.3525 103.506 75.1935 104.181 75.8461C104.857 76.4987 105.695 76.8273 106.695 76.8273C107.309 76.8273 107.927 76.709 108.546 76.4681ZM104.234 69.6C103.567 70.2045 103.168 71.0017 103.032 71.9872H109.997C109.892 71.0017 109.55 70.2045 108.976 69.6C108.401 68.9956 107.62 68.689 106.633 68.689C105.699 68.689 104.896 68.9912 104.23 69.6H104.234Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 19,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M122.015 77.1996C120.927 76.5514 120.063 75.6841 119.423 74.5891C118.783 73.4984 118.462 72.3158 118.462 71.0499C118.462 69.7841 118.783 68.6102 119.423 67.5195C120.063 66.4333 120.927 65.566 122.015 64.9221C123.103 64.2739 124.265 63.9541 125.507 63.9541C126.441 63.9541 127.336 64.1381 128.191 64.5016C129.046 64.8696 129.801 65.3864 130.454 66.0522L129.393 67.1297C128.884 66.5822 128.296 66.1573 127.621 65.8507C126.945 65.5441 126.244 65.3908 125.511 65.3908C124.537 65.3908 123.634 65.6492 122.8 66.1617C121.967 66.6742 121.3 67.3662 120.8 68.2423C120.3 69.1139 120.05 70.0513 120.05 71.0499C120.05 72.0486 120.3 73.0035 120.8 73.8707C121.3 74.738 121.967 75.4301 122.8 75.9513C123.634 76.4725 124.537 76.731 125.511 76.731C126.244 76.731 126.95 76.5777 127.621 76.2711C128.296 75.9644 128.884 75.5396 129.393 74.9921L130.454 76.0696C129.801 76.7222 129.046 77.2347 128.191 77.607C127.336 77.9793 126.441 78.1677 125.507 78.1677C124.265 78.1677 123.103 77.8435 122.015 77.1996Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 20,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M139.494 68.5225C140.209 69.3022 140.565 70.3403 140.565 71.6324V77.9311H139.065V76.3104C138.705 76.8974 138.187 77.3529 137.512 77.6814C136.836 78.0099 136.139 78.172 135.42 78.172C134.31 78.172 133.406 77.8741 132.696 77.2741C131.99 76.674 131.634 75.8768 131.634 74.8737C131.634 74.208 131.818 73.6123 132.183 73.0866C132.551 72.561 133.042 72.1537 133.665 71.869C134.284 71.5843 134.963 71.4397 135.696 71.4397C136.735 71.4397 137.858 71.6324 139.06 72.0179V71.6368C139.06 70.7958 138.845 70.0862 138.42 69.5081C137.994 68.9299 137.271 68.6364 136.257 68.6364C135.788 68.6364 135.314 68.7196 134.827 68.8861C134.341 69.0525 133.81 69.2847 133.235 69.5738L132.634 68.3561C133.968 67.6903 135.209 67.3574 136.358 67.3574C137.731 67.3574 138.775 67.7473 139.49 68.5269L139.494 68.5225ZM137.793 76.2798C138.455 75.8987 138.876 75.3687 139.065 74.6898V73.1085C138.051 72.8282 137.007 72.688 135.942 72.688C135.152 72.688 134.485 72.8895 133.928 73.2881C133.376 73.6867 133.099 74.1948 133.099 74.808C133.099 75.4213 133.341 75.9294 133.832 76.2973C134.319 76.6652 134.937 76.8492 135.683 76.8492C136.428 76.8492 137.135 76.6608 137.793 76.2798Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 21,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M146.39 67.9624C147.096 67.555 147.925 67.3535 148.872 67.3535V68.6938C148.1 68.6938 147.407 68.8428 146.802 69.1319C146.197 69.4253 145.723 69.8371 145.381 70.3627C145.039 70.8883 144.872 71.484 144.872 72.1498V77.9272H143.372V67.5944H144.872V69.6137C145.179 68.9216 145.688 68.3697 146.394 67.9624H146.39Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 22,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M157.07 76.4681C157.689 76.2272 158.162 75.9337 158.482 75.5877L159.404 76.5688C158.965 77.0506 158.346 77.4361 157.553 77.7296C156.759 78.023 155.987 78.1676 155.241 78.1676C154.32 78.1676 153.46 77.9354 152.658 77.4668C151.855 77.0025 151.214 76.3498 150.728 75.5176C150.241 74.6854 149.995 73.7568 149.995 72.7274C149.995 71.6981 150.223 70.8133 150.684 69.9899C151.144 69.162 151.763 68.5181 152.544 68.0495C153.324 67.5852 154.175 67.3486 155.096 67.3486C156.645 67.3486 157.851 67.8874 158.711 68.9693C159.57 70.0468 160 71.501 160 73.3275H151.535C151.64 74.3525 152.03 75.1935 152.706 75.8461C153.381 76.4987 154.219 76.8273 155.219 76.8273C155.833 76.8273 156.452 76.709 157.07 76.4681ZM152.754 69.6C152.087 70.2045 151.688 71.0017 151.552 71.9872H158.518C158.412 71.0017 158.07 70.2045 157.496 69.6C156.921 68.9956 156.14 68.689 155.153 68.689C154.219 68.689 153.416 68.9912 152.75 69.6H152.754Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 23,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M40.4581 8.87416C38.6993 6.02269 36.2649 3.83262 33.1375 2.30395C30.0058 0.762144 26.4003 0 22.2861 0H0.648926V57.4893H8.55287V37.4502H22.2817C26.3916 37.4502 30.0277 36.688 33.177 35.1594C36.3307 33.6176 38.7607 31.4538 40.4888 28.6242C42.2258 25.8078 43.0811 22.5095 43.0811 18.7338C43.0811 14.9582 42.1994 11.7169 40.4537 8.87854L40.4581 8.87416ZM23.6765 30.4901H8.55287V7.04764H23.6765C30.1637 7.04764 35.4052 12.295 35.4052 18.7733C35.4052 25.2515 30.1637 30.4858 23.6765 30.4858V30.4901Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 24,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M93.8647 0V57.4893H101.769V0H93.8647ZM52.1694 0V57.4893H60.0734V0H52.1694Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 25,
+                                            columnNumber: 5
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M108.69 33.6303L77.1706 20.8359C77.039 20.7878 76.8943 20.7878 76.7671 20.8359L45.2478 33.6303C44.9539 33.7398 44.8048 34.064 44.9144 34.3574L46.1557 37.7608C46.2654 38.0586 46.5987 38.2119 46.897 38.0981L76.7714 28.707C76.903 28.6589 77.0478 28.6589 77.175 28.707L107.049 38.0981C107.348 38.2119 107.681 38.0586 107.791 37.7608L109.032 34.3574C109.137 34.064 108.988 33.7398 108.699 33.6303H108.69Z",
+                                            fill: "#B99B5F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 26,
+                                            columnNumber: 5
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/Footer.js",
+                                    lineNumber: 9,
+                                    columnNumber: 3
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("defs", {
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("clipPath", {
+                                        id: "clip0_1205_2745",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("rect", {
+                                            width: "160",
+                                            height: "78.1679",
+                                            fill: "white"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 30,
+                                            columnNumber: 7
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 29,
+                                        columnNumber: 5
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Footer.js",
+                                    lineNumber: 28,
+                                    columnNumber: 3
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 8,
+                            columnNumber: 11
+                        }, this),
+                        "          ",
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                            className: "mt-4 text-[#04436F] font-medium",
+                            style: {
+                                fontFamily: '"Instrument Sans", sans-serif',
+                                fontSize: '22px',
+                                fontWeight: '500',
+                                lineHeight: '30.8px'
+                            },
+                            children: "Stay updated with our newsletter"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 34,
+                            columnNumber: 1
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                            className: "mt-3 pr-2 flex items-center border border-gray-300 rounded-[50px] overflow-hidden w-full",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
+                                    type: "email",
+                                    placeholder: "Enter your email address",
+                                    className: "w-full px-2 py-4 outline-none bg-transparent text-[#04436F] placeholder:text-[#04436F]"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Footer.js",
+                                    lineNumber: 46,
+                                    columnNumber: 3
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
+                                    className: "bg-blue-800 text-white px-4 py-2 rounded-[50px]",
+                                    children: "Subscribe"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Footer.js",
+                                    lineNumber: 51,
+                                    columnNumber: 3
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 45,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                            className: "flex gap-3 mt-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("a", {
+                                    href: "#",
+                                    className: "text-blue-600 text-xl",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("svg", {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        width: "24",
+                                        height: "25",
+                                        viewBox: "0 0 24 25",
+                                        fill: "none",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            d: "M11.8 22.0381H12.2C12.9499 22.0381 13.3249 22.0381 13.5878 21.8471C13.6727 21.7854 13.7473 21.7108 13.809 21.6259C14 21.363 14 20.988 14 20.2381V13.9131H15.2C15.9499 13.9131 16.3249 13.9131 16.5878 13.7221C16.6727 13.6604 16.7473 13.5858 16.809 13.5009C17 13.238 17 12.863 17 12.1131V11.9214C17 11.1715 17 10.7965 16.809 10.5336C16.7473 10.4488 16.6727 10.3741 16.5878 10.3124C16.3249 10.1214 15.9499 10.1214 15.2 10.1214H14V7.82976C14 7.36382 14 7.13084 14.0761 6.94707C14.1776 6.70205 14.3723 6.50737 14.6173 6.40588C14.8011 6.32976 15.0341 6.32976 15.5 6.32976C15.9659 6.32976 16.1989 6.32976 16.3827 6.25364C16.6277 6.15214 16.8224 5.95747 16.9239 5.71244C17 5.52867 17 5.2957 17 4.82976V4.09365C17 3.57548 17 3.3164 16.9063 3.11547C16.8069 2.9024 16.6357 2.73114 16.4226 2.63178C16.2217 2.53809 15.9626 2.53809 15.4444 2.53809C13.6309 2.53809 12.7241 2.53809 12.0208 2.86601C11.2751 3.21377 10.6757 3.81316 10.3279 4.55893C10 5.26216 10 6.16895 10 7.98254V10.1214H8.8C8.05005 10.1214 7.67508 10.1214 7.41221 10.3124C7.32732 10.3741 7.25266 10.4488 7.19098 10.5336C7 10.7965 7 11.1715 7 11.9214V12.1131C7 12.863 7 13.238 7.19098 13.5009C7.25266 13.5858 7.32732 13.6604 7.41221 13.7221C7.67508 13.9131 8.05005 13.9131 8.8 13.9131H10V20.2381C10 20.988 10 21.363 10.191 21.6259C10.2527 21.7108 10.3273 21.7854 10.4122 21.8471C10.6751 22.0381 11.0501 22.0381 11.8 22.0381Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 58,
+                                            columnNumber: 3
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 57,
+                                        columnNumber: 61
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Footer.js",
+                                    lineNumber: 57,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("a", {
+                                    href: "#",
+                                    className: "text-blue-600 text-xl",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("svg", {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        width: "24",
+                                        height: "25",
+                                        viewBox: "0 0 24 25",
+                                        fill: "none",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            "fill-rule": "evenodd",
+                                            "clip-rule": "evenodd",
+                                            d: "M13.2 2.53809H10.8C7.23775 2.53809 5.45663 2.53809 4.20802 3.44526C3.80477 3.73824 3.45015 4.09286 3.15717 4.49611C2.25 5.74472 2.25 7.52584 2.25 11.0881V13.4881C2.25 17.0503 2.25 18.8315 3.15717 20.0801C3.45015 20.4833 3.80477 20.838 4.20802 21.1309C5.45663 22.0381 7.23775 22.0381 10.8 22.0381H13.2C16.7622 22.0381 18.5434 22.0381 19.792 21.1309C20.1952 20.838 20.5499 20.4833 20.8428 20.0801C21.75 18.8315 21.75 17.0503 21.75 13.4881V11.0881C21.75 7.52584 21.75 5.74472 20.8428 4.49611C20.5499 4.09286 20.1952 3.73824 19.792 3.44526C18.5434 2.53809 16.7622 2.53809 13.2 2.53809ZM16 12.2881C16 14.4972 14.2091 16.2881 12 16.2881C9.79086 16.2881 8 14.4972 8 12.2881C8 10.0789 9.79086 8.28809 12 8.28809C14.2091 8.28809 16 10.0789 16 12.2881ZM17.5 7.78809C18.0523 7.78809 18.5 7.34037 18.5 6.78809C18.5 6.23581 18.0523 5.78809 17.5 5.78809C16.9477 5.78809 16.5 6.23581 16.5 6.78809C16.5 7.34037 16.9477 7.78809 17.5 7.78809Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 61,
+                                            columnNumber: 3
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 60,
+                                        columnNumber: 61
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Footer.js",
+                                    lineNumber: 60,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("a", {
+                                    href: "#",
+                                    className: "text-blue-600 text-xl",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("svg", {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        width: "24",
+                                        height: "25",
+                                        viewBox: "0 0 24 25",
+                                        fill: "none",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                            "fill-rule": "evenodd",
+                                            "clip-rule": "evenodd",
+                                            d: "M2.25 11.0881C2.25 7.52584 2.25 5.74472 3.15717 4.49611C3.45015 4.09286 3.80477 3.73824 4.20802 3.44526C5.45663 2.53809 7.23775 2.53809 10.8 2.53809H13.2C16.7622 2.53809 18.5434 2.53809 19.792 3.44526C20.1952 3.73824 20.5499 4.09286 20.8428 4.49611C21.75 5.74472 21.75 7.52584 21.75 11.0881V13.4881C21.75 17.0503 21.75 18.8315 20.8428 20.0801C20.5499 20.4833 20.1952 20.838 19.792 21.1309C18.5434 22.0381 16.7622 22.0381 13.2 22.0381H10.8C7.23775 22.0381 5.45663 22.0381 4.20802 21.1309C3.80477 20.838 3.45015 20.4833 3.15717 20.0801C2.25 18.8315 2.25 17.0503 2.25 13.4881V11.0881ZM7.5 10.0381C7.91421 10.0381 8.25 10.3739 8.25 10.7881V16.7881C8.25 17.2023 7.91421 17.5381 7.5 17.5381C7.08579 17.5381 6.75 17.2023 6.75 16.7881V10.7881C6.75 10.3739 7.08579 10.0381 7.5 10.0381ZM11 10.0381C11.4142 10.0381 11.75 10.3739 11.75 10.7881V11.0142C12.4773 10.4049 13.4145 10.0381 14.4375 10.0381C15.9908 10.0381 17.25 11.2973 17.25 12.8506V16.7881C17.25 17.2023 16.9142 17.5381 16.5 17.5381C16.0858 17.5381 15.75 17.2023 15.75 16.7881V12.8506C15.75 12.1257 15.1624 11.5381 14.4375 11.5381C12.9532 11.5381 11.75 12.7413 11.75 14.2256V16.7881C11.75 17.2023 11.4142 17.5381 11 17.5381C10.5858 17.5381 10.25 17.2023 10.25 16.7881V14.2256V10.7881C10.25 10.3739 10.5858 10.0381 11 10.0381ZM7.5 8.78809C8.05228 8.78809 8.5 8.34037 8.5 7.78809C8.5 7.23581 8.05228 6.78809 7.5 6.78809C6.94772 6.78809 6.5 7.23581 6.5 7.78809C6.5 8.34037 6.94772 8.78809 7.5 8.78809Z",
+                                            fill: "#04436F"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Footer.js",
+                                            lineNumber: 64,
+                                            columnNumber: 3
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 63,
+                                        columnNumber: 61
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Footer.js",
+                                    lineNumber: 63,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 56,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Footer.js",
+                    lineNumber: 7,
+                    columnNumber: 11
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                    className: "bg-[#F1F1F1] p-4 lg:p-[45px] lg:rounded-tl-[20px] lg:rounded-bl-[20px]",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "grid grid-cols-2 gap-6",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h3", {
+                                        className: "text-[#04436F] text-[22px] font-semibold mb-[40px]",
+                                        children: "Pages"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 72,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("ul", {
+                                        className: "space-y-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 74,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 75,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "About"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 76,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 77,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 78,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 73,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Footer.js",
+                                lineNumber: 71,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h3", {
+                                        className: "text-[#04436F] text-[22px] font-semibold mb-[40px]",
+                                        children: "Utility Pages"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 82,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("ul", {
+                                        className: " space-y-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 84,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 85,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 86,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 87,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                                children: "Lorem"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Footer.js",
+                                                lineNumber: 88,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/Footer.js",
+                                        lineNumber: 83,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Footer.js",
+                                lineNumber: 81,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Footer.js",
+                        lineNumber: 70,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/components/Footer.js",
+                    lineNumber: 69,
+                    columnNumber: 11
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                    className: "bg-[#F1F1F1] p-4 lg:p-[45px]  lg:rounded-tr-[20px] lg:rounded-br-[20px]",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h3", {
+                            className: "text-[#04436F] text-[22px] font-semibold mb-[40px]",
+                            children: "Contact Information"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 96,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                            className: "] text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                            children: "Address"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 97,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                            className: "text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                            children: "Lorem"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 98,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                            className: "mt-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                            children: "Phone"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 99,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                            className: "text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                            children: "Lorem"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 100,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                            className: "mt-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                            children: "E-mail"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 101,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                            className: "text-[#04436F] text-[18px] leading-[25.2px] font-normal",
+                            children: "Lorem"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Footer.js",
+                            lineNumber: 102,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Footer.js",
+                    lineNumber: 95,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/components/Footer.js",
+            lineNumber: 4,
+            columnNumber: 9
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/components/Footer.js",
+        lineNumber: 3,
+        columnNumber: 7
+    }, this);
+};
+const __TURBOPACK__default__export__ = Footer;
+}}),
+"[project]/src/pages/_app.js [ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
+{
+__turbopack_esm__({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__ = __turbopack_import__("[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$FormContext$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/context/FormContext.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$next$2f$head$2e$js__$5b$external$5d$__$28$next$2f$head$2e$js$2c$__cjs$29$__ = __turbopack_import__("[externals]/next/head.js [external] (next/head.js, cjs)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Header$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/Header.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Footer$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/Footer.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/router.js [ssr] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+function MyApp({ Component, pageProps }) {
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
+    // Define the pages where Header and Footer should be excluded
+    const excludedPages = [
+        '/old-index',
+        '/Registrierung-Jobs',
+        '/Registrierung',
+        '/Registrierung-Form1',
+        '/Registrierung-Form2',
+        '/Registrierung-Jobs-Form1',
+        '/Registrierung-Jobs-Form2'
+    ];
+    const shouldExcludeLayout = excludedPages.includes(router.pathname);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$externals$5d2f$next$2f$head$2e$js__$5b$external$5d$__$28$next$2f$head$2e$js$2c$__cjs$29$__["default"], {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("link", {
+                        rel: "icon",
+                        href: "/PHCIcon.svg",
+                        type: "image/svg+xml"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/_app.js",
+                        lineNumber: 19,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("link", {
+                        rel: "shortcut icon",
+                        href: "/PHCIcon.svg",
+                        type: "image/svg+xml"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/_app.js",
+                        lineNumber: 20,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("title", {
+                        children: "PHC"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/_app.js",
+                        lineNumber: 21,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/_app.js",
+                lineNumber: 18,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$FormContext$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["FormProvider"], {
+                children: [
+                    !shouldExcludeLayout && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Header$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                        fileName: "[project]/src/pages/_app.js",
+                        lineNumber: 25,
+                        columnNumber: 34
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(Component, {
+                        ...pageProps
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/_app.js",
+                        lineNumber: 26,
+                        columnNumber: 9
+                    }, this),
+                    !shouldExcludeLayout && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Footer$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                        fileName: "[project]/src/pages/_app.js",
+                        lineNumber: 27,
+                        columnNumber: 34
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/_app.js",
+                lineNumber: 24,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true);
+}
+const __TURBOPACK__default__export__ = MyApp;
+}}),
+"[project]/src/pages/hausliche-pflege-planen.js [ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
+{
+__turbopack_esm__({
+    "default": (()=>HomeCarePage)
+});
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__ = __turbopack_import__("[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)");
+;
+function HomeCarePage() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+        className: "bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "bg-[#B99B5F] gap-10 lg:gap-[100px] text-white p-4 lg:p-[60px] rounded-[20px] flex flex-col lg:flex-row items-start",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "lg:w-1/2 mt-6 lg:mt-0",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("img", {
+                            src: "/images/hero-services.png",
+                            alt: "Home Care",
+                            className: "rounded-lg lg:w-[545px] lg:h-[335px] w-full"
+                        }, void 0, false, {
+                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                            lineNumber: 8,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 7,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "lg:w-1/2 flex flex-col justify-start items-start",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h1", {
+                                className: "text-[40px] lg:text-[52px] font-semibold leading-[47px] mt-2 lg:mt-[38px] lg:leading-[60px] tracking-[-1.04px] font-['Metropolis']",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                                    className: "text-[#FFFFFF]",
+                                    children: [
+                                        "Beratung und Organisation von",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                            lineNumber: 13,
+                                            columnNumber: 65
+                                        }, this),
+                                        " Betreuung zu Hause"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                    lineNumber: 13,
+                                    columnNumber: 3
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 12,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                                className: "text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2",
+                                children: "Willkommen bei Prime Home Care – Ihr zuverlässiger Partner für die Organisation von häuslicher Betreuung & Pflege in der Schweiz! "
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 17,
+                                columnNumber: 1
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 10,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 6,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "mt-[120px] px-6 lg:px-2 flex flex-col lg:flex-row items-center gap-20",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("img", {
+                        src: "/images/phc-intro1.png",
+                        alt: "Senior care",
+                        className: "w-full lg:w-1/2 rounded-lg lg:h-[647px] items-start flex justify-start align-top"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 26,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "lg:w-1/2 text-left",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
+                                className: "text-[#04436F] text-[40px] lg:text-[56px] font-semibold leading-[50px] lg:leading-[64px] font-['Instrument Sans']",
+                                children: [
+                                    "Unsere Organisation – ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 31,
+                                        columnNumber: 25
+                                    }, this),
+                                    "Für bessere Seniorenbetreuung im Alter"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 30,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                                className: "text-[#04436F] text-[16px] lg:text-[18px] font-light leading-[25.6px] lg:leading-[28px] font-['Metropolis'] mt-2",
+                                children: "Die Prime Home Care AG ist Ihre moderne Partnerin für stundenweise Betreuung zu Hause – flexibel, digital organisiert und persönlich umgesetzt. Ob Gesellschaft leisten, Begleitung zu Terminen, Unterstützung im Haushalt oder bei Freizeitaktivitäten: Unsere Dienstleistungen lassen sich individuell kombinieren und bequem digital planen. So erhalten Sie genau die Unterstützung, die Sie brauchen – zur richtigen Zeit und mit vertrauten Betreuungspersonen. Als digitales Unternehmen setzen wir auf einfache Abläufe, schnelle Verfügbarkeit und transparente Kommunikation – ganz ohne Papierkram. Die Betreuung bleibt menschlich und herzlich – die Organisation übernehmen wir im Hintergrund effizient und unkompliziert. Prime Home Care AG – moderne Betreuung mit Herz und System."
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 34,
+                                columnNumber: 1
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 27,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 25,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "mt-[120px] px-6 lg:px-2  flex flex-col lg:flex-row items-start gap-20",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "lg:w-1/2 text-left",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
+                                className: "text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']",
+                                children: [
+                                    "Die Prime Home Care AG bietet ein breites Spektrum an Leistungen für die",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 47,
+                                        columnNumber: 83
+                                    }, this),
+                                    " stundenweise Betreuung"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 46,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                                className: "text-[#04436F] text-[16px]  font-light leading-[24.6px]  font-['Metropolis'] mt-2",
+                                children: "Von Alltagsbegleitung, Besorgungen und Hauswirtschaft bis hin zu sozialen Aktivitäten wie gemeinsamen Spaziergängen, Vorlesen oder Ausflügen. Auch bei der Grundpflege und der Unterstützung im Alltag stehen wir zuverlässig zur Seite. Alle Leistungen lassen sich flexibel buchen – digital, transparent und individuell auf Ihre Bedürfnisse abgestimmt. So ermöglichen wir unseren Kund:innen mehr Lebensqualität und Sicherheit im eigenen Zuhause – genau so, wie sie es sich wünschen."
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 50,
+                                columnNumber: 1
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 44,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("img", {
+                        src: "/images/phc-image222.png",
+                        alt: "Senior care",
+                        className: "w-full lg:w-1/2 rounded-lg lg:h-[547px] items-start flex justify-start align-top"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 53,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 43,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "rounded-[20px] mt-[120px] px-6 py-6 text-left bg-[#EDF2FB] lg:py-[120px] lg:px-[70px]",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                        className: "text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']",
+                        children: [
+                            "Sie müssen private Betreuung für sich ",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 60,
+                                columnNumber: 41
+                            }, this),
+                            "oder für einen nahen Angehörigen",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 60,
+                                columnNumber: 82
+                            }, this),
+                            " organisieren?"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 59,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                        className: "text-[#003588] text-[24px] font-normal leading-[32px] font-['Metropolis'] mt-[16px]",
+                        children: [
+                            "Sie haben das Gefühl, nicht alle Fakten zu kennen und sollen",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 64,
+                                columnNumber: 63
+                            }, this),
+                            " weitreichende und kostspielige Entscheidungen erst noch unter",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 64,
+                                columnNumber: 134
+                            }, this),
+                            " Zeitdruck treffen?",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 64,
+                                columnNumber: 162
+                            }, this),
+                            "Nehmen Sie zuerst mit uns Kontakt auf, bevor Sie einen Entscheid",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 65,
+                                columnNumber: 65
+                            }, this),
+                            " treffen!",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 65,
+                                columnNumber: 83
+                            }, this),
+                            "Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 66,
+                                columnNumber: 67
+                            }, this),
+                            " und einfach"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 63,
+                        columnNumber: 1
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
+                        className: "bg-[#04436F] text-white lg:mt-[60px] px-6 py-3 rounded-full text-[18px] font-medium mt-6 transition duration-300 hover:bg-[#6FCF97]",
+                        children: "Jetzt registrieren"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 68,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 58,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "mt-[120px] px-6 lg:px-4 grid grid-cols-1 lg:grid-cols-2 gap-10",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "flex lg:flex-row flex-col gap-8 lg:gap-0 items-start",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("img", {
+                                src: "/images/phc-photo1test.png",
+                                alt: "Care 1",
+                                className: "rounded-lg lg:max-w-[230px] w-full lg:mt-[305px]"
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 78,
+                                columnNumber: 5
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("img", {
+                                src: "/images/phc-photo2test.png",
+                                alt: "Care 2",
+                                className: "rounded-lg lg:max-w-[338.25px] w-full  lg:ml-[-120px]"
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 80,
+                                columnNumber: 5
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("img", {
+                                src: "/images/phc-photo3test.png",
+                                alt: "Care 3",
+                                className: "rounded-lg lg:max-w-[338.25px] w-full lg:mt-[250px] lg:ml-[-140px]"
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 82,
+                                columnNumber: 5
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 77,
+                        columnNumber: 3
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "text-left",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h3", {
+                                className: "text-[#04436F] text-[40px] font-semibold leading-[48px] font-['Metropolis']",
+                                children: [
+                                    "Unsere Lösungen für eine optimale Ihre ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 91,
+                                        columnNumber: 44
+                                    }, this),
+                                    "Betreuung – einfach",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 91,
+                                        columnNumber: 72
+                                    }, this),
+                                    " digital organisiert"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 90,
+                                columnNumber: 5
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                                className: "text-[#04436F] text-[16px] font-light leading-[24px] font-['Metropolis'] mt-4",
+                                children: [
+                                    "Wir bei Prime Home Care haben viele Jahre Erfahrung in der professionellen Betreuung von Senioren und pflegebedürftigen Menschen gesammelt. Hand in Hand mit externen Pflegefachleuten, die uns bei der Bedarfsanalyse unterstützen, organisieren wir für Sie und Ihre Angehörigen individuelle und ganzheitliche Betreuungslösungen.",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 99,
+                                        columnNumber: 78
+                                    }, this),
+                                    "Wir haben uns zum Ziel gesetzt, unseren Kunden eine umfassende und neutrale Beratung sowie eine nahtlose Organisation rund um das Thema Pflege und Seniorenbetreuung zuhause zu bieten. Im Folgenden stellen wir Ihnen einige unserer Lösungen vor."
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 95,
+                                columnNumber: 5
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("ul", {
+                                className: "mt-6 space-y-6",
+                                children: [
+                                    "Individuelle Pflege-Lösungen",
+                                    "Betreuung zuhause",
+                                    "Fachkundige Beratung"
+                                ].map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
+                                        className: "flex items-center gap-4",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                                                className: "flex justify-center items-center w-[50px] h-[50px]    bg-[#F1F1F1] rounded-full p-[10px]",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("svg", {
+                                                    xmlns: "http://www.w3.org/2000/svg",
+                                                    width: "31",
+                                                    height: "31",
+                                                    viewBox: "0 0 31 31",
+                                                    fill: "none",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("g", {
+                                                            "clip-path": "url(#clip0_1352_2183)",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                                                    d: "M10.157 22.7589C7.44348 22.8094 5.25 25.0289 5.25 27.7544V29.2544C5.25 30.0814 5.923 30.7544 6.75 30.7544H23.75C24.577 30.7544 25.25 30.0814 25.25 29.2544V27.7544C25.25 25.0284 23.056 22.8084 20.3415 22.7589C20.1705 22.6974 19.2125 22.2814 18.3945 20.5349C18.651 20.3429 18.886 20.1399 19.0985 19.9264C19.689 20.1399 20.4055 20.2544 21.25 20.2544C22.8525 20.2544 23.7415 19.6819 24.2025 19.2039C24.413 18.9889 24.517 18.6929 24.4875 18.3914C24.458 18.0829 24.2945 17.8044 24.033 17.6239C23.652 17.3689 22.7645 16.4379 22.745 13.3094V13.1604C22.749 11.5469 22.75 10.2274 22.75 9.85987L24.6145 5.6529C24.8735 5.13439 24.752 4.50739 24.3195 4.1274C22.8825 2.86839 19.793 0.754395 15.25 0.754395C10.707 0.754395 7.61748 2.86839 6.1795 4.12789C5.7475 4.50789 5.6265 5.13489 5.8755 5.63289L7.75002 9.86041C7.75002 10.2284 7.75098 11.5469 7.755 13.1594V13.3069C7.7355 16.4384 6.84798 17.3694 6.46098 17.6289C6.205 17.8054 6.0415 18.0834 6.0125 18.3919C5.983 18.6934 6.087 18.9894 6.29502 19.2019C6.75852 19.6824 7.64748 20.2544 9.25002 20.2544C10.0945 20.2544 10.8105 20.1399 11.401 19.9264C11.6135 20.1399 11.8485 20.3434 12.105 20.5349C11.2905 22.2719 10.3235 22.6969 10.157 22.7589ZM24.25 27.7544V29.2544C24.25 29.5304 24.026 29.7544 23.75 29.7544H6.75C6.474 29.7544 6.25002 29.5304 6.25002 29.2544V27.7544C6.25002 25.6444 7.893 23.9154 9.96648 23.7689C10.452 24.5789 12.0515 26.8609 15.113 27.7354C15.158 27.7479 15.204 27.7544 15.25 27.7544C15.296 27.7544 15.3425 27.7479 15.387 27.7354C18.4485 26.8609 20.048 24.5789 20.5335 23.7689C22.607 23.9154 24.25 25.6444 24.25 27.7544ZM19.539 23.4674C19 24.2799 17.62 26.0059 15.25 26.7329C12.8795 26.0059 11.4995 24.2794 10.961 23.4674C11.4885 23.1444 12.278 22.4594 12.953 21.0739C13.338 21.2784 13.759 21.4594 14.2285 21.6024C14.5625 21.7049 14.906 21.7564 15.25 21.7564C15.594 21.7564 15.937 21.7049 16.271 21.6024C16.741 21.4594 17.1615 21.2784 17.547 21.0739C18.222 22.4594 19.011 23.1444 19.539 23.4674ZM23.4765 18.4554L23.755 18.0399L23.4855 18.5079C23.157 18.8489 22.5015 19.2549 21.25 19.2549C20.6995 19.2549 20.214 19.1969 19.798 19.0949C20.849 17.6154 21.1425 15.9694 21.2205 15.1984C21.4415 15.1444 21.65 15.0489 21.841 14.9244C22.1005 17.0694 22.8395 18.0284 23.4765 18.4554ZM8.75148 11.5509C8.75052 10.8894 8.74998 10.3644 8.74998 10.0564C9.462 9.70741 11.7265 8.75437 15.25 8.75437C15.398 8.75437 15.538 8.75989 15.6815 8.76338C14.9305 9.81242 13.279 11.2319 9.82698 11.2544C9.43302 11.2569 9.066 11.3669 8.75148 11.5509ZM21.748 11.5554C21.4305 11.3669 21.061 11.2544 20.6695 11.2544C18.5675 11.2544 17.7515 9.96542 17.4355 8.88241C19.716 9.15439 21.199 9.78638 21.7495 10.0564C21.7495 10.3649 21.749 10.8914 21.748 11.5554ZM6.83952 4.87989C8.17098 3.71239 11.035 1.7544 15.25 1.7544C19.465 1.7544 22.329 3.71239 23.66 4.87989C23.752 4.9599 23.776 5.09439 23.7105 5.22739L22.0075 9.06841C21.046 8.62141 18.732 7.75442 15.25 7.75442C11.768 7.75442 9.45348 8.62141 8.49252 9.06841L6.77952 5.20689C6.72348 5.09389 6.7485 4.9599 6.83952 4.87989ZM7.01502 18.5074L7.02402 18.4554C7.6605 18.0289 8.4 17.0694 8.6595 14.9239C8.85048 15.0484 9.0585 15.1439 9.28002 15.1979C9.35802 15.9689 9.65148 17.6149 10.7025 19.0944C10.287 19.1964 9.80148 19.2544 9.2505 19.2544C7.99902 19.2544 7.344 18.8484 7.01502 18.5074ZM10.2505 14.7534C10.2495 14.4779 10.026 14.2544 9.75048 14.2544C9.47202 14.2544 9.21402 14.1424 9.02298 13.9394C8.838 13.7429 8.74548 13.4864 8.7555 13.2134V13.1809C8.78748 12.6729 9.26952 12.2574 9.834 12.2539C13.745 12.2284 15.649 10.5479 16.522 9.30937C16.935 10.5879 17.989 12.2539 20.6705 12.2539C21.233 12.2539 21.713 12.6694 21.7455 13.1839V13.2159C21.7555 13.4859 21.663 13.7419 21.478 13.9389C21.287 14.1419 21.029 14.2539 20.7505 14.2539C20.475 14.2539 20.2515 14.4774 20.2505 14.7529C20.2505 14.9404 20.185 19.3639 15.979 20.6459C15.503 20.7929 14.9995 20.7929 14.5215 20.6459C10.316 19.3639 10.251 14.9409 10.2505 14.7534Z",
+                                                                    fill: "#04436F"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                                    lineNumber: 119,
+                                                                    columnNumber: 15
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                                                    d: "M13.75 5.25488H14.75V6.25489C14.75 6.53139 14.9735 6.75491 15.25 6.75491C15.5265 6.75491 15.75 6.53139 15.75 6.25489V5.25488H16.75C17.0265 5.25488 17.25 5.03138 17.25 4.75489C17.25 4.47838 17.0265 4.25488 16.75 4.25488H15.75V3.25489C15.75 2.97838 15.5265 2.75488 15.25 2.75488C14.9735 2.75488 14.75 2.97838 14.75 3.25489V4.25488H13.75C13.4735 4.25488 13.25 4.47838 13.25 4.75489C13.25 5.03138 13.4735 5.25488 13.75 5.25488Z",
+                                                                    fill: "#04436F"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                                    lineNumber: 120,
+                                                                    columnNumber: 15
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                            lineNumber: 118,
+                                                            columnNumber: 13
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("defs", {
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("clipPath", {
+                                                                id: "clip0_1352_2183",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("rect", {
+                                                                    width: "30",
+                                                                    height: "30",
+                                                                    fill: "white",
+                                                                    transform: "translate(0.25 0.754395)"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                                    lineNumber: 124,
+                                                                    columnNumber: 17
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                                lineNumber: 123,
+                                                                columnNumber: 15
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                            lineNumber: 122,
+                                                            columnNumber: 13
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                    lineNumber: 117,
+                                                    columnNumber: 13
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                lineNumber: 115,
+                                                columnNumber: 11
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                                                className: "text-[#04436F] text-[30px] font-semibold leading-[36px] font-['Instrument Sans']",
+                                                children: item
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                lineNumber: 131,
+                                                columnNumber: 11
+                                            }, this)
+                                        ]
+                                    }, index, true, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 112,
+                                        columnNumber: 9
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 106,
+                                columnNumber: 5
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 87,
+                        columnNumber: 3
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 74,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden",
+                style: {
+                    backgroundImage: 'url(/images/phc-bg.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
+                        className: "text-[#04436F] text-[35px] leading-[45px] lg:text-[44px] font-semibold lg:leading-[52.8px]",
+                        children: [
+                            "Registrieren Sie sich jetzt und erhalten ",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 148,
+                                columnNumber: 44
+                            }, this),
+                            "Sie direkt ein individuelles Angebot"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 147,
+                        columnNumber: 3
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
+                        className: "bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] mt-[40px] py-3 px-5 rounded-[50px]",
+                        children: "Get started"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 151,
+                        columnNumber: 3
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 143,
+                columnNumber: 1
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "mt-[120px]  flex flex-col lg:flex-row items-start gap-10",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("img", {
+                        src: "/images/phc-containerrr.png",
+                        alt: "Care model",
+                        className: "lg:h-[500px] w-full lg:w-1/2 rounded-[20px]"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 160,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "lg:w-1/2 text-left px-6",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h3", {
+                                className: "text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']",
+                                children: "Flexible Betreuungs-Modelle"
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 162,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                                className: "text-[#04436F]  text-[16px] font-normal leading-[24px] font-['Metropolis'] mt-2",
+                                children: [
+                                    "Flexibilität und die Anpassungsfähigkeit an sich wandelnde Bedürfnisse sind wichtige Aspekte bei Wahl der richtigen der Seniorenbetreuung. Unser Modell bietet gegenüber reinen Verleihangeboten mehr Flexibilität, die häusliche Betreuung vertraglich umfassend und zugleich rechtskonform zu regeln.",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 169,
+                                        columnNumber: 3
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 169,
+                                        columnNumber: 9
+                                    }, this),
+                                    "Individuelle Arbeitsverträge können dank unserer Beratung und einer umfassenden juristischen Hilfestellung leichter auf sich im Zeitablauf ändernde Rahmenbedingungen angepasst werden. Zugleich bietet unser Treuhandmodell für unsere Kunden den Komfort, sich für alle Fragen und Wünsche nur an einen Ansprechpartner wenden zu müssen."
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 165,
+                                columnNumber: 1
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 161,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 159,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "mt-[120px] text-center",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
+                        className: "text-[#04436F] text-[40px] font-semibold leading-[48px] font-['Metropolis']",
+                        children: "Häufig gestellte Fragen bei der Betreuungs-Organisation"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 181,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
+                        className: "text-[#04436F] lg:px-[60px] text-[24px] font-normal leading-[32px] font-['Metropolis'] mt-3",
+                        children: [
+                            "Wir haben hier für Sie einige der am häufigsten gestellten Fragen zusammengestellt.",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 188,
+                                columnNumber: 5
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 188,
+                                columnNumber: 11
+                            }, this),
+                            "Ihre Frage wurde nicht beantwortet? Warum treten Sie nicht direkt mit uns in Kontakt? Unser",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 190,
+                                columnNumber: 10
+                            }, this),
+                            " Team freut sich, von Ihnen zu hören!"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 186,
+                        columnNumber: 3
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        className: "mt-6 lg:mt-[60px] space-y-[30px] lg:px-[80px] mb-[70px]",
+                        children: [
+                            "Wie wird sichergestellt, dass die Pflegekräfte zuverlässig und qualifiziert sind?",
+                            "Wie funktioniert die Abrechnung und Bezahlung Ihrer Dienstleistungen?",
+                            "Was passiert, wenn sich die Betreuungs-Bedürfnisse im Laufe der Zeit ändern?",
+                            "Wie läuft die Betreuungs-Organisation ab, wenn Betreuung und Pflege kurzfristig notwendig ist oder unerwartet mehr Unterstützung benötigt wird?",
+                            "Wie wird sichergestellt, dass die Pflegekräfte individuelle Bedürfnisse und Wünsche verstehen und umsetzen?"
+                        ].map((faq, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                                className: "bg-[#EDF2FB] p-5 rounded-[20px] flex justify-between items-center cursor-pointer",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h4", {
+                                        className: "text-[#04436F] lg:w-[850px] text-left text-[20px] font-semibold leading-[28px] font-['Metropolis']",
+                                        children: faq
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 205,
+                                        columnNumber: 7
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                                        className: "w-[24px] h-[26px] flex justify-center items-center",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("svg", {
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            width: "24",
+                                            height: "26",
+                                            viewBox: "0 0 24 26",
+                                            fill: "none",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("g", {
+                                                    "clip-path": "url(#clip0_1352_2251)",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                                            d: "M12 0.630859C5.37258 0.630859 0 6.00344 0 12.6309C0 19.2583 5.37258 24.6309 12 24.6309C18.6274 24.6309 24 19.2583 24 12.6309C24 6.00344 18.6274 0.630859 12 0.630859Z",
+                                                            fill: "#04436F"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                            lineNumber: 213,
+                                                            columnNumber: 13
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("path", {
+                                                            d: "M16.4443 10.409L11.9999 14.8535L7.5554 10.409",
+                                                            stroke: "white",
+                                                            strokeWidth: "1.33333",
+                                                            strokeLinecap: "round",
+                                                            strokeLinejoin: "round"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                            lineNumber: 214,
+                                                            columnNumber: 13
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                    lineNumber: 212,
+                                                    columnNumber: 11
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("defs", {
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("clipPath", {
+                                                        id: "clip0_1352_2251",
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("rect", {
+                                                            width: "24",
+                                                            height: "25",
+                                                            fill: "white",
+                                                            transform: "matrix(-1 0 0 -1 24 25.1309)"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                            lineNumber: 218,
+                                                            columnNumber: 15
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                        lineNumber: 217,
+                                                        columnNumber: 13
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                                    lineNumber: 216,
+                                                    columnNumber: 11
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                            lineNumber: 211,
+                                            columnNumber: 9
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                        lineNumber: 210,
+                                        columnNumber: 7
+                                    }, this)
+                                ]
+                            }, index, true, {
+                                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                                lineNumber: 200,
+                                columnNumber: 5
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                        lineNumber: 192,
+                        columnNumber: 3
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+                lineNumber: 180,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/pages/hausliche-pflege-planen.js",
+        lineNumber: 3,
+        columnNumber: 7
+    }, this);
+}
+}}),
+
+};
+
+//# sourceMappingURL=%5Broot%20of%20the%20server%5D__b2e98f._.js.map

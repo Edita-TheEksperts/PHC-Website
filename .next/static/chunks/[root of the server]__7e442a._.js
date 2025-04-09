@@ -637,13 +637,13 @@ const Header = ()=>{
         }
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-        className: "flex justify-between items-center lg:px-[70px] p-4 bg-white z-50",
+        className: "flex justify-between items-center mx-auto max-w-[1430px] p-4 bg-[#FAFCFF] z-50",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center gap-8 hidden lg:flex",
                 children: navLinks.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
                         href: link.path,
-                        className: `text-[18px] font-medium leading-[25.6px] font-[Inter] ${router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'} hover:text-[#A99558]`,
+                        className: `text-[18px] font-medium leading-[25.6px] font-[Metropolis] ${router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'} hover:text-[#A99558]`,
                         children: link.name
                     }, link.name, false, {
                         fileName: "[project]/src/components/Header.js",
@@ -694,7 +694,7 @@ const Header = ()=>{
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
                         href: "/register",
-                        className: "px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-medium leading-normal tracking-[-0.225px]",
+                        className: " px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-[Metropolis] font-medium leading-normal tracking-[-0.225px]",
                         children: "Register"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Header.js",
@@ -703,7 +703,7 @@ const Header = ()=>{
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
                         href: "/login",
-                        className: "px-[34px] py-[12px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]",
+                        className: "px-[34px] py-[12px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] font-[Metropolis] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]",
                         children: "Log in"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Header.js",
@@ -762,7 +762,7 @@ const Header = ()=>{
                 children: [
                     navLinks.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
                             href: link.path,
-                            className: `mt-[-70px] text-[18px] font-medium leading-[25.6px] font-[Inter] ${router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'} hover:text-[#A99558]`,
+                            className: `mt-[-70px] text-[18px] font-medium leading-[25.6px] font-[Metropolis] ${router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'} hover:text-[#A99558]`,
                             onClick: ()=>setIsMobileMenuOpen(false),
                             children: link.name
                         }, link.name, false, {
@@ -835,9 +835,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx
 ;
 const Footer = ()=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
-        className: "bg-[#FFFFFF]",
+        className: "bg-[#FAFCFF]",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "lg:p-[70px] p-4 mx-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3",
+            className: "max-w-[1430px] p-4 mx-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "bg-[#ECF2FF] lg:p-[45px] p-4 rounded-[20px] lg:mr-[50px] mr-0 mb-[50px] lg:mb-0 ",
@@ -1301,7 +1301,7 @@ const Footer = ()=>{
                     columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-[#F1F1F1] p-4 lg:p-[45px] lg:rounded-tr-[20px] lg:rounded-br-[20px]",
+                    className: "bg-[#F1F1F1] p-4 lg:p-[45px]  lg:rounded-tr-[20px] lg:rounded-br-[20px]",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                             className: "text-[#04436F] text-[22px] font-semibold mb-[40px]",
@@ -1412,7 +1412,7 @@ function MyApp({ Component, pageProps }) {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"])();
     // Define the pages where Header and Footer should be excluded
     const excludedPages = [
-        '/',
+        '/old-index',
         '/Registrierung-Jobs',
         '/Registrierung',
         '/Registrierung-Form1',

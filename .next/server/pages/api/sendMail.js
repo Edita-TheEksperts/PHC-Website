@@ -1,0 +1,17 @@
+"use strict";(()=>{var e={};e.id=536,e.ids=[536],e.modules={5600:e=>{e.exports=require("next/dist/compiled/next-server/pages-api.runtime.prod.js")},1572:e=>{e.exports=require("nodemailer")},9021:e=>{e.exports=require("fs")},7313:e=>{e.exports=import("formidable")},6762:(e,t)=>{Object.defineProperty(t,"M",{enumerable:!0,get:function(){return function e(t,r){return r in t?t[r]:"then"in t&&"function"==typeof t.then?t.then(t=>e(t,r)):"function"==typeof t&&"default"===r?t:void 0}}})},161:(e,t,r)=>{r.a(e,async(e,a)=>{try{r.r(t),r.d(t,{config:()=>p,default:()=>l,routeModule:()=>c});var s=r(9947),o=r(2706),n=r(6762),i=r(5196),d=e([i]);i=(d.then?(await d)():d)[0];let l=(0,n.M)(i,"default"),p=(0,n.M)(i,"config"),c=new s.PagesAPIRouteModule({definition:{kind:o.A.PAGES_API,page:"/api/sendMail",pathname:"/api/sendMail",bundlePath:"",filename:""},userland:i});a()}catch(e){a(e)}})},5196:(e,t,r)=>{r.a(e,async(e,a)=>{try{r.r(t),r.d(t,{config:()=>l,default:()=>d});var s=r(1572),o=r.n(s),n=r(7313);r(9021);var i=e([n]);n=(i.then?(await i)():i)[0];let l={api:{bodyParser:!1}};async function d(e,t){"POST"===e.method?(0,n.default)({multiples:!0}).parse(e,async(e,r,a)=>{if(e)return console.error("Error parsing form:",e),t.status(500).json({message:"Error parsing form"});console.log("Fields:",r),console.log("Files:",a);let{email:s,questions:n}=r;if(!s||!n)return t.status(400).json({error:"Missing required fields"});let i=o().createTransport({host:"asmtp.mail.hostpoint.ch",port:465,secure:!0,auth:{user:"landingpage@phc.ch",pass:"45uYjTaR_N!x4AE"}});try{await i.verify();let e=`
+          <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+            <h2 style="color: #2c3e50; text-align: center;">Neues Formular aus dem Jobs-Kontaktformular</h2>
+            <p style="color: #34495e; text-align: center;">Nachfolgend finden Sie die Details:</p>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>Email:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${s}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>Kommentar:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${n}</td>
+              </tr>
+            </table>
+            <p style="margin-top: 20px; color: #34495e; text-align: center;">Vielen Dank!</p>
+          </div>
+        `,r=await i.sendMail({from:'"Jobs Landing Page" <landingpage@phc.ch>',to:"landingpage@phc.ch",cc:["edita.latifi@the-eksperts.com","jobs@phc.ch"],subject:`Formular: Jobs Landing Page ${s}`,html:e});console.log("Message sent: %s",r.messageId),console.log("Message sent details: ",r),t.status(200).json({message:"Email sent successfully!"})}catch(e){console.error("Error sending email:",e.message),t.status(500).json({error:`Failed to send email: ${e.message}`})}}):(t.setHeader("Allow",["POST"]),t.status(405).json({error:"Method not allowed"}))}a()}catch(e){a(e)}})},2706:(e,t)=>{Object.defineProperty(t,"A",{enumerable:!0,get:function(){return r}});var r=function(e){return e.PAGES="PAGES",e.PAGES_API="PAGES_API",e.APP_PAGE="APP_PAGE",e.APP_ROUTE="APP_ROUTE",e.IMAGE="IMAGE",e}({})},9947:(e,t,r)=>{e.exports=r(5600)}};var t=require("../../webpack-api-runtime.js");t.C(e);var r=t(t.s=161);module.exports=r})();

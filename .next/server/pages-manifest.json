@@ -2,7 +2,13 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/about": "pages/about.js",
   "/_error": "pages/_error.js",
-  "/Registrierung-Jobs-Form1": "pages/Registrierung-Jobs-Form1.js"
+  "/about": "pages/about.js",
+  "/FAQ": "pages/FAQ.js",
+  "/services": "pages/services.js",
+  "/contact": "pages/contact.js",
+  "/hausliche-pflege-planen": "pages/hausliche-pflege-planen.js",
+  "/BlogPage": "pages/BlogPage.js",
+  "/betreuung-zuhause-organisieren": "pages/betreuung-zuhause-organisieren.js",
+  "/E-Learning": "pages/E-Learning.js"
 }

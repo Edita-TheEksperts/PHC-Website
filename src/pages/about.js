@@ -9,37 +9,44 @@ export default function About() {
   return (
     <div className="bg-[#FAFCFF] px-4 py-4 max-w-[1430px] mx-auto lg:py-0">
         <section className="bg-[#B99B5F] p-4 rounded-[20px]">
-        <h1 className="mt-[200px] text-[#FAFCFF] text-center text-[65px] font-semibold leading-[84.5px]">
-        About Prime Home Care</h1>
+        <h1 className="mt-[200px] text-[#FAFCFF] text-center lg:text-[65px] text-[45px] leading-[55px] font-semibold lg:leading-[84.5px]">
+        Über die Prime Home Care AG</h1>
         <p className="text-[#FAFCFF] mb-[200px] text-center text-[16px] font-normal leading-[25.6px]">
-        Brief introduction or mission statement that encapsulates the essence of Prime Home Care.
-        </p>
+        Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause.        </p>
         </section>
 
       {/* Content with Image */}
-      <section className="flex flex-col p-4 lg:flex-row items-center justify-between mt-[120px] gap-[50px]">
+      <section className="flex flex-col p-4 lg:flex-row items-center justify-between mt-[120px] gap-[40px]">
         <div className="flex-1">
-          <h2 className="text-[#04436F] text-[50px] font-semibold leading-[65px] ">
-            Dedicated to providing compassionate elder <br></br>home care
+          <h2 className="text-[#04436F] text-[40px] font-semibold leading-[48px] ">
+          Verpflichtet zu fürsorglicher Seniorenbetreuung in den<br></br> eigenen vier Wänden.
           </h2>
-          <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-4">
-            Founded in ---- by healthcare professionals passionate about home care, Prime Home Care has grown to become a trusted name in home healthcare.
-          </p>
-          <div className="flex flex-col justify-center mt-[50px]">
+          <p className="text-[#04436F] lg:pr-[80px] text-[16px] font-normal leading-[25.6px] mt-4">
+          Seit unserer Gründung verfolgen wir das Ziel, Menschen in ihrem vertrauten Umfeld die bestmögliche Betreuung und Unterstützung zu bieten. Mit einem engagierten Team aus erfahrenen Mitarbeitern und einem breiten Spektrum an Dienstleistungen setzen wir uns täglich dafür ein, die Lebensqualität unserer Kundinnen und Kunden zu verbessern.          </p>
+          <div className="flex flex-col justify-center mt-[16px]">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="41" viewBox="0 0 40 41" fill="none" className="w-[50px] h-[50px] bg-[#B99B5F] rounded-[100px]">
             <path d="M20 8.52327V5.18994M20 8.52327C26.4433 8.52327 31.6667 13.7466 31.6667 20.1899M20 8.52327C13.5567 8.52327 8.33333 13.7466 8.33333 20.1899M31.6667 20.1899C31.6667 26.6332 26.4433 31.8566 20 31.8566M31.6667 20.1899H35M8.33333 20.1899H5M8.33333 20.1899C8.33333 26.6332 13.5567 31.8566 20 31.8566M20 31.8566V35.1899M20 24.3566C17.6988 24.3566 15.8333 22.4911 15.8333 20.1899C15.8333 17.8887 17.6988 16.0232 20 16.0232C22.3012 16.0232 24.1667 17.8887 24.1667 20.1899C24.1667 22.4911 22.3012 24.3566 20 24.3566Z" stroke="#04436F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           <p className="text-[#04436F] text-[28px] font-[500] leading-[33.6px]  mt-3">
-          Our Mission
+          Unsere Philosophie
         </p>
-          <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2">
-          At Prime Home Care, our mission is to provide high-quality, compassionate care to individuals in the comfort of their own homes.
+          <p className="text-[#04436F] lg:pr-[70px] text-[16px] font-normal leading-[25.6px] mt-2">
+          Unsere Philosophie basiert auf Empathie, Respekt und Kompetenz. Wir wissen, dass jede Person einzigartige Bedürfnisse hat. Daher legen wir grossen Wert auf eine persönliche und flexible Betreuung, die genau auf die individuellen Anforderungen abgestimmt ist. Von der Betreuung über Gesellschaft Leisten bis hin zu hauswirtschaftlichen Dienstleistungen – wir stehen Ihnen zuverlässig zur Seite.        </p>
+        </div>
+        <div className="flex flex-col justify-center mt-[16px]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="41" viewBox="0 0 40 41" fill="none" className="w-[50px] h-[50px] bg-[#B99B5F] rounded-[100px]">
+            <path d="M20 8.52327V5.18994M20 8.52327C26.4433 8.52327 31.6667 13.7466 31.6667 20.1899M20 8.52327C13.5567 8.52327 8.33333 13.7466 8.33333 20.1899M31.6667 20.1899C31.6667 26.6332 26.4433 31.8566 20 31.8566M31.6667 20.1899H35M8.33333 20.1899H5M8.33333 20.1899C8.33333 26.6332 13.5567 31.8566 20 31.8566M20 31.8566V35.1899M20 24.3566C17.6988 24.3566 15.8333 22.4911 15.8333 20.1899C15.8333 17.8887 17.6988 16.0232 20 16.0232C22.3012 16.0232 24.1667 17.8887 24.1667 20.1899C24.1667 22.4911 22.3012 24.3566 20 24.3566Z" stroke="#04436F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <p className="text-[#04436F] text-[28px] font-[500] leading-[33.6px]  mt-3">
+          Unsere Vision
         </p>
+          <p className="text-[#04436F] lg:pr-[70px] text-[16px] font-normal leading-[25.6px] mt-2">
+          Als digitales Unternehmen verbinden wir professionelle Betreuung mit modernster Technologie. Über unsere benutzerfreundliche digitale Plattform ermöglichen wir es Ihnen, flexibel und unkompliziert die passende Betreuung zu finden und zu buchen. Unser Ziel ist es, Menschen in ihrem vertrauten Umfeld die bestmögliche Unterstützung zu bieten – individuell abgestimmt und genau dann, wenn sie gebraucht wird.           </p>
         </div>
         
         </div>
         <div className="mt-10 lg:mt-0 lg:max-w-[625px] flex-1">
-          <img src="/images/phc-about-image.png" alt="Elderly care" className="w-full h-auto rounded-lg" />
+          <img src="/images/phc-about-image1.png" alt="Elderly care" className="w-full h-auto rounded-[20px]" />
         </div>
       </section>
 
@@ -76,36 +83,13 @@ export default function About() {
       </div>
 
       {/* Text Content */}
-      <div className=" text-left">
-        <h2 className="text-[#04436F] text-[55px] font-semibold leading-[71.5px]">
-          Our value
+      <div className=" flex-1 text-left p-4 lg:p-0">
+        <h2 className="text-[#04436F] text-[50px] lg:text-[55px] font-semibold leading-[71.5px]">
+        Unsere Werte
         </h2>
         <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2">
-          Our values guide everything we do. We believe in Compassion,<br></br> Integrity, Excellence, Respect, and Innovation.
+        Qualität und Vertrauen sind die Grundlagen unseres Handelns. Durch kontinuierliche Weiterbildung und hohe Standards in der Betreuungstellen wir sicher, dass unsere Kundinnen und Kunden jederzeit in besten Händen sind. Unsere digitale Plattform sorgt zudem für maximale Transparenz und Effizienz – von der Buchung bis zur Abrechnung.        
         </p>
-
-        {/* Checklist Items */}
-        <div className="mt-6 space-y-4">
-          {[
-            "We care deeply about our clients and their families.",
-            "We act with honesty and transparency.",
-            "We treat everyone with dignity and respect.",
-            "We strive for the highest standards in all we do."
-          ].map((item, index) => (
-            <div key={index} className="flex items-start gap-3">
-              {/* SVG Checkmark Icon */}
-              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
-                <path d="M15.8398 29.8643C23.0195 29.8643 28.8398 24.044 28.8398 16.8643C28.8398 9.68456 23.0195 3.86426 15.8398 3.86426C8.66014 3.86426 2.83984 9.68456 2.83984 16.8643C2.83984 24.044 8.66014 29.8643 15.8398 29.8643Z" fill="#ECF2FF"/>
-                <path d="M11.1733 16.8636L13.1228 19.1846C13.4738 19.6024 13.6493 19.8114 13.8755 19.8584C13.9482 19.8736 14.023 19.8764 14.0966 19.8669C14.3257 19.8373 14.5167 19.6424 14.8987 19.2526L20.5066 13.5303" stroke="#04436F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-
-              {/* Checklist Text */}
-              <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px]">
-                {item}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
 
@@ -130,30 +114,13 @@ export default function About() {
       </div>
     </section>
 
-    <section className="bg-[#FAFCFF] mt-[120px] mb-[40px] px-4 lg:px-[70px] text-center">
+    <section className="bg-[#FAFCFF] mt-[120px] mb-[40px] px-4 lg:px-[20px] text-center">
       {/* Title */}
-      <h2 className="text-[#04436F] text-left text-[55px] font-semibold leading-[71.5px]  mb-[60px]">
-        Meet our dedicated team
+      <h2 className="text-[#04436F] text-left text-[40px] leading-[47px] lg:text-[55px] font-semibold lg:leading-[71.5px]  mb-[60px]">
+      Ihre Zufriedenheit ist unser Antrieb      
       </h2>
-
-      {/* Team Members Grid */}
-      <div className="flex flex-wrap justify-center gap-[40px]">
-        {teamMembers.map((member, index) => (
-          <div key={index} className="flex flex-col items-center max-w-[267.5px]">
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-full h-auto rounded-lg"
-            />
-            <h3 className="text-[#04436F] text-[22px] font-medium leading-[26.4px] mt-4">
-              {member.name}
-            </h3>
-            <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] ">
-              {member.position}
-            </p>
-          </div>
-        ))}
-      </div>
+      <h2 className="text-[#04436F] text-left text-[32px] font-[400] leading-[40.5px]  mb-[120px]">
+      Wir bei der Prime Home Care AG sind stolz darauf, Ihnen ein Stück Lebensqualität und Selbstständigkeit zurückzugeben – in Ihrem Zuhause, wo Sie sich am wohlsten fühlen.      </h2>
     </section>
       </div>
   );

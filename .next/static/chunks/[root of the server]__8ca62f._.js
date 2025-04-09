@@ -977,7 +977,7 @@ function FormPage01() {
     };
     const [isFormValid, setIsFormValid] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const validateForm = ()=>{
-        return formData.region && formData.name && emailRegex.test(formData.email) && formData.cv;
+        return formData.region && formData.name && formData.vorname && emailRegex.test(formData.email) && formData.cv;
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FormPage01.useEffect": ()=>{
@@ -999,7 +999,7 @@ function FormPage01() {
         }
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "bg-[#F1F1F1] text-[#B99B5F] min-h-screen p-4",
+        className: "bg-[#FAFCFF] text-[#B99B5F] min-h-screen p-4",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: "lg:block hidden lg:flex justify-center items-center pt-[25px] md:pt-[25px]",
@@ -1019,17 +1019,17 @@ function FormPage01() {
                                 children: "← Zurück"
                             }, void 0, false, {
                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                lineNumber: 72,
+                                lineNumber: 73,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                            lineNumber: 71,
+                            lineNumber: 72,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 70,
+                        lineNumber: 71,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1049,7 +1049,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 88,
+                                            lineNumber: 89,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1057,7 +1057,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 89,
+                                            lineNumber: 90,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1065,7 +1065,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 90,
+                                            lineNumber: 91,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1073,7 +1073,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 91,
+                                            lineNumber: 92,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1081,7 +1081,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 92,
+                                            lineNumber: 93,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1089,7 +1089,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 93,
+                                            lineNumber: 94,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1097,7 +1097,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 94,
+                                            lineNumber: 95,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1105,7 +1105,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 95,
+                                            lineNumber: 96,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1113,7 +1113,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 96,
+                                            lineNumber: 97,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1121,7 +1121,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 97,
+                                            lineNumber: 98,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1129,7 +1129,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 98,
+                                            lineNumber: 99,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1137,7 +1137,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 99,
+                                            lineNumber: 100,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1145,7 +1145,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 100,
+                                            lineNumber: 101,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1153,7 +1153,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 101,
+                                            lineNumber: 102,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1161,7 +1161,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 102,
+                                            lineNumber: 103,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1169,7 +1169,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 103,
+                                            lineNumber: 104,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1177,13 +1177,13 @@ function FormPage01() {
                                             fill: "#B99B5F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 104,
+                                            lineNumber: 105,
                                             columnNumber: 5
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 87,
+                                    lineNumber: 88,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
@@ -1195,34 +1195,34 @@ function FormPage01() {
                                             fill: "white"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 108,
+                                            lineNumber: 109,
                                             columnNumber: 7
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                        lineNumber: 107,
+                                        lineNumber: 108,
                                         columnNumber: 5
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 106,
+                                    lineNumber: 107,
                                     columnNumber: 3
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                            lineNumber: 86,
+                            lineNumber: 87,
                             columnNumber: 9
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 85,
+                        lineNumber: 86,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 69,
+                lineNumber: 70,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1247,7 +1247,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 120,
+                                                lineNumber: 121,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1255,7 +1255,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 121,
+                                                lineNumber: 122,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1263,7 +1263,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 122,
+                                                lineNumber: 123,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1271,7 +1271,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 123,
+                                                lineNumber: 124,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1279,7 +1279,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 124,
+                                                lineNumber: 125,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1287,7 +1287,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 125,
+                                                lineNumber: 126,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1295,7 +1295,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 126,
+                                                lineNumber: 127,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1303,7 +1303,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 127,
+                                                lineNumber: 128,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1311,7 +1311,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 128,
+                                                lineNumber: 129,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1319,7 +1319,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 129,
+                                                lineNumber: 130,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1327,7 +1327,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 130,
+                                                lineNumber: 131,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1335,7 +1335,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 131,
+                                                lineNumber: 132,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1343,7 +1343,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 132,
+                                                lineNumber: 133,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1351,7 +1351,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 133,
+                                                lineNumber: 134,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1359,7 +1359,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 134,
+                                                lineNumber: 135,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1367,7 +1367,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 135,
+                                                lineNumber: 136,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1375,13 +1375,13 @@ function FormPage01() {
                                                 fill: "#B99B5F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 136,
+                                                lineNumber: 137,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                        lineNumber: 119,
+                                        lineNumber: 120,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
@@ -1393,28 +1393,28 @@ function FormPage01() {
                                                 fill: "white"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                                lineNumber: 140,
+                                                lineNumber: 141,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                            lineNumber: 139,
+                                            lineNumber: 140,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                        lineNumber: 138,
+                                        lineNumber: 139,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                lineNumber: 118,
+                                lineNumber: 119,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                            lineNumber: 117,
+                            lineNumber: 118,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1437,28 +1437,28 @@ function FormPage01() {
                                     children: "← Zurück"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 148,
+                                    lineNumber: 149,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                lineNumber: 147,
+                                lineNumber: 148,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                            lineNumber: 146,
+                            lineNumber: 147,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                    lineNumber: 116,
+                    lineNumber: 117,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 115,
+                lineNumber: 116,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1469,7 +1469,7 @@ function FormPage01() {
                         children: "Wählen Sie die gewünschte Region"
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 172,
+                        lineNumber: 173,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1477,7 +1477,7 @@ function FormPage01() {
                         children: "und geben Sie Ihre E-Mail Adresse an"
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 177,
+                        lineNumber: 178,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1486,26 +1486,26 @@ function FormPage01() {
                             "Wählen Sie die gewünschte ",
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                lineNumber: 187,
+                                lineNumber: 188,
                                 columnNumber: 27
                             }, this),
                             "Region und geben Sie",
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                lineNumber: 187,
+                                lineNumber: 188,
                                 columnNumber: 56
                             }, this),
                             "Ihre E-Mail Adresse an"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 183,
+                        lineNumber: 184,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 171,
+                lineNumber: 172,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1532,200 +1532,200 @@ function FormPage01() {
                                     children: "Region"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 205,
+                                    lineNumber: 206,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Aargau"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 208,
+                                    lineNumber: 209,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Appenzell Ausserrhoden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 209,
+                                    lineNumber: 210,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Appenzell Innerrhoden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 210,
+                                    lineNumber: 211,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Basel-Landschaft"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 211,
+                                    lineNumber: 212,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Basel-Stadt"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 212,
+                                    lineNumber: 213,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Bern"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 213,
+                                    lineNumber: 214,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Freiburg"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 214,
+                                    lineNumber: 215,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Genf"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 215,
+                                    lineNumber: 216,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Glarus"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 216,
+                                    lineNumber: 217,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Graubünden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 217,
+                                    lineNumber: 218,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Jura"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 218,
+                                    lineNumber: 219,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Luzern"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 219,
+                                    lineNumber: 220,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Neuenburg"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 220,
+                                    lineNumber: 221,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Nidwalden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 221,
+                                    lineNumber: 222,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Obwalden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 222,
+                                    lineNumber: 223,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Schaffhausen"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 223,
+                                    lineNumber: 224,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Schwyz"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 224,
+                                    lineNumber: 225,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Solothurn"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 225,
+                                    lineNumber: 226,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton St. Gallen"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 226,
+                                    lineNumber: 227,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Tessin"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 227,
+                                    lineNumber: 228,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Thurgau"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 228,
+                                    lineNumber: 229,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Uri"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 229,
+                                    lineNumber: 230,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Waadt"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 230,
+                                    lineNumber: 231,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Wallis"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 231,
+                                    lineNumber: 232,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Zug"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 232,
+                                    lineNumber: 233,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Zürich"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                    lineNumber: 233,
+                                    lineNumber: 234,
                                     columnNumber: 3
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                            lineNumber: 199,
+                            lineNumber: 200,
                             columnNumber: 5
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 192,
+                        lineNumber: 193,
                         columnNumber: 3
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1743,8 +1743,26 @@ function FormPage01() {
                             })
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 238,
+                        lineNumber: 239,
                         columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                        type: "text",
+                        placeholder: "Vorname",
+                        required: true,
+                        className: "w-[271px] h-[75px] px-[13px] py-[17px] text-[18px] border border-[#B7B6BA] rounded-lg bg-white text-[#1C1B1D]  placeholder-[#1C1B1D]",
+                        style: {
+                            fontFamily: "Metropolis"
+                        },
+                        value: formData.vorname,
+                        onChange: (e)=>setFormData({
+                                ...formData,
+                                vorname: e.target.value
+                            })
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/Registrierung-Form1.js",
+                        lineNumber: 250,
+                        columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         type: "email",
@@ -1761,13 +1779,13 @@ function FormPage01() {
                             })
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 249,
+                        lineNumber: 261,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 190,
+                lineNumber: 191,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1778,7 +1796,7 @@ function FormPage01() {
                 children: "Ich interessiere mich für folgende Themen"
             }, void 0, false, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 261,
+                lineNumber: 273,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1790,14 +1808,14 @@ function FormPage01() {
                     "Ich interessiere mich",
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 276,
+                        lineNumber: 288,
                         columnNumber: 30
                     }, this),
                     " für folgende Themen"
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 270,
+                lineNumber: 282,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1819,25 +1837,25 @@ function FormPage01() {
                                         onChange: ()=>handleCheckboxChange(topic)
                                     }, void 0, false, {
                                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                        lineNumber: 291,
+                                        lineNumber: 303,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: topic
                                     }, void 0, false, {
                                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                        lineNumber: 297,
+                                        lineNumber: 309,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, index, true, {
                                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                                lineNumber: 287,
+                                lineNumber: 299,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 280,
+                        lineNumber: 292,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1849,36 +1867,36 @@ function FormPage01() {
                             children: "Senden"
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                            lineNumber: 304,
+                            lineNumber: 316,
                             columnNumber: 9
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             className: "text-[ #B99B5F] font-metropolis font-[500] lg:font-[500] text-[24px] lg:text-[45px] leading-[26.2px] mt-[50px] lg:leading-[50.2px] text-center",
                             children: "Vielen Dank - Wir melden uns so schnell wie möglich!"
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Form1.js",
-                            lineNumber: 312,
+                            lineNumber: 324,
                             columnNumber: 9
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Form1.js",
-                        lineNumber: 301,
+                        lineNumber: 313,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 279,
+                lineNumber: 291,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$pages$2f$Servicesgrid$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/src/pages/Registrierung-Form1.js",
-                lineNumber: 319,
+                lineNumber: 331,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/pages/Registrierung-Form1.js",
-        lineNumber: 67,
+        lineNumber: 68,
         columnNumber: 5
     }, this);
 }

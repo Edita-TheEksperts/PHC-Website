@@ -617,7 +617,7 @@ function FormPage01() {
     const { formData, setFormData } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useContext"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$FormContext$2e$js__$5b$client$5d$__$28$ecmascript$29$__["FormContext"]);
     const [isFormValid, setIsFormValid] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const validateForm = ()=>{
-        return formData.region && formData.name && emailRegex.test(formData.email) && formData.cv;
+        return formData.region && formData.name && formData.vorname && emailRegex.test(formData.email) && formData.cv;
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FormPage01.useEffect": ()=>{
@@ -644,6 +644,7 @@ function FormPage01() {
             const formDataToSend = new FormData();
             formDataToSend.append("region", formData.region);
             formDataToSend.append("name", formData.name);
+            formDataToSend.append("vorname", formData.vorname);
             formDataToSend.append("email", formData.email);
             formDataToSend.append("questions", formData.questions);
             if (formData.cv) {
@@ -683,17 +684,17 @@ function FormPage01() {
                                 children: "← Zurück"
                             }, void 0, false, {
                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                lineNumber: 63,
+                                lineNumber: 65,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                            lineNumber: 62,
+                            lineNumber: 64,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 61,
+                        lineNumber: 63,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -713,7 +714,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 79,
+                                            lineNumber: 81,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -721,7 +722,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 80,
+                                            lineNumber: 82,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -729,7 +730,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 81,
+                                            lineNumber: 83,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -737,7 +738,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 82,
+                                            lineNumber: 84,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -745,7 +746,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 83,
+                                            lineNumber: 85,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -753,7 +754,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 84,
+                                            lineNumber: 86,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -761,7 +762,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 85,
+                                            lineNumber: 87,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -769,7 +770,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 86,
+                                            lineNumber: 88,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -777,7 +778,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 87,
+                                            lineNumber: 89,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -785,7 +786,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 88,
+                                            lineNumber: 90,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -793,7 +794,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 89,
+                                            lineNumber: 91,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -801,7 +802,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 90,
+                                            lineNumber: 92,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -809,7 +810,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 91,
+                                            lineNumber: 93,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -817,7 +818,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 92,
+                                            lineNumber: 94,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -825,7 +826,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 93,
+                                            lineNumber: 95,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -833,7 +834,7 @@ function FormPage01() {
                                             fill: "#04436F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 94,
+                                            lineNumber: 96,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -841,13 +842,13 @@ function FormPage01() {
                                             fill: "#B99B5F"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 95,
+                                            lineNumber: 97,
                                             columnNumber: 5
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 78,
+                                    lineNumber: 80,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
@@ -859,34 +860,34 @@ function FormPage01() {
                                             fill: "white"
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 99,
+                                            lineNumber: 101,
                                             columnNumber: 7
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                        lineNumber: 98,
+                                        lineNumber: 100,
                                         columnNumber: 5
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 97,
+                                    lineNumber: 99,
                                     columnNumber: 3
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                            lineNumber: 77,
+                            lineNumber: 79,
                             columnNumber: 9
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 76,
+                        lineNumber: 78,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                lineNumber: 60,
+                lineNumber: 62,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -911,7 +912,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 111,
+                                                lineNumber: 113,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -919,7 +920,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 112,
+                                                lineNumber: 114,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -927,7 +928,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 113,
+                                                lineNumber: 115,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -935,7 +936,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 114,
+                                                lineNumber: 116,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -943,7 +944,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 115,
+                                                lineNumber: 117,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -951,7 +952,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 116,
+                                                lineNumber: 118,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -959,7 +960,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 117,
+                                                lineNumber: 119,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -967,7 +968,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 118,
+                                                lineNumber: 120,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -975,7 +976,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 119,
+                                                lineNumber: 121,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -983,7 +984,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 120,
+                                                lineNumber: 122,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -991,7 +992,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 121,
+                                                lineNumber: 123,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -999,7 +1000,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 122,
+                                                lineNumber: 124,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1007,7 +1008,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 123,
+                                                lineNumber: 125,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1015,7 +1016,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 124,
+                                                lineNumber: 126,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1023,7 +1024,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 125,
+                                                lineNumber: 127,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1031,7 +1032,7 @@ function FormPage01() {
                                                 fill: "#04436F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 126,
+                                                lineNumber: 128,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1039,13 +1040,13 @@ function FormPage01() {
                                                 fill: "#B99B5F"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 127,
+                                                lineNumber: 129,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                        lineNumber: 110,
+                                        lineNumber: 112,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
@@ -1057,28 +1058,28 @@ function FormPage01() {
                                                 fill: "white"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                                lineNumber: 131,
+                                                lineNumber: 133,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                            lineNumber: 130,
+                                            lineNumber: 132,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                        lineNumber: 129,
+                                        lineNumber: 131,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                lineNumber: 109,
+                                lineNumber: 111,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                            lineNumber: 108,
+                            lineNumber: 110,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1096,28 +1097,28 @@ function FormPage01() {
                                     children: "← Zurück"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 139,
+                                    lineNumber: 141,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                lineNumber: 138,
+                                lineNumber: 140,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                            lineNumber: 137,
+                            lineNumber: 139,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                    lineNumber: 107,
+                    lineNumber: 109,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                lineNumber: 106,
+                lineNumber: 108,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -1129,20 +1130,20 @@ function FormPage01() {
                     "Wähle deine gewünschte Region in der du",
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 164,
+                        lineNumber: 166,
                         columnNumber: 40
                     }, this),
                     " arbeiten möchtest und gib deinen Namen",
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 164,
+                        lineNumber: 166,
                         columnNumber: 88
                     }, this),
                     " und E-Mail Adresse an"
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                lineNumber: 158,
+                lineNumber: 160,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -1154,26 +1155,26 @@ function FormPage01() {
                     "Wähle deine gewünschte",
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 173,
+                        lineNumber: 175,
                         columnNumber: 23
                     }, this),
                     " Region in der du arbeiten",
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 173,
+                        lineNumber: 175,
                         columnNumber: 58
                     }, this),
                     " möchtest und gib deinen",
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 173,
+                        lineNumber: 175,
                         columnNumber: 91
                     }, this),
                     " Namen und E-Mail Adresse an"
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                lineNumber: 167,
+                lineNumber: 169,
                 columnNumber: 1
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1183,7 +1184,7 @@ function FormPage01() {
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex justify-between items-center w-[271px] h-[75px] px-[13px] py-[17px] border rounded-lg bg-white",
+                        className: "flex justify-between items-center w-[271px] lg:w-[200px] h-[75px] px-[13px] py-[17px] border rounded-lg bg-white",
                         style: {
                             border: "1px solid #B7B6BA",
                             borderRadius: "8px"
@@ -1203,207 +1204,207 @@ function FormPage01() {
                                     children: "Region"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 197,
+                                    lineNumber: 199,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Aargau"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 200,
+                                    lineNumber: 202,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Appenzell Ausserrhoden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 201,
+                                    lineNumber: 203,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Appenzell Innerrhoden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 202,
+                                    lineNumber: 204,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Basel-Landschaft"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 203,
+                                    lineNumber: 205,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Basel-Stadt"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 204,
+                                    lineNumber: 206,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Bern"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 205,
+                                    lineNumber: 207,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Freiburg"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 206,
+                                    lineNumber: 208,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Genf"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 207,
+                                    lineNumber: 209,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Glarus"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 208,
+                                    lineNumber: 210,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Graubünden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 209,
+                                    lineNumber: 211,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Jura"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 210,
+                                    lineNumber: 212,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Luzern"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 211,
+                                    lineNumber: 213,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Neuenburg"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 212,
+                                    lineNumber: 214,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Nidwalden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 213,
+                                    lineNumber: 215,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Obwalden"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 214,
+                                    lineNumber: 216,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Schaffhausen"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 215,
+                                    lineNumber: 217,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Schwyz"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 216,
+                                    lineNumber: 218,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Solothurn"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 217,
+                                    lineNumber: 219,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton St. Gallen"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 218,
+                                    lineNumber: 220,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Tessin"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 219,
+                                    lineNumber: 221,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Thurgau"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 220,
+                                    lineNumber: 222,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Uri"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 221,
+                                    lineNumber: 223,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Waadt"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 222,
+                                    lineNumber: 224,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Wallis"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 223,
+                                    lineNumber: 225,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Zug"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 224,
+                                    lineNumber: 226,
                                     columnNumber: 3
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                     children: "Kanton Zürich"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 225,
+                                    lineNumber: 227,
                                     columnNumber: 3
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                            lineNumber: 189,
+                            lineNumber: 191,
                             columnNumber: 5
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 182,
+                        lineNumber: 184,
                         columnNumber: 3
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         type: "text",
                         placeholder: "Name",
                         required: true,
-                        className: "w-[271px] h-[75px] px-[13px] py-[17px] border rounded-lg bg-white text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal placeholder-[#1C1B1D]",
+                        className: "w-[271px] lg:w-[200px]  h-[75px] px-[13px] py-[17px] border rounded-lg bg-white text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal placeholder-[#1C1B1D]",
                         style: {
                             border: "1px solid #B7B6BA",
                             borderRadius: "8px"
@@ -1415,14 +1416,33 @@ function FormPage01() {
                             })
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 231,
+                        lineNumber: 233,
                         columnNumber: 3
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                        type: "text",
+                        placeholder: "Vorname",
+                        required: true,
+                        className: "w-[271px] lg:w-[200px] h-[75px] px-[13px] py-[17px] border rounded-lg bg-white text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal placeholder-[#1C1B1D]",
+                        style: {
+                            border: "1px solid #B7B6BA",
+                            borderRadius: "8px"
+                        },
+                        value: formData.vorname || "",
+                        onChange: (e)=>setFormData({
+                                ...formData,
+                                vorname: e.target.value
+                            })
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
+                        lineNumber: 245,
+                        columnNumber: 1
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         type: "email",
                         placeholder: "E-Mail",
                         required: true,
-                        className: "w-[271px] h-[75px] px-[13px] py-[17px] border rounded-lg bg-white text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal placeholder-[#1C1B1D]",
+                        className: "w-[271px] lg:w-[200px] h-[75px] px-[13px] py-[17px] border rounded-lg bg-white text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal placeholder-[#1C1B1D]",
                         style: {
                             border: "1px solid #B7B6BA",
                             borderRadius: "8px"
@@ -1434,14 +1454,14 @@ function FormPage01() {
                             })
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 246,
+                        lineNumber: 260,
                         columnNumber: 3
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                         htmlFor: "cv-upload",
                         className: "cursor-pointer",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex flex-col justify-between items-start w-[271px] h-[75px] px-[13px] py-[17px] border rounded-lg bg-white",
+                            className: "flex flex-col justify-between items-start w-[271px] lg:w-[200px]  h-[75px] px-[13px] py-[17px] border rounded-lg bg-white",
                             style: {
                                 border: "1px solid #B7B6BA",
                                 borderRadius: "8px"
@@ -1457,7 +1477,7 @@ function FormPage01() {
                                     id: "cv-upload"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 268,
+                                    lineNumber: 282,
                                     columnNumber: 11
                                 }, this),
                                 formData.cv ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1465,14 +1485,14 @@ function FormPage01() {
                                     children: formData.cv.name
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 276,
+                                    lineNumber: 290,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal",
                                     children: "Lebenslauf"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 280,
+                                    lineNumber: 294,
                                     columnNumber: 16
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1480,24 +1500,24 @@ function FormPage01() {
                                     children: "Zwingend"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                                    lineNumber: 286,
+                                    lineNumber: 300,
                                     columnNumber: 11
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                            lineNumber: 260,
+                            lineNumber: 274,
                             columnNumber: 1
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                        lineNumber: 258,
+                        lineNumber: 272,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                lineNumber: 177,
+                lineNumber: 179,
                 columnNumber: 1
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1509,25 +1529,25 @@ function FormPage01() {
                     children: "Senden"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                    lineNumber: 295,
+                    lineNumber: 309,
                     columnNumber: 9
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     className: "text-[#04436F] font-metropolis font-[500] lg:font-[500] text-[24px] lg:text-[45px] leading-[26.2px] lg:leading-[50.2px] text-center mt-[40px] mb-[160px]",
                     children: "Vielen Dank - Wir melden uns so schnell wie möglich!"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                    lineNumber: 303,
+                    lineNumber: 317,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-                lineNumber: 293,
+                lineNumber: 307,
                 columnNumber: 1
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/pages/Registrierung-Jobs-Form1.js",
-        lineNumber: 58,
+        lineNumber: 60,
         columnNumber: 5
     }, this);
 }

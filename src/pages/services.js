@@ -5,14 +5,12 @@ export default function HomeCarePage() {
         {/* Hero Section */}
         <section className="bg-[#B99B5F] gap-10 lg:gap-[100px] text-white p-4 lg:p-[60px] rounded-[20px] flex flex-col lg:flex-row items-start">
         <div className="lg:w-1/2 flex flex-col justify-start items-start">
-        <h1 className="text-[40px] lg:text-[60px] font-semibold lg:leading-[72px] leading-[47px]">
-  <span className="text-[#04436F]">Comprehensive <br></br>home care</span> 
-  <span className="text-[#FFFFFF]"> services</span>
+        <h1 className="text-[32px] lg:text-[48px] font-semibold lg:leading-[56px] leading-[37px]">
+  <span className="text-[#FFFFFF]">Entdecken Sie unser umfassendes Dienstleistungsangebot</span>
 </h1>
 
 <p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] mt-2">
-Discover a range of services designed to provide compassionate and
-professional care in the comfort of your home.</p>
+Entdecken Sie eine Vielzahl von Dienstleistungen, die darauf ausgerichtet sind, einfühlsame und professionelle Betreuung in der Geborgenheit Ihres Zuhauses zu bieten.</p>
 
           </div>
           <div className="lg:w-1/2 mt-6 lg:mt-0">
@@ -20,32 +18,88 @@ professional care in the comfort of your home.</p>
           </div>
         </section>
   
-        {/* Services Grid */}
-        <section className="grid grid-cols-1 p-2 md:grid-cols-2 lg:grid-cols-3 gap-[50px] mt-[120px]">
-          {[
-            { icon: "user", title: "Personal care assistance", description: "Lorem ipsum dolor sit amet." },
-            { icon: "heart", title: "Specialized care", description: "Customized care solutions." },
-            { icon: "house", title: "Home nursing services", description: "Providing quality healthcare at home." },
-            { icon: "users", title: "Companionship services", description: "Ensuring emotional and social support." },
-            { icon: "wheelchair", title: "Rehabilitation support", description: "Helping individuals recover safely." },
-            { icon: "medkit", title: "Palliative care services", description: "Compassionate end-of-life care." },
-          ].map((service, index) => (
-            <div key={index} className="p-8 bg-[#EDF2FB] rounded-[10px] flex flex-col items-left  justify-starttext-left ">
-                <div className="flex justify-center items-center p-4 bg-white w-[100px] h-[100px] rounded-full mb-[10px] lg:mb-[30px]">
-              <img src={`/images/${service.icon}.svg`} alt={service.title} className="w-[40px] h-[40px]" />
-              </div>
-              <h3 className="text-[#04436F] text-[28px] mb-2 font-semibold leading-[33.6px] ">
-                {service.title}
-                </h3>
-                <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] ">
-                {service.description}
-                </p>
-                <p className="text-[#04436F] text-[16px] font-medium leading-[25.6px]  mt-[10px] lg:mt-[30px]">
-  Learn more
-</p>
-            </div>
-          ))}
-        </section>
+      {/* Services Grid */}
+<section className="grid grid-cols-1 p-2 md:grid-cols-2 lg:grid-cols-2 gap-[16px] mt-[120px]">
+  {[
+    {
+      icon: "user",
+      title: "Alltagsbegleitung und Besorgungen",
+      description: [
+        "Beleitung zu Terminen",
+        "Einkäufe erledigen",
+        "Postgänge",
+        "Sonstige Begleitungen"
+      ]
+    },
+    {
+      icon: "heart",
+      title: "Freizeit und Soziale Aktivitäten",
+      description: [
+        "Gesellschaft leisten",
+        "Gemeinsames Kochen",
+        "Vorlesen",
+        "Kartenspiele",
+        "Ausflüge und Reisebegleitung"
+      ]
+    },
+    {
+      icon: "users",
+      title: "Gesundheitsführsorge",
+      description: [
+        "Körperliche Unterstützung",
+        "Nahrungsaufnahme",
+        "Grundpflegerische Tätigkeiten",
+        "Gesundheitsfördernde Aktivitäten",
+        "Geistige Unterstützung"
+      ]
+    },
+    {
+      icon: "wheelchair",
+      title: "Haushaltshilfe und Wohnpflege",
+      description: [
+        "Hauswirtschaft",
+        "Balkon und Blumenpflege",
+        "Waschen / Bügeln",
+        "Kochen",
+        "Fenster Putzen",
+        "Bettwäsche wechseln",
+        "Aufräumen",
+        "Trennung / Entsorgung / Abfall",
+        "Abstauben",
+        "Staubsaugen",
+        "Boden wischen",
+        "Vorhänge reinigen"
+      ]
+    }
+  ].map((service, index) => (
+    <div
+      key={index}
+      className="p-8 bg-[#EDF2FB] rounded-[20px] flex flex-col justify-start text-left"
+    >
+      {/* Icon */}
+      <div className="flex justify-center items-center p-4 bg-white w-[100px] h-[100px] rounded-full mb-[10px] lg:mb-[30px]">
+        <img
+          src={`/images/${service.icon}.svg`}
+          alt={service.title}
+          className="w-[40px] h-[40px]"
+        />
+      </div>
+
+      {/* Title */}
+      <h3 className="text-[#04436F] text-[28px] mb-2 font-semibold leading-[33.6px]">
+        {service.title}
+      </h3>
+
+      {/* Bullet List */}
+      <ul className="text-[#04436F] text-[20px] font-normal leading-[28px] list-disc pl-5">
+        {service.description.map((item, i) => (
+          <li key={i}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</section>
+
   
         {/* Join Community Section */}
         <section 
@@ -65,202 +119,49 @@ Schedule a consultation  </button>
 
   
         {/* Why Choose Us */}
-        <section className="flex flex-col gap-[70px] p-2 lg:flex-row items-center justify-between mt-[120px] mx-auto">
+        <section className="flex flex-col gap-[20px] p-2 lg:px-4 lg:flex-row items-center justify-between mt-[120px] mx-auto mb-[120px]">
           <div className="lg:w-1/2">
           <h2 className="text-[#04436F] text-[55px] font-semibold leading-[71.5px] ">
-  Why choose<br></br> <span className="text-[#B99B5F]">Prime Home Care?</span>
+          Warum die<br></br> <span className="text-[#B99B5F]">Prime Home Care AG?</span>
 </h2>
 <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2">
-  We uphold the highest standards of medical excellence and patient safety, ensuring that
-  every patient receives personalized attention and support throughout their healthcare
-  journey.
+Weil es auf Vertrauen, Herzlichkeit und Verlässlichkeit ankommt.<br></br>Die Entscheidung für eine Betreuung ist oft mit vielen Fragen verbunden – besonders, wenn es um die Unterstützung im eigenen Zuhause geht. Bei der Prime Home Care AG stehen Sie und Ihre individuellen Bedürfnisse im Mittelpunkt. Unsere stundenweise Betreuung bietet die perfekte Balance zwischen Selbstständigkeit <br></br> und gezielter Unterstützung.
 </p>
 
-<ul className="mt-[45px] space-y-4">
-  {[
-    { icon: "/images/experienced.svg", title: "Experienced team", description: "Our caregivers are trained professionals who truly care about your well-being." },
-    { icon: "/images/scheduling.svg", title: "Flexible scheduling", description: "We offer flexible scheduling to fit your lifestyle." }
-  ].map((item, index) => (
-    <li key={index} className="flex items-center gap-4">
-      {/* SVG Background Container */}
-      <div className="w-[50px] h-[50px] flex items-center justify-center bg-[#EAF1F8] rounded-full p-2">
-        <img src={item.icon} className="w-[24px] h-[24px]" alt={item.title} />
-      </div>
+<h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600] mt-[30px]">Ihre Vorteile auf einen Blick:</h1>
+<div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
+  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Individuell & flexibel</h1>
+  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Ob ein kurzer Einkauf, ein Arztbesuch oder einfach jemand zum Reden – wir passen uns Ihrem Alltag an, nicht umgekehrt.</p>
+</div>
+<div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
+  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Vertraute Gesichter</h1>
+  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Als regional verankertes Unternehmen sind wir schnell zur Stelle, kennen die lokalen Gegebenheiten – und nehmen uns Zeit.</p>
+</div>
 
-      {/* Text Content */}
-      <div>
-        <h3 className="text-[#04436F] text-[22px] lg:text-[30px] font-semibold leading-[36px] font-[Metropolis]">
-          {item.title}
-        </h3>
-        <p className="text-[#04436F] text-[14px] lg:text-[16px] font-normal leading-[25.6px] w-[300px] lg:w-full font-[Metropolis]">
-          {item.description}
-        </p>
-      </div>
-    </li>
-  ))}
-</ul>
+<div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
+  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Persönlich & nah</h1>
+  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Als regional verankertes Unternehmen sind wir schnell zur Stelle, kennen die lokalen Gegebenheiten – und nehmen uns Zeit.</p>
+</div>
+
+<div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
+  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Mehr Lebensfreude zu Hause</h1>
+  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Mit einfühlsamer Begleitung und kleinen Gesten schaffen wir Wohlbefinden im Alltag – für Sie oder Ihre Angehörigen.</p>
+</div>
+<div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
+  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Einfach & zuverlässig organisiert</h1>
+  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Keine langen Wartezeiten, keine unnötige Bürokratie – dafür direkte Ansprechpartner:innen und unkomplizierte Abläufe.</p>
+</div>
+
 
           </div>
           <div className="lg:w-1/2 lg:mt-0 ">
-            <img src="/images/why-choose.png" alt="Why Choose Us" className="rounded-[20px] h-[450px] lg:w-[550px] lg:ml-[90px] w-full" />
+            <img src="/images/phc-why-choose.png" alt="Why Choose Us" className="rounded-[20px] lg:h-[1020px] h-[500px] lg:w-[600px] lg:ml-[80px] w-[380px]" />
           </div>
         </section>
   
-        {/* Pricing Section */}
-        <section className="text-center mt-[120px]">
-        <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px] text-center">
-            Pricing
-         </h2>
-
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        
   
-  {/* Hourly Care Plan */}
-  <div className="rounded-[20px] text-center relative overflow-hidden bg-[#FFFFFF]">
     
-    {/* Header */}
-    <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#EDF2FB] text-[#000000]">
-
-{/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px] ">
-  Hourly Care Plan
-</h3>
-
-{/* Price Section - Now properly aligned */}
-<div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-[#04436F] text-[70px] font-semibold leading-[70px] font-[Metropolis]">
-    $19
-  </span>
-  <span className="text-[#04436F] text-[22px] font-normal leading-[22px] font-[Metropolis]">
-    /hour
-  </span>
-</div>
-
-</div>
-
-<div className="p-[50px] flex flex-col justify-center">
-  {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
-    <li>Personal care assistance</li>
-    <li>Medication reminders</li>
-    <li>Meal preparation and feeding assistance</li>
-    <li>Companionship and emotional support</li>
-  </ul>
-</div>
-
-
-    {/* Button */}
-    <div className="lg:mt-[100px] mt-6 mb-[50px]">
-      <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#6FCF97]">
-        Book now
-      </button>
-    </div>
-
-  </div>
-
-  {/* Hourly Care Plan */}
-  <div className="rounded-[20px] text-center relative overflow-hidden bg-[#EDF2FB]">
-    
-    {/* Header */}
-    <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#B99B5F] text-white">
-
-{/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px]">
-  Hourly Care Plan
-</h3>
-
-{/* Price Section - Now properly aligned */}
-<div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-white text-[70px] font-semibold leading-[70px] ">
-    $199
-  </span>
-  <span className="text-white text-[22px] font-normal leading-[22px]">
-    /month
-  </span>
-</div>
-
-</div>
-
-<div className="p-[50px] flex flex-col justify-center">
-  {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
-    <li>Personal care assistance</li>
-    <li>Medication reminders</li>
-    <li>Meal preparation and feeding assistance</li>
-    <li>Companionship and emotional support</li>
-    <li>Companionship and emotional support</li>
-
-    <li>Companionship and emotional support</li>
-
-    <li>Companionship and emotional support</li>
-
-  </ul>
-</div>
-
-
-    {/* Button */}
-    <div className="lg:mt-[100px] mt-6 mb-[50px]">
-      <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#6FCF97]">
-        Get Started
-      </button>
-    </div>
-
-  </div>
-
-  {/* Customized Care Plan */}
-  <div className="p-[50px] lg:h-[730px] rounded-[20px] text-center bg-[#EDF2FB] flex flex-col justify-between h-full">
-    
-    {/* Header */}
-    <div className="w-full text-left text-[22px] font-medium leading-[30.8px]
-                    rounded-t-[20px]  text-black">
-      Customized Care Plan
-    </div>
-    <p className="text-[#04436F] text-left text-[16px] font-normal leading-[25.6px] mt-[20px] mb-[20px]">
-  At Prime Home Care, we understand<br></br> that every individual has unique care<br></br> needs.
-</p>
-
-    {/* Features */}
-    <ul className="mt-4 text-left space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
-    <li>Personal care assistance</li>
-    <li>Medication reminders</li>
-    <li>Meal preparation and feeding assistance</li>
-    <li>Companionship and emotional support</li>
-    <li>Companionship and emotional support</li>
-
-    <li>Companionship and emotional support</li>
-
-    <li>Companionship and emotional support</li>
-
-  </ul>
-
-    {/* Button */}
-    <div className="lg:mt-[100px] items-center justify-center mt-[60px] lg:mb-[50px]">
-      <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#6FCF97]">
-        Contact us
-      </button>
-    </div>
-
-  </div>
-
-</div>
-
-
-
-        </section>
-  
-        {/* Footer Placeholder */}
-        <section className="mt-[120px] mb-[80px] text-center">
-          <div className="flex justify-center gap-[120px]">
-            <div className="w-[180px] h-[50px] bg-[#04436F] "></div>
-            <div className="w-[180px] h-[50px] bg-[#04436F] "></div>
-            <div className="w-[180px] h-[50px] bg-[#04436F] "></div>
-            <div className="w-[180px] h-[50px] bg-[#04436F] "></div>
-            <div className="w-[180px] h-[50px] bg-[#04436F] "></div>
-
-          </div>
-        </section>
   
       </div>
     );

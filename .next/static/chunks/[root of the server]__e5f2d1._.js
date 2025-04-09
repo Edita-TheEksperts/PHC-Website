@@ -559,46 +559,395 @@ __turbopack_esm__({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
 ;
+const teamMembers = [
+    {
+        name: "Emma Johnson, RN",
+        position: "Lorem",
+        image: "/images/team1.png"
+    },
+    {
+        name: "David Miller, LPN",
+        position: "Lorem",
+        image: "/images/team1.png"
+    },
+    {
+        name: "Olivia Martinez, RN",
+        position: "Lorem",
+        image: "/images/team1.png"
+    },
+    {
+        name: "Sophia Brown, CNA",
+        position: "Lorem",
+        image: "/images/team1.png"
+    }
+];
 function About() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "bg-white px-4 py-4 lg:px-[70px] lg:py-0",
+        className: "bg-[#FAFCFF] px-4 py-4 max-w-[1430px] mx-auto lg:py-0",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: "bg-[#B99B5F] p-4 rounded-[20px]",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "mt-[200px] text-[#FAFCFF] text-center text-[65px] font-semibold leading-[84.5px]",
-                        children: "About Prime Home Care"
+                        className: "mt-[200px] text-[#FAFCFF] text-center lg:text-[65px] text-[45px] leading-[55px] font-semibold lg:leading-[84.5px]",
+                        children: "Über die Prime Home Care AG"
                     }, void 0, false, {
                         fileName: "[project]/src/pages/about.js",
-                        lineNumber: 7,
+                        lineNumber: 12,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-[#FAFCFF] mb-[200px] text-center text-[16px] font-normal leading-[25.6px]",
-                        children: "Brief introduction or mission statement that encapsulates the essence of Prime Home Care."
+                        children: "Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause.        "
                     }, void 0, false, {
                         fileName: "[project]/src/pages/about.js",
-                        lineNumber: 9,
+                        lineNumber: 14,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/about.js",
-                lineNumber: 6,
+                lineNumber: 11,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                className: "mt-[120px] mb-[120px]"
+                className: "flex flex-col p-4 lg:flex-row items-center justify-between mt-[120px] gap-[40px]",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex-1",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                className: "text-[#04436F] text-[40px] font-semibold leading-[48px] ",
+                                children: [
+                                    "Verpflichtet zu fürsorglicher Seniorenbetreuung in den",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                        fileName: "[project]/src/pages/about.js",
+                                        lineNumber: 22,
+                                        columnNumber: 65
+                                    }, this),
+                                    " eigenen vier Wänden."
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 21,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-[#04436F] lg:pr-[80px] text-[16px] font-normal leading-[25.6px] mt-4",
+                                children: "Seit unserer Gründung verfolgen wir das Ziel, Menschen in ihrem vertrauten Umfeld die bestmögliche Betreuung und Unterstützung zu bieten. Mit einem engagierten Team aus erfahrenen Mitarbeitern und einem breiten Spektrum an Dienstleistungen setzen wir uns täglich dafür ein, die Lebensqualität unserer Kundinnen und Kunden zu verbessern.          "
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 24,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex flex-col justify-center mt-[16px]",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        width: "40",
+                                        height: "41",
+                                        viewBox: "0 0 40 41",
+                                        fill: "none",
+                                        className: "w-[50px] h-[50px] bg-[#B99B5F] rounded-[100px]",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                            d: "M20 8.52327V5.18994M20 8.52327C26.4433 8.52327 31.6667 13.7466 31.6667 20.1899M20 8.52327C13.5567 8.52327 8.33333 13.7466 8.33333 20.1899M31.6667 20.1899C31.6667 26.6332 26.4433 31.8566 20 31.8566M31.6667 20.1899H35M8.33333 20.1899H5M8.33333 20.1899C8.33333 26.6332 13.5567 31.8566 20 31.8566M20 31.8566V35.1899M20 24.3566C17.6988 24.3566 15.8333 22.4911 15.8333 20.1899C15.8333 17.8887 17.6988 16.0232 20 16.0232C22.3012 16.0232 24.1667 17.8887 24.1667 20.1899C24.1667 22.4911 22.3012 24.3566 20 24.3566Z",
+                                            stroke: "#04436F",
+                                            strokeWidth: "2.5",
+                                            strokeLinecap: "round",
+                                            strokeLinejoin: "round"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/pages/about.js",
+                                            lineNumber: 28,
+                                            columnNumber: 13
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/about.js",
+                                        lineNumber: 27,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-[#04436F] text-[28px] font-[500] leading-[33.6px]  mt-3",
+                                        children: "Unsere Philosophie"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/about.js",
+                                        lineNumber: 30,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-[#04436F] lg:pr-[70px] text-[16px] font-normal leading-[25.6px] mt-2",
+                                        children: "Unsere Philosophie basiert auf Empathie, Respekt und Kompetenz. Wir wissen, dass jede Person einzigartige Bedürfnisse hat. Daher legen wir grossen Wert auf eine persönliche und flexible Betreuung, die genau auf die individuellen Anforderungen abgestimmt ist. Von der Betreuung über Gesellschaft Leisten bis hin zu hauswirtschaftlichen Dienstleistungen – wir stehen Ihnen zuverlässig zur Seite.        "
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/about.js",
+                                        lineNumber: 33,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 26,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex flex-col justify-center mt-[16px]",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        width: "40",
+                                        height: "41",
+                                        viewBox: "0 0 40 41",
+                                        fill: "none",
+                                        className: "w-[50px] h-[50px] bg-[#B99B5F] rounded-[100px]",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                            d: "M20 8.52327V5.18994M20 8.52327C26.4433 8.52327 31.6667 13.7466 31.6667 20.1899M20 8.52327C13.5567 8.52327 8.33333 13.7466 8.33333 20.1899M31.6667 20.1899C31.6667 26.6332 26.4433 31.8566 20 31.8566M31.6667 20.1899H35M8.33333 20.1899H5M8.33333 20.1899C8.33333 26.6332 13.5567 31.8566 20 31.8566M20 31.8566V35.1899M20 24.3566C17.6988 24.3566 15.8333 22.4911 15.8333 20.1899C15.8333 17.8887 17.6988 16.0232 20 16.0232C22.3012 16.0232 24.1667 17.8887 24.1667 20.1899C24.1667 22.4911 22.3012 24.3566 20 24.3566Z",
+                                            stroke: "#04436F",
+                                            strokeWidth: "2.5",
+                                            strokeLinecap: "round",
+                                            strokeLinejoin: "round"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/pages/about.js",
+                                            lineNumber: 38,
+                                            columnNumber: 13
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/about.js",
+                                        lineNumber: 37,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-[#04436F] text-[28px] font-[500] leading-[33.6px]  mt-3",
+                                        children: "Unsere Vision"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/about.js",
+                                        lineNumber: 40,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-[#04436F] lg:pr-[70px] text-[16px] font-normal leading-[25.6px] mt-2",
+                                        children: "Als digitales Unternehmen verbinden wir professionelle Betreuung mit modernster Technologie. Über unsere benutzerfreundliche digitale Plattform ermöglichen wir es Ihnen, flexibel und unkompliziert die passende Betreuung zu finden und zu buchen. Unser Ziel ist es, Menschen in ihrem vertrauten Umfeld die bestmögliche Unterstützung zu bieten – individuell abgestimmt und genau dann, wenn sie gebraucht wird.           "
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/pages/about.js",
+                                        lineNumber: 43,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 36,
+                                columnNumber: 9
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 20,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mt-10 lg:mt-0 lg:max-w-[625px] flex-1",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            src: "/images/phc-about-image1.png",
+                            alt: "Elderly care",
+                            className: "w-full h-auto rounded-[20px]"
+                        }, void 0, false, {
+                            fileName: "[project]/src/pages/about.js",
+                            lineNumber: 49,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 48,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/about.js",
+                lineNumber: 19,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden",
+                style: {
+                    backgroundImage: 'url(/images/phc-bg.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-[#04436F] text-[44px] font-semibold leading-[52.8px]",
+                        children: "Join our community of care"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 58,
+                        columnNumber: 3
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10",
+                        children: "At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones."
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 61,
+                        columnNumber: 3
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        className: "bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]",
+                        children: "Get started"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 64,
+                        columnNumber: 3
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/about.js",
+                lineNumber: 54,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "flex flex-col lg:flex-row items-center justify-between mx-auto mt-[120px] lg:px-[70px] gap-[70px] ",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-col lg:flex-row gap-10",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                src: "/images/photo1.png",
+                                alt: "Elderly care 1",
+                                className: "lg:max-w-[294.59px] lg:h-[306px] lg:mt-[150px] w-full h-auto rounded-[20px]"
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 73,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                src: "/images/phc-2-container.png",
+                                alt: "Elderly care 2",
+                                className: "max-w-[368.25px] lg:h-[406px] w-full h-auto rounded-[20px]"
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 78,
+                                columnNumber: 9
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 72,
+                        columnNumber: 7
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: " flex-1 text-left p-4 lg:p-0",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                className: "text-[#04436F] text-[50px] lg:text-[55px] font-semibold leading-[71.5px]",
+                                children: "Unsere Werte"
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 87,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2",
+                                children: "Qualität und Vertrauen sind die Grundlagen unseres Handelns. Durch kontinuierliche Weiterbildung und hohe Standards in der Betreuungstellen wir sicher, dass unsere Kundinnen und Kunden jederzeit in besten Händen sind. Unsere digitale Plattform sorgt zudem für maximale Transparenz und Effizienz – von der Buchung bis zur Abrechnung."
+                            }, void 0, false, {
+                                fileName: "[project]/src/pages/about.js",
+                                lineNumber: 90,
+                                columnNumber: 9
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 86,
+                        columnNumber: 7
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/about.js",
+                lineNumber: 70,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "bg-[#FAFCFF] mt-[120px] px-4 lg:px-[70px] text-center",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex flex-wrap justify-center gap-[40px]",
+                    children: [
+                        {
+                            number: "300",
+                            label: "Patients served"
+                        },
+                        {
+                            number: "30",
+                            label: "Caregivers"
+                        },
+                        {
+                            number: "10",
+                            label: "Services offered"
+                        },
+                        {
+                            number: "95%",
+                            label: "Client satisfaction"
+                        }
+                    ].map((stat, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex flex-col items-center w-[275px] gap-[10px]",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                    className: "text-[#04436F] text-[65px] font-semibold leading-[78px]",
+                                    children: stat.number
+                                }, void 0, false, {
+                                    fileName: "[project]/src/pages/about.js",
+                                    lineNumber: 106,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-[#04436F] w-[110px] text-[18px] font-normal leading-[25.6px] ",
+                                    children: stat.label
+                                }, void 0, false, {
+                                    fileName: "[project]/src/pages/about.js",
+                                    lineNumber: 109,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, index, true, {
+                            fileName: "[project]/src/pages/about.js",
+                            lineNumber: 105,
+                            columnNumber: 11
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/about.js",
+                    lineNumber: 97,
+                    columnNumber: 7
+                }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/about.js",
-                lineNumber: 14,
-                columnNumber: 9
+                lineNumber: 96,
+                columnNumber: 5
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "bg-[#FAFCFF] mt-[120px] mb-[40px] px-4 lg:px-[20px] text-center",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-[#04436F] text-left text-[40px] leading-[47px] lg:text-[55px] font-semibold lg:leading-[71.5px]  mb-[60px]",
+                        children: "Ihre Zufriedenheit ist unser Antrieb"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 119,
+                        columnNumber: 7
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-[#04436F] text-left text-[32px] font-[400] leading-[40.5px]  mb-[120px]",
+                        children: "Wir bei der Prime Home Care AG sind stolz darauf, Ihnen ein Stück Lebensqualität und Selbstständigkeit zurückzugeben – in Ihrem Zuhause, wo Sie sich am wohlsten fühlen.      "
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/about.js",
+                        lineNumber: 122,
+                        columnNumber: 7
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/pages/about.js",
+                lineNumber: 117,
+                columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/pages/about.js",
-        lineNumber: 5,
+        lineNumber: 10,
         columnNumber: 5
     }, this);
 }
