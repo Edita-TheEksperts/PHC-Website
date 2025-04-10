@@ -1,6 +1,45 @@
 import Image from "next/image";
+import { useState } from "react";
+
 
 export default function Home() {
+  const faqs = [
+    {
+      question: "Was genau leistet die Prime Home Care?",
+      answer: " Wenn ein Familienmitglied oder ein geliebter Mensch pflegebedürftig wird, müssen Angehörige und Freund oft unter grossem Zeitdruck Betreuung sowie die dafür benötigten Hilfsmittel organisieren. Häusliche Betreuung stellt ein komplexes Thema mit sehr vielen Dimensionen dar: Zum einen geht es um viel Geld und bedeutet für die Betroffenen häufig auch einen Verzehr von Vermögen. Zum anderen gibt es in der Schweiz die rechtliche Dimension, bei der es um die korrekte Gestaltung und Abwicklung von Arbeitsverhältnissen geht. Hierbei ist es zentral, das richtige Betreuungsmodell zu wählen und einen arbeits- und sozialversicherungsrechtlich versierten Partner an seiner Seite zu wissen. Und schliesslich geht es um zwischenmenschliche Aspekte, immerhin leben in einer Betreuungssituation häufig zwei oder mehrere Menschen in einem Haushalt mit einer Pflegehilfe, die häufig vom Ausland anreist. Senioren oder hilfsbedürftigen Menschen unter unseren Kunden sowie deren pflegende Angehörige oder Partner wissen zu schätzen, dass sie mit uns alle benötigten Leistungen nahtlos und «wie aus einer Hand» erhalten können und wir zudem zu allen Aspekten der Betreuung optimal beraten können. Wir holen für sie unterschiedliche Angebote von Partnerunternehmen ein und haben stets ein Auge auf die Einhaltung korrekter Anstellungsbedingungen sowie auf alle Rechtsnormen. Auf diese Weise können wir bei der Seniorenbetreuung zuhause zugleich geringe Kosten und eine hohe Qualität sicherstellen. So leisten wir unseren Beitrag dafür, dass sich betroffene Menschen sowohl in ihrem eigenen Haushalt als auch unterwegs 24h am Tag sicher und geborgen fühlen können.",
+    },
+    {
+      question: "Welche Vorteile bietet die Zusammenarbeit mit Prime Home Care für eine Betreuung zu Hause?",
+      answer: "Wenn ein Familienmitglied oder ein geliebter Mensch pflegebedürftig wird, müssen Angehörige und Freund oft unter grossem Zeitdruck Betreuung sowie die dafür benötigten Hilfsmittel organisieren. Häusliche Betreuung stellt ein komplexes Thema mit sehr vielen Dimensionen dar: Zum einen geht es um viel Geld und bedeutet für die Betroffenen häufig auch einen Verzehr von Vermögen. Zum anderen gibt es in der Schweiz die rechtliche Dimension, bei der es um die korrekte Gestaltung und Abwicklung von Arbeitsverhältnissen geht. Hierbei ist es zentral, das richtige Betreuungsmodell zu wählen und einen arbeits- und sozialversicherungsrechtlich versierten Partner an seiner Seite zu wissen. Und schliesslich geht es um zwischenmenschliche Aspekte, immerhin leben in einer Betreuungssituation häufig zwei oder mehrere Menschen in einem Haushalt mit einer Pflegehilfe, die häufig vom Ausland anreist. Senioren oder hilfsbedürftigen Menschen unter unseren Kunden sowie deren pflegende Angehörige oder Partner wissen zu schätzen, dass sie mit uns alle benötigten Leistungen nahtlos und «wie aus einer Hand» erhalten können und wir zudem zu allen Aspekten der Betreuung optimal beraten können. Wir holen für sie unterschiedliche Angebote von Partnerunternehmen ein und haben stets ein Auge auf die Einhaltung korrekter Anstellungsbedingungen sowie auf alle Rechtsnormen. Auf diese Weise können wir bei der Seniorenbetreuung zuhause zugleich geringe Kosten und eine hohe Qualität sicherstellen. So leisten wir unseren Beitrag dafür, dass sich betroffene Menschen sowohl in ihrem eigenen Haushalt als auch unterwegs 24h am Tag sicher und geborgen fühlen können.",
+    },
+    {
+      question: "Welche Kosten entstehen für eine private Betreuung zu Hause?",
+      answer: "Unser Ziel ist es stets, Betreuung für unsere Kunden so bequem wie möglich und gleichzeitig maximal kostengünstig zu organisieren. Die Höhe der Betreuungskosten richtet sich nach Ihren individuellen Wünschen, dem Pflegebedarf sowie der damit verbundenen der Höhe der möglichen Kostenübernahme seitens der Krankenkasse und schliesslich dem gewählten Anstellungsmodell. Auch kantonal unterscheiden sich die Abgaben, was einen Einfluss auf Lohn und Kosten hat. Vorgängig ist es dadurch allerdings nicht möglich, ein pauschales Angebot abzugeben. In aller Regel übernehmen wir ein umfassendes Mandat, welches die vorgängige Planung, Vorschläge und Vorselektion der eingebundenen Partner sowie die Kontrolle und Aufsicht über diese sowie die Lohnadministration miteinschliesst. Unsere Leistungen bieten wir zu einem monatlichen Pauschalhonorar an. Sie erhalten von uns jeweils eine Rechnung, in welcher alle Kostenbestandteile transparent aufgeschlüsselt werden. Ein pauschaler Preis für eine Betreuung zu Hause mit Tages- oder Monatspauschalen wie er von vielen Verleihagenturen angeboten wird, wird stets höher liegen, als die Kosten, die mit unserem Administrativ-Modell verbunden sind. Einen ersten Überblick über die zu erwartenden monatlichen Betreuungskosten erhalten Sie mit unserem Kontaktformular.",
+    },
+    {
+      question: "Können auch einzelne Leistungen in Anspruch genommen werden?",
+      answer: "Als Auftraggeber entscheiden Sie gemeinsam mit Ihrer Familie darüber, in welchem Umfang Sie unser Angebot in Anspruch nehmen. Ganz egal, ob Sie lediglich eine Beratung über das zu wählende Pflegemodell benötigen, unsere Hilfe bei der Beschaffung von Hilfsmitteln oder baulichen Veränderungen oder die Übernahme administrativer Belange sowie eine laufende Koordination wünschen.",
+    },
+    {
+      question: "Wenn eine Betreuungskraft benötigt wird, wer wählt diese aus?",
+      answer: "Aufgrund unserer Erfahrung wissen wir, dass es von zentraler Bedeutung ist, dass sich die zu pflegenden Senioren mit den Betreuerinnen oder Betreuern wohlfühlen und ein liebevoller Umgang gegeben ist. Wir bieten jedoch selbst keine Betreuungsdienstleistungen an und betreiben auch keine Arbeitsvermittlung. Für die Personalrekrutierung oder -verleih empfehlen wir Ihnen dazu zuverlässige und SECO-bewilligte Partner. In der Regel stellen Ihnen diese mehrere Kandidaten vor, mit denen Sie Kontakt aufnehmen und selbst Ihre Favoriten auswählen können.",
+    },
+    {
+      question: "Welche Aufgaben und Tätigkeiten übernimmt ein Betreuer oder eine Betreuerin?",
+      answer: "Die Unterstützung bei Alltagsaufgaben durch eine Haushaltshilfe wird oft mit zu Hause geleisteter Altenbetreuung gleichgesetzt. Professionelle Betreuung zu Hause ist jedoch viel weitreichender: Leistet zum Beispiel eine Betreuungsperson Grundpflege im Namen und unter Obhut einer kantonal anerkannten Organisation mit Spitex-Bewilligung, können die Kosten für solche Pflegeleistungen mit der Krankenkasse abgerechnet werden. Dafür vermitteln wir Ihnen – zunächst in den deutschsprachigen Kantonen der Schweiz – geeignete und zugelassene Partner für die Abrechnung mit Ihrer Krankenkasse. Allerdings stellt es für die Betreuungskräfte häufig eine Entlastung dar, wenn für Pflegetätigkeiten zusätzlich Spitex-Mitarbeitende ins Haus kommen. Für die (medizinische) Behandlungspflege braucht diese ohnehin. Durch uns organisierte Betreuung bezieht solche Überlegungen von vornherein in die Planung mit ein. Ganz allgemein gehören zu den typischen Betreuungsaufgaben Tätigkeiten wie Einkaufen, Kochen, Putzen, Waschen oder Bügeln. Auch Handreichungen bei der Einnahme von Speisen und Getränken sowie der Mobilität drinnen und draussen sowie bei Körperpflege und -hygiene gewährleisten eine grosse Entlastung für Senioren und ihre pflegenden Angehörigen. Mehr und mehr steht heute auch die Betreuung zuhause bei Demenz oder Alzheimer sowie die palliative Pflege in den heimischen vier Wänden im Vordergrund.",
+    },
+    {
+      question: "Was unterscheidet stundenweise Betreuung von einer 24 Stunden Betreuung?",
+      answer: "Bei einer Live-In-Betreuung wohnen Betreute und Betreuende zusammen unter einem Dach. Bei diesem auch 24-Stunden-Betreuung genannten Modell bedeutet dies aber keineswegs «Arbeit rund um die Uhr». Vielmehr wird ein normales Arbeitspensum von in der Regel 42 Wochenstunden über den ganzen Tag und über die Woche verteilt. Maximal zulässig ist in der Schweiz ein Arbeitspensum von 50 Stunden pro Woche. Zusätzlich zu den vereinbarten Arbeits- und Bereitschaftszeiten müssen einer Betreuungsperson über den Tag und vor allem in der Nacht genügend Freizeit und Pausen gewährt werden. Überstunden, ausgefallenen Freitage oder kantonale Feiertage müssen kompensiert werden. Wir helfen Ihnen bei der Wahl und Konzeption des richtigen Modells. Wird hingegen nur eine punktuelle Alltagsbetreuung oder eine Hilfe im Haushalt benötigt, ohne dass der zu betreuende Mensch mit den Betreuerinnen oder einem Betreuer rund um die Uhr zusammen leben, kann es günstiger sein, nur für einige Stunden pro Woche eine Betreuung über die lokale Spitex oder einen Pflegedienst wie Home Instead zu beziehen. So eine stundenweise Begleitung kommt jedoch schnell sehr teuer, vor allem, wenn der Pflege- und Betreuungsumfang mit der Zeit ansteigt. Gerne beraten wir Sie auch hierzu umfassend.",
+    },
+  ];
+
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
       {/* Hero Section */}
@@ -610,39 +649,66 @@ Einmalige Einsätze
 
 
             <div className="mt-6 lg:mt-[60px] space-y-[30px] lg:px-[80px] mb-[70px]">
-            {[
-                "What types of services does Prime Home Care offer?",
-                "How do I know if home care is right for me or my loved one?",
-                "How are caregivers selected and trained?",
-                "What if I need to cancel or reschedule a visit?",
-                "How does billing work for Prime Home Care services?",
-            ].map((faq, index) => (
-                <div 
-                key={index} 
-                className="bg-[#EDF2FB] p-5 rounded-[20px] flex justify-between items-center cursor-pointer"
-                >
-                {/* FAQ Text */}
-                <h4 className="text-[#04436F] lg:w-[850px] text-left text-[20px] font-semibold leading-[28px] font-['Metropolis']">
-                    {faq}
-                </h4>
+      {faqs.map((faq, index) => (
+        <div
+          key={index}
+          className="bg-[#EDF2FB] p-5 rounded-[20px] cursor-pointer"
+          onClick={() => toggleFAQ(index)}
+        >
+          <div className="flex justify-between items-center">
+            <h4 className="text-[#04436F] lg:w-[850px] text-left text-[20px] font-semibold leading-[28px] font-['Metropolis']">
+              {faq.question}
+            </h4>
 
-                {/* Dropdown Icon */}
-                <div className="w-[24px] h-[26px] flex justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 24 26" fill="none">
-                    <g clip-path="url(#clip0_1352_2251)">
-                        <path d="M12 0.630859C5.37258 0.630859 0 6.00344 0 12.6309C0 19.2583 5.37258 24.6309 12 24.6309C18.6274 24.6309 24 19.2583 24 12.6309C24 6.00344 18.6274 0.630859 12 0.630859Z" fill="#04436F"/>
-                        <path d="M16.4443 10.409L11.9999 14.8535L7.5554 10.409" stroke="white" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_1352_2251">
-                        <rect width="24" height="25" fill="white" transform="matrix(-1 0 0 -1 24 25.1309)"/>
-                        </clipPath>
-                    </defs>
-                    </svg>
-                </div>
-                </div>
-            ))}
+            {/* Dropdown Icon Rotation */}
+            <div
+              className={`w-[24px] h-[26px] flex justify-center items-center transition-transform duration-300 ${
+                openIndex === index ? "rotate-180" : ""
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="26"
+                viewBox="0 0 24 26"
+                fill="none"
+              >
+                <g clipPath="url(#clip0_1352_2251)">
+                  <path
+                    d="M12 0.630859C5.37258 0.630859 0 6.00344 0 12.6309C0 19.2583 5.37258 24.6309 12 24.6309C18.6274 24.6309 24 19.2583 24 12.6309C24 6.00344 18.6274 0.630859 12 0.630859Z"
+                    fill="#04436F"
+                  />
+                  <path
+                    d="M16.4443 10.409L11.9999 14.8535L7.5554 10.409"
+                    stroke="white"
+                    strokeWidth="1.33333"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1352_2251">
+                    <rect
+                      width="24"
+                      height="25"
+                      fill="white"
+                      transform="matrix(-1 0 0 -1 24 25.1309)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
             </div>
+          </div>
+
+          {/* Answer Section */}
+          {openIndex === index && (
+            <p className="text-[#04436F] text-left mt-4 text-[16px] leading-[26px] font-['Metropolis']">
+              {faq.answer}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
 
         </section>
     </div>

@@ -130,25 +130,25 @@ Weil es auf Vertrauen, Herzlichkeit und Verlässlichkeit ankommt.<br></br>Die En
 
 <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600] mt-[30px]">Ihre Vorteile auf einen Blick:</h1>
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
-  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Individuell & flexibel</h1>
+  <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Individuell & flexibel</h1>
   <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Ob ein kurzer Einkauf, ein Arztbesuch oder einfach jemand zum Reden – wir passen uns Ihrem Alltag an, nicht umgekehrt.</p>
 </div>
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
-  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Vertraute Gesichter</h1>
+  <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Vertraute Gesichter</h1>
   <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Als regional verankertes Unternehmen sind wir schnell zur Stelle, kennen die lokalen Gegebenheiten – und nehmen uns Zeit.</p>
 </div>
 
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
-  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Persönlich & nah</h1>
+  <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Persönlich & nah</h1>
   <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Als regional verankertes Unternehmen sind wir schnell zur Stelle, kennen die lokalen Gegebenheiten – und nehmen uns Zeit.</p>
 </div>
 
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
-  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Mehr Lebensfreude zu Hause</h1>
+  <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Mehr Lebensfreude zu Hause</h1>
   <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Mit einfühlsamer Begleitung und kleinen Gesten schaffen wir Wohlbefinden im Alltag – für Sie oder Ihre Angehörigen.</p>
 </div>
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
-  <h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600]">Einfach & zuverlässig organisiert</h1>
+  <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Einfach & zuverlässig organisiert</h1>
   <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Keine langen Wartezeiten, keine unnötige Bürokratie – dafür direkte Ansprechpartner:innen und unkomplizierte Abläufe.</p>
 </div>
 
