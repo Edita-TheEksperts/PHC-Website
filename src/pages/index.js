@@ -405,7 +405,7 @@ Regelmässige Betreuung
     {/* Button */}
     <div className="lg:mt-[100px] mt-6 mb-[50px]">
       <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#6FCF97]">
+                         transition duration-300 hover:bg-[#033559]">
         Book now
       </button>
     </div>
@@ -455,7 +455,7 @@ Einmalige Einsätze
     {/* Button */}
     <div className="lg:mt-[100px] mt-6 mb-[50px]">
       <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#6FCF97]">
+                         transition duration-300 hover:bg-[#033559]">
         Get Started
       </button>
     </div>
@@ -487,7 +487,7 @@ Einmalige Einsätze
     {/* Button */}
     <div className="lg:mt-[100px] items-center justify-center mt-[60px] lg:mb-[50px]">
       <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#6FCF97]">
+                         transition duration-300 hover:bg-[#033559]">
         Contact us
       </button>
     </div>
