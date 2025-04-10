@@ -74,8 +74,29 @@ Willkommen auf unserer Unterseite zu den E-Learning-Videos für die Altenpflege!
       </div>
     </div>
 
+    <section>
+  <div className="flex flex-wrap justify-center gap-2 mt-[50px] mb-[50px] lg:mt-[85px] lg:mb-[100px] px-4 lg:px-[150px]">
+    {[
+      { label: "Medicare", id: "medicare" },
+      { label: "Caregiving", id: "caregiving" },
+      { label: "Health & Wellness", id: "health-wellness" },
+      { label: "Food & Nutrition", id: "food-nutrition" },
+      { label: "Technology", id: "technology" },
+      { label: "Creativity for Wellness", id: "creativity-for-wellness" },
+      { label: "Fitness", id: "fitness" },
+    ].map(({ label, id }) => (
+      <a href={`#${id}`} key={id}>
+        <span className="px-[20px] py-[12px] rounded-full bg-[#B99B5F] text-[#FAFCFF] text-center font-[Metropolis] text-[16px] font-medium leading-[16px] whitespace-nowrap">
+          {label}
+        </span>
+      </a>
+    ))}
+  </div>
+</section>
+
+
     <section className="mt-[120px]">
-      <h2 className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
+      <h2 id="medicare" className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
         Medicare
       </h2>
 
@@ -109,7 +130,7 @@ Willkommen auf unserer Unterseite zu den E-Learning-Videos für die Altenpflege!
 
 
     <section className="mt-[120px]">
-      <h2 className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
+      <h2 id="caregiving" className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
       Caregiving
       </h2>
 
@@ -142,7 +163,7 @@ Willkommen auf unserer Unterseite zu den E-Learning-Videos für die Altenpflege!
     </section>
 
     <section className="mt-[120px]">
-      <h2 className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
+      <h2 id="health-wellness" className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
       Health & Wellness
       </h2>
 
@@ -175,7 +196,7 @@ Willkommen auf unserer Unterseite zu den E-Learning-Videos für die Altenpflege!
     </section>
 
     <section className="mt-[120px]">
-      <h2 className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
+      <h2 id="food-nutrition" className="text-center text-[#04436F] text-3xl lg:text-[40px] lg:leading-[71px] font-[600] mb-2">
       Food & Nutrition
       </h2>
 
