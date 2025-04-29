@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   // Define the pages where Header and Footer should be excluded
-  const excludedPages = ['/old-index', '/Registrierung-Jobs', '/Registrierung','/Registrierung-Form1','/Registrierung-Form2','/Registrierung-Jobs-Form1','/Registrierung-Jobs-Form2','/login' ,'/register' ,'/confirmation-page' , '/forgot-password' ,'/404' ,'/500'];
+  const excludedPages = ['/old-index', '/Registrierung-Jobs', '/Registrierung','/Registrierung-Form1','/Registrierung-Form2','/Registrierung-Jobs-Form1','/Registrierung-Jobs-Form2','/login' ,'/register' ,'/confirmation-page' , '/forgot-password' ,'/404' ,'/500' ,'/reset-password'];
   const shouldExcludeLayout = excludedPages.includes(router.pathname);
   
 

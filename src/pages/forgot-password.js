@@ -1,4 +1,28 @@
+import { useState } from "react";
+
 export default function ForgotPasswordPage() {
+  const [email, setEmail] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+  
+    const res = await fetch("/api/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+  
+    if (res.ok) {
+      const data = await res.json(); // <- this is missing maybe
+      console.log(data); // 👈 See if resetToken is coming
+      window.location.href = `/reset-password?resetToken=${data.resetToken}`;
+    } else {
+      alert("Email not found or error.");
+    }
+  }
+  
+  
+  
     return (
       <div className="flex bg-[#FAFCFF] max-w-[1410px] w-full mx-auto  px-2 lg:px-0 py-[0px] lg:py-0">
         
@@ -55,7 +79,7 @@ export default function ForgotPasswordPage() {
           </p>
   
           {/* Form */}
-          <form className="flex flex-col w-full gap-[20px] mt-10">
+          <form onSubmit={handleSubmit} className="flex flex-col w-full gap-[20px] mt-10">
   
             {/* Email Field */}
             <div className="flex flex-col w-full">
@@ -63,10 +87,13 @@ export default function ForgotPasswordPage() {
                 Email Address
               </label>
               <input
-                type="email"
-                placeholder="Enter your email"
-                className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
-              />
+        type="email"
+        placeholder="Enter your email"
+        className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
             </div>
   
             {/* Submit Button */}

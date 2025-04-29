@@ -1,4 +1,30 @@
+import { useState } from "react";
+import { useRouter } from "next/router"; // ← Add this line
+
+
 export default function LoginPage() {
+    const router = useRouter(); // ← Add this line
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+  
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("token", data.token); 
+        router.push("/dashboard");
+      } else {
+        alert("Invalid credentials");
+      }
+    }
+      
     return (
       <div className="flex bg-[#FAFCFF] max-w-[1410px] mx-auto">
         
@@ -54,7 +80,7 @@ export default function LoginPage() {
           </p>
   
           {/* Form */}
-          <form className="flex flex-col w-full gap-[20px] mt-10">
+          <form onSubmit={handleSubmit} className="flex flex-col w-full gap-[20px] mt-10">
             
             {/* Email */}
             <div className="flex flex-col w-full">
@@ -62,10 +88,14 @@ export default function LoginPage() {
                 Email Address
               </label>
               <input
-                type="email"
-                placeholder="Enter your email"
-                className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
-              />
+  type="email"
+  placeholder="Enter your email"
+  className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  required
+/>
+
             </div>
   
             {/* Password */}
@@ -74,10 +104,14 @@ export default function LoginPage() {
                 Password
               </label>
               <input
-                type="password"
-                placeholder="Enter your password"
-                className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
-              />
+  type="password"
+  placeholder="Enter your password"
+  className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  required
+/>
+
             </div>
   
             {/* Submit Button */}
@@ -87,7 +121,20 @@ export default function LoginPage() {
             >
               Submit
             </button>
-  
+            <div className="text-right mt-2">
+  <a href="/forgot-password" className="text-[#04436F] text-sm underline">
+    Forgot your password?
+  </a>
+</div>
+
+{/* Add the "Don't have an account?" link */}
+<div className="text-right mt-2">
+  <span className="text-sm">Don't have an account? </span>
+  <a href="/register" className="text-[#04436F] text-sm underline">
+    Register here
+  </a>
+</div>
+
             {/* Extra Buttons */}
             <div className="flex w-full gap-4 mt-2">
               <button className="flex-1 bg-[#C4C4C4] text-[#FAFCFF] text-[18px] font-[500] h-[48px] rounded-[10px]">
