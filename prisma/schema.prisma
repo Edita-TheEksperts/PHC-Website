@@ -8,21 +8,61 @@ generator client {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  name           String
-  email          String   @unique
-  phone          String?  
-  passwordHash   String
-  role           Role     @default(client)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  resetToken     String?
+  id               String   @id @default(uuid())
+  name             String
+  email            String   @unique
+  phone            String?
+  passwordHash     String
+  role             Role     @default(client)
+  service          String   @default("")
+  subService       String @default("")
+
+  frequency        String   @default("")
+  timeWindow       String   @default("")
+  address          String   @default("")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  resetToken       String?
   resetTokenExpiry DateTime?
+
+  healthQuestion   HealthQuestion? @relation("UserHealthQuestion") 
 }
+
+
+model HealthQuestion {
+  id              String   @id @default(uuid())
+  allergies       String?
+  specialRequests String?
+  userId          String   @unique
+  user            User     @relation("UserHealthQuestion", fields: [userId], references: [id])
+}
+
+
 
 
 enum Role {
   admin
   client
   employee
+}
+
+model Employee {
+  id                  String   @id @default(uuid())
+  email               String   @unique
+  firstName           String
+  lastName            String
+  phone               String?
+  address             String?
+  residencePermit     String?
+  experienceYears     Int
+  experienceWhere     String?
+  hasLicense          Boolean
+  availabilityFrom    DateTime
+  availabilityDays    String[]
+  servicesOffered     String[]
+  howFarCanYouTravel  String?
+  resumeUrl           String
+  photoUrl            String?
+  status              String   @default("pending") // pending/interviewed/approved
+  createdAt           DateTime @default(now())
 }
