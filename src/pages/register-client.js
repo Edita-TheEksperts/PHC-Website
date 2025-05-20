@@ -22,10 +22,43 @@ export default function RegisterPage() {
     emergencyContactPhone: "",
   });
 
-  const services = {
-    Reinigung: ["Fenster", "Boden", "Bad"],
-    Pflege: ["Tägliche Hilfe", "Medizinisch"],
-  };
+ const services = {
+  "Alltagsbegleitung und Besorgungen": [
+    "Beleitung zu Terminen",
+    "Einkäufe erledigen",
+    "Postgänge",
+    "Sonstige Begleitungen",
+  ],
+  "Freizeit und Soziale Aktivitäten": [
+    "Gesellschaft leisten",
+    "Gemeinsames Kochen",
+    "Vorlesen",
+    "Kartenspiele",
+    "Ausflüge und Reisebegleitung",
+  ],
+  "Gesundheitsführsorge": [
+    "Körperliche Unterstützung",
+    "Nahrungsaufnahme",
+    "Grundpflegerische Tätigkeiten",
+    "Gesundheitsfördernde Aktivitäten",
+    "Geistige Unterstützung",
+  ],
+  "Haushaltshilfe und Wohnpflege": [
+    "Hauswirtschaft",
+    "Balkon und Blumenpflege",
+    "Waschen / Bügeln",
+    "Kochen",
+    "Fenster Putzen",
+    "Bettwäsche wechseln",
+    "Aufräumen",
+    "Trennung / Entsorgung / Abfall",
+    "Abstauben",
+    "Staubsaugen",
+    "Boden wischen",
+    "Vorhänge reinigen",
+  ],
+};
+
 
   const inputClass =
     "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-blue-600 placeholder-gray-500";
