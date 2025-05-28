@@ -257,6 +257,8 @@ useEffect(() => {
 
 {step === 2 && (
   <>
+
+
     <h2 className="text-2xl font-bold text-[#B99B5F]">Arbeitserfahrung</h2>
     <input
       name="residencePermit"
@@ -265,6 +267,7 @@ useEffect(() => {
       onChange={handleChange}
       className={inputClass}
     />
+    
     <input
       name="experienceYears"
       placeholder="Erfahrung in Jahren"
@@ -524,6 +527,16 @@ useEffect(() => {
     )}
 
     <h2 className="text-2xl font-bold text-[#B99B5F] mb-4">Arbeitsbereitschaft</h2>
+<div className="space-y-2">
+  <label className="font-medium">Verfügbar ab wann?</label>
+  <input
+    type="date"
+    name="availabilityFrom"
+    value={form.availabilityFrom}
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
 
     {/* Weekly availability with checkboxes and hours */}
     <div className="space-y-4">
