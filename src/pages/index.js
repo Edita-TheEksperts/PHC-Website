@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 
 export default function Home() {
@@ -39,55 +40,197 @@ export default function Home() {
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+const services = {
+  "Alltagsbegleitung und Besorgungen": [
+    "Beleitung zu Terminen",
+    "Einkäufe erledigen",
+    "Postgänge",
+    "Sonstige Begleitungen",
+  ],
+  "Freizeit und Soziale Aktivitäten": [
+    "Gesellschaft leisten",
+    "Gemeinsames Kochen",
+    "Vorlesen",
+    "Kartenspiele",
+    "Ausflüge und Reisebegleitung",
+  ],
+  "Gesundheitsführsorge": [
+    "Körperliche Unterstützung",
+    "Nahrungsaufnahme",
+    "Grundpflegerische Tätigkeiten",
+    "Gesundheitsfördernde Aktivitäten",
+    "Geistige Unterstützung",
+  ],
+  "Haushaltshilfe und Wohnpflege": [
+    "Hauswirtschaft",
+    "Balkon und Blumenpflege",
+    "Waschen / Bügeln",
+    "Kochen",
+    "Fenster Putzen",
+    "Bettwäsche wechseln",
+    "Aufräumen",
+    "Trennung / Entsorgung / Abfall",
+    "Abstauben",
+    "Staubsaugen",
+    "Boden wischen",
+    "Vorhänge reinigen",
+  ],
+};
+
+ const router = useRouter();
+  const [selectedService, setSelectedService] = useState("");
+  const [selectedSubService, setSelectedSubService] = useState("");
+
+  const handleSubmit = () => {
+    if (!selectedService || !selectedSubService) {
+      alert("Bitte wählen Sie einen Service und Subservice.");
+      return;
+    }
+    router.push(
+      `/register-client?service=${encodeURIComponent(
+        selectedService
+      )}&subService=${encodeURIComponent(selectedSubService)}`
+    );
+  };
+    const [email, setEmail] = useState("");
+const [agbAccepted, setAgbAccepted] = useState(false);
+
+const handleEmployeeStart = () => {
+  if (!email || !agbAccepted) {
+    alert("Bitte E-Mail eingeben und AGB akzeptieren.");
+    return;
+  }
+
+  // Save to localStorage
+  localStorage.setItem("employeeEmail", email);
+  localStorage.setItem("employeeAgbAccepted", agbAccepted.toString());
+
+  // Redirect to employee register
+  router.push("/employee-register");
+};
+
 
   return (
+    
     <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
       {/* Hero Section */}
-      <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row items-center gap-6 lg:px-[70px]  px-4 py-12 lg:py-[70px]">
-        {/* Left Content */}
-        <div className="lg:w-1/2 gap-[32px]">
-        <h1 className="text-[#04436F] text-[45px] lg:text-[65px] font-semibold lg:leading-[80px]">
-  Individuelle<br></br> Betreuungslös<br></br>ungen für Ihr<br></br> Zuhause
-</h1>
+    <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-2 px-4 lg:px-[20px] py-12 lg:py-[70px]">
+  {/* Left Content */}
+  <div className="flex-1 w-full max-w-[830px]">
+    <h1 className="text-[#04436F] text-[40px] lg:text-[60px] font-semibold leading-tight">
+      Individuelle<br /> Betreuungslösungen<br /> für Ihr Zuhause
+    </h1>
+
+    {/* Service Selector */}
+   <div className="bg-white rounded-[20px]  p-6 lg:p-8 mt-8 w-full">
+  <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-4 w-full">
+    
+    {/* Service Dropdown */}
+    <div className="w-full lg:w-[300px]">
+      <select
+        className="w-full border border-gray-300 rounded-[12px] px-5 py-5 text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] transition"
+        value={selectedService}
+        onChange={(e) => {
+          setSelectedService(e.target.value);
+          setSelectedSubService("");
+        }}
+      >
+        <option value="">Bitte wählen</option>
+        {Object.keys(services).map((srv) => (
+          <option key={srv}>{srv}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Subservice Dropdown */}
+    <div className="w-full lg:w-[300px]">
+      <select
+        className="w-full border border-gray-300 rounded-[12px] px-5 py-5 text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] transition"
+        value={selectedSubService}
+        onChange={(e) => setSelectedSubService(e.target.value)}
+        disabled={!selectedService}
+      >
+        <option value="">Bitte wählen</option>
+        {selectedService &&
+          services[selectedService].map((sub) => (
+            <option key={sub}>{sub}</option>
+          ))}
+      </select>
+    </div>
+
+    {/* Submit Button */}
+    <div className="w-full lg:w-auto mt-4 lg:mt-0">
+      <button
+        onClick={handleSubmit}
+        className="w-full bg-[#04436F] hover:bg-[#033559] text-white text-[16px] font-semibold rounded-[12px] px-6 py-4 transition shadow-lg"
+      >
+        Los geht’s!
+      </button>
+    </div>
+  </div>
+  {/* Rating Section */}
+<div className="flex items-center gap-3 mt-6 lg:mt-8 text-[#04436F]">
+  {/* Stars */}
+  <div className="flex items-center">
+    {Array.from({ length: 5 }).map((_, i) => (
+      <svg
+        key={i}
+        xmlns="http://www.w3.org/2000/svg"
+        fill="gold"
+        viewBox="0 0 24 24"
+        stroke="none"
+        className="w-5 h-5"
+      >
+        <path d="M12 .587l3.668 7.431L24 9.748l-6 5.848 1.417 8.268L12 19.771l-7.417 4.093L6 15.596 0 9.748l8.332-1.73z" />
+      </svg>
+    ))}
+  </div>
+
+  {/* Score Text */}
+  <span className="text-[18px] font-semibold">4.6/5</span>
+
+  {/* Review Count */}
+  <span className="text-sm text-gray-600">
+    293.029 verifizierte Bewertungen seit 2015
+  </span>
+</div>
+
+</div>
 
 
-<button className="mt-6 px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
-                   text-[24px] font-medium leading-[32px] 
-                   rounded-[50px] flex items-center justify-center 
-                   hover:bg-[#033559] transition 
-                   text-center">
-  Entdecken Sie unsere Leistungen
-</button>
-
-          {/* Avatars & Bullet Points */}
-          <div className="mt-4 flex items-center gap-4">
-            {/* Staff Avatars */}
-            <div className="flex -space-x-4">
-              <Image src="/images/phc-avatar1.png" alt="Staff 1" width={50} height={50} className="rounded-full border border-white" />
-              <Image src="/images/phc-avatar2.png" alt="Staff 2" width={50} height={50} className="rounded-full border border-white" />
-              <Image src="/images/phc-avatar3.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
-              <Image src="/images/phc-avatar4.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
-
-            </div>
-          </div>
-          
-          <div className="mt-[30px]">
-          <h1 className="text-[#04436F] text-[22px] font-semibold leading-[26.4px]">
-          Hilfreiche Lösungen für eine selbstbestimmte <br></br>Pflege zu Hause
-</h1>
-          </div>
-          <ul className="mt-2 space-y-2 text-[#04436F] text-[16px] font-normal leading-[25.6px] pl-[30px] list-disc">
-          <li>Volldigitale Plattform</li>
-            <li>Die innovative Betreuungslösung</li>
-          </ul>
+    {/* Avatars and Benefits */}
+    <div className="mt-6">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="flex -space-x-4">
+          <Image src="/images/phc-avatar1.png" alt="Staff 1" width={50} height={50} className="rounded-full border border-white" />
+          <Image src="/images/phc-avatar2.png" alt="Staff 2" width={50} height={50} className="rounded-full border border-white" />
+          <Image src="/images/phc-avatar3.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
+          <Image src="/images/phc-avatar4.png" alt="Staff 4" width={50} height={50} className="rounded-full border border-white" />
         </div>
+      </div>
 
-        {/* Right Image */}
-        <div className="lg:w-1/2">
-          <Image src="/images/phc-hero-phc123.png" alt="Elderly care" width={800} height={600} className="rounded-[20px]" />
-          
-        </div>
-      </section>
+      <h2 className="text-[#04436F] text-[20px] font-semibold mb-2">
+        Hilfreiche Lösungen für eine selbstbestimmte Pflege zu Hause
+      </h2>
+      <ul className="list-disc pl-6 text-[#04436F] text-[16px] space-y-1">
+        <li>Volldigitale Plattform</li>
+        <li>Die innovative Betreuungslösung</li>
+      </ul>
+    </div>
+  </div>
+
+  {/* Right Image */}
+  <div className="w-full lg:w-[500px] flex justify-end">
+    <Image
+      src="/images/phc-hero-phc123.png"
+      alt="Elderly care"
+      width={500}
+      height={600}
+      className="rounded-[20px] object-cover"
+    />
+  </div>
+</section>
+
 
       {/* Services Section */}
       <section className="max-w-[1430px] mx-auto px-6 mt-[120px] ">
@@ -711,6 +854,36 @@ Einmalige Einsätze
     </div>
 
         </section>
+         <section className="bg-[#FFF8EC] py-10 px-6 md:px-20 mt-16">
+        <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow space-y-6">
+          <h2 className="text-2xl font-bold text-[#B99B5F] text-center">
+            Mitarbeiter Registrierung starten
+          </h2>
+          <input
+            type="email"
+            placeholder="Ihre E-Mail-Adresse"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base"
+          />
+          <label className="flex items-center space-x-3 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              checked={agbAccepted}
+              onChange={() => setAgbAccepted(!agbAccepted)}
+              className="h-5 w-5"
+            />
+            <span>Ich akzeptiere die AGB</span>
+          </label>
+          <button
+            onClick={handleEmployeeStart}
+            className="w-full py-3 bg-[#B99B5F] text-white font-semibold rounded-lg hover:bg-[#A6884A]"
+          >
+            Jetzt registrieren
+          </button>
+        </div>
+      </section>
+
     </div>
    
   );

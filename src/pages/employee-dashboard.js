@@ -6,7 +6,6 @@ export default function EmployeeDashboard() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Mock Employee Data (for now)
   const mockEmployeeData = {
     email: "john.doe@example.com",
     firstName: "John",
@@ -17,130 +16,128 @@ export default function EmployeeDashboard() {
     experienceWhere: "ABC Corp",
     hasLicense: true,
     availabilityFrom: "2023-06-01",
-    availabilityDays: ["Mon", "Wed", "Fri"],
-    servicesOffered: ["Cleaning", "Cooking"],
+    availabilityDays: ["Montag", "Mittwoch", "Freitag"],
+    servicesOffered: ["Reinigung", "Kochen"],
     resumeUrl: "https://example.com/resume.pdf",
-    photoUrl: "https://example.com/photo.jpg"
+    photoUrl: "https://example.com/photo.jpg",
+    bookings: [
+      { id: 1, date: "2024-05-12", hours: 4, client: "Frau Müller" },
+      { id: 2, date: "2024-05-18", hours: 3, client: "Herr Schmidt" }
+    ],
+    payments: [
+      { month: "April 2024", amount: 480 },
+      { month: "Mai 2024", amount: 360 }
+    ],
+    kmDriven: 52
   };
 
-  // Simulate fetching employee data
   useEffect(() => {
-    const fetchEmployeeData = async () => {
-      const email = localStorage.getItem("email"); // Get the logged-in user's email
+    const email = localStorage.getItem("email");
+    if (!email) {
+      router.push("/login");
+      return;
+    }
 
-      if (!email) {
-        router.push("/login"); // Redirect if not logged in
-        return;
-      }
-
-      try {
-        // Simulate fetching employee data
-        setEmployeeData(mockEmployeeData);
-      } catch (error) {
-        console.error(error);
-        setEmployeeData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEmployeeData();
+    setEmployeeData(mockEmployeeData);
+    setLoading(false);
   }, [router]);
 
-  if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
-  }
-
-  if (!employeeData) {
-    return <div className="text-center">Error loading employee data. Please try again later.</div>;
-  }
+  if (loading) return <div className="flex justify-center items-center h-screen text-lg text-gray-500">Lade Dashboard...</div>;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-[#F9F9F9] text-gray-800">
       {/* Sidebar */}
-      <div className="w-64 bg-[#04436F] text-white p-6">
-        <h2 className="text-3xl font-bold text-center">PHC</h2>
-        <ul className="mt-8 space-y-4">
-          <li className="hover:bg-[#032A4B] p-3 rounded-md cursor-pointer">Dashboard</li>
-          <li className="hover:bg-[#032A4B] p-3 rounded-md cursor-pointer">Profile</li>
-          <li className="hover:bg-[#032A4B] p-3 rounded-md cursor-pointer">Settings</li>
-          <li className="hover:bg-[#032A4B] p-3 rounded-md cursor-pointer">Logout</li>
-        </ul>
-      </div>
+      <aside className="w-64 bg-[#04436F] text-white p-6 space-y-6 shadow-md">
+        <h2 className="text-3xl font-bold text-center tracking-wide">PHC</h2>
+        <nav className="space-y-3">
+          <SidebarLink label="Dashboard" />
+          <SidebarLink label="Profil" />
+          <SidebarLink label="Einstellungen" />
+          <SidebarLink label="Logout" />
+        </nav>
+      </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 bg-gray-50 p-10">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="text-2xl font-semibold text-[#04436F]">Employee Dashboard</div>
-          <div>
-            <button
-              onClick={() => router.push("/edit-employee-profile")}
-              className="py-2 px-4 bg-[#04436F] text-white font-semibold rounded-md hover:bg-[#032A4B]"
-            >
-              Edit Profile
-            </button>
-          </div>
+      {/* Main Content */}
+      <main className="flex-1 px-10 py-10 space-y-10">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-[#04436F]">Mitarbeiter-Dashboard</h1>
+          <button
+            onClick={() => router.push("/edit-employee-profile")}
+            className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
+          >
+            Profil bearbeiten
+          </button>
         </div>
 
-        {/* Employee Information Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Personal Information Card */}
-          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-            <h2 className="text-xl font-semibold text-[#04436F]">Personal Information</h2>
-            <div className="space-y-2">
-              <p><strong>Name:</strong> {employeeData.firstName} {employeeData.lastName}</p>
-              <p><strong>Email:</strong> {employeeData.email}</p>
-              <p><strong>Phone:</strong> {employeeData.phone}</p>
-              <p><strong>Address:</strong> {employeeData.address}</p>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <Card title="👤 Persönliche Informationen">
+            <Info label="Name" value={`${employeeData.firstName} ${employeeData.lastName}`} />
+            <Info label="E-Mail" value={employeeData.email} />
+            <Info label="Telefon" value={employeeData.phone} />
+            <Info label="Adresse" value={employeeData.address} />
+          </Card>
 
-          {/* Work Experience Card */}
-          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-            <h2 className="text-xl font-semibold text-[#04436F]">Work Experience</h2>
-            <div className="space-y-2">
-              <p><strong>Years of Experience:</strong> {employeeData.experienceYears}</p>
-              <p><strong>Experience Location:</strong> {employeeData.experienceWhere}</p>
-              <p><strong>Has License:</strong> {employeeData.hasLicense ? "Yes" : "No"}</p>
-            </div>
-          </div>
+          <Card title="🛠 Berufserfahrung">
+            <Info label="Jahre" value={`${employeeData.experienceYears}`} />
+            <Info label="Ort" value={employeeData.experienceWhere} />
+            <Info label="Führerschein" value={employeeData.hasLicense ? "Ja" : "Nein"} />
+          </Card>
 
-          {/* Availability Card */}
-          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-            <h2 className="text-xl font-semibold text-[#04436F]">Availability</h2>
-            <div className="space-y-2">
-              <p><strong>Available From:</strong> {employeeData.availabilityFrom}</p>
-              <p><strong>Available Days:</strong> {employeeData.availabilityDays.join(", ")}</p>
-            </div>
-          </div>
+          <Card title="📅 Verfügbarkeit">
+            <Info label="Ab" value={employeeData.availabilityFrom} />
+            <Info label="Tage" value={employeeData.availabilityDays.join(", ")} />
+          </Card>
 
-          {/* Services Offered Card */}
-          <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-            <h2 className="text-xl font-semibold text-[#04436F]">Services Offered</h2>
-            <div className="space-y-2">
-              {employeeData.servicesOffered.length > 0 ? (
-                employeeData.servicesOffered.map((service, index) => (
-                  <p key={index}>{service}</p>
-                ))
-              ) : (
-                <p>No services offered yet.</p>
-              )}
-            </div>
-          </div>
+          <Card title="🧰 Services">
+            {employeeData.servicesOffered.map((s, i) => (
+              <p key={i} className="text-sm">{s}</p>
+            ))}
+          </Card>
 
-          {/* Documents Card */}
-          <div className="bg-white p-6 rounded-lg shadow-md space-y-4 col-span-1 md:col-span-2 lg:col-span-3">
-            <h2 className="text-xl font-semibold text-[#04436F]">Documents</h2>
-            <div className="space-y-2">
-              <p><strong>Resume:</strong> <a href={employeeData.resumeUrl} target="_blank" className="text-[#04436F] underline">View Resume</a></p>
-              {employeeData.photoUrl && (
-                <p><strong>Photo:</strong> <a href={employeeData.photoUrl} target="_blank" className="text-[#04436F] underline">View Photo</a></p>
-              )}
-            </div>
-          </div>
+          <Card title="📄 Dokumente">
+            <Info label="Lebenslauf" value={<a href={employeeData.resumeUrl} target="_blank" className="text-[#04436F] underline">Ansehen</a>} />
+            {employeeData.photoUrl && <Info label="Foto" value={<a href={employeeData.photoUrl} target="_blank" className="text-[#04436F] underline">Ansehen</a>} />}
+          </Card>
+
+          <Card title="📖 Buchungshistorie">
+            {employeeData.bookings.map((b) => (
+              <p key={b.id} className="text-sm">{b.date}: {b.hours} Std mit {b.client}</p>
+            ))}
+          </Card>
+
+          <Card title="💸 Zahlungen">
+            {employeeData.payments.map((p, i) => (
+              <p key={i} className="text-sm">{p.month}: CHF {p.amount}</p>
+            ))}
+          </Card>
+
+          <Card title="🚗 Kilometer">
+            <p className="text-sm mb-2">Gefahren: {employeeData.kmDriven} km</p>
+            <input type="number" placeholder="Neue km..." className="border px-3 py-2 rounded w-full" />
+          </Card>
         </div>
-      </div>
+      </main>
     </div>
+  );
+}
+
+function SidebarLink({ label }) {
+  return (
+    <div className="hover:bg-[#033553] px-4 py-2 rounded cursor-pointer transition">{label}</div>
+  );
+}
+
+function Card({ title, children }) {
+  return (
+    <div className="bg-white rounded-xl shadow-sm p-6 space-y-2 border border-gray-100 hover:shadow-md transition">
+      <h2 className="text-lg font-semibold text-[#04436F] mb-2">{title}</h2>
+      {children}
+    </div>
+  );
+}
+
+function Info({ label, value }) {
+  return (
+    <p className="text-sm"><span className="font-medium">{label}:</span> {value}</p>
   );
 }
