@@ -854,35 +854,40 @@ Einmalige Einsätze
     </div>
 
         </section>
-         <section className="bg-[#FFF8EC] py-10 px-6 md:px-20 mt-16">
-        <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow space-y-6">
-          <h2 className="text-2xl font-bold text-[#B99B5F] text-center">
-            Mitarbeiter Registrierung starten
-          </h2>
-          <input
-            type="email"
-            placeholder="Ihre E-Mail-Adresse"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base"
-          />
-          <label className="flex items-center space-x-3 text-sm text-gray-700">
-            <input
-              type="checkbox"
-              checked={agbAccepted}
-              onChange={() => setAgbAccepted(!agbAccepted)}
-              className="h-5 w-5"
-            />
-            <span>Ich akzeptiere die AGB</span>
-          </label>
-          <button
-            onClick={handleEmployeeStart}
-            className="w-full py-3 bg-[#B99B5F] text-white font-semibold rounded-lg hover:bg-[#A6884A]"
-          >
-            Jetzt registrieren
-          </button>
-        </div>
-      </section>
+        <section className="bg-[#EDF2FB] rounded-[20px] py-14 px-6 md:px-20 mb-[120px]">
+  <div className="max-w-xl mx-auto bg-white p-10 rounded-2xl shadow-xl space-y-6 border border-[#F2E6C6]">
+    <h2 className="text-3xl font-bold text-[#B99B5F] text-center">
+      Mitarbeiter Registrierung starten
+    </h2>
+
+    <div className="space-y-4">
+      <input
+        type="email"
+        placeholder="Ihre E-Mail-Adresse"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#B99B5F] outline-none"
+      />
+
+      <label className="flex items-center space-x-3 text-sm text-gray-700">
+        <input
+          type="checkbox"
+          checked={agbAccepted}
+          onChange={() => setAgbAccepted(!agbAccepted)}
+          className="h-5 w-5 text-[#B99B5F] focus:ring-[#B99B5F] rounded border-gray-300"
+        />
+        <span>Ich akzeptiere die <a href="/agb" className="underline text-[#B99B5F] hover:text-[#A6884A]">AGB</a></span>
+      </label>
+
+      <button
+        onClick={handleEmployeeStart}
+        className="w-full py-3 bg-[#B99B5F] text-white font-semibold rounded-xl hover:bg-[#A6884A] transition duration-200"
+      >
+        Jetzt registrieren
+      </button>
+    </div>
+  </div>
+</section>
 
     </div>
    
