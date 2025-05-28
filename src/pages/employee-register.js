@@ -18,53 +18,62 @@ useEffect(() => {
   }
 }, [step]);
 
-  const [form, setForm] = useState({
-  email: localStorage.getItem("employeeEmail") || "",
-    salutation: "",
-    firstName: "",
-    lastName: "",
-    phone: "",
-    address: "",
-    residencePermit: "",
-    experienceYears: "",
-    experienceWhere: "",
-    hasLicense: false,
-    howFarCanYouTravel: "",
-    availabilityFrom: "",
-    availabilityDays: [],
-    servicesOffered: [],
-    resumeUrl: "",
-    photoUrl: "",
-    howDidYouHearAboutUs: "",
-    officeAppointmentConfirmed: false,
-     residencePermit: "",
+ const [form, setForm] = useState({
+  email: "",
+  salutation: "",
+  firstName: "",
+  lastName: "",
+  phone: "",
+  address: "",
+  residencePermit: "",
   experienceYears: "",
-  experienceWhere: [],
+  experienceWhere: "",
   hasSRK: "",
   hasLicense: "",
   licenseType: "",
   hasCar: "",
   carAvailableForWork: "",
   smoker: "",
-  availableShortNotice: "",
-  specialTraining: [],
+  onCallAvailable: "",
+  specialTrainings: [],
   weekendReady: "",
   nightShifts: "",
   nightShiftFrequency: "",
-  traits: [],
+  communicationTraits: [],
   languages: [],
-  otherLanguage: "",
+  languageOther: "",
   householdTasks: [],
   dietaryExperience: [],
   careServices: [],
   travelSupport: "",
   bodyCareSupport: "",
   hasAllergies: "",
-  okWithPets: "",
-  });
-const [agbAccepted, setAgbAccepted] = useState(
-  localStorage.getItem("employeeAgbAccepted") === "true"
-);
+  worksWithAnimals: "",
+  howFarCanYouTravel: "",
+  availabilityFrom: "",
+  availabilityDays: [],
+  servicesOffered: [],
+  resumeUrl: "",
+  photoUrl: "",
+  howDidYouHearAboutUs: "",
+  officeAppointmentConfirmed: false,
+});
+
+const [agbAccepted, setAgbAccepted] = useState(false);
+
+// Safe localStorage usage
+useEffect(() => {
+  const savedEmail = typeof window !== "undefined" && localStorage.getItem("employeeEmail");
+  const savedAgb = typeof window !== "undefined" && localStorage.getItem("employeeAgbAccepted");
+
+  setForm((prev) => ({
+    ...prev,
+    email: savedEmail || "",
+  }));
+
+  setAgbAccepted(savedAgb === "true");
+}, []);
+
   const inputClass =
     "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F] placeholder-gray-500";
 
