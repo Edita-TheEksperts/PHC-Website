@@ -197,7 +197,7 @@ const handleSubmit = async (e) => {
         >
 
 
-      {step === 1 && (
+    {step === 1 && (
   <>
     <h2 className="text-2xl font-bold text-[#B99B5F] mb-4">
       Persönliche Informationen
@@ -216,20 +216,20 @@ const handleSubmit = async (e) => {
     </select>
 
     {/* First and Last Name */}
-    <div className="flex flex-col md:flex-row gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <input
         name="firstName"
         placeholder="Vorname"
         value={form.firstName}
         onChange={handleChange}
-        className={inputClass + " flex-1"}
+        className={inputClass}
       />
       <input
         name="lastName"
         placeholder="Nachname"
         value={form.lastName}
         onChange={handleChange}
-        className={inputClass + " flex-1"}
+        className={inputClass}
       />
     </div>
 
@@ -242,40 +242,39 @@ const handleSubmit = async (e) => {
       className={inputClass}
     />
 
-    {/* Address and House Number */}
-    <div className="flex flex-col md:flex-row gap-4">
-  <input
-    name="address"
-    placeholder="Straße"
-    value={form.address}
-    onChange={handleChange}
-    className={inputClass + " flex-1"}
-  />
-  <input
-    name="houseNumber"
-    placeholder="Hausnummer"
-    value={form.houseNumber || ""}
-    onChange={handleChange}
-    className={inputClass + " w-40"}
-  />
-</div>
+    {/* Street + House Number */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <input
+        name="address"
+        placeholder="Straße"
+        value={form.address}
+        onChange={handleChange}
+className={`md:col-span-2 ${inputClass}`}
+      />
+      <input
+        name="houseNumber"
+        placeholder="Hausnummer"
+        value={form.houseNumber || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
 
-
-    {/* ZIP Code and City */}
-    <div className="flex flex-col md:flex-row gap-4">
+    {/* ZIP + City */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <input
         name="zipCode"
         placeholder="PLZ"
         value={form.zipCode || ""}
         onChange={handleChange}
-        className={inputClass + " w-40"}
+        className={inputClass}
       />
       <input
         name="city"
         placeholder="Ort"
         value={form.city || ""}
         onChange={handleChange}
-        className={inputClass + " flex-1"}
+        className={inputClass}
       />
     </div>
 
