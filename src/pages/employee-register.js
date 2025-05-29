@@ -171,7 +171,7 @@ const handleSubmit = async (e) => {
       {/* Form Section */}
       <div className="flex-1 space-y-8">
         {/* Stepper */}
-        <div className="flex justify-between text-base font-medium text-[#B99B5F]">
+        <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 text-base font-medium text-[#B99B5F]">
           {steps.map((label, i) => (
             <div key={i} className="flex-1 flex items-center gap-2">
               <div
