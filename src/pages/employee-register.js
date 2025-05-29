@@ -25,9 +25,14 @@ useEffect(() => {
   lastName: "",
   phone: "",
   address: "",
+  houseNumber: "",
+  zipCode: "",
+  city: "",
+country: "",
   residencePermit: "",
   experienceYears: "",
   experienceWhere: "",
+experienceCompany: "",
   hasSRK: "",
   hasLicense: "",
   licenseType: "",
@@ -56,7 +61,6 @@ useEffect(() => {
   resumeUrl: "",
   photoUrl: "",
   howDidYouHearAboutUs: "",
-  officeAppointmentConfirmed: false,
 });
 
 const [agbAccepted, setAgbAccepted] = useState(false);
@@ -118,8 +122,7 @@ useEffect(() => {
   return (
     hasAvailability &&
     form.servicesOffered.length > 0 &&
-    form.resumeFile &&
-    form.officeAppointmentConfirmed
+    form.resumeFile
   );
 
   default:
@@ -136,30 +139,32 @@ useEffect(() => {
     setStep((s) => s + 1);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateStep()) {
-      alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
-      return;
-    }
-    setIsSubmitted(true);
-   try {
-    // Here you'd normally call an API to send email
-    // For example: await axios.post("/api/send-confirmation", { email: form.email });
+ const [submissionMessage, setSubmissionMessage] = useState("");
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateStep()) {
+    alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
+    return;
+  }
+
+  setIsSubmitted(true);
+  setSubmissionMessage("Registrierung abgeschlossen. Eine E-Mail mit einem Interview-Link wurde an Sie gesendet.");
+
+  try {
     console.log("Sending email to:", form.email);
+    // await axios.post("/api/send-confirmation", { email: form.email });
 
-    // Show success message before redirecting
-    alert("Registrierung abgeschlossen. Eine E-Mail mit einem Interview-Link wurde an Sie gesendet.");
-
-    // Redirect to homepage after short delay
+    // Wait 3 seconds before redirecting
     setTimeout(() => {
       router.push("/");
     }, 3000);
   } catch (error) {
     console.error("Email sending failed:", error);
-    alert("Es gab ein Problem beim Senden der Bestätigungsemail.");
+    setSubmissionMessage("❌ Fehler beim Senden der E-Mail. Bitte später erneut versuchen.");
   }
 };
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-10 flex flex-col md:flex-row gap-8">
@@ -192,12 +197,13 @@ useEffect(() => {
         >
 
 
-       {step === 1 && (
+      {step === 1 && (
   <>
-    <h2 className="text-2xl font-bold text-[#B99B5F]">
+    <h2 className="text-2xl font-bold text-[#B99B5F] mb-4">
       Persönliche Informationen
     </h2>
 
+    {/* Salutation */}
     <select
       name="salutation"
       value={form.salutation}
@@ -209,22 +215,25 @@ useEffect(() => {
       <option value="Frau">Frau</option>
     </select>
 
-    <input
-      name="firstName"
-      placeholder="Vorname"
-      value={form.firstName}
-      onChange={handleChange}
-      className={inputClass}
-    />
+    {/* First and Last Name */}
+    <div className="flex flex-col md:flex-row gap-4">
+      <input
+        name="firstName"
+        placeholder="Vorname"
+        value={form.firstName}
+        onChange={handleChange}
+        className={inputClass + " flex-1"}
+      />
+      <input
+        name="lastName"
+        placeholder="Nachname"
+        value={form.lastName}
+        onChange={handleChange}
+        className={inputClass + " flex-1"}
+      />
+    </div>
 
-    <input
-      name="lastName"
-      placeholder="Nachname"
-      value={form.lastName}
-      onChange={handleChange}
-      className={inputClass}
-    />
-
+    {/* Phone */}
     <input
       name="phone"
       placeholder="Telefonnummer"
@@ -233,14 +242,44 @@ useEffect(() => {
       className={inputClass}
     />
 
-    <input
-      name="address"
-      placeholder="Adresse"
-      value={form.address}
-      onChange={handleChange}
-      className={inputClass}
-    />
+    {/* Address and House Number */}
+    <div className="flex flex-col md:flex-row gap-4">
+  <input
+    name="address"
+    placeholder="Straße"
+    value={form.address}
+    onChange={handleChange}
+    className={inputClass + " flex-1"}
+  />
+  <input
+    name="houseNumber"
+    placeholder="Hausnummer"
+    value={form.houseNumber || ""}
+    onChange={handleChange}
+    className={inputClass + " w-40"}
+  />
+</div>
 
+
+    {/* ZIP Code and City */}
+    <div className="flex flex-col md:flex-row gap-4">
+      <input
+        name="zipCode"
+        placeholder="PLZ"
+        value={form.zipCode || ""}
+        onChange={handleChange}
+        className={inputClass + " w-40"}
+      />
+      <input
+        name="city"
+        placeholder="Ort"
+        value={form.city || ""}
+        onChange={handleChange}
+        className={inputClass + " flex-1"}
+      />
+    </div>
+
+    {/* Country */}
     <select
       name="country"
       value={form.country || ""}
@@ -260,28 +299,61 @@ useEffect(() => {
 
 
     <h2 className="text-2xl font-bold text-[#B99B5F]">Arbeitserfahrung</h2>
-    <input
-      name="residencePermit"
-      placeholder="Aufenthaltsbewilligung"
-      value={form.residencePermit}
-      onChange={handleChange}
-      className={inputClass}
-    />
-    
-    <input
-      name="experienceYears"
-      placeholder="Erfahrung in Jahren"
-      value={form.experienceYears}
-      onChange={handleChange}
-      className={inputClass}
-    />
-    <input
-      name="experienceWhere"
-      placeholder="Wo gearbeitet?"
-      value={form.experienceWhere}
-      onChange={handleChange}
-      className={inputClass}
-    />
+        <label className="block font-medium mt-4">Aufenthaltsbewilligung</label>
+
+   <select
+  name="residencePermit"
+  value={form.residencePermit}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="G">G</option>
+  <option value="L">L</option>
+  <option value="B">B</option>
+  <option value="C">C</option>
+  <option value="CH Pass">CH Pass</option>
+  <option value="Andere">Andere (nicht möglich)</option>
+</select>
+
+    <label className="block font-medium mt-4">Warbeitserfahrung (Jahre)</label>
+
+    <select
+  name="experienceYears"
+  value={form.experienceYears}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="1-2 Jahre">1–2 Jahre</option>
+  <option value="2-5 Jahre">2–5 Jahre</option>
+  <option value="5+ Jahre">Mehr als 5 Jahre</option>
+</select>
+
+   {/* Erfahrung auswählen */}
+<label className="block font-medium mt-4">Wo gearbeitet?</label>
+<select
+  name="experienceWhere"
+  value={form.experienceWhere}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="Privat">Privat</option>
+  <option value="Firma">Firma</option>
+</select>
+
+{/* Zeige Textfeld nur wenn "Firma" gewählt wurde */}
+{form.experienceWhere === "Firma" && (
+  <input
+    name="experienceCompany"
+    placeholder="Name der Firma"
+    value={form.experienceCompany || ""}
+    onChange={handleChange}
+    className={inputClass + " mt-2"}
+  />
+)}
+
 
     <label className="block font-medium mt-4">Führerschein vorhanden?</label>
     <select
@@ -391,65 +463,122 @@ useEffect(() => {
     </select>
 
     <label className="block font-medium mt-4">Fortbildungen</label>
-    <select
-      multiple
-      name="specialTrainings"
-      value={form.specialTrainings || []}
-      onChange={handleChange}
-      className={inputClass + " h-40"}
-    >
-      <option value="Demenz">Demenzbetreuung</option>
-      <option value="Palliativ">Palliativbetreuung</option>
-      <option value="Andere">Andere</option>
-    </select>
+<div className="flex flex-wrap gap-6">
+  {["Demenzbetreuung", "Palliativbetreuung", "Andere"].map((option) => (
+    <label key={option} className="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        name="specialTrainings"
+        value={option}
+        checked={form.specialTrainings?.includes(option)}
+        onChange={(e) => {
+          const isChecked = e.target.checked;
+          const value = e.target.value;
+
+          setForm((prev) => {
+            const updated = isChecked
+              ? [...(prev.specialTrainings || []), value]
+              : (prev.specialTrainings || []).filter((v) => v !== value);
+            return { ...prev, specialTrainings: updated };
+          });
+        }}
+        className="h-5 w-5 text-[#B99B5F]"
+      />
+      <span>{option}</span>
+    </label>
+  ))}
+</div>
+
 
     <label className="block font-medium mt-4">Kommunikationsfähigkeit & Empathie</label>
-    <select
-      multiple
-      name="communicationTraits"
-      value={form.communicationTraits || []}
-      onChange={handleChange}
-      className={inputClass + " h-32"}
-    >
-      <option value="Kommunikativ">Kommunikativ</option>
-      <option value="Ruhig">Ruhig</option>
-      <option value="Fröhlich">Fröhlich</option>
-      <option value="Geduldig">Geduldig</option>
-    </select>
+<div className="flex flex-wrap gap-6">
+  {["Kommunikativ", "Ruhig", "Fröhlich", "Geduldig"].map((trait) => (
+    <label key={trait} className="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        name="communicationTraits"
+        value={trait}
+        checked={form.communicationTraits?.includes(trait)}
+        onChange={(e) => {
+          const isChecked = e.target.checked;
+          const value = e.target.value;
+
+          setForm((prev) => {
+            const updated = isChecked
+              ? [...(prev.communicationTraits || []), value]
+              : (prev.communicationTraits || []).filter((v) => v !== value);
+            return { ...prev, communicationTraits: updated };
+          });
+        }}
+        className="h-5 w-5 text-[#B99B5F]"
+      />
+      <span>{trait}</span>
+    </label>
+  ))}
+</div>
 
     <label className="block font-medium mt-4">Sprachen</label>
-    <select
-      multiple
-      name="languages"
-      value={form.languages || []}
-      onChange={handleChange}
-      className={inputClass + " h-32"}
-    >
-      <option value="CH-Deutsch">CH-Deutsch</option>
-      <option value="Deutsch">Deutsch</option>
-      <option value="Englisch">Englisch</option>
-      <option value="Französisch">Französisch</option>
-      <option value="Italienisch">Italienisch</option>
-    </select>
-    <input
-      name="languageOther"
-      placeholder="Sonstige Sprachen – Freitext"
-      value={form.languageOther || ""}
-      onChange={handleChange}
-      className={inputClass + " mt-2"}
-    />
+<div className="flex flex-wrap gap-6">
+  {["CH-Deutsch", "Deutsch", "Englisch", "Französisch", "Italienisch"].map((lang) => (
+    <label key={lang} className="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        name="languages"
+        value={lang}
+        checked={form.languages?.includes(lang)}
+        onChange={(e) => {
+          const isChecked = e.target.checked;
+          const value = e.target.value;
 
-    <label className="block font-medium mt-4">Ernährungsbedürfnisse</label>
-    <select
-      multiple
-      name="mealKnowledge"
-      value={form.mealKnowledge || []}
-      onChange={handleChange}
-      className={inputClass + " h-24"}
-    >
-      <option value="Diäten">Diäten</option>
-      <option value="Allergien">Allergien</option>
-    </select>
+          setForm((prev) => {
+            const updated = isChecked
+              ? [...(prev.languages || []), value]
+              : (prev.languages || []).filter((v) => v !== value);
+            return { ...prev, languages: updated };
+          });
+        }}
+        className="h-5 w-5 text-[#B99B5F]"
+      />
+      <span>{lang}</span>
+    </label>
+  ))}
+</div>
+
+<input
+  name="languageOther"
+  placeholder="Sonstige Sprachen – Freitext"
+  value={form.languageOther || ""}
+  onChange={handleChange}
+  className={inputClass + " mt-4"}
+/>
+
+   <label className="block font-medium mt-4">Ernährungsbedürfnisse</label>
+<div className="flex gap-6 mt-2">
+  {["Diäten", "Allergien"].map((item) => (
+    <label key={item} className="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        name="mealKnowledge"
+        value={item}
+        checked={form.mealKnowledge?.includes(item)}
+        onChange={(e) => {
+          const isChecked = e.target.checked;
+          const value = e.target.value;
+
+          setForm((prev) => {
+            const updated = isChecked
+              ? [...(prev.mealKnowledge || []), value]
+              : (prev.mealKnowledge || []).filter((v) => v !== value);
+            return { ...prev, mealKnowledge: updated };
+          });
+        }}
+        className="h-5 w-5 text-[#B99B5F]"
+      />
+      <span>{item}</span>
+    </label>
+  ))}
+</div>
+
 
     <label className="block font-medium mt-4">Reisebegleitung möglich?</label>
     <select
@@ -505,26 +634,68 @@ useEffect(() => {
 {step === 3 && (
   <>
     {/* Modal on entering Step 3 */}
-    {showReferralModal && (
-      <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded-xl shadow-xl w-[90%] max-w-md">
-          <h3 className="text-xl font-bold text-[#B99B5F] mb-4">Wie haben Sie von uns erfahren?</h3>
+{showReferralModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-xl shadow-xl w-[90%] max-w-md relative">
+      {/* Close button */}
+      <button
+        onClick={() => setShowReferralModal(false)}
+        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold"
+      >
+        &times;
+      </button>
+
+      <h3 className="text-xl font-bold text-[#B99B5F] mb-4">Wie haben Sie von uns erfahren?</h3>
+
+      <div className="space-y-3 mb-4">
+        <label className="flex items-center gap-2">
           <input
+            type="checkbox"
             name="howDidYouHearAboutUs"
-            placeholder="z.B. Google, Freund, Facebook..."
-            value={form.howDidYouHearAboutUs}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4"
+            value="LinkedIn"
+            checked={form.howDidYouHearAboutUs === "LinkedIn"}
+            onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
           />
-          <button
-            onClick={() => setShowReferralModal(false)}
-            className="bg-[#B99B5F] hover:bg-[#A6884A] text-white font-semibold px-4 py-2 rounded w-full"
-          >
-            Speichern
-          </button>
-        </div>
+          LinkedIn
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="howDidYouHearAboutUs"
+            value="Facebook"
+            checked={form.howDidYouHearAboutUs === "Facebook"}
+            onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
+          />
+          Facebook
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="howDidYouHearAboutUs"
+            value="Instagram"
+            checked={form.howDidYouHearAboutUs === "Instagram"}
+            onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
+          />
+          Instagram
+        </label>
+        <input
+          name="howDidYouHearAboutUs"
+          placeholder="Andere (z.B. Google, Freund...)"
+          value={form.howDidYouHearAboutUs || ""}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg px-4 py-2"
+        />
       </div>
-    )}
+
+      <button
+        onClick={() => setShowReferralModal(false)}
+        className="bg-[#B99B5F] hover:bg-[#A6884A] text-white font-semibold px-4 py-2 rounded w-full"
+      >
+        Speichern
+      </button>
+    </div>
+  </div>
+)}
 
     <h2 className="text-2xl font-bold text-[#B99B5F] mb-4">Arbeitsbereitschaft</h2>
 <div className="space-y-2">
@@ -571,23 +742,33 @@ useEffect(() => {
       ))}
     </div>
 
-    {/* Tätigkeiten Auswahl */}
     <div className="space-y-2 mt-6">
-      <label className="font-medium">Welche Tätigkeiten bieten Sie an?</label>
-      <select
-        multiple
-        name="servicesOffered"
-        value={form.servicesOffered}
-        onChange={handleChange}
-        className={inputClass + " h-40"}
-      >
-        {["Reinigung", "Pflege", "Kochen", "Begleitung"].map((task) => (
-          <option key={task} value={task}>
-            {task}
-          </option>
-        ))}
-      </select>
-    </div>
+  <label className="font-medium">Welche Tätigkeiten bieten Sie an?</label>
+  <div className="flex flex-wrap gap-4">
+    {["Reinigung", "Pflege", "Kochen", "Begleitung"].map((task) => (
+      <label key={task} className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          name="servicesOffered"
+          value={task}
+          checked={form.servicesOffered.includes(task)}
+          onChange={(e) => {
+            const value = e.target.value;
+            setForm((prev) => {
+              const updated = prev.servicesOffered.includes(value)
+                ? prev.servicesOffered.filter((item) => item !== value)
+                : [...prev.servicesOffered, value];
+              return { ...prev, servicesOffered: updated };
+            });
+          }}
+          className="h-5 w-5 text-[#B99B5F]"
+        />
+        <span>{task}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
 
     {/* Lebenslauf Upload */}
     <div className="space-y-2 mt-6">
@@ -627,39 +808,27 @@ useEffect(() => {
       </div>
     )}
 
-    {/* Office Termin */}
-    <label className="flex items-center mt-6 space-x-3">
-      <input
-        type="checkbox"
-        name="officeAppointmentConfirmed"
-        checked={form.officeAppointmentConfirmed}
-        onChange={handleChange}
-        className="h-5 w-5 text-[#B99B5F]"
-      />
-      <span>Ich habe einen Termin im Office geplant</span>
-    </label>
   </>
 )}
 
 
 
-          {/* Step 5: Offizieller Status */}
-          {step === 4 && (
-            <>
-              <h2 className="text-2xl font-bold text-[#B99B5F]">
-                Offizieller Arbeitsstatus
-              </h2>
-              {isSubmitted ? (
-                <p className="text-green-600">
-                  ✓ Erfolgreich registriert! Weiterleitung...
-                </p>
-              ) : (
-                <p>
-                  Bitte bestätigen Sie Ihre Angaben und schließen Sie die Registrierung ab.
-                </p>
-              )}
-            </>
-          )}
+        {step === 4 && (
+  <>
+    <h2 className="text-2xl font-bold text-[#B99B5F]">Offizieller Arbeitsstatus</h2>
+
+    {isSubmitted ? (
+      <div className="mt-4 p-4 bg-[#f1f1f1] text-[#B99B5F] rounded-lg shadow">
+        ✓ {submissionMessage}
+      </div>
+    ) : (
+      <p className="mt-2 text-gray-700">
+        Bitte bestätigen Sie Ihre Angaben und schließen Sie die Registrierung ab.
+      </p>
+    )}
+  </>
+)}
+
 
           {/* Navigation Buttons */}
           <div className="pt-6 flex justify-end gap-4">
@@ -676,14 +845,14 @@ useEffect(() => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+                className="px-6 py-3 bg-white text-[#B99B5F] border-[#B99B5F] border-[2px] rounded-lg"
               >
                 Weiter
               </button>
             ) : (
               <button
                 type="submit"
-                className="px-6 py-3 bg-green-600 text-white rounded-lg"
+                className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
               >
                 Registrierung abschließen
               </button>
@@ -693,41 +862,43 @@ useEffect(() => {
       </div>
 
       {/* Summary Section */}
-    <div className="w-full md:w-96">
-  <div className="bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
-    <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
+  <div className="w-full md:w-96">
+    <div className="bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
+      <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
-    <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
-      <SummaryRow label="E-Mail" value={form.email} />
-      <SummaryRow label="Name" value={`${form.salutation} ${form.firstName} ${form.lastName}`} />
-      <SummaryRow label="Telefon" value={form.phone} />
-      <SummaryRow label="Adresse" value={form.address} />
-      <SummaryRow label="Startdatum" value={form.availabilityFrom} />
-      <SummaryRow
-        label="Verfügbare Tage"
-        value={Object.entries(form)
-          .filter(([key, val]) => key.startsWith("available_") && val)
-          .map(([key]) => key.replace("available_", ""))
-          .join(", ")}
-      />
-      <SummaryRow label="Mobilität" value={form.howFarCanYouTravel} />
-      <SummaryRow label="Tätigkeiten" value={(form.servicesOffered || []).join(", ")} />
-      <SummaryRow label="Führerschein" value={form.hasLicense === "ja" ? "Ja" : "Nein"} />
-      {form.hasLicense === "ja" && (
-        <>
-          <SummaryRow label="Fahrzeugtyp" value={form.licenseType} />
-          <SummaryRow label="Auto vorhanden" value={form.hasCar} />
-          {form.hasCar === "ja" && (
-            <SummaryRow label="Auto für Arbeit" value={form.carAvailableForWork} />
-          )}
-        </>
-      )}
-      <SummaryRow label="Erfahrung" value={form.experienceYears} />
-      <SummaryRow label="Erfahrung (Ort)" value={form.experienceWhere} />
-      <SummaryRow label="Wie erfahren?" value={form.howDidYouHearAboutUs} />
+      <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
+        <SummaryRow label="E-Mail" value={form.email} />
+        <SummaryRow label="Name" value={`${form.salutation} ${form.firstName} ${form.lastName}`} />
+        <SummaryRow label="Telefon" value={form.phone} />
+        <SummaryRow label="Adresse" value={`${form.address} ${form.houseNumber || ''}`} />
+        <SummaryRow label="PLZ / Ort" value={`${form.zipCode || ''} ${form.city || ''}`} />
+        <SummaryRow label="Land" value={form.country} />
+        <SummaryRow label="Startdatum" value={form.availabilityFrom} />
+        <SummaryRow
+          label="Verfügbare Tage"
+          value={Object.entries(form)
+            .filter(([key, val]) => key.startsWith("available_") && val)
+            .map(([key]) => key.replace("available_", ""))
+            .join(", ")}
+        />
+        <SummaryRow label="Mobilität" value={form.howFarCanYouTravel} />
+        <SummaryRow label="Tätigkeiten" value={(form.servicesOffered || []).join(", ")} />
+        <SummaryRow label="Führerschein" value={form.hasLicense === "ja" ? "Ja" : "Nein"} />
+        {form.hasLicense === "ja" && (
+          <>
+            <SummaryRow label="Fahrzeugtyp" value={form.licenseType} />
+            <SummaryRow label="Auto vorhanden" value={form.hasCar} />
+            {form.hasCar === "ja" && (
+              <SummaryRow label="Auto für Arbeit" value={form.carAvailableForWork} />
+            )}
+          </>
+        )}
+        <SummaryRow label="Erfahrung" value={form.experienceYears} />
+        <SummaryRow label="Erfahrung (Ort)" value={form.experienceWhere === "Firma" ? form.experienceCompany || "Firma" : form.experienceWhere} />
+        <SummaryRow label="Wie erfahren?" value={form.howDidYouHearAboutUs} />
+      </div>
     </div>
   </div>
-</div>
 
     </div>
   );
