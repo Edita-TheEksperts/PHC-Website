@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function RegisterPage() {
   const router = useRouter();
+const { service, subService } = router.query;
+
+useEffect(() => {
+  if (service) setForm((prev) => ({ ...prev, service }));
+  if (subService) setForm((prev) => ({ ...prev, subService }));
+}, [service, subService]);
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -12,20 +19,25 @@ export default function RegisterPage() {
   const minDateStr = minDate.toISOString().split("T")[0];
 
   const [form, setForm] = useState({
-    frequency: "",
-    duration: 2,
-    firstDate: "",
-    fullName: "",
-    email: "",
-    phone: "",
-    password: "",
-    address: "",
-    emergencyContactName: "",
-    emergencyContactPhone: "",
-    cardNumber: "",
-    expiryDate: "",
-    cvc: ""
-  });
+  frequency: "",
+  duration: 2,
+  firstDate: "",
+  fullName: "",
+  email: "",
+  phone: "",
+  password: "",
+  address: "",
+  emergencyContactName: "",
+  emergencyContactPhone: "",
+  cardNumber: "",
+  expiryDate: "",
+  cvc: "",
+  languages: [],
+  pets: "",
+  service: "",          
+  subService: ""    
+});
+
 const SummaryRow = ({ label, value }) => (
   <div className="flex flex-col">
     <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</span>
@@ -78,17 +90,32 @@ const SummaryRow = ({ label, value }) => (
     setStep((s) => s + 1);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateStep()) {
-      alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
-      return;
-    }
-    setIsSubmitted(true);
-    setTimeout(() => {
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateStep()) {
+    alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/client-register-api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form)
+    });
+
+    if (res.ok) {
+      setIsSubmitted(true);
       router.push("/client-dashboard");
-    }, 3000);
-  };
+    } else {
+      const err = await res.json();
+      alert("Fehler: " + err.message);
+    }
+  } catch (err) {
+    alert("Serverfehler. Bitte versuchen Sie es später erneut.");
+  }
+};
+
 
   const steps = ["Wann?", "Personalien", "Finalisieren", "Pflege"];
 
@@ -191,6 +218,17 @@ const SummaryRow = ({ label, value }) => (
           {step === 2 && (
            <>
   <h2 className="text-2xl font-bold text-black">Personalien</h2>
+    <div className="text-sm text-left mt-6">
+        <p>
+          Bereits registriert?{" "}
+          <span
+            className="text-[#04436F] font-semibold cursor-pointer underline"
+            onClick={() => router.push("/login")}
+          >
+            Hier einloggen
+          </span>
+        </p>
+      </div>
   <div className="space-y-6">
     <input name="fullName" placeholder="Vollständiger Name" value={form.fullName} onChange={handleChange} className={inputClass} />
     <input name="email" type="email" placeholder="E-Mail" value={form.email} onChange={handleChange} className={inputClass} />
@@ -252,6 +290,7 @@ const SummaryRow = ({ label, value }) => (
         className="w-full border px-4 py-3 rounded"
       />
     </div>
+   
   </div>
 </>
 

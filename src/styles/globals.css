@@ -100,3 +100,6 @@ body {
 
   }
 }
+.input-style {
+  @apply w-full h-[48px] rounded-[12px] border px-4;
+}

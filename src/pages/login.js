@@ -18,8 +18,8 @@ export default function LoginPage() {
   
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem("token", data.token); 
-        router.push("/dashboard");
+        localStorage.setItem("userToken", data.token); 
+        router.push("/client-dashboard");
       } else {
         alert("Invalid credentials");
       }

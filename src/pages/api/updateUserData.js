@@ -1,65 +1,61 @@
-// /pages/api/updateUserData.js
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+// pages/api/updateUserData.js
+import { prisma } from "../../lib/prisma";
 
 export default async function handler(req, res) {
-  if (req.method === "PUT") {
-    const {
-      fullName,
-      email,
-      phone,
-      emergencyContact,
-      allergies,
-      specialRequests,
-      service,
-      frequency,
-      timeWindow,
-      address,
-    } = req.body;
+  if (req.method !== "PUT") {
+    return res.status(405).json({ message: "Only PUT method is allowed" });
+  }
 
-    // Validate if necessary data is provided
-    if (!email) {
-      return res.status(400).json({ message: "Email is required to update the user" });
+  try {
+    const { id, ...incomingData } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "Missing user ID" });
     }
 
-    try {
-      const updatedUser = await prisma.user.update({
-        where: { email },
-        data: {
-          name: fullName,
-          phone,
-          service,
-          frequency,
-          timeWindow,
-          address,
-          healthQuestions: {
-            upsert: {
-              update: {
-                allergies,
-                specialRequests,
-              },
-              create: {
-                allergies,
-                specialRequests,
-              },
-            },
-          },
-        },
-        include: { healthQuestions: true },
-      });
-      
+    // Optional: define allowed fields to avoid unwanted updates
+    const allowedFields = [
+      "fullName", "email", "phone", "address",
+      "emergencyContactName", "emergencyContactPhone",
+      "frequency", "duration", "firstDate",
+      "languages", "pets",
+      "mobility", "transport", "appointments",
+      "appointmentsOther", "shoppingAssist", "shoppingType",
+      "briefkasten", "postfach", "sonstige",
+      "form4Completed"
+    ];
 
-      // Return a success response
-      return res.status(200).json({
-        message: "User data updated successfully",
-        data: updatedUser,
-      });
-    } catch (error) {
-      console.error("Error updating user data:", error);
-      // Return a detailed error message
-      return res.status(500).json({ message: "Error updating user data", error: error.message });
+    // Create filtered update object
+    const safeData = {};
+    for (const key of allowedFields) {
+      if (key in incomingData) {
+        safeData[key] = incomingData[key];
+      }
     }
-  } else {
-    return res.status(405).json({ message: "Method Not Allowed" });
+
+    // Update the user
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: safeData,
+    });
+
+    // Mask sensitive fields in the response
+    const sanitizedUser = {
+      ...updatedUser,
+      passwordHash: undefined,
+      cardNumber: updatedUser.cardNumber
+        ? "************" + updatedUser.cardNumber.slice(-4)
+        : undefined,
+      expiryDate: updatedUser.expiryDate ? "**/**" : undefined,
+      cvc: updatedUser.cvc ? "***" : undefined,
+    };
+
+    return res.status(200).json(sanitizedUser);
+  } catch (err) {
+    console.error("❌ Prisma update error:", err);
+    res.status(500).json({
+      message: "Failed to update user",
+      error: err.message,
+    });
   }
 }

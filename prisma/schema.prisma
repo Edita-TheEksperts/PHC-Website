@@ -7,38 +7,69 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id               String   @id @default(uuid())
-  name             String
-  email            String   @unique
-  phone            String?
-  passwordHash     String
-  role             Role     @default(client)
-  service          String   @default("")
-  subService       String @default("")
-
-  frequency        String   @default("")
-  timeWindow       String   @default("")
-  address          String   @default("")
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  resetToken       String?
-  resetTokenExpiry DateTime?
-
-  healthQuestion   HealthQuestion? @relation("UserHealthQuestion") 
+model Service {
+  id    String @id @default(uuid())
+  name  String @unique
+  users User[] @relation("UserService")
 }
 
+model SubService {
+  id    String @id @default(uuid())
+  name  String @unique
+  users User[] @relation("UserSubService")
+}
+
+model User {
+  id                    String   @id @default(uuid())
+  fullName              String?
+  email                 String   @unique
+  phone                 String?
+  passwordHash          String
+  address               String
+  frequency             String
+  duration              Int?
+  firstDate             DateTime?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  cardNumber            String?
+  expiryDate            String?
+  cvc                   String?
+  languages             String?
+  pets                  String?
+
+   form4Completed     Boolean? @default(false)
+
+
+  role         Role    @default(client)
+  serviceId    String?
+  subServiceId String?
+
+  service    Service?    @relation("UserService", fields: [serviceId], references: [id])
+  subService SubService? @relation("UserSubService", fields: [subServiceId], references: [id])
+
+  healthQuestion HealthQuestion? @relation("UserHealthQuestion") 
+ mobility             String?
+  transport            String?
+  appointments         String?
+  appointmentsOther    String?
+  shoppingAssist       String?
+  shoppingType         String?
+  briefkasten          String?
+  postfach             String?
+  sonstige             String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
 
 model HealthQuestion {
-  id              String   @id @default(uuid())
+  id              String  @id @default(uuid())
   allergies       String?
   specialRequests String?
-  userId          String   @unique
-  user            User     @relation("UserHealthQuestion", fields: [userId], references: [id])
+  userId          String  @unique
+  user            User    @relation("UserHealthQuestion", fields: [userId], references: [id])
 }
-
-
-
 
 enum Role {
   admin
@@ -47,22 +78,22 @@ enum Role {
 }
 
 model Employee {
-  id                  String   @id @default(uuid())
-  email               String   @unique
-  firstName           String
-  lastName            String
-  phone               String?
-  address             String?
-  residencePermit     String?
-  experienceYears     Int
-  experienceWhere     String?
-  hasLicense          Boolean
-  availabilityFrom    DateTime
-  availabilityDays    String[]
-  servicesOffered     String[]
-  howFarCanYouTravel  String?
-  resumeUrl           String
-  photoUrl            String?
-  status              String   @default("pending") // pending/interviewed/approved
-  createdAt           DateTime @default(now())
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  firstName          String
+  lastName           String
+  phone              String?
+  address            String?
+  residencePermit    String?
+  experienceYears    Int
+  experienceWhere    String?
+  hasLicense         Boolean
+  availabilityFrom   DateTime
+  availabilityDays   String[]
+  servicesOffered    String[]
+  howFarCanYouTravel String?
+  resumeUrl          String
+  photoUrl           String?
+  status             String   @default("pending") // pending/interviewed/approved
+  createdAt          DateTime @default(now())
 }

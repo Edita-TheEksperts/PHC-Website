@@ -13,98 +13,119 @@ export default function ClientDashboard() {
   const [service, setService] = useState("");
   const router = useRouter();
 
- const mockUserData = {
-  fullName: "John Doe",
-  email: "john.doe@example.com",
-  phone: "123-456-7890",
-  address: "123 Main St, Anytown, USA",
-  service: "Haushaltshilfe und Wohnpflege", // ✅ Add this line
-  emergencyContact: {
-    name: "Jane Doe",
-    phone: "987-654-3210",
-  },
-  healthQuestions: {
-    allergies: "None",
-    specialRequests: "None",
-  },
-  resumeUrl: "https://example.com/resume.pdf",
-  photoUrl: "https://example.com/photo.jpg",
-};
-
-
 useEffect(() => {
-  const getUserData = async () => {
+  const fetchUserData = async () => {
     try {
-      const selectedService = localStorage.getItem("selectedService");
-
-      setUserData(mockUserData);
-      setUpdatedData(mockUserData);
-
-      // Use service from user data if available
-      if (mockUserData.service) {
-        setService(mockUserData.service);
-      } else if (selectedService) {
-        setService(selectedService);
+      const token = localStorage.getItem("userToken");
+      if (!token) {
+        router.push("/");
+        return;
       }
 
+      const res = await fetch("/api/user/getUserData", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch user");
+
+      const user = await res.json();
+      setUserData(user);
+      setUpdatedData(user);
+
+      const selectedService = localStorage.getItem("selectedService");
+      const userService = user?.service?.name?.trim();
+      const storedService = selectedService?.trim().toLowerCase();
+
+      if (userService) {
+        setService(userService);
+      } else if (storedService) {
+        setService(storedService);
+      } else {
+        console.warn("No service found");
+      }
+
+const normalizedService = normalize(user?.service?.name || selectedService || "");
+const formCompleted = user?.form4Completed === true;
+
+if (normalizedService === "alltagsbegleitungundbesorgungen" && !formCompleted) {
+  setShowOverlayForm(true);
+} else {
+  setShowOverlayForm(false);
+}
+
+
+
       setLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
+    } catch (err) {
+      console.error("Error loading user data:", err);
       setLoading(false);
     }
   };
-  getUserData();
+
+  fetchUserData();
 }, []);
 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "allergies" || name === "specialRequests") {
-      setUpdatedData((prevData) => ({
-        ...prevData,
-        healthQuestions: {
-          ...prevData.healthQuestions,
-          [name]: value,
-        },
-      }));
-    } else {
-      setUpdatedData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-  };
+const normalize = (str) =>
+  str
+    ?.toLowerCase()
+    .normalize("NFD") // separates accents
+    .replace(/[\u0300-\u036f]/g, "") // removes accents
+    .replace(/ä/g, "ae") // specific fix
+    .replace(/ü/g, "ue")
+    .replace(/ö/g, "oe")
+    .replace(/ß/g, "ss")
+    .replace(/\s+/g, "")
+    .replace(/[^\w]/g, "") || "";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await fetch("/api/updateUserData", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData),
-    });
-    if (res.ok) {
-      alert("Your data has been successfully updated!");
-    } else {
-      alert("Error updating your data. Please try again.");
-    }
-  };
+const formMap = {
+  haushaltshilfeundwohnpflege: RegisterForm1,
+  freizeitundsozialeaktivitaeten: RegisterForm2,
+  gesundheitsfuhrsorge: RegisterForm3,
+  alltagsbegleitungundbesorgungen: RegisterForm4,
+};
+
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setUpdatedData((prev) => ({ ...prev, [name]: value }));
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const res = await fetch("/api/updateUserData", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: userData.id, ...updatedData }),
+  });
+  if (res.ok) {
+    alert("Daten erfolgreich aktualisiert!");
+  } else {
+    alert("Fehler beim Aktualisieren der Daten.");
+  }
+};
+
 
   if (loading) return <div>Loading...</div>;
-
+const normalizedService = normalize(service);
+const SelectedForm = formMap[normalizedService];
   return (
     <div className="relative">
-      {showOverlayForm && (
-        <div className="absolute top-0 left-0 w-full h-full bg-white/80 backdrop-blur-sm z-50 flex justify-center items-start">
-<div className="bg-white shadow-lg rounded-xl w-full max-w-3xl max-h-[130vh] overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-[#B99B5F]">
-            <h2 className="text-xl font-semibold mb-4 text-[#B99B5F]">Bitte füllen Sie das Serviceformular aus</h2>
-             {service === "Haushaltshilfe und Wohnpflege" && <RegisterForm1 onComplete={() => setShowOverlayForm(false)} />}
-            {service === "Freizeit und Soziale Aktivitäten" && <RegisterForm2 onComplete={() => setShowOverlayForm(false)} />}
-            {service === "Gesundheitsführsorge" && <RegisterForm3 onComplete={() => setShowOverlayForm(false)} />}
-            {service === "Alltagsbegleitung und Besorgungen" && <RegisterForm4 onComplete={() => setShowOverlayForm(false)} />}
+  {showOverlayForm && SelectedForm && (
+  <div className="absolute top-0 left-0 w-full h-full bg-white/80 backdrop-blur-sm z-50 flex justify-center items-start">
+    <div className="bg-white shadow-lg rounded-xl w-full max-w-3xl max-h-[130vh] overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-[#B99B5F]">
+      <h2 className="text-xl font-semibold mb-4 text-[#B99B5F]">
+        Bitte füllen Sie das Serviceformular aus
+      </h2>
+      <SelectedForm onComplete={() => setShowOverlayForm(false)} />
+    </div>
+  </div>
+)}
 
-          </div>
-        </div>
-      )}
+
+
 
       <div className={`flex min-h-screen ${showOverlayForm ? "blur-sm pointer-events-none" : ""}`}>
         <div className="w-64 bg-[#B99B5F] text-white p-6">
@@ -128,6 +149,7 @@ useEffect(() => {
         </div>
 
         <div className="flex-1 bg-gray-50 p-10">
+          
           <div className="flex justify-between items-center mb-6">
             <div className="text-2xl font-semibold text-[#B99B5F]">Client Dashboard</div>
             <div>
@@ -139,7 +161,8 @@ useEffect(() => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <div className="bg-white p-6 rounded-lg shadow-md space-y-4 w-full col-span-1 md:col-span-2 lg:col-span-3">
+              <h2 className="text-xl font-semibold text-[#B99B5F]">Welcome, {userData?.fullName || "User"}!</h2>
               <h2 className="text-xl font-semibold text-[#B99B5F]">Personal Information</h2>
               <div className="space-y-2">
                 <p><strong>Name:</strong> {userData?.fullName}</p>
@@ -148,20 +171,7 @@ useEffect(() => {
                 <p><strong>Address:</strong> {userData?.address}</p>
               </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-              <h2 className="text-xl font-semibold text-[#B99B5F]">Health Information</h2>
-              <div className="space-y-2">
-                <p><strong>Allergies:</strong> {userData?.healthQuestions?.allergies}</p>
-                <p><strong>Special Requests:</strong> {userData?.healthQuestions?.specialRequests}</p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-              <h2 className="text-xl font-semibold text-[#B99B5F]">Emergency Contact</h2>
-              <div className="space-y-2">
-                <p><strong>Name:</strong> {userData?.emergencyContact?.name}</p>
-                <p><strong>Phone:</strong> {userData?.emergencyContact?.phone}</p>
-              </div>
-            </div>
+          
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4 col-span-1 md:col-span-2 lg:col-span-3">
               <h2 className="text-xl font-semibold text-[#B99B5F]">Documents</h2>
               <div className="space-y-2">
@@ -171,41 +181,45 @@ useEffect(() => {
             </div>
   <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
     <h2 className="text-xl font-bold text-[#B99B5F]">Gewählter Service</h2>
-    <div className="flex items-center justify-between">
-      <p className="text-base text-gray-700">
-        Aktueller Service: <span className="text-[#04436F] font-semibold">{userData?.service || "Nicht angegeben"}</span>
-      </p>
-      <button
-        onClick={() => router.push("/register")}
-        className="px-4 py-2 bg-[#04436F] text-white text-sm rounded hover:bg-[#033553]"
-      >
-        Service ändern
-      </button>
-    </div>
+    
+ <div className="space-y-4">
+  {/* Selected Service Display */}
+  <div className="p-4 bg-green-50 border border-green-200 rounded-md shadow-sm">
+    <p className="text-sm text-gray-700 font-medium">Gewählter Service:</p>
+    <p className="text-lg font-bold text-[#04436F]">
+      {userData?.service?.name || "Nicht angegeben"}
+    </p>
+  </div>
 
-    <div className="space-y-3">
-      {[
-        "Alltagsbegleitung und Besorgungen",
-        "Freizeit und Soziale Aktivitäten",
-        "Gesundheitsführsorge",
-        "Haushaltshilfe und Wohnpflege"
-      ]
-        .filter((s) => s !== userData?.service)
-        .map((s, i) => (
-          <div key={i} className="flex items-center justify-between border p-3 rounded-md bg-gray-50">
-            <span className="text-sm font-medium text-gray-800">{s}</span>
-            <button
-              onClick={() => {
-                localStorage.setItem("selectedService", s);
-                router.push("/register");
-              }}
-              className="text-sm px-3 py-1 rounded bg-[#B99B5F] text-white hover:bg-[#a68a53]"
-            >
-              Auswählen
-            </button>
-          </div>
-        ))}
-    </div>
+  {/* List other services */}
+  <div className="space-y-3">
+    {[
+      "Alltagsbegleitung und Besorgungen",
+      "Freizeit und Soziale Aktivitäten",
+      "Gesundheitsführsorge",
+      "Haushaltshilfe und Wohnpflege"
+    ]
+      .filter((s) => s !== userData?.service?.name)
+      .map((s, i) => (
+        <div
+          key={i}
+          className="flex items-center justify-between border p-3 rounded-md bg-gray-50"
+        >
+          <span className="text-sm font-medium text-gray-800">{s}</span>
+          <button
+            onClick={() => {
+              localStorage.setItem("selectedService", s);
+              router.push("/"); // Changed from /register to /
+            }}
+            className="text-sm px-3 py-1 rounded bg-[#B99B5F] text-white hover:bg-[#a68a53]"
+          >
+            Auswählen
+          </button>
+        </div>
+      ))}
+  </div>
+</div>
+
   </div>
 
   {/* === Service History === */}
@@ -253,14 +267,92 @@ useEffect(() => {
               <input type="text" name="fullName" value={updatedData.fullName} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Full Name" />
               <input type="email" name="email" value={updatedData.email} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Email Address" />
               <input type="tel" name="phone" value={updatedData.phone} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Phone Number" />
-              <input type="text" name="emergencyContact" value={updatedData.emergencyContact?.name || ""} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Emergency Contact Name" />
-              <input type="text" name="allergies" value={updatedData.healthQuestions.allergies} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Allergies" />
-              <input type="text" name="specialRequests" value={updatedData.healthQuestions.specialRequests} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Special Requests" />
+<input
+  type="text"
+  name="emergencyContactName"
+  value={updatedData.emergencyContactName || ""}
+  onChange={handleChange}
+  placeholder="Emergency Contact Name"
+  className="h-[48px] w-full rounded-[12px] border px-4"
+/>
+
+<input
+  type="tel"
+  name="emergencyContactPhone"
+  value={updatedData.emergencyContactPhone || ""}
+  onChange={handleChange}
+  placeholder="Emergency Contact Phone"
+  className="h-[48px] w-full rounded-[12px] border px-4"
+/>
               <button type="submit" className="w-full py-4 bg-[#B99B5F] text-white font-semibold text-lg rounded-md shadow-lg hover:bg-[#A6884A]">Save Changes</button>
             </form>
           </div>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+  {userData &&
+    Object.entries(userData)
+      .filter(([key]) => !["passwordHash", "serviceId", "subServiceId"].includes(key))
+      .map(([key, value]) => {
+        // Mask sensitive fields
+        if (["cardNumber", "cvc", "expiryDate"].includes(key)) {
+          if (!value) return null;
+          value =
+            key === "cardNumber"
+              ? "************" + value.slice(-4)
+              : key === "cvc"
+              ? "***"
+              : value;
+        }
+
+        // Format dates
+        if (key.toLowerCase().includes("date") && value) {
+          try {
+            value = new Date(value).toLocaleDateString("de-DE", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+          } catch {
+            value = String(value);
+          }
+        }
+
+        // Convert booleans
+        if (typeof value === "boolean") {
+          value = value ? "Ja" : "Nein";
+        }
+
+        // Clean nulls/undefined
+        if (value === null || value === undefined || value === "") {
+          value = "—";
+        }
+
+        // Format object types
+        if (typeof value === "object") {
+          value = JSON.stringify(value, null, 2);
+        }
+
+        // Label formatting
+        const label = key
+          .replace(/([A-Z])/g, " $1")
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (l) => l.toUpperCase());
+
+        return (
+          <div key={key} className="bg-white rounded-xl shadow-lg p-6 space-y-2">
+            <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">
+              {label}
+            </p>
+            <p className="text-sm text-gray-800 break-words whitespace-pre-wrap">
+              {value}
+            </p>
+          </div>
+        );
+      })}
+</div>
+
         </div>
       </div>
+      
     </div>
   );
 }
