@@ -203,95 +203,123 @@ const handleSubmit = async (e) => {
       Persönliche Informationen
     </h2>
 
-    {/* Salutation */}
-    <select
-      name="salutation"
-      value={form.salutation}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Anrede wählen</option>
-      <option value="Herr">Herr</option>
-      <option value="Frau">Frau</option>
-    </select>
+    {/* Anrede */}
+    <div className="mb-4">
+      <label className="block font-semibold mb-1">Anrede</label>
+      <select
+        name="salutation"
+        value={form.salutation}
+        onChange={handleChange}
+        className={inputClass}
+      >
+        <option value="">Anrede wählen</option>
+        <option value="Herr">Herr</option>
+        <option value="Frau">Frau</option>
+      </select>
+    </div>
 
-    {/* First and Last Name */}
+    {/* Vorname & Nachname */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label className="block font-semibold mb-1">Vorname</label>
+        <input
+          name="firstName"
+          placeholder="Vorname"
+          value={form.firstName}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+      <div>
+        <label className="block font-semibold mb-1">Nachname</label>
+        <input
+          name="lastName"
+          placeholder="Nachname"
+          value={form.lastName}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+    </div>
+
+    {/* Telefonnummer */}
+    <div className="mt-4">
+      <label className="block font-semibold mb-1">Telefonnummer</label>
       <input
-        name="firstName"
-        placeholder="Vorname"
-        value={form.firstName}
-        onChange={handleChange}
-        className={inputClass}
-      />
-      <input
-        name="lastName"
-        placeholder="Nachname"
-        value={form.lastName}
+        name="phone"
+        placeholder="Telefonnummer"
+        value={form.phone}
         onChange={handleChange}
         className={inputClass}
       />
     </div>
 
-    {/* Phone */}
-    <input
-      name="phone"
-      placeholder="Telefonnummer"
-      value={form.phone}
-      onChange={handleChange}
-      className={inputClass}
-    />
-
-    {/* Street + House Number */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <input
-        name="address"
-        placeholder="Straße"
-        value={form.address}
-        onChange={handleChange}
-className={`md:col-span-2 ${inputClass}`}
-      />
-      <input
-        name="houseNumber"
-        placeholder="Hausnummer"
-        value={form.houseNumber || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
+    {/* Straße & Hausnummer */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div className="md:col-span-2">
+        <label className="block font-semibold mb-1">Straße</label>
+        <input
+          name="address"
+          placeholder="Straße"
+          value={form.address}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+      <div>
+        <label className="block font-semibold mb-1">Hausnummer</label>
+        <input
+          name="houseNumber"
+          placeholder="Hausnummer"
+          value={form.houseNumber || ""}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
     </div>
 
-    {/* ZIP + City */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <input
-        name="zipCode"
-        placeholder="PLZ"
-        value={form.zipCode || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-      <input
-        name="city"
-        placeholder="Ort"
-        value={form.city || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
+    {/* PLZ & Ort */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div>
+        <label className="block font-semibold mb-1">PLZ</label>
+        <input
+          name="zipCode"
+          placeholder="PLZ"
+          value={form.zipCode || ""}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+      <div>
+        <label className="block font-semibold mb-1">Ort</label>
+        <input
+          name="city"
+          placeholder="Ort"
+          value={form.city || ""}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
     </div>
 
-    {/* Country */}
-    <select
-      name="country"
-      value={form.country || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Land wählen</option>
-      <option value="CH">Schweiz (CH)</option>
-      <option value="DE">Deutschland (DE)</option>
-      <option value="AT">Österreich (AT)</option>
-    </select>
+    {/* Land */}
+    <div className="mt-4">
+      <label className="block font-semibold mb-1">Land</label>
+      <select
+        name="country"
+        value={form.country || ""}
+        onChange={handleChange}
+        className={inputClass}
+      >
+        <option value="">Land wählen</option>
+        <option value="CH">Schweiz (CH)</option>
+        <option value="DE">Deutschland (DE)</option>
+        <option value="AT">Österreich (AT)</option>
+      </select>
+    </div>
   </>
 )}
+
 
 {step === 2 && (
   <>

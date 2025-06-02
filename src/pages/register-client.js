@@ -46,7 +46,7 @@ const SummaryRow = ({ label, value }) => (
 );
 
   const inputClass =
-    "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500";
+    "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500 mt-1";
 
   const validateStep = () => {
     const {
@@ -215,113 +215,246 @@ const SummaryRow = ({ label, value }) => (
             </>
           )}
 
-          {step === 2 && (
-           <>
-  <h2 className="text-2xl font-bold text-black">Personalien</h2>
+         {step === 2 && (
+  <>
+    <h2 className="text-2xl font-bold text-black">Personalien</h2>
+
     <div className="text-sm text-left mt-6">
-        <p>
-          Bereits registriert?{" "}
-          <span
-            className="text-[#04436F] font-semibold cursor-pointer underline"
-            onClick={() => router.push("/login")}
-          >
-            Hier einloggen
-          </span>
-        </p>
+      <p>
+        Bereits registriert?{" "}
+        <span
+          className="text-[#04436F] font-semibold cursor-pointer underline"
+          onClick={() => router.push("/login")}
+        >
+          Hier einloggen
+        </span>
+      </p>
+    </div>
+
+    <div className="space-y-6 mt-6">
+      {/* Vollständiger Name */}
+      <div>
+        <label className="block font-semibold mb-1">Vollständiger Name</label>
+        <input
+          name="fullName"
+          value={form.fullName}
+          onChange={handleChange}
+          className={inputClass}
+        />
       </div>
-  <div className="space-y-6">
-    <input name="fullName" placeholder="Vollständiger Name" value={form.fullName} onChange={handleChange} className={inputClass} />
-    <input name="email" type="email" placeholder="E-Mail" value={form.email} onChange={handleChange} className={inputClass} />
-    <input name="phone" placeholder="Telefon" value={form.phone} onChange={handleChange} className={inputClass} />
-    <input name="password" type="password" placeholder="Passwort" value={form.password} onChange={handleChange} className={inputClass} />
-    <input name="address" placeholder="Adresse / Ort der Betreuung" value={form.address} onChange={handleChange} className={inputClass} />
 
-    {/* Language Preferences */}
-    <div>
-      <label className="font-semibold block mb-2">Welche Sprachen sollen die Betreuer sprechen?</label>
-      <div className="flex flex-wrap gap-4">
-       {[
-  { code: "ch", name: "CH-Deutsch" },
-  { code: "de", name: "Deutsch" },
-  { code: "gb", name: "Englisch" },
-  { code: "fr", name: "Französisch" },
-  { code: "it", name: "Italienisch" }
-].map((lang) => (
-  <label key={lang.name} className="flex items-center gap-2 border rounded-lg px-4 py-2">
-    <input
-      type="checkbox"
-      name="languages"
-      value={lang.name}
-      onChange={(e) => {
-        const selected = form.languages || [];
-        const updated = e.target.checked
-          ? [...selected, lang.name]
-          : selected.filter((l) => l !== lang.name);
-        setForm({ ...form, languages: updated });
-      }}
-      checked={form.languages?.includes(lang.name) || false}
-    />
-    <img
-      src={`https://flagcdn.com/w40/${lang.code}.png`}
-      alt={lang.name}
-      className="w-6 h-4 object-cover rounded-sm"
-    />
-    <span>{lang.name}</span>
-  </label>
-))}
-  </div>
-      <input
-        name="otherLanguage"
-        placeholder="Sonstige – Freitext"
-        value={form.otherLanguage || ""}
-        onChange={handleChange}
-        className="mt-2 w-full border px-4 py-3 rounded"
-      />
+      {/* E-Mail */}
+      <div>
+        <label className="block font-semibold mb-1">E-Mail</label>
+        <input
+          type="email"
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+
+      {/* Telefon */}
+      <div>
+        <label className="block font-semibold mb-1">Telefon</label>
+        <input
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+
+      {/* Passwort */}
+      <div>
+        <label className="block font-semibold mb-1">Passwort</label>
+        <input
+          type="password"
+          name="password"
+          value={form.password}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+
+      {/* Adresse */}
+      <div>
+        <label className="block font-semibold text-base mb-2">Adresse</label>
+
+        {/* Straße & Hausnummer */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Straße</label>
+            <input
+              name="street"
+              placeholder="z. B. Bahnhofstraße"
+              value={form.street || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Hausnummer</label>
+            <input
+              name="houseNumber"
+              placeholder="z. B. 12a"
+              value={form.houseNumber || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        {/* PLZ & Ort */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">PLZ</label>
+            <input
+              name="postalCode"
+                      placeholder="z. B. 8000"
+
+              value={form.postalCode || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Ort</label>
+            <input
+              name="city"
+                      placeholder="z. B. Zürich"
+
+              value={form.city || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        {/* Land */}
+        <div className="mt-4">
+          <label className="block text-sm font-medium mb-1">Land</label>
+          <input
+            name="address"
+            placeholder="z. B. Schweiz"
+            value={form.address || ""}
+            onChange={handleChange}
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      {/* Sprachen */}
+      <div>
+        <label className="font-semibold block mb-2">Welche Sprachen sollen die Betreuer sprechen?</label>
+        <div className="flex flex-wrap gap-4">
+          {[
+            { code: "ch", name: "CH-Deutsch" },
+            { code: "de", name: "Deutsch" },
+            { code: "gb", name: "Englisch" },
+            { code: "fr", name: "Französisch" },
+            { code: "it", name: "Italienisch" }
+          ].map((lang) => (
+            <label key={lang.name} className="flex items-center gap-2 border rounded-lg px-4 py-2">
+              <input
+                type="checkbox"
+                name="languages"
+                value={lang.name}
+                onChange={(e) => {
+                  const selected = form.languages || [];
+                  const updated = e.target.checked
+                    ? [...selected, lang.name]
+                    : selected.filter((l) => l !== lang.name);
+                  setForm({ ...form, languages: updated });
+                }}
+                checked={form.languages?.includes(lang.name) || false}
+              />
+              <img
+                src={`https://flagcdn.com/w40/${lang.code}.png`}
+                alt={lang.name}
+                className="w-6 h-4 object-cover rounded-sm"
+              />
+              <span>{lang.name}</span>
+            </label>
+          ))}
+        </div>
+        <input
+          name="otherLanguage"
+          placeholder="Sonstige – Freitext"
+          value={form.otherLanguage || ""}
+          onChange={handleChange}
+            className={inputClass}
+        />
+      </div>
+
+      {/* Haustiere */}
+      <div>
+        <label className="font-semibold block mb-2">Haustiere im Haushalt? (wichtig für Allergien)</label>
+        <input
+          name="pets"
+          placeholder="z. B. Katze, Hund, Vogel..."
+          value={form.pets || ""}
+          onChange={handleChange}
+            className={inputClass}
+        />
+      </div>
     </div>
+  </>
+)}
 
-    {/* Haustiere */}
-    <div>
-      <label className="font-semibold block mb-2">Haustiere im Haushalt? (wichtig für Allergien)</label>
-      <input
-        name="pets"
-        placeholder="z. B. Katze, Hund, Vogel..."
-        value={form.pets || ""}
-        onChange={handleChange}
-        className="w-full border px-4 py-3 rounded"
-      />
-    </div>
-   
-  </div>
-</>
-
-          )}
 
           {step === 3 && (
-            <>
-              <h2 className="text-2xl font-bold text-black">Finalisieren</h2>
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-black">Checkliste / Fragebogen</h3>
-                  <div className="space-y-2">
-                    <label className="flex items-center space-x-3">
-                      <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
-                      <span>Ich habe keine akuten Beschwerden</span>
-                    </label>
-                    <label className="flex items-center space-x-3">
-                      <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
-                      <span>Ich nehme keine regelmäßigen Medikamente</span>
-                    </label>
-                    <label className="flex items-center space-x-3">
-                      <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
-                      <span>Ich stimme dem Datenschutz zu</span>
-                    </label>
-                  </div>
-                </div>
-                <input name="emergencyContactName" placeholder="Notfallkontakt Name" value={form.emergencyContactName} onChange={handleChange} className={inputClass} />
-                <input name="emergencyContactPhone" placeholder="Notfallkontakt Telefon" value={form.emergencyContactPhone} onChange={handleChange} className={inputClass} />
-              </div>
-            </>
-          )}
+  <>
+    <h2 className="text-2xl font-bold text-black">Finalisieren</h2>
+
+    <div className="space-y-6 mt-6">
+      {/* Fragebogen / Checkliste */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-black">Checkliste / Fragebogen</h3>
+        <div className="space-y-2">
+          <label className="flex items-center space-x-3">
+            <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
+            <span>Ich habe keine akuten Beschwerden</span>
+          </label>
+          <label className="flex items-center space-x-3">
+            <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
+            <span>Ich nehme keine regelmäßigen Medikamente</span>
+          </label>
+          <label className="flex items-center space-x-3">
+            <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
+            <span>Ich stimme dem Datenschutz zu</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Notfallkontakt Name */}
+      <div>
+        <label className="block font-semibold mb-1">Notfallkontakt Name</label>
+        <input
+          name="emergencyContactName"
+          placeholder="z. B. Maria Muster"
+          value={form.emergencyContactName}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+
+      {/* Notfallkontakt Telefon */}
+      <div>
+        <label className="block font-semibold mb-1">Notfallkontakt Telefon</label>
+        <input
+          name="emergencyContactPhone"
+          placeholder="z. B. +41 79 123 45 67"
+          value={form.emergencyContactPhone}
+          onChange={handleChange}
+          className={inputClass}
+        />
+      </div>
+    </div>
+  </>
+)}
+
 
          {step === 4 && (
   <>
