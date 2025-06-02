@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Service {
@@ -20,47 +20,40 @@ model SubService {
 }
 
 model User {
-  id                    String   @id @default(uuid())
-  fullName              String?
-  email                 String   @unique
-  phone                 String?
+  id                    String          @id @default(uuid())
+  email                 String          @unique
   passwordHash          String
+  role                  Role            @default(client)
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  phone                 String?
   address               String
   frequency             String
+  cardNumber            String?
+  cvc                   String?
   duration              Int?
-  firstDate             DateTime?
   emergencyContactName  String?
   emergencyContactPhone String?
-  cardNumber            String?
   expiryDate            String?
-  cvc                   String?
+  firstDate             DateTime?
+  fullName              String?
   languages             String?
   pets                  String?
-
-   form4Completed     Boolean? @default(false)
-
-
-  role         Role    @default(client)
-  serviceId    String?
-  subServiceId String?
-
-  service    Service?    @relation("UserService", fields: [serviceId], references: [id])
-  subService SubService? @relation("UserSubService", fields: [subServiceId], references: [id])
-
-  healthQuestion HealthQuestion? @relation("UserHealthQuestion") 
- mobility             String?
-  transport            String?
-  appointments         String?
-  appointmentsOther    String?
-  shoppingAssist       String?
-  shoppingType         String?
-  briefkasten          String?
-  postfach             String?
-  sonstige             String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  serviceId             String?
+  subServiceId          String?
+  appointments          String?
+  appointmentsOther     String?
+  briefkasten           String?
+  mobility              String?
+  postfach              String?
+  shoppingAssist        String?
+  shoppingType          String?
+  sonstige              String?
+  transport             String?
+  form4Completed        Boolean?        @default(false)
+  healthQuestion        HealthQuestion? @relation("UserHealthQuestion")
+  service               Service?        @relation("UserService", fields: [serviceId], references: [id])
+  subService            SubService?     @relation("UserSubService", fields: [subServiceId], references: [id])
 }
 
 model HealthQuestion {
@@ -69,12 +62,6 @@ model HealthQuestion {
   specialRequests String?
   userId          String  @unique
   user            User    @relation("UserHealthQuestion", fields: [userId], references: [id])
-}
-
-enum Role {
-  admin
-  client
-  employee
 }
 
 model Employee {
@@ -94,6 +81,12 @@ model Employee {
   howFarCanYouTravel String?
   resumeUrl          String
   photoUrl           String?
-  status             String   @default("pending") // pending/interviewed/approved
+  status             String   @default("pending")
   createdAt          DateTime @default(now())
+}
+
+enum Role {
+  admin
+  client
+  employee
 }
