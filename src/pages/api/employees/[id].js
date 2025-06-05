@@ -8,10 +8,9 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const employee = await prisma.employee.findUnique({
-        where: { id: id },  // Get employee by ID
-        include: {
-          healthQuestion: true,  // Include related health question data if available
-        },
+         where: { id: id }, // UUID string
+
+
       });
 
       if (!employee) {

@@ -5,29 +5,11 @@ const prisma = new PrismaClient(); // Initialize Prisma Client
 // Fetch all employees
 // Fetch all employees with required fields
 async function fetchEmployees() {
-    return await prisma.employee.findMany({
-      select: {  // Explicitly select the required fields
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phone: true,
-        address: true,
-        residencePermit: true,
-        experienceYears: true,
-        experienceWhere: true,
-        hasLicense: true,
-        availabilityFrom: true,
-        availabilityDays: true,
-        servicesOffered: true,
-        howFarCanYouTravel: true,
-        resumeUrl: true,
-        photoUrl: true,
-        status: true,
-        createdAt: true,
-      }
-    });
-  }
+  return await prisma.employee.findMany();
+}
+
+
+
   
 
 // Fetch all clients
