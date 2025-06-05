@@ -65,28 +65,53 @@ model HealthQuestion {
 }
 
 model Employee {
-  id                 String   @id @default(uuid())
-  email              String   @unique
-  firstName          String
-  lastName           String
-  phone              String?
-  address            String?
-  residencePermit    String?
-  experienceYears    Int
-  experienceWhere    String?
-  hasLicense         Boolean
-  availabilityFrom   DateTime
-  availabilityDays   String[]
-  servicesOffered    String[]
-  howFarCanYouTravel String?
-  resumeUrl          String
-  photoUrl           String?
-  status             String   @default("pending")
-  createdAt          DateTime @default(now())
+  id                   String   @id @default(uuid())
+  email                String   @unique
+  salutation           String?
+  firstName            String
+  lastName             String
+  phone                String?
+  address              String?
+  houseNumber          String?
+  zipCode              String?
+  city                 String?
+  country              String?
+  residencePermit      String?
+  experienceYears      String
+  experienceWhere      String?
+  experienceCompany    String?
+  hasLicense           Boolean
+  licenseType          String?
+  hasCar               String?
+  carAvailableForWork  String?
+  smoker               String?
+  onCallAvailable      String?
+  specialTrainings     String[]
+  weekendReady         String?
+  nightShifts          String?
+  nightShiftFrequency  String?
+  communicationTraits  String[]
+  languages            String[]
+  languageOther        String?
+  dietaryExperience    String[]
+  travelSupport        String?
+  bodyCareSupport      String?
+  hasAllergies         String?
+  worksWithAnimals     String?
+  howFarCanYouTravel   String?
+  availabilityFrom     DateTime
+  availabilityDays     String[]
+  servicesOffered      String[]
+  howDidYouHearAboutUs String?
+  desiredWeeklyHours   String?
+  status               String   @default("pending")
+  createdAt            DateTime @default(now())
 }
+
 
 enum Role {
   admin
   client
   employee
 }
+

@@ -1,86 +1,92 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+// The code you shared is very long. We'll break it into logical pieces line-by-line
+// and explain each part in simple terms. This will help you debug and understand it better.
+
+// PART 1: Imports and Component Setup
+import { useState } from "react";               // React hook to use component state
+import { useRouter } from "next/router";       // For redirecting after submission
+import { useEffect } from "react";              // React hook to handle side effects
+
+// Component Start
 export default function RegisterEmployee() {
-  const router = useRouter();
-  const [step, setStep] = useState(1);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-const SummaryRow = ({ label, value }) => (
-  <div className="flex flex-col">
-    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</span>
-    <span className="text-[14px] font-semibold text-gray-900">{value || "—"}</span>
-  </div>
-);
-const [showReferralModal, setShowReferralModal] = useState(false);
-useEffect(() => {
-  if (step === 3) {
-    setShowReferralModal(true);
-  }
-}, [step]);
+  const router = useRouter();                   // Next.js router
+  const [step, setStep] = useState(1);         // Current form step (1 to 4)
+  const [isSubmitted, setIsSubmitted] = useState(false); // To show confirmation after submit
 
- const [form, setForm] = useState({
-  email: "",
-  salutation: "",
-  firstName: "",
-  lastName: "",
-  phone: "",
-  address: "",
-  houseNumber: "",
-  zipCode: "",
-  city: "",
-country: "",
-  residencePermit: "",
-  experienceYears: "",
-  experienceWhere: "",
-experienceCompany: "",
-  hasSRK: "",
-  hasLicense: "",
-  licenseType: "",
-  hasCar: "",
-  carAvailableForWork: "",
-  smoker: "",
-  onCallAvailable: "",
-  specialTrainings: [],
-  weekendReady: "",
-  nightShifts: "",
-  nightShiftFrequency: "",
-  communicationTraits: [],
-  languages: [],
-  languageOther: "",
-  householdTasks: [],
-  dietaryExperience: [],
-  careServices: [],
-  travelSupport: "",
-  bodyCareSupport: "",
-  hasAllergies: "",
-  worksWithAnimals: "",
-  howFarCanYouTravel: "",
-  availabilityFrom: "",
-  availabilityDays: [],
-  servicesOffered: [],
-  resumeUrl: "",
-  photoUrl: "",
-  howDidYouHearAboutUs: "",
-});
+  // Component for showing summary rows
+  const SummaryRow = ({ label, value }) => (
+    <div className="flex flex-col">
+      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</span>
+      <span className="text-[14px] font-semibold text-gray-900">{value || "—"}</span>
+    </div>
+  );
 
-const [agbAccepted, setAgbAccepted] = useState(false);
+  const [showReferralModal, setShowReferralModal] = useState(false); // Show popup on step 3
 
-// Safe localStorage usage
-useEffect(() => {
-  const savedEmail = typeof window !== "undefined" && localStorage.getItem("employeeEmail");
-  const savedAgb = typeof window !== "undefined" && localStorage.getItem("employeeAgbAccepted");
+  // When step changes to 3, show the modal
+  useEffect(() => {
+    if (step === 3) {
+      setShowReferralModal(true);
+    }
+  }, [step]);
 
-  setForm((prev) => ({
-    ...prev,
-    email: savedEmail || "",
-  }));
+  // Initial form state - every input field in your form
+  const [form, setForm] = useState({
+    email: "",
+    salutation: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: "",
+    houseNumber: "",
+    zipCode: "",
+    city: "",
+    country: "",
+    residencePermit: "",
+    experienceYears: "",
+    experienceWhere: "",
+    experienceCompany: "",
+    hasLicense: "",
+    licenseType: "",
+    hasCar: "",
+    carAvailableForWork: "",
+    smoker: "",
+    onCallAvailable: "",
+    specialTrainings: [],
+    communicationTraits: [],
+    languages: [],
+    languageOther: "",
+    dietaryExperience: [],
+    travelSupport: "",
+    bodyCareSupport: "",
+    hasAllergies: "",
+    worksWithAnimals: "",
+    howFarCanYouTravel: "",
+    availabilityFrom: "",
+    availabilityDays: [],
+    servicesOffered: [],
+    howDidYouHearAboutUs: "",
+  });
 
-  setAgbAccepted(savedAgb === "true");
-}, []);
+  const [agbAccepted, setAgbAccepted] = useState(false); // Tracks if user accepted terms
 
+  // Load saved data from browser localStorage
+  useEffect(() => {
+    const savedEmail = typeof window !== "undefined" && localStorage.getItem("employeeEmail");
+    const savedAgb = typeof window !== "undefined" && localStorage.getItem("employeeAgbAccepted");
+
+    setForm((prev) => ({
+      ...prev,
+      email: savedEmail || "",
+    }));
+
+    setAgbAccepted(savedAgb === "true");
+  }, []);
+
+  // CSS class for inputs
   const inputClass =
     "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F] placeholder-gray-500";
 
+  // Step names shown at top of form
   const steps = [
     "Persönliche Informationen",
     "Arbeitserfahrung",
@@ -88,23 +94,30 @@ useEffect(() => {
     "Offizieller Status",
   ];
 
-  const handleChange = (e) => {
-    const { name, value, type, checked, selectedOptions } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]:
-        type === "checkbox"
-          ? checked
-          : type === "select-multiple"
-          ? Array.from(selectedOptions).map((o) => o.value)
-          : value,
-    }));
-  };
+const handleChange = (e) => {
+  const { name, value, type, checked, files, selectedOptions } = e.target;
+
+  if (type === "file") {
+    setForm((prev) => ({ ...prev, [name]: files[0] }));
+    return;
+  }
+
+  setForm((prev) => ({
+    ...prev,
+    [name]:
+      type === "checkbox"
+        ? checked
+        : type === "select-multiple"
+        ? Array.from(selectedOptions).map((o) => o.value)
+        : value,
+  }));
+};
+
 
   const validateStep = () => {
    switch (step) {
   case 1: // now Persönliche Informationen
-    return form.firstName && form.lastName && form.phone && form.address;
+  return form.email && form.firstName && form.lastName && form.phone && form.address;
   case 2:
     return (
       form.residencePermit &&
@@ -112,18 +125,19 @@ useEffect(() => {
       form.experienceWhere &&
       form.howFarCanYouTravel
     );
- case 3:
-  const days = [
-    "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"
-  ];
+case 3:
+  const days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
   const hasAvailability = days.some(
     (day) => form[`available_${day}`] && parseFloat(form[`availabilityHours_${day}`]) > 0
   );
+
   return (
     hasAvailability &&
     form.servicesOffered.length > 0 &&
-    form.resumeFile
+    form.availabilityFrom
   );
+
+
 
   default:
     return true;
@@ -149,21 +163,48 @@ const handleSubmit = async (e) => {
   }
 
   setIsSubmitted(true);
-  setSubmissionMessage("Registrierung abgeschlossen. Eine E-Mail mit einem Interview-Link wurde an Sie gesendet.");
+  setSubmissionMessage(
+    "Registrierung abgeschlossen. Eine E-Mail mit einem Interview-Link wurde an Sie gesendet."
+  );
 
   try {
-    console.log("Sending email to:", form.email);
-    // await axios.post("/api/send-confirmation", { email: form.email });
+    const payload = {
+  ...form,
+  hasLicense: form.hasLicense === "ja",
+  availabilityFrom: form.availabilityFrom || new Date().toISOString().split("T")[0],
+    specialTrainings: Array.isArray(form.specialTrainings) ? form.specialTrainings : [],
 
-    // Wait 3 seconds before redirecting
+};
+console.log("📦 Form payload to be sent:", payload);
+
+
+
+    const res = await fetch("/api/employee-register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+if (res.status === 409) {
+  const errorData = await res.json();
+  setSubmissionMessage("❌ " + errorData.message);
+  setIsSubmitted(false);  // keep form visible for user to fix
+  return;
+}
+    if (!res.ok) throw new Error("API error");
+
     setTimeout(() => {
       router.push("/");
     }, 3000);
   } catch (error) {
-    console.error("Email sending failed:", error);
-    setSubmissionMessage("❌ Fehler beim Senden der E-Mail. Bitte später erneut versuchen.");
+    console.error("Submission failed:", error);
+    setSubmissionMessage(
+      "❌ Fehler beim Senden der Daten. Bitte später erneut versuchen."
+    );
   }
 };
+
 
 
   return (
@@ -585,18 +626,18 @@ const handleSubmit = async (e) => {
     <label key={item} className="flex items-center space-x-2">
       <input
         type="checkbox"
-        name="mealKnowledge"
+        name="dietaryExperience"
         value={item}
-        checked={form.mealKnowledge?.includes(item)}
+        checked={form.dietaryExperience?.includes(item)}
         onChange={(e) => {
           const isChecked = e.target.checked;
           const value = e.target.value;
 
           setForm((prev) => {
             const updated = isChecked
-              ? [...(prev.mealKnowledge || []), value]
-              : (prev.mealKnowledge || []).filter((v) => v !== value);
-            return { ...prev, mealKnowledge: updated };
+              ? [...(prev.dietaryExperience || []), value]
+              : (prev.dietaryExperience || []).filter((v) => v !== value);
+            return { ...prev, dietaryExperience: updated };
           });
         }}
         className="h-5 w-5 text-[#B99B5F]"
@@ -735,6 +776,26 @@ const handleSubmit = async (e) => {
     className={inputClass}
   />
 </div>
+<label className="block font-medium mt-4">Nachtarbeit möglich?</label>
+<select
+  name="nightShifts"
+  value={form.nightShifts || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+<label className="block font-medium mt-4">Häufigkeit der Nachtschichten (z. B. 1x/Woche)</label>
+<input
+  name="nightShiftFrequency"
+  placeholder="z. B. 2x pro Woche"
+  value={form.nightShiftFrequency || ""}
+  onChange={handleChange}
+  className={inputClass}
+/>
+
 
     {/* Weekly availability with checkboxes and hours */}
     <div className="space-y-4">
@@ -796,44 +857,7 @@ const handleSubmit = async (e) => {
   </div>
 </div>
 
-
-    {/* Lebenslauf Upload */}
-    <div className="space-y-2 mt-6">
-      <label className="font-medium">Lebenslauf hochladen</label>
-      <input
-        type="file"
-        name="resumeFile"
-        accept=".pdf,.doc,.docx"
-        onChange={handleChange}
-        className="w-full"
-      />
-    </div>
-
-    {/* Foto Upload */}
-    <div className="space-y-2">
-      <label className="font-medium">Foto hochladen (optional)</label>
-      <input
-        type="file"
-        name="photoFile"
-        accept="image/*"
-        onChange={handleChange}
-        className="w-full"
-      />
-    </div>
-
-    {/* Führerschein Upload nur wenn vorher Ja */}
-    {form.hasLicense === "ja" && (
-      <div className="space-y-2">
-        <label className="font-medium">Führerschein hochladen</label>
-        <input
-          type="file"
-          name="licenseFile"
-          accept=".jpg,.png,.pdf"
-          onChange={handleChange}
-          className="w-full"
-        />
-      </div>
-    )}
+    
 
   </>
 )}
