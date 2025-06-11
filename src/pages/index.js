@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
-
+import { useEffect } from "react";
 
 export default function Home() {
   const faqs = [
@@ -77,21 +77,69 @@ const services = {
   ],
 };
 
- const router = useRouter();
-  const [selectedService, setSelectedService] = useState("");
-  const [selectedSubService, setSelectedSubService] = useState("");
+const router = useRouter();
+const [selectedService, setSelectedService] = useState("");
+const [postalCode, setPostalCode] = useState("");
+const [canton, setCanton] = useState("");
 
-  const handleSubmit = () => {
-    if (!selectedService || !selectedSubService) {
-      alert("Bitte wählen Sie einen Service und Subservice.");
-      return;
-    }
-    router.push(
-      `/register-client?service=${encodeURIComponent(
-        selectedService
-      )}&subService=${encodeURIComponent(selectedSubService)}`
-    );
-  };
+
+const zipToCanton = {
+  // Zurich
+  "8000": "Zürich",
+  "8001": "Zürich",
+  "8002": "Zürich",
+  "8003": "Zürich",
+  "8004": "Zürich",
+  "8005": "Zürich",
+  "8006": "Zürich",
+  "8008": "Zürich",
+
+  // Basel
+  "4000": "Basel-Stadt",
+  "4051": "Basel-Stadt",
+  "4052": "Basel-Stadt",
+  "4053": "Basel-Stadt",
+  "4054": "Basel-Stadt",
+  "4055": "Basel-Stadt",
+  "4056": "Basel-Stadt",
+
+  // Lucerne
+  "6000": "Luzern",
+  "6003": "Luzern",
+  "6004": "Luzern",
+  "6005": "Luzern",
+  "6006": "Luzern",
+
+  // Aarau
+  "5000": "Aargau",
+  "5001": "Aargau",
+  "5004": "Aargau",
+
+  // St. Gallen
+  "9000": "St. Gallen",
+  "9001": "St. Gallen",
+  "9008": "St. Gallen",
+
+  // Zug
+  "6300": "Zug",
+
+  // Baden
+  "5400": "Aargau"
+};
+
+
+const handleSubmit = () => {
+  if (!selectedService || !postalCode) {
+    alert("Bitte wählen Sie einen Service und eine Postleitzahl.");
+    return;
+  }
+  router.push(
+    `/register-client?service=${encodeURIComponent(
+      selectedService
+    )}&postalCode=${encodeURIComponent(postalCode)}`
+  );
+};
+
     const [email, setEmail] = useState("");
 const [agbAccepted, setAgbAccepted] = useState(false);
 
@@ -108,6 +156,13 @@ const handleEmployeeStart = () => {
   // Redirect to employee register
   router.push("/employee-register");
 };
+useEffect(() => {
+  if (postalCode.length >= 4 && zipToCanton[postalCode]) {
+    setCanton(zipToCanton[postalCode]);
+  } else {
+    setCanton("");
+  }
+}, [postalCode]);
 
 
   return (
@@ -132,7 +187,7 @@ const handleEmployeeStart = () => {
         value={selectedService}
         onChange={(e) => {
           setSelectedService(e.target.value);
-          setSelectedSubService("");
+          setPostalCode("");
         }}
       >
         <option value="">Bitte wählen</option>
@@ -142,21 +197,22 @@ const handleEmployeeStart = () => {
       </select>
     </div>
 
-    {/* Subservice Dropdown */}
-    <div className="w-full lg:w-[300px]">
-      <select
-        className="w-full border border-gray-300 rounded-[12px] px-5 py-5 text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] transition"
-        value={selectedSubService}
-        onChange={(e) => setSelectedSubService(e.target.value)}
-        disabled={!selectedService}
-      >
-        <option value="">Bitte wählen</option>
-        {selectedService &&
-          services[selectedService].map((sub) => (
-            <option key={sub}>{sub}</option>
-          ))}
-      </select>
-    </div>
+<div className="w-full lg:w-[300px]">
+  <input
+    type="text"
+    className="w-full border border-gray-300 rounded-[12px] px-5 py-5 text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] transition"
+    placeholder="Postleitzahl eingeben"
+    value={canton ? `${postalCode} (${canton})` : postalCode}
+    onChange={(e) => {
+      const value = e.target.value.split(' ')[0]; // Strip canton if user tries editing
+      setPostalCode(value);
+    }}
+    disabled={!selectedService}
+  />
+</div>
+
+
+
 
     {/* Submit Button */}
     <div className="w-full lg:w-auto mt-4 lg:mt-0">

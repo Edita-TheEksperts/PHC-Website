@@ -8,16 +8,31 @@ datasource db {
 }
 
 model Service {
-  id    String @id @default(uuid())
-  name  String @unique
-  users User[] @relation("UserService")
+  id          String        @id @default(uuid())
+  name        String        @unique
+  users       User[]        @relation("UserService")
+  subServices SubService[]  @relation("ServiceToSubService") // needs match
 }
 
 model SubService {
-  id    String @id @default(uuid())
-  name  String @unique
-  users User[] @relation("UserSubService")
+  id        String   @id @default(uuid())
+  name      String   @unique
+  serviceId String?  // still optional for now
+  service   Service? @relation("ServiceToSubService", fields: [serviceId], references: [id]) // <-- fix added here
+  users     User[]   @relation("UserSubService")
 }
+
+
+
+model Schedule {
+  id        Int    @id @default(autoincrement())
+  day       String
+  startTime String
+  hours     Int
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+}
+
 
 model User {
   id                    String          @id @default(uuid())
@@ -36,7 +51,8 @@ model User {
   emergencyContactPhone String?
   expiryDate            String?
   firstDate             DateTime?
-  fullName              String?
+  firstName  String?  // new
+  lastName   String?  // new
   languages             String?
   pets                  String?
   serviceId             String?
@@ -51,18 +67,18 @@ model User {
   sonstige              String?
   transport             String?
   form4Completed        Boolean?        @default(false)
-  healthQuestion        HealthQuestion? @relation("UserHealthQuestion")
+  allergies             String?   // moved here
+  specialRequests       String?   // moved here
+  postalCode            String?   
+  schedules Schedule[]
   service               Service?        @relation("UserService", fields: [serviceId], references: [id])
   subService            SubService?     @relation("UserSubService", fields: [subServiceId], references: [id])
+  totalPayment        Float?   // <-- add this line
+  paymentIntentId  String?  // nullable if you want
+
 }
 
-model HealthQuestion {
-  id              String  @id @default(uuid())
-  allergies       String?
-  specialRequests String?
-  userId          String  @unique
-  user            User    @relation("UserHealthQuestion", fields: [userId], references: [id])
-}
+
 
 model Employee {
   id                   String   @id @default(uuid())

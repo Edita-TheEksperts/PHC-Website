@@ -108,7 +108,7 @@ const handleSubmit = async (e) => {
 };
 
 
-  if (loading) return <div>Loading...</div>;
+if (loading) return <div className="min-h-screen flex justify-center items-center text-[#B99B5F] font-semibold text-xl">Lädt...</div>;
 const normalizedService = normalize(service);
 const SelectedForm = formMap[normalizedService];
   return (
@@ -161,16 +161,25 @@ const SelectedForm = formMap[normalizedService];
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md space-y-4 w-full col-span-1 md:col-span-2 lg:col-span-3">
-              <h2 className="text-xl font-semibold text-[#B99B5F]">Welcome, {userData?.fullName || "User"}!</h2>
-              <h2 className="text-xl font-semibold text-[#B99B5F]">Personal Information</h2>
-              <div className="space-y-2">
-                <p><strong>Name:</strong> {userData?.fullName}</p>
-                <p><strong>Email:</strong> {userData?.email}</p>
-                <p><strong>Phone:</strong> {userData?.phone}</p>
-                <p><strong>Address:</strong> {userData?.address}</p>
-              </div>
-            </div>
+           <div className="space-y-2">
+  <p><strong>Name:</strong> {userData?.firstName} {userData?.lastName}</p>
+  <p><strong>Email:</strong> {userData?.email}</p>
+  <p><strong>Phone:</strong> {userData?.phone}</p>
+  <p><strong>Address:</strong> {userData?.address}</p>
+
+{userData?.schedules?.length > 0 && (
+  <div className="mt-4">
+    <h3 className="font-semibold text-[#B99B5F] mb-1">Geplante Termine:</h3>
+    {userData.schedules.map((entry) => (
+      <div key={entry.id} className="text-sm text-gray-800">
+        {entry.day} – {entry.startTime} – {entry.hours} Std
+      </div>
+    ))}
+  </div>
+)}
+
+</div>
+
           
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4 col-span-1 md:col-span-2 lg:col-span-3">
               <h2 className="text-xl font-semibold text-[#B99B5F]">Documents</h2>
@@ -264,7 +273,9 @@ const SelectedForm = formMap[normalizedService];
           <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold text-[#B99B5F] mb-4">Update Your Information</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <input type="text" name="fullName" value={updatedData.fullName} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Full Name" />
+              <input type="text" name="fullName" value={updatedData.firstName} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Full Name" />
+               <input type="text" name="fullName" value={updatedData.lastName} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Full Name" />
+
               <input type="email" name="email" value={updatedData.email} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Email Address" />
               <input type="tel" name="phone" value={updatedData.phone} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Phone Number" />
 <input

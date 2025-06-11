@@ -1,15 +1,36 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 export default function RegisterPage() {
   const router = useRouter();
 const { service, subService } = router.query;
 
 useEffect(() => {
-  if (service) setForm((prev) => ({ ...prev, service }));
-  if (subService) setForm((prev) => ({ ...prev, subService }));
-}, [service, subService]);
+  const fetchSubServices = async () => {
+    if (!service) return;
+
+    try {
+   const res = await fetch(`/api/subservices?serviceName=${encodeURIComponent(service)}`);
+if (!res.ok) {
+  console.error("Status:", res.status);
+  return;
+}
+const data = await res.json();
+setSubServices(Array.isArray(data) ? data : []);
+setForm(prev => ({
+  ...prev,
+  subService: prev.subService || data[0]?.name || ""
+}));
+
+    } catch (err) {
+      console.error("Fehler beim Laden der Subservices", err);
+    }
+  };
+
+  fetchSubServices();
+}, [service]);
+  const [subServices, setSubServices] = useState([]);
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -18,11 +39,12 @@ useEffect(() => {
   minDate.setDate(today.getDate() + 10);
   const minDateStr = minDate.toISOString().split("T")[0];
 
-  const [form, setForm] = useState({
+ const [form, setForm] = useState({
   frequency: "",
   duration: 2,
   firstDate: "",
-  fullName: "",
+  firstName: "",
+  lastName: "",
   email: "",
   phone: "",
   password: "",
@@ -35,9 +57,16 @@ useEffect(() => {
   languages: [],
   pets: "",
   service: "",          
-  subService: ""    
+  subService: "",
+  allergies: "", // ✅ ADD THIS
+  specialRequests: "", // ✅ ADD THIS
+  schedule: [] // <-- This was missing
 });
-
+{Array.isArray(form.schedule) && form.schedule.map((entry, i) => (
+  <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+    {/* existing mapping code */}
+  </div>
+))}
 const SummaryRow = ({ label, value }) => (
   <div className="flex flex-col">
     <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</span>
@@ -52,8 +81,10 @@ const SummaryRow = ({ label, value }) => (
     const {
       frequency,
       duration,
+      subService,
       firstDate,
-      fullName,
+      firstName,
+      lastName,
       email,
       phone,
       password,
@@ -62,6 +93,9 @@ const SummaryRow = ({ label, value }) => (
       emergencyContactPhone,
       cardNumber,
       expiryDate,
+      allergies,
+specialRequests,
+
       cvc
     } = form;
 
@@ -69,9 +103,9 @@ const SummaryRow = ({ label, value }) => (
       case 1:
         return frequency && duration >= 2 && firstDate;
       case 2:
-        return fullName && email && phone && password && address;
+        return firstName && lastName && email && phone && password && address;
       case 3:
-        return emergencyContactName && emergencyContactPhone;
+        return emergencyContactName && emergencyContactPhone && allergies && specialRequests;
       case 4:
         return cardNumber && expiryDate && cvc;
       default:
@@ -89,35 +123,104 @@ const SummaryRow = ({ label, value }) => (
     }
     setStep((s) => s + 1);
   };
+const stripe = useStripe();
+const elements = useElements();
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
+
   if (!validateStep()) {
     alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
     return;
   }
 
+  if (!stripe || !elements) {
+    alert("Stripe ist noch nicht geladen.");
+    return;
+  }
+
   try {
-    const res = await fetch("/api/client-register-api", {
+    const HOURLY_RATE = 1;
+    const totalHours = form.schedule.reduce((sum, entry) => sum + (parseInt(entry.hours) || 0), 0);
+    const totalPayment = totalHours * HOURLY_RATE;
+
+    // Step 1: Create PaymentIntent (manual capture)
+    const paymentIntentRes = await fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
+      body: JSON.stringify({ amount: totalPayment * 100 })
     });
 
-    if (res.ok) {
-      setIsSubmitted(true);
-      router.push("/client-dashboard");
-    } else {
-      const err = await res.json();
-      alert("Fehler: " + err.message);
+    const { clientSecret, id: paymentIntentId } = await paymentIntentRes.json();
+
+    // Step 2: Confirm the payment (authorization only)
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement)
+      }
+    });
+
+    if (result.error) {
+      alert("Zahlungsfehler: " + result.error.message);
+      return;
+    }
+
+    // Payment authorized, but not captured yet
+    if (result.paymentIntent.status === "requires_capture" || result.paymentIntent.status === "requires_confirmation" || result.paymentIntent.status === "succeeded") {
+      // Step 3: Save registration info + paymentIntentId + firstDate + totalPayment to backend
+      const res = await fetch("/api/client-register-api", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, totalPayment, paymentIntentId, firstDate: form.firstDate })
+      });
+
+      if (res.ok) {
+        setIsSubmitted(true);
+        router.push("/client-dashboard");
+      } else {
+        const err = await res.json();
+        alert("Fehler bei der Registrierung: " + err.message);
+      }
     }
   } catch (err) {
     alert("Serverfehler. Bitte versuchen Sie es später erneut.");
+    console.error(err);
   }
 };
 
 
-  const steps = ["Wann?", "Personalien", "Finalisieren", "Pflege"];
+useEffect(() => {
+  const fetchSubServices = async () => {
+    if (!service) return;
+
+    try {
+      const res = await fetch(`/api/subservices?serviceName=${encodeURIComponent(service)}`);
+      if (!res.ok) {
+        console.error("Status:", res.status);
+        return;
+      }
+      const data = await res.json();
+      setSubServices(Array.isArray(data) ? data : []);
+
+      // ✅ set form.service here
+      setForm((prev) => ({
+        ...prev,
+        service: service,
+        subService: prev.subService || data[0]?.name || "",
+      }));
+    } catch (err) {
+      console.error("Fehler beim Laden der Subservices", err);
+    }
+  };
+
+  fetchSubServices();
+}, [service]);
+
+  const steps = ["Wann?", "Registration", "Finalisieren", "Pflege"];
+const HOURLY_RATE = 1; // 1 CHF per hour
+
+const totalHours = form.schedule.reduce((sum, entry) => sum + (parseInt(entry.hours) || 0), 0);
+const totalPayment = totalHours * HOURLY_RATE;
 
   return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
@@ -198,19 +301,144 @@ const SummaryRow = ({ label, value }) => (
                     </button>
                   </div>
                 </div>
+                {form.frequency !== "Einmal" && (
+  <div className="space-y-4">
+    <p className="font-semibold text-gray-800">Wann genau benötigen Sie Unterstützung?</p>
 
-                <div>
-                  <label className="block mb-2 font-semibold text-gray-800">Datum auswählen</label>
-                  <input
-                    name="firstDate"
-                    type="date"
-                    value={form.firstDate}
-                    min={minDateStr}
-                    onChange={handleChange}
-                    className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
-                    style={{ fontSize: '16px' }}
-                  />
-                </div>
+    {/* Allow adjusting number of days */}
+    <div className="flex items-center gap-4">
+      <span className="text-gray-700 font-medium">Tage pro Woche:</span>
+      <button
+        type="button"
+        onClick={() =>
+          setForm((prev) => ({
+            ...prev,
+            schedule: prev.schedule.slice(0, Math.max(1, prev.schedule.length - 1))
+          }))
+        }
+        className="w-8 h-8 text-xl border rounded-full"
+      >
+        −
+      </button>
+      <span className="font-semibold">{form.schedule.length || 1}</span>
+      <button
+        type="button"
+        onClick={() =>
+          setForm((prev) => ({
+            ...prev,
+            schedule: [
+              ...prev.schedule,
+              { day: "", startTime: "08:00", hours: 2 }
+            ].slice(0, 7)
+          }))
+        }
+        className="w-8 h-8 text-xl border rounded-full"
+      >
+        +
+      </button>
+    </div>
+
+    {/* Each day's schedule */}
+    {form.schedule.map((entry, i) => (
+      <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        {/* Weekday */}
+        <select
+          value={entry.day}
+          onChange={(e) => {
+            const updated = [...form.schedule];
+            updated[i].day = e.target.value;
+            setForm({ ...form, schedule: updated });
+          }}
+          className="border px-4 py-2 rounded-md"
+        >
+          <option value="">Wochentag wählen</option>
+          {["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"].map((day) => (
+            <option key={day} value={day}>{day}</option>
+          ))}
+        </select>
+
+        {/* Start time */}
+        <input
+          type="time"
+          value={entry.startTime}
+          onChange={(e) => {
+            const updated = [...form.schedule];
+            updated[i].startTime = e.target.value;
+            setForm({ ...form, schedule: updated });
+          }}
+          className="border px-4 py-2 rounded-md"
+        />
+
+        {/* Duration */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              const updated = [...form.schedule];
+              updated[i].hours = Math.max(1, updated[i].hours - 1);
+              setForm({ ...form, schedule: updated });
+            }}
+            className="w-8 h-8 border rounded-full"
+          >
+            −
+          </button>
+          <span>{entry.hours} Std</span>
+          <button
+            type="button"
+            onClick={() => {
+              const updated = [...form.schedule];
+              updated[i].hours = updated[i].hours + 1;
+              setForm({ ...form, schedule: updated });
+            }}
+            className="w-8 h-8 border rounded-full"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
+{form.service && (
+  <div className="space-y-2">
+    <label className="block mb-2 font-semibold text-gray-800">Welche Extras möchten Sie?</label>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {subServices.map((sub) => {
+        const isSelected = form.subService === sub.name;
+        return (
+          <button
+            key={sub.id}
+            type="button"
+            onClick={() => setForm((prev) => ({ ...prev, subService: sub.name }))}
+            className={`flex flex-col items-center justify-center p-4 border rounded-xl text-center space-y-2 ${
+              isSelected ? "border-[#04436F] bg-[#f0f9ff]" : "border-gray-300"
+            }`}
+          >
+            {/* Optional: Replace with icon if available */}
+            <span className="font-medium">{sub.name}</span>
+            <span className="text-sm text-gray-500">{isSelected ? "Ausgewählt" : "Hinzufügen"}</span>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+)}
+
+
+              <div>
+  <label className="block mb-2 font-semibold text-gray-800">Datum auswählen</label>
+  <input
+    name="firstDate"
+    type="date"
+    value={form.firstDate}
+    min={minDateStr}
+    onChange={handleChange}
+    className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
+    style={{ fontSize: '16px' }}
+  />
+</div>
+
               </div>
             </>
           )}
@@ -233,15 +461,26 @@ const SummaryRow = ({ label, value }) => (
 
     <div className="space-y-6 mt-6">
       {/* Vollständiger Name */}
-      <div>
-        <label className="block font-semibold mb-1">Vollständiger Name</label>
-        <input
-          name="fullName"
-          value={form.fullName}
-          onChange={handleChange}
-          className={inputClass}
-        />
-      </div>
+ <div>
+  <label className="block font-semibold mb-1">Vollständiger Name</label>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
+    <input
+      name="firstName"
+      placeholder="Vorname"
+      value={form.firstName || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+    <input
+      name="lastName"
+      placeholder="Nachname"
+      value={form.lastName || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
+</div>
+
 
       {/* E-Mail */}
       <div>
@@ -249,6 +488,7 @@ const SummaryRow = ({ label, value }) => (
         <input
           type="email"
           name="email"
+          placeholder="Email"
           value={form.email}
           onChange={handleChange}
           className={inputClass}
@@ -261,6 +501,7 @@ const SummaryRow = ({ label, value }) => (
         <input
           name="phone"
           value={form.phone}
+          placeholder="Phone"
           onChange={handleChange}
           className={inputClass}
         />
@@ -272,6 +513,7 @@ const SummaryRow = ({ label, value }) => (
         <input
           type="password"
           name="password"
+          placeholder="Passwort"
           value={form.password}
           onChange={handleChange}
           className={inputClass}
@@ -344,8 +586,15 @@ const SummaryRow = ({ label, value }) => (
           />
         </div>
       </div>
+    </div>
+  </>
+)}
 
-      {/* Sprachen */}
+
+          {step === 3 && (
+  <>
+    <h2 className="text-2xl font-bold text-black">Finalisieren</h2>
+          {/* Sprachen */}
       <div>
         <label className="font-semibold block mb-2">Welche Sprachen sollen die Betreuer sprechen?</label>
         <div className="flex flex-wrap gap-4">
@@ -390,6 +639,27 @@ const SummaryRow = ({ label, value }) => (
 
       {/* Haustiere */}
       <div>
+  <label className="block font-semibold mb-1">Allergien</label>
+  <input
+    name="allergies"
+    value={form.allergies || ""}
+    onChange={handleChange}
+    placeholder="z. B. Pollen, Nüsse..."
+    className={inputClass}
+  />
+</div>
+<div>
+  <label className="block font-semibold mb-1">Besondere Wünsche</label>
+  <input
+    name="specialRequests"
+    value={form.specialRequests || ""}
+    onChange={handleChange}
+    placeholder="z. B. vegetarische Mahlzeiten"
+    className={inputClass}
+  />
+</div>
+
+      <div>
         <label className="font-semibold block mb-2">Haustiere im Haushalt? (wichtig für Allergien)</label>
         <input
           name="pets"
@@ -399,15 +669,6 @@ const SummaryRow = ({ label, value }) => (
             className={inputClass}
         />
       </div>
-    </div>
-  </>
-)}
-
-
-          {step === 3 && (
-  <>
-    <h2 className="text-2xl font-bold text-black">Finalisieren</h2>
-
     <div className="space-y-6 mt-6">
       {/* Fragebogen / Checkliste */}
       <div className="space-y-4">
@@ -455,45 +716,32 @@ const SummaryRow = ({ label, value }) => (
   </>
 )}
 
-
-         {step === 4 && (
+{step === 4 && (
   <>
     <h2 className="text-2xl font-bold text-black">Zahlungsdetails</h2>
+    
     <div className="space-y-4">
-      <label className="block text-sm font-medium text-gray-700">Kartennummer</label>
+      <label className="block text-sm font-medium text-gray-700">Kreditkarteninformationen</label>
+      
       <div className="relative">
-        <input
-          name="cardNumber"
-          placeholder="1234 5678 9012 3456"
-          value={form.cardNumber}
-          onChange={handleChange}
-          className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
-        />
+        <div className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm text-base focus-within:ring-2 focus-within:ring-[#04436F]">
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: '16px',
+                  color: '#000',
+                  '::placeholder': { color: '#a0aec0' },
+                },
+                invalid: {
+                  color: '#e53e3e',
+                },
+              },
+            }}
+          />
+        </div>
         <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
           💳
-        </div>
-      </div>
-
-      <div className="flex gap-4">
-        <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700">Gültig bis</label>
-          <input
-            name="expiryDate"
-            placeholder="MM/YY"
-            value={form.expiryDate}
-            onChange={handleChange}
-            className="w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
-          />
-        </div>
-        <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700">CVC</label>
-          <input
-            name="cvc"
-            placeholder="123"
-            value={form.cvc}
-            onChange={handleChange}
-            className="w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
-          />
         </div>
       </div>
     </div>
@@ -534,12 +782,15 @@ const SummaryRow = ({ label, value }) => (
     <SummaryRow label="Häufigkeit" value={form.frequency} />
     <SummaryRow label="Dauer" value={`${form.duration} Stunden`} />
     <SummaryRow label="Datum" value={form.firstDate} />
-    <SummaryRow label="Name" value={form.fullName} />
+    <SummaryRow label="Name" value={form.firstName} />
+    <SummaryRow label="Last Name" value={form.lastName} />
     <SummaryRow label="Telefon" value={form.phone} />
     <SummaryRow label="E-Mail" value={form.email} />
     <SummaryRow label="Adresse" value={form.address} />
     <SummaryRow label="Sprachen" value={(form.languages || []).join(", ")} />
     <SummaryRow label="Haustiere" value={form.pets || "Nicht angegeben"} />
+    <SummaryRow label="Gesamtpreis (CHF)" value={`${totalPayment.toFixed(2)} CHF`} />
+
   </div>
 </div>
 
