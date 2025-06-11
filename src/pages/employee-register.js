@@ -1,10 +1,8 @@
-// The code you shared is very long. We'll break it into logical pieces line-by-line
-// and explain each part in simple terms. This will help you debug and understand it better.
 
-// PART 1: Imports and Component Setup
 import { useState } from "react";               // React hook to use component state
 import { useRouter } from "next/router";       // For redirecting after submission
 import { useEffect } from "react";              // React hook to handle side effects
+
 
 // Component Start
 export default function RegisterEmployee() {
@@ -21,6 +19,14 @@ export default function RegisterEmployee() {
   );
 
   const [showReferralModal, setShowReferralModal] = useState(false); // Show popup on step 3
+const uploadToFirebase = async (file, userId, label) => {
+  if (!file) return null;
+
+  const fileRef = ref(storage, `users/${userId}/${label}-${Date.now()}-${file.name}`);
+  const snapshot = await uploadBytes(fileRef, file);
+  const downloadURL = await getDownloadURL(snapshot.ref);
+  return downloadURL;
+};
 
   // When step changes to 3, show the modal
   useEffect(() => {
@@ -163,47 +169,68 @@ const handleSubmit = async (e) => {
   }
 
   setIsSubmitted(true);
-  setSubmissionMessage(
-    "Registrierung abgeschlossen. Eine E-Mail mit einem Interview-Link wurde an Sie gesendet."
-  );
+  setSubmissionMessage("Dateien werden hochgeladen...");
 
   try {
+    const userId = form.email.replace(/[@.]/g, "_"); // use email as unique ID
+
+    // Upload all files to Firebase
+    const fileUploads = {
+      passportFile: await uploadToFirebase(form.passportFile, userId, "passport"),
+      visaFile: await uploadToFirebase(form.visaFile, userId, "visa"),
+      policeLetterFile: await uploadToFirebase(form.policeLetterFile, userId, "police_letter"),
+      cvFile: await uploadToFirebase(form.cvFile, userId, "cv"),
+      certificateFile: form.certificateFile
+        ? await uploadToFirebase(form.certificateFile, userId, "certificate")
+        : null,
+      drivingLicenceFile:
+        form.licenseType === "ja" && form.drivingLicenceFile
+          ? await uploadToFirebase(form.drivingLicenceFile, userId, "driving_licence")
+          : null,
+      profilePhoto: await uploadToFirebase(form.profilePhoto, userId, "photo"),
+    };
+
+    // Combine URLs into the payload
     const payload = {
-  ...form,
-  hasLicense: form.hasLicense === "ja",
-  availabilityFrom: form.availabilityFrom || new Date().toISOString().split("T")[0],
-    specialTrainings: Array.isArray(form.specialTrainings) ? form.specialTrainings : [],
+      ...form,
+      ...fileUploads,
+      hasLicense: form.hasLicense === "ja",
+      availabilityFrom: form.availabilityFrom || new Date().toISOString().split("T")[0],
+      specialTrainings: Array.isArray(form.specialTrainings) ? form.specialTrainings : [],
+    };
 
-};
-console.log("📦 Form payload to be sent:", payload);
+    console.log("📦 Final Payload:", payload);
 
-
-
+    // Send form data to your API
     const res = await fetch("/api/employee-register", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-if (res.status === 409) {
-  const errorData = await res.json();
-  setSubmissionMessage("❌ " + errorData.message);
-  setIsSubmitted(false);  // keep form visible for user to fix
-  return;
-}
+
+    if (res.status === 409) {
+      const errorData = await res.json();
+      setSubmissionMessage("❌ " + errorData.message);
+      setIsSubmitted(false);
+      return;
+    }
+
     if (!res.ok) throw new Error("API error");
+
+    setSubmissionMessage(
+      "✅ Registrierung abgeschlossen. Eine E-Mail mit einem Interview-Link wurde an Sie gesendet."
+    );
 
     setTimeout(() => {
       router.push("/");
     }, 3000);
   } catch (error) {
-    console.error("Submission failed:", error);
-    setSubmissionMessage(
-      "❌ Fehler beim Senden der Daten. Bitte später erneut versuchen."
-    );
+    console.error("❌ Upload/Submit error:", error);
+    setSubmissionMessage("❌ Fehler beim Hochladen oder Senden der Daten.");
+    setIsSubmitted(false);
   }
 };
+
 
 
 
@@ -856,6 +883,69 @@ if (res.status === 409) {
     ))}
   </div>
 </div>
+{/* Document Uploads */}
+<div className="space-y-6 mt-10">
+  <h3 className="text-2xl font-bold text-[#B99B5F]">Dokumente hochladen</h3>
+
+  {/* Upload Field Template */}
+  {[
+    { label: "Reisepass", key: "passportFile", required: true },
+    { label: "Visum", key: "visaFile", required: true },
+    { label: "Polizeiliches Führungszeugnis", key: "policeLetterFile", required: true },
+    { label: "Lebenslauf", key: "cvFile", required: true },
+    { label: "Zertifikate", key: "certificateFile", required: false },
+  ].map((field) => (
+    <div key={field.key}>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {field.label} (PDF){" "}
+        {field.required ? (
+          <span className="text-red-500 font-bold">*</span>
+        ) : (
+          <span className="text-gray-500 text-sm">(optional)</span>
+        )}
+      </label>
+      <input
+        type="file"
+        accept="application/pdf"
+        onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
+        required={field.required}
+        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#B99B5F] file:text-white hover:file:bg-[#a6884a]"
+      />
+    </div>
+  ))}
+
+  {/* Driving Licence – Conditionally Shown */}
+  {form.licenseType === "ja" && (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        Führerschein (PDF){" "}
+        <span className="text-gray-500 text-sm">(optional)</span>
+      </label>
+      <input
+        type="file"
+        accept="application/pdf"
+        onChange={(e) => setForm({ ...form, drivingLicenceFile: e.target.files[0] })}
+        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#B99B5F] file:text-white hover:file:bg-[#a6884a]"
+      />
+    </div>
+  )}
+
+  {/* Photo Upload */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Foto (JPG, PNG) <span className="text-red-500 font-bold">*</span>
+    </label>
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => setForm({ ...form, profilePhoto: e.target.files[0] })}
+      required
+      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#B99B5F] file:text-white hover:file:bg-[#a6884a]"
+    />
+  </div>
+</div>
+
+
 
     
 
