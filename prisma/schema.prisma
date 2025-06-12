@@ -120,8 +120,19 @@ model Employee {
   servicesOffered      String[]
   howDidYouHearAboutUs String?
   desiredWeeklyHours   String?
+  passportFile        String?
+visaFile            String?
+policeLetterFile    String?
+cvFile              String?
+certificateFile     String?
+drivingLicenceFile  String?
+profilePhoto        String?
   status               String   @default("pending")
   createdAt            DateTime @default(now())
+    password String?  // Add this if not present
+  cardNumber           String?
+  expiryDate           String?
+  cvc                  String?
 }
 
 

@@ -80,7 +80,13 @@ export default async function handler(req, res) {
   ...(data.howFarCanYouTravel && { howFarCanYouTravel: data.howFarCanYouTravel.trim() }),
   ...(data.howDidYouHearAboutUs && { howDidYouHearAboutUs: data.howDidYouHearAboutUs.trim() }),
   ...(data.desiredWeeklyHours && { desiredWeeklyHours: data.desiredWeeklyHours.trim() }),
-
+...(data.passportFile && { passportFile: data.passportFile }),
+...(data.visaFile && { visaFile: data.visaFile }),
+...(data.policeLetterFile && { policeLetterFile: data.policeLetterFile }),
+...(data.cvFile && { cvFile: data.cvFile }),
+...(data.certificateFile && { certificateFile: data.certificateFile }),
+...(data.drivingLicenceFile && { drivingLicenceFile: data.drivingLicenceFile }),
+...(data.profilePhoto && { profilePhoto: data.profilePhoto }),
   // Arrays
   specialTrainings: Array.isArray(data.specialTrainings) ? data.specialTrainings : [],
   communicationTraits: Array.isArray(data.communicationTraits) ? data.communicationTraits : [],

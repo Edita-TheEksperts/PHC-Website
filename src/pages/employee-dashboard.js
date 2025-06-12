@@ -4,32 +4,9 @@ import { useRouter } from "next/router";
 export default function EmployeeDashboard() {
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [payment, setPayment] = useState({ cardNumber: "", expiryDate: "", cvc: "" });
+  const [paymentMsg, setPaymentMsg] = useState("");
   const router = useRouter();
-
-  const mockEmployeeData = {
-    email: "john.doe@example.com",
-    firstName: "John",
-    lastName: "Doe",
-    phone: "123-456-7890",
-    address: "123 Main St, Anytown, USA",
-    experienceYears: 5,
-    experienceWhere: "ABC Corp",
-    hasLicense: true,
-    availabilityFrom: "2023-06-01",
-    availabilityDays: ["Montag", "Mittwoch", "Freitag"],
-    servicesOffered: ["Reinigung", "Kochen"],
-    resumeUrl: "https://example.com/resume.pdf",
-    photoUrl: "https://example.com/photo.jpg",
-    bookings: [
-      { id: 1, date: "2024-05-12", hours: 4, client: "Frau Müller" },
-      { id: 2, date: "2024-05-18", hours: 3, client: "Herr Schmidt" }
-    ],
-    payments: [
-      { month: "April 2024", amount: 480 },
-      { month: "Mai 2024", amount: 360 }
-    ],
-    kmDriven: 52
-  };
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -38,11 +15,97 @@ export default function EmployeeDashboard() {
       return;
     }
 
-    setEmployeeData(mockEmployeeData);
-    setLoading(false);
-  }, [router]);
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/get-employee", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
 
-  if (loading) return <div className="flex justify-center items-center h-screen text-lg text-gray-500">Lade Dashboard...</div>;
+        if (!res.ok) throw new Error("Fehler beim Laden der Daten");
+
+        const data = await res.json();
+        setEmployeeData(data);
+      } catch (error) {
+        console.error("❌", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [router]);
+const [paymentSaved, setPaymentSaved] = useState(false);
+
+useEffect(() => {
+  if (employeeData) {
+    setPayment({
+      cardNumber: employeeData.cardNumber || "",
+      expiryDate: employeeData.expiryDate || "",
+      cvc: employeeData.cvc || "",
+    });
+
+    // If all payment fields are filled, disable form
+    if (employeeData.cardNumber && employeeData.expiryDate && employeeData.cvc) {
+      setPaymentSaved(true);
+    }
+  }
+}, [employeeData]);
+
+
+  const handlePaymentChange = (e) => {
+    const { name, value } = e.target;
+    setPayment((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePaymentSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/update-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({
+    email: employeeData.email,
+    cardNumber: payment.cardNumber,
+    expiryDate: payment.expiryDate,
+    cvc: payment.cvc,
+  }),
+      });
+
+      if (!res.ok) throw new Error("Fehler beim Speichern");
+
+      setPaymentMsg("✅ Zahlungsdaten gespeichert");
+    } catch {
+      setPaymentMsg("❌ Fehler beim Speichern");
+    }
+  };
+
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen text-lg text-gray-500">Lade Dashboard...</div>;
+  }
+
+  if (!employeeData) {
+    return <div className="p-6">Keine Daten gefunden.</div>;
+  }
+const handlePaymentEditRequest = async () => {
+  try {
+    const res = await fetch("/api/request-payment-change", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: employeeData.email,
+        name: `${employeeData.firstName} ${employeeData.lastName}`,
+      }),
+    });
+
+    if (!res.ok) throw new Error();
+
+    setPaymentMsg("Anfrage wurde an das Team gesendet.");
+  } catch {
+    setPaymentMsg("❌ Fehler beim Senden der Anfrage.");
+  }
+};
 
   return (
     <div className="flex min-h-screen bg-[#F9F9F9] text-gray-800">
@@ -53,7 +116,13 @@ export default function EmployeeDashboard() {
           <SidebarLink label="Dashboard" />
           <SidebarLink label="Profil" />
           <SidebarLink label="Einstellungen" />
-          <SidebarLink label="Logout" />
+          <SidebarLink
+            label="Logout"
+            onClick={() => {
+              localStorage.removeItem("email");
+              router.push("/login");
+            }}
+          />
         </nav>
       </aside>
 
@@ -73,57 +142,142 @@ export default function EmployeeDashboard() {
           <Card title="👤 Persönliche Informationen">
             <Info label="Name" value={`${employeeData.firstName} ${employeeData.lastName}`} />
             <Info label="E-Mail" value={employeeData.email} />
-            <Info label="Telefon" value={employeeData.phone} />
-            <Info label="Adresse" value={employeeData.address} />
+            <Info label="Telefon" value={employeeData.phone || "—"} />
+            <Info
+              label="Adresse"
+              value={`${employeeData.address || ""} ${employeeData.houseNumber || ""}, ${employeeData.zipCode || ""} ${employeeData.city || ""}, ${employeeData.country || ""}`}
+            />
           </Card>
 
           <Card title="🛠 Berufserfahrung">
-            <Info label="Jahre" value={`${employeeData.experienceYears}`} />
-            <Info label="Ort" value={employeeData.experienceWhere} />
+            <Info label="Jahre" value={employeeData.experienceYears} />
+            <Info label="Ort" value={employeeData.experienceWhere || "—"} />
+            <Info label="Firma" value={employeeData.experienceCompany || "—"} />
             <Info label="Führerschein" value={employeeData.hasLicense ? "Ja" : "Nein"} />
+            <Info label="Autotyp" value={employeeData.licenseType || "—"} />
           </Card>
 
           <Card title="📅 Verfügbarkeit">
-            <Info label="Ab" value={employeeData.availabilityFrom} />
-            <Info label="Tage" value={employeeData.availabilityDays.join(", ")} />
+            <Info label="Ab" value={new Date(employeeData.availabilityFrom).toLocaleDateString()} />
+            <Info label="Tage" value={employeeData.availabilityDays?.join(", ") || "—"} />
+            <Info label="Stunden/Woche" value={employeeData.desiredWeeklyHours || "—"} />
           </Card>
 
           <Card title="🧰 Services">
-            {employeeData.servicesOffered.map((s, i) => (
+            {employeeData.servicesOffered?.map((s, i) => (
               <p key={i} className="text-sm">{s}</p>
-            ))}
+            )) || "—"}
           </Card>
 
           <Card title="📄 Dokumente">
-            <Info label="Lebenslauf" value={<a href={employeeData.resumeUrl} target="_blank" className="text-[#04436F] underline">Ansehen</a>} />
-            {employeeData.photoUrl && <Info label="Foto" value={<a href={employeeData.photoUrl} target="_blank" className="text-[#04436F] underline">Ansehen</a>} />}
+            {[
+              { label: "Pass", key: "passportFile" },
+              { label: "Visum", key: "visaFile" },
+              { label: "Führungszeugnis", key: "policeLetterFile" },
+              { label: "Lebenslauf", key: "cvFile" },
+              { label: "Zertifikate", key: "certificateFile" },
+              { label: "Führerschein", key: "drivingLicenceFile" },
+              { label: "Foto", key: "profilePhoto" },
+            ].map(({ label, key }) =>
+              employeeData[key] ? (
+                <Info key={key} label={label} value={<a href={employeeData[key]} target="_blank" className="text-[#04436F] underline">Ansehen</a>} />
+              ) : (
+                <Info key={key} label={label} value="Nicht hochgeladen" />
+              )
+            )}
           </Card>
 
-          <Card title="📖 Buchungshistorie">
-            {employeeData.bookings.map((b) => (
-              <p key={b.id} className="text-sm">{b.date}: {b.hours} Std mit {b.client}</p>
-            ))}
+          <Card title="🎓 Zusätzliche Infos">
+            <Info label="Spezial-Trainings" value={employeeData.specialTrainings?.join(", ") || "—"} />
+            <Info label="Sprachen" value={employeeData.languages?.join(", ") || "—"} />
+            <Info label="Andere Sprache" value={employeeData.languageOther || "—"} />
+            <Info label="Reisebereitschaft" value={employeeData.howFarCanYouTravel || "—"} />
           </Card>
 
-          <Card title="💸 Zahlungen">
-            {employeeData.payments.map((p, i) => (
-              <p key={i} className="text-sm">{p.month}: CHF {p.amount}</p>
-            ))}
+          <Card title="🩺 Pflege & Unterstützung">
+            <Info label="Körperpflege" value={employeeData.bodyCareSupport || "—"} />
+            <Info label="Ernährungserfahrung" value={employeeData.dietaryExperience?.join(", ") || "—"} />
+            <Info label="Mit Tieren arbeiten" value={employeeData.worksWithAnimals || "—"} />
+            <Info label="Allergien" value={employeeData.hasAllergies || "—"} />
           </Card>
 
-          <Card title="🚗 Kilometer">
-            <p className="text-sm mb-2">Gefahren: {employeeData.kmDriven} km</p>
-            <input type="number" placeholder="Neue km..." className="border px-3 py-2 rounded w-full" />
+          <Card title="📊 Status">
+            <Info label="Status" value={employeeData.status} />
+            <Info label="Erstellt" value={new Date(employeeData.createdAt).toLocaleDateString()} />
           </Card>
         </div>
+
+     <Card title="💳 Zahlungsinformationen">
+  {paymentSaved ? (
+    <div className="space-y-2 text-sm">
+      <Info label="Kartennummer" value={`**** **** **** ${payment.cardNumber.slice(-4)}`} />
+      <Info label="Ablaufdatum" value={payment.expiryDate} />
+      <Info label="CVC" value="●●●" />
+<p className="text-blue-700 mt-2">Zahlungsdaten wurden gespeichert und sind nicht mehr bearbeitbar.</p>
+<button
+  onClick={handlePaymentEditRequest}
+  className="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+>
+  Anfrage zur Änderung senden
+</button>
+{paymentMsg && <p className="text-sm text-blue-700 mt-2">{paymentMsg}</p>}
+    </div>
+  ) : (
+    <form onSubmit={handlePaymentSubmit} className="space-y-4 text-sm">
+      <div>
+        <label className="block font-medium">Kartennummer</label>
+        <input
+          type="text"
+          name="cardNumber"
+          value={payment.cardNumber}
+          onChange={handlePaymentChange}
+          className="border w-full p-2 rounded"
+          required
+        />
+      </div>
+      <div className="flex gap-4">
+        <div className="flex-1">
+          <label className="block font-medium">Ablaufdatum</label>
+          <input
+            type="text"
+            name="expiryDate"
+            value={payment.expiryDate}
+            onChange={handlePaymentChange}
+            className="border w-full p-2 rounded"
+            placeholder="MM/YY"
+            required
+          />
+        </div>
+        <div className="flex-1">
+          <label className="block font-medium">CVC</label>
+          <input
+            type="text"
+            name="cvc"
+            value={payment.cvc}
+            onChange={handlePaymentChange}
+            className="border w-full p-2 rounded"
+            required
+          />
+        </div>
+      </div>
+      <button type="submit" className="bg-[#04436F] text-white px-4 py-2 rounded mt-2">
+        Speichern
+      </button>
+      {paymentMsg && <p className="text-green-600 mt-2">{paymentMsg}</p>}
+    </form>
+  )}
+</Card>
+
       </main>
     </div>
   );
 }
 
-function SidebarLink({ label }) {
+function SidebarLink({ label, onClick }) {
   return (
-    <div className="hover:bg-[#033553] px-4 py-2 rounded cursor-pointer transition">{label}</div>
+    <div className="hover:bg-[#033553] px-4 py-2 rounded cursor-pointer transition" onClick={onClick}>
+      {label}
+    </div>
   );
 }
 

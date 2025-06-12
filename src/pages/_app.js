@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }) {
     '/Registrierung-Form2', '/Registrierung-Jobs-Form1', '/Registrierung-Jobs-Form2',
     '/login', '/register', '/confirmation-page', '/forgot-password', '/404',
     '/500', '/reset-password', '/dashboard', '/admin-dashboard', '/client-dashboard',
-    '/employee-dashboard'
+    '/employee-dashboard','/admin/employees', '/admin/clients', '/admin/settings', '/set-password',
   ];
 
   const shouldExcludeLayout = excludedPages.includes(router.pathname);

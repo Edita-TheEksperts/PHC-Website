@@ -2,7 +2,8 @@
 import { useState } from "react";               // React hook to use component state
 import { useRouter } from "next/router";       // For redirecting after submission
 import { useEffect } from "react";              // React hook to handle side effects
-
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase"; // adjust path based on your structure
 
 // Component Start
 export default function RegisterEmployee() {
@@ -75,18 +76,37 @@ const uploadToFirebase = async (file, userId, label) => {
 
   const [agbAccepted, setAgbAccepted] = useState(false); // Tracks if user accepted terms
 
-  // Load saved data from browser localStorage
-  useEffect(() => {
-    const savedEmail = typeof window !== "undefined" && localStorage.getItem("employeeEmail");
-    const savedAgb = typeof window !== "undefined" && localStorage.getItem("employeeAgbAccepted");
+const [emailExists, setEmailExists] = useState(false);
 
-    setForm((prev) => ({
-      ...prev,
-      email: savedEmail || "",
-    }));
+useEffect(() => {
+  const savedEmail = typeof window !== "undefined" && localStorage.getItem("employeeEmail");
+  const savedAgb = typeof window !== "undefined" && localStorage.getItem("employeeAgbAccepted");
 
-    setAgbAccepted(savedAgb === "true");
-  }, []);
+  setForm((prev) => ({
+    ...prev,
+    email: savedEmail || "",
+  }));
+
+  setAgbAccepted(savedAgb === "true");
+
+  if (savedEmail) {
+    fetch("/api/check-user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: savedEmail }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.exists) {
+          setEmailExists(true);
+        }
+      })
+      .catch((err) => {
+        console.error("❌ Failed to check email:", err);
+      });
+  }
+}, []);
+
 
   // CSS class for inputs
   const inputClass =
@@ -207,6 +227,11 @@ const handleSubmit = async (e) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+await fetch("/api/send-interview-email", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: form.email, firstName: form.firstName }),
+});
 
     if (res.status === 409) {
       const errorData = await res.json();
@@ -258,7 +283,15 @@ const handleSubmit = async (e) => {
             </div>
           ))}
         </div>
-
+{emailExists && (
+  <div className="p-6 text-center bg-red-100 border border-red-400 text-red-700 rounded mb-6">
+    <p className="text-lg font-semibold">⚠️ Achtung</p>
+    <p className="mt-1">Diese E-Mail ist bereits registriert.</p>
+    <p>
+      Bitte <a href="/login" className="underline text-red-800 font-bold">hier einloggen</a>, wenn Sie bereits ein Konto haben.
+    </p>
+  </div>
+)}
         <form
           onSubmit={handleSubmit}
           className="bg-white p-8 rounded-xl shadow space-y-8 text-base text-gray-800"
@@ -279,6 +312,8 @@ const handleSubmit = async (e) => {
         value={form.salutation}
         onChange={handleChange}
         className={inputClass}
+          disabled={emailExists}
+
       >
         <option value="">Anrede wählen</option>
         <option value="Herr">Herr</option>
@@ -296,6 +331,8 @@ const handleSubmit = async (e) => {
           value={form.firstName}
           onChange={handleChange}
           className={inputClass}
+            disabled={emailExists}
+
         />
       </div>
       <div>
@@ -306,6 +343,8 @@ const handleSubmit = async (e) => {
           value={form.lastName}
           onChange={handleChange}
           className={inputClass}
+            disabled={emailExists}
+
         />
       </div>
     </div>
@@ -319,6 +358,8 @@ const handleSubmit = async (e) => {
         value={form.phone}
         onChange={handleChange}
         className={inputClass}
+          disabled={emailExists}
+
       />
     </div>
 
@@ -332,6 +373,8 @@ const handleSubmit = async (e) => {
           value={form.address}
           onChange={handleChange}
           className={inputClass}
+            disabled={emailExists}
+
         />
       </div>
       <div>
@@ -342,6 +385,8 @@ const handleSubmit = async (e) => {
           value={form.houseNumber || ""}
           onChange={handleChange}
           className={inputClass}
+            disabled={emailExists}
+
         />
       </div>
     </div>
@@ -356,6 +401,8 @@ const handleSubmit = async (e) => {
           value={form.zipCode || ""}
           onChange={handleChange}
           className={inputClass}
+            disabled={emailExists}
+
         />
       </div>
       <div>
@@ -366,6 +413,8 @@ const handleSubmit = async (e) => {
           value={form.city || ""}
           onChange={handleChange}
           className={inputClass}
+            disabled={emailExists}
+
         />
       </div>
     </div>
@@ -378,6 +427,8 @@ const handleSubmit = async (e) => {
         value={form.country || ""}
         onChange={handleChange}
         className={inputClass}
+          disabled={emailExists}
+
       >
         <option value="">Land wählen</option>
         <option value="CH">Schweiz (CH)</option>

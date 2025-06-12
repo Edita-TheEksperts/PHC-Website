@@ -103,3 +103,12 @@ body {
 .input-style {
   @apply w-full h-[48px] rounded-[12px] border px-4;
 }
+.btn-blue {
+  @apply bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition;
+}
+.btn-green {
+  @apply bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded transition;
+}
+.btn-red {
+  @apply bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition;
+}

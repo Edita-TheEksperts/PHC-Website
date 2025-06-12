@@ -18,10 +18,19 @@ export default function LoginPage() {
   
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem("userToken", data.token); 
-        router.push("/client-dashboard");
-      } else {
-        alert("Invalid credentials");
+localStorage.setItem("userToken", data.token);
+localStorage.setItem("userRole", data.role);
+  localStorage.setItem("email", email); // ← Add this
+
+if (data.role === "employee") {
+  router.push("/employee-dashboard");
+} else if (data.role === "admin") {
+  router.push("/admin-dashboard");
+} else {
+  router.push("/client-dashboard"); // for regular clients/users
+}
+
+
       }
     }
       
