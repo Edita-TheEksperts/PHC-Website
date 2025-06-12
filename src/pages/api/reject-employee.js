@@ -1,6 +1,5 @@
 // pages/api/reject-employee.js
 import { prisma } from "../../lib/prisma";
-import sendMail from "@/utils/sendMail"; // Make sure this function exists
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method not allowed");
