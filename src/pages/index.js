@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import zipToCity from "../lib/zipToCity"; // adjust path if needed
 
 export default function Home() {
   const faqs = [
@@ -80,7 +81,7 @@ const services = {
 const router = useRouter();
 const [selectedService, setSelectedService] = useState("");
 const [postalCode, setPostalCode] = useState("");
-const [canton, setCanton] = useState("");
+const [city, setCity] = useState("");
 
 
 const zipToCanton = {
@@ -157,12 +158,13 @@ const handleEmployeeStart = () => {
   router.push("/employee-register");
 };
 useEffect(() => {
-  if (postalCode.length >= 4 && zipToCanton[postalCode]) {
-    setCanton(zipToCanton[postalCode]);
+  if (postalCode.length >= 4 && zipToCity[postalCode]) {
+    setCity(zipToCity[postalCode]);
   } else {
-    setCanton("");
+    setCity("");
   }
 }, [postalCode]);
+
 
 
   return (
@@ -202,7 +204,7 @@ useEffect(() => {
     type="text"
     className="w-full border border-gray-300 rounded-[12px] px-5 py-5 text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] transition"
     placeholder="Postleitzahl eingeben"
-    value={canton ? `${postalCode} (${canton})` : postalCode}
+    value={city ? `${postalCode} (${city})` : postalCode}
     onChange={(e) => {
       const value = e.target.value.split(' ')[0]; // Strip canton if user tries editing
       setPostalCode(value);
