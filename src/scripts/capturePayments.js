@@ -4,7 +4,7 @@ import Stripe from "stripe";
 const prisma = new PrismaClient();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-async function capturePendingPayments() {
+export async function capturePendingPayments() {
   try {
     const now = new Date();
     const cutoffDate = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago

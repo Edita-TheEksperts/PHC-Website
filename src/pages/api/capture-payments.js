@@ -1,5 +1,5 @@
 // pages/api/capture-payments.js
-import capturePendingPayments from "../../scripts/capturePayments";
+import { capturePendingPayments } from "../../scripts/capturePayments";
 
 export default async function handler(req, res) {
   try {

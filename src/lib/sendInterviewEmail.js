@@ -6,8 +6,8 @@ export default async function sendInterviewEmail(email, firstName = "") {
     port: 465,
     secure: true,
     auth: {
-      user: "landingpage@phc.ch",
-      pass: "45uYjTaR_N!x4AE",
+       user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
     },
   });
 
