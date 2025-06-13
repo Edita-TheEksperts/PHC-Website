@@ -82,52 +82,7 @@ const router = useRouter();
 const [selectedService, setSelectedService] = useState("");
 const [postalCode, setPostalCode] = useState("");
 const [city, setCity] = useState("");
-
-
-const zipToCanton = {
-  // Zurich
-  "8000": "Zürich",
-  "8001": "Zürich",
-  "8002": "Zürich",
-  "8003": "Zürich",
-  "8004": "Zürich",
-  "8005": "Zürich",
-  "8006": "Zürich",
-  "8008": "Zürich",
-
-  // Basel
-  "4000": "Basel-Stadt",
-  "4051": "Basel-Stadt",
-  "4052": "Basel-Stadt",
-  "4053": "Basel-Stadt",
-  "4054": "Basel-Stadt",
-  "4055": "Basel-Stadt",
-  "4056": "Basel-Stadt",
-
-  // Lucerne
-  "6000": "Luzern",
-  "6003": "Luzern",
-  "6004": "Luzern",
-  "6005": "Luzern",
-  "6006": "Luzern",
-
-  // Aarau
-  "5000": "Aargau",
-  "5001": "Aargau",
-  "5004": "Aargau",
-
-  // St. Gallen
-  "9000": "St. Gallen",
-  "9001": "St. Gallen",
-  "9008": "St. Gallen",
-
-  // Zug
-  "6300": "Zug",
-
-  // Baden
-  "5400": "Aargau"
-};
-
+const [suggestions, setSuggestions] = useState([]);
 
 const handleSubmit = () => {
   if (!selectedService || !postalCode) {
@@ -165,7 +120,28 @@ useEffect(() => {
   }
 }, [postalCode]);
 
+const handleInputChange = (e) => {
+  const value = e.target.value.split(" ")[0];
+  setPostalCode(value);
+  setCity("");
 
+  if (value.length >= 3) {
+    const matched = Object.entries(zipToCity)
+      .filter(([zip]) => zip.startsWith(value))
+      .map(([zip, city]) => ({ zip, city }));
+    setSuggestions(matched);
+  } else {
+    setSuggestions([]);
+  }
+};
+
+
+
+const handleSelect = (zip, cityName) => {
+  setPostalCode(zip);
+  setCity(cityName);
+  setSuggestions([]);
+};
 
   return (
     
@@ -199,19 +175,31 @@ useEffect(() => {
       </select>
     </div>
 
-<div className="w-full lg:w-[300px]">
+<div className="w-full lg:w-[300px] relative">
   <input
     type="text"
     className="w-full border border-gray-300 rounded-[12px] px-5 py-5 text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] transition"
     placeholder="Postleitzahl eingeben"
     value={city ? `${postalCode} (${city})` : postalCode}
-    onChange={(e) => {
-      const value = e.target.value.split(' ')[0]; // Strip canton if user tries editing
-      setPostalCode(value);
-    }}
+    onChange={handleInputChange}
     disabled={!selectedService}
   />
+
+  {suggestions.length > 0 && (
+    <ul className="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
+      {suggestions.map((item, index) => (
+         <li
+    key={`${item.zip}-${index}`}
+    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+    onClick={() => handleSelect(item.zip, item.city)}
+  >
+    {item.zip} – {item.city}
+  </li>
+      ))}
+    </ul>
+  )}
 </div>
+
 
 
 
