@@ -524,13 +524,13 @@ const totalPayment = totalHours * HOURLY_RATE;
       <div>
         <label className="block font-semibold text-base mb-2">Adresse</label>
 
-        {/* Straße & Hausnummer */}
+        {/* Strasse & Hausnummer */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Straße</label>
+            <label className="block text-sm font-medium mb-1">Strasse</label>
             <input
               name="street"
-              placeholder="z. B. Bahnhofstraße"
+              placeholder="z. B. Bahnhofstrasse"
               value={form.street || ""}
               onChange={handleChange}
               className={inputClass}
@@ -680,7 +680,7 @@ const totalPayment = totalHours * HOURLY_RATE;
           </label>
           <label className="flex items-center space-x-3">
             <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
-            <span>Ich nehme keine regelmäßigen Medikamente</span>
+            <span>Ich nehme keine regelmässigen Medikamente</span>
           </label>
           <label className="flex items-center space-x-3">
             <input type="checkbox" className="h-5 w-5 text-[#04436F]" required />
@@ -767,7 +767,7 @@ const totalPayment = totalHours * HOURLY_RATE;
               </button>
             ) : (
               <button type="submit" className="px-6 py-3 bg-[#04436F] text-white rounded-lg">
-                Registrierung abschließen
+                Registrierung abschliessen
               </button>
             )}
           </div>

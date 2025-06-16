@@ -363,13 +363,13 @@ await fetch("/api/send-interview-email", {
       />
     </div>
 
-    {/* Straße & Hausnummer */}
+    {/* Strasse & Hausnummer */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
       <div className="md:col-span-2">
-        <label className="block font-semibold mb-1">Straße</label>
+        <label className="block font-semibold mb-1">Strasse</label>
         <input
           name="address"
-          placeholder="Straße"
+          placeholder="Strasse"
           value={form.address}
           onChange={handleChange}
           className={inputClass}
@@ -1015,7 +1015,7 @@ await fetch("/api/send-interview-email", {
       </div>
     ) : (
       <p className="mt-2 text-gray-700">
-        Bitte bestätigen Sie Ihre Angaben und schließen Sie die Registrierung ab.
+        Bitte bestätigen Sie Ihre Angaben und schliessen Sie die Registrierung ab.
       </p>
     )}
   </>
@@ -1046,7 +1046,7 @@ await fetch("/api/send-interview-email", {
                 type="submit"
                 className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
               >
-                Registrierung abschließen
+                Registrierung abschliessen
               </button>
             )}
           </div>

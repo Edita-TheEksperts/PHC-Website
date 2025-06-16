@@ -72,7 +72,7 @@ export default function TermsConditions() {
             Urheberrechte
           </h2>
           <p className="text-[#04436F] text-[18px] md:text-[24px] font-normal leading-[30px] md:leading-[43.2px] mb-[20px]">
-          Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf der Website gehören ausschließlich der Firma Prime Home Care AG oder den speziell genannten Rechtsinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung der Urheberrechtsinhaber im Voraus einzuholen.
+          Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf der Website gehören ausschliesslich der Firma Prime Home Care AG oder den speziell genannten Rechtsinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung der Urheberrechtsinhaber im Voraus einzuholen.
           </p>
   
           {/* Redaktionell verantwortlich */}
