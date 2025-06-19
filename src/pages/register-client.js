@@ -2,6 +2,15 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
+import DatePicker from 'react-datepicker';
+import { format } from 'date-fns';
+import { de } from 'date-fns/locale';
+import 'react-datepicker/dist/react-datepicker.css';
+import { addDays } from 'date-fns';
+
 export default function RegisterPage() {
   const router = useRouter();
 const { service, subService } = router.query;
@@ -216,13 +225,23 @@ useEffect(() => {
   fetchSubServices();
 }, [service]);
 
-  const steps = ["Wann?", "Registration", "Finalisieren", "Pflege"];
+  const steps = ["Wann?", "Registration", "Finalisieren", "Zahlungdetails"];
 const HOURLY_RATE = 1; // 1 CHF per hour
 
 const totalHours = form.schedule.reduce((sum, entry) => sum + (parseInt(entry.hours) || 0), 0);
 const totalPayment = totalHours * HOURLY_RATE;
+const parseSwissDate = (str) => {
+  const [day, month, year] = str.split('.');
+  return new Date(`${year}-${month}-${day}`);
+};
 
-  return (
+// Convert Date to dd.mm.yyyy string
+const formatSwissDate = (date) => {
+  return format(date, 'dd.MM.yyyy');
+
+};
+const tenDaysFromToday = addDays(new Date(), 10);
+return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
       <div className="flex-1 space-y-8">
         <div className="flex justify-between text-base font-medium text-[#04436F]">
@@ -252,9 +271,9 @@ const totalPayment = totalHours * HOURLY_RATE;
               <h2 className="text-2xl font-bold text-black">Wie oft & wann?</h2>
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <p className="font-semibold text-gray-800">Wie oft brauchen Sie Unterstützung?</p>
+                  <p className="font-semibold text-gray-800">Wie oft wünschen Sie Unterstützung?</p>
                   <div className="flex flex-wrap gap-4">
-                    {["Einmal", "Wöchentlich", "Alle 2 Wochen", "Alle 4 Wochen", "Öfter"].map((option) => (
+                    {["einmalig", "wöchentlich", "Alle 2 Wochen", "monatlich", "öfter"].map((option) => (
                       <button
                         key={option}
                         type="button"
@@ -272,7 +291,7 @@ const totalPayment = totalHours * HOURLY_RATE;
                 </div>
 
                 <div className="space-y-2">
-                  <p className="font-semibold text-gray-800">Wie viele Stunden?</p>
+                  <p className="font-semibold text-gray-800">Wie viele Stunden pro Einsatz?</p>
                   <div className="flex items-center gap-6">
                     <button
                       type="button"
@@ -286,7 +305,7 @@ const totalPayment = totalHours * HOURLY_RATE;
                     >
                       -
                     </button>
-                    <span className="text-lg font-bold">{form.duration} Stunden</span>
+                    <span className="text-lg ">{form.duration} Stunden</span>
                     <button
                       type="button"
                       onClick={() =>
@@ -303,7 +322,7 @@ const totalPayment = totalHours * HOURLY_RATE;
                 </div>
                 {form.frequency !== "Einmal" && (
   <div className="space-y-4">
-    <p className="font-semibold text-gray-800">Wann genau benötigen Sie Unterstützung?</p>
+    <p className="font-semibold text-gray-800">Wann genau wünschen Sie Unterstützung?</p>
 
     {/* Allow adjusting number of days */}
     <div className="flex items-center gap-4">
@@ -358,16 +377,18 @@ const totalPayment = totalHours * HOURLY_RATE;
         </select>
 
         {/* Start time */}
-        <input
-          type="time"
-          value={entry.startTime}
-          onChange={(e) => {
-            const updated = [...form.schedule];
-            updated[i].startTime = e.target.value;
-            setForm({ ...form, schedule: updated });
-          }}
-          className="border px-4 py-2 rounded-md"
-        />
+         <TimePicker
+    value={entry.startTime}
+    onChange={(val) => {
+      const updated = [...form.schedule];
+      updated[i].startTime = val;
+      setForm({ ...form, schedule: updated });
+    }}
+    format="HH:mm"
+    disableClock={true}
+    clearIcon={null} // remove "X" clear button
+    className="time-picker-input"
+  />
 
         {/* Duration */}
         <div className="flex items-center gap-2">
@@ -427,16 +448,22 @@ const totalPayment = totalHours * HOURLY_RATE;
 
 
               <div>
-  <label className="block mb-2 font-semibold text-gray-800">Datum auswählen</label>
-  <input
-    name="firstDate"
-    type="date"
-    value={form.firstDate}
-    min={minDateStr}
-    onChange={handleChange}
-    className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
-    style={{ fontSize: '16px' }}
-  />
+  <label className="block mb-2 font-semibold text-gray-800">Beginndatum auswählen</label>
+<DatePicker
+  selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
+  onChange={(date) => {
+    const formatted = formatSwissDate(date);
+    setForm({ ...form, firstDate: formatted });
+  }}
+  dateFormat="dd.MM.yyyy"
+  locale={de}
+  placeholderText="TT.MM.JJJJ"
+  minDate={tenDaysFromToday} // ✅ block all before 10 days from today
+  className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
+  calendarClassName="rounded-xl shadow-lg border border-gray-300"
+  wrapperClassName="w-full"
+/>
+
 </div>
 
               </div>
@@ -488,7 +515,7 @@ const totalPayment = totalHours * HOURLY_RATE;
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="E-Mail"
           value={form.email}
           onChange={handleChange}
           className={inputClass}
@@ -497,11 +524,11 @@ const totalPayment = totalHours * HOURLY_RATE;
 
       {/* Telefon */}
       <div>
-        <label className="block font-semibold mb-1">Telefon</label>
+        <label className="block font-semibold mb-1">Telefonnummer</label>
         <input
           name="phone"
           value={form.phone}
-          placeholder="Phone"
+          placeholder="Telefonnummer"
           onChange={handleChange}
           className={inputClass}
         />
@@ -718,11 +745,11 @@ const totalPayment = totalHours * HOURLY_RATE;
 
 {step === 4 && (
   <>
-    <h2 className="text-2xl font-bold text-black">Zahlungsdetails</h2>
-    
+    <h2 className="text-2xl font-bold text-black">Zahligsdetails</h2>
+
     <div className="space-y-4">
-      <label className="block text-sm font-medium text-gray-700">Kreditkarteninformationen</label>
-      
+      <label className="block text-sm font-medium text-gray-700">Chreditkarte-Informatione</label>
+
       <div className="relative">
         <div className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm text-base focus-within:ring-2 focus-within:ring-[#04436F]">
           <CardElement
@@ -744,15 +771,34 @@ const totalPayment = totalHours * HOURLY_RATE;
           💳
         </div>
       </div>
+
+      {/* ✅ AGB Checklist */}
+      <div className="flex items-start gap-2 mt-4">
+        <input
+          type="checkbox"
+          required
+          id="agb"
+          className="mt-1"
+        />
+        <label htmlFor="agb" className="text-sm text-gray-700">
+          Ich ha d’ <a href="/agb" className="underline text-[#04436F]">AGB</a> gläse und bim i dermit iiverschtande.
+        </label>
+      </div>
+
+      {/* ✅ Note about delayed payment */}
+      <p className="text-sm text-gray-600 mt-2">
+        Vermerk zur Abbuchig: <strong>D'Zahlig wird ersch 24 Stund nach bestätigtem Iisatz über d’App abgebucht.</strong>
+      </p>
     </div>
 
     {isSubmitted && (
       <p className="text-[#04436F] mt-4 font-medium">
-        ✓ Registrierung erfolgreich!
+        ✓ Registrierig erfolgrich!
       </p>
     )}
   </>
 )}
+
 
 
           <div className="pt-6 flex justify-end gap-4">
@@ -781,7 +827,7 @@ const totalPayment = totalHours * HOURLY_RATE;
   <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
     <SummaryRow label="Häufigkeit" value={form.frequency} />
     <SummaryRow label="Dauer" value={`${form.duration} Stunden`} />
-    <SummaryRow label="Datum" value={form.firstDate} />
+    <SummaryRow label="Beginndatum" value={form.firstDate} />
     <SummaryRow label="Name" value={form.firstName} />
     <SummaryRow label="Last Name" value={form.lastName} />
     <SummaryRow label="Telefon" value={form.phone} />
@@ -789,7 +835,7 @@ const totalPayment = totalHours * HOURLY_RATE;
     <SummaryRow label="Adresse" value={form.address} />
     <SummaryRow label="Sprachen" value={(form.languages || []).join(", ")} />
     <SummaryRow label="Haustiere" value={form.pets || "Nicht angegeben"} />
-    <SummaryRow label="Gesamtpreis (CHF)" value={`${totalPayment.toFixed(2)} CHF`} />
+    <SummaryRow label="Gesamtsumme pro Einsatz" value={`${totalPayment.toFixed(2)} CHF`} />
 
   </div>
 </div>

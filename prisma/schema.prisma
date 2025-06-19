@@ -92,6 +92,8 @@ model Employee {
   zipCode              String?
   city                 String?
   country              String?
+  canton               String?     
+  nationality          String?
   residencePermit      String?
   experienceYears      String
   experienceWhere      String?

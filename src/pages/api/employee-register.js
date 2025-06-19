@@ -64,6 +64,8 @@ export default async function handler(req, res) {
   ...(data.zipCode && { zipCode: data.zipCode.trim() }),
   ...(data.city && { city: data.city.trim() }),
   ...(data.country && { country: data.country.trim() }),
+  ...(data.canton && { canton: data.canton.trim() }),        
+...(data.nationality && { nationality: data.nationality.trim() }), 
   ...(data.residencePermit && { residencePermit: data.residencePermit.trim() }),
   ...(data.experienceWhere && { experienceWhere: data.experienceWhere.trim() }),
   ...(data.experienceCompany && { experienceCompany: data.experienceCompany.trim() }),
@@ -92,7 +94,11 @@ export default async function handler(req, res) {
   communicationTraits: Array.isArray(data.communicationTraits) ? data.communicationTraits : [],
   languages: Array.isArray(data.languages) ? data.languages : [],
   dietaryExperience: Array.isArray(data.dietaryExperience) ? data.dietaryExperience : [],
-  availabilityDays: Array.isArray(data.availabilityDays) ? data.availabilityDays : [],
+  availabilityDays: Array.isArray(data.availabilityDays)
+  ? data.availabilityDays.map(
+      (entry) => `${entry.day} ${entry.startTime}-${entry.endTime}`
+    )
+  : [],
   servicesOffered: Array.isArray(data.servicesOffered) ? data.servicesOffered : []
 };
 

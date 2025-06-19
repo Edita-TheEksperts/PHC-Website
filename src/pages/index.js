@@ -245,17 +245,13 @@ const handleSelect = (zip, cityName) => {
 
 
     {/* Avatars and Benefits */}
-    <div className="mt-6">
+    <div className="mt-4">
       <div className="flex items-center gap-4 mb-4">
         <div className="flex -space-x-4">
-          <Image src="/images/phc-avatar1.png" alt="Staff 1" width={50} height={50} className="rounded-full border border-white" />
-          <Image src="/images/phc-avatar2.png" alt="Staff 2" width={50} height={50} className="rounded-full border border-white" />
-          <Image src="/images/phc-avatar3.png" alt="Staff 3" width={50} height={50} className="rounded-full border border-white" />
-          <Image src="/images/phc-avatar4.png" alt="Staff 4" width={50} height={50} className="rounded-full border border-white" />
         </div>
       </div>
 
-      <h2 className="text-[#04436F] text-[20px] font-semibold mb-2">
+      <h2 className="text-[#04436F] text-[24px] font-semibold mb-2">
         Hilfreiche Lösungen für eine selbstbestimmte Pflege zu Hause
       </h2>
       <ul className="list-disc pl-6 text-[#04436F] text-[16px] space-y-1">
@@ -922,7 +918,8 @@ Einmalige Einsätze
           onChange={() => setAgbAccepted(!agbAccepted)}
           className="h-5 w-5 text-[#B99B5F] focus:ring-[#B99B5F] rounded border-gray-300"
         />
-        <span>Ich akzeptiere die <a href="/agb" className="underline text-[#B99B5F] hover:text-[#A6884A]">AGB</a></span>
+        <span>Ich akzeptiere die <a href="/agb" className="underline text-[#B99B5F] hover:text-[#A6884A]">Nutzungsbedingungen für Plattform
+</a></span>
       </label>
 
       <button

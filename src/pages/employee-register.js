@@ -4,7 +4,7 @@ import { useRouter } from "next/router";       // For redirecting after submissi
 import { useEffect } from "react";              // React hook to handle side effects
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase"; // adjust path based on your structure
-
+import DateEmployee from "../components/DateEmployee.js"; // Adjust path if needed
 // Component Start
 export default function RegisterEmployee() {
   const router = useRouter();                   // Next.js router
@@ -48,6 +48,8 @@ const uploadToFirebase = async (file, userId, label) => {
     zipCode: "",
     city: "",
     country: "",
+    canton:"",
+  nationality:"",
     residencePermit: "",
     experienceYears: "",
     experienceWhere: "",
@@ -115,9 +117,9 @@ useEffect(() => {
   // Step names shown at top of form
   const steps = [
     "Persönliche Informationen",
-    "Arbeitserfahrung",
+    "Weitere Informationen",
     "Arbeitsbereitschaft",
-    "Offizieller Status",
+    "Abschluss",
   ];
 
 const handleChange = (e) => {
@@ -157,8 +159,8 @@ case 3:
     (day) => form[`available_${day}`] && parseFloat(form[`availabilityHours_${day}`]) > 0
   );
 
-  return (
-    hasAvailability &&
+   return (
+    form.availabilityDays?.length > 0 &&
     form.servicesOffered.length > 0 &&
     form.availabilityFrom
   );
@@ -243,7 +245,7 @@ await fetch("/api/send-interview-email", {
     if (!res.ok) throw new Error("API error");
 
     setSubmissionMessage(
-      "✅ Registrierung abgeschlossen. Eine E-Mail mit einem Interview-Link wurde an Sie gesendet."
+      "Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen."
     );
 
     setTimeout(() => {
@@ -418,6 +420,44 @@ await fetch("/api/send-interview-email", {
         />
       </div>
     </div>
+{/* Kanton & Nationalität in the same row */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  {/* Kanton */}
+  <div>
+    <label className="block font-semibold mb-1">Kanton</label>
+    <select
+      name="canton"
+      value={form.canton || ""}
+      onChange={handleChange}
+      className={inputClass}
+      disabled={emailExists}
+    >
+      <option value="">Kanton wählen</option>
+      {[
+        "AG", "AI", "AR", "BE", "BL", "BS", "FR", "GE", "GL",
+        "GR", "JU", "LU", "NE", "NW", "OW", "SG", "SH", "SO",
+        "SZ", "TG", "TI", "UR", "VD", "VS", "ZG", "ZH"
+      ].map((canton) => (
+        <option key={canton} value={canton}>
+          {canton}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Nationalität */}
+  <div>
+    <label className="block font-semibold mb-1">Nationalität</label>
+    <input
+      name="nationality"
+      placeholder="z. B. Schweiz, Deutschland..."
+      value={form.nationality || ""}
+      onChange={handleChange}
+      className={inputClass}
+      disabled={emailExists}
+    />
+  </div>
+</div>
 
     {/* Land */}
     <div className="mt-4">
@@ -444,7 +484,7 @@ await fetch("/api/send-interview-email", {
   <>
 
 
-    <h2 className="text-2xl font-bold text-[#B99B5F]">Arbeitserfahrung</h2>
+    <h2 className="text-2xl font-bold text-[#B99B5F]">Weitere Informationen</h2>
         <label className="block font-medium mt-4">Aufenthaltsbewilligung</label>
 
    <select
@@ -462,7 +502,7 @@ await fetch("/api/send-interview-email", {
   <option value="Andere">Andere (nicht möglich)</option>
 </select>
 
-    <label className="block font-medium mt-4">Warbeitserfahrung (Jahre)</label>
+    <label className="block font-medium mt-4">Arbeitserfahrung (Jahre)</label>
 
     <select
   name="experienceYears"
@@ -501,7 +541,7 @@ await fetch("/api/send-interview-email", {
 )}
 
 
-    <label className="block font-medium mt-4">Führerschein vorhanden?</label>
+    <label className="block font-medium mt-4">PKW Führerschein vorhanden?</label>
     <select
       name="hasLicense"
       value={form.hasLicense}
@@ -557,7 +597,7 @@ await fetch("/api/send-interview-email", {
       </>
     )}
 
-    <label className="block font-medium mt-4">Mobilität</label>
+    <label className="block font-medium mt-4">Was ist mit mobilität genau gemeint?</label>
     <input
       name="howFarCanYouTravel"
       placeholder="z. B. 10km, ÖV, Auto"
@@ -616,24 +656,63 @@ await fetch("/api/send-interview-email", {
         type="checkbox"
         name="specialTrainings"
         value={option}
-        checked={form.specialTrainings?.includes(option)}
+        checked={
+          option === "Andere"
+            ? form.specialTrainings?.some((v) => v.startsWith("Andere:"))
+            : form.specialTrainings?.includes(option)
+        }
         onChange={(e) => {
           const isChecked = e.target.checked;
-          const value = e.target.value;
-
           setForm((prev) => {
-            const updated = isChecked
-              ? [...(prev.specialTrainings || []), value]
-              : (prev.specialTrainings || []).filter((v) => v !== value);
+            let updated = prev.specialTrainings || [];
+
+            if (option === "Andere") {
+              // Remove existing "Andere" value
+              updated = updated.filter((v) => !v.startsWith("Andere:"));
+              if (isChecked) {
+                updated.push("Andere:");
+              }
+            } else {
+              updated = isChecked
+                ? [...updated, option]
+                : updated.filter((v) => v !== option);
+            }
+
             return { ...prev, specialTrainings: updated };
           });
         }}
         className="h-5 w-5 text-[#B99B5F]"
       />
       <span>{option}</span>
+
+      {/* 🟡 Render free-text input only if "Andere" is selected */}
+      {option === "Andere" &&
+        form.specialTrainings?.some((v) => v.startsWith("Andere:")) && (
+          <input
+            type="text"
+            placeholder="Bitte angeben..."
+            value={
+              form.specialTrainings.find((v) => v.startsWith("Andere:"))?.split(":")[1] || ""
+            }
+            onChange={(e) => {
+              const value = e.target.value;
+              setForm((prev) => {
+                const filtered = (prev.specialTrainings || []).filter(
+                  (v) => !v.startsWith("Andere:")
+                );
+                return {
+                  ...prev,
+                  specialTrainings: [...filtered, `Andere:${value}`],
+                };
+              });
+            }}
+            className={inputClass}
+          />
+        )}
     </label>
   ))}
 </div>
+
 
 
     <label className="block font-medium mt-4">Kommunikationsfähigkeit & Empathie</label>
@@ -692,41 +771,81 @@ await fetch("/api/send-interview-email", {
 
 <input
   name="languageOther"
-  placeholder="Sonstige Sprachen – Freitext"
+  placeholder="Weitere Sprachen:"
   value={form.languageOther || ""}
   onChange={handleChange}
   className={inputClass + " mt-4"}
 />
 
    <label className="block font-medium mt-4">Ernährungsbedürfnisse</label>
-<div className="flex gap-6 mt-2">
+<div className="flex gap-6 mt-2 flex-wrap">
   {["Diäten", "Allergien"].map((item) => (
     <label key={item} className="flex items-center space-x-2">
       <input
         type="checkbox"
         name="dietaryExperience"
         value={item}
-        checked={form.dietaryExperience?.includes(item)}
+        checked={
+          item === "Allergien"
+            ? form.dietaryExperience?.some((v) => v.startsWith("Allergien:"))
+            : form.dietaryExperience?.includes(item)
+        }
         onChange={(e) => {
           const isChecked = e.target.checked;
-          const value = e.target.value;
 
           setForm((prev) => {
-            const updated = isChecked
-              ? [...(prev.dietaryExperience || []), value]
-              : (prev.dietaryExperience || []).filter((v) => v !== value);
+            let updated = prev.dietaryExperience || [];
+
+            if (item === "Allergien") {
+              // Remove existing "Allergien:" entry
+              updated = updated.filter((v) => !v.startsWith("Allergien:"));
+              if (isChecked) {
+                updated.push("Allergien:");
+              }
+            } else {
+              updated = isChecked
+                ? [...updated, item]
+                : updated.filter((v) => v !== item);
+            }
+
             return { ...prev, dietaryExperience: updated };
           });
         }}
         className="h-5 w-5 text-[#B99B5F]"
       />
       <span>{item}</span>
+
+      {/* Show input if Allergien is checked */}
+      {item === "Allergien" &&
+        form.dietaryExperience?.some((v) => v.startsWith("Allergien:")) && (
+          <input
+            type="text"
+            placeholder="Welche Allergien?"
+            value={
+              form.dietaryExperience.find((v) => v.startsWith("Allergien:"))?.split(":")[1] || ""
+            }
+            onChange={(e) => {
+              const value = e.target.value;
+              setForm((prev) => {
+                const filtered = (prev.dietaryExperience || []).filter(
+                  (v) => !v.startsWith("Allergien:")
+                );
+                return {
+                  ...prev,
+                  dietaryExperience: [...filtered, `Allergien:${value}`],
+                };
+              });
+            }}
+            className={inputClass}
+          />
+        )}
     </label>
   ))}
 </div>
 
 
-    <label className="block font-medium mt-4">Reisebegleitung möglich?</label>
+
+    <label className="block font-medium mt-4">Reisen- und Ferienbegleitung möglich?</label>
     <select
       name="travelSupport"
       value={form.travelSupport || ""}
@@ -738,7 +857,7 @@ await fetch("/api/send-interview-email", {
       <option value="nein">Nein</option>
     </select>
 
-    <label className="block font-medium mt-4">Körperpflege-Unterstützung?</label>
+    <label className="block font-medium mt-4">Sind Sie bereit dazu Unterstützung in der Körperpflege zu leisten? (bsp. Infofeld: Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)</label>
     <select
       name="bodyCareSupport"
       value={form.bodyCareSupport || ""}
@@ -750,19 +869,10 @@ await fetch("/api/send-interview-email", {
       <option value="nein">Nein</option>
     </select>
 
-    <label className="block font-medium mt-4">Allergien</label>
-    <select
-      name="hasAllergies"
-      value={form.hasAllergies || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
+  
 
-    <label className="block font-medium mt-4">Bereitschaft für Haushalte mit Tieren?</label>
+    <label className="block font-medium mt-4">Können Sie in einem Haushalt mit Tieren arbeiten? (Infofeld auf mögliche Tierhaarallergien hinweisen oder ängsten)
+</label>
     <select
       name="worksWithAnimals"
       value={form.worksWithAnimals || ""}
@@ -854,7 +964,7 @@ await fetch("/api/send-interview-email", {
     className={inputClass}
   />
 </div>
-<label className="block font-medium mt-4">Nachtarbeit möglich?</label>
+<label className="block font-medium mt-4">Nachtarbeit möglich? (23.00 Uhr bis 06.00 Uhr)</label>
 <select
   name="nightShifts"
   value={form.nightShifts || ""}
@@ -875,38 +985,8 @@ await fetch("/api/send-interview-email", {
 />
 
 
-    {/* Weekly availability with checkboxes and hours */}
-    <div className="space-y-4">
-      <label className="font-medium">Ihre wöchentliche Verfügbarkeit (Stunden pro Tag)</label>
-      {["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"].map((day) => (
-        <div key={day} className="flex items-center gap-4">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name={`available_${day}`}
-              checked={form[`available_${day}`] || false}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  [`available_${day}`]: e.target.checked,
-                })
-              }
-              className="h-5 w-5 text-[#B99B5F]"
-            />
-            <span className="w-24">{day}</span>
-          </label>
-          <input
-            type="number"
-            min="0"
-            name={`availabilityHours_${day}`}
-            placeholder="Stunden"
-            value={form[`availabilityHours_${day}`] || ""}
-            onChange={handleChange}
-            className="w-32 px-4 py-2 border rounded"
-          />
-        </div>
-      ))}
-    </div>
+    <DateEmployee form={form} setForm={setForm} handleChange={handleChange} />
+
 
     <div className="space-y-2 mt-6">
   <label className="font-medium">Welche Tätigkeiten bieten Sie an?</label>
@@ -940,11 +1020,11 @@ await fetch("/api/send-interview-email", {
 
   {/* Upload Field Template */}
   {[
-    { label: "Reisepass", key: "passportFile", required: true },
-    { label: "Visum", key: "visaFile", required: true },
-    { label: "Polizeiliches Führungszeugnis", key: "policeLetterFile", required: true },
+    { label: "ID oder Reisepass", key: "passportFile", required: true },
+    { label: "Löschen", key: "visaFile", required: true },
+    { label: "Strafregisterauszug", key: "policeLetterFile", required: true },
     { label: "Lebenslauf", key: "cvFile", required: true },
-    { label: "Zertifikate", key: "certificateFile", required: false },
+    { label: "Zertifakte/Arbeitszeugnisse", key: "certificateFile", required: true },
   ].map((field) => (
     <div key={field.key}>
       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -1007,11 +1087,11 @@ await fetch("/api/send-interview-email", {
 
         {step === 4 && (
   <>
-    <h2 className="text-2xl font-bold text-[#B99B5F]">Offizieller Arbeitsstatus</h2>
+    <h2 className="text-2xl font-bold text-[#B99B5F]">Abschluss</h2>
 
     {isSubmitted ? (
       <div className="mt-4 p-4 bg-[#f1f1f1] text-[#B99B5F] rounded-lg shadow">
-        ✓ {submissionMessage}
+         {submissionMessage}
       </div>
     ) : (
       <p className="mt-2 text-gray-700">
@@ -1054,7 +1134,7 @@ await fetch("/api/send-interview-email", {
       </div>
 
       {/* Summary Section */}
-  <div className="w-full md:w-96">
+  <div className="hidden w-full md:w-96">
     <div className="bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
       <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
