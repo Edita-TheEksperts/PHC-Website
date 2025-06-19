@@ -4,21 +4,40 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { email, cardNumber, expiryDate, cvc } = req.body;
+  const { email, iban, accountHolder, bankName, bic } = req.body;
 
-  if (!email || !cardNumber || !expiryDate || !cvc) {
-    return res.status(400).json({ error: "Fehlende Zahlungsdaten" });
+  // Log incoming request for visibility
+  console.log("🛬 Incoming payment data:", req.body);
+
+  // Collect missing fields
+  const missingFields = [];
+  if (!email) missingFields.push("email");
+  if (!iban) missingFields.push("iban");
+  if (!accountHolder) missingFields.push("accountHolder");
+  if (!bankName) missingFields.push("bankName");
+
+  // If any are missing, return 400 with details
+  if (missingFields.length > 0) {
+    return res.status(400).json({
+      error: "Fehlende Bankdaten",
+      missingFields,
+    });
   }
 
   try {
     const updated = await prisma.employee.update({
       where: { email },
-      data: { cardNumber, expiryDate, cvc },
+      data: {
+        iban,
+        accountHolder,
+        bankName,
+        bic: bic || null, // optional
+      },
     });
 
-    res.status(200).json({ success: true, updated });
+    return res.status(200).json({ success: true, updated });
   } catch (error) {
     console.error("❌ update-payment API error", error);
-    res.status(500).json({ error: "Zahlungsdaten konnten nicht gespeichert werden." });
+    return res.status(500).json({ error: "Bankdaten konnten nicht gespeichert werden." });
   }
 }

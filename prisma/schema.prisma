@@ -132,9 +132,11 @@ profilePhoto        String?
   status               String   @default("pending")
   createdAt            DateTime @default(now())
     password String?  // Add this if not present
-  cardNumber           String?
-  expiryDate           String?
-  cvc                  String?
+iban           String?
+accountHolder  String?
+bankName       String?
+bic            String?
+
 }
 
 

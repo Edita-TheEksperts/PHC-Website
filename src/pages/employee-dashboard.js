@@ -4,7 +4,12 @@ import { useRouter } from "next/router";
 export default function EmployeeDashboard() {
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [payment, setPayment] = useState({ cardNumber: "", expiryDate: "", cvc: "" });
+const [payment, setPayment] = useState({
+  iban: "",
+  accountHolder: "",
+  bankName: "",
+  bic: "",
+});
   const [paymentMsg, setPaymentMsg] = useState("");
   const router = useRouter();
 
@@ -41,17 +46,23 @@ const [paymentSaved, setPaymentSaved] = useState(false);
 useEffect(() => {
   if (employeeData) {
     setPayment({
-      cardNumber: employeeData.cardNumber || "",
-      expiryDate: employeeData.expiryDate || "",
-      cvc: employeeData.cvc || "",
+      iban: employeeData.iban || "",
+      accountHolder: employeeData.accountHolder || "",
+      bankName: employeeData.bankName || "",
+      bic: employeeData.bic || "",
     });
 
-    // If all payment fields are filled, disable form
-    if (employeeData.cardNumber && employeeData.expiryDate && employeeData.cvc) {
+    // If essential bank fields are filled, mark as saved
+    if (
+      employeeData.iban &&
+      employeeData.accountHolder &&
+      employeeData.bankName
+    ) {
       setPaymentSaved(true);
     }
   }
 }, [employeeData]);
+
 
 
   const handlePaymentChange = (e) => {
@@ -59,27 +70,30 @@ useEffect(() => {
     setPayment((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePaymentSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/update-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({
-    email: employeeData.email,
-    cardNumber: payment.cardNumber,
-    expiryDate: payment.expiryDate,
-    cvc: payment.cvc,
-  }),
-      });
+const handlePaymentSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await fetch("/api/update-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: employeeData.email,
+        iban: payment.iban,
+        accountHolder: payment.accountHolder,
+        bankName: payment.bankName,
+        bic: payment.bic,
+      }),
+    });
 
-      if (!res.ok) throw new Error("Fehler beim Speichern");
+    if (!res.ok) throw new Error("Fehler beim Speichern");
 
-      setPaymentMsg("✅ Zahlungsdaten gespeichert");
-    } catch {
-      setPaymentMsg("❌ Fehler beim Speichern");
-    }
-  };
+    setPaymentMsg("✅ Zahlungsdaten gespeichert");
+    setPaymentSaved(true);
+  } catch {
+    setPaymentMsg("❌ Fehler beim Speichern");
+  }
+};
+
 
   if (loading) {
     return <div className="flex justify-center items-center h-screen text-lg text-gray-500">Lade Dashboard...</div>;
@@ -210,9 +224,11 @@ const handlePaymentEditRequest = async () => {
      <Card title="💳 Zahlungsinformationen">
   {paymentSaved ? (
     <div className="space-y-2 text-sm">
-      <Info label="Kartennummer" value={`**** **** **** ${payment.cardNumber.slice(-4)}`} />
-      <Info label="Ablaufdatum" value={payment.expiryDate} />
-      <Info label="CVC" value="●●●" />
+    <Info label="IBAN" value={payment.iban || "—"} />
+<Info label="Kontoinhaber" value={payment.accountHolder || "—"} />
+<Info label="Bankname" value={payment.bankName || "—"} />
+<Info label="BIC / SWIFT" value={payment.bic || "—"} />
+
 <p className="text-blue-700 mt-2">Zahlungsdaten wurden gespeichert und sind nicht mehr bearbeitbar.</p>
 <button
   onClick={handlePaymentEditRequest}
@@ -225,40 +241,52 @@ const handlePaymentEditRequest = async () => {
   ) : (
     <form onSubmit={handlePaymentSubmit} className="space-y-4 text-sm">
       <div>
-        <label className="block font-medium">Kartennummer</label>
-        <input
-          type="text"
-          name="cardNumber"
-          value={payment.cardNumber}
-          onChange={handlePaymentChange}
-          className="border w-full p-2 rounded"
-          required
-        />
-      </div>
-      <div className="flex gap-4">
-        <div className="flex-1">
-          <label className="block font-medium">Ablaufdatum</label>
-          <input
-            type="text"
-            name="expiryDate"
-            value={payment.expiryDate}
-            onChange={handlePaymentChange}
-            className="border w-full p-2 rounded"
-            placeholder="MM/YY"
-            required
-          />
-        </div>
-        <div className="flex-1">
-          <label className="block font-medium">CVC</label>
-          <input
-            type="text"
-            name="cvc"
-            value={payment.cvc}
-            onChange={handlePaymentChange}
-            className="border w-full p-2 rounded"
-            required
-          />
-        </div>
+      <div>
+  <label className="block font-medium">IBAN</label>
+  <input
+    type="text"
+    name="iban"
+    value={payment.iban}
+    onChange={handlePaymentChange}
+    className="border w-full p-2 rounded"
+    required
+  />
+</div>
+
+<div>
+  <label className="block font-medium">Kontoinhaber</label>
+  <input
+    type="text"
+    name="accountHolder"
+    value={payment.accountHolder}
+    onChange={handlePaymentChange}
+    className="border w-full p-2 rounded"
+    required
+  />
+</div>
+
+<div>
+  <label className="block font-medium">Bankname (optional)</label>
+  <input
+    type="text"
+    name="bankName"
+    value={payment.bankName}
+    onChange={handlePaymentChange}
+    className="border w-full p-2 rounded"
+  />
+</div>
+
+<div>
+  <label className="block font-medium">BIC / SWIFT (optional)</label>
+  <input
+    type="text"
+    name="bic"
+    value={payment.bic}
+    onChange={handlePaymentChange}
+    className="border w-full p-2 rounded"
+  />
+</div>
+
       </div>
       <button type="submit" className="bg-[#04436F] text-white px-4 py-2 rounded mt-2">
         Speichern
