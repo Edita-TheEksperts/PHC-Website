@@ -1,369 +1,518 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import RegisterForm1 from "../components/RegisterForm1";
-import RegisterForm2 from "../components/RegisterForm2";
-import RegisterForm3 from "../components/RegisterForm3";
-import RegisterForm4 from "../components/RegisterForm4";
+import { useState, useEffect } from "react"
+import { useRouter } from "next/router"
+import RegisterForm1 from "../components/RegisterForm1"
+import RegisterForm2 from "../components/RegisterForm2"
+import RegisterForm3 from "../components/RegisterForm3"
+import RegisterForm4 from "../components/RegisterForm4"
+import { Pie, Line } from "react-chartjs-2"
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from "chart.js"
 
-export default function ClientDashboard() {
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [updatedData, setUpdatedData] = useState({});
-  const [showOverlayForm, setShowOverlayForm] = useState(true);
-  const [service, setService] = useState("");
-  const router = useRouter();
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement
+)
 
-useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const token = localStorage.getItem("userToken");
-      if (!token) {
-        router.push("/");
-        return;
-      }
+const chartColors = ["#B99B5F", "#04436F", "#A6884A", "#6B8E23"]
 
-      const res = await fetch("/api/user/getUserData", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+const ServiceUsageChart = ({ services }) => {
+  const counts = services.reduce((acc, s) => {
+    const name = s.name || "Unbekannt"
+    acc[name] = (acc[name] || 0) + 1
+    return acc
+  }, {})
 
-      if (!res.ok) throw new Error("Failed to fetch user");
+  const data = {
+    labels: Object.keys(counts),
+    datasets: [
+      {
+        data: Object.values(counts),
+        backgroundColor: chartColors,
+        hoverOffset: 25,
+      },
+    ],
+  }
 
-      const user = await res.json();
-      setUserData(user);
-      setUpdatedData(user);
-
-      const selectedService = localStorage.getItem("selectedService");
-      const userService = user?.service?.name?.trim();
-      const storedService = selectedService?.trim().toLowerCase();
-
-      if (userService) {
-        setService(userService);
-      } else if (storedService) {
-        setService(storedService);
-      } else {
-        console.warn("No service found");
-      }
-
-const normalizedService = normalize(user?.service?.name || selectedService || "");
-const formCompleted = user?.form4Completed === true;
-
-if (normalizedService === "alltagsbegleitungundbesorgungen" && !formCompleted) {
-  setShowOverlayForm(true);
-} else {
-  setShowOverlayForm(false);
+  return (
+    <section className="bg-white p-6 rounded-2xl shadow-lg transition-shadow hover:shadow-xl">
+      <h3 className="text-xl font-semibold text-[#B99B5F] mb-6">Service-Verteilung</h3>
+      <Pie data={data} />
+    </section>
+  )
 }
 
+const BookingsOverTimeChart = ({ schedules }) => {
+  const counts = schedules.reduce((acc, e) => {
+    acc[e.day] = (acc[e.day] || 0) + 1
+    return acc
+  }, {})
 
+  const sortedDates = Object.keys(counts).sort((a, b) => new Date(a) - new Date(b))
 
-      setLoading(false);
-    } catch (err) {
-      console.error("Error loading user data:", err);
-      setLoading(false);
-    }
-  };
-
-  fetchUserData();
-}, []);
-
-
-const normalize = (str) =>
-  str
-    ?.toLowerCase()
-    .normalize("NFD") // separates accents
-    .replace(/[\u0300-\u036f]/g, "") // removes accents
-    .replace(/ä/g, "ae") // specific fix
-    .replace(/ü/g, "ue")
-    .replace(/ö/g, "oe")
-    .replace(/ß/g, "ss")
-    .replace(/\s+/g, "")
-    .replace(/[^\w]/g, "") || "";
-
-const formMap = {
-  haushaltshilfeundwohnpflege: RegisterForm1,
-  freizeitundsozialeaktivitaeten: RegisterForm2,
-  gesundheitsfuhrsorge: RegisterForm3,
-  alltagsbegleitungundbesorgungen: RegisterForm4,
-};
-
-
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setUpdatedData((prev) => ({ ...prev, [name]: value }));
-};
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const res = await fetch("/api/updateUserData", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: userData.id, ...updatedData }),
-  });
-  if (res.ok) {
-    alert("Daten erfolgreich aktualisiert!");
-  } else {
-    alert("Fehler beim Aktualisieren der Daten.");
+  const data = {
+    labels: sortedDates,
+    datasets: [
+      {
+        label: "Buchungen pro Tag",
+        data: sortedDates.map((d) => counts[d]),
+        borderColor: chartColors[0],
+        backgroundColor: "rgba(185,155,95,0.3)",
+        fill: true,
+        tension: 0.3,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+      },
+    ],
   }
-};
 
-
-if (loading) return <div className="min-h-screen flex justify-center items-center text-[#B99B5F] font-semibold text-xl">Lädt...</div>;
-const normalizedService = normalize(service);
-const SelectedForm = formMap[normalizedService];
   return (
-    <div className="relative">
-  {showOverlayForm && SelectedForm && (
-  <div className="absolute top-0 left-0 w-full h-full bg-white/80 backdrop-blur-sm z-50 flex justify-center items-start">
-    <div className="bg-white shadow-lg rounded-xl w-full max-w-3xl max-h-[130vh] overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-[#B99B5F]">
-      <h2 className="text-xl font-semibold mb-4 text-[#B99B5F]">
-        Bitte füllen Sie das Serviceformular aus
-      </h2>
-      <SelectedForm onComplete={() => setShowOverlayForm(false)} />
-    </div>
-  </div>
-)}
+    <section className="bg-white p-6 rounded-2xl shadow-lg transition-shadow hover:shadow-xl">
+      <h3 className="text-xl font-semibold text-[#B99B5F] mb-6">Buchungen im Zeitverlauf</h3>
+      <Line data={data} />
+    </section>
+  )
+}
 
+export default function ClientDashboard() {
+  const [userData, setUserData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [updatedData, setUpdatedData] = useState({})
+  const [showOverlayForm, setShowOverlayForm] = useState(true)
+  const [services, setServices] = useState("")
+  const [isNotifVisible, setIsNotifVisible] = useState(false)
+  const router = useRouter()
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("userToken")
+        if (!token) {
+          router.push("/")
+          return
+        }
+        const res = await fetch("/api/user/getUserData", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        if (!res.ok) throw new Error("Fehler beim Laden der Benutzerdaten")
+        const user = await res.json()
+        setUserData(user)
+        setUpdatedData(user)
 
+        const selectedService = localStorage.getItem("selectedService")
+        const userService = Array.isArray(user.services) && user.services.length
+          ? user.services[0].name.trim()
+          : ""
 
-      <div className={`flex min-h-screen ${showOverlayForm ? "blur-sm pointer-events-none" : ""}`}>
-        <div className="w-64 bg-[#B99B5F] text-white p-6">
-          <h2 className="text-3xl font-bold text-center">PHC</h2>
-          <ul className="mt-8 space-y-4">
-            <li className="hover:bg-[#B99B5F] p-3 rounded-md cursor-pointer">Dashboard</li>
-            <li className="hover:bg-[#B99B5F] p-3 rounded-md cursor-pointer">Profile</li>
-            <li className="hover:bg-[#B99B5F] p-3 rounded-md cursor-pointer">Settings</li>
-           <li
-  onClick={() => {
-    localStorage.removeItem("userToken"); // or whatever key you use
-    localStorage.removeItem("selectedService");
-    router.push("/"); // redirect to login page
-  }}
-  className="hover:bg-[#B99B5F] p-3 rounded-md cursor-pointer"
->
-  Logout
-</li>
+        const serviceKey = normalize(userService || selectedService || "")
+        setServices(serviceKey)
 
-          </ul>
-        </div>
+        const formCompletionMap = {
+          haushaltshilfeundwohnpflege: "form1Completed",
+          freizeitundsozialeaktivitaeten: "form2Completed",
+          gesundheitsfuersorge: "form3Completed",
+          alltagsbegleitungundbesorgungen: "form4Completed",
+        }
 
-        <div className="flex-1 bg-gray-50 p-10">
-          
-          <div className="flex justify-between items-center mb-6">
-            <div className="text-2xl font-semibold text-[#B99B5F]">Client Dashboard</div>
-            <div>
-              <button
-                onClick={() => router.push("/edit-client-profile")}
-                className="py-2 px-4 bg-[#B99B5F] text-white font-semibold rounded-md hover:bg-[#B99B5F]"
-              >Edit Profile</button>
-            </div>
-          </div>
+        const formKey = formCompletionMap[serviceKey]
+        const isCompleted = user[formKey] === true
+        setShowOverlayForm(formKey && !isCompleted)
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-           <div className="space-y-2">
-  <p><strong>Name:</strong> {userData?.firstName} {userData?.lastName}</p>
-  <p><strong>Email:</strong> {userData?.email}</p>
-  <p><strong>Phone:</strong> {userData?.phone}</p>
-  <p><strong>Address:</strong> {userData?.address}</p>
+        const needsPersonalData =
+          !user.languages ||
+          !user.languages.trim() ||
+          !user.otherLanguage ||
+          !user.otherLanguage.trim() ||
+          !user.pets ||
+          !user.pets.trim() ||
+          !user.allergies ||
+          !user.allergies.trim() ||
+          !user.specialRequests ||
+          !user.specialRequests.trim() ||
+          !user.emergencyContactName ||
+          !user.emergencyContactName.trim() ||
+          !user.emergencyContactPhone ||
+          !user.emergencyContactPhone.trim()
 
-{userData?.schedules?.length > 0 && (
-  <div className="mt-4">
-    <h3 className="font-semibold text-[#B99B5F] mb-1">Geplante Termine:</h3>
-    {userData.schedules.map((entry) => (
-      <div key={entry.id} className="text-sm text-gray-800">
-        {entry.day} – {entry.startTime} – {entry.hours} Std
+        setIsNotifVisible(needsPersonalData)
+        setLoading(false)
+      } catch (err) {
+        console.error(err)
+        setLoading(false)
+      }
+    }
+    fetchUserData()
+  }, [router])
+
+  const normalize = (str) =>
+    str
+      ?.toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ä/g, "ae")
+      .replace(/ö/g, "oe")
+      .replace(/ü/g, "ue")
+      .replace(/ß/g, "ss")
+      .replace(/\s+/g, "")
+      .replace(/[^\w]/g, "") || ""
+
+  const formMap = {
+    haushaltshilfeundwohnpflege: RegisterForm1,
+    freizeitundsozialeaktivitaeten: RegisterForm2,
+    gesundheitsfuhrsorge: RegisterForm3,
+    alltagsbegleitungundbesorgungen: RegisterForm4,
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setUpdatedData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const res = await fetch("/api/updateUserData", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: userData.id, ...updatedData }),
+    })
+    alert(res.ok ? "Daten erfolgreich aktualisiert!" : "Fehler beim Aktualisieren.")
+  }
+
+  if (loading)
+    return (
+      <div className="min-h-screen flex justify-center items-center text-[#B99B5F] text-xl font-semibold">
+        Lädt...
       </div>
-    ))}
-  </div>
-)}
+    )
 
-</div>
+  const SelectedForm = formMap[services]
 
-          
-            <div className="bg-white p-6 rounded-lg shadow-md space-y-4 col-span-1 md:col-span-2 lg:col-span-3">
-              <h2 className="text-xl font-semibold text-[#B99B5F]">Documents</h2>
-              <div className="space-y-2">
-                <p><strong>Resume:</strong> <a href={userData?.resumeUrl} target="_blank" className="text-[#B99B5F] underline">View Resume</a></p>
-                {userData?.photoUrl && <p><strong>Photo:</strong> <a href={userData?.photoUrl} target="_blank" className="text-[#B99B5F] underline">View Photo</a></p>}
-              </div>
-            </div>
-  <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-    <h2 className="text-xl font-bold text-[#B99B5F]">Gewählter Service</h2>
-    
- <div className="space-y-4">
-  {/* Selected Service Display */}
-  <div className="p-4 bg-green-50 border border-green-200 rounded-md shadow-sm">
-    <p className="text-sm text-gray-700 font-medium">Gewählter Service:</p>
-    <p className="text-lg font-bold text-[#04436F]">
-      {userData?.service?.name || "Nicht angegeben"}
-    </p>
-  </div>
+  return (
+    <div className="relative min-h-screen bg-gray-100 font-sans">
+      {/* Overlay */}
+      {showOverlayForm && SelectedForm && (
+        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex justify-center items-start p-6">
+          <div className="bg-white shadow-xl rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-10 scrollbar-thin scrollbar-thumb-[#B99B5F]">
+            <h2 className="text-2xl font-semibold mb-8 text-[#B99B5F]">
+              Bitte füllen Sie das Serviceformular aus
+            </h2>
+            <SelectedForm onComplete={() => setShowOverlayForm(false)} />
+          </div>
+        </div>
+      )}
 
-  {/* List other services */}
-  <div className="space-y-3">
-    {[
-      "Alltagsbegleitung und Besorgungen",
-      "Freizeit und Soziale Aktivitäten",
-      "Gesundheitsführsorge",
-      "Haushaltshilfe und Wohnpflege"
-    ]
-      .filter((s) => s !== userData?.service?.name)
-      .map((s, i) => (
-        <div
-          key={i}
-          className="flex items-center justify-between border p-3 rounded-md bg-gray-50"
-        >
-          <span className="text-sm font-medium text-gray-800">{s}</span>
+      <div className={`flex min-h-screen transition-filter duration-300 ${showOverlayForm ? "blur-sm pointer-events-none" : ""}`}>
+        {/* Sidebar */}
+        <nav className="w-72 bg-[#B99B5F] text-white p-8 flex flex-col shadow-lg">
+          <h1 className="text-4xl font-bold text-center mb-12 select-none">PHC</h1>
+          <ul className="space-y-6 flex-grow">
+            <li className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition">Dashboard</li>
+            <li
+              onClick={() => router.push("/dashboard/personal-info")}
+              className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
+            >
+              Persönliche Daten
+              {isNotifVisible && (
+                <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
+              )}
+              {isNotifVisible && (
+                <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-6 w-72 bg-white text-black rounded-2xl shadow-lg p-5 z-50">
+                  <div className="flex items-start gap-4">
+                    <svg
+                      className="w-7 h-7 text-[#04436F] flex-shrink-0"
+                      fill="#04436F"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 2a6 6 0 00-6 6v4H5a1 1 0 000 2h14a1 1 0 000-2h-1V8a6 6 0 00-6-6zM6 18a6 6 0 0012 0H6z" />
+                    </svg>
+                    <div>
+                      <p className="font-semibold text-base mb-1">Bitte persönliche Daten ausfüllen</p>
+                      <p className="text-sm text-gray-600">Diese Daten sind für uns wichtig.</p>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setIsNotifVisible(false)
+                      }}
+                      aria-label="Close notification"
+                      className="text-2xl font-bold text-gray-400 hover:text-gray-700"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                </div>
+              )}
+            </li>
+          </ul>
           <button
             onClick={() => {
-              localStorage.setItem("selectedService", s);
-              router.push("/"); // Changed from /register to /
+              localStorage.removeItem("userToken")
+              localStorage.removeItem("selectedService")
+              router.push("/")
             }}
-            className="text-sm px-3 py-1 rounded bg-[#B99B5F] text-white hover:bg-[#a68a53]"
+            className="mt-auto bg-[#A6884A] hover:bg-[#8a6f3b] py-3 rounded-xl font-semibold text-lg transition"
           >
-            Auswählen
+            Logout
           </button>
-        </div>
-      ))}
-  </div>
-</div>
+        </nav>
 
-  </div>
+        {/* Main Content */}
+        <main className="flex-1 p-12 overflow-auto">
+          {/* Header */}
+          <header className="flex justify-between items-center mb-12">
+            <h2 className="text-4xl font-bold text-[#B99B5F]">Client Dashboard</h2>
+            <button
+              onClick={() => router.push("/edit-client-profile")}
+              className="py-3 px-7 bg-[#B99B5F] text-white rounded-2xl font-semibold text-lg hover:bg-[#A6884A] transition"
+            >
+              Profil bearbeiten
+            </button>
+          </header>
 
-  {/* === Service History === */}
-  <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-    <h2 className="text-xl font-bold text-[#B99B5F]">Serviceverlauf</h2>
-    <ul className="space-y-3 text-sm text-gray-700">
-      <li className="bg-gray-50 border p-4 rounded">15. Mai 2025 · Haushaltshilfe für 4 Stunden</li>
-      <li className="bg-gray-50 border p-4 rounded">10. Mai 2025 · Freizeitaktivitäten - Theaterbesuch</li>
-      <li className="bg-gray-50 border p-4 rounded">03. Mai 2025 · Begleitung zum Arzttermin</li>
+          {/* User Info + Documents + Service */}
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <article className="bg-white p-8 rounded-3xl shadow-xl">
+              <h3 className="text-2xl font-semibold text-[#B99B5F] mb-8 select-none">Benutzerinformationen</h3>
+              <p className="text-lg mb-3"><strong>Name:</strong> {userData.firstName} {userData.lastName}</p>
+              <p className="text-lg mb-3"><strong>Email:</strong> {userData.email}</p>
+              <p className="text-lg mb-3"><strong>Telefon:</strong> {userData.phone}</p>
+              <p className="text-lg mb-3"><strong>Adresse:</strong> {userData.address}</p>
+              {userData.schedules?.length > 0 && (
+                <>
+                  <h4 className="mt-10 mb-4 font-semibold text-[#B99B5F] text-xl">Geplante Termine</h4>
+                  {userData.schedules.map(({ id, day, startTime, hours }) => (
+                    <p key={id} className="text-gray-800 text-base mb-2">
+                      {day} – {startTime} – {hours} Std
+                    </p>
+                  ))}
+                </>
+              )}
+            </article>
+
+        <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
+  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">Kundeninformationen & Services</h3>
+
+  {/* Gebuchte Services */}
+  <div className="mb-6">
+    <h4 className="font-semibold text-lg text-gray-700 mb-2">Gebuchte Services</h4>
+    <ul className="list-disc list-inside text-gray-800">
+      {userData.services.length > 0 ? (
+        userData.services.map(({ name }) => (
+          <li key={name}>{name}</li>
+        ))
+      ) : (
+        <li className="italic text-gray-400">Keine Services gebucht</li>
+      )}
     </ul>
   </div>
 
-  {/* === New Booking === */}
-  <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-    <h2 className="text-xl font-bold text-[#B99B5F]">Neue Buchung planen</h2>
-    <div className="space-y-3">
-      <input
-        type="date"
-        className="w-full border px-4 py-2 rounded-md focus:ring-2 focus:ring-[#B99B5F]"
-      />
-      <input
-        type="time"
-        className="w-full border px-4 py-2 rounded-md focus:ring-2 focus:ring-[#B99B5F]"
-      />
-      <select
-        className="w-full border px-4 py-2 rounded-md focus:ring-2 focus:ring-[#B99B5F]"
-      >
-        <option>Service auswählen</option>
-        <option>Haushaltshilfe</option>
-        <option>Gesundheitsführung</option>
-        <option>Freizeit</option>
-        <option>Begleitung</option>
-      </select>
-      <button className="w-full mt-2 bg-[#04436F] text-white py-3 rounded-md hover:bg-[#033553]">
-        Termin buchen
-      </button>
-    </div>
+  {/* Unterservices */}
+  <div className="mb-6">
+    <h4 className="font-semibold text-lg text-gray-700 mb-2">Unterservices</h4>
+    <ul className="list-disc list-inside text-gray-800">
+      {userData.subServices.length > 0 ? (
+        userData.subServices.map(({ name }) => (
+          <li key={name}>{name}</li>
+        ))
+      ) : (
+        <li className="italic text-gray-400">Keine Unterservices</li>
+      )}
+    </ul>
   </div>
 
-          </div>
+  {/* Geplante Termine */}
+  <div className="mb-6">
+    <h4 className="font-semibold text-lg text-gray-700 mb-2">Geplante Termine</h4>
+    {userData.schedules.length > 0 ? (
+      <ul className="list-disc list-inside text-gray-800">
+        {userData.schedules.map(({ id, day, startTime, hours }) => (
+          <li key={id}>
+            {day} – {startTime} – {hours} Std
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p className="italic text-gray-400">Keine Termine geplant</p>
+    )}
+  </div>
 
-          <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold text-[#B99B5F] mb-4">Update Your Information</h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <input type="text" name="fullName" value={updatedData.firstName} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Full Name" />
-               <input type="text" name="fullName" value={updatedData.lastName} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Full Name" />
+  {/* Formularstatus */}
+  <div>
+    <h4 className="font-semibold text-lg text-gray-700 mb-2">Formularstatus</h4>
+    <ul className="flex flex-wrap gap-3">
+      {[
+        { label: "Haushaltshilfe & Wohnpflege", completed: userData.form1Completed },
+        { label: "Freizeit & Soziale Aktivitäten", completed: userData.form2Completed },
+        { label: "Gesundheitsführsorge", completed: userData.form3Completed },
+        { label: "Alltagsbegleitung & Besorgungen", completed: userData.form4Completed },
+      ].map(({ label, completed }) => (
+        <li
+          key={label}
+          className={`rounded-full px-4 py-1 font-semibold text-sm ${
+            completed ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
+          }`}
+        >
+          {label}: {completed ? "Abgeschlossen" : "Offen"}
+        </li>
+      ))}
+    </ul>
+  </div>
+</article>
 
-              <input type="email" name="email" value={updatedData.email} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Email Address" />
-              <input type="tel" name="phone" value={updatedData.phone} onChange={handleChange} className="h-[48px] w-full rounded-[12px] border px-4" placeholder="Phone Number" />
-<input
-  type="text"
-  name="emergencyContactName"
-  value={updatedData.emergencyContactName || ""}
-  onChange={handleChange}
-  placeholder="Emergency Contact Name"
-  className="h-[48px] w-full rounded-[12px] border px-4"
-/>
 
-<input
-  type="tel"
-  name="emergencyContactPhone"
-  value={updatedData.emergencyContactPhone || ""}
-  onChange={handleChange}
-  placeholder="Emergency Contact Phone"
-  className="h-[48px] w-full rounded-[12px] border px-4"
-/>
-              <button type="submit" className="w-full py-4 bg-[#B99B5F] text-white font-semibold text-lg rounded-md shadow-lg hover:bg-[#A6884A]">Save Changes</button>
-            </form>
-          </div>
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-  {userData &&
-    Object.entries(userData)
-      .filter(([key]) => !["passwordHash", "serviceId", "subServiceId"].includes(key))
-      .map(([key, value]) => {
-        // Mask sensitive fields
-        if (["cardNumber", "cvc", "expiryDate"].includes(key)) {
-          if (!value) return null;
-          value =
-            key === "cardNumber"
-              ? "************" + value.slice(-4)
-              : key === "cvc"
-              ? "***"
-              : value;
-        }
+     <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
+  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">Gewählter Service</h3>
 
-        // Format dates
-        if (key.toLowerCase().includes("date") && value) {
-          try {
-            value = new Date(value).toLocaleDateString("de-DE", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            });
-          } catch {
-            value = String(value);
-          }
-        }
+  {/* Highlight the chosen service */}
+  <div className="mb-6 p-6 bg-[#B99B5F] text-white rounded-2xl shadow-md font-bold text-xl text-center select-none">
+    {userData.services[0]?.name || "Kein Service ausgewählt"}
+  </div>
 
-        // Convert booleans
-        if (typeof value === "boolean") {
-          value = value ? "Ja" : "Nein";
-        }
+  {/* List other services to choose from */}
+  <div className="space-y-4">
+    {[
+      "Haushaltshilfe und Wohnpflege",
+      "Freizeit und Soziale Aktivitäten",
+      "Gesundheitsführsorge",
+      "Alltagsbegleitung und Besorgungen",
+    ]
+      .filter((service) => service !== userData.services[0]?.name)
+      .map((service, i) => (
+        <button
+          key={i}
+          onClick={() => {
+            localStorage.setItem("selectedService", service);
+            // optionally reload or update state here
+            window.location.reload();
+          }}
+          className="w-full py-3 border border-[#B99B5F] rounded-2xl text-[#B99B5F] font-semibold hover:bg-[#B99B5F] hover:text-white transition"
+        >
+          {service}
+        </button>
+      ))}
+  </div>
+</article>
 
-        // Clean nulls/undefined
-        if (value === null || value === undefined || value === "") {
-          value = "—";
-        }
+          </section>
 
-        // Format object types
-        if (typeof value === "object") {
-          value = JSON.stringify(value, null, 2);
-        }
+          {/* Charts */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-14">
+            {userData.services?.length > 0 && <ServiceUsageChart services={userData.services} />}
+            {userData.schedules?.length > 0 && <BookingsOverTimeChart schedules={userData.schedules} />}
+          </section>
 
-        // Label formatting
-        const label = key
-          .replace(/([A-Z])/g, " $1")
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase());
+       <div className="max-w-7xl mx-auto px-6 mt-16">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-        return (
-          <div key={key} className="bg-white rounded-xl shadow-lg p-6 space-y-2">
-            <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">
-              {label}
-            </p>
-            <p className="text-sm text-gray-800 break-words whitespace-pre-wrap">
-              {value}
-            </p>
-          </div>
-        );
-      })}
+    {/* Service History */}
+    <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+      <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 select-none">
+        Serviceverlauf
+      </h3>
+      <ul className="space-y-3 text-gray-700 text-sm flex-grow overflow-auto">
+        {[
+          "15. Mai 2025 · Haushaltshilfe für 4 Stunden",
+          "10. Mai 2025 · Freizeitaktivitäten - Theaterbesuch",
+          "03. Mai 2025 · Begleitung zum Arzttermin",
+        ].map((item, i) => (
+          <li
+            key={i}
+            className="bg-gray-50 border border-gray-300 p-3 rounded-lg shadow-sm hover:shadow-md cursor-default select-none transition"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* New Booking */}
+    <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+      <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
+        Neue Buchung planen
+      </h3>
+      <form className="space-y-4 flex flex-col flex-grow">
+        <input
+          type="date"
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
+          placeholder="Datum auswählen"
+        />
+        <input
+          type="time"
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
+          placeholder="Uhrzeit auswählen"
+        />
+        <select
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Service auswählen
+          </option>
+          <option>Haushaltshilfe</option>
+          <option>Gesundheitsführung</option>
+          <option>Freizeit</option>
+          <option>Begleitung</option>
+        </select>
+        <button
+          type="submit"
+          className="mt-auto bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm hover:bg-[#033553] transition"
+        >
+          Termin buchen
+        </button>
+      </form>
+    </section>
+
+    {/* Update Information Form */}
+    <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+      <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
+        Informationen aktualisieren
+      </h3>
+      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col flex-grow">
+        {[
+          { name: "firstName", placeholder: "Vorname", type: "text" },
+          { name: "lastName", placeholder: "Nachname", type: "text" },
+          { name: "email", placeholder: "E-Mail Adresse", type: "email" },
+          { name: "phone", placeholder: "Telefonnummer", type: "tel" },
+          { name: "emergencyContactName", placeholder: "Notfallkontakt Name", type: "text" },
+          { name: "emergencyContactPhone", placeholder: "Notfallkontakt Telefon", type: "tel" },
+        ].map(({ name, placeholder, type }) => (
+          <input
+            key={name}
+            type={type}
+            name={name}
+            value={updatedData[name] || ""}
+            onChange={handleChange}
+            placeholder={placeholder}
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
+          />
+        ))}
+        <button
+          type="submit"
+          className="mt-auto py-3 bg-[#B99B5F] text-white rounded-lg font-semibold text-sm hover:bg-[#A6884A] transition"
+        >
+          Änderungen speichern
+        </button>
+      </form>
+    </section>
+    
+  </div>
 </div>
 
-        </div>
+        </main>
       </div>
-      
     </div>
-  );
+  )
 }

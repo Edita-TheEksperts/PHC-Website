@@ -15,21 +15,26 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-      include: { healthQuestion: true },
-    });
+ const user = await prisma.user.findUnique({
+  where: { email },
+  include: { 
+    healthQuestion: true,
+    services: true,
+    subServices: true
+  }
+});
+
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({
-      fullName: user.name,
+fullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
       email: user.email,
       phone: user.phone,
-      service: user.service,
-      subService: user.subService,
+      services: user.services,
+      subServices: user.subServices,
       frequency: user.frequency,
       timeWindow: user.timeWindow,
       address: user.address,

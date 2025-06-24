@@ -10,7 +10,7 @@ datasource db {
 model Service {
   id          String        @id @default(uuid())
   name        String        @unique
-  users       User[]        @relation("UserService")
+  users       User[]        @relation("UserServices")
   subServices SubService[]  @relation("ServiceToSubService") // needs match
 }
 
@@ -19,7 +19,7 @@ model SubService {
   name      String   @unique
   serviceId String?  // still optional for now
   service   Service? @relation("ServiceToSubService", fields: [serviceId], references: [id]) // <-- fix added here
-  users     User[]   @relation("UserSubService")
+  users     User[]   @relation("UserSubServices")
 }
 
 
@@ -41,43 +41,101 @@ model User {
   role                  Role            @default(client)
   createdAt             DateTime        @default(now())
   updatedAt             DateTime        @updatedAt
+
+  // Core info
+  firstName             String?
+  lastName              String?
   phone                 String?
   address               String
-  frequency             String
-  cardNumber            String?
-  cvc                   String?
-  duration              Int?
-  emergencyContactName  String?
-  emergencyContactPhone String?
-  expiryDate            String?
-  firstDate             DateTime?
-  firstName  String?  // new
-  lastName   String?  // new
+  postalCode            String?   
   languages             String?
   pets                  String?
-  serviceId             String?
-  subServiceId          String?
+
+  // Emergency
+  emergencyContactName  String?
+  emergencyContactPhone String?
+
+  // Dates & Payment
+  firstDate             DateTime?
+  frequency             String
+  duration              Int?
+  paymentIntentId       String?
+  totalPayment          Float?
+  cardNumber            String?
+  expiryDate            String?
+  cvc                   String?
+
+  // Service relations
+  services              Service[]       @relation("UserServices")
+  subServices           SubService[]    @relation("UserSubServices")
+  schedules             Schedule[]
+
+  // ✅ Form 1: Haushalt
+  householdRooms        Int?
+  householdPeople       Int?
+  householdTasks        Json?
+  form1Completed        Boolean?        @default(false)
+
+  // ✅ Form 2: Freizeit & Soziale Aktivitäten
+  mobility              String?
+  transport             String?
+  companionship         String?
+  cooking               String?
+  hasAllergies          String?
+  allergyDetails        String?
+  hasTech               String?
+  reads                 String?
+  playsCards            String?
+  outings               String?
+  form2Completed        Boolean?        @default(false)
+
+  // ✅ Form 3: Gesundheitsführsorge
+  height                String?
+  weight                String?
+  aids                  String?
+  aidsOther             String?
+  incontinence          String?
+  communicationSehen    String?
+  communicationHören    String?
+  communicationSprechen String?
+  foodSupport           String?
+  basicCare             String?
+  basicCareOther        String?
+  healthActivities      String?
+  healthActivitiesOther String?
+  mentalSupport         String?
+  mentalConditions      String?
+  medicalFindings       String?
+  form3Completed        Boolean?        @default(false)
+
+  // ✅ Form 4: Alltagsbegleitung
   appointments          String?
   appointmentsOther     String?
-  briefkasten           String?
-  mobility              String?
-  postfach              String?
   shoppingAssist        String?
   shoppingType          String?
+  briefkasten           String?
+  postfach              String?
   sonstige              String?
-  transport             String?
   form4Completed        Boolean?        @default(false)
-  allergies             String?   // moved here
-  specialRequests       String?   // moved here
-  postalCode            String?   
-  schedules Schedule[]
-  service               Service?        @relation("UserService", fields: [serviceId], references: [id])
-  subService            SubService?     @relation("UserSubService", fields: [subServiceId], references: [id])
-  totalPayment        Float?   // <-- add this line
-  paymentIntentId  String?  // nullable if you want
+
+  // Extra from registration
+  allergies             String?
+  specialRequests       String?
+    reminders Reminder[]  // Add this line
 
 }
 
+
+model Reminder {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  type        String   // "4h_reminder" or "48h_reminder"
+  scheduledAt DateTime
+  sent        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
 
 
 model Employee {

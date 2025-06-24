@@ -20,8 +20,8 @@ export default async function handler(req, res) {
       where: { id: decoded.id }
 ,
       include: {
-        service: true,
-        subService: true,
+        services: true,
+        subServices: true,
         schedules: true, 
       }
     });

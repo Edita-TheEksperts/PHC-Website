@@ -112,3 +112,39 @@ body {
 .btn-red {
   @apply bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition;
 }
+.time-picker-display {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  background-color: white;
+}
+
+.time-grid-dropdown {
+  position: absolute;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+.time-option {
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.time-option:hover,
+.time-option.selected {
+  background-color: #04436F;
+  color: white;
+}

@@ -182,7 +182,6 @@ const handleSelect = (zip, cityName) => {
     placeholder="Postleitzahl eingeben"
     value={city ? `${postalCode} (${city})` : postalCode}
     onChange={handleInputChange}
-    disabled={!selectedService}
   />
 
   {suggestions.length > 0 && (
