@@ -10,6 +10,8 @@ export default function AdminLayout({ children }) {
           <Link href="/admin/employees" className="hover:text-blue-400">Employees</Link>
           <Link href="/admin/clients" className="hover:text-blue-400">Clients</Link>
           <Link href="/admin/settings" className="hover:text-blue-400">Settings</Link>
+          <Link href="/admin/system-email" className="hover:text-blue-400">System Maintenance</Link>
+          <Link href="/admin/feedback-email" className="hover:text-blue-400">Feedback Email</Link>
         </nav>
       </aside>
       <main className="flex-1 p-6 bg-gray-50">

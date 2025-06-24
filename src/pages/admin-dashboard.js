@@ -3,6 +3,7 @@ import AdminLayout from "../components/AdminLayout";
 import DashboardContent from "../components/DashboardContent";
 import EmployeeTable from "../components/EmployeeTable";
 import ClientTable from "../components/ClientTable";
+import SystemMaintenanceEmail from "../components/SystemMaintenanceEmail"; // adjust path
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function DashboardPage() {
