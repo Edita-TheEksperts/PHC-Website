@@ -12,17 +12,26 @@ export default function DashboardPage() {
   const [stats, setStats] = useState(null);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    fetchData();
-    fetchStats();
-  }, []);
+useEffect(() => {
+  fetchData();
+  fetchStats();
+}, []);
 
-  async function fetchData() {
-    const res = await fetch("/api/admin/dashboard");
-    const data = await res.json();
-    setEmployees(data.employees || []);
-    setClients(data.clients || []);
-  }
+async function fetchData() {
+  const res = await fetch("/api/admin/dashboard");
+  const data = await res.json();
+
+const allEmployees = data.employees || [];
+setEmployees(allEmployees); // ✅ this has ALL employees (approved + pending + rejected)
+
+  // 🛠️ Only send approved employees to dropdown
+const approvedEmployees = allEmployees.filter(emp => emp.status === "approved");
+setApprovedEmployees(approvedEmployees);
+
+  setClients(data.clients || []);
+}
+
+
 
   async function fetchStats() {
     const res = await fetch("/api/admin/stats");
@@ -65,12 +74,13 @@ export default function DashboardPage() {
       setMessage("❌ Error: " + err.message);
     }
   }
+const [approvedEmployees, setApprovedEmployees] = useState([]);
 
   return (
     <AdminLayout>
       {stats && <DashboardContent stats={stats} />}
       <EmployeeTable employees={employees} onApprove={handleApproval} onReject={handleRejection} />
-      <ClientTable clients={clients} />
+<ClientTable clients={clients} employees={employees} />
       {message && <p className="text-center text-lg mt-6 text-[#04436F]">{message}</p>}
     </AdminLayout>
   );

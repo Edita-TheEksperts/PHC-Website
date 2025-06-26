@@ -122,6 +122,7 @@ model User {
   allergies             String?
   specialRequests       String?
     reminders Reminder[]  // Add this line
+assignments Assignment[]  // Add this line
 
 }
 
@@ -135,6 +136,24 @@ model Reminder {
   sent        Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+model Assignment {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  status     String   @default("active") // active, completed, cancelled
+  createdAt  DateTime @default(now())
+}
+
+model Feedback {
+  id         String   @id @default(uuid())
+  userId     String
+  employeeId String
+  comment    String
+  rating     Int      // 1-5
+  createdAt  DateTime @default(now())
 }
 
 
@@ -194,6 +213,7 @@ iban           String?
 accountHolder  String?
 bankName       String?
 bic            String?
+assignments Assignment[]  // Add this line
 
 }
 

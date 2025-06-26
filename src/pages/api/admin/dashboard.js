@@ -6,16 +6,25 @@ const prisma = new PrismaClient(); // Initialize Prisma Client
 // Fetch all employees with required fields
 async function fetchEmployees() {
   return await prisma.employee.findMany();
-}
-
-
-
-  
-
-// Fetch all clients
+}  
 async function fetchClients() {
-  return await prisma.user.findMany({ where: { role: 'client' } }); // Fetch all clients from DB
+  return await prisma.user.findMany({
+    where: { role: 'client' },
+    include: {
+      services: true, // 👈 needed for filtering + display
+      subServices: true, // 👈 optional: if planning to show
+      assignments: {
+        orderBy: { createdAt: 'desc' },
+        take: 1,
+        include: {
+          employee: true
+        }
+      }
+    }
+  });
 }
+
+
 
 // The handler function to fetch dashboard data
 async function getDashboardData(req, res) {
