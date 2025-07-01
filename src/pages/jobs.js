@@ -42,7 +42,7 @@ export default function JobsPage() {
               </div>
 
               <a
-                href="/kontakt"
+                href="/contact"
                 className="bg-[#04436F] text-white px-6 py-3 rounded-[12px] text-[16px] font-medium self-start lg:self-auto"
               >
                 Jetzt bewerben
