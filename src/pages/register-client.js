@@ -898,7 +898,7 @@ onChange={(date) => {
       </svg>
     </span>
     <span className={passwordChecks.uppercase ? "text-[#2F2F2F]" : "text-gray-300"}>
-      ein Großbuchstabe
+      ein Grossbuchstabe
     </span>
   </li>
 
