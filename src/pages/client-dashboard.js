@@ -223,7 +223,7 @@ export default function ClientDashboard() {
               onClick={() => router.push("/dashboard/personal-info")}
               className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
             >
-              Persönliche Daten
+              Persönliche Informationen
               {isNotifVisible && (
                 <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
               )}

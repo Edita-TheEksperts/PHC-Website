@@ -138,14 +138,25 @@ model Reminder {
   updatedAt   DateTime @updatedAt
 }
 model Assignment {
-  id         String   @id @default(uuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  employeeId String
-  employee   Employee @relation(fields: [employeeId], references: [id])
-  status     String   @default("active") // active, completed, cancelled
-  createdAt  DateTime @default(now())
+  id                 String   @id @default(uuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id])
+  employeeId         String
+  employee           Employee @relation(fields: [employeeId], references: [id])
+  status             String   @default("active") // active, completed, cancelled
+  confirmationStatus String   @default("pending") // pending, accepted, rejected
+  serviceName        String?                       // ✅ add this
+  firstDate          DateTime?                     // ✅ add this
+  createdAt          DateTime @default(now())
 }
+
+model RejectionWarning {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String
+  sentAt     DateTime @default(now())
+}
+
 
 model Feedback {
   id         String   @id @default(uuid())
@@ -214,6 +225,7 @@ accountHolder  String?
 bankName       String?
 bic            String?
 assignments Assignment[]  // Add this line
+  rejectionWarnings  RejectionWarning[] // <-- relation back to RejectionWarning
 
 }
 

@@ -1,9 +1,123 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import AssignmentCalendar from "../components/AssignmentCalendar";
 
 export default function EmployeeDashboard() {
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [rejectedAssignments, setRejectedAssignments] = useState([]);
+useEffect(() => {
+  async function loadRejected() {
+    if (!employeeData?.email) return;
+
+    const res = await fetch("/api/employee/rejected-assignments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: employeeData.email }),
+    });
+
+    const data = await res.json();
+    setRejectedAssignments(data);
+  }
+
+  loadRejected();
+}, [employeeData]);
+
+  const handlePaymentEditRequest = async () => {
+  try {
+    const res = await fetch("/api/request-payment-change", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: employeeData.email,
+        name: `${employeeData.firstName} ${employeeData.lastName}`,
+      }),
+    });
+
+    if (!res.ok) throw new Error();
+
+    setPaymentMsg("Anfrage wurde an das Team gesendet.");
+  } catch {
+    setPaymentMsg("❌ Fehler beim Senden der Anfrage.");
+  }
+};
+function getFirstScheduleDate(schedules) {
+  if (!schedules || schedules.length === 0) return null;
+
+  const validDates = schedules
+    .map((s) => new Date(s.day))
+    .filter((d) => !isNaN(d));
+
+  if (validDates.length === 0) return null;
+
+  return new Date(Math.min(...validDates));
+}
+
+const [pendingAssignments, setPendingAssignments] = useState([]);
+
+useEffect(() => {
+  async function loadPending() {
+    if (!employeeData?.email) return;
+
+    const res = await fetch("/api/employee/pending-assignments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: employeeData.email }),
+    });
+
+    const data = await res.json();
+    setPendingAssignments(data);
+  }
+
+  loadPending();
+}, [employeeData]);
+
+const [confirmedAssignments, setConfirmedAssignments] = useState([]);
+
+useEffect(() => {
+  const loadConfirmed = async () => {
+    if (!employeeData?.email) return;
+
+    const res = await fetch("/api/employee/confirmed-assignments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: employeeData.email }),
+    });
+
+    const data = await res.json();
+        // 👇 ADD THIS LINE
+    console.log("✅ Confirmed Assignments from API:", data);
+    setConfirmedAssignments(data);
+  };
+
+  loadConfirmed();
+}, [employeeData]);
+
+
+const handleAssignmentAction = async (assignmentId, action) => {
+  try {
+    const res = await fetch("/api/employee/confirm-assignment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ assignmentId, action }),
+    });
+
+    if (!res.ok) throw new Error();
+
+    setPendingAssignments((prev) =>
+      prev.filter((a) => a.id !== assignmentId)
+    );
+
+    if (action === "rejected") {
+      const rejected = pendingAssignments.find((a) => a.id === assignmentId);
+      setRejectedAssignments((prev) => [...prev, rejected]);
+    }
+  } catch {
+    alert("❌ Fehler beim Aktualisieren der Zuweisung.");
+  }
+};
+
+
 const [payment, setPayment] = useState({
   iban: "",
   accountHolder: "",
@@ -102,24 +216,6 @@ const handlePaymentSubmit = async (e) => {
   if (!employeeData) {
     return <div className="p-6">Keine Daten gefunden.</div>;
   }
-const handlePaymentEditRequest = async () => {
-  try {
-    const res = await fetch("/api/request-payment-change", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: employeeData.email,
-        name: `${employeeData.firstName} ${employeeData.lastName}`,
-      }),
-    });
-
-    if (!res.ok) throw new Error();
-
-    setPaymentMsg("Anfrage wurde an das Team gesendet.");
-  } catch {
-    setPaymentMsg("❌ Fehler beim Senden der Anfrage.");
-  }
-};
 
   return (
     <div className="flex min-h-screen bg-[#F9F9F9] text-gray-800">
@@ -162,7 +258,7 @@ const handlePaymentEditRequest = async () => {
               value={`${employeeData.address || ""} ${employeeData.houseNumber || ""}, ${employeeData.zipCode || ""} ${employeeData.city || ""}, ${employeeData.country || ""}`}
             />
           </Card>
-
+          
           <Card title="🛠 Berufserfahrung">
             <Info label="Jahre" value={employeeData.experienceYears} />
             <Info label="Ort" value={employeeData.experienceWhere || "—"} />
@@ -182,6 +278,64 @@ const handlePaymentEditRequest = async () => {
               <p key={i} className="text-sm">{s}</p>
             )) || "—"}
           </Card>
+<Card title="📥 Neue Zuweisungen">
+  {pendingAssignments.length === 0 ? (
+    <p className="text-sm text-gray-500">Keine neuen Zuweisungen.</p>
+  ) : (
+    pendingAssignments.map((a) => (
+      <div key={a.id} className="border p-3 rounded mb-3">
+        <p><strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}</p>
+        <p><strong>Email:</strong> {a.user.email}</p>
+        <div className="mt-2 space-x-2">
+          <button
+            className="bg-green-600 text-white px-3 py-1 rounded"
+            onClick={() => handleAssignmentAction(a.id, "accepted")}
+          >
+            Annehmen
+          </button>
+          <button
+            className="bg-red-600 text-white px-3 py-1 rounded"
+            onClick={() => handleAssignmentAction(a.id, "rejected")}
+          >
+            Ablehnen
+          </button>
+        </div>
+      </div>
+    ))
+  )}
+</Card>
+<Card title="📅 Bestätigte Einsätze">
+  {confirmedAssignments.length === 0 ? (
+    <p className="text-sm text-gray-500">Keine bestätigten Zuweisungen.</p>
+  ) : (
+    confirmedAssignments.flatMap((assignment) =>
+      (assignment.user?.schedules || []).map((schedule, index) => (
+        <div key={`${assignment.id}-${index}`} className="border p-3 rounded mb-2">
+          <p><strong>Kunde:</strong> {assignment.user.firstName} {assignment.user.lastName}</p>
+          <p><strong>Service:</strong> {assignment.user.services?.map(s => s.name).join(", ") || "—"}</p>
+          <p><strong>Startdatum:</strong> {schedule.day}, {schedule.startTime} Uhr</p>
+        </div>
+      ))
+    )
+  )}
+</Card>
+
+
+<Card title="🚫 Abgelehnte Zuweisungen">
+  {rejectedAssignments.length === 0 ? (
+    <p className="text-sm text-gray-500">Keine abgelehnten Zuweisungen.</p>
+  ) : (
+    rejectedAssignments.map((a) => (
+      <div key={a.id} className="border p-3 rounded mb-2">
+        <p><strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}</p>
+        <p><strong>Email:</strong> {a.user.email}</p>
+      </div>
+    ))
+  )}
+</Card>
+
+<Card ><AssignmentCalendar assignments={confirmedAssignments} />
+</Card>
 
           <Card title="📄 Dokumente">
             {[

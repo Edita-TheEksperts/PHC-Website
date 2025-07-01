@@ -47,7 +47,7 @@ Die Prime Home Care AG ist Ihre moderne Partnerin für stundenweise Betreuung zu
           Die Prime Home Care AG bietet ein breites Spektrum an Leistungen für die<br></br> stundenweise Betreuung
 </h2>
 
-<p className="text-[#04436F] text-[16px]  font-light leading-[24.6px]  font-['Metropolis'] mt-2">
+<p className="text-[#04436F] text-[20px]  font-light leading-[27px]  font-['Metropolis'] mt-2">
 Von Alltagsbegleitung, Besorgungen und Hauswirtschaft bis hin zu sozialen Aktivitäten wie gemeinsamen Spaziergängen, Vorlesen oder Ausflügen. Auch bei der Grundpflege und der Unterstützung im Alltag stehen wir zuverlässig zur Seite. Alle Leistungen lassen sich flexibel buchen – digital, transparent und individuell auf Ihre Bedürfnisse abgestimmt. So ermöglichen wir unseren Kund:innen mehr Lebensqualität und Sicherheit im eigenen Zuhause – genau so, wie sie es sich wünschen.</p>
           </div>
           <img src="/images/phc-image222.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[547px] items-start flex justify-start align-top" />
@@ -66,7 +66,7 @@ Nehmen Sie zuerst mit uns Kontakt auf, bevor Sie einen Entscheid<br></br> treffe
 Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und einfach</p>
 
           <button className="bg-[#04436F] text-white lg:mt-[60px] px-6 py-3 rounded-full text-[18px] font-medium mt-6 transition duration-300 hover:bg-[#6FCF97]">
-          Jetzt registrieren
+          Jetzt buchen
                     </button>
         </section>
   
@@ -92,7 +92,7 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
     </h3>
 
     {/* Description */}
-    <p className="text-[#04436F] text-[16px] font-light leading-[24px] font-['Metropolis'] mt-4">
+    <p className="text-[#04436F] text-[20px] font-light leading-[27px] font-['Metropolis'] mt-4">
       Wir bei Prime Home Care haben viele Jahre Erfahrung in der professionellen Betreuung von 
       Senioren und pflegebedürftigen Menschen gesammelt. Hand in Hand mit externen 
       Pflegefachleuten, die uns bei der Bedarfsanalyse unterstützen, organisieren wir für Sie 
@@ -145,11 +145,11 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
   style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
 >
   <h2 className="text-[#04436F] text-[35px] leading-[45px] lg:text-[44px] font-semibold lg:leading-[52.8px]">
-  Registrieren Sie sich jetzt und erhalten <br></br>Sie direkt ein individuelles Angebot
+  Buchen Sie jetzt und erhalten <br></br>Sie direkt ein individuelles Angebot
   </h2>
   
-  <button className="bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] mt-[40px] py-3 px-5 rounded-[50px]">
-    Get started
+  <button className="bg-[#04436F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] mt-[40px] py-3 px-5 rounded-[50px]">
+    Buchen Sie jetzt
   </button>
 </section>
  
@@ -162,7 +162,7 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
           <h3 className="text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
   Flexible Betreuungs-Modelle
 </h3>
-<p className="text-[#04436F]  text-[16px] font-normal leading-[24px] font-['Metropolis'] mt-2">
+<p className="text-[#04436F]  text-[20px] font-normal leading-[27px] font-['Metropolis'] mt-2">
   Flexibilität und die Anpassungsfähigkeit an sich wandelnde Bedürfnisse sind wichtige Aspekte bei Wahl 
   der richtigen der Seniorenbetreuung. Unser Modell bietet gegenüber reinen Verleihangeboten mehr 
   Flexibilität, die häusliche Betreuung vertraglich umfassend und zugleich rechtskonform zu regeln. 

@@ -232,11 +232,11 @@ const handleSelect = (zip, cityName) => {
   </div>
 
   {/* Score Text */}
-  <span className="text-[18px] font-semibold">4.6/5</span>
+  <span className="text-[18px] font-semibold">5/5</span>
 
   {/* Review Count */}
   <span className="text-sm text-gray-600">
-    293.029 verifizierte Bewertungen seit 2015
+    Verifizierte Bewertungen seit 2023
   </span>
 </div>
 
@@ -361,7 +361,7 @@ const handleSelect = (zip, cityName) => {
 
             <h2 className="text-[#FAFCFF] text-center
             text-[32px] lg:text-[55px] font-semibold leading-[38px] lg:leading-[71.5px] mt-2">
-            Haben Sie Fragen oder<br></br> sind Sie bereit für ein<br></br> Onlinegespräch?
+            Buchen Sie jetzt<br></br>  Ihre Betreuungsperson<br></br> und Haushaltshilfe
             </h2>
 
             <button className="mt-4 px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
@@ -586,7 +586,7 @@ const handleSelect = (zip, cityName) => {
 
     <section className="text-center mt-[120px]">
         <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px] text-center">
-        Unsere Preismodelle
+        Preise
          </h2>
 
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -691,7 +691,7 @@ Einmalige Einsätze
     {/* Header */}
     <div className="w-full text-left text-[22px] font-medium leading-[30.8px] 
                     rounded-t-[20px]  text-[#04436F]">
-      Individuelle Dientsleitungen
+      Individuelle Dienstleistungen
     </div>
     <p className="text-[#04436F] text-left text-[16px] font-normal leading-[25.6px]  mt-[20px] mb-[20px]">
     Wir bei der Prime Home Care AG <br></br>verstehen die individuellen Bedürfnisse<br></br> unserer Kunden
@@ -925,7 +925,7 @@ Einmalige Einsätze
         onClick={handleEmployeeStart}
         className="w-full py-3 bg-[#B99B5F] text-white font-semibold rounded-xl hover:bg-[#A6884A] transition duration-200"
       >
-        Jetzt registrieren
+        Jetzt Bewerben
       </button>
     </div>
   </div>

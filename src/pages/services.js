@@ -3,23 +3,27 @@ export default function HomeCarePage() {
       <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
         
         {/* Hero Section */}
-        <section className="bg-[#B99B5F] gap-10 lg:gap-[100px] text-white p-4 lg:p-[60px] rounded-[20px] flex flex-col lg:flex-row items-start">
-        <div className="lg:w-1/2 flex flex-col justify-start items-start">
-        <h1 className="text-[32px] lg:text-[48px] font-semibold lg:leading-[56px] leading-[37px]">
-  <span className="text-[#FFFFFF]">Entdecken Sie unser umfassendes Dienstleistungsangebot</span>
-</h1>
+<section className="bg-[#B99B5F] gap-10 lg:gap-[100px] text-white p-4 lg:p-[60px] rounded-[20px] flex flex-col lg:flex-row items-center">
+  <div className="lg:w-1/2 flex flex-col justify-center">
+    <h1 className="text-[32px] lg:text-[48px] font-semibold lg:leading-[56px] leading-[37px] text-center lg:text-left">
+      <span className="text-[#FFFFFF]">Entdecken Sie unser umfassendes Dienstleistungsangebot</span>
+    </h1>
+  </div>
 
-<p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] mt-2">
-Entdecken Sie eine Vielzahl von Dienstleistungen, die darauf ausgerichtet sind, einfühlsame und professionelle Betreuung in der Geborgenheit Ihres Zuhauses zu bieten.</p>
+  <div className="lg:w-1/2 mt-6 lg:mt-0 flex justify-center">
+    <img src="/images/phc-hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
+  </div>
+</section>
 
-          </div>
-          <div className="lg:w-1/2 mt-6 lg:mt-0">
-            <img src="/images/phc-hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
-          </div>
-        </section>
   
       {/* Services Grid */}
-<section className="grid grid-cols-1 p-2 md:grid-cols-2 lg:grid-cols-2 gap-[16px] mt-[120px]">
+        <div className="max-w-[1000px] mx-auto text-center px-4">
+  <h2 className="text-[#04436F] text-[40px] font-semibold leading-[48px] mt-[120px]">
+    Entdecken Sie eine Vielzahl von Dienstleistungen, die darauf ausgerichtet sind, einfühlsame und professionelle Betreuung in der Geborgenheit Ihres Zuhauses zu bieten.
+  </h2>
+</div>
+
+<section className="grid grid-cols-1 p-2 md:grid-cols-2 lg:grid-cols-2 gap-[16px] mt-[40px]">
   {[
     {
       icon: "user",
@@ -114,7 +118,8 @@ Entdecken Sie eine Vielzahl von Dienstleistungen, die darauf ausgerichtet sind, 
   {/* Button with hover effect */}
   <button className="bg-[#B99B5F] text-[#FAFCFF] py-3 px-6 rounded-[50px] text-[14px] lg:text-[18px] font-medium mt-4 
                      transition duration-300 hover:bg-[#04436F]">
-Schedule a consultation  </button>
+Buchen Sie jetzt
+ </button>
 </section>
 
   

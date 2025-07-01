@@ -11,7 +11,7 @@ export default function About() {
         <section className="bg-[#B99B5F] p-4 rounded-[20px]">
         <h1 className="mt-[200px] text-[#FAFCFF] text-center lg:text-[65px] text-[45px] leading-[55px] font-semibold lg:leading-[84.5px]">
         Über die Prime Home Care AG</h1>
-        <p className="text-[#FAFCFF] mb-[200px] text-center text-[16px] font-normal leading-[25.6px]">
+        <p className="text-[#FAFCFF] mb-[200px] text-center text-[24px] font-normal leading-[31.6px]">
         Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause.        </p>
         </section>
 
@@ -60,8 +60,8 @@ export default function About() {
   <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
     At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
   </p>
-  <button className="bg-[#04436F] w-[140px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
-    Get started
+  <button className="bg-[#04436F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
+    Buchen Sie jetzt
   </button>
 </section>
 
@@ -91,27 +91,17 @@ export default function About() {
         </p>
       </div>
     </section>
-
-    <section className="bg-[#FAFCFF] mt-[120px] px-4 lg:px-[70px] text-center">
-      <div className="flex flex-wrap justify-center gap-[40px]">
-        {/* Stats Array */}
-        {[
-          { number: "300", label: "Patients served" },
-          { number: "30", label: "Caregivers" },
-          { number: "10", label: "Services offered" },
-          { number: "95%", label: "Client satisfaction" }
-        ].map((stat, index) => (
-          <div key={index} className="flex flex-col items-center w-[275px] gap-[10px]">
-            <h2 className="text-[#04436F] text-[65px] font-semibold leading-[78px]">
-              {stat.number}
-            </h2>
-            <p className="text-[#04436F] w-[110px] text-[18px] font-normal leading-[25.6px] ">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
-    </section>
+   <section 
+  className="bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden" 
+  style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+>
+  <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
+ Haben Sie Fragen?<br></br> Kontaktieren Sie uns über unser Kontaktformular
+   </h2>
+  <button className="bg-[#04436F] w-[180px] text-[#FAFCFF] mt-4 text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
+    Kontakt
+  </button>
+</section>
 
     <section className="bg-[#FAFCFF] mt-[120px] mb-[40px] px-4 lg:px-[20px] text-center">
       {/* Title */}

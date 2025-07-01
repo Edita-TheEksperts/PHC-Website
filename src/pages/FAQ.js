@@ -4,7 +4,7 @@ export default function FAQ() {
   // FAQ Data with Questions & Answers
   const faqData = [
     {
-      category: "General",
+      category: "FAQ - Frequently asked questions",
       questions: [
         {
           question: "How can I get involved with your organization?",
@@ -32,9 +32,8 @@ export default function FAQ() {
       category: "Help Care",
       questions: [
         {
-          question: "How do I know if I need professional care at home?",
-          answer:
-            "If daily tasks become challenging or if a medical condition requires supervision, professional home care can be beneficial.",
+          question: "Was genau leistet die Prime Home Care?",
+        answer: `If daily tasks become challenging or if a medical condition requires supervision, professional home care can be beneficial. Wenn ein Familienmitglied oder ein geliebter Mensch pflegebedürftig wird, müssen Angehörige und Freunde oft unter grossem Zeitdruck Betreuung sowie die dafür benötigten Hilfsmittel organisieren. Häusliche Betreuung stellt ein komplexes Thema mit sehr vielen Dimensionen dar: Zum einen geht es um viel Geld und bedeutet für die Betroffenen häufig auch einen Verzehr von Vermögen. Zum anderen gibt es in der Schweiz die rechtliche Dimension, bei der es um die korrekte Gestaltung und Abwicklung von Arbeitsverhältnissen geht. Hierbei ist es zentral, das richtige Betreuungsmodell zu wählen und einen arbeits- und sozialversicherungsrechtlich versierten Partner an seiner Seite zu wissen. Und schliesslich geht es um zwischenmenschliche Aspekte, immerhin leben in einer Betreuungssituation häufig zwei oder mehrere Menschen in einem Haushalt mit einer Pflegehilfe, die häufig vom Ausland anreist. Senioren oder hilfsbedürftige Menschen unter unseren Kunden sowie deren pflegende Angehörige oder Partner wissen zu schätzen, dass sie mit uns alle benötigten Leistungen nahtlos und «wie aus einer Hand» erhalten können und wir zudem zu allen Aspekten der Betreuung optimal beraten können. Wir holen für sie unterschiedliche Angebote von Partnerunternehmen ein und haben stets ein Auge auf die Einhaltung korrekter Anstellungsbedingungen sowie auf alle Rechtsnormen. Auf diese Weise können wir bei der Seniorenbetreuung zuhause zugleich geringe Kosten und eine hohe Qualität sicherstellen. So leisten wir unseren Beitrag dafür, dass sich betroffene Menschen sowohl in ihrem eigenen Haushalt als auch unterwegs 24h am Tag sicher und geborgen fühlen können.`
         },
         {
           question: "Can I choose the person who will provide my care?",
@@ -70,11 +69,12 @@ export default function FAQ() {
       {/* Header Section */}
       <div className="bg-[#B99B5F] text-center  rounded-[20px] py-[90px] max-w-[1390px] mx-auto">
       <h2 className="text-[#FAFCFF] text-center text-[55px] font-semibold leading-[66px] font-['Instrument Sans']">
-  Frequently asked<br></br> questions
+ Häufige Fragen
+
 </h2>
 
-        <p className="text-white text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2">
-        Find answers to the most commonly asked questions about our<br></br> services, policies, and more.
+        <p className="text-white text-[20px] font-normal leading-[25.6px] font-['Inter'] mt-2">
+        Finden Sie Antworten auf die am häufigsten gestellten Fragen zu unseren Dienstleistungen, Richtlinien und mehr.
                 </p>
       </div>
 
@@ -152,6 +152,55 @@ export default function FAQ() {
           </div>
         ))}
       </div>
+      <div className="bg-[#ECF2FF] rounded-[20px] p-6 lg:p-10 max-w-[800px] mx-auto mt-16">
+  <h4 className="text-[#04436F] text-[24px] font-semibold mb-6 text-center">
+    Falls Sie die Antwort auf Ihre Frage nicht finden, kontaktieren Sie uns gerne über das Kontaktformular
+  </h4>
+
+  <form className="space-y-6">
+    {/* Name */}
+    <div>
+      <label className="block text-[#04436F] text-[16px] font-medium mb-2">Ihre Name</label>
+      <input
+        type="text"
+        placeholder="Max Mustermann"
+        className="w-full rounded-[10px] p-3 border border-[#D1D5DB] focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+      />
+    </div>
+
+    {/* Email */}
+    <div>
+      <label className="block text-[#04436F] text-[16px] font-medium mb-2">Ihre E-Mail</label>
+      <input
+        type="email"
+        placeholder="max@email.ch"
+        className="w-full rounded-[10px] p-3 border border-[#D1D5DB] focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+      />
+    </div>
+
+    {/* Question */}
+    <div>
+      <label className="block text-[#04436F] text-[16px] font-medium mb-2">Ihre Frage</label>
+      <textarea
+        rows="5"
+        placeholder="Stellen Sie uns Ihre Frage..."
+        className="w-full rounded-[10px] p-3 border border-[#D1D5DB] focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+      ></textarea>
+    </div>
+
+    {/* Submit Button */}
+    <button
+      type="submit"
+      className="w-full bg-[#B99B5F] text-white text-[16px] font-semibold py-3 rounded-[10px] hover:bg-[#a48852] transition-colors"
+    >
+      Absenden
+    </button>
+  </form>
+</div>
+<p className="text-[#04436F] text-[18px] font-medium leading-[28px] text-center mt-16">
+  Falls Sie die Antwort auf Ihre Frage nicht finden, kontaktieren Sie uns gerne über das <a href="/kontakt" className="underline hover:text-[#B99B5F] transition-colors">Kontaktformular</a>.
+</p>
+
     </div>
   );
 }

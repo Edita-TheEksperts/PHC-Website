@@ -89,6 +89,17 @@ const filteredClients = clients
     return 0;
   });
 
+useEffect(() => {
+  const initialMap = {};
+  clients.forEach((client) => {
+    const assigned = client.assignments?.[0]; // active assignment
+    if (assigned?.employeeId) {
+      initialMap[client.id] = assigned.employeeId;
+    }
+  });
+  setSelectedEmployee(initialMap);
+  setAssignedMap(initialMap); // optional: to show "Assigned ✔"
+}, [clients]);
 
 
   return (
@@ -203,11 +214,24 @@ const filteredClients = clients
                   >
                     Assign
                   </button>
-                  {assignedMap[client.id] && (
-                    <div className="text-xs text-green-600 mt-1">
-                      Assigned ✔
-                    </div>
-                  )}
+{client.assignments?.length > 0 && (() => {
+  const latest = client.assignments[0]; // or find the latest by date if needed
+
+  return (
+    <div className="text-xs mt-1" style={{ color: "#2563eb" }}>
+      Assigned to {latest.employee?.firstName || "—"} (
+      {latest.confirmationStatus === "pending"
+        ? "Pending"
+        : latest.confirmationStatus === "confirmed"
+        ? "Confirmed"
+        : "Rejected"}
+      )
+    </div>
+  );
+})()}
+
+
+
                 </td>
               </tr>
             ))}

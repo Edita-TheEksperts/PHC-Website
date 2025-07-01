@@ -13,7 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
 
 export default function RegisterPage() {
-    const testMode = true; // ✅ set to false to re-enable payment
+    const testMode = false; // ✅ set to false to re-enable payment
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -259,10 +259,16 @@ useEffect(() => {
 const steps = testMode
   ? ["Wann?", "Finalisieren"]
   : ["Wann?", "Finalisieren", "Zahlungdetails"];
-const HOURLY_RATE = 1; // 1 CHF per hour
+const HOURLY_RATE = 1;
 
-const totalHours = form.schedules.reduce((sum, entry) => sum + (parseInt(entry.hours) || 0), 0);
+const totalHours = form.schedules.reduce(
+  (sum, entry) => sum + (parseFloat(entry.hours) || 0),
+  0
+);
+
+// totalPayment is kept as a number, formatted when displayed
 const totalPayment = totalHours * HOURLY_RATE;
+
 const parseSwissDate = (str) => {
   const [day, month, year] = str.split('.');
   return new Date(`${year}-${month}-${day}`);
@@ -408,12 +414,31 @@ const handleChange1 = (e) => {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+const [showConfirm, setShowConfirm] = useState(false);
+const toggleShowPassword = () => setShowPassword(!showPassword);
+const toggleShowConfirm = () => setShowConfirm(!showConfirm);
 
-  const toggleShowPassword = () => setShowPassword((prev) => !prev);
+  const [passwordChecks, setPasswordChecks] = useState({
+  lowercase: false,
+  uppercase: false,
+  number: false,
+  special: false,
+  minLength: false,
+});
 
-  const handlePasswordChange = (e) => {
-    setForm({ ...form, password: e.target.value });
-  };
+const handlePasswordChange = (e) => {
+  const value = e.target.value;
+  setForm({ ...form, password: value });
+
+  setPasswordChecks({
+    lowercase: /[a-z]/.test(value),
+    uppercase: /[A-Z]/.test(value),
+    number: /[0-9]/.test(value),
+    special: /[^A-Za-z0-9]/.test(value),
+    minLength: value.length >= 8,
+  });
+};
+
 
   const handleConfirmChange = (e) => {
     setConfirmPassword(e.target.value);
@@ -483,7 +508,10 @@ return (
         >
           {step === 1 && (
             <>
+            <h2 className="text-2xl font-bold text-black">Ausgewählte Dienstleistungen</h2>
+
             <div className="flex flex-wrap gap-3">
+              
   {allServices.map((srv) => {
     const isSelected = form.services.includes(srv.name);
     return (
@@ -610,14 +638,17 @@ return (
 
 
         {/* Duration */}
-    <div className="flex items-center gap-2">
+ <div className="flex items-center gap-2">
   {/* Minus Button */}
   <button
     type="button"
     onClick={() => {
       const updated = [...form.schedules];
-      if (updated[i].hours > 2) {
-        updated[i].hours = updated[i].hours - 1;
+      const current = updated[i].hours;
+      const newValue = parseFloat((current - 0.5).toFixed(1));
+
+      if (newValue >= 2) {
+        updated[i].hours = newValue;
         setForm({ ...form, schedules: updated });
       }
     }}
@@ -633,8 +664,11 @@ return (
     type="button"
     onClick={() => {
       const updated = [...form.schedules];
-      if (updated[i].hours < 24) {
-        updated[i].hours = updated[i].hours + 1;
+      const current = updated[i].hours;
+      const newValue = parseFloat((current + 0.5).toFixed(1));
+
+      if (newValue <= 24) {
+        updated[i].hours = newValue;
         setForm({ ...form, schedules: updated });
       }
     }}
@@ -643,6 +677,7 @@ return (
     +
   </button>
 </div>
+
 
       </div>
     ))}
@@ -765,24 +800,7 @@ onChange={(date) => {
     />
   </div>
 </div>
-
-
-      {/* E-Mail */}
-      <div>
-        <label className="block font-semibold mb-1">E-Mail</label>
-       <input
-  type="email"
-  name="email"
-  placeholder="E-Mail"
-  value={form.email}
-  onChange={handleChange1}
-  className={inputClass}
-/>
-{errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
-
-      </div>
-
-      {/* Telefon */}
+    {/* Telefon */}
       <div>
         <label className="block font-semibold mb-1">Telefonnummer</label>
        <input
@@ -802,38 +820,182 @@ onChange={(date) => {
 
       </div>
 
-     <div className="relative">
-        <label className="block font-semibold mb-1">Passwort</label>
-        <input
-          type={showPassword ? "text" : "password"}
-          name="password"
-          placeholder="Passwort"
-          value={form.password}
-          onChange={handlePasswordChange}
-          className={inputClass}
-        />
-        <button
-          type="button"
-          onClick={toggleShowPassword}
-          className="absolute right-3 top-[50px] text-gray-500 hover:text-gray-700 focus:outline-none"
-          aria-label={showPassword ? "Passwort verstecken" : "Passwort anzeigen"}
-        >
-          {showPassword ? EyeOffIcon : EyeIcon}
-        </button>
+      {/* E-Mail */}
+      <div>
+        <label className="block font-semibold mb-1">E-Mail</label>
+       <input
+  type="email"
+  name="email"
+  placeholder="E-Mail"
+  value={form.email}
+  onChange={handleChange1}
+  className={inputClass}
+/>
+{errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+
       </div>
 
-      <div className="mt-4">
-        <label className="block font-semibold mb-1">Passwort bestätigen</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Passwort bestätigen"
-          value={confirmPassword}
-          onChange={handleConfirmChange}
-          className={inputClass}
-        />
-        {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
-      </div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+  {/* Password */}
+  <div className="relative">
+    <label className="block font-semibold mb-1">Passwort*</label>
+    <div className="relative">
+      <input
+        type={showPassword ? "text" : "password"}
+        name="password"
+        placeholder="Passwort"
+        value={form.password}
+        onChange={handlePasswordChange}
+        className="w-full rounded-md border border-gray-300 p-3 pr-10"
+      />
+      <button
+        type="button"
+        onClick={toggleShowPassword}
+        className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+        aria-label="Passwort anzeigen/verstecken"
+      >
+        {showPassword ? EyeOffIcon : EyeIcon}
+      </button>
+    </div>
+
+    {/* Password Validation List */}
+<ul className="mt-3 space-y-1 text-sm">
+  <li className="flex items-center gap-2">
+    <span className={passwordChecks.lowercase ? "text-[#2F2F2F]" : "text-gray-300"}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+    </span>
+    <span className={passwordChecks.lowercase ? "text-[#2F2F2F]" : "text-gray-300"}>
+      ein Kleinbuchstabe
+    </span>
+  </li>
+
+  <li className="flex items-center gap-2">
+    <span className={passwordChecks.uppercase ? "text-[#2F2F2F]" : "text-gray-300"}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+    </span>
+    <span className={passwordChecks.uppercase ? "text-[#2F2F2F]" : "text-gray-300"}>
+      ein Großbuchstabe
+    </span>
+  </li>
+
+  <li className="flex items-center gap-2">
+    <span className={passwordChecks.number ? "text-[#2F2F2F]" : "text-gray-300"}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+    </span>
+    <span className={passwordChecks.number ? "text-[#2F2F2F]" : "text-gray-300"}>
+      eine Zahl
+    </span>
+  </li>
+</ul>
+
+
+  </div>
+
+  {/* Confirm Password */}
+  <div className="relative">
+    <label className="block font-semibold mb-1">Passwort bestätigen*</label>
+    <div className="relative">
+      <input
+        type={showConfirm ? "text" : "password"}
+        name="confirmPassword"
+        placeholder="Passwort bestätigen"
+        value={confirmPassword}
+        onChange={handleConfirmChange}
+        className="w-full rounded-md border border-gray-300 p-3 pr-10"
+      />
+      <button
+        type="button"
+        onClick={toggleShowConfirm}
+        className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+        aria-label="Passwort bestätigen anzeigen/verstecken"
+      >
+        {showConfirm ? EyeOffIcon : EyeIcon}
+      </button>
+    </div>
+
+    {/* Confirm Password Validation */}
+   <ul className="mt-3 space-y-1 text-sm">
+  <li className={`flex items-center gap-2 ${passwordChecks.special ? "text-[#2F2F2F]" : "text-gray-300"}`}>
+     <span className={passwordChecks.number ? "text-[#2F2F2F]" : "text-gray-300"}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+    </span> Sonderzeichen
+  </li>
+  <li className={`flex items-center gap-2 ${passwordChecks.minLength ? "text-[#2F2F2F]" : "text-gray-300"}`}>
+     <span className={passwordChecks.number ? "text-[#2F2F2F]" : "text-gray-300"}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+    </span> Mindestens 8 Zeichen
+  </li>
+</ul>
+
+
+    {/* Error Message */}
+    {error && (
+      <p className="text-red-600 text-sm mt-2">{error}</p>
+    )}
+  </div>
+</div>
+
+
 
       {/* Adresse */}
       <div>
