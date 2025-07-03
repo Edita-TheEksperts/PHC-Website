@@ -31,11 +31,24 @@ export default function EmployeesPage() {
     });
     setEmployees((prev) => prev.map((e) => (e.id === emp.id ? { ...e, status: "rejected" } : e)));
   }
+async function handleInvite(emp) {
+  await fetch("/api/invite-employee", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: emp.email, firstName: emp.firstName }),
+  });
+
+  setEmployees((prev) =>
+    prev.map((e) =>
+      e.id === emp.id ? { ...e, invited: true } : e
+    )
+  );
+}
 
   return (
     <AdminLayout>
       <h1 className="text-3xl font-bold text-[#04436F] mb-6">All Employees</h1>
-      <EmployeeTable employees={employees} onApprove={handleApproval} onReject={handleRejection} />
+      <EmployeeTable employees={employees} onApprove={handleApproval} onReject={handleRejection} onInvite={handleInvite}/>
     </AdminLayout>
   );
 }

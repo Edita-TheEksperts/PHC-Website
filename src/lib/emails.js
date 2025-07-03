@@ -14,7 +14,7 @@ export async function sendEmail({ to, subject, html }) {
   try {
     console.log(`✉️ Sending email to ${to} with subject "${subject}"`);
     const info = await transporter.sendMail({
-      from: '"Prime Home Care" <no-reply@primehomecare.com>',
+      from: '"Prime Home Care" <landingpage@phc.ch>',
       to,
       subject,
       html,

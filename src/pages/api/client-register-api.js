@@ -137,12 +137,29 @@ export default async function handler(req, res) {
     // Send welcome email immediately after registration
     await sendEmail({
       to: email,
-      subject: "Willkommen bei Prime Home Care",
-      html: `
-        <p>Hallo ${firstName},</p>
-        <p>Vielen Dank für Ihre Registrierung bei Prime Home Care. Wir freuen uns, Sie an Bord zu haben!</p>
-        <p>Freundliche Grüsse,<br/>Prime Home Care Team</p>
-      `
+       subject: "Willkommen bei Prime Home Care – Ihr Zugang ist aktiv",
+  html: `
+    <p>Guten Tag ${firstName} ${lastName},</p>
+
+    <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.<br/>
+    Ihr persönlicher Zugang zum Kundenportal wurde erfolgreich eingerichtet. Ab sofort können Sie:</p>
+
+    <ul>
+      <li>Ihre Buchungen verwalten</li>
+      <li>Rechnungen einsehen</li>
+      <li>Betreuungspersonen kennenlernen</li>
+      <li>Mit uns direkt kommunizieren</li>
+      <li>u.v.m</li>
+    </ul>
+
+    <p><strong>Portal-Zugang:</strong> <a href="http://localhost:3000/login">Login-Link</a><br/>
+    <strong>Benutzername:</strong> ${email}</p>
+
+    <p>Bei Fragen zum Portal stehen wir Ihnen gerne zur Verfügung.</p>
+
+    <p>Herzlich willkommen<br/>
+    Ihr Prime Home Care Team</p>
+  `
     });
 
     // Create reminders (4h and 48h later)

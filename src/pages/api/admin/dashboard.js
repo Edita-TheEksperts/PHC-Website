@@ -5,8 +5,22 @@ const prisma = new PrismaClient(); // Initialize Prisma Client
 // Fetch all employees
 // Fetch all employees with required fields
 async function fetchEmployees() {
-  return await prisma.employee.findMany();
-}  
+  const data = await prisma.employee.findMany({
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      phone: true,
+      status: true,
+      invited: true, // ✅ this must be included
+    }
+  });
+
+  return data;
+}
+
+
 async function fetchClients() {
   return await prisma.user.findMany({
     where: { role: 'client' },

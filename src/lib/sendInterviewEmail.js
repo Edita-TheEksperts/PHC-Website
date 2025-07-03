@@ -13,23 +13,24 @@ export default async function sendInterviewEmail(email, firstName = "") {
 
   const calendlyUrl = "https://calendly.com/your-link"; // ← Replace with real link
 
-  const htmlContent = `
+   const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
-      <h2 style="color: #2c3e50;">Hallo ${firstName || "Bewerber/in"},</h2>
-      <p>Vielen Dank für Ihre Bewerbung bei PHC.</p>
-      <p>Bitte klicken Sie auf den folgenden Link, um einen Termin für Ihr Interview zu buchen:</p>
-      <p>
-        <a href="${calendlyUrl}" style="color: #1a73e8; font-weight: bold;">Interview jetzt buchen</a>
-      </p>
-      <p>Wir freuen uns auf das Gespräch mit Ihnen.</p>
-      <p>Mit freundlichen Grüssen,<br/>Ihr PHC Team</p>
+      <p>Liebe ${firstName || "Bewerber/in"},</p>
+
+      <p>Vielen Dank für Ihre Bewerbung bei der <strong>Prime Home Care AG</strong>.</p>
+
+      <p>Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen.</p>
+
+      <p>Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen.</p>
+
+      <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
     </div>
   `;
 
   await transporter.sendMail({
-    from: `"PHC Admin" <landingpage@phc.ch>`,
+    from: `"Prime Home Care AG" <landingpage@phc.ch>`,
     to: email,
-    subject: "Interview-Termin bei PHC vereinbaren",
+    subject: "Ihre Bewerbung bei Prime Home Care AG",
     html: htmlContent,
   });
 }

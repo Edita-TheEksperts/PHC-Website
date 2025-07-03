@@ -13,7 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
 
 export default function RegisterPage() {
-    const testMode = false; // ✅ set to false to re-enable payment
+    const testMode = true; // ✅ set to false to re-enable payment
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -639,23 +639,27 @@ return (
 
         {/* Duration */}
  <div className="flex items-center gap-2">
-  {/* Minus Button */}
-  <button
-    type="button"
-    onClick={() => {
-      const updated = [...form.schedules];
-      const current = updated[i].hours;
-      const newValue = parseFloat((current - 0.5).toFixed(1));
+ {(() => {
+  const subServiceCount = form.subServices.length;
+  const minHours = Math.min(Math.max(subServiceCount, 2), 24);
+  const currentHours = form.schedules[i].hours;
 
-      if (newValue >= 2) {
+  return currentHours > minHours ? (
+    <button
+      type="button"
+      onClick={() => {
+        const updated = [...form.schedules];
+        const newValue = parseFloat((currentHours - 0.5).toFixed(1));
         updated[i].hours = newValue;
         setForm({ ...form, schedules: updated });
-      }
-    }}
-    className="w-8 h-8 border rounded-full"
-  >
-    −
-  </button>
+      }}
+      className="w-8 h-8 border rounded-full"
+    >
+      −
+    </button>
+  ) : null;
+})()}
+
 
   <span>{entry.hours} Std</span>
 

@@ -1,15 +1,50 @@
+// 1. Import dependencies
 import { PrismaClient } from "@prisma/client";
 import Stripe from "stripe";
+import nodemailer from "nodemailer";
 
+// 2. Set up Stripe and Prisma
 const prisma = new PrismaClient();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// 3. Set up nodemailer transporter (for sending email)
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
+// 4. Define email function (no PDF for now)
+async function sendPaymentConfirmationEmail(user, amount, bookingReference) {
+  const mailOptions = {
+    from: '"Prime Home Care AG" <info@primehomecare.ch>',
+    to: user.email,
+    subject: "Zahlungsbestätigung / Rechnung zu Ihrer Buchung",
+    text: `Guten Tag ${user.firstName || ""} ${user.lastName || ""},
+
+Wir bestätigen den Eingang Ihrer Zahlung über CHF ${amount.toFixed(2)} zur Buchung ${bookingReference}.
+Ihre Rechnung finden Sie auf Ihrer persönlichen PHC-Plattform.
+
+Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.
+
+Freundliche Grüsse
+
+Prime Home Care AG`,
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
+// 5. Main function: capture payments & send confirmation email
 export async function capturePendingPayments() {
   try {
     const now = new Date();
-    const cutoffDate = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago
+    const cutoffDate = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24h ago
 
-    // Find users with firstDate older than 24h, have paymentIntentId, and payment not captured
     const usersToCharge = await prisma.user.findMany({
       where: {
         firstDate: { lte: cutoffDate },
@@ -22,29 +57,34 @@ export async function capturePendingPayments() {
 
     for (const user of usersToCharge) {
       try {
-        // Capture payment intent on Stripe
         const paymentIntent = await stripe.paymentIntents.capture(user.paymentIntentId);
 
         if (paymentIntent.status === "succeeded") {
-          // Update user in DB to mark payment as captured
           await prisma.user.update({
             where: { id: user.id },
             data: { paymentCaptured: true },
           });
-          console.log(`Payment captured for user ${user.id} (${user.email})`);
+
+          console.log(`✅ Payment captured for user ${user.id} (${user.email})`);
+
+          await sendPaymentConfirmationEmail(
+            user,
+            paymentIntent.amount / 100,  // Stripe uses cents
+            user.id                      // Used as booking reference
+          );
         } else {
-          console.warn(`Payment not captured for user ${user.id}, status: ${paymentIntent.status}`);
+          console.warn(`⚠️ Payment not captured for user ${user.id}, status: ${paymentIntent.status}`);
         }
       } catch (stripeError) {
-        console.error(`Stripe capture error for user ${user.id}:`, stripeError.message);
+        console.error(`❌ Stripe error for user ${user.id}:`, stripeError.message);
       }
     }
   } catch (error) {
-    console.error("Error in capturePendingPayments:", error);
+    console.error("❌ Error in capturePendingPayments:", error);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-// Run the function once
+// 6. Run it
 capturePendingPayments();

@@ -217,7 +217,9 @@ cvFile              String?
 certificateFile     String?
 drivingLicenceFile  String?
 profilePhoto        String?
-  status               String   @default("pending")
+  invited Boolean @default(false)
+status  String  @default("pending")
+
   createdAt            DateTime @default(now())
     password String?  // Add this if not present
 iban           String?
@@ -226,7 +228,7 @@ bankName       String?
 bic            String?
 assignments Assignment[]  // Add this line
   rejectionWarnings  RejectionWarning[] // <-- relation back to RejectionWarning
-
+    inviteSentAt DateTime?
 }
 
 

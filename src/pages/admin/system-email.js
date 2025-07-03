@@ -47,14 +47,16 @@ Ihr Prime Home Care Team
     }
     setSending(true);
     setMessage("");
+const date = `${dateStart} bis ${dateEnd}`;
 
     // fetch POST remains same, just send dateStart and dateEnd instead of date
     try {
-      const res = await fetch("/api/admin/send-maintenance-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dateStart, dateEnd, timeStart, timeEnd }),
-      });
+      
+const res = await fetch("/api/admin/send-maintenance-email", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ date, timeStart, timeEnd }),
+});
 
       if (res.ok) {
         setMessage(`✅ Wartungs-Mail wurde an ${clients.length} Kunden gesendet.`);

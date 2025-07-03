@@ -90,6 +90,32 @@ export default function DashboardPage() {
     }
   }
 
+async function handleInvite(employee) {
+    console.log("Inviting", employee); // ✅ See if this prints
+
+  const res = await fetch("/api/invite-employee", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: employee.email, firstName: employee.firstName }),
+  });
+
+  if (res.ok) {
+    setMessage(`📧 Einladung an ${employee.firstName} gesendet`);
+
+    // ✅ Update the invited status in the frontend
+    setEmployees(prev =>
+      prev.map(e =>
+        e.id === employee.id ? { ...e, invited: true } : e
+      )
+    );
+  } else {
+    const err = await res.json();
+    setMessage("❌ Fehler beim Einladen: " + err.message);
+  }
+}
+
+
+
   return (
     <AdminLayout>
       {/* 📊 Dashboard stats */}
@@ -117,12 +143,13 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* 👥 Employee Table */}
-      <EmployeeTable
-        employees={employees}
-        onApprove={handleApproval}
-        onReject={handleRejection}
-      />
+     <EmployeeTable
+  employees={employees}
+  onApprove={handleApproval}
+  onReject={handleRejection}
+  onInvite={handleInvite} // ✅ This must be here
+/>
+
 
       {/* 👩‍⚕️ Client Table */}
       <ClientTable clients={clients} employees={employees} />

@@ -17,26 +17,27 @@ export default async function handler(req, res) {
     const subject = "Information: Vorübergehende Systemwartung";
     const phone = process.env.SUPPORT_PHONE || "[Telefonnummer]";
 
-    // Send email to each client
-    await Promise.all(
-      clients.map(client => 
-        sendEmail({
-          to: client.email,
-          subject,
-          html: `
-            <p>Guten Tag ${client.firstName} ${client.lastName},</p>
-            <p>Am ${date} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.</p>
-            <p>In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${phone}.</p>
-            <p>Vielen Dank für Ihr Verständnis.</p>
-            <p>Freundliche Grüsse<br/>Ihr Prime Home Care Team</p>
-          `
-        })
-      )
-    );
+    const sendTasks = clients.map(client => {
+      console.log(`📤 Sende E-Mail an: ${client.email}`);
+      
+      return sendEmail({
+        to: client.email,
+        subject,
+        html: `
+          <p>Guten Tag ${client.firstName} ${client.lastName},</p>
+          <p>Am ${date} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.</p>
+          <p>In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${phone}.</p>
+          <p>Vielen Dank für Ihr Verständnis.</p>
+          <p>Freundliche Grüsse<br/>Ihr Prime Home Care Team</p>
+        `
+      });
+    });
+
+    await Promise.all(sendTasks);
 
     res.status(200).json({ message: `E-Mails an ${clients.length} Kunden gesendet.` });
   } catch (error) {
-    console.error(error);
+    console.error("❌ Fehler beim Senden:", error);
     res.status(500).json({ message: "Fehler beim Senden der E-Mails." });
   }
 }
