@@ -150,7 +150,7 @@ const handleSelect = (zip, cityName) => {
     <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-2 px-4 lg:px-[20px] py-12 lg:py-[70px]">
   {/* Left Content */}
   <div className="flex-1 w-full max-w-[830px]">
-    <h1 className="text-[#04436F] text-[40px] lg:text-[60px] font-semibold leading-tight">
+    <h1 className="text-[#04436F] text-[36px] lg:text-[60px] font-semibold leading-tight">
       Individuelle<br /> Betreuungslösungen<br /> für Sie in Ihrem Zuhause
 
     </h1>
