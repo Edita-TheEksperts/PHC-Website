@@ -151,7 +151,8 @@ const handleSelect = (zip, cityName) => {
   {/* Left Content */}
   <div className="flex-1 w-full max-w-[830px]">
     <h1 className="text-[#04436F] text-[40px] lg:text-[60px] font-semibold leading-tight">
-      Individuelle<br /> Betreuungslösungen<br /> für Ihr Zuhause
+      Individuelle<br /> Betreuungslösungen<br /> für Sie in Ihrem Zuhause
+
     </h1>
 
     {/* Service Selector */}
