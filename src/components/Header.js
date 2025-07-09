@@ -33,7 +33,7 @@ const navLinks = [
 
 
   return (
-    <header className="flex justify-between items-center mx-auto max-w-[1430px] p-4 bg-[#FAFCFF] z-50">
+<header className="sticky top-0 z-[999] flex justify-between items-center mx-auto max-w-[1430px] p-4 bg-[#FAFCFF] ">
       {/* Desktop and Tablet View */}
       <div className="flex items-center gap-8 hidden lg:flex">
    <nav className="flex gap-6 items-center">
@@ -83,7 +83,7 @@ const navLinks = [
       </div>
       {/* Register and Login Buttons */}
       <div className="flex gap-4 hidden lg:flex">
-        <Link href="/register" className=" px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-[Metropolis] font-medium leading-normal tracking-[-0.225px]">
+        <Link href="/register-client" className=" px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-[Metropolis] font-medium leading-normal tracking-[-0.225px]">
           Jetzt Buchen
         </Link>
         <Link href="/login" className="px-[34px] py-[12px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] font-[Metropolis] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">
@@ -143,7 +143,7 @@ const navLinks = [
 
 
         <div className="flex flex-col gap-4">
-          <Link href="/register" className="px-[44px] py-[15px] rounded-[6px] bg-[#A99558] text-white text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">
+          <Link href="/register-client" className="px-[44px] py-[15px] rounded-[6px] bg-[#A99558] text-white text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">
             Jetzt Buchen
           </Link>
           <Link href="/login" className="px-[44px] py-[15px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">

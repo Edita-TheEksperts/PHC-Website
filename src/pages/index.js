@@ -356,37 +356,29 @@ const handleSelect = (zip, cityName) => {
             px-[10px] py-[2px] flex flex-col items-start 
             rounded-l-[50px] rounded-r-none 
             bg-[linear-gradient(97deg,#04436F_0%,rgba(0,0,0,0.00)_100%)] text-center">
-            Get in Touch
+            Kontaktieren Sie uns
             </p>
 
             <h2 className="text-[#FAFCFF] text-center
             text-[32px] lg:text-[55px] font-semibold leading-[38px] lg:leading-[71.5px] mt-2">
             Buchen Sie jetzt<br></br>  Ihre Betreuungsperson<br></br> und Haushaltshilfe
             </h2>
-
-            <button className="mt-4 px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
-   text-[18px] font-medium leading-[21.6px] 
-   rounded-[50px] flex flex-col items-center text-center 
-   hover:bg-[#033559] transition">
-  Schedule a home visit
-</button>
-
         </div>
       </div>
 
       {/* Contact Options */}
-      <div className="marginclass mt-10 lg:mt-[-80px] z-999 lg:ml-[850px] relative flex flex-row justify-center items-center gap-[40px]">
+      <div className="marginclass mt-10 lg:mt-[-80px] z-999 lg:ml-[850px] relative flex flex-row justify-center items-center gap-[20px]">
       {/* Online Session */}
         <div className="flex flex-col lg:items-right lg:text-right">
         <p className="text-[#04436F] text-[22px] font-medium leading-[26.4px] lg:text-right lg:block hidden">
-        Buchen Sie hier ihren online-Termin
+        Buchen Sie hier Ihre Betreuungsdienstleistung
         </p>
         <p className="text-[#04436F] text-[22px] font-medium leading-[26.4px] lg:text-right lg:hidden block">
-        Buchen Sie hier<br></br> ihren online-Termin
+        Buchen Sie hier<br></br> Ihre Betreuungsdienstleistung
         </p>
 
 <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] lg:text-right underline">
-  Lorem
+  Jetzt Buchen
 </p>
         </div>
         <div className="w-[80px] h-[80px] bg-[#B99B5F] rounded-full flex justify-center items-center">
@@ -895,9 +887,9 @@ Einmalige Einsätze
     </div>
 
         </section>
-        <section className="bg-[#EDF2FB] rounded-[20px] py-14 px-6 md:px-20 mb-[120px]">
+    <section className="bg-[#EDF2FB] rounded-[20px] py-14 px-6 md:px-20 mb-[120px]">
   <div className="max-w-xl mx-auto bg-white p-10 rounded-2xl shadow-xl space-y-6 border border-[#F2E6C6]">
-    <h2 className="text-3xl font-bold text-[#B99B5F] text-center">
+    <h2 className="text-3xl font-bold text-[#04436F] text-center">
       Mitarbeiter Registrierung starten
     </h2>
 
@@ -907,7 +899,7 @@ Einmalige Einsätze
         placeholder="Ihre E-Mail-Adresse"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#B99B5F] outline-none"
+        className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none"
       />
 
       <label className="flex items-center space-x-3 text-sm text-gray-700">
@@ -915,21 +907,29 @@ Einmalige Einsätze
           type="checkbox"
           checked={agbAccepted}
           onChange={() => setAgbAccepted(!agbAccepted)}
-          className="h-5 w-5 text-[#B99B5F] focus:ring-[#B99B5F] rounded border-gray-300"
+          className="h-5 w-5 text-[#04436F] focus:ring-[#04436F] rounded border-gray-300"
         />
-        <span>Ich akzeptiere die <a href="/agb" className="underline text-[#B99B5F] hover:text-[#A6884A]">Nutzungsbedingungen für Plattform
-</a></span>
+        <span>
+          Ich akzeptiere die{" "}
+          <a
+            href="/agb"
+            className="underline text-[#04436F] hover:text-[#033353]"
+          >
+            Nutzungsbedingungen für Plattform
+          </a>
+        </span>
       </label>
 
       <button
         onClick={handleEmployeeStart}
-        className="w-full py-3 bg-[#B99B5F] text-white font-semibold rounded-xl hover:bg-[#A6884A] transition duration-200"
+        className="w-full py-3 bg-[#04436F] text-white font-semibold rounded-xl hover:bg-[#033353] transition duration-200"
       >
         Jetzt Bewerben
       </button>
     </div>
   </div>
 </section>
+
 
     </div>
    

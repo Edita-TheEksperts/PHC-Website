@@ -112,7 +112,7 @@ useEffect(() => {
 
   // CSS class for inputs
   const inputClass =
-    "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F] placeholder-gray-500";
+    "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500";
 
   // Step names shown at top of form
   const steps = [
@@ -266,21 +266,21 @@ await fetch("/api/send-interview-email", {
       {/* Form Section */}
       <div className="flex-1 space-y-8">
         {/* Stepper */}
-        <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 text-base font-medium text-[#B99B5F]">
+        <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 text-base font-medium text-[#04436F]">
           {steps.map((label, i) => (
             <div key={i} className="flex-1 flex items-center gap-2">
               <div
                 className={`w-7 h-7 flex items-center justify-center rounded-full ${
                   step > i
-                    ? "bg-[#B99B5F] text-white"
-                    : "border border-[#B99B5F] text-[#B99B5F]"
+                    ? "bg-[#04436F] text-white"
+                    : "border border-[#04436F] text-[#04436F]"
                 } text-sm font-bold`}
               >
                 {i + 1}
               </div>
               <span className={step === i + 1 ? "font-bold" : ""}>{label}</span>
               {i < steps.length - 1 && (
-                <div className="flex-1 h-px bg-[#E6D8B3] mx-2"></div>
+                <div className="flex-1 h-px bg-[#04436F] mx-2"></div>
               )}
             </div>
           ))}
@@ -302,7 +302,7 @@ await fetch("/api/send-interview-email", {
 
     {step === 1 && (
   <>
-    <h2 className="text-2xl font-bold text-[#B99B5F] mb-4">
+    <h2 className="text-2xl font-bold text-[#04436F] mb-4">
       Persönliche Informationen
     </h2>
 
@@ -484,7 +484,7 @@ await fetch("/api/send-interview-email", {
   <>
 
 
-    <h2 className="text-2xl font-bold text-[#B99B5F]">Weitere Informationen</h2>
+    <h2 className="text-2xl font-bold text-[#04436F]">Weitere Informationen</h2>
         <label className="block font-medium mt-4">Aufenthaltsbewilligung</label>
 
    <select
@@ -681,7 +681,7 @@ await fetch("/api/send-interview-email", {
             return { ...prev, specialTrainings: updated };
           });
         }}
-        className="h-5 w-5 text-[#B99B5F]"
+        className="h-5 w-5 text-[#04436F]"
       />
       <span>{option}</span>
 
@@ -735,7 +735,7 @@ await fetch("/api/send-interview-email", {
             return { ...prev, communicationTraits: updated };
           });
         }}
-        className="h-5 w-5 text-[#B99B5F]"
+        className="h-5 w-5 text-[#04436F]"
       />
       <span>{trait}</span>
     </label>
@@ -762,7 +762,7 @@ await fetch("/api/send-interview-email", {
             return { ...prev, languages: updated };
           });
         }}
-        className="h-5 w-5 text-[#B99B5F]"
+        className="h-5 w-5 text-[#04436F]"
       />
       <span>{lang}</span>
     </label>
@@ -811,7 +811,7 @@ await fetch("/api/send-interview-email", {
             return { ...prev, dietaryExperience: updated };
           });
         }}
-        className="h-5 w-5 text-[#B99B5F]"
+        className="h-5 w-5 text-[#04436F]"
       />
       <span>{item}</span>
 
@@ -901,7 +901,7 @@ await fetch("/api/send-interview-email", {
         &times;
       </button>
 
-      <h3 className="text-xl font-bold text-[#B99B5F] mb-4">Wie haben Sie von uns erfahren?</h3>
+      <h3 className="text-xl font-bold text-[#04436F] mb-4">Wie haben Sie von uns erfahren?</h3>
 
       <div className="space-y-3 mb-4">
         <label className="flex items-center gap-2">
@@ -945,7 +945,7 @@ await fetch("/api/send-interview-email", {
 
       <button
         onClick={() => setShowReferralModal(false)}
-        className="bg-[#B99B5F] hover:bg-[#A6884A] text-white font-semibold px-4 py-2 rounded w-full"
+        className="bg-[#04436F] hover:bg-[#04438F] text-white font-semibold px-4 py-2 rounded w-full"
       >
         Speichern
       </button>
@@ -953,7 +953,7 @@ await fetch("/api/send-interview-email", {
   </div>
 )}
 
-    <h2 className="text-2xl font-bold text-[#B99B5F] mb-4">Arbeitsbereitschaft</h2>
+    <h2 className="text-2xl font-bold text-[#04436F] mb-4">Arbeitsbereitschaft</h2>
 <div className="space-y-2">
   <label className="font-medium">Verfügbar ab wann?</label>
   <input
@@ -1007,7 +1007,7 @@ await fetch("/api/send-interview-email", {
               return { ...prev, servicesOffered: updated };
             });
           }}
-          className="h-5 w-5 text-[#B99B5F]"
+          className="h-5 w-5 text-[#04436F]"
         />
         <span>{task}</span>
       </label>
@@ -1016,7 +1016,7 @@ await fetch("/api/send-interview-email", {
 </div>
 {/* Document Uploads */}
 <div className="space-y-6 mt-10">
-  <h3 className="text-2xl font-bold text-[#B99B5F]">Dokumente hochladen</h3>
+  <h3 className="text-2xl font-bold text-[#04436F]">Dokumente hochladen</h3>
 
   {/* Upload Field Template */}
   {[
@@ -1040,7 +1040,7 @@ await fetch("/api/send-interview-email", {
         accept="application/pdf"
         onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
         required={field.required}
-        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#B99B5F] file:text-white hover:file:bg-[#a6884a]"
+        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
       />
     </div>
   ))}
@@ -1056,7 +1056,7 @@ await fetch("/api/send-interview-email", {
         type="file"
         accept="application/pdf"
         onChange={(e) => setForm({ ...form, drivingLicenceFile: e.target.files[0] })}
-        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#B99B5F] file:text-white hover:file:bg-[#a6884a]"
+        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
       />
     </div>
   )}
@@ -1071,7 +1071,7 @@ await fetch("/api/send-interview-email", {
       accept="image/*"
       onChange={(e) => setForm({ ...form, profilePhoto: e.target.files[0] })}
       required
-      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#B99B5F] file:text-white hover:file:bg-[#a6884a]"
+      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
     />
   </div>
 </div>
@@ -1087,10 +1087,10 @@ await fetch("/api/send-interview-email", {
 
         {step === 4 && (
   <>
-    <h2 className="text-2xl font-bold text-[#B99B5F]">Abschluss</h2>
+    <h2 className="text-2xl font-bold text-[#04436F]">Abschluss</h2>
 
     {isSubmitted ? (
-      <div className="mt-4 p-4 bg-[#f1f1f1] text-[#B99B5F] rounded-lg shadow">
+      <div className="mt-4 p-4 bg-[#f1f1f1] text-[#04436F] rounded-lg shadow">
          {submissionMessage}
       </div>
     ) : (
@@ -1117,14 +1117,14 @@ await fetch("/api/send-interview-email", {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-6 py-3 bg-white text-[#B99B5F] border-[#B99B5F] border-[2px] rounded-lg"
+                className="px-6 py-3 bg-white text-[#04436F] border-[#04436F] border-[2px] rounded-lg"
               >
                 Weiter
               </button>
             ) : (
               <button
                 type="submit"
-                className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+                className="px-6 py-3 bg-[#04436F] text-white rounded-lg"
               >
                 Registrierung abschliessen
               </button>
