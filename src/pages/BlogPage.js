@@ -85,7 +85,7 @@ export default function BlogPage() {
               </h3>
               <Link href={`/blog/${blog.id}`}>
               <button className="bg-[#04436F] text-white mt-4 py-2 px-4 rounded-[20px] text-[16px] font-medium hover:bg-[#B99B5F] transition">
-                  Read More
+                  Mehr lesen
                 </button>
               </Link>
             </div>

@@ -1659,7 +1659,7 @@ const blogsData = [
   ]
 },     {
   "id": "7",
-  "image": "/images/blog6.png",
+  "image": "/images/blog7.png",
   "category": "Gesundheit",
   "title": "Liftsysteme",
   "date": "July 9, 2025",
@@ -2033,7 +2033,7 @@ const blogsData = [
 }, 
   {
   "id": "8",
-  "image": "/images/blog6.png",
+  "image": "/images/blog8.png",
   "category": "Gesundheit",
   "title": "Leben im Alter & Dienstleistungen für Senioren",
   "date": "July 9, 2025",
@@ -2273,7 +2273,7 @@ const blogsData = [
 }, 
  {
   "id": "9",
-  "image": "/images/blog6.png",
+  "image": "/images/blog9.png",
   "category": "Gesundheit",
   "title": "Gesundheit und Ernährung im Alter",
   "date": "July 9, 2025",
@@ -2560,7 +2560,7 @@ const blogsData = [
 }, 
 {
   "id": "10",
-  "image": "/images/blog6.png",
+  "image": "/images/blog10.png",
   "category": "Gesundheit",
   "title": "Hilfsmittel für die Pflege von Senioren",
   "date": "July 9, 2025",
