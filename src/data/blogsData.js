@@ -2821,8 +2821,8 @@ const blogsData = [
 
 ,
 {
-  "id": "faq-section",
-  "title": "FAQ: Ihre Fragen rund um Gesundheit und Ernährung im Alter",
+  "id": 'section-10',
+  "title": "Kostenübernahmen, Hilfsmittel auf Verordnung & Einreichung bei der Krankenkasse",
   "faqs": [
     {
       "question": "Hilfsmittel auf Rezept?",
