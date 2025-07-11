@@ -15,7 +15,6 @@ const navLinks = [
     subLinks: [
       { name: 'Blog', path: '/BlogPage' },
       { name: 'E-Learning', path: '/E-Learning' },
-      { name: 'FAQ', path: '/FAQ' },
     ],
   },
   {
@@ -27,7 +26,12 @@ const navLinks = [
     ],
   },
   { name: 'Jobs', path: '/jobs' },
-  { name: 'Support', path: '/contact' },
+  { name: 'Support', 
+    path: '/contact',
+     subLinks: [
+      { name: 'FAQ', path: '/FAQ' },
+    ],
+   },
 ];
 
 
