@@ -5,10 +5,13 @@ class MyDocument extends Document {
     return (
       <Html lang="de-CH">
         <Head>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Metropolis:wght@400;600&display=swap"
-            rel="stylesheet"
-          />
+           <link
+          rel="preload"
+          href="/fonts/Metropolis-Regular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
         </Head>
         <body>
           <Main />

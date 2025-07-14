@@ -7,29 +7,35 @@ export default function BlogPost() {
   const router = useRouter();
   const [faqOpen, setFaqOpen] = useState(null); // Add FAQ open state
 
-  const { id } = router.query;
+const { slug } = router.query;
+const blog = blogsData.find((blog) => blog.slug === slug);
+
   const [recommendedBlogs, setRecommendedBlogs] = useState([]);
   const sectionsRef = useRef([]);
 
-  // Find the current blog post by ID
-  const blog = blogsData.find((blog) => blog.id === id);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Ensure page loads at the top
   }, []);
 
-  const scrollToSection = (index) => {
-    sectionsRef.current[index]?.scrollIntoView({ behavior: "smooth" });
-  };
+const scrollToSection = (index) => {
+  const offset = 120; // adjust this to your header height
+  const element = sectionsRef.current[index];
+  if (element) {
+    const top = element.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+};
+
 
   // Generate Recommended Blogs
   useEffect(() => {
     if (blog) {
-      const filteredBlogs = blogsData.filter((b) => b.id !== id); // Exclude current blog
+const filteredBlogs = blogsData.filter((b) => b.slug !== slug); // ✅
       const shuffledBlogs = filteredBlogs.sort(() => 0.5 - Math.random()); // Shuffle list
       setRecommendedBlogs(shuffledBlogs.slice(0, 3)); // Select 3 random blogs
     }
-  }, [blog, id]);
+  }, [blog, slug]);
 
   // If blog not found, show a 404 message
   if (!blog) {
@@ -265,7 +271,8 @@ Unten weiterlesen
         <h2 className="text-[40px] leading-[48px] font-[600] text-[#04436F] text-left">Passende Themen</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           {recommendedBlogs.map((blog) => (
-            <Link key={blog.id} href={`/blog/${blog.id}`} passHref>
+           <Link key={blog.slug} href={`/blog/${blog.slug}`} passHref>
+
               <div className="cursor-pointer">
           {/* Blog Image */}
           <img src={blog.image} alt={blog.title} className="w-full h-[300px]" />

@@ -13,7 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
 
 export default function RegisterPage() {
-    const testMode = true; // ✅ set to false to re-enable payment
+    const testMode = false; 
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -67,6 +67,11 @@ subServices: prev.subServices?.length ? prev.subServices : [data[0]?.name].filte
   cvc: "",
   subServices: [], // ✅ was "" — now fixed to be an array
   schedules: [{ day: "", startTime: "08:00", hours: 2 }], // ✅ 1 day by default
+  arrivalConditions: [],
+  hasParking: "",
+  entranceLocation: "",
+  mobilityAids: [],
+  transportOption: "",
 });
 {Array.isArray(form.schedules) && form.schedules.map((entry, i) => (
   <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
@@ -84,33 +89,69 @@ const SummaryRow = ({ label, value }) => (
     "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500 mt-1";
 
   const validateStep = () => {
-    const {
-      frequency,
-      duration,
-      subService,
-      firstDate,
-      firstName,
-      lastName,
-      email,
-      phone,
-      password,
-      address,
-      cardNumber,
-      expiryDate,
-      cvc
-    } = form;
-
-    switch (step) {
-      case 1:
-        return frequency && duration >= 2 && firstDate;
-      case 2:
-        return firstName && lastName && email && phone && password && address;
-      case 3:
-        return cardNumber && expiryDate && cvc;
-      default:
-        return true;
+  if (step === 1) {
+    if (!form.frequency) {
+      alert("Bitte wählen Sie die Häufigkeit der Unterstützung.");
+      return false;
     }
-  };
+    if (!form.firstDate) {
+      alert("Bitte wählen Sie ein Beginndatum.");
+      return false;
+    }
+    if (!form.services || form.services.length === 0) {
+      alert("Bitte wählen Sie mindestens eine Dienstleistung.");
+      return false;
+    }
+    if (!form.subServices || form.subServices.length === 0) {
+      alert("Bitte wählen Sie mindestens eine Zusatzleistung.");
+      return false;
+    }
+  }
+
+  if (step === 2) {
+    if (!form.firstName) {
+      alert("Bitte geben Sie den Vornamen ein.");
+      return false;
+    }
+    if (!form.lastName) {
+      alert("Bitte geben Sie den Nachnamen ein.");
+      return false;
+    }
+    if (!form.email) {
+      alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+      return false;
+    }
+    if (!form.phone) {
+      alert("Bitte geben Sie eine gültige Telefonnummer ein.");
+      return false;
+    }
+    if (!form.password) {
+      alert("Bitte geben Sie ein Passwort ein.");
+      return false;
+    }
+    if (!form.address) {
+      alert("Bitte geben Sie die Adresse ein.");
+      return false;
+    }
+  }
+
+  if (step === 3 && !testMode) {
+    if (!form.cardNumber || !form.expiryDate || !form.cvc) {
+      alert("Bitte geben Sie alle Kreditkarteninformationen ein.");
+      return false;
+    }
+  }
+
+  if (step === 4 || (testMode && step === 3)) {
+    if (!form.transportOption) {
+      alert("Bitte wählen Sie eine Transportoption.");
+      return false;
+    }
+  }
+
+  return true;
+};
+
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -139,6 +180,7 @@ const handleSubmit = async (e) => {
     0
   );
   const totalPayment = totalHours * HOURLY_RATE;
+  console.log("Form data being sent:", { ...form, totalPayment });
 
   // ✅ Skip Stripe if testMode is on
   if (testMode) {
@@ -257,8 +299,8 @@ useEffect(() => {
 }, [service]);
 
 const steps = testMode
-  ? ["Wann?", "Finalisieren"]
-  : ["Wann?", "Finalisieren", "Zahlungdetails"];
+  ? ["Wann?", "Finalisieren" ,"Abschluss"]
+  : ["Wann?", "Finalisieren", "Zahlungdetails" ,"Abschluss"];
 const HOURLY_RATE = 1;
 
 const totalHours = form.schedules.reduce(
@@ -346,6 +388,68 @@ function TimeDropdown({ value, onChange }) {
     onChange(val);
     setOpen(false);
   };
+const preparePayload = (form) => ({
+  firstName: form.firstName,
+  lastName: form.lastName,
+  email: form.email,
+  phone: form.phone || "",
+  password: form.password,
+  address: form.address || "",
+  frequency: form.frequency || "",
+  duration: Number(form.duration) || null,
+  firstDate: form.firstDate,
+  cardNumber: form.cardNumber || "",
+  expiryDate: form.expiryDate || "",
+  cvc: form.cvc || "",
+  languages: form.languages || "",
+  hasPets: form.hasPets || "Nein",
+  petDetails: form.hasPets === "Ja" ? form.petDetails || "" : "",
+  services: form.services || [],          // array of strings
+  subServices: form.subServices || [],    // array of strings
+  schedules: form.schedules || [],        // array of schedule objects
+  arrivalConditions: form.arrivalConditions || [], // array
+  hasParking: form.hasParking || "",
+  entranceLocation: form.entranceLocation || "",
+  postalCode: form.postalCode || "",
+  city: form.city || "",
+  street: form.street || "",
+  mobilityAids: form.mobilityAids || [],
+  transportOption: form.transportOption || "",
+  shoppingWithClient: form.shoppingWithClient || "",
+  shoppingItems: form.shoppingItems || [],
+  mailboxKeyLocation: form.mailboxKeyLocation || "",
+  mailboxDetails: form.mailboxDetails || "",
+  additionalAccompaniment: form.additionalAccompaniment || "",
+  companionship: form.companionship || "",
+  cookingTogether: form.cookingTogether || "",
+  biographyWork: form.biographyWork || "",
+  hasTech: form.hasTech || "",
+  reading: form.reading || "",
+  cardGames: form.cardGames || "",
+  hasAllergies: form.hasAllergies || "",
+  allergyDetails: form.allergyDetails || "",
+  trips: form.trips || [],
+  height: Number(form.height) || null,
+  weight: Number(form.weight) || null,
+  careTools: form.careTools || [],
+  careToolsOther: form.careToolsOther || "",
+  incontinence: form.incontinence || [],
+  vision: form.vision || "",
+  hearing: form.hearing || "",
+  speaking: form.speaking || "",
+  nutritionSupport: form.nutritionSupport || [],
+  basicCare: form.basicCare || [],
+  basicCareOther: form.basicCareOther || "",
+  healthPromotion: form.healthPromotion || [],
+  healthPromotionOther: form.healthPromotionOther || "",
+  mentalSupportNeeded: form.mentalSupportNeeded || "",
+  diagnoses: form.diagnoses || [],
+  behaviorTraits: form.behaviorTraits || [],
+  healthFindings: form.healthFindings || "",
+  roomCount: Number(form.roomCount) || null,
+  householdSize: Number(form.householdSize) || null,
+  paymentIntentId: form.paymentIntentId || "",  // make sure this is set
+});
 
   return (
     <div className="relative" style={{ width: '120px' }}>
@@ -480,6 +584,16 @@ const handlePasswordChange = (e) => {
       <path d="M9.88 9.88a3 3 0 014.24 4.24" />
     </svg>
   );
+
+  const toggleCheckbox = (fieldName, value) => {
+  const updated = new Set(form[fieldName] || []);
+  updated.has(value) ? updated.delete(value) : updated.add(value);
+  setForm((prev) => ({
+    ...prev,
+    [fieldName]: Array.from(updated),
+  }));
+};
+
   
 return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
@@ -661,7 +775,7 @@ return (
 })()}
 
 
-  <span>{entry.hours} Std</span>
+<span className="inline-block w-[60px] text-center">{entry.hours} Std</span>
 
   {/* Plus Button */}
   <button
@@ -1115,11 +1229,6 @@ onChange={(date) => {
           Ich ha d’ <a href="/agb" className="underline text-[#04436F]">AGB</a> gläse und bim i dermit iiverschtande.
         </label>
       </div>
-
-      {/* ✅ Note about delayed payment */}
-      <p className="text-sm text-gray-600 mt-2">
-        Vermerk zur Abbuchig: <strong>D'Zahlig wird ersch 24 Stund nach bestätigtem Iisatz über d’App abgebucht.</strong>
-      </p>
     </div>
 
     {isSubmitted && (
@@ -1130,6 +1239,634 @@ onChange={(date) => {
   </>
 )}
 
+{(testMode ? step === 3 : step === 4) && (
+  <>
+
+    <div className="space-y-8 mt-6">
+    <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
+  <h3 className="font-bold text-[20px] mb-6">Persönliche Angaben</h3>
+
+  {/* Anfragende Person */}
+  <div className="mb-8">
+    <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <input
+        name="firstName"
+        placeholder="Vorname"
+        value={form.firstName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+      <input
+        name="lastName"
+        placeholder="Nachname"
+        value={form.lastName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+      <input
+        name="phone"
+        placeholder="Telefonnummer"
+        value={form.phone || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  </div>
+
+  {/* Einsatzort */}
+  <div>
+    <h4 className="font-[600] text-[16px] mb-4">Einsatzort</h4>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <input
+        name="street"
+        placeholder="Adresse & Hausnummer"
+        value={form.street || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+      <input
+        name="entranceLocation"
+        placeholder="Stockwerk / Eingangscode"
+        value={form.entranceLocation || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+      <input
+        type="number"
+        name="postalCode"
+        placeholder="PLZ"
+        value={form.postalCode || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+      <input
+        name="city"
+        placeholder="Ort"
+        value={form.city || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+
+    {/* Ankunftsbedingungen */}
+    <div className="mb-6">
+      <p className="font-[500] text-gray-800 mb-2">Ankunftsbedingungen</p>
+      <div className="flex flex-wrap items-center gap-6">
+        {["Schlüssel ist hinterlegt", "Es ist jemand zu Hause"].map((option) => (
+          <label
+            key={option}
+            className="inline-flex items-center gap-2 text-sm text-gray-800"
+          >
+            <input
+              type="checkbox"
+              className="w-5 h-5 accent-[#04436F]"
+              checked={form.arrivalConditions?.includes(option)}
+              onChange={() => toggleCheckbox("arrivalConditions", option)}
+            />
+            <span>{option}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+
+    {/* Parkplatz vorhanden */}
+    <div className="mb-4">
+      <label className="block font-[500] mb-1">Parkplatz vorhanden?</label>
+      <select
+        name="hasParking"
+        value={form.hasParking || ""}
+        onChange={handleChange}
+        className={inputClass}
+      >
+        <option value="">Bitte auswählen</option>
+        <option value="Ja">Ja</option>
+        <option value="Nein">Nein</option>
+      </select>
+    </div>
+
+    {/* Wo befindet sich der Eingang */}
+    <div>
+      <input
+        name="entranceDescription"
+        placeholder="Wo befindet sich der Eingang?"
+        value={form.entranceDescription || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  </div>
+</div>
+
+
+
+          {/* Mobilität & Transport */}
+          <div>
+            <h3 className="font-bold  text-[20px] mb-2 mt-8">Mobilität</h3>
+        <div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Verfügbare Hilfsmittel</p>
+  <div className="flex flex-wrap items-center gap-6">
+    {["Rollstuhl", "Rollator", "Gehstock"].map((aid) => (
+      <label key={aid} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.mobilityAids?.includes(aid)}
+          onChange={() => toggleCheckbox("mobilityAids", aid)}
+        />
+        <span>{aid}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
+            <div className="mt-4">
+              <label className="block font-semibold mb-1">Transportmittel</label>
+              <select name="transportOption" value={form.transportOption || ""} onChange={handleChange} className={inputClass}>
+                <option value="">Bitte wählen</option>
+                <option value="Eigenes Auto">Eigenes Auto</option>
+                <option value="Fahrzeug durch Mitarbeitende">Fahrzeug durch Mitarbeitende (CHF 1/km)</option>
+                <option value="Öffentliche Verkehrsmittel">Öffentliche Verkehrsmittel (Kosten übernimmt Kunde)</option>
+                <option value="Taxi">Taxi</option>
+              </select>
+            </div>
+          </div>
+      {/* Alltagsbegleitung & Besorgungen */}
+      <div>
+        <h3 className="font-bold  text-[20px] mb-2">Alltagsbegleitung & Besorgungen</h3>
+
+        {/* Begleitung zu Terminen */}
+    <div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Begleitung zu Terminen</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {["Arzt", "Physiotherapie", "Behördengänge"].map((term) => (
+      <label key={term} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.accompanimentAppointments?.includes(term)}
+          onChange={() => {
+            const updated = new Set(form.accompanimentAppointments || []);
+            updated.has(term) ? updated.delete(term) : updated.add(term);
+            setForm((prev) => ({ ...prev, accompanimentAppointments: Array.from(updated) }));
+          }}
+        />
+        <span>{term}</span>
+      </label>
+    ))}
+  </div>
+
+  {/* Optional: "Sonstiges" field */}
+  <div className="mt-4">
+    <label htmlFor="accompanimentOther" className="block font-medium text-gray-700 mb-1">
+      Weitere Termine oder Hinweise
+    </label>
+    <input
+      id="accompanimentOther"
+      name="accompanimentOther"
+      placeholder="Sonstiges"
+      value={form.accompanimentOther || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
+</div>
+
+
+        {/* Einkäufe */}
+        <div className="mt-4">
+          <label className="block font-semibold mb-1">Begleitung durch Kunde?</label>
+          <select name="shoppingWithClient" value={form.shoppingWithClient || ""} onChange={handleChange} className={inputClass}>
+            <option value="">Bitte auswählen</option>
+            <option value="Ja">Ja</option>
+            <option value="Nein">Nein</option>
+          </select>
+        </div>
+<div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Art der Einkäufe</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {["Lebensmittel", "Apotheke", "Garten", "Kleidung"].map((item) => (
+      <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.shoppingItems?.includes(item)}
+          onChange={() => {
+            const updated = new Set(form.shoppingItems || []);
+            updated.has(item) ? updated.delete(item) : updated.add(item);
+            setForm((prev) => ({ ...prev, shoppingItems: Array.from(updated) }));
+          }}
+        />
+        <span>{item}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
+
+        {/* Postgänge */}
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            name="mailboxKeyLocation"
+            placeholder="Wo ist der Briefkastenschlüssel?"
+            value={form.mailboxKeyLocation || ""}
+            onChange={handleChange}
+            className={inputClass}
+          />
+          <input
+            name="mailboxDetails"
+            placeholder="Welches Postfach?"
+            value={form.mailboxDetails || ""}
+            onChange={handleChange}
+            className={inputClass}
+          />
+        </div>
+
+        {/* Weitere Begleitungen */}
+        <div className="mt-4">
+          <label className="block font-semibold mb-1">Weitere Begleitungen</label>
+          <textarea name="additionalAccompaniment" value={form.additionalAccompaniment || ""} onChange={handleChange} className={inputClass} />
+        </div>
+      </div>
+
+      {/* Freizeit & soziale Aktivitäten */}
+      <div>
+        <h3 className="font-bold  text-[20px] mb-2">Freizeit & soziale Aktivitäten</h3>
+
+        <div className="space-y-4">
+          {[
+            ["Gesellschaft leisten", "companionship"],
+            ["Gemeinsames Kochen", "cookingTogether"],
+            ["Allergien?", "hasAllergies"],
+            ["Biografiearbeit", "biographyWork"],
+            ["Technische Mittel vorhanden?", "hasTech"],
+            ["Vorlesen", "reading"],
+            ["Kartenspiele", "cardGames"]
+          ].map(([label, name]) => (
+            <div key={name}>
+              <label className="block font-semibold mb-1">{label}</label>
+              <select name={name} value={form[name] || ""} onChange={handleChange} className={inputClass}>
+                <option value="">Bitte auswählen</option>
+                <option value="Ja">Ja</option>
+                <option value="Nein">Nein</option>
+              </select>
+              {name === "hasAllergies" && form.hasAllergies === "Ja" && (
+                <input name="allergyDetails" placeholder="Welche?" value={form.allergyDetails || ""} onChange={handleChange} className={inputClass + " mt-2"} />
+              )}
+            </div>
+          ))}
+
+          {/* Ausflüge & Reisebegleitung */}
+       <div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Ausflüge & Reisebegleitung</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {["Theaterbesuch", "Kinobesuch", "Konzertbesuch", "Fussballspiel", "Urlaubsbegleitung"].map((trip) => (
+      <label key={trip} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.trips?.includes(trip)}
+          onChange={() => {
+            const updated = new Set(form.trips || []);
+            updated.has(trip) ? updated.delete(trip) : updated.add(trip);
+            setForm((prev) => ({ ...prev, trips: Array.from(updated) }));
+          }}
+        />
+        <span>{trip}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
+        </div>
+      </div>
+
+      {/* Gesundheitsfürsorge */}
+      <div>
+        <h3 className="font-bold  text-[20px] mb-2">Gesundheitsfürsorge</h3>
+
+        {/* Körperliche Unterstützung */}
+        <div className="grid grid-cols-2 gap-4">
+          <input type="number" name="height" placeholder="Grösse (cm)" value={form.height || ""} onChange={handleChange} className={inputClass} />
+          <input type="number" name="weight" placeholder="Gewicht (kg)" value={form.weight || ""} onChange={handleChange} className={inputClass} />
+        </div>
+
+       <div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Zustand</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {[
+      "Vollständig mobil",
+      "Sturzgefährdet",
+      "Bettlägerig",
+      "Hilfe beim Aufstehen",
+      "Hilfe beim Toilettengang",
+      "Hilfe beim Umlagern, kann sich nicht selbständig bewegen"
+    ].map((cond) => (
+      <label key={cond} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.physicalCondition?.includes(cond)}
+          onChange={() => {
+            const updated = new Set(form.physicalCondition || []);
+            updated.has(cond) ? updated.delete(cond) : updated.add(cond);
+            setForm((prev) => ({ ...prev, physicalCondition: Array.from(updated) }));
+          }}
+        />
+        <span>{cond}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
+
+<div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Vorhandene Hilfsmittel</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {[
+      "Gehstock",
+      "Rollator",
+      "Rollstuhl",
+      "Hebesitz",
+      "Pflegebett",
+      "Patientenlift",
+      "Badewannenlift",
+      "Toilettenstuhl"
+    ].map((tool) => (
+      <label key={tool} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.careTools?.includes(tool)}
+          onChange={() => {
+            const updated = new Set(form.careTools || []);
+            updated.has(tool) ? updated.delete(tool) : updated.add(tool);
+            setForm((prev) => ({ ...prev, careTools: Array.from(updated) }));
+          }}
+        />
+        <span>{tool}</span>
+      </label>
+    ))}
+  </div>
+
+  <input
+    name="careToolsOther"
+    placeholder="Sonstige"
+    value={form.careToolsOther || ""}
+    onChange={handleChange}
+    className={inputClass + " mt-4"}
+  />
+</div>
+
+
+        {/* Inkontinenz */}
+        <div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Inkontinenz</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {["Urin", "Stuhl", "Dauerkatheter", "Stoma"].map((inc) => (
+      <label key={inc} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.incontinence?.includes(inc)}
+          onChange={() => {
+            const updated = new Set(form.incontinence || []);
+            updated.has(inc) ? updated.delete(inc) : updated.add(inc);
+            setForm((prev) => ({ ...prev, incontinence: Array.from(updated) }));
+          }}
+        />
+        <span>{inc}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
+
+        {/* Kommunikation */}
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {["vision", "hearing", "speaking"].map((field) => (
+            <select key={field} name={field} value={form[field] || ""} onChange={handleChange} className={inputClass}>
+              <option value="">{field.charAt(0).toUpperCase() + field.slice(1)}...</option>
+              <option value="Keine Probleme">Keine Probleme</option>
+              <option value="Eingeschränkt">Eingeschränkt</option>
+              <option value="Nahezu blind/taub">Nahezu blind/taub</option>
+            </select>
+          ))}
+        </div>
+
+        {/* Nahrungsaufnahme */}
+<div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Nahrungsaufnahme</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {[
+      "Unterstützung notwendig",
+      "Nahrung anreichen notwendig",
+      "Flüssigkeitsaufnahme kontrollieren oder unterstützen",
+      "Probleme beim Schlucken",
+      "Appetitlosigkeit"
+    ].map((item) => (
+      <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.nutritionSupport?.includes(item)}
+          onChange={() => {
+            const updated = new Set(form.nutritionSupport || []);
+            updated.has(item) ? updated.delete(item) : updated.add(item);
+            setForm((prev) => ({ ...prev, nutritionSupport: Array.from(updated) }));
+          }}
+        />
+        <span>{item}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
+
+        {/* Grundpflege */}
+      <div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Grundpflege</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {["Körperhygiene", "An-/Auskleiden"].map((item) => (
+      <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.basicCare?.includes(item)}
+          onChange={() => {
+            const updated = new Set(form.basicCare || []);
+            updated.has(item) ? updated.delete(item) : updated.add(item);
+            setForm((prev) => ({ ...prev, basicCare: Array.from(updated) }));
+          }}
+        />
+        <span>{item}</span>
+      </label>
+    ))}
+  </div>
+
+  <input
+    name="basicCareOther"
+    placeholder="Sonstige"
+    value={form.basicCareOther || ""}
+    onChange={handleChange}
+    className={inputClass + " mt-4"}
+  />
+</div>
+
+
+<div className="mt-4">
+  <p className="font-semibold text-gray-800 mb-2">Gesundheitsförderung</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {["Gymnastik", "Spaziergänge", "Aktivierende Betreuung"].map((act) => (
+      <label key={act} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.healthPromotion?.includes(act)}
+          onChange={() => {
+            const updated = new Set(form.healthPromotion || []);
+            updated.has(act) ? updated.delete(act) : updated.add(act);
+            setForm((prev) => ({ ...prev, healthPromotion: Array.from(updated) }));
+          }}
+        />
+        <span>{act}</span>
+      </label>
+    ))}
+  </div>
+
+  <input
+    name="healthPromotionOther"
+    placeholder="Sonstige"
+    value={form.healthPromotionOther || ""}
+    onChange={handleChange}
+    className={inputClass + " mt-4"}
+  />
+</div>
+
+
+    <div className="mt-4">
+  <label className="block font-semibold text-gray-800 mb-1">Geistige Unterstützung notwendig?</label>
+  <select
+    name="mentalSupportNeeded"
+    value={form.mentalSupportNeeded || ""}
+    onChange={handleChange}
+    className={inputClass}
+  >
+    <option value="">Bitte auswählen</option>
+    <option value="Ja">Ja</option>
+    <option value="Nein">Nein</option>
+  </select>
+
+  {/* Diagnosen */}
+  <p className="font-semibold text-gray-800 mt-4 mb-1">Diagnosen</p>
+  <div className="flex flex-wrap items-center gap-6">
+    {["Depression", "Demenz", "Alzheimer"].map((diag) => (
+      <label key={diag} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.diagnoses?.includes(diag)}
+          onChange={() => {
+            const updated = new Set(form.diagnoses || []);
+            updated.has(diag) ? updated.delete(diag) : updated.add(diag);
+            setForm((prev) => ({ ...prev, diagnoses: Array.from(updated) }));
+          }}
+        />
+        <span>{diag}</span>
+      </label>
+    ))}
+  </div>
+
+  {/* Verhaltensmerkmale */}
+  <p className="font-semibold text-gray-800 mt-4 mb-1">Verhaltensmerkmale</p>
+  <div className="flex flex-wrap items-center gap-6">
+    {[
+      "Gestörter Tag-/Nachtrhythmus",
+      "Weglauftendenz",
+      "Persönlichkeitsveränderungen",
+      "Aggressivität",
+      "Apathie",
+      "Starke Unruhe"
+    ].map((trait) => (
+      <label key={trait} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#04436F]"
+          checked={form.behaviorTraits?.includes(trait)}
+          onChange={() => {
+            const updated = new Set(form.behaviorTraits || []);
+            updated.has(trait) ? updated.delete(trait) : updated.add(trait);
+            setForm((prev) => ({ ...prev, behaviorTraits: Array.from(updated) }));
+          }}
+        />
+        <span>{trait}</span>
+      </label>
+    ))}
+  </div>
+
+  {/* Gesundheitsbefunde */}
+  <textarea
+    name="healthFindings"
+    value={form.healthFindings || ""}
+    onChange={handleChange}
+    placeholder="Gesundheitsbefunde"
+    className={inputClass + " mt-4"}
+  />
+</div>
+
+      </div>
+
+      {/* Haushaltshilfe & Wohnpflege */}
+      <div>
+        <h3 className="font-bold text-[20px] mb-2">Haushaltshilfe & Wohnpflege</h3>
+
+        {/* Number of rooms and persons */}
+        <div className="grid grid-cols-2 gap-4">
+          <input type="number" name="roomCount" placeholder="Anzahl Zimmer" value={form.roomCount || ""} onChange={handleChange} className={inputClass} />
+          <input type="number" name="householdSize" placeholder="Wieviel-Personen-Haushalt?" value={form.householdSize || ""} onChange={handleChange} className={inputClass} />
+        </div>
+
+        {/* Tätigkeiten */}
+        <div className="mt-4">
+          <p className="font-semibold">Tätigkeiten</p>
+          {/* Add checkboxes similar to above sections */}
+        </div>
+      </div>
+
+      {/* Weitere Angaben für die Einsatzplanung */}
+      <div>
+        <h3 className="font-bold  text-[20px] mb-2">Weitere Angaben für die Einsatzplanung</h3>
+        {/* Sprachen */}
+        <div className="space-y-2">
+          <p className="font-semibold">Sprache der Betreuungsperson</p>
+          {/* Add language checkboxes here */}
+        </div>
+        {/* Haustiere */}
+        <div className="mt-4">
+          <label className="block font-semibold mb-1">Haustiere im Haushalt?</label>
+          <select name="hasPets" value={form.hasPets || ""} onChange={handleChange} className={inputClass}>
+            <option value="">Bitte auswählen</option>
+            <option value="Ja">Ja</option>
+            <option value="Nein">Nein</option>
+          </select>
+          {form.hasPets === "Ja" && (
+            <input name="petDetails" placeholder="Welche?" value={form.petDetails || ""} onChange={handleChange} className={inputClass + " mt-2"} />
+          )}
+        </div>
+      </div>
+    </div>
+  </>
+)}
 
 
           <div className="pt-6 flex justify-end gap-4">
@@ -1161,11 +1898,6 @@ onChange={(date) => {
     <SummaryRow label="Häufigkeit" value={form.frequency} />
     <SummaryRow label="Dauer" value={`${form.duration} Stunden`} />
     <SummaryRow label="Beginndatum" value={form.firstDate} />
-    <SummaryRow label="Name" value={form.firstName} />
-    <SummaryRow label="Nachname" value={form.lastName} />
-    <SummaryRow label="Telefon" value={form.phone} />
-    <SummaryRow label="E-Mail" value={form.email} />
-    <SummaryRow label="Adresse" value={form.address} />
     <SummaryRow label="Gesamtsumme pro Einsatz" value={`${totalPayment.toFixed(2)} CHF`} />
 
   </div>

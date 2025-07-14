@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: 'Metropolis', sans-serif !important;
+}
+
 :root {
   --background: #FAFCFF;
   --foreground: #171717;

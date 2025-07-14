@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = loadStripe("pk_test_51RYQGfPeqd3TrCRx41FQzbB67KsAgZ7jkdpSljAyZFoVFxE2iAvEGG2AUq7VQTWUaBJVaHk1vkWYaOd4ufKjUiED00K9trr1sr"); // Your public Stripe key
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

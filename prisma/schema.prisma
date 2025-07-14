@@ -121,9 +121,59 @@ model User {
   // Extra from registration
   allergies             String?
   specialRequests       String?
-    reminders Reminder[]  // Add this line
-assignments Assignment[]  // Add this line
+  reminders Reminder[]  // Add this line
+  assignments Assignment[]  // Add this line
 
+    // ✅ ➕ Step 4 from Registration Flow (NEW fields)
+  careFirstName         String?
+  careLastName          String?
+  carePhone             String?
+
+  careStreet            String?
+  careEntrance          String?
+  carePostalCode        String?
+  careCity              String?
+  careArrivalConditions String?
+  careHasParking        String?
+  careEntranceDetails   String?
+
+  mobilityAids          String?
+  transportOption       String?
+
+  appointmentTypes      String?
+  appointmentOther      String?
+  shoppingWithClient    String?
+  shoppingItems         String?
+  mailboxKeyLocation    String?
+  mailboxDetails        String?
+  additionalAccompaniment String?
+
+  companionshipSupport  String?
+  jointCooking          String?
+  biographyWork         String?
+  techAvailable         String?
+  reading               String?
+  cardGames             String?
+  allergyCheck          String?
+  allergyWhich          String?
+  trips                 String?
+
+  physicalState         String?
+  toolsAvailable        String?
+  toolsOther            String?
+  incontinenceTypes     String?
+  communicationVision   String?
+  communicationHearing  String?
+  communicationSpeech   String?
+  foodSupportTypes      String?
+  basicCareNeeds        String?
+  basicCareOtherField   String?
+  healthPromotions      String?
+  healthPromotionOther  String?
+  mentalSupportNeeded   String?
+  mentalDiagnoses       String?
+  behaviorTraits        String?
+  healthFindings        String?
 }
 
 

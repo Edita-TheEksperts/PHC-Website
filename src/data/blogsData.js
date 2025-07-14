@@ -1,9 +1,12 @@
 const blogsData = [
     {
       id: "1",
+      slug: "barrierefreie-kuechen-ein-und-zugaenge-sowie-rampen",
       image: "/images/phc-blog1.png",
       category: "Home Care",
       title: "Barrierefreie Küchen, Ein- und Zugänge sowie Rampen",
+        slug: "barrierefreie-kuechen-ein-und-zugaenge-sowie-rampen",
+
       date: "January 24, 2024",
       maintext:"In diesem Wiki dreht sich alles um barrierefreie Küchen, Ein- und Zugänge sowie entsprechende Rampen in der häuslichen Pflege und Betreuung in der Schweiz. Es ist wichtig, auf die Bedürfnisse von Senioren und Menschen mit eingeschränkter Mobilität einzugehen, um ihnen einen optimalen Lebensraum zu bieten. Melden Sie sich bei Prime Home Care an und erhalten Sie Informationen und Anregungen für die sichere Gestaltung Ihrer Küche, den problemlosen Zutritt zu Ihrem Zuhause und die Nutzung von Rampen und Zugangssystemen. Erfahren Sie, wie Sie finanzielle Unterstützung in Anspruch nehmen können und erhalten Sie Antworten auf die häufigsten Fragen zur Barrierefreiheit in Küchen und Zugangsbereichen.",
       author: {
@@ -333,6 +336,7 @@ const blogsData = [
     },
    {
   "id": "2",
+  "slug": "alterspflege-wohnen-im-alter-in-der-schweiz",
   "image": "/images/blog2.png",
   "category": "Senior Living",
   "title": "Alterspflege & Wohnen im Alter in der Schweiz",
@@ -535,6 +539,7 @@ const blogsData = [
 ,
   {
   "id": "3",
+  "slug": "betreuung-begleitung-im-alter-in-der-schweiz",
   "image": "/images/blog3.png",
   "category": "Senior Services",
   "title": "Betreuung & Begleitung im Alter in der Schweiz",
@@ -702,6 +707,7 @@ const blogsData = [
 },
 {
   "id": "4",
+  "slug": "gesundheit-und-ernaehrung-im-alter",
   "image": "/images/blog4.png",
   "category": "Gesundheit",
   "title": "Gesundheit und Ernährung im Alter",
@@ -1016,6 +1022,8 @@ const blogsData = [
 },
    {
   "id": "5",
+  "slug": "barrierefreies-bauen-und-wohnen-in-der-schweiz"
+,
   "image": "/images/blog5.png",
   "category": "Gesundheit",
   "title": "Barrierefreies Bauen und Wohnen in der Schweiz",
@@ -1334,6 +1342,8 @@ const blogsData = [
   ]
 },    {
   "id": "6",
+  "slug": "barrierefreie-badezimmer"
+,
   "image": "/images/blog6.png",
   "category": "Gesundheit",
   "title": "Barrierefreie Badezimmer",
@@ -1659,6 +1669,7 @@ const blogsData = [
   ]
 },     {
   "id": "7",
+  "slug": "liftsysteme",
   "image": "/images/blog7.png",
   "category": "Gesundheit",
   "title": "Liftsysteme",
@@ -2033,6 +2044,8 @@ const blogsData = [
 }, 
   {
   "id": "8",
+  "slug": "leben-im-alter-und-dienstleistungen-fuer-senioren"
+,
   "image": "/images/blog8.png",
   "category": "Gesundheit",
   "title": "Leben im Alter & Dienstleistungen für Senioren",
@@ -2273,6 +2286,8 @@ const blogsData = [
 }, 
  {
   "id": "9",
+  "slug": "gesundheit-und-ernaehrung-im-alter-2"
+,
   "image": "/images/blog9.png",
   "category": "Gesundheit",
   "title": "Gesundheit und Ernährung im Alter",
@@ -2560,6 +2575,7 @@ const blogsData = [
 }, 
 {
   "id": "10",
+ "slug": "hilfsmittel-fuer-die-pflege-von-senioren",
   "image": "/images/blog5.png",
   "category": "Gesundheit",
   "title": "Hilfsmittel für die Pflege von Senioren",
@@ -2849,6 +2865,7 @@ const blogsData = [
 }, 
 {
   "id": "11",
+  "slug": "bett-und-matratze",
   "image": "/images/blog4.png",
   "category": "Gesundheit",
   "title": "Bett & Matratze",
@@ -3138,6 +3155,7 @@ const blogsData = [
 }, 
 {
   "id": "12",
+  "slug": "mobilitaets-und-hebehilfen",
   "image": "/images/blog2.png",
   "category": "Gesundheit",
   "title": "Mobilitäts- und Hebehilfen",
@@ -3488,6 +3506,8 @@ const blogsData = [
 
 {
   "id": "13",
+  "slug": "pflege-verbrauchsmaterial"
+,
   "image": "/images/blog2.png",
   "category": "Gesundheit",
   "title": "Pflege-Verbrauchsmaterial",
@@ -3786,6 +3806,7 @@ const blogsData = [
 }, 
 {
   "id": "14",
+  "slug": "notrufsysteme-fuer-senioren",
   "image": "/images/blog6.png",
   "category": "Gesundheit",
   "title": "Notrufsysteme für Senioren",
@@ -4073,6 +4094,8 @@ const blogsData = [
 {
   "id": "15",
   "image": "/images/blog3.png",
+  "slug": "wissen-fuer-pflegende-angehoerige"
+,
   "category": "Gesundheit",
   "title": "Wissen für pflegende Angehörige",
   "date": "July 9, 2025",
@@ -4369,6 +4392,7 @@ const blogsData = [
 }, 
 {
   "id": "16",
+  "slug": "gesetzliche-grundlagen-der-pflege-betreuung-in-der-schweiz",
   "image": "/images/blog8.png",
   "category": "Gesundheit",
   "title": "Gesetzliche Grundlagen der Pflege & Betreuung in der Schweiz",
@@ -4656,6 +4680,264 @@ const blogsData = [
     },
     {
       "question": "Welche Verbandsmaterialien sind für welche Wunden geeignet?",
+      "answer": "Je nach Art der Wunde und des Heilungsprozesses kommen unterschiedliche Verbandsmaterialien zum Einsatz. Wundauflagen, Fixierbinden, Mullkompressen und spezielle Wundverbände sind einige der gebräuchlichsten Materialien. Um die richtige Auswahl zu treffen, sollten Sie sich von einer Pflegefachperson oder einem Arzt beraten lassen."
+    },
+  ]
+}
+  ]
+}, 
+{
+  "id": "17",
+  "slug": "hausliche-pflege-planen",
+  "image": "/images/blog2.png",
+  "category": "Gesundheit",
+  "title": "Beratung und Organisation von Betreuung zu Hause",
+  "date": "July 9, 2025",
+  "maintext": "Willkommen bei Prime Home Care – Ihr zuverlässiger Partner für die Organisation von häuslicher Betreuung & Pflege in der Schweiz! ",
+  "author": {
+    "id": "author-2",
+    "name": "Patrick Kälin",
+    "position": "Redakteur für Prime Home Care",
+    "image": "/images/phc-author.png",
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+  },
+  "sections": [
+{
+  "id": "section-1",
+  "title": "Unsere Organisation – Für bessere Seniorenbetreuung im Alter",
+  "description": "Dieser Abschnitt hilft Ihnen, Veränderungen im Verhalten älterer Angehöriger richtig zu deuten, den Pflegebedarf einzuschätzen und passende Unterstützungsangebote zu finden.",
+  "paragraphs": [
+    {
+      "id": "1-1",
+      "title": "Unsere Organisation – Für bessere Seniorenbetreuung im Alter",
+      "text": "Die Prime Home Care AG ist Ihre moderne Partnerin für stundenweise Betreuung zu Hause – flexibel, digital organisiert und persönlich umgesetzt. Ob Gesellschaft leisten, Begleitung zu Terminen, Unterstützung im Haushalt oder bei Freizeitaktivitäten: Unsere Dienstleistungen lassen sich individuell kombinieren und bequem digital planen. So erhalten Sie genau die Unterstützung, die Sie brauchen – zur richtigen Zeit und mit vertrauten Betreuungspersonen. Als digitales Unternehmen setzen wir auf einfache Abläufe, schnelle Verfügbarkeit und transparente Kommunikation – ganz ohne Papierkram. Die Betreuung bleibt menschlich und herzlich – die Organisation übernehmen wir im Hintergrund effizient und unkompliziert. Prime Home Care AG – moderne Betreuung mit Herz und System."
+    }
+  ]
+}
+
+,
+ {
+  "id": "section-2",
+  "title": "Die Prime Home Care AG bietet ein breites Spektrum an Leistungen für die stundenweise Betreuung",
+  "description": "In diesem Abschnitt erfahren Sie, wie Pflegestufen funktionieren, wer sie festlegt, welche Leistungen daran geknüpft sind und wie sie sich auf die häusliche Pflege auswirken.",
+  "paragraphs": [
+    {
+      "id": "2-1",
+      "title": "Die Prime Home Care AG bietet ein breites Spektrum an Leistungen für die stundenweise Betreuung",
+      "text": "Von Alltagsbegleitung, Besorgungen und Hauswirtschaft bis hin zu sozialen Aktivitäten wie gemeinsamen Spaziergängen, Vorlesen oder Ausflügen. Auch bei der Grundpflege und der Unterstützung im Alltag stehen wir zuverlässig zur Seite. Alle Leistungen lassen sich flexibel buchen – digital, transparent und individuell auf Ihre Bedürfnisse abgestimmt. So ermöglichen wir unseren Kund:innen mehr Lebensqualität und Sicherheit im eigenen Zuhause – genau so, wie sie es sich wünschen."
+    },
+  ]
+}
+,
+{
+  "id": "section-3",
+  "title": "Sie müssen private Betreuung für sich oder für einen nahen Angehörigen organisieren?",
+  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Maßnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
+  "paragraphs": [
+    {
+      "id": "3-1",
+      "title": "Sie müssen private Betreuung für sich oder für einen nahen Angehörigen organisieren?",
+      "text": "Sie haben das Gefühl, nicht alle Fakten zu kennen und sollen weitreichende und kostspielige Entscheidungen erst noch unter Zeitdruck treffen? Nehmen Sie zuerst mit uns Kontakt auf, bevor Sie einen Entscheid treffen! Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt und einfach"
+    },
+   
+  ]
+}
+
+
+,
+{
+  "id": "section-4",
+  "title": "Unsere Lösungen für eine optimale Ihre Betreuung – einfach digital organisiert",
+  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Maßnahmen vorbeugt.",
+  "paragraphs": [
+    {
+      "id": "4-1",
+      "title": "Unsere Lösungen für eine optimale Ihre Betreuung – einfach digital organisiert",
+      "text": "Wir bei Prime Home Care haben viele Jahre Erfahrung in der professionellen Betreuung von Senioren und pflegebedürftigen Menschen gesammelt. Hand in Hand mit externen Pflegefachleuten, die uns bei der Bedarfsanalyse unterstützen, organisieren wir für Sie und Ihre Angehörigen individuelle und ganzheitliche Betreuungslösungen. Wir haben uns zum Ziel gesetzt, unseren Kunden eine umfassende und neutrale Beratung sowie eine nahtlose Organisation rund um das Thema Pflege und Seniorenbetreuung zuhause zu bieten. Im Folgenden stellen wir Ihnen einige unserer Lösungen vor. Individuelle Pflege-Lösungen, Betreuung zuhause, Fachkundige Beratung"
+    }
+  ]
+}
+
+
+,
+{
+  "id": "section-5",
+  "title": "Flexible Betreuungs-Modelle",
+  "description": "Inkontinenz betrifft viele ältere Menschen. Mit den richtigen Produkten – von Einlagen bis Windeln – lässt sich Sicherheit und Lebensqualität im Alltag deutlich verbessern.",
+  "paragraphs": [
+    {
+      "id": "5-1",
+      "title": "Flexible Betreuungs-Modelle",
+      "text": "Flexibilität und die Anpassungsfähigkeit an sich wandelnde Bedürfnisse sind wichtige Aspekte bei Wahl der richtigen der Seniorenbetreuung. Unser Modell bietet gegenüber reinen Verleihangeboten mehr Flexibilität, die häusliche Betreuung vertraglich umfassend und zugleich rechtskonform zu regeln. Individuelle Arbeitsverträge können dank unserer Beratung und einer umfassenden juristischen Hilfestellung leichter auf sich im Zeitablauf ändernde Rahmenbedingungen angepasst werden. Zugleich bietet unser Treuhandmodell für unsere Kunden den Komfort, sich für alle Fragen und Wünsche nur an einen Ansprechpartner wenden zu müssen."
+    }
+  ]
+}
+,
+{
+  "id": 'section-10',
+  "title": "Häufig gestellte Fragen bei der Betreuungs-Organisation",
+  "faqs": [
+    {
+      "question": "Wie wird sichergestellt, dass die Pflegekräfte zuverlässig und qualifiziert sind?",
+      "answer": "Zu den grundlegenden Pflege-Verbrauchsmaterialien gehören: Einweg-Tücher, Handschuhe, Desinfektions- und Reinigungsmittel, Hautpflegeprodukte wie Lotionen, Inkontinenzprodukte wie Einlagen, Unterwäsche und Windeln, Bettschutz-Unterlagen, Verbandsmaterial und bei Bedarf spezialisiertes Material für Stoma-, PEG-Sonden- und Tracheostoma-Patienten. Eine detaillierte Checkliste finden Sie in Punkt 1 unseres Inhaltsverzeichnisses."
+    },
+    {
+      "question": "Wie funktioniert die Abrechnung und Bezahlung Ihrer Dienstleistungen?",
+      "answer": "Pflege-Verbrauchsmaterialien können in Apotheken, Drogerien, Sanitätshäusern oder online über spezialisierte Versandhändler erworben werden. Achten Sie beim Kauf auf Qualität und einen guten Preis. Tipp: Vergleichen Sie Preise und Angebote von verschiedenen Anbietern, um das beste Preis-Leistungs-Verhältnis für Ihre Bedürfnisse zu finden."
+    },
+    {
+      "question": "Was passiert, wenn sich die Betreuungs-Bedürfnisse im Laufe der Zeit ändern?",
+      "answer": "In der Schweiz können ausgewählte Pflege-Verbrauchsmaterialien über die Grundversicherung oder eine Zusatzversicherung der gesetzlichen Krankenversicherung abgerechnet werden. Die Kostenübernahme variiert jedoch je nach Versicherungsmodell und individuellen Bedürfnissen. Setzen Sie sich daher am besten mit Ihrer Krankenkasse in Verbindung, um genaue Informationen zur Kostenerstattung zu erhalten."
+    },
+    {
+      "question": "Wie läuft die Betreuungs-Organisation ab, wenn Betreuung und Pflege kurzfristig notwendig ist oder unerwartet mehr Unterstützung benötigt wird?",
+      "answer": "Je nach Art der Wunde und des Heilungsprozesses kommen unterschiedliche Verbandsmaterialien zum Einsatz. Wundauflagen, Fixierbinden, Mullkompressen und spezielle Wundverbände sind einige der gebräuchlichsten Materialien. Um die richtige Auswahl zu treffen, sollten Sie sich von einer Pflegefachperson oder einem Arzt beraten lassen."
+    },
+     {
+      "question": "Wie wird sichergestellt, dass die Pflegekräfte individuelle Bedürfnisse und Wünsche verstehen und umsetzen?",
+      "answer": "Je nach Art der Wunde und des Heilungsprozesses kommen unterschiedliche Verbandsmaterialien zum Einsatz. Wundauflagen, Fixierbinden, Mullkompressen und spezielle Wundverbände sind einige der gebräuchlichsten Materialien. Um die richtige Auswahl zu treffen, sollten Sie sich von einer Pflegefachperson oder einem Arzt beraten lassen."
+    },
+  ]
+}
+
+
+  ]
+}, 
+{
+  "id": "18",
+  "slug": "betreuung-zuhause-organisieren",
+  "image": "/images/blog1.png",
+  "category": "Gesundheit",
+  "title": "Professionelle stundenweise Unterstützung im Alltag in der Schweiz",
+  "date": "July 9, 2025",
+  "maintext": "Prime Home Care – Ihr zuverlässiger Partner für die Seniorenbetreuung zuhause in der Schweiz! ",
+  "author": {
+    "id": "author-2",
+    "name": "Patrick Kälin",
+    "position": "Redakteur für Prime Home Care",
+    "image": "/images/phc-author.png",
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+  },
+  "sections": [
+{
+  "id": "section-1",
+  "title": "Professionelle stundenweise Betreuung für den Alltag im",
+  "description": "Dieser Abschnitt hilft Ihnen, Veränderungen im Verhalten älterer Angehöriger richtig zu deuten, den Pflegebedarf einzuschätzen und passende Unterstützungsangebote zu finden.",
+  "paragraphs": [
+    {
+      "id": "1-1",
+      "title": "Professionelle stundenweise Betreuung für den Alltag im",
+      "text": "Die private Seniorenbetreuung zuhause stellt einen stetig wichtiger werdenden Bestandteil des Lebens dar. Bei alltäglichen Aktivitäten wie der Körperpflege, der Zubereitung von Mahlzeiten, beim Einkaufen sowie bei der Hausarbeit können erfahrene und qualifizierte Betreuerinnen und Betreuer eine weitreichende Unterstützung leisten. Sie begleiten sie zu Arztterminen oder anderen Terminen, bieten Gesellschaft und Unterhaltung. Sie kümmern sich gerne um Haustiere und teilweise auch um Balkon und Pflanzen. Zudem wünschen sich viele Angehörige, dass stets eine vertraute Ansprechperson vor Ort ist, die im Haus für Schutz und Sicherheit sorgen kann. Die Prime Home Care organisiert stundenweise Unterstützung sowie Betreuung und Pflege für das selbstbestimmte Leben im gewohnten Zuhause."
+    }
+  ]
+}
+
+,
+ {
+  "id": "section-2",
+  "title": "Sie müssen private Betreuung für sich oder für einen nahen Angehörigen organisieren?",
+  "description": "In diesem Abschnitt erfahren Sie, wie Pflegestufen funktionieren, wer sie festlegt, welche Leistungen daran geknüpft sind und wie sie sich auf die häusliche Pflege auswirken.",
+  "paragraphs": [
+    {
+      "id": "2-1",
+      "title": "Sie müssen private Betreuung für sich oder für einen nahen Angehörigen organisieren?",
+      "text": "Sie haben das Gefühl, nicht alle Fakten zu kennen und sollen weitreichende und kostspielige Entscheidungen erst noch unter Zeitdruck treffen? Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt und einfach"
+    },
+  ]
+}
+,
+{
+  "id": "section-3",
+  "title": "Unsere Lösungen für eine optimale Betreuungs- Organisation",
+  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Maßnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
+  "paragraphs": [
+    {
+      "id": "3-1",
+      "title": "Unsere Lösungen für eine optimale Betreuungs- Organisation",
+      "text": "Wir bei Prime Home Care haben viele Jahre Erfahrung in der professionellen Betreuung von Senioren und pflegebedürftigen Menschen gesammelt. Hand in Hand mit externen Pflegefachleuten, die uns bei der Bedarfsanalyse unterstützen, organisieren wir für Sie und Ihre Angehörigen individuelle und ganzheitliche Betreuungslösungen. Wir haben uns zum Ziel gesetzt, unseren Kunden eine umfassende und neutrale Beratung sowie eine nahtlose Organisation rund um das Thema Pflege und Seniorenbetreuung zuhause zu bieten. Im Folgenden stellen wir Ihnen einige unserer Lösungen vor."
+    },
+   
+  ]
+}
+
+
+,
+{
+  "id": "section-4",
+  "title": "Moderne Seniorenbetreuung – digital, flexibel und persönlich",
+  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Maßnahmen vorbeugt.",
+  "paragraphs": [
+    {
+      "id": "4-1",
+      "title": "Moderne Seniorenbetreuung – digital, flexibel und persönlich",
+      "text": "Die Prime Home Care organisiert bedarfsgerechte und qualitativ hochwertige Seniorenbetreuung für das eigene Zuhause. Ganzheitlich überblicken wir den gesamten Prozess der häuslichen Betreuung mit allen dafür benötigten Pflegeleistungen und beziehen auch die benötigten Hilfsmittel und baulichen Massnahmen mit in unsere Überlegungen ein. Die Prime Home Care ist selbst kein Pflege-Anbieter oder Personaldienstleister. Es ist jedoch unser Ziel, die jeweils individuell beste und günstigste Hilfe für den Alltag in der gewohnten Umgebung zu organisieren. Dabei sind wir einzig unseren Kunden verpflichtet und agieren treuhänderisch. Unsere Empfehlungen orientieren sich allein an Ihren jeweiligen Betreuungs- und Pflegebedürfnissen. Unsere eigenen Leistungen erbringen wir zum Fixpreis und sind in unserer Beratung daher unabhängig davon, welche Lösung aus Anbietersicht lukrativer erscheint. Bei der Organisation professioneller Seniorenbetreuung in der Schweiz ist dieser Ansatz völlig neu. Erfahren Sie mehr über unsere Lösungen für die häufigsten Probleme bei der privaten Altenbetreuung zu Hause."
+    }
+  ]
+}
+
+
+,
+{
+  "id": "section-5",
+  "title": "Qualifizierte Betreuung – intelligent gematcht",
+  "description": "Inkontinenz betrifft viele ältere Menschen. Mit den richtigen Produkten – von Einlagen bis Windeln – lässt sich Sicherheit und Lebensqualität im Alltag deutlich verbessern.",
+  "paragraphs": [
+    {
+      "id": "5-1",
+      "title": "Qualifizierte Betreuung – intelligent gematcht",
+      "text": "Die eigene Suche nach geeigneten, qualifizierten und zuverlässigen Betreuerinnen und Betreuern ist oft ein langwieriger und mühsamer Prozess. Lieber möchten sich Senioren und Angehörige auf professionelle Anbieter verlassen. Wer aber stellt sicher, dass Betreuungskräfte über die notwendigen Fähigkeiten verfügen, sie sorgfältig ausgewählt und geschult werden?  Werden Betreuungskräfte eingesetzt, die mindestens über ein in der Schweiz anerkanntes Pflegehelfer-Zertifikat verfügen, so können diejenigen Stunden, welche Grundpflege darstellen, kassenfähig gestaltet werden. Dafür sorgen wir aufgrund unserer Zusammenarbeit mit bewilligten Spitex-Partnern unter deren unter Weisung und Obhut dann die Pflege erfolgt. So wird sichergestellt, dass jede Betreuungskraft über ausreichende Erfahrung und Qualifikationen verfügt. Die Betreuungs- und Pflegekräfte erhalten neben Weiterbildung so auch eine Entlastung bei ihrer Pflegearbeit.  Dank der Beteiligung der Krankenkassen an den Betreuungskosten können Sie den Pflegekräften gerne ein überdurchschnittliches Gehalt bezahlen, ohne dass sich dies negativ auf Ihre Gesamtkosten auswirkt."
+    }
+  ]
+}
+,
+{
+  "id": "section-6",
+  "title": "Individuell wählbare Leistungen – Betreuung nach Ihren Wünschen",
+  "description": "Inkontinenz betrifft viele ältere Menschen. Mit den richtigen Produkten – von Einlagen bis Windeln – lässt sich Sicherheit und Lebensqualität im Alltag deutlich verbessern.",
+  "paragraphs": [
+    {
+      "id": "6-1",
+      "title": "Individuell wählbare Leistungen – Betreuung nach Ihren Wünschen",
+      "text": "Bei der Prime Home Care AG steht nicht ein starres Betreuungspaket im Vordergrund, sondern Ihre individuelle Auswahl. Über unsere benutzerfreundliche Online-Plattform stellen Sie sich Ihre gewünschten Dienstleistungen einfach und bequem selbst zusammen – ganz nach Ihrem Bedarf, ohne unnötige Zusatzleistungen. Ob Alltagshilfe, Begleitung zu Terminen, Unterstützung im Haushalt oder soziale Aktivitäten – Sie entscheiden, was gebraucht wird, wann es gebraucht wird und wie oft. Unsere digitale Lösung ermöglicht es Ihnen, alles übersichtlich zu planen, direkt zu buchen und jederzeit flexibel anzupassen."
+    }
+  ]
+}
+,
+{
+  "id": "section-7",
+  "title": "Transparente und faire Preise",
+  "description": "Inkontinenz betrifft viele ältere Menschen. Mit den richtigen Produkten – von Einlagen bis Windeln – lässt sich Sicherheit und Lebensqualität im Alltag deutlich verbessern.",
+  "paragraphs": [
+    {
+      "id": "7-1",
+      "title": "Transparente und faire Preise",
+      "text": "Die Prime Home Care AG verfolgt das Ziel, hochwertige Betreuung und faire Löhne in ein ausgewogenes und nachhaltiges Verhältnis zu bringen. Dank unserer digitalen Plattform und durchdachter Prozessgestaltung ermöglichen wir ein effizientes Modell, das sowohl Betreuungspersonen gerecht entlohnt als auch unseren Kund:innen faire, transparente Kosten bietet.Als Kund:in profitieren Sie doppelt: Einerseits von motivierten Betreuungspersonen, die mit Freude und Engagement arbeiten – andererseits von einer übersichtlichen Kostenstruktur ohne versteckte Gebühren. Über unsere Plattform erhalten Sie auf Knopfdruck eine klare Offerte, basierend auf Ihren gewählten Leistungen. Durch digitale Abläufe, direkte Buchung und automatisierte Planung schaffen wir es, erstklassige stundenweise Betreuung zu einem sehr fairen Preis-Leistungs-Verhältnis anzubieten – einfach, effizient und menschlich.Wir bieten Ihnen ein klar strukturiertes, transparentes Preismodell, das Betreuung planbar und sorgenfrei macht – mit einem digitalen Ansprechpartner an Ihrer Seite. Prime Home Care AG – Betreuung nach Mass, digital organisiert."
+    }
+  ]
+}
+,
+{
+  "id": 'section-10',
+  "title": "Häufig gestellte Fragen bei der Betreuungs-Organisation",
+  "faqs": [
+    {
+      "question": "Wie wird sichergestellt, dass die Pflegekräfte zuverlässig und qualifiziert sind?",
+      "answer": "Zu den grundlegenden Pflege-Verbrauchsmaterialien gehören: Einweg-Tücher, Handschuhe, Desinfektions- und Reinigungsmittel, Hautpflegeprodukte wie Lotionen, Inkontinenzprodukte wie Einlagen, Unterwäsche und Windeln, Bettschutz-Unterlagen, Verbandsmaterial und bei Bedarf spezialisiertes Material für Stoma-, PEG-Sonden- und Tracheostoma-Patienten. Eine detaillierte Checkliste finden Sie in Punkt 1 unseres Inhaltsverzeichnisses."
+    },
+    {
+      "question": "Wie funktioniert die Abrechnung und Bezahlung Ihrer Dienstleistungen?",
+      "answer": "Pflege-Verbrauchsmaterialien können in Apotheken, Drogerien, Sanitätshäusern oder online über spezialisierte Versandhändler erworben werden. Achten Sie beim Kauf auf Qualität und einen guten Preis. Tipp: Vergleichen Sie Preise und Angebote von verschiedenen Anbietern, um das beste Preis-Leistungs-Verhältnis für Ihre Bedürfnisse zu finden."
+    },
+    {
+      "question": "Was passiert, wenn sich die Betreuungs-Bedürfnisse im Laufe der Zeit ändern?",
+      "answer": "In der Schweiz können ausgewählte Pflege-Verbrauchsmaterialien über die Grundversicherung oder eine Zusatzversicherung der gesetzlichen Krankenversicherung abgerechnet werden. Die Kostenübernahme variiert jedoch je nach Versicherungsmodell und individuellen Bedürfnissen. Setzen Sie sich daher am besten mit Ihrer Krankenkasse in Verbindung, um genaue Informationen zur Kostenerstattung zu erhalten."
+    },
+    {
+      "question": "Wie läuft die Betreuungs-Organisation ab, wenn Betreuung und Pflege kurzfristig notwendig ist oder unerwartet mehr Unterstützung benötigt wird?",
+      "answer": "Je nach Art der Wunde und des Heilungsprozesses kommen unterschiedliche Verbandsmaterialien zum Einsatz. Wundauflagen, Fixierbinden, Mullkompressen und spezielle Wundverbände sind einige der gebräuchlichsten Materialien. Um die richtige Auswahl zu treffen, sollten Sie sich von einer Pflegefachperson oder einem Arzt beraten lassen."
+    },
+     {
+      "question": "Wie wird sichergestellt, dass die Pflegekräfte individuelle Bedürfnisse und Wünsche verstehen und umsetzen?",
       "answer": "Je nach Art der Wunde und des Heilungsprozesses kommen unterschiedliche Verbandsmaterialien zum Einsatz. Wundauflagen, Fixierbinden, Mullkompressen und spezielle Wundverbände sind einige der gebräuchlichsten Materialien. Um die richtige Auswahl zu treffen, sollten Sie sich von einer Pflegefachperson oder einem Arzt beraten lassen."
     },
   ]

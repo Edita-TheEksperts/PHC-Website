@@ -6,51 +6,262 @@ export default function FAQ() {
     {
       category: "FAQ - Frequently asked questions",
       questions: [
-        {
-          question: "How can I get involved with your organization?",
-          answer:
-            "You can get involved by volunteering, donating, or spreading awareness about our cause.",
-        },
-        {
-          question: "How can I stay updated on your latest news and events?",
-          answer:
-            "Follow our website or subscribe to our newsletter to stay informed about our latest news and events.",
-        },
-        {
-          question: "Are your care services available 24/7?",
-          answer:
-            "Yes, we provide round-the-clock care services to ensure continuous support for our clients.",
-        },
-        {
-          question: "How can I arrange for nursing care at home?",
-          answer:
-            "Contact our support team, and we will guide you through the process of arranging nursing care at home.",
-        },
+       {
+        question: "Was sind unsere Stornierungsbedingungen?",
+        answer:
+          "Um eine reibungslose Planung sicherzustellen und Änderungen im Einsatz unserer Betreuungskräfte möglichst gering zu halten, gelten folgende Stornierungsregelungen:\n\n" +
+          "Stornierungen, die mindestens 14 Tage vor dem Termin erfolgen, sind kostenlos.\n\n" +
+          "Für Stornierungen zwischen 14 und 7 Tagen vor dem Betreuungstermin fällt eine Gebühr von 50% der Buchung an.\n\n" +
+          "Stornierungen weniger als 7 Tage vor der gebuchten Dienstleistung werden mit dem gesamten Betrag belastet.\n\n" +
+          "Falls Sie Ihren Betreuungsplan beenden möchten, finden Sie dazu Informationen im Artikel: „Wie kann ich meinen Betreuungsplan kündigen?“ Wenn Sie Ihren Vertrag auflösen möchten, beachten Sie bitte den Artikel: „Wie kann ich meinen Vertrag kündigen?“"
+      },
+      {
+        question: "Kann ich meine Buchung bearbeiten?",
+        answer:
+          "Um eine Änderung an einer bestehenden Buchung vorzunehmen, loggen Sie sich bitte in Ihr Kundenprofil ein.\n\n" +
+          "Navigieren Sie zu „Meine Buchungen“ und wählen Sie anschliessend „Bevorstehende Buchungen“. Klicken Sie dort auf „Buchung ändern“.\n\n" +
+          "Bitte beachten Sie, dass Änderungen nur möglich sind, wenn Ihre Buchung mindestens 48 Stunden im Voraus geplant ist. Ausserdem kann eine Anpassung der Uhrzeit im Tagesverlauf dazu führen, dass eine andere Betreuungskraft zugewiesen wird, da unsere Betreuungskräfte stark ausgelastet sind."
+      },
+      {
+        question: "Wie kann ich eine Buchung vornehmen?",
+        answer:
+          "Eine zuverlässige Betreuungskraft zu engagieren ist ganz einfach:\n\n" +
+          "Besuchen Sie unsere Webseite phc.ch und geben Sie Ihre Postleitzahl ein.\n" +
+          "Wählen Sie Ihre gewünschten Dienstleistungen und die gewünschte Häufigkeit aus.\n" +
+          "Legen Sie den Zeitpunkt für Ihre Betreuung fest – das System zeigt Ihnen die Verfügbarkeit der Betreuungskräfte in Ihrer Region an.\n" +
+          "Geben Sie Ihre persönlichen Daten ein.\n" +
+          "Wählen Sie eine Zahlungsmethode.\n\n" +
+          "Anschliessend erhalten Sie eine Bestätigung an die angegebene E-Mail-Adresse."
+      },
+      {
+        question: "Kann ich meine Buchung stornieren?",
+        answer:
+          "Um eine bestehende Buchung zu stornieren, melden Sie sich bitte in Ihrem Profil an. Gehen Sie zu „Meine Buchungen“, wählen Sie „Bevorstehende Settings“ und klicken Sie auf „Buchung stornieren“.\n\n" +
+          "Beachten Sie bitte, dass durch das Aktualisieren Ihrer Verfügbarkeiten mehr als 14 Tage vor der Buchung – etwa bei geplanten Urlauben oder Abwesenheiten – Stornierungsgebühren vermieden werden können.\n" +
+          "Um uns über eine Abwesenheit frühzeitig zu informieren, gehen Sie in Ihrem Profil zum Abschnitt „Optionen“ und wählen Sie „Abwesenheiten hinzufügen“."
+      },
+      {
+        question: "Wie kann ich eine Betreuungsdienstleistung umbuchen?",
+        answer:
+          "Sie können den Zeitpunkt Ihrer Betreuung verschieben, indem Sie sich in Ihr Prime Home Care AG-Konto einloggen und auf die Registerkarte „Meine Betreuungen“ zugreifen. Unter dem Abschnitt „Bevorstehende“ klicken Sie auf „Mehr“ und wählen im Dropdown-Menü „Betreuung bearbeiten“. Folgen Sie den Anweisungen, um Ihre Änderungen anzufordern.\n\n" +
+          "Bitte beachten Sie, dass eine Änderung der Dauer oder des Zeitplans möglicherweise dazu führen kann, dass Ihre Betreuungskraft aufgrund von Verfügbarkeitsengpässen Ihre Anfrage nicht mehr erfüllen kann. Ist Ihre bevorzugte Betreuungskraft verfügbar, wird sie automatisch durch den Algorithmus der Plattform ausgewählt."
+      },
+      {
+        question: "Kann ich die Adresse meiner gebuchten Betreuung ändern?",
+        answer:
+          "Sie können Ihre Adresse online unter «Adressänderung» selbständig anpassen.\n\n" +
+          "Bitte beachten Sie, dass wenn Sie Ihre Adresse anpassen, es möglich sein kann, dass Ihnen nicht mehr dieselbe Betreuungskraft zur Verfügung steht."
+      },
+      {
+        question: "Kann ich kurzfristig eine Betreuungskraft buchen?",
+        answer:
+          "Für die Bereitstellung einer neuen Betreuungskraft benötigen wir eine Vorlaufzeit von 14 Tagen.\n\n" +
+          "Sollten Sie jedoch kurzfristiger Unterstützung benötigen, benutzen Sie hierfür das Kontaktformular – wir werden unser Bestes tun, um eine individuelle Lösung für Sie zu finden. Bitte beachten Sie, dass in solchen Fällen zusätzliche Gebühren anfallen können."
+      },
+      {
+        question: "Kann ich bei meiner Buchung Zeit und Datums-Präferenzen angeben?",
+        answer:
+          "Die Reservierung einer passenden Zeit für Ihr Betreuungssetting war noch nie so einfach. Geben Sie zunächst die gewünschten Dienstleistungen an und die bevorzugte Häufigkeit. Überprüfen Sie danach die Verfügbarkeiten, bevor Sie Datum und Uhrzeit festlegen.\n\n" +
+          "Bitte beachten Sie, dass nicht alle Zeitfenster immer verfügbar sind, da das System die aktuellen Kapazitäten der Betreuungskräfte in Ihrer Region in Echtzeit anzeigt. Die Verfügbarkeit hängt somit auch von der Anzahl an Betreuungsskräften in Ihrer Nähe ab."
+      },
+      {
+        question: "Wie setzt sich der Preis zusammen?",
+        answer:
+          "Der ausgewiesene Preis für ein Betreuungssetting richtet sich nach der Anzahl der gebuchten Stunden und dem entsprechenden Stundensatz. Bitte beachten Sie, dass eine Mindestbuchung von 2 Stunden erforderlich ist.\n\n" +
+          "Ihr Preis ist komplett transparent – alle Kosten sind inklusive Mehrwertsteuer, ohne versteckte Gebühren.\n\n" +
+          "Bei der Prime Home Care AG zahlen Sie ausschliesslich für die reservierte Zeit.\n" +
+          "Zusätzliche gebuchte Leistungen werden entsprechend auf der Rechnung ausgewiesen."
+      },
+      {
+        question: "Kann ich eine Betreuungskraft welche bereits bei mir war nochmals anfragen?",
+        answer:
+          "Für regelmässige Betreuungseinsätze (wöchentlich oder alle zwei Wochen), wird immer, wenn möglich, dieselbe Betreuungskraft eingesetzt. Im Falle der Abwesenheit Ihrer persönlichen Betreuungskraft bieten wir Ihnen einen vorübergehenden Ersatz an.\n" +
+          "Bitte beachten Sie, dass wir bei monatlichen Buchungen nicht immer den Einsatz derselben Betreuungskraft garantieren können."
+      },
+      {
+        question: "Kann ich meiner Betreuungskraft zusätzliche Aufgaben zuweisen?",
+        answer:
+          "Sie können Ihrer Betreuungskraft direkt während des Buchungsvorgangs oder vor jedem Betreuungseinsatz unter \"Spezialanweisungen\" besondere Anweisungen geben. Je klarer Ihre Angaben sind, desto besser wird die Betreuung sein."
+      },
+      {
+        question: "Wie erhält meine Betreuungskraft einen Hausschlüssel?",
+        answer:
+          "Um Ihrer Betreuungskraft einen Hausschlüssel zu übergeben, können Sie direkt mit ihr eine sichere Übergabemethode vereinbaren. Alternativ bietet Prime Home Care AG auch unterstützende Lösungen an, um den Schlüssel sicher und unkompliziert zur Verfügung zu stellen."
+      },
+      {
+        question: "Wie bewerte ich meine Betreuungsdienstleistung?",
+        answer:
+          "Sie können Ihre Betreuungskraft ganz einfach über die Prime Home Care AG Plattform bewerten. Nach jedem Einsatz haben Sie die Möglichkeit, eine Bewertung abzugeben und Feedback zu hinterlassen. Dies hilft uns, die Qualität unserer Dienstleistungen aufrechtzuerhalten und kontinuierlich zu verbessern."
+      },
+      {
+        question: "Was passiert, nachdem ich gebucht habe?",
+        answer:
+          "Sobald die Zahlung autorisiert und bestätigt wurde, erhalten Sie eine Bestätigungs-E-Mail mit der Uhrzeit, zu der Ihre Betreuungskraft eintreffen wird, um den Einsatz entsprechend Ihren Wünschen durchzuführen."
+      },
+      {
+        question: "Kann ich Betreuung für mehrere Adressen buchen?",
+        answer:
+          "Ja, bei Prime Home Care AG können Sie Betreuungseinsätze für mehrere Adressen buchen. Bitte geben Sie bei der Buchung die jeweiligen Adressen und spezifischen Anforderungen für jeden Einsatz an. Unser Team wird die Betreuung entsprechend Ihrer Wünsche organisieren."
+      },
+      {
+        question: "Was ist Ihre Schadenversicherungspolice?",
+        answer:
+          "Informationen zur Schadenversicherungspolice erhalten Sie auf Anfrage oder in den allgemeinen Geschäftsbedingungen von Prime Home Care AG."
+      },
+      {
+        question: "Was tun, wenn ich mit der stundenweisen Betreuung unzufrieden bin?",
+        answer:
+          "Sollten Sie mit dem Betreuungsservice nicht zufrieden sein, senden Sie uns bitte direkt eine Nachricht über Ihr Kundenprofil, damit wir die Situation mit Ihrer Betreuungskraft überprüfen können. Wir werden Sie so schnell wie möglich mit einer geeigneten Lösung kontaktieren."
+      },
       ],
     },
     {
-      category: "Help Care",
+    category: "MEIN KONTO",
+      questions: [
+       {
+        question: "Wie erstelle ich eine Zusammenfassung meiner Betreuungsdienstleistungen?",
+        answer:
+          "Falls Sie eine Zusammenfassung Ihrer Betreuungen im PDF-Format benötigen, um den Überblick zu behalten oder sie an Dritte weiterzugeben, befolgen Sie diese Schritte:\n\n" +
+          "- Besuchen Sie unsere Website unter phc.ch\n" +
+          "- Melden Sie sich bei Ihrem Profil an\n" +
+          "- Gehen Sie zu „Optionen“\n" +
+          "- Wählen Sie „Betreuungszusammenfassung“ und klicken Sie auf „Zusammenfassung erstellen“\n" +
+          "- Wählen Sie aus, welche Art von Zusammenfassung Sie benötigen: monatlich, jährlich oder für einen bestimmten Zeitraum\n\n" +
+          "Nachdem Sie den gewünschten Zeitraum bestätigt haben, wird die Zusammenfassung als PDF-Datei an die E-Mail-Adresse gesendet, die mit Ihrem Konto verknüpft ist."
+      },
+      {
+        question: "Wie kann ich die Checkliste für die stundenweise Betreuung nutzen?",
+        answer:
+          "Unsere Betreuungs-Checkliste ist für Kundinnen und Kunden gedacht, die regelmässige stundenweise Betreuungsleistungen in Anspruch nehmen. Sie hilft Ihnen, die Betreuung nach Ihren individuellen Wünschen zu gestalten.\n\n" +
+          "Auf Basis Ihrer Angaben erstellen wir eine persönliche Checkliste, die Sie jederzeit in Ihrem Profil unter „Meine Betreuungen“ oder „Optionen“ anpassen können. Änderungen gelten für die gesamte Vertragsdauer.\n\n" +
+          "Diese Checkliste bietet Ihrer Betreuungskraft klare Anweisungen, um sicherzustellen, dass die Betreuung Ihren Vorstellungen entspricht. Sie ermöglicht Ihnen, Prioritäten festzulegen und besondere Wünsche zu kommunizieren, wodurch die Betreuung gezielt auf Ihre Anforderungen abgestimmt wird."
+      },
+      {
+        question: "Wie kann ich mich auf der Plattform einloggen?",
+        answer:
+          "Nachdem Sie Ihre erste Buchung abgeschlossen haben, wird Ihr Konto automatisch erstellt. Um sich anzumelden, klicken Sie einfach auf die Schaltfläche „Login“."
+      },
+      {
+        question: "Wie kann ich mein Passwort ändern?",
+        answer:
+          "Gehen Sie in Ihr Konto und wählen Sie Ihr Profil aus. Dort können Sie Ihr Passwort ändern."
+      },
+      {
+        question: "Was beinhaltet mein Konto?",
+        answer:
+          "Ihr Konto hat 3 Seiten: „Meine Buchungen“, „Profil“ und „Optionen“.\n\n" +
+          "- Die Seite „Meine Buchungen“ ist in zwei Bereiche unterteilt: „vorhergehende“ und „bevorstehende“ Buchungen.\n" +
+          "  - Unter „vorhergehende Buchungen“ können Sie frühere Buchungen bewerten, Details einsehen und Rechnungen herunterladen.\n" +
+          "  - Im Bereich „bevorstehende Buchungen“ sehen Sie alle geplanten Buchungen und können unter dem Dropdown-Menü „mehr“ Änderungen vornehmen.\n\n" +
+          "- Auf der Seite „Profil“ können Sie Ihre persönlichen Daten ändern, eine bestehende Adresse auswählen und Zahlungsdetails aktualisieren. Hier finden Sie auch Ihren persönlichen Empfehlungslink.\n\n" +
+          "- Im Bereich „Optionen“ verwalten Sie Benachrichtigungen, Haustierinformationen, automatische Vertretungen bei Abwesenheiten Ihrer Betreuungskraft und Ihre eigenen Urlaubstage."
+      },
+      {
+        question: "Wo kann ich melden wenn ich im Urlaub bin und keine Betreuung benötige?",
+        answer:
+          "Besuchen Sie Ihr Konto und wählen Sie „Optionen“ aus. Danach gehen Sie zur Sparte „Urlaub“ und klicken auf „Urlaub hinzufügen“."
+      },
+      {
+        question: "Wo habe ich eine Übersicht über meine bevorstehenden und laufenden Buchungen?",
+        answer:
+          "Um Ihre Buchungen zu sehen, müssen Sie in Ihrem Konto eingeloggt sein. Gehen Sie dann auf „Buchungen“ und wählen Sie entweder „Bevorstehend“ oder „Vorhergehend“."
+      },
+      ],
+    },
+     {
+    category: "DRINGENDE FRAGEN",
       questions: [
         {
-          question: "Was genau leistet die Prime Home Care?",
-        answer: `If daily tasks become challenging or if a medical condition requires supervision, professional home care can be beneficial. Wenn ein Familienmitglied oder ein geliebter Mensch pflegebedürftig wird, müssen Angehörige und Freunde oft unter grossem Zeitdruck Betreuung sowie die dafür benötigten Hilfsmittel organisieren. Häusliche Betreuung stellt ein komplexes Thema mit sehr vielen Dimensionen dar: Zum einen geht es um viel Geld und bedeutet für die Betroffenen häufig auch einen Verzehr von Vermögen. Zum anderen gibt es in der Schweiz die rechtliche Dimension, bei der es um die korrekte Gestaltung und Abwicklung von Arbeitsverhältnissen geht. Hierbei ist es zentral, das richtige Betreuungsmodell zu wählen und einen arbeits- und sozialversicherungsrechtlich versierten Partner an seiner Seite zu wissen. Und schliesslich geht es um zwischenmenschliche Aspekte, immerhin leben in einer Betreuungssituation häufig zwei oder mehrere Menschen in einem Haushalt mit einer Pflegehilfe, die häufig vom Ausland anreist. Senioren oder hilfsbedürftige Menschen unter unseren Kunden sowie deren pflegende Angehörige oder Partner wissen zu schätzen, dass sie mit uns alle benötigten Leistungen nahtlos und «wie aus einer Hand» erhalten können und wir zudem zu allen Aspekten der Betreuung optimal beraten können. Wir holen für sie unterschiedliche Angebote von Partnerunternehmen ein und haben stets ein Auge auf die Einhaltung korrekter Anstellungsbedingungen sowie auf alle Rechtsnormen. Auf diese Weise können wir bei der Seniorenbetreuung zuhause zugleich geringe Kosten und eine hohe Qualität sicherstellen. So leisten wir unseren Beitrag dafür, dass sich betroffene Menschen sowohl in ihrem eigenen Haushalt als auch unterwegs 24h am Tag sicher und geborgen fühlen können.`
-        },
+        question: "Ich benötige dringend Hilfe, kann ich kurzfristig eine Betreuung buchen?",
+        answer:
+          "Wenden Sie sich direkt per Telefon, 043 200 10 20 an den Kundendienst. Wir werden unser Bestes tun, um Ihren Bedarf zu erfüllen. Bitte beachten Sie ausserdem, dass dies nicht immer möglich ist und dass ein Aufpreis anfällt."
+      },
+      {
+        question: "Was kann ich tun, wenn meine Betreuungskraft zu spät kommt?",
+        answer:
+          "Sollte sich Ihre Betreuungskraft verspäten, kontaktieren Sie bitte unseren Kundenservice und wir werden unser Bestes tun, um die bestmögliche Lösung für Sie zu finden. Wir entschuldigen uns aufrichtig für die Unannehmlichkeiten."
+      },
+      {
+        question: "Was kann ich tun, wenn meine Betreuungskraft nicht erscheint?",
+        answer:
+          "Bitte kontaktieren Sie uns unter 043 200 10 20, damit wir die Betreuung kostenfrei stornieren und Ihnen die bestmögliche Lösung anbieten können."
+      },
+      {
+        question: "Was kann ich tun, wenn meine Betreuungskraft mehr Zeit benötigt?",
+        answer:
+          "Sollte eine längere Betreuungsdauer notwendig sein, können Sie dies direkt mit der anwesenden Betreuungskraft besprechen. Wenn sie länger bleiben kann, hat die Betreuungskraft sowie Sie die Möglichkeit, die zusätzlichen Stunden direkt in der App anzupassen. Danach werden wir die Dauer und die Verrechnung entsprechend aktualisieren."
+      },
+      {
+        question: "Was kann ich tun, wenn etwas beschädigt wurde?",
+        answer:
+          "Wir bieten Ihnen die Schadenversicherung, Baloise mit Batmaid an. Sie deckt bis zu 1000,- CHF pro Jahr im Falle eines anerkannten Schadens. Wir bitten Sie, ein Bild des beschädigten Gegenstandes zusammen mit einem Kaufbeleg einzureichen. Wenn der Betrag 1000,- CHF übersteigt, werden wir Ihren Fall individuell behandeln und mit der bestmöglichen Lösung auf Sie zurückkommen."
+      },
+      {
+        question: "Was kann ich tun, wenn ich das Gefühl habe, bestohlen worden zu sein?",
+        answer:
+          "Bitte setzen Sie sich umgehend mit uns in Verbindung. Wir werden die Situation mit Ihrer Betreuungskraft besprechen und Sie zeitnah über die nächsten Schritte informieren."
+      },
+      {
+        question: "Was kann ich tun, wenn ich den Schlüssel vergessen habe bereitzulegen?",
+        answer:
+          "Bitte benachrichtigen Sie Ihre Betreuungskraft umgehend. Beachten Sie bitte, dass in diesem Fall der volle Betrag berechnet wird, um die Betreuungskraft zu entschädigen."
+      },
+      {
+        question: "Wie erreiche ich die Prime Home Care AG am besten?",
+        answer:
+          "Wenn Sie Fragen haben, können Sie uns eine E-Mail an info@phc.ch senden oder uns unter der Nummer 043 200 10 20 anrufen. Wir nehmen Ihre Anrufe von Montag bis Freitag, zwischen 8:30 und 11:00 und 13:30 und 16:00 Uhr, entgegen."
+      },
+      ],
+    },
+    {
+    category: "MEINE ZAHLUNGEN",
+      questions: [
         {
-          question: "Can I choose the person who will provide my care?",
-          answer:
-            "Yes, we match caregivers based on your specific needs and preferences.",
-        },
-        {
-          question: "How do I provide feedback about the person care I receive?",
-          answer:
-            "You can provide feedback through our customer support or by filling out a review form on our website.",
-        },
-        {
-          question:
-            "Can your caregivers assist with medication management?",
-          answer:
-            "Yes, our caregivers are trained to assist with medication reminders and basic management.",
-        },
+        question: "Zahlungsabwicklung, wie funktioniert dies genau?",
+        answer:
+          "Die Zahlungsabwicklung bei Prime Home Care AG erfolgt unkompliziert und sicher. Sie benötigen eine gültige Kreditkarte, um unsere Dienstleistungen in Anspruch zu nehmen. Der Betrag wird 24 Stunden nach der Betreuung automatisch von Ihrer Kreditkarte abgebucht. So stellen wir sicher, dass die Zahlung bequem und rechtzeitig erfolgt. "
+      },
+      {
+        question: "Welche Zahlungsmethoden stehen mir zur Verfügung? ",
+        answer:
+          "Sie können alle gängigen Kreditkarten als Zahlungsmethode verwenden. Dazu gehören Visa, MasterCard, American Express"
+      },
+      {
+        question: "Kann ich meine Zahlungsmethode anpassen? ",
+        answer:
+          "Ja, dies können Sie auf unserer online Plattform in Ihrem Kundenkonto unter Zahlungen unkompliziert und schnell erledigen "
+      },
+      {
+        question: "Stundenweise Seniorenbetreuung: Was bedeutet das? ",
+        answer:
+          "Stundenweise Seniorenbetreuung bezieht sich auf eine Art von Pflege- und Unterstützungsdienst, bei dem Betreuungspersonen für eine bestimmte Anzahl von Stunden pro Tag oder Woche bei hilfsbedürftigen Menschen zu Hause im Einsatz sind. "
+      },
+      {
+  question: "Flexible Einsatzzeiten",
+  answer:
+    "Die Betreuung erfolgt nicht rund um die Uhr, sondern für eine im Voraus festgelegte Anzahl von Stunden, die je nach Bedarf variieren kann. Dies kann täglich, mehrmals pro Woche oder auch nur gelegentlich sein."
+},
+{
+  question: "Individuell angepasste Unterstützung",
+  answer:
+    "Die Betreuungsleistungen werden auf die individuellen Bedürfnisse zugeschnitten. Dazu können Aufgaben wie Unterstützung bei der Körperpflege, Haushaltsarbeiten, Begleitung zu Arztterminen oder einfach Gesellschaft leisten gehören."
+},
+{
+  question: "Entlastung für Angehörige",
+  answer:
+    "Stundenweise Betreuung kann Angehörigen eine dringend benötigte Pause bieten und sie unterstützen, wenn sie selbst Verpflichtungen haben. Es ermöglicht Familienmitgliedern, ihre eigenen Aufgaben und Freizeitaktivitäten zu bewältigen, während sie wissen, dass ihr Familienmitglied bestens versorgt ist."
+},
+{
+  question: "Erhaltung der Selbstständigkeit",
+  answer:
+    "Diese Art der stundenweisen Betreuung hilft Senioren, so lange wie möglich in ihrer vertrauten Umgebung zu bleiben. Sie erhalten die Unterstützung, die sie benötigen, ohne vollständig auf Fremdpflege angewiesen zu sein."
+},
+{
+  question: "Soziale Interaktion",
+  answer:
+    "Stundenweise Betreuungsmitarbeiter bieten nicht nur praktische Hilfe im eigenen Zuhause, sondern auch soziale Interaktionen, die für das emotionale Wohlbefinden sehr wichtig ist. Gemeinsame Aktivitäten wie Gespräche, Spaziergänge oder Spiele können Einsamkeit und Isolation reduzieren. Insgesamt bietet die stundenweise Seniorenbetreuung eine flexible und bedarfsgerechte Lösung für Menschen und ihre Familien, um Unterstützung und Entlastung im Alltag zu erhalten."
+}
+,
       ],
     },
   ];
@@ -152,53 +363,9 @@ export default function FAQ() {
           </div>
         ))}
       </div>
-      <div className="bg-[#ECF2FF] rounded-[20px] p-6 lg:p-10 max-w-[800px] mx-auto mt-16">
-  <h4 className="text-[#04436F] text-[24px] font-semibold mb-6 text-center">
-    Falls Sie die Antwort auf Ihre Frage nicht finden, kontaktieren Sie uns gerne über das Kontaktformular
-  </h4>
-
-  <form className="space-y-6">
-    {/* Name */}
-    <div>
-      <label className="block text-[#04436F] text-[16px] font-medium mb-2">Ihre Name</label>
-      <input
-        type="text"
-        placeholder="Max Mustermann"
-        className="w-full rounded-[10px] p-3 border border-[#D1D5DB] focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-      />
-    </div>
-
-    {/* Email */}
-    <div>
-      <label className="block text-[#04436F] text-[16px] font-medium mb-2">Ihre E-Mail</label>
-      <input
-        type="email"
-        placeholder="max@email.ch"
-        className="w-full rounded-[10px] p-3 border border-[#D1D5DB] focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-      />
-    </div>
-
-    {/* Question */}
-    <div>
-      <label className="block text-[#04436F] text-[16px] font-medium mb-2">Ihre Frage</label>
-      <textarea
-        rows="5"
-        placeholder="Stellen Sie uns Ihre Frage..."
-        className="w-full rounded-[10px] p-3 border border-[#D1D5DB] focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-      ></textarea>
-    </div>
-
-    {/* Submit Button */}
-    <button
-      type="submit"
-      className="w-full bg-[#B99B5F] text-white text-[16px] font-semibold py-3 rounded-[10px] hover:bg-[#a48852] transition-colors"
-    >
-      Absenden
-    </button>
-  </form>
-</div>
+  
 <p className="text-[#04436F] text-[18px] font-medium leading-[28px] text-center mt-16">
-  Falls Sie die Antwort auf Ihre Frage nicht finden, kontaktieren Sie uns gerne über das <a href="/kontakt" className="underline hover:text-[#B99B5F] transition-colors">Kontaktformular</a>.
+  Falls Sie die Antwort auf Ihre Frage nicht finden, kontaktieren Sie uns gerne über das <a href="/contact" className="underline hover:text-[#B99B5F] transition-colors">Kontaktformular</a>.
 </p>
 
     </div>
