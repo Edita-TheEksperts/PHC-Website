@@ -86,7 +86,7 @@ const SummaryRow = ({ label, value }) => (
 );
 
   const inputClass =
-    "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500 mt-1";
+    "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F] placeholder-gray-500 mt-1";
 
   const validateStep = () => {
   if (step === 1) {
@@ -598,14 +598,14 @@ const handlePasswordChange = (e) => {
 return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
       <div className="flex-1 space-y-8">
-        <div className="flex justify-between text-base font-medium text-[#04436F]">
+        <div className="flex justify-between text-base font-medium text-[#B99B5F]">
           {steps.map((label, i) => (
             <div key={i} className="flex-1 flex items-center gap-2">
               <div
                 className={`w-7 h-7 flex items-center justify-center rounded-full border-2 ${
                   step > i
-                    ? "bg-[#04436F] text-white"
-                    : "border-[#04436F] text-[#04436F]"
+                    ? "bg-[#B99B5F] text-white"
+                    : "border-[#B99B5F] text-[#B99B5F]"
                 } text-sm font-bold`}
               >
                 {i + 1}
@@ -639,7 +639,7 @@ return (
           setForm((prev) => ({ ...prev, services: updated }));
         }}
         className={`px-4 py-2 border rounded-lg ${
-          isSelected ? "bg-[#04436F] text-white" : "bg-white text-gray-800"
+          isSelected ? "bg-[#B99B5F] text-white" : "bg-white text-gray-800"
         }`}
       >
         {srv.name}
@@ -660,7 +660,7 @@ return (
                         onClick={() => setForm({ ...form, frequency: option })}
                         className={`px-4 py-3 rounded-lg border text-center w-[140px] ${
                           form.frequency === option
-                            ? "border-[#04436F] text-[#04436F] font-semibold"
+                            ? "border-[#B99B5F] text-[#B99B5F] font-semibold"
                             : "border-gray-300 text-gray-800"
                         }`}
                       >
@@ -840,7 +840,7 @@ const currentSub = Array.isArray(prev.subServices) ? prev.subServices : [];
 }
 
             className={`flex flex-col items-center justify-center p-4 border rounded-xl text-center space-y-2 ${
-              isSelected ? "border-[#04436F] bg-[#f0f9ff]" : "border-gray-300"
+              isSelected ? "border-[#B99B5F] bg-[#f0f9ff]" : "border-gray-300"
             }`}
           >
             <span className="font-medium">{sub.name}</span>
@@ -870,7 +870,7 @@ onChange={(date) => {
   locale={de}
   placeholderText="TT.MM.JJJJ"
   minDate={tenDaysFromToday} // ✅ block all before 10 days from today
-  className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F]"
+  className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
   calendarClassName="rounded-xl shadow-lg border border-gray-300"
   wrapperClassName="w-full"
 />
@@ -889,7 +889,7 @@ onChange={(date) => {
       <p>
         Bereits registriert?{" "}
         <span
-          className="text-[#04436F] font-semibold cursor-pointer underline"
+          className="text-[#B99B5F] font-semibold cursor-pointer underline"
           onClick={() => router.push("/login")}
         >
           Hier einloggen
@@ -1196,7 +1196,7 @@ onChange={(date) => {
       <label className="block text-sm font-medium text-gray-700">Chreditkarte-Informatione</label>
 
       <div className="relative">
-        <div className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm text-base focus-within:ring-2 focus-within:ring-[#04436F]">
+        <div className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm text-base focus-within:ring-2 focus-within:ring-[#B99B5F]">
           <CardElement
             options={{
               style: {
@@ -1226,13 +1226,13 @@ onChange={(date) => {
           className="mt-1"
         />
         <label htmlFor="agb" className="text-sm text-gray-700">
-          Ich ha d’ <a href="/agb" className="underline text-[#04436F]">AGB</a> gläse und bim i dermit iiverschtande.
+          Ich ha d’ <a href="/agb" className="underline text-[#B99B5F]">AGB</a> gläse und bim i dermit iiverschtande.
         </label>
       </div>
     </div>
 
     {isSubmitted && (
-      <p className="text-[#04436F] mt-4 font-medium">
+      <p className="text-[#B99B5F] mt-4 font-medium">
         ✓ Registrierig erfolgrich!
       </p>
     )}
@@ -1321,7 +1321,7 @@ onChange={(date) => {
           >
             <input
               type="checkbox"
-              className="w-5 h-5 accent-[#04436F]"
+              className="w-5 h-5 accent-[#B99B5F]"
               checked={form.arrivalConditions?.includes(option)}
               onChange={() => toggleCheckbox("arrivalConditions", option)}
             />
@@ -1362,7 +1362,7 @@ onChange={(date) => {
 
 
           {/* Mobilität & Transport */}
-          <div>
+<div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
             <h3 className="font-bold  text-[20px] mb-2 mt-8">Mobilität</h3>
         <div className="mt-4">
   <p className="font-semibold text-gray-800 mb-2">Verfügbare Hilfsmittel</p>
@@ -1371,7 +1371,7 @@ onChange={(date) => {
       <label key={aid} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.mobilityAids?.includes(aid)}
           onChange={() => toggleCheckbox("mobilityAids", aid)}
         />
@@ -1405,7 +1405,7 @@ onChange={(date) => {
       <label key={term} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.accompanimentAppointments?.includes(term)}
           onChange={() => {
             const updated = new Set(form.accompanimentAppointments || []);
@@ -1452,7 +1452,7 @@ onChange={(date) => {
       <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.shoppingItems?.includes(item)}
           onChange={() => {
             const updated = new Set(form.shoppingItems || []);
@@ -1528,7 +1528,7 @@ onChange={(date) => {
       <label key={trip} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.trips?.includes(trip)}
           onChange={() => {
             const updated = new Set(form.trips || []);
@@ -1570,7 +1570,7 @@ onChange={(date) => {
       <label key={cond} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.physicalCondition?.includes(cond)}
           onChange={() => {
             const updated = new Set(form.physicalCondition || []);
@@ -1602,7 +1602,7 @@ onChange={(date) => {
       <label key={tool} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.careTools?.includes(tool)}
           onChange={() => {
             const updated = new Set(form.careTools || []);
@@ -1634,7 +1634,7 @@ onChange={(date) => {
       <label key={inc} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.incontinence?.includes(inc)}
           onChange={() => {
             const updated = new Set(form.incontinence || []);
@@ -1676,7 +1676,7 @@ onChange={(date) => {
       <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.nutritionSupport?.includes(item)}
           onChange={() => {
             const updated = new Set(form.nutritionSupport || []);
@@ -1700,7 +1700,7 @@ onChange={(date) => {
       <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.basicCare?.includes(item)}
           onChange={() => {
             const updated = new Set(form.basicCare || []);
@@ -1731,7 +1731,7 @@ onChange={(date) => {
       <label key={act} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.healthPromotion?.includes(act)}
           onChange={() => {
             const updated = new Set(form.healthPromotion || []);
@@ -1774,7 +1774,7 @@ onChange={(date) => {
       <label key={diag} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.diagnoses?.includes(diag)}
           onChange={() => {
             const updated = new Set(form.diagnoses || []);
@@ -1801,7 +1801,7 @@ onChange={(date) => {
       <label key={trait} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#04436F]"
+          className="w-5 h-5 accent-[#B99B5F]"
           checked={form.behaviorTraits?.includes(trait)}
           onChange={() => {
             const updated = new Set(form.behaviorTraits || []);
@@ -1876,11 +1876,11 @@ onChange={(date) => {
               </button>
             )}
 {step < steps.length ? (
-  <button type="button" onClick={handleNext} className="px-6 py-3 bg-[#04436F] text-white rounded-lg">
+  <button type="button" onClick={handleNext} className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg">
     Weiter
   </button>
 ) : (
-  <button type="submit" className="px-6 py-3 bg-[#04436F] text-white rounded-lg">
+  <button type="submit" className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg">
     Registrierung abschliessen
   </button>
 )}
