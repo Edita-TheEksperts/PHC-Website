@@ -13,7 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
 
 export default function RegisterPage() {
-    const testMode = false; 
+    const testMode = true; 
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -1360,175 +1360,211 @@ onChange={(date) => {
 </div>
 
 
-
-          {/* Mobilität & Transport */}
 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
-            <h3 className="font-bold  text-[20px] mb-2 mt-8">Mobilität</h3>
-        <div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Verfügbare Hilfsmittel</p>
-  <div className="flex flex-wrap items-center gap-6">
-    {["Rollstuhl", "Rollator", "Gehstock"].map((aid) => (
-      <label key={aid} className="inline-flex items-center gap-2 text-sm text-gray-800">
-        <input
-          type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
-          checked={form.mobilityAids?.includes(aid)}
-          onChange={() => toggleCheckbox("mobilityAids", aid)}
-        />
-        <span>{aid}</span>
-      </label>
-    ))}
-  </div>
-</div>
+  {/* Main Section Title */}
+  <h2 className="text-[22px] font-bold mb-6"> Alltagsbegleitung & Besorgungen</h2>
 
-            <div className="mt-4">
-              <label className="block font-semibold mb-1">Transportmittel</label>
-              <select name="transportOption" value={form.transportOption || ""} onChange={handleChange} className={inputClass}>
-                <option value="">Bitte wählen</option>
-                <option value="Eigenes Auto">Eigenes Auto</option>
-                <option value="Fahrzeug durch Mitarbeitende">Fahrzeug durch Mitarbeitende (CHF 1/km)</option>
-                <option value="Öffentliche Verkehrsmittel">Öffentliche Verkehrsmittel (Kosten übernimmt Kunde)</option>
-                <option value="Taxi">Taxi</option>
-              </select>
-            </div>
-          </div>
-      {/* Alltagsbegleitung & Besorgungen */}
-      <div>
-        <h3 className="font-bold  text-[20px] mb-2">Alltagsbegleitung & Besorgungen</h3>
+  {/* 🔹 Mobilität */}
+  <h3 className="text-[18px] font-semibold mb-2">Mobilität</h3>
 
-        {/* Begleitung zu Terminen */}
-    <div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Begleitung zu Terminen</p>
-
-  <div className="flex flex-wrap items-center gap-6">
-    {["Arzt", "Physiotherapie", "Behördengänge"].map((term) => (
-      <label key={term} className="inline-flex items-center gap-2 text-sm text-gray-800">
-        <input
-          type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
-          checked={form.accompanimentAppointments?.includes(term)}
-          onChange={() => {
-            const updated = new Set(form.accompanimentAppointments || []);
-            updated.has(term) ? updated.delete(term) : updated.add(term);
-            setForm((prev) => ({ ...prev, accompanimentAppointments: Array.from(updated) }));
-          }}
-        />
-        <span>{term}</span>
-      </label>
-    ))}
+  {/* Verfügbare Hilfsmittel */}
+  <div className="mb-4">
+    <p className="font-medium text-gray-800 mb-2">Verfügbare Hilfsmittel</p>
+    <div className="flex flex-wrap gap-6">
+      {["Rollstuhl", "Rollator", "Gehstock"].map((aid) => (
+        <label key={aid} className="inline-flex items-center gap-2 text-sm text-gray-800">
+          <input
+            type="checkbox"
+            className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+            checked={form.mobilityAids?.includes(aid)}
+            onChange={() => toggleCheckbox("mobilityAids", aid)}
+          />
+          <span>{aid}</span>
+        </label>
+      ))}
+    </div>
   </div>
 
-  {/* Optional: "Sonstiges" field */}
-  <div className="mt-4">
-    <label htmlFor="accompanimentOther" className="block font-medium text-gray-700 mb-1">
-      Weitere Termine oder Hinweise
-    </label>
-    <input
-      id="accompanimentOther"
-      name="accompanimentOther"
-      placeholder="Sonstiges"
-      value={form.accompanimentOther || ""}
+  {/* Transportmittel Auswahl */}
+  <div className="mb-6">
+    <label className="block font-medium text-gray-800 mb-1">Transportmittel</label>
+    <select
+      name="transportOption"
+      value={form.transportOption || ""}
       onChange={handleChange}
-      className={inputClass}
+      className="bg-white border border-gray-300 rounded-md p-3 w-full"
+    >
+      <option value="">Bitte wählen</option>
+      <option value="Eigenes Auto">Eigenes Auto</option>
+      <option value="Fahrzeug durch Mitarbeitende">Fahrzeug durch Mitarbeitende (CHF 1.--/km)</option>
+      <option value="Öffentliche Verkehrsmittel">Öffentliche Verkehrsmittel (Kosten übernimmt Kunde)</option>
+      <option value="Taxi">Taxi</option>
+    </select>
+  </div>
+
+  {/* 🔹 Begleitung zu Terminen */}
+  <h3 className="text-[18px] font-semibold mb-2">Begleitung zu Terminen</h3>
+
+  {/* Checkboxen + Sonstiges */}
+  <div className="mb-6">
+    <div className="flex flex-wrap gap-6">
+      {["Arzt", "Physiotherapie", "Behördengänge"].map((term) => (
+        <label key={term} className="inline-flex items-center gap-2 text-sm text-gray-800">
+          <input
+            type="checkbox"
+            className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+            checked={form.accompanimentAppointments?.includes(term)}
+            onChange={() => {
+              const updated = new Set(form.accompanimentAppointments || []);
+              updated.has(term) ? updated.delete(term) : updated.add(term);
+              setForm((prev) => ({ ...prev, accompanimentAppointments: Array.from(updated) }));
+            }}
+          />
+          <span>{term}</span>
+        </label>
+      ))}
+    </div>
+
+    {/* Textfield für Sonstiges */}
+    <div className="mt-4">
+      <input
+        name="accompanimentOther"
+        placeholder="Sonstiges"
+        value={form.accompanimentOther || ""}
+        onChange={handleChange}
+        className="bg-white border border-gray-300 rounded-md p-3 w-full"
+      />
+    </div>
+  </div>
+
+  {/* 🔹 Einkäufe */}
+  <h3 className="text-[18px] font-semibold mb-2">Einkäufe</h3>
+
+  {/* Begleitung durch Kunde */}
+  <div className="mb-4">
+    <label className="block font-medium text-gray-800 mb-1">Begleitung durch Kunde?</label>
+    <select
+      name="shoppingWithClient"
+      value={form.shoppingWithClient || ""}
+      onChange={handleChange}
+      className="bg-white border border-gray-300 rounded-md p-3 w-full"
+    >
+      <option value="">Bitte auswählen</option>
+      <option value="Ja">Ja</option>
+      <option value="Nein">Nein</option>
+    </select>
+  </div>
+
+  {/* Art der Einkäufe */}
+  <div className="mb-6">
+    <p className="font-medium text-gray-800 mb-2">Art der Einkäufe</p>
+    <div className="flex flex-wrap gap-6">
+      {["Lebensmittel", "Apotheke", "Garten", "Kleidung"].map((item) => (
+        <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
+          <input
+            type="checkbox"
+            className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+            checked={form.shoppingItems?.includes(item)}
+            onChange={() => {
+              const updated = new Set(form.shoppingItems || []);
+              updated.has(item) ? updated.delete(item) : updated.add(item);
+              setForm((prev) => ({ ...prev, shoppingItems: Array.from(updated) }));
+            }}
+          />
+          <span>{item}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  {/* 🔹 Postgänge */}
+  <h3 className="text-[18px] font-semibold mb-2">Postgänge</h3>
+
+  <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input
+      name="mailboxKeyLocation"
+      placeholder="Wo ist der Briefkastenschlüssel?"
+      value={form.mailboxKeyLocation || ""}
+      onChange={handleChange}
+      className="bg-white border border-gray-300 rounded-md p-3 w-full"
+    />
+    <input
+      name="mailboxDetails"
+      placeholder="Welches Postfach?"
+      value={form.mailboxDetails || ""}
+      onChange={handleChange}
+      className="bg-white border border-gray-300 rounded-md p-3 w-full"
+    />
+  </div>
+
+  {/* 🔹 Weitere Begleitungen */}
+  <h3 className="text-[18px] font-semibold mb-2">Weitere Begleitungen</h3>
+
+  <div>
+    <textarea
+      name="additionalAccompaniment"
+      value={form.additionalAccompaniment || ""}
+      onChange={handleChange}
+      placeholder="Details hier eintragen"
+      className="bg-white border border-gray-300 rounded-md p-3 w-full"
     />
   </div>
 </div>
 
+      {/* Freizeit & soziale Aktivitäten */}
+     <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
+  {/* Main Section Title */}
+  <h2 className="text-[22px] font-bold mb-6"> Freizeit & soziale Aktivitäten</h2>
 
-        {/* Einkäufe */}
-        <div className="mt-4">
-          <label className="block font-semibold mb-1">Begleitung durch Kunde?</label>
-          <select name="shoppingWithClient" value={form.shoppingWithClient || ""} onChange={handleChange} className={inputClass}>
-            <option value="">Bitte auswählen</option>
-            <option value="Ja">Ja</option>
-            <option value="Nein">Nein</option>
-          </select>
-        </div>
-<div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Art der Einkäufe</p>
+  {/* 🔹 Aktivitäten */}
+  <h3 className="text-[18px] font-semibold mb-4">Aktivitäten</h3>
 
-  <div className="flex flex-wrap items-center gap-6">
-    {["Lebensmittel", "Apotheke", "Garten", "Kleidung"].map((item) => (
-      <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
-        <input
-          type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
-          checked={form.shoppingItems?.includes(item)}
-          onChange={() => {
-            const updated = new Set(form.shoppingItems || []);
-            updated.has(item) ? updated.delete(item) : updated.add(item);
-            setForm((prev) => ({ ...prev, shoppingItems: Array.from(updated) }));
-          }}
-        />
-        <span>{item}</span>
-      </label>
+  <div className="space-y-6">
+    {[
+      ["Gesellschaft leisten", "companionship"],
+      ["Gemeinsames Kochen", "cookingTogether"],
+      ["Allergien?", "hasAllergies"],
+      ["Biografiearbeit", "biographyWork"],
+      ["Technische Mittel vorhanden?", "hasTech"],
+      ["Vorlesen", "reading"],
+      ["Kartenspiele", "cardGames"]
+    ].map(([label, name]) => (
+      <div key={name}>
+        <label className="block font-medium text-gray-800 mb-1">{label}</label>
+        <select
+          name={name}
+          value={form[name] || ""}
+          onChange={handleChange}
+          className="bg-white border border-gray-300 rounded-md p-3 w-full"
+        >
+          <option value="">Bitte auswählen</option>
+          <option value="Ja">Ja</option>
+          <option value="Nein">Nein</option>
+        </select>
+
+        {/* Conditional input if "hasAllergies" is Ja */}
+        {name === "hasAllergies" && form.hasAllergies === "Ja" && (
+          <input
+            name="allergyDetails"
+            placeholder="Welche?"
+            value={form.allergyDetails || ""}
+            onChange={handleChange}
+            className="bg-white border border-gray-300 rounded-md p-3 w-full mt-2"
+          />
+        )}
+      </div>
     ))}
   </div>
-</div>
 
-
-        {/* Postgänge */}
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            name="mailboxKeyLocation"
-            placeholder="Wo ist der Briefkastenschlüssel?"
-            value={form.mailboxKeyLocation || ""}
-            onChange={handleChange}
-            className={inputClass}
-          />
-          <input
-            name="mailboxDetails"
-            placeholder="Welches Postfach?"
-            value={form.mailboxDetails || ""}
-            onChange={handleChange}
-            className={inputClass}
-          />
-        </div>
-
-        {/* Weitere Begleitungen */}
-        <div className="mt-4">
-          <label className="block font-semibold mb-1">Weitere Begleitungen</label>
-          <textarea name="additionalAccompaniment" value={form.additionalAccompaniment || ""} onChange={handleChange} className={inputClass} />
-        </div>
-      </div>
-
-      {/* Freizeit & soziale Aktivitäten */}
-      <div>
-        <h3 className="font-bold  text-[20px] mb-2">Freizeit & soziale Aktivitäten</h3>
-
-        <div className="space-y-4">
-          {[
-            ["Gesellschaft leisten", "companionship"],
-            ["Gemeinsames Kochen", "cookingTogether"],
-            ["Allergien?", "hasAllergies"],
-            ["Biografiearbeit", "biographyWork"],
-            ["Technische Mittel vorhanden?", "hasTech"],
-            ["Vorlesen", "reading"],
-            ["Kartenspiele", "cardGames"]
-          ].map(([label, name]) => (
-            <div key={name}>
-              <label className="block font-semibold mb-1">{label}</label>
-              <select name={name} value={form[name] || ""} onChange={handleChange} className={inputClass}>
-                <option value="">Bitte auswählen</option>
-                <option value="Ja">Ja</option>
-                <option value="Nein">Nein</option>
-              </select>
-              {name === "hasAllergies" && form.hasAllergies === "Ja" && (
-                <input name="allergyDetails" placeholder="Welche?" value={form.allergyDetails || ""} onChange={handleChange} className={inputClass + " mt-2"} />
-              )}
-            </div>
-          ))}
-
-          {/* Ausflüge & Reisebegleitung */}
-       <div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Ausflüge & Reisebegleitung</p>
+  {/* 🔹 Ausflüge & Reisebegleitung */}
+  <h3 className="text-[18px] font-semibold mt-8 mb-2">Ausflüge & Reisebegleitung</h3>
 
   <div className="flex flex-wrap items-center gap-6">
     {["Theaterbesuch", "Kinobesuch", "Konzertbesuch", "Fussballspiel", "Urlaubsbegleitung"].map((trip) => (
       <label key={trip} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.trips?.includes(trip)}
           onChange={() => {
             const updated = new Set(form.trips || []);
@@ -1542,53 +1578,64 @@ onChange={(date) => {
   </div>
 </div>
 
-        </div>
-      </div>
 
-      {/* Gesundheitsfürsorge */}
-      <div>
-        <h3 className="font-bold  text-[20px] mb-2">Gesundheitsfürsorge</h3>
+    <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
+  {/* Main Title */}
+  <h2 className="text-[22px] font-bold mb-6"> Gesundheitsfürsorge</h2>
 
-        {/* Körperliche Unterstützung */}
-        <div className="grid grid-cols-2 gap-4">
-          <input type="number" name="height" placeholder="Grösse (cm)" value={form.height || ""} onChange={handleChange} className={inputClass} />
-          <input type="number" name="weight" placeholder="Gewicht (kg)" value={form.weight || ""} onChange={handleChange} className={inputClass} />
-        </div>
-
-       <div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Zustand</p>
-
-  <div className="flex flex-wrap items-center gap-6">
-    {[
-      "Vollständig mobil",
-      "Sturzgefährdet",
-      "Bettlägerig",
-      "Hilfe beim Aufstehen",
-      "Hilfe beim Toilettengang",
-      "Hilfe beim Umlagern, kann sich nicht selbständig bewegen"
-    ].map((cond) => (
-      <label key={cond} className="inline-flex items-center gap-2 text-sm text-gray-800">
-        <input
-          type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
-          checked={form.physicalCondition?.includes(cond)}
-          onChange={() => {
-            const updated = new Set(form.physicalCondition || []);
-            updated.has(cond) ? updated.delete(cond) : updated.add(cond);
-            setForm((prev) => ({ ...prev, physicalCondition: Array.from(updated) }));
-          }}
-        />
-        <span>{cond}</span>
-      </label>
-    ))}
+  {/* 🔹 Körperliche Unterstützung */}
+  <h3 className="text-[18px] font-semibold mb-2">Körperliche Unterstützung</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    <input
+      type="number"
+      name="height"
+      placeholder="Grösse (cm)"
+      value={form.height || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+    <input
+      type="number"
+      name="weight"
+      placeholder="Gewicht (kg)"
+      value={form.weight || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
   </div>
-</div>
 
+  {/* Zustand */}
+  <div className="mb-6">
+    <p className="font-semibold text-gray-800 mb-2">Zustand</p>
+    <div className="flex flex-wrap gap-6">
+      {[
+        "Vollständig mobil",
+        "Sturzgefährdet",
+        "Bettlägerig",
+        "Hilfe beim Aufstehen",
+        "Hilfe beim Toilettengang",
+        "Hilfe beim Umlagern, kann sich nicht selbständig bewegen"
+      ].map((cond) => (
+        <label key={cond} className="inline-flex items-center gap-2 text-sm text-gray-800">
+          <input
+            type="checkbox"
+            className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+            checked={form.physicalCondition?.includes(cond)}
+            onChange={() => {
+              const updated = new Set(form.physicalCondition || []);
+              updated.has(cond) ? updated.delete(cond) : updated.add(cond);
+              setForm((prev) => ({ ...prev, physicalCondition: Array.from(updated) }));
+            }}
+          />
+          <span>{cond}</span>
+        </label>
+      ))}
+    </div>
+  </div>
 
-<div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Vorhandene Hilfsmittel</p>
-
-  <div className="flex flex-wrap items-center gap-6">
+  {/* 🔹 Vorhandene Hilfsmittel */}
+  <h3 className="text-[18px] font-semibold mb-2">Vorhandene Hilfsmittel</h3>
+  <div className="mb-4 flex flex-wrap gap-6">
     {[
       "Gehstock",
       "Rollator",
@@ -1602,7 +1649,7 @@ onChange={(date) => {
       <label key={tool} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.careTools?.includes(tool)}
           onChange={() => {
             const updated = new Set(form.careTools || []);
@@ -1614,27 +1661,22 @@ onChange={(date) => {
       </label>
     ))}
   </div>
-
   <input
     name="careToolsOther"
     placeholder="Sonstige"
     value={form.careToolsOther || ""}
     onChange={handleChange}
-    className={inputClass + " mt-4"}
+    className={inputClass + " mb-6"}
   />
-</div>
 
-
-        {/* Inkontinenz */}
-        <div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Inkontinenz</p>
-
-  <div className="flex flex-wrap items-center gap-6">
+  {/* 🔹 Inkontinenz */}
+  <h3 className="text-[18px] font-semibold mb-2">Inkontinenz</h3>
+  <div className="mb-6 flex flex-wrap gap-6">
     {["Urin", "Stuhl", "Dauerkatheter", "Stoma"].map((inc) => (
       <label key={inc} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.incontinence?.includes(inc)}
           onChange={() => {
             const updated = new Set(form.incontinence || []);
@@ -1646,26 +1688,29 @@ onChange={(date) => {
       </label>
     ))}
   </div>
-</div>
 
+  {/* 🔹 Kommunikation */}
+  <h3 className="text-[18px] font-semibold mb-2">Kommunikation</h3>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    {["vision", "hearing", "speaking"].map((field) => (
+      <select
+        key={field}
+        name={field}
+        value={form[field] || ""}
+        onChange={handleChange}
+        className={inputClass}
+      >
+        <option value="">{field.charAt(0).toUpperCase() + field.slice(1)}...</option>
+        <option value="Keine Probleme">Keine Probleme</option>
+        <option value="Eingeschränkt">Eingeschränkt</option>
+        <option value="Nahezu blind/taub">Nahezu blind/taub</option>
+      </select>
+    ))}
+  </div>
 
-        {/* Kommunikation */}
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {["vision", "hearing", "speaking"].map((field) => (
-            <select key={field} name={field} value={form[field] || ""} onChange={handleChange} className={inputClass}>
-              <option value="">{field.charAt(0).toUpperCase() + field.slice(1)}...</option>
-              <option value="Keine Probleme">Keine Probleme</option>
-              <option value="Eingeschränkt">Eingeschränkt</option>
-              <option value="Nahezu blind/taub">Nahezu blind/taub</option>
-            </select>
-          ))}
-        </div>
-
-        {/* Nahrungsaufnahme */}
-<div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Nahrungsaufnahme</p>
-
-  <div className="flex flex-wrap items-center gap-6">
+  {/* 🔹 Nahrungsaufnahme */}
+  <h3 className="text-[18px] font-semibold mb-2">Nahrungsaufnahme</h3>
+  <div className="mb-6 flex flex-wrap gap-6">
     {[
       "Unterstützung notwendig",
       "Nahrung anreichen notwendig",
@@ -1676,7 +1721,7 @@ onChange={(date) => {
       <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.nutritionSupport?.includes(item)}
           onChange={() => {
             const updated = new Set(form.nutritionSupport || []);
@@ -1688,19 +1733,15 @@ onChange={(date) => {
       </label>
     ))}
   </div>
-</div>
 
-
-        {/* Grundpflege */}
-      <div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Grundpflege</p>
-
-  <div className="flex flex-wrap items-center gap-6">
+  {/* 🔹 Grundpflege */}
+  <h3 className="text-[18px] font-semibold mb-2">Grundpflege</h3>
+  <div className="mb-4 flex flex-wrap gap-6">
     {["Körperhygiene", "An-/Auskleiden"].map((item) => (
       <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.basicCare?.includes(item)}
           onChange={() => {
             const updated = new Set(form.basicCare || []);
@@ -1712,26 +1753,22 @@ onChange={(date) => {
       </label>
     ))}
   </div>
-
   <input
     name="basicCareOther"
     placeholder="Sonstige"
     value={form.basicCareOther || ""}
     onChange={handleChange}
-    className={inputClass + " mt-4"}
+    className={inputClass + " mb-6"}
   />
-</div>
 
-
-<div className="mt-4">
-  <p className="font-semibold text-gray-800 mb-2">Gesundheitsförderung</p>
-
-  <div className="flex flex-wrap items-center gap-6">
+  {/* 🔹 Gesundheitsförderung */}
+  <h3 className="text-[18px] font-semibold mb-2">Gesundheitsförderung</h3>
+  <div className="mb-4 flex flex-wrap gap-6">
     {["Gymnastik", "Spaziergänge", "Aktivierende Betreuung"].map((act) => (
       <label key={act} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.healthPromotion?.includes(act)}
           onChange={() => {
             const updated = new Set(form.healthPromotion || []);
@@ -1743,38 +1780,38 @@ onChange={(date) => {
       </label>
     ))}
   </div>
-
   <input
     name="healthPromotionOther"
     placeholder="Sonstige"
     value={form.healthPromotionOther || ""}
     onChange={handleChange}
-    className={inputClass + " mt-4"}
+    className={inputClass + " mb-6"}
   />
-</div>
 
-
-    <div className="mt-4">
-  <label className="block font-semibold text-gray-800 mb-1">Geistige Unterstützung notwendig?</label>
-  <select
-    name="mentalSupportNeeded"
-    value={form.mentalSupportNeeded || ""}
-    onChange={handleChange}
-    className={inputClass}
-  >
-    <option value="">Bitte auswählen</option>
-    <option value="Ja">Ja</option>
-    <option value="Nein">Nein</option>
-  </select>
+  {/* 🔹 Geistige Unterstützung */}
+  <h3 className="text-[18px] font-semibold mb-2">Geistige Unterstützung</h3>
+  <div className="mb-4">
+    <label className="block font-medium text-gray-800 mb-1">Notwendig?</label>
+    <select
+      name="mentalSupportNeeded"
+      value={form.mentalSupportNeeded || ""}
+      onChange={handleChange}
+      className={inputClass}
+    >
+      <option value="">Bitte auswählen</option>
+      <option value="Ja">Ja</option>
+      <option value="Nein">Nein</option>
+    </select>
+  </div>
 
   {/* Diagnosen */}
-  <p className="font-semibold text-gray-800 mt-4 mb-1">Diagnosen</p>
-  <div className="flex flex-wrap items-center gap-6">
+  <p className="font-semibold text-gray-800 mb-2">Diagnosen</p>
+  <div className="mb-6 flex flex-wrap gap-6">
     {["Depression", "Demenz", "Alzheimer"].map((diag) => (
       <label key={diag} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.diagnoses?.includes(diag)}
           onChange={() => {
             const updated = new Set(form.diagnoses || []);
@@ -1788,8 +1825,8 @@ onChange={(date) => {
   </div>
 
   {/* Verhaltensmerkmale */}
-  <p className="font-semibold text-gray-800 mt-4 mb-1">Verhaltensmerkmale</p>
-  <div className="flex flex-wrap items-center gap-6">
+  <p className="font-semibold text-gray-800 mb-2">Verhaltensmerkmale</p>
+  <div className="mb-6 flex flex-wrap gap-6">
     {[
       "Gestörter Tag-/Nachtrhythmus",
       "Weglauftendenz",
@@ -1801,7 +1838,7 @@ onChange={(date) => {
       <label key={trait} className="inline-flex items-center gap-2 text-sm text-gray-800">
         <input
           type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F]"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
           checked={form.behaviorTraits?.includes(trait)}
           onChange={() => {
             const updated = new Set(form.behaviorTraits || []);
@@ -1820,50 +1857,146 @@ onChange={(date) => {
     value={form.healthFindings || ""}
     onChange={handleChange}
     placeholder="Gesundheitsbefunde"
-    className={inputClass + " mt-4"}
+    className={inputClass}
   />
 </div>
 
-      </div>
 
-      {/* Haushaltshilfe & Wohnpflege */}
-      <div>
-        <h3 className="font-bold text-[20px] mb-2">Haushaltshilfe & Wohnpflege</h3>
+<div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
+  {/* Main Title */}
+  <h2 className="text-[22px] font-bold mb-6"> Haushaltshilfe & Wohnpflege</h2>
 
-        {/* Number of rooms and persons */}
-        <div className="grid grid-cols-2 gap-4">
-          <input type="number" name="roomCount" placeholder="Anzahl Zimmer" value={form.roomCount || ""} onChange={handleChange} className={inputClass} />
-          <input type="number" name="householdSize" placeholder="Wieviel-Personen-Haushalt?" value={form.householdSize || ""} onChange={handleChange} className={inputClass} />
-        </div>
+  {/* 🔹 Allgemeines */}
+  <h3 className="text-[18px] font-semibold mb-2">Allgemeines</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    <input
+      type="number"
+      name="roomCount"
+      placeholder="Anzahl Zimmer"
+      value={form.roomCount || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+    <input
+      type="number"
+      name="householdSize"
+      placeholder="Wieviel-Personen-Haushalt?"
+      value={form.householdSize || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
 
-        {/* Tätigkeiten */}
-        <div className="mt-4">
-          <p className="font-semibold">Tätigkeiten</p>
-          {/* Add checkboxes similar to above sections */}
-        </div>
-      </div>
+  {/* 🔹 Tätigkeiten */}
+  <h3 className="text-[18px] font-semibold mb-2">Tätigkeiten</h3>
+  <div className="flex flex-wrap gap-6 mb-4">
+    {[
+      "Balkon- & Blumenpflege",
+      "Waschen / Bügeln / Verräumen",
+      "Kochen",
+      "Fenster putzen",
+      "Bettwäsche wechseln",
+      "Aufräumen",
+      "Abfall trennen / entsorgen",
+      "Abstauben",
+      "Staubsaugen",
+      "Boden wischen",
+      "Vorhänge reinigen"
+    ].map((task) => (
+      <label key={task} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+          checked={form.householdTasks?.includes(task)}
+          onChange={() => {
+            const updated = new Set(form.householdTasks || []);
+            updated.has(task) ? updated.delete(task) : updated.add(task);
+            setForm((prev) => ({ ...prev, householdTasks: Array.from(updated) }));
+          }}
+        />
+        <span>{task}</span>
+      </label>
+    ))}
+  </div>
 
-      {/* Weitere Angaben für die Einsatzplanung */}
-      <div>
-        <h3 className="font-bold  text-[20px] mb-2">Weitere Angaben für die Einsatzplanung</h3>
-        {/* Sprachen */}
-        <div className="space-y-2">
-          <p className="font-semibold">Sprache der Betreuungsperson</p>
-          {/* Add language checkboxes here */}
-        </div>
-        {/* Haustiere */}
-        <div className="mt-4">
-          <label className="block font-semibold mb-1">Haustiere im Haushalt?</label>
-          <select name="hasPets" value={form.hasPets || ""} onChange={handleChange} className={inputClass}>
-            <option value="">Bitte auswählen</option>
-            <option value="Ja">Ja</option>
-            <option value="Nein">Nein</option>
-          </select>
-          {form.hasPets === "Ja" && (
-            <input name="petDetails" placeholder="Welche?" value={form.petDetails || ""} onChange={handleChange} className={inputClass + " mt-2"} />
-          )}
-        </div>
-      </div>
+  {/* Kochen - additional input if selected */}
+  {form.householdTasks?.includes("Kochen") && (
+    <div className="mb-4">
+      <label className="block font-medium text-gray-800 mb-1">Für wie viele Personen wird gekocht?</label>
+      <input
+        type="number"
+        name="cookingForPeople"
+        placeholder="Anzahl Personen"
+        value={form.cookingForPeople || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  )}
+</div>
+
+
+    <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
+  {/* Main Title */}
+  <h2 className="text-[22px] font-bold mb-6"> Weitere Angaben für die Einsatzplanung</h2>
+
+  {/* 🔹 Sprache der Betreuungsperson */}
+  <h3 className="text-[18px] font-semibold mb-2">Sprache der Betreuungsperson</h3>
+  <div className="flex flex-wrap gap-6 mb-4">
+    {["CH-Deutsch", "Deutsch", "Englisch", "Französisch", "Italienisch"].map((lang) => (
+      <label key={lang} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+          checked={form.languages?.includes(lang)}
+          onChange={() => {
+            const updated = new Set(form.languages || []);
+            updated.has(lang) ? updated.delete(lang) : updated.add(lang);
+            setForm((prev) => ({ ...prev, languages: Array.from(updated) }));
+          }}
+        />
+        <span>{lang}</span>
+      </label>
+    ))}
+  </div>
+
+  {/* Sonstige Sprache */}
+  <div className="mb-6">
+    <input
+      name="languageOther"
+      placeholder="Sonstige Sprache"
+      value={form.languageOther || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
+
+  {/* 🔹 Haustiere im Haushalt */}
+  <h3 className="text-[18px] font-semibold mb-2">Haustiere im Haushalt?</h3>
+  <div className="mb-4">
+    <select
+      name="hasPets"
+      value={form.hasPets || ""}
+      onChange={handleChange}
+      className={inputClass}
+    >
+      <option value="">Bitte auswählen</option>
+      <option value="Ja">Ja</option>
+      <option value="Nein">Nein</option>
+    </select>
+
+    {form.hasPets === "Ja" && (
+      <input
+        name="petDetails"
+        placeholder="Welche Haustiere?"
+        value={form.petDetails || ""}
+        onChange={handleChange}
+        className={inputClass + " mt-2"}
+      />
+    )}
+  </div>
+</div>
+
     </div>
   </>
 )}
