@@ -6948,7 +6948,7 @@ const blogsData = [
   "id": "section-1",
   "title": "1.Einleitung: Herzinfarkt – eine häufige Ursache für medizinische Notfälle in der Schweiz",
   "description": ".",
-  "sections": [
+  "paragraphs": [
     {
       "id": "1-1",
       "title": "1.1 Herzinfarkt",
@@ -6962,7 +6962,7 @@ const blogsData = [
   "id": "section-2",
   "title": "2. Ursachen und Risikofaktoren: Wie entsteht ein Herzinfarkt und wer ist besonders gefährdet?",
   "description": "Ein Herzinfarkt entsteht meist durch eine verstopfte Arterie im Herzen, was zu Sauerstoffmangel im Herzmuskel führt. In diesem Kapitel erfahren Sie, welche Risikofaktoren es gibt – und welche Sie aktiv beeinflussen können.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "2-1",
       "title": "2.1 Unveränderbare Risikofaktoren",
@@ -6987,7 +6987,7 @@ const blogsData = [
   "id": "section-3",
   "title": "3. Erkennen und Verstehen: Symptome und Anzeichen eines Herzinfarkts",
   "description": "Ein Herzinfarkt ist ein medizinischer Notfall, bei dem schnelles Handeln entscheidend ist. In diesem Kapitel erfahren Sie, wie Sie typische und atypische Symptome erkennen und richtig reagieren.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "3-1",
       "title": "3.1 Typische Symptome eines Herzinfarkts",
@@ -7016,7 +7016,7 @@ const blogsData = [
   "id": "section-4",
   "title": "4. Sofortmassnahmen: Erste Hilfe bei Verdacht auf Herzinfarkt",
   "description": "Die ersten Minuten nach einem Herzinfarkt sind entscheidend. Hier erfahren Sie, wie Sie richtig handeln und mit einfachen Erste-Hilfe-Massnahmen Leben retten können.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "4-1",
       "title": "4.1 Alarmieren einer medizinischen Fachperson",
@@ -7040,7 +7040,7 @@ const blogsData = [
   "id": "section-5",
   "title": "5. Professionelle Hilfe: Notfallversorgung und Behandlungsmöglichkeiten in der Schweiz",
   "description": "Erfahren Sie, wie die Notfallversorgung bei einem Herzinfarkt in der Schweiz organisiert ist – von der Alarmierung bis zur Nachsorge im Krankenhaus.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "5-1",
       "title": "5.1 Notruf und Rettungsdienst",
@@ -7068,7 +7068,7 @@ const blogsData = [
   "id": "section-6",
   "title": "6. Nachsorge und Rehabilitation: Wie man nach einem Herzinfarkt wieder zu Kräften kommt",
   "description": "Nach einem Herzinfarkt beginnt die wichtige Phase der Erholung. In diesem Abschnitt erfahren Sie, welche Schritte für eine erfolgreiche Nachsorge und Wiedereingliederung in den Alltag notwendig sind.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "6-1",
       "title": "6.1 Kardiologische Rehabilitation",
@@ -7102,7 +7102,7 @@ const blogsData = [
   "id": "section-7",
   "title": "7. Vorbeugung und Prävention: Tipps für ein herzgesundes Leben im Alter",
   "description": "Ein gesunder Lebensstil kann helfen, Herzinfarkten vorzubeugen. Dieses Kapitel zeigt Ihnen einfache und wirkungsvolle Strategien, um Ihre Herzgesundheit im Alter zu fördern.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "7-1",
       "title": "7.1 Bewegung und körperliche Aktivität",
@@ -7141,7 +7141,7 @@ const blogsData = [
   "id": "section-8",
   "title": "8. Häusliche Pflege und Betreuung: Wie Angehörige bei der Genesung unterstützen können",
   "description": "Nach einem Herzinfarkt ist eine gute Betreuung zu Hause entscheidend für eine erfolgreiche Genesung. Dieses Kapitel zeigt, wie Angehörige und Pflegekräfte sinnvoll helfen können.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "8-1",
       "title": "8.1 Anpassung des häuslichen Umfelds",
@@ -7180,7 +7180,7 @@ const blogsData = [
   "id": "section-9",
   "title": "9. Finanzielle und rechtliche Aspekte: Was ist bei der Pflege und Betreuung von Herzinfarkt-Patienten in der Schweiz zu beachten?",
   "description": "Dieser Abschnitt zeigt auf, wie Pflegekosten gedeckt und rechtliche Vorkehrungen getroffen werden können, um Herzinfarkt-Patienten sicher und gut betreut zu wissen.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "9-1",
       "title": "9.1 Finanzielle Unterstützung durch die Kranken- und Pflegeversicherung",
@@ -7199,7 +7199,7 @@ const blogsData = [
   "id": "section-10",
   "title": "10. Hilfreiche Adressen und Anlaufstellen: Beratung und Unterstützung für Betroffene und Angehörige",
   "description": "Dieser Abschnitt stellt zentrale Organisationen und Stellen in der Schweiz vor, die Betroffene eines Herzinfarkts sowie deren Angehörige mit Informationen, Beratung und praktischer Hilfe unterstützen.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "10-1",
       "title": "10.1 Herzstiftung Schweiz",
@@ -7252,7 +7252,7 @@ const blogsData = [
   "id": "section-1",
   "title": "1. Herzinsuffizienz verstehen: Ursachen und Symptome",
   "description": "Herzinsuffizienz ist eine chronische Erkrankung, bei der das Herz nicht mehr genug Blut durch den Körper pumpt. Hier erfahren Sie, was die häufigsten Ursachen sind und wie Sie die Symptome erkennen.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "1-1",
       "title": "1.1 Ursachen der Herzinsuffizienz",
@@ -7271,7 +7271,7 @@ const blogsData = [
   "id": "section-2",
   "title": "2. Die verschiedenen Stadien der Herzinsuffizienz",
   "description": "Herzinsuffizienz verläuft in verschiedenen Stadien. Diese Einteilung hilft, den Schweregrad zu bestimmen und passende Behandlungsstrategien zu entwickeln.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "2-1",
       "title": "2.1 Stadium A: Keine Symptome, aber hohes Risiko",
@@ -7300,7 +7300,7 @@ const blogsData = [
   "id": "section-3",
   "title": "3. Häusliche Betreuung und Begleitung bei Herzinsuffizienz: Wann ist sie notwendig?",
   "description": "Viele Menschen mit Herzinsuffizienz benötigen im Alltag Unterstützung. Dieser Abschnitt erklärt, wann eine häusliche Betreuung sinnvoll ist und welche Vorteile sie bringt.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "3-1",
       "title": "3.1 Einschränkungen im Alltag und tägliche Herausforderungen",
@@ -7329,7 +7329,7 @@ const blogsData = [
   "id": "section-4",
   "title": "4. Palliative Pflege bei Herzinsuffizienz",
   "description": "Im fortgeschrittenen Stadium der Herzinsuffizienz rückt die palliative Pflege in den Mittelpunkt. Ziel ist es, Symptome zu lindern und die Lebensqualität der Betroffenen zu erhalten.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "4-1",
       "title": "4.1 Die Bedeutung palliativer Pflege bei Herzinsuffizienz",
@@ -7349,7 +7349,7 @@ const blogsData = [
   "id": "section-5",
   "title": "5. Individuelle Betreuungskonzepte für Herzinsuffizienz-Patienten",
   "description": "Pflege und Betreuung müssen an die individuellen Bedürfnisse jedes Patienten angepasst werden. Dieser Abschnitt zeigt, wie man ein passendes Konzept für die häusliche Pflege entwickelt.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "5-1",
       "title": "5.1 Ermittlung der individuellen Bedürfnisse des Patienten",
@@ -7382,7 +7382,7 @@ const blogsData = [
   "id": "section-6",
   "title": "6. Finanzielle Unterstützungsmöglichkeiten für die häusliche Betreuung und Pflege in der Schweiz",
   "description": "Dieser Abschnitt zeigt, wie Pflegekosten bei Herzinsuffizienz in der Schweiz gedeckt werden können. Er gibt einen Überblick über Versicherungen, Leistungen und Zuschüsse.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "6-1",
       "title": "6.1 Pflegekostenübernahme durch die Krankenkasse",
@@ -7411,7 +7411,7 @@ const blogsData = [
   "id": "section-7",
   "title": "7. Die Rolle der Ernährung und körperlichen Aktivität bei der Behandlung von Herzinsuffizienz",
   "description": "Gesunde Ernährung und regelmässige Bewegung sind entscheidend, um die Symptome der Herzinsuffizienz zu lindern und die Lebensqualität zu verbessern.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "7-1",
       "title": "7.1 Ernährung bei Herzinsuffizienz",
@@ -7431,7 +7431,7 @@ const blogsData = [
   "id": "section-8",
   "title": "8. Technische Hilfsmittel und digitale Lösungen im Alltag mit Herzinsuffizienz",
   "description": "Technologien wie Telemedizin, Apps und Notrufsysteme unterstützen Herzinsuffizienz-Patienten im Alltag. Sie helfen bei Überwachung, Organisation und Sicherheit – für mehr Lebensqualität zu Hause.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "8-1",
       "title": "8.1 Telemedizinische Überwachung",
@@ -7461,7 +7461,7 @@ const blogsData = [
   "id": "section-9",
   "title": "9. Rechtliche Aspekte die Betroffene und Angehörige angehen",
   "description": "Herzinsuffizienz betrifft nicht nur die Gesundheit, sondern auch rechtliche Fragen. Patienten und Angehörige sollten ihre Rechte kennen – z. B. zur Patientenverfügung, Behandlung, Einsicht in Akten oder finanzieller Unterstützung.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "9-1",
       "title": "9.1 Patientenverfügung und Vorsorgevollmacht",
@@ -7526,7 +7526,7 @@ const blogsData = [
   "id": "section-1",
   "title": "1. Einführung: Inkontinenz und ihre Bedeutung für Betroffene und Angehörige",
   "description": "Dieses Kapitel bietet einen Überblick über die Ursachen, Formen und Auswirkungen von Inkontinenz sowie praktische Hinweise für den Umgang im Alltag – sowohl für Betroffene als auch für Angehörige.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "1-1",
       "title": "1.1 Was ist Inkontinenz?",
@@ -7550,7 +7550,7 @@ const blogsData = [
   "id": "section-2",
   "title": "2. Arten von Inkontinenz: Überblick und Unterscheidung",
   "description": "Inkontinenz zeigt sich in verschiedenen Formen. Dieser Abschnitt stellt die häufigsten Inkontinenzarten vor und erklärt ihre Ursachen und Symptome.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "2-1",
       "title": "2.1 Stressinkontinenz",
@@ -7589,7 +7589,7 @@ const blogsData = [
   "id": "section-3",
   "title": "3. Ursachen von Inkontinenz: Körperliche und psychische Faktoren",
   "description": "Inkontinenz kann durch körperliche oder psychische Ursachen entstehen. Dieser Abschnitt erklärt die häufigsten Auslöser und deren Auswirkungen.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "3-1",
       "title": "3.1 Körperliche Ursachen",
@@ -7608,7 +7608,7 @@ const blogsData = [
   "id": "section-4",
   "title": "4. Diagnose von Inkontinenz: Schritte und Hilfestellungen für Betroffene",
   "description": "Die richtige Diagnose ist entscheidend für eine erfolgreiche Behandlung von Inkontinenz. Dieser Abschnitt erklärt die wichtigsten Untersuchungen und gibt praktische Hilfestellungen für Betroffene.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "4-1",
       "title": "4.1 Anamnese und ärztliche Untersuchung",
@@ -7661,7 +7661,7 @@ const blogsData = [
   "id": "section-6",
   "title": "6. Pflege-Tipps für den Alltag: Umgang mit Inkontinenz bei Senioren",
   "description": "Inkontinenz kann den Alltag stark beeinflussen. Mit den richtigen Strategien und Hilfsmitteln lässt sich die Lebensqualität von Senioren deutlich verbessern. In diesem Abschnitt finden Sie praktische Tipps zur täglichen Betreuung.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "6-1",
       "title": "6.1 Erstellung eines Toilettengangs-Plans",
@@ -7695,7 +7695,7 @@ const blogsData = [
   "id": "section-7",
   "title": "7. Inkontinenz und Selbstbestimmung: Wie der Alltag trotz Einschränkungen gelingt",
   "description": "Trotz Inkontinenz ist ein selbstbestimmtes Leben möglich. Mit der richtigen Unterstützung, Kommunikation und Anpassungen im Alltag lassen sich Lebensqualität und Unabhängigkeit erhalten.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "7-1",
       "title": "7.1 Kommunikation und Information",
@@ -7724,7 +7724,7 @@ const blogsData = [
   "id": "section-8",
   "title": "8. Finanzielle Aspekte: Kosten und Unterstützungsmöglichkeiten durch Krankenkassen und das Sozialsystem in der Schweiz",
   "description": "Dieser Abschnitt gibt einen Überblick über die finanziellen Belastungen im Zusammenhang mit Inkontinenz sowie über Unterstützungsangebote durch Krankenkassen, Sozialleistungen und ergänzende Dienste.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "8-1",
       "title": "8.1 Kostenaufwand für Hilfsmittel und Pflegematerialien",
@@ -7753,7 +7753,7 @@ const blogsData = [
   "id": "section-9",
   "title": "9. Prävention und Therapieansätze bei Inkontinenz: Möglichkeiten und Aussichten",
   "description": "Dieser Abschnitt beschreibt, wie Inkontinenz vorgebeugt werden kann und welche Therapien Betroffenen helfen, ihre Lebensqualität zu verbessern.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "9-1",
       "title": "9.1 Vorbeugung von Inkontinenz",
@@ -7790,7 +7790,7 @@ const blogsData = [
   "id": "section-1",
   "title": "1. Einführung in die häusliche Betreuung und Pflege in Bezug auf das Nervensystem",
   "description": "Ein Überblick über die Besonderheiten der häuslichen Pflege bei Erkrankungen des Nervensystems, inklusive der Bedeutung des Nervensystems, der Anforderungen an das Pflegepersonal und der Wichtigkeit von Fortbildung.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "1-1",
       "title": "1.1 Warum ist das Nervensystem so wichtig?",
@@ -7814,7 +7814,7 @@ const blogsData = [
   "id": "section-2",
   "title": "2. Die Grundlagen des Nervensystems: Eine Übersicht für Laien",
   "description": "Ein leicht verständlicher Überblick über Aufbau und Funktion des menschlichen Nervensystems – vom zentralen bis zum peripheren Nervensystem sowie den Zelltypen und ihrer Rolle.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "2-1",
       "title": "2.1 Zentrales und peripheres Nervensystem",
@@ -7838,7 +7838,7 @@ const blogsData = [
   "id": "section-3",
   "title": "3. Einfluss von neurologischen Erkrankungen auf die häusliche Pflege",
   "description": "Neurologische Erkrankungen wirken sich stark auf die Lebensqualität und Pflegebedürftigkeit aus. Dieser Abschnitt zeigt typische Herausforderungen im Alltag und stellt Unterstützungsangebote für pflegende Angehörige und Fachkräfte vor.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "3-1",
       "title": "3.1 Die Auswirkungen von neurologischen Erkrankungen auf die Pflegebedürftigkeit",
@@ -7857,7 +7857,7 @@ const blogsData = [
   "id": "section-4",
   "title": "4. Umgang mit Demenz: Praktische Tipps und Strategien für die häusliche Betreuung",
   "description": "Dieser Abschnitt bietet konkrete Tipps für Angehörige und Pflegepersonal im häuslichen Umgang mit demenziell erkrankten Menschen – von Kommunikation über Alltagshilfen bis zur emotionalen Unterstützung.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "4-1",
       "title": "4.1 Einfühlsame Kommunikation",
@@ -7902,7 +7902,7 @@ const blogsData = [
   "id": "section-5",
   "title": "5. Parkinson-Krankheit: Symptome, Therapien und Unterstützung für Betroffene und Betreuende",
   "description": "Dieser Abschnitt beschreibt die typischen Symptome der Parkinson-Krankheit, gibt einen Überblick über Behandlungsmöglichkeiten und zeigt praktische Tipps für die Betreuung im häuslichen Umfeld.",
-  "sections": [
+  "paragraphs": [
     {
       "id": "5-1",
       "title": "5.1 Symptome der Parkinson-Krankheit",
@@ -7925,7 +7925,7 @@ const blogsData = [
 {
   "id": "section-6",
   "title": "6. Multiple Sklerose: Herausforderungen und Lösungen in der häuslichen Pflege",
-  "sections": [
+  "paragraphs": [
     {
       "id": "6-1",
       "title": "6.1 Symptome und Auswirkungen von Multiple Sklerose",
@@ -7954,7 +7954,7 @@ const blogsData = [
  {
   "id": "section-7",
   "title": "7. Schlaganfall: Rehabilitation und Betreuung im eigenen Zuhause",
-  "sections": [
+  "paragraphs": [
     {
       "id": "7-1",
       "title": "7.1 Physiotherapie und andere Therapieformen",
@@ -8094,7 +8094,7 @@ const blogsData = [
 {
   "id": "section-1",
   "title": "1. Die Bedeutung eines Oberschenkelhalsbruchs in der häuslichen Pflege",
-  "sections": [
+  "paragraphs": [
     {
       "id": "1-1",
       "title": "1.1 Auswirkungen auf Lebensqualität und Pflegebedarf",
@@ -8117,7 +8117,7 @@ const blogsData = [
 {
   "id": "section-2",
   "title": "2. Ursachen und Risikofaktoren für einen Oberschenkelhalsbruch in der Schweiz",
-  "sections": [
+  "paragraphs": [
     {
       "id": "2-1",
       "title": "2.1 Altersbedingte Knochenverschlechterung",
@@ -8156,7 +8156,7 @@ const blogsData = [
 {
   "id": "section-3",
   "title": "3. Wie erkennt man einen Oberschenkelhalsbruch? Symptome und Diagnose",
-  "sections": [
+  "paragraphs": [
     {
       "id": "3-1",
       "title": "3.1 Symptome eines Oberschenkelhalsbruchs",
@@ -8174,7 +8174,7 @@ const blogsData = [
 {
   "id": "section-4",
   "title": "4. Erste Hilfe und Notfallmassnahmen bei einem Oberschenkelhalsbruch",
-  "sections": [
+  "paragraphs": [
     {
       "id": "4-1",
       "title": "4.1 Erste Hilfe am Unfallort",
@@ -8193,7 +8193,7 @@ const blogsData = [
 {
   "id": "section-5",
   "title": "5. Medizinische Behandlungsmöglichkeiten in der Schweiz: Operation und Rehabilitation",
-  "sections": [
+  "paragraphs": [
     {
       "id": "5-1",
       "title": "5.1 Operation bei einem Oberschenkelhalsbruch",
@@ -8213,7 +8213,7 @@ const blogsData = [
 {
   "id": "section-6",
   "title": "6. Die Rolle der Physiotherapie und langfristige Rehabilitation nach einem Oberschenkelhalsbruch",
-  "sections": [
+  "paragraphs": [
     {
       "id": "6-1",
       "title": "6.1 Physiotherapie: Warum ist sie so wichtig?",
@@ -8246,7 +8246,7 @@ const blogsData = [
 {
   "id": "section-7",
   "title": "7. Tipps zur Vorbeugung eines Oberschenkelhalsbruchs im Alter: Sicherheit im Alltag und Sturzprävention",
-  "sections": [
+  "paragraphs": [
     {
       "id": "7-1",
       "title": "7.1 Sturzgefahren im Haushalt erkennen und beseitigen",
