@@ -25,7 +25,7 @@ const navLinks = [
       { name: 'Betreuung zuhause organisieren', path: '/betreuung-zuhause-organisieren' },
     ],
   },
-  { name: 'Jobs', path: '/employee-register' },
+  { name: 'Jobs', path: '/Registrierung-Jobs' },
   { name: 'Support', 
     path: '/contact',
      subLinks: [
