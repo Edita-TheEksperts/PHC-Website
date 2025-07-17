@@ -862,14 +862,14 @@ const currentSub = Array.isArray(prev.subServices) ? prev.subServices : [];
   selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
 onChange={(date) => {
   const formatted = format(date, "dd.MM.yyyy");
-  setForm({ ...form, firstDate: formatted }); // store in dd.MM.yyyy
+  setForm({ ...form, firstDate: formatted }); 
 }}
 
 
   dateFormat="dd.MM.yyyy"
   locale={de}
   placeholderText="TT.MM.JJJJ"
-  minDate={tenDaysFromToday} // ✅ block all before 10 days from today
+  minDate={tenDaysFromToday} 
   className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
   calendarClassName="rounded-xl shadow-lg border border-gray-300"
   wrapperClassName="w-full"

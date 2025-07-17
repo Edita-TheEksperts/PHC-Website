@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client'; // Correct Prisma client import
 const prisma = new PrismaClient(); // Initialize Prisma Client
 
 // Fetch all employees
-// Fetch all employees with required fields
 async function fetchEmployees() {
   const data = await prisma.employee.findMany({
     select: {
@@ -13,12 +12,31 @@ async function fetchEmployees() {
       email: true,
       phone: true,
       status: true,
-      invited: true, // ✅ this must be included
-    }
+      invited: true,
+      assignments: {
+        select: {
+          status: true,            // ✅ You forgot this!
+          serviceName: true,
+          firstDate: true,
+          user: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              schedules: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   return data;
 }
+
+
+
 
 
 async function fetchClients() {
@@ -37,6 +55,34 @@ async function fetchClients() {
     }
   });
 }
+
+const clients = await prisma.user.findMany({
+  where: { role: 'client' },
+  include: {
+    assignments: {
+      where: { status: 'active' }, // Only active assignments
+    },
+  },
+});
+const employees = await prisma.employee.findMany({
+  include: {
+    assignments: {
+      where: { status: "active" }, // Only active assignments
+      include: {
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            schedules: true, // 💥 important: bring schedules of client
+          },
+        },
+      },
+    },
+  },
+});
+
+
 
 
 
@@ -63,6 +109,12 @@ async function approveEmployeeInDB(employeeId) {
     data: { status: 'approved' },
   });
 }
+const schedules = await prisma.schedule.findMany({
+  include: {
+    user: true, // so we get client names
+  },
+});
+
 
 // Reject employee in DB
 async function rejectEmployeeInDB(employeeId) {
