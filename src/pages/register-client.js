@@ -13,7 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
 
 export default function RegisterPage() {
-    const testMode = false; 
+    const testMode = true; 
 
   const router = useRouter();
 const { service, subService } = router.query;

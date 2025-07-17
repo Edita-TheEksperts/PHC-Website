@@ -206,7 +206,7 @@ const handleSubmit = async (e) => {
         ? await uploadToFirebase(form.certificateFile, userId, "certificate")
         : null,
       drivingLicenceFile:
-        form.licenseType === "ja" && form.drivingLicenceFile
+form.hasLicense === "ja" && form.drivingLicenceFile
           ? await uploadToFirebase(form.drivingLicenceFile, userId, "driving_licence")
           : null,
       profilePhoto: await uploadToFirebase(form.profilePhoto, userId, "photo"),
