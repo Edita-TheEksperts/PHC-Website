@@ -158,10 +158,15 @@ const SummaryRow = ({ label, value }) => (
 
   const handleNext = () => {
     if (!validateStep()) {
-      alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
-      return;
-    }
-    setStep((s) => s + 1);
+    alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
+    return;
+  }
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Move to next step
+  setStep((s) => s + 1);
   };
 const stripe = useStripe();
 const elements = useElements();
@@ -450,6 +455,7 @@ const preparePayload = (form) => ({
   householdSize: Number(form.householdSize) || null,
   paymentIntentId: form.paymentIntentId || "",  // make sure this is set
 });
+
 
   return (
     <div className="relative" style={{ width: '120px' }}>
@@ -1226,7 +1232,7 @@ onChange={(date) => {
           className="mt-1"
         />
         <label htmlFor="agb" className="text-sm text-gray-700">
-          Ich ha d’ <a href="/agb" className="underline text-[#B99B5F]">AGB</a> gläse und bim i dermit iiverschtande.
+          Ich habe die<a href="/AGB" className="underline text-[#B99B5F]">AGB's</a> gelesen und bin damit einverstanden.
         </label>
       </div>
     </div>
@@ -1692,7 +1698,7 @@ onChange={(date) => {
   {/* 🔹 Kommunikation */}
   <h3 className="text-[18px] font-semibold mb-2">Kommunikation</h3>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-    {["vision", "hearing", "speaking"].map((field) => (
+    {["Sehen", "Hören", "Sprechen"].map((field) => (
       <select
         key={field}
         name={field}

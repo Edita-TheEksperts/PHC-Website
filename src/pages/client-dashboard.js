@@ -256,6 +256,13 @@ export default function ClientDashboard() {
                 </div>
               )}
             </li>
+              <li
+    onClick={() => router.push("/dashboard/formular")}
+    className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+  >
+    Formular
+  </li>
+
           </ul>
           <button
             onClick={() => {
