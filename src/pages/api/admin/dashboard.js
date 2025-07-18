@@ -13,6 +13,8 @@ async function fetchEmployees() {
       phone: true,
       status: true,
       invited: true,
+            howDidYouHearAboutUs: true, // ✅ ADD THIS LINE
+
       assignments: {
         select: {
           status: true,            // ✅ You forgot this!

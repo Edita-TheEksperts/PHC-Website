@@ -22,6 +22,8 @@ export default function DashboardPage() {
   const [message, setMessage] = useState("");
   const [warnings, setWarnings] = useState([]);
 const [schedules, setSchedules] = useState([]);
+const [sourceData, setSourceData] = useState([]);
+const [andereDetails, setAndereDetails] = useState([]); // 🆕 for listing Andere content
 
   // 🚀 Initial load
   useEffect(() => {
@@ -123,12 +125,103 @@ async function handleInvite(employee) {
     setMessage("❌ Fehler beim Einladen: " + err.message);
   }
 }
+async function fetchData() {
+  const res = await fetch("/api/admin/dashboard");
+  const data = await res.json();
+
+  const allEmployees = data.employees || []; // ✅ This must come first
+  setEmployees(allEmployees);
+
+  const approved = allEmployees.filter(emp => emp.status === "approved");
+  setApprovedEmployees(approved);
+
+  setClients(data.clients || []);
+
+  // 🟡 Now this works
+  const sourceStats = {};
+  const andereItems = [];
+
+  allEmployees.forEach((emp) => {
+    const raw = emp.howDidYouHearAboutUs || "Unbekannt";
+
+    if (raw.startsWith("Andere:")) {
+      sourceStats["Andere"] = (sourceStats["Andere"] || 0) + 1;
+      andereItems.push(raw.replace("Andere:", "").trim());
+    } else {
+      const key = raw || "Unbekannt";
+      sourceStats[key] = (sourceStats[key] || 0) + 1;
+    }
+  });
+
+  const chartData = Object.entries(sourceStats).map(([name, value]) => ({
+    name,
+    value,
+  }));
+
+  setSourceData(chartData);
+  setAndereDetails(andereItems);
+}
 
 
 
   return (
      <AdminLayout>
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 px-4 pb-16">
+    {sourceData.length > 0 && (
+<DashboardCard title="Woher kommen unsere Bewerbungen?">
+  <div className="flex flex-col md:flex-row gap-6 items-start">
+    {/* 🟣 Chart */}
+    <div className="w-full md:w-1/2">
+      <ResponsiveContainer width="100%" height={250}>
+        <PieChart>
+          <Pie
+            dataKey="value"
+            data={sourceData}
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            label={({ name, percent }) =>
+              `${name} (${(percent * 100).toFixed(0)}%)`
+            }
+          >
+            {sourceData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={['#4F46E5', '#22C55E', '#F59E0B', '#EF4444', '#8B5CF6'][index % 5]}
+              />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+
+{/* 🟡 Andere Details – shown as badges */}
+{andereDetails.length > 0 && (
+  <div className="w-full md:w-1/2 bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+    <h4 className="text-sm font-semibold text-gray-700 mb-3">
+      📌 Details von "Andere" ({andereDetails.length}):
+    </h4>
+    <div className="flex flex-wrap gap-2">
+      {andereDetails.map((entry, i) => (
+        <span
+          key={i}
+          className="inline-block bg-[#04436F] text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm"
+        >
+          {entry}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
+
+  </div>
+</DashboardCard>
+
+)}
+
+
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 px-4 pb-16 mt-8">
         <DashboardCard title="Active Clients">
           <ActiveClients clients={clients} />
         </DashboardCard>

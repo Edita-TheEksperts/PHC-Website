@@ -35,7 +35,10 @@ const uploadToFirebase = async (file, userId, label) => {
       setShowReferralModal(true);
     }
   }, [step]);
-
+// 👇 Scroll function before return
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
   // Initial form state - every input field in your form
   const [form, setForm] = useState({
     email: "",
@@ -260,8 +263,12 @@ await fetch("/api/send-interview-email", {
 
 
 
+useEffect(() => {
+  scrollToTop();
+}, [step]);
 
   return (
+    
     <div className="min-h-screen bg-gray-50 p-6 md:p-10 flex flex-col md:flex-row gap-8">
       {/* Form Section */}
       <div className="flex-1 space-y-8">
@@ -857,7 +864,7 @@ await fetch("/api/send-interview-email", {
       <option value="nein">Nein</option>
     </select>
 
-    <label className="block font-medium mt-4">Sind Sie bereit dazu Unterstützung in der Körperpflege zu leisten? (bsp. Infofeld: Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)</label>
+    <label className="block font-medium mt-4">Sind Sie bereit dazu Unterstützung in der Körperpflege zu leisten? (Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)</label>
     <select
       name="bodyCareSupport"
       value={form.bodyCareSupport || ""}
@@ -871,7 +878,7 @@ await fetch("/api/send-interview-email", {
 
   
 
-    <label className="block font-medium mt-4">Können Sie in einem Haushalt mit Tieren arbeiten? (Infofeld auf mögliche Tierhaarallergien hinweisen oder ängsten)
+    <label className="block font-medium mt-4">Können Sie in einem Haushalt mit Tieren arbeiten?
 </label>
     <select
       name="worksWithAnimals"
@@ -903,45 +910,55 @@ await fetch("/api/send-interview-email", {
 
       <h3 className="text-xl font-bold text-[#04436F] mb-4">Wie haben Sie von uns erfahren?</h3>
 
-      <div className="space-y-3 mb-4">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="howDidYouHearAboutUs"
-            value="LinkedIn"
-            checked={form.howDidYouHearAboutUs === "LinkedIn"}
-            onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
-          />
-          LinkedIn
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="howDidYouHearAboutUs"
-            value="Facebook"
-            checked={form.howDidYouHearAboutUs === "Facebook"}
-            onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
-          />
-          Facebook
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="howDidYouHearAboutUs"
-            value="Instagram"
-            checked={form.howDidYouHearAboutUs === "Instagram"}
-            onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
-          />
-          Instagram
-        </label>
-        <input
-          name="howDidYouHearAboutUs"
-          placeholder="Andere (z.B. Google, Freund...)"
-          value={form.howDidYouHearAboutUs || ""}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-        />
-      </div>
+    <div className="space-y-3 mb-4">
+  {["LinkedIn", "Facebook", "Instagram"].map((option) => (
+    <label key={option} className="flex items-center gap-2">
+      <input
+        type="checkbox"
+        name="howDidYouHearAboutUs"
+        value={option}
+        checked={form.howDidYouHearAboutUs === option}
+        onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
+      />
+      {option}
+    </label>
+  ))}
+
+  {/* Andere Checkbox */}
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      name="howDidYouHearAboutUs"
+      value="Andere"
+      checked={form.howDidYouHearAboutUs?.startsWith("Andere:")}
+      onChange={(e) => {
+        const isChecked = e.target.checked;
+        setForm((prev) => ({
+          ...prev,
+          howDidYouHearAboutUs: isChecked ? "Andere:" : "",
+        }));
+      }}
+    />
+    Andere
+  </label>
+
+  {/* Show input only if Andere is checked */}
+  {form.howDidYouHearAboutUs?.startsWith("Andere:") && (
+    <input
+      type="text"
+      placeholder="z. B. Google, Freund..."
+      value={form.howDidYouHearAboutUs.split(":")[1] || ""}
+      onChange={(e) =>
+        setForm((prev) => ({
+          ...prev,
+          howDidYouHearAboutUs: `Andere:${e.target.value}`,
+        }))
+      }
+      className="w-full border border-gray-300 rounded-lg px-4 py-2"
+    />
+  )}
+</div>
+
 
       <button
         onClick={() => setShowReferralModal(false)}
@@ -1021,7 +1038,6 @@ await fetch("/api/send-interview-email", {
   {/* Upload Field Template */}
   {[
     { label: "ID oder Reisepass", key: "passportFile", required: true },
-    { label: "Löschen", key: "visaFile", required: true },
     { label: "Strafregisterauszug", key: "policeLetterFile", required: true },
     { label: "Lebenslauf", key: "cvFile", required: true },
     { label: "Zertifakte/Arbeitszeugnisse", key: "certificateFile", required: true },
@@ -1046,20 +1062,28 @@ await fetch("/api/send-interview-email", {
   ))}
 
   {/* Driving Licence – Conditionally Shown */}
-  {form.licenseType === "ja" && (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        Führerschein (PDF){" "}
+{form.hasLicense === "ja" && (
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Führerschein (PDF){" "}
+      {form.hasLicense === "ja" ? (
+        <span className="text-red-500 font-bold">*</span>
+      ) : (
         <span className="text-gray-500 text-sm">(optional)</span>
-      </label>
-      <input
-        type="file"
-        accept="application/pdf"
-        onChange={(e) => setForm({ ...form, drivingLicenceFile: e.target.files[0] })}
-        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
-      />
-    </div>
-  )}
+      )}
+    </label>
+    <input
+      type="file"
+      accept="application/pdf"
+      required
+      onChange={(e) =>
+        setForm({ ...form, drivingLicenceFile: e.target.files[0] })
+      }
+      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
+    />
+  </div>
+)}
+
 
   {/* Photo Upload */}
   <div>
