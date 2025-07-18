@@ -100,6 +100,25 @@ export default async function handler(req, res) {
     if (isNaN(parsedDate.getTime())) {
       return res.status(400).json({ message: "Invalid firstDate" });
     }
+// ✅ Stripe Verification (only if not test mode)
+if (paymentIntentId && paymentIntentId !== "TEST_MODE_NO_PAYMENT") {
+  const Stripe = require('stripe');
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Make sure this is set in .env
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    if (!["succeeded", "requires_capture", "requires_confirmation"].includes(paymentIntent.status)) {
+      return res.status(402).json({
+        message: "Zahlung wurde nicht erfolgreich verarbeitet.",
+        stripeStatus: paymentIntent.status,
+      });
+    }
+  } catch (stripeErr) {
+    console.error("Stripe verification failed:", stripeErr);
+    return res.status(500).json({ message: "Stripe PaymentIntent konnte nicht überprüft werden." });
+  }
+}
 
     const passwordHash = await hash(password, 10);
 

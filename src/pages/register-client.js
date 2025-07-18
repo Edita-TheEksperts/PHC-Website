@@ -13,7 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
 
 export default function RegisterPage() {
-    const testMode = true; 
+    const testMode = false; 
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -233,11 +233,23 @@ firstDate: (() => {
 
     const { clientSecret, id: paymentIntentId } = await paymentIntentRes.json();
 
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
+ const result = await stripe.confirmCardPayment(clientSecret, {
+  payment_method: {
+    card: elements.getElement(CardElement),
+    billing_details: {
+      name: form.billingName,
+      email: form.billingEmail,
+      phone: form.billingPhone,
+      address: {
+        line1: form.billingStreet,
+        city: form.billingCity,
+        postal_code: form.billingPostalCode,
+        country: form.billingCountry || "CH",
       },
-    });
+    },
+  },
+});
+
 
     if (result.error) {
       alert("Zahlungsfehler: " + result.error.message);
@@ -1196,46 +1208,114 @@ onChange={(date) => {
 
 {step === 3 && !testMode && (
   <>
-    <h2 className="text-2xl font-bold text-black">Zahligsdetails</h2>
 
-    <div className="space-y-4">
-      <label className="block text-sm font-medium text-gray-700">Chreditkarte-Informatione</label>
+    <div className="space-y-6">
+  <h2 className="text-2xl font-bold text-black">Zahlungsdetails</h2>
 
-      <div className="relative">
-        <div className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm text-base focus-within:ring-2 focus-within:ring-[#B99B5F]">
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#000',
-                  '::placeholder': { color: '#a0aec0' },
-                },
-                invalid: {
-                  color: '#e53e3e',
-                },
+  {/* 👤 Karteninhaber */}
+  <div className="grid grid-cols-1  gap-4">
+    <input
+      name="billingName"
+      placeholder="Name des Karteninhabers"
+      value={form.billingName || `${form.firstName || ''} ${form.lastName || ''}`}
+      onChange={handleChange}
+      className={inputClass}
+      required
+    />
+    <input
+      type="email"
+      name="billingEmail"
+      placeholder="E-Mail"
+      value={form.billingEmail || form.email}
+      onChange={handleChange}
+      className={inputClass}
+      required
+    />
+    <input
+      type="tel"
+      name="billingPhone"
+      placeholder="Telefonnummer"
+      value={form.billingPhone || form.phone}
+      onChange={handleChange}
+      className={inputClass}
+      required
+    />
+  </div>
+
+  {/* 🏠 Adresse */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input
+      name="billingStreet"
+      placeholder="Straße und Hausnummer"
+      value={form.billingStreet || form.street}
+      onChange={handleChange}
+      className={inputClass}
+      required
+    />
+    <input
+      name="billingPostalCode"
+      placeholder="PLZ"
+      value={form.billingPostalCode || form.postalCode}
+      onChange={handleChange}
+      className={inputClass}
+      required
+    />
+    <input
+      name="billingCity"
+      placeholder="Ort"
+      value={form.billingCity || form.city}
+      onChange={handleChange}
+      className={inputClass}
+      required
+    />
+    <input
+      name="billingCountry"
+      placeholder="Land (z. B. CH)"
+      value={form.billingCountry || "CH"}
+      onChange={handleChange}
+      className={inputClass}
+      required
+    />
+  </div>
+
+  {/* 💳 Card Element */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Kreditkarten-Informationen
+    </label>
+    <div className="relative">
+      <div className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm focus-within:ring-2 focus-within:ring-[#B99B5F]">
+        <CardElement
+          id="card-element"
+          options={{
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#000',
+                '::placeholder': { color: '#a0aec0' },
               },
-            }}
-          />
-        </div>
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-          💳
-        </div>
-      </div>
-
-      {/* ✅ AGB Checklist */}
-      <div className="flex items-start gap-2 mt-4">
-        <input
-          type="checkbox"
-          required
-          id="agb"
-          className="mt-1"
+              invalid: {
+                color: '#e53e3e',
+              },
+            },
+          }}
         />
-        <label htmlFor="agb" className="text-sm text-gray-700">
-          Ich habe die<a href="/AGB" className="underline text-[#B99B5F]">AGB's</a> gelesen und bin damit einverstanden.
-        </label>
+      </div>
+      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+        💳
       </div>
     </div>
+  </div>
+
+  {/* ✅ AGB */}
+  <div className="flex items-start gap-2">
+    <input type="checkbox" required id="agb" className="mt-1" />
+    <label htmlFor="agb" className="text-sm text-gray-700">
+      Ich habe die <a href="/AGB" className="underline text-[#B99B5F]">AGB's</a> gelesen und bin damit einverstanden.
+    </label>
+  </div>
+</div>
+
 
     {isSubmitted && (
       <p className="text-[#B99B5F] mt-4 font-medium">
