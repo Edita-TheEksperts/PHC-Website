@@ -248,7 +248,7 @@ const handleSubmit = async (e) => {
 
       if (res.ok) {
         setIsSubmitted(true);
-        router.push("/client-dashboard");
+        router.push("/login");
       } else {
         const err = await res.json();
         alert("Fehler bei der Registrierung: " + err.message);
