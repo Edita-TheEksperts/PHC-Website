@@ -29,8 +29,12 @@ model Schedule {
   day       String
   startTime String
   hours     Int
+  kilometers Int? // ✅ Add this line if not present
   userId    String
   user      User   @relation(fields: [userId], references: [id])
+  employeeId String?
+employee   Employee? @relation(fields: [employeeId], references: [id])
+
 }
 
 
@@ -279,6 +283,8 @@ bic            String?
 assignments Assignment[]  // Add this line
   rejectionWarnings  RejectionWarning[] // <-- relation back to RejectionWarning
     inviteSentAt DateTime?
+      schedules   Schedule[]    // ✅ Add this line to complete the relation
+
 }
 
 

@@ -13,11 +13,12 @@ async function fetchEmployees() {
       phone: true,
       status: true,
       invited: true,
-            howDidYouHearAboutUs: true, // ✅ ADD THIS LINE
+      howDidYouHearAboutUs: true,
 
+      // Get assignments and their linked client
       assignments: {
         select: {
-          status: true,            // ✅ You forgot this!
+          status: true,
           serviceName: true,
           firstDate: true,
           user: {
@@ -26,16 +27,35 @@ async function fetchEmployees() {
               firstName: true,
               lastName: true,
               email: true,
-              schedules: true,
+              schedules: true, // client schedules
             },
           },
         },
       },
+
+      // ✅ Get this employee's own schedules
+      schedules: {
+        select: {
+          id: true,
+          day: true,
+          startTime: true,
+          hours: true,
+          kilometers: true,
+          user: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            }
+          }
+        }
+      }
     },
   });
 
   return data;
 }
+
 
 
 

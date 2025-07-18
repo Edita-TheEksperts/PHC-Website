@@ -5,6 +5,8 @@ import RegisterForm2 from "../components/RegisterForm2"
 import RegisterForm3 from "../components/RegisterForm3"
 import RegisterForm4 from "../components/RegisterForm4"
 import { Pie, Line } from "react-chartjs-2"
+import OvertimeAlerts from "../components/OvertimeAlerts"; // Adjust import based on your file structure
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -88,6 +90,9 @@ const BookingsOverTimeChart = ({ schedules }) => {
 
 export default function ClientDashboard() {
   const [userData, setUserData] = useState(null)
+  const [employees, setEmployees] = useState([]);  // State to store employee data
+  const [targetHours, setTargetHours] = useState([]) // Default target hours for overtime alerts
+
   const [loading, setLoading] = useState(true)
   const [updatedData, setUpdatedData] = useState({})
   const [showOverlayForm, setShowOverlayForm] = useState(true)
@@ -292,7 +297,10 @@ export default function ClientDashboard() {
           {/* User Info + Documents + Service */}
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             <article className="bg-white p-8 rounded-3xl shadow-xl">
+
               <h3 className="text-2xl font-semibold text-[#B99B5F] mb-8 select-none">Benutzerinformationen</h3>
+                    <OvertimeAlerts employees={employees} targetHours={targetHours} />
+
               <p className="text-lg mb-3"><strong>Name:</strong> {userData.firstName} {userData.lastName}</p>
               <p className="text-lg mb-3"><strong>Email:</strong> {userData.email}</p>
               <p className="text-lg mb-3"><strong>Telefon:</strong> {userData.phone}</p>

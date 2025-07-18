@@ -6,6 +6,17 @@ export default function EmployeeDashboard() {
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [rejectedAssignments, setRejectedAssignments] = useState([]);
+  const [workInputs, setWorkInputs] = useState({});
+const updateWorkInput = (scheduleId, field, value) => {
+  setWorkInputs((prev) => ({
+    ...prev,
+    [scheduleId]: {
+      ...prev[scheduleId],
+      [field]: value,
+    },
+  }));
+};
+
 useEffect(() => {
   async function loadRejected() {
     if (!employeeData?.email) return;
@@ -216,6 +227,21 @@ const handlePaymentSubmit = async (e) => {
   if (!employeeData) {
     return <div className="p-6">Keine Daten gefunden.</div>;
   }
+const calculatePayment = (services = [], schedules = []) => {
+  const serviceCost = services.reduce(
+    (sum, s) => sum + (s.hours || 0) * (s.rate || 0),
+    0
+  );
+  const travelCost = schedules.reduce(
+    (sum, s) => sum + (s.kilometers || 0),
+    0
+  );
+  return {
+    serviceCost,
+    travelCost,
+    total: serviceCost + travelCost,
+  };
+};
 
   return (
     <div className="flex min-h-screen bg-[#F9F9F9] text-gray-800">
@@ -309,16 +335,114 @@ const handlePaymentSubmit = async (e) => {
     <p className="text-sm text-gray-500">Keine bestätigten Zuweisungen.</p>
   ) : (
     confirmedAssignments.flatMap((assignment) =>
-      (assignment.user?.schedules || []).map((schedule, index) => (
-        <div key={`${assignment.id}-${index}`} className="border p-3 rounded mb-2">
-          <p><strong>Kunde:</strong> {assignment.user.firstName} {assignment.user.lastName}</p>
-          <p><strong>Service:</strong> {assignment.user.services?.map(s => s.name).join(", ") || "—"}</p>
-          <p><strong>Startdatum:</strong> {schedule.day}, {schedule.startTime} Uhr</p>
-        </div>
-      ))
+      (assignment.user?.schedules || []).map((schedule, index) => {
+        const scheduleId = schedule.id;
+
+        // default to schedule or empty
+        const inputs = workInputs[scheduleId] || {
+          workedHours: schedule.hours || "",
+          kilometers: schedule.kilometers || "",
+        };
+
+        const serviceRate = assignment.user.services?.[0]?.rate || 0;
+        const serviceCost = (parseFloat(inputs.workedHours) || 0) * serviceRate;
+        const travelCost = parseFloat(inputs.kilometers) || 0;
+const workedHours = schedule.hours;
+
+    const handleSave = async (employeeId) => {
+  const workedHoursParsed = parseFloat(inputs.workedHours);
+  const kilometersParsed = parseFloat(inputs.kilometers);
+
+  if (isNaN(workedHoursParsed) || isNaN(kilometersParsed)) {
+    alert("Bitte geben Sie gültige Werte ein.");
+    return;
+  }
+
+  const res = await fetch("/api/update-worked-data", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      scheduleId,
+      workedHours: workedHoursParsed,
+      kilometers: kilometersParsed,
+      employeeId,
+    }),
+  });
+
+  if (res.ok) {
+    alert("✅ Gespeichert");
+  } else {
+    alert("❌ Fehler beim Speichern.");
+  }
+};
+
+
+        return (
+          <div key={`${assignment.id}-${index}`} className="border p-3 rounded mb-2">
+            <p><strong>Kunde:</strong> {assignment.user.firstName} {assignment.user.lastName}</p>
+
+            <p><strong>Service:</strong></p>
+            <ul className="ml-4 list-disc">
+              {(assignment.user.services || []).map((s, i) => (
+                <li key={i}>
+                  {s.name} – {s.hours || 0} Std @ {s.rate || 0} CHF/h
+                </li>
+              ))}
+            </ul>
+
+            <p><strong>Startdatum:</strong> {schedule.day}, {schedule.startTime} Uhr</p>
+
+            {/* INPUTS */}
+            <div className="my-2 text-sm space-y-2">
+              <div>
+                <label>🕒 Geleistete Stunden:</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={inputs.workedHours}
+                  onChange={(e) =>
+                    updateWorkInput(scheduleId, "workedHours", e.target.value)
+                  }
+                  className="border rounded p-1 ml-2 w-24"
+                />
+              </div>
+
+              <div>
+                <label>🚗 Gefahrene Kilometer:</label>
+                <input
+                  type="number"
+                  step="1"
+                  value={inputs.kilometers}
+                  onChange={(e) =>
+                    updateWorkInput(scheduleId, "kilometers", e.target.value)
+                  }
+                  className="border rounded p-1 ml-2 w-24"
+                />
+              </div>
+
+<button
+  onClick={() => handleSave(employeeData.id)}
+  className="mt-2 bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+>
+  Speichern
+</button>
+
+            </div>
+
+            {/* CALCULATED COSTS */}
+            <div className="mt-2 text-sm">
+              <p><strong>Fahrkosten:</strong> {travelCost.toFixed(2)} CHF</p>
+              <p><strong>Gesamtzahlung:</strong> {workedHours.toFixed(2)} CHF</p>
+            </div>
+          </div>
+        );
+      })
     )
   )}
 </Card>
+
+
+
 
 
 <Card title="🚫 Abgelehnte Zuweisungen">
