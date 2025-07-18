@@ -25,17 +25,18 @@ model SubService {
 
 
 model Schedule {
-  id        Int    @id @default(autoincrement())
-  day       String
-  startTime String
-  hours     Int
-  kilometers Int? // ✅ Add this line if not present
-  userId    String
-  user      User   @relation(fields: [userId], references: [id])
+  id         Int       @id @default(autoincrement())
+  day        String
+  startTime  String
+  hours      Int
+  kilometers Int?
+  date       DateTime?    // ← Make it optional!
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
   employeeId String?
-employee   Employee? @relation(fields: [employeeId], references: [id])
-
+  employee   Employee? @relation(fields: [employeeId], references: [id])
 }
+
 
 
 model User {

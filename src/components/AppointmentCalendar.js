@@ -8,9 +8,13 @@ export default function AppointmentCalendar({ schedules }) {
 
   const selectedDateString = selectedDate.toDateString();
 
-  const appointments = schedules.filter(
-    (s) => new Date(s.date).toDateString() === selectedDateString
-  );
+const appointments = schedules.filter(
+  (s) =>
+    s.date &&
+    new Date(s.date).toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10)
+);
+
+
 
   return (
     <div className="my-10 bg-white p-6 rounded-2xl shadow-md border border-gray-200">
@@ -19,14 +23,19 @@ export default function AppointmentCalendar({ schedules }) {
       <Calendar
   onChange={setSelectedDate}
   value={selectedDate}
-  tileContent={({ date }) => {
-    const hasSchedule = schedules.some(
-      (s) => new Date(s.date).toDateString() === date.toDateString()
-    );
-    return hasSchedule ? (
-      <div className="w-2 h-2 bg-blue-500 rounded-full mt-1 mx-auto" />
-    ) : null;
-  }}
+tileContent={({ date }) => {
+  const hasSchedule = schedules.some(
+    (s) =>
+      s.date &&
+      new Date(s.date).toISOString().slice(0, 10) === date.toISOString().slice(0, 10)
+  );
+  return hasSchedule ? (
+    <div className="w-2 h-2 bg-blue-500 rounded-full mt-1 mx-auto" />
+  ) : null;
+}}
+
+
+
   className="w-full mb-4 border rounded-xl p-6 max-w-5xl mx-auto"
 />
 

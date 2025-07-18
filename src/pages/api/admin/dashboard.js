@@ -1,10 +1,10 @@
-import { PrismaClient } from '@prisma/client'; // Correct Prisma client import
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient(); // Initialize Prisma Client
+const prisma = new PrismaClient();
 
-// Fetch all employees
+// Fetch all employees with assignments and schedules
 async function fetchEmployees() {
-  const data = await prisma.employee.findMany({
+  return await prisma.employee.findMany({
     select: {
       id: true,
       firstName: true,
@@ -14,8 +14,6 @@ async function fetchEmployees() {
       status: true,
       invited: true,
       howDidYouHearAboutUs: true,
-
-      // Get assignments and their linked client
       assignments: {
         select: {
           status: true,
@@ -27,13 +25,11 @@ async function fetchEmployees() {
               firstName: true,
               lastName: true,
               email: true,
-              schedules: true, // client schedules
+              schedules: true,
             },
           },
         },
       },
-
-      // ✅ Get this employee's own schedules
       schedules: {
         select: {
           id: true,
@@ -46,99 +42,39 @@ async function fetchEmployees() {
               id: true,
               firstName: true,
               lastName: true,
-            }
-          }
-        }
-      }
-    },
-  });
-
-  return data;
-}
-
-
-
-
-
-
-async function fetchClients() {
-  return await prisma.user.findMany({
-    where: { role: 'client' },
-    include: {
-      services: true, // 👈 needed for filtering + display
-      subServices: true, // 👈 optional: if planning to show
-      assignments: {
-        orderBy: { createdAt: 'desc' },
-        take: 1,
-        include: {
-          employee: true
-        }
-      }
-    }
-  });
-}
-
-const clients = await prisma.user.findMany({
-  where: { role: 'client' },
-  include: {
-    assignments: {
-      where: { status: 'active' }, // Only active assignments
-    },
-  },
-});
-const employees = await prisma.employee.findMany({
-  include: {
-    assignments: {
-      where: { status: "active" }, // Only active assignments
-      include: {
-        user: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            schedules: true, // 💥 important: bring schedules of client
+            },
           },
         },
       },
     },
-  },
-});
-
-
-
-
-
-// The handler function to fetch dashboard data
-async function getDashboardData(req, res) {
-  if (req.method === "GET") {
-    try {
-      const employees = await fetchEmployees(); // Fetch employees from DB
-      const clients = await fetchClients(); // Fetch clients from DB
-      res.status(200).json({ employees, clients });
-    } catch (error) {
-      console.error("Error fetching data:", error); // Log the error for debugging
-      res.status(500).json({ message: "Error fetching data" });
-    }
-  } else {
-    res.status(405).json({ message: "Method Not Allowed" });
-  }
+  });
 }
 
-// Approve employee in DB
+// Fetch all clients with related data
+async function fetchClients() {
+  return await prisma.user.findMany({
+    where: { role: 'client' },
+    include: {
+      services: true,
+      subServices: true,
+      assignments: {
+        orderBy: { createdAt: 'desc' },
+        take: 1,
+        include: { employee: true },
+      },
+    },
+  });
+}
+
+// Approve an employee
 async function approveEmployeeInDB(employeeId) {
   return await prisma.employee.update({
     where: { id: employeeId },
     data: { status: 'approved' },
   });
 }
-const schedules = await prisma.schedule.findMany({
-  include: {
-    user: true, // so we get client names
-  },
-});
 
-
-// Reject employee in DB
+// Reject an employee
 async function rejectEmployeeInDB(employeeId) {
   return await prisma.employee.update({
     where: { id: employeeId },
@@ -146,30 +82,45 @@ async function rejectEmployeeInDB(employeeId) {
   });
 }
 
-// The handler function for approving/rejecting employee
-async function approveEmployee(req, res) {
-  const { employeeId, action } = req.body;
+// Unified API route handler
+export default async function handler(req, res) {
+  if (req.method === 'GET') {
+    try {
+      const employees = await fetchEmployees();
+      const clients = await fetchClients();
+      const schedules = await prisma.schedule.findMany({
+        include: {
+          user: true,
+        },
+      });
 
-  if (action === "approve") {
-    try {
-      await approveEmployeeInDB(employeeId); // Approve the employee in the database
-      res.status(200).send("Employee approved.");
+      return res.status(200).json({ employees, clients, schedules });
     } catch (error) {
-      console.error("Error approving employee:", error); // Log error for debugging
-      res.status(500).send("Error approving employee.");
+      console.error('Error fetching dashboard data:', error);
+      return res.status(500).json({ message: 'Error fetching dashboard data' });
     }
-  } else if (action === "reject") {
-    try {
-      await rejectEmployeeInDB(employeeId); // Reject the employee in the database
-      res.status(200).send("Employee rejected.");
-    } catch (error) {
-      console.error("Error rejecting employee:", error); // Log error for debugging
-      res.status(500).send("Error rejecting employee.");
-    }
-  } else {
-    res.status(400).send("Invalid action.");
   }
-}
 
-// Export getDashboardData as default
-export default getDashboardData;
+  if (req.method === 'POST') {
+    const { employeeId, action } = req.body;
+
+    try {
+      if (action === 'approve') {
+        await approveEmployeeInDB(employeeId);
+        return res.status(200).json({ message: 'Employee approved' });
+      }
+
+      if (action === 'reject') {
+        await rejectEmployeeInDB(employeeId);
+        return res.status(200).json({ message: 'Employee rejected' });
+      }
+
+      return res.status(400).json({ message: 'Invalid action' });
+    } catch (error) {
+      console.error('Error updating employee:', error);
+      return res.status(500).json({ message: 'Error updating employee status' });
+    }
+  }
+
+  return res.status(405).json({ message: 'Method Not Allowed' });
+}

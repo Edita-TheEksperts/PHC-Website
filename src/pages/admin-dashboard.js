@@ -136,7 +136,8 @@ async function fetchData() {
   setApprovedEmployees(approved);
 
   setClients(data.clients || []);
-
+// ✅ Set schedules for calendar
+  setSchedules(data.schedules || []);
   // 🟡 Now this works
   const sourceStats = {};
   const andereItems = [];

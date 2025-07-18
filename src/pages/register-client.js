@@ -7,13 +7,12 @@ import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import DatePicker from 'react-datepicker';
-import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
-import { addDays } from 'date-fns';
+import { parse, addDays, format } from "date-fns";
 
 export default function RegisterPage() {
-    const testMode = false; 
+    const testMode = true; 
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -171,13 +170,54 @@ const SummaryRow = ({ label, value }) => (
 const stripe = useStripe();
 const elements = useElements();
 
+function generateScheduleDates({ firstDateStr, schedules, repeat = 6 }) {
+  const weekdays = {
+    Montag: 1,
+    Dienstag: 2,
+    Mittwoch: 3,
+    Donnerstag: 4,
+    Freitag: 5,
+    Samstag: 6,
+    Sonntag: 0,
+  };
+
+  const firstDate = parse(firstDateStr, "dd.MM.yyyy", new Date());
+  const result = [];
+
+  for (const { day, startTime, hours } of schedules) {
+    if (!day) continue;
+
+    let date = new Date(firstDate);
+    while (date.getDay() !== weekdays[day]) {
+      date = addDays(date, 1);
+    }
+
+    for (let i = 0; i < repeat; i++) {
+      result.push({
+        date: format(addDays(date, i * 7), "yyyy-MM-dd"),
+        day,
+        startTime,
+        hours,
+      });
+    }
+  }
+
+  return result;
+}
 const handleSubmit = async (e) => {
   e.preventDefault();
-
+ 
   if (!validateStep()) {
     alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
     return;
   }
+
+   const generatedSchedules = generateScheduleDates({
+  firstDateStr: form.firstDate,
+  schedules: form.schedules,
+  repeat: 6 // Adjust as needed
+});
+
 
   const HOURLY_RATE = 1;
   const totalHours = form.schedules.reduce(
@@ -193,15 +233,17 @@ const handleSubmit = async (e) => {
       const res = await fetch("/api/client-register-api", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          totalPayment,
-          paymentIntentId: "TEST_MODE_NO_PAYMENT", // Dummy value
-firstDate: (() => {
-  const [day, month, year] = form.firstDate.split(".");
-  return `${year}-${month}-${day}`; // → yyyy-mm-dd for backend
-})(),
-        }),
+   body: JSON.stringify({
+  ...form,
+  totalPayment,
+  paymentIntentId: "TEST_MODE_NO_PAYMENT",
+  firstDate: (() => {
+    const [day, month, year] = form.firstDate.split(".");
+    return `${year}-${month}-${day}`;
+  })(),
+  schedules: generatedSchedules, // ✅ added full dates
+}),
+
       });
 
       if (res.ok) {

@@ -151,14 +151,17 @@ if (paymentIntentId && paymentIntentId !== "TEST_MODE_NO_PAYMENT") {
         found: subServiceRecords.map((s) => s.name),
       });
     }
+const schedulesCreate = schedules
+  .filter((item) => item.day && item.startTime && item.hours && item.date)
+  .map((item) => ({
+    day: item.day,
+    startTime: item.startTime,
+    hours: parseInt(item.hours, 10) || 0,
+    date: new Date(item.date),
+  }));
 
-    const schedulesCreate = schedules
-      .filter((item) => item.day && item.startTime && item.hours)
-      .map((item) => ({
-        day: item.day,
-        startTime: item.startTime,
-        hours: parseInt(item.hours, 10) || 0,
-      }));
+
+
 
     const HOURLY_RATE = 1;
     const totalHours = schedulesCreate.reduce((sum, item) => sum + item.hours, 0);
@@ -303,9 +306,13 @@ mentalConditions: safeStringOrNull(diagnoses),
     });
 
     return res.status(201).json({ message: "User registered successfully", userId: user.id });
-  } catch (error) {
-    console.error("❌ Error during registration:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
-  }
+} catch (error) {
+  console.error("❌ Error during registration:", error?.stack || error);
+  return res.status(500).json({
+    message: "Internal server error",
+    error: error?.message || String(error)
+  });
+}
+
 
 }
