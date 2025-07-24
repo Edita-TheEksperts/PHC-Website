@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from "react";
+import { useForm } from 'react-hook-form';
+
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
@@ -12,7 +14,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { parse, addDays, format } from "date-fns";
 
 export default function RegisterPage() {
-    const testMode = true; 
+    const testMode = false; 
+const { watch } = useForm();
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -50,6 +53,64 @@ subServices: prev.subServices?.length ? prev.subServices : [data[0]?.name].filte
   minDate.setDate(today.getDate() + 10);
   const minDateStr = minDate.toISOString().split("T")[0];
 
+const [user, setUser] = useState(null);
+const { session_id } = router.query;
+
+// Sync step with query
+useEffect(() => {
+  if (router.query.step) {
+    setStep(Number(router.query.step)); // or keep as string if your `step` is string
+  }
+}, [router.query.step]);
+
+// Load user data from Stripe session
+useEffect(() => {
+  if (step === 4 && session_id) {
+    console.log("🔍 Step 4 triggered with session_id:", session_id);
+
+    fetch(`/api/complete-registration?session_id=${session_id}`)
+      .then((res) => {
+        console.log("📡 Response from /complete-registration:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("📦 Data from complete-registration:", data);
+        if (!data.userId) throw new Error("❌ No userId returned from /complete-registration");
+        
+        console.log("✅ userId found:", data.userId);
+        return fetch(`/api/get-user-by-id?id=${data.userId}`);
+      })
+      .then((res) => {
+        console.log("📡 Response from /get-user-by-id:", res.status);
+        return res.json();
+      })
+      .then((userData) => {
+        console.log("👤 Full user data fetched:", userData);
+        setUser(userData);
+        setForm(prev => ({
+          ...prev,
+          ...userData,
+          service: userData.services?.[0]?.name || '',
+          postalCode: userData.carePostalCode || userData.postalCode || ''
+        }));
+      })
+      .catch((err) => {
+        console.error("❌ Error loading user for Step 4:", err);
+      });
+  }
+}, [step, session_id]);
+
+useEffect(() => {
+  if (user && user.services?.[0]?.name) {
+    setForm(prev => ({
+      ...prev,
+      service: user.services[0].name,
+      postalCode: user.carePostalCode || user.postalCode || ''
+    }));
+  }
+}, [user]);
+
+
  const [form, setForm] = useState({
   services: [], // ✅ important: default to empty array
   frequency: "",
@@ -61,9 +122,6 @@ subServices: prev.subServices?.length ? prev.subServices : [data[0]?.name].filte
   phone: "",
   password: "",
   address: "",
-  cardNumber: "",
-  expiryDate: "",
-  cvc: "",
   subServices: [], // ✅ was "" — now fixed to be an array
   schedules: [{ day: "", startTime: "08:00", hours: 2 }], // ✅ 1 day by default
   arrivalConditions: [],
@@ -86,7 +144,68 @@ const SummaryRow = ({ label, value }) => (
 
   const inputClass =
     "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F] placeholder-gray-500 mt-1";
-
+const preparePayload = (form) => ({
+  firstName: form.firstName,
+  lastName: form.lastName,
+  email: form.email,
+  phone: form.phone || "",
+  password: form.password,
+  address: form.address || "",
+  frequency: form.frequency || "",
+  duration: Number(form.duration) || null,
+  firstDate: form.firstDate,
+  cardNumber: form.cardNumber || "",
+  expiryDate: form.expiryDate || "",
+  cvc: form.cvc || "",
+  languages: form.languages || "",
+  hasPets: form.hasPets || "Nein",
+  petDetails: form.hasPets === "Ja" ? form.petDetails || "" : "",
+  services: form.services || [],          // array of strings
+  subServices: form.subServices || [],    // array of strings
+  schedules: form.schedules || [],        // array of schedule objects
+  arrivalConditions: form.arrivalConditions || [], // array
+  hasParking: form.hasParking || "",
+  entranceLocation: form.entranceLocation || "",
+  postalCode: form.postalCode || "",
+  city: form.city || "",
+  street: form.street || "",
+  mobilityAids: form.mobilityAids || [],
+  transportOption: form.transportOption || "",
+  shoppingWithClient: form.shoppingWithClient || "",
+  shoppingItems: form.shoppingItems || [],
+  mailboxKeyLocation: form.mailboxKeyLocation || "",
+  mailboxDetails: form.mailboxDetails || "",
+  additionalAccompaniment: form.additionalAccompaniment || "",
+  companionship: form.companionship || "",
+  cookingTogether: form.cookingTogether || "",
+  biographyWork: form.biographyWork || "",
+  hasTech: form.hasTech || "",
+  reading: form.reading || "",
+  cardGames: form.cardGames || "",
+  hasAllergies: form.hasAllergies || "",
+  allergyDetails: form.allergyDetails || "",
+  trips: form.trips || [],
+  height: Number(form.height) || null,
+  weight: Number(form.weight) || null,
+  careTools: form.careTools || [],
+  careToolsOther: form.careToolsOther || "",
+  incontinence: form.incontinence || [],
+  vision: form.vision || "",
+  hearing: form.hearing || "",
+  speaking: form.speaking || "",
+  nutritionSupport: form.nutritionSupport || [],
+  basicCare: form.basicCare || [],
+  basicCareOther: form.basicCareOther || "",
+  healthPromotion: form.healthPromotion || [],
+  healthPromotionOther: form.healthPromotionOther || "",
+  mentalSupportNeeded: form.mentalSupportNeeded || "",
+  diagnoses: form.diagnoses || [],
+  behaviorTraits: form.behaviorTraits || [],
+  healthFindings: form.healthFindings || "",
+  roomCount: Number(form.roomCount) || null,
+  householdSize: Number(form.householdSize) || null,
+  paymentIntentId: form.paymentIntentId || "",  // make sure this is set
+});
   const validateStep = () => {
   if (step === 1) {
     if (!form.frequency) {
@@ -134,12 +253,13 @@ const SummaryRow = ({ label, value }) => (
     }
   }
 
-  if (step === 3 && !testMode) {
-    if (!form.cardNumber || !form.expiryDate || !form.cvc) {
-      alert("Bitte geben Sie alle Kreditkarteninformationen ein.");
-      return false;
-    }
-  }
+if (step === 3 && !testMode) {
+if (!testMode) {
+  // remove CardElement check completely
+}
+
+}
+
 
   if (step === 4 || (testMode && step === 3)) {
     if (!form.transportOption) {
@@ -155,18 +275,92 @@ const SummaryRow = ({ label, value }) => (
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleNext = () => {
-    if (!validateStep()) {
-    alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
-    return;
+const handleNext = async () => {
+  if (!validateStep()) return;
+
+if (step === 3 && !testMode) {
+  try {
+    const totalHours = form.schedules.reduce((sum, entry) => sum + (parseFloat(entry.hours) || 0), 0);
+    const totalPayment = totalHours * HOURLY_RATE;
+
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        form: preparePayload(form),
+        totalAmount: totalPayment,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data?.url) {
+      window.location.href = data.url; // Redirect to Stripe Checkout
+    } else {
+      alert("Stripe Checkout konnte nicht gestartet werden.");
+    }
+  } catch (err) {
+    console.error("Checkout Session Fehler:", err);
+    alert("Ein Fehler ist aufgetreten.");
   }
+  return;
+}
 
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Move to next step
-  setStep((s) => s + 1);
-  };
+
+
+  setStep((prev) => prev + 1);
+};
+
+
+const createCheckoutSession = async (priceId) => {
+  try {
+    const response = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId }),
+    });
+
+    const data = await response.json();
+    return data.url;
+  } catch (err) {
+    console.error("Checkout session error:", err);
+    return null;
+  }
+};
+useEffect(() => {
+  const sessionId = new URLSearchParams(window.location.search).get("session_id");
+
+  if (sessionId && !form.paymentIntentId) {
+    const completeRegistration = async () => {
+      try {
+        const res = await fetch(`/api/complete-registration?session_id=${sessionId}`);
+        const data = await res.json();
+
+        if (data.success) {
+          setIsSubmitted(true);
+          setStep(4); // proceed to optional step
+        } else {
+          alert("Registrierung nach Zahlung fehlgeschlagen.");
+        }
+      } catch (err) {
+        console.error("❌ Fehler bei der Registrierung nach Zahlung:", err);
+        alert("Ein Fehler ist aufgetreten.");
+      }
+    };
+
+    completeRegistration();
+  }
+}, []);
+
+
+useEffect(() => {
+  const stepParam = new URLSearchParams(window.location.search).get('step');
+  if (stepParam) {
+    setStep(Number(stepParam));
+  }
+}, []);
+
 const stripe = useStripe();
 const elements = useElements();
 
@@ -266,69 +460,108 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  try {
-    const paymentIntentRes = await fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: totalPayment * 100 }),
-    });
+try {
+  const paymentIntentRes = await fetch("/api/create-payment-intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: totalPayment * 100 }),
+  });
 
-    const { clientSecret, id: paymentIntentId } = await paymentIntentRes.json();
+  const data = await paymentIntentRes.json();
+  console.log("📦 Stripe response:", data);
 
- const result = await stripe.confirmCardPayment(clientSecret, {
-  payment_method: {
-    card: elements.getElement(CardElement),
-    billing_details: {
-      name: form.billingName,
-      email: form.billingEmail,
-      phone: form.billingPhone,
-      address: {
-        line1: form.billingStreet,
-        city: form.billingCity,
-        postal_code: form.billingPostalCode,
-        country: form.billingCountry || "CH",
+  // ❌ If error from backend
+  if (data.error) {
+    alert("Stripe Fehler: " + data.error);
+    return;
+  }
+
+  // ✅ FIX: Define it before using
+  const clientSecret = data.clientSecret;
+  const paymentIntentId = data.id;
+
+  // ❗ double-check both are there
+  if (!clientSecret || !paymentIntentId) {
+    console.error("❌ clientSecret or paymentIntentId fehlt:", data);
+    alert("Fehler: Stripe clientSecret wurde nicht empfangen.");
+    return;
+  }
+
+  const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+    payment_method: {
+      card: elements.getElement(CardElement),
+      billing_details: {
+        name: form.billingName,
+        email: form.billingEmail,
+        phone: form.billingPhone,
+        address: {
+          line1: form.billingStreet,
+          city: form.billingCity,
+          postal_code: form.billingPostalCode,
+          country: form.billingCountry || "CH",
+        },
       },
     },
-  },
-});
+  });
 
-
-    if (result.error) {
-      alert("Zahlungsfehler: " + result.error.message);
-      return;
-    }
-
-    if (
-      result.paymentIntent.status === "requires_capture" ||
-      result.paymentIntent.status === "requires_confirmation" ||
-      result.paymentIntent.status === "succeeded"
-    ) {
-      const res = await fetch("/api/client-register-api", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          totalPayment,
-          paymentIntentId,
-          firstDate: form.firstDate,
-        }),
-      });
-
-      if (res.ok) {
-        setIsSubmitted(true);
-        router.push("/login");
-      } else {
-        const err = await res.json();
-        alert("Fehler bei der Registrierung: " + err.message);
-      }
-    }
-  } catch (err) {
-    alert("Serverfehler. Bitte versuchen Sie es später erneut.");
-    console.error(err);
+  if (error) {
+    alert("Zahlungsfehler: " + error.message);
+    return;
   }
+
+  if (
+    paymentIntent.status === "requires_capture" ||
+    paymentIntent.status === "requires_confirmation" ||
+    paymentIntent.status === "succeeded"
+  ) {
+    const res = await fetch("/api/client-register-api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...form,
+        totalPayment,
+        paymentIntentId,
+        firstDate: form.firstDate,
+      }),
+    });
+
+    if (res.ok) {
+      setIsSubmitted(true);
+      router.push("/login");
+    } else {
+      const err = await res.json();
+      alert("Fehler bei der Registrierung: " + err.message);
+    }
+  }
+} catch (err) {
+  alert("❌ Fehler bei der Zahlung.");
+  console.error("💥 Stripe Payment Error:", err);
+}
+
 };
 
 
+const handleOptionalSubmit = async () => {
+  try {
+    const res = await fetch('/api/save-optional-data', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    userId: user?.id,             // ✅ make sure user exists
+    optionalData: form            // ✅ send form as optionalData
+  }),
+});
+
+    if (res.ok) {
+      router.push("/login");
+    } else {
+      alert("Fehler beim Speichern der Angaben.");
+    }
+  } catch (err) {
+    console.error("Step 4 Save Error:", err);
+    alert("Ein Fehler ist aufgetreten.");
+  }
+};
 
 useEffect(() => {
   const fetchSubServices = async () => {
@@ -447,68 +680,7 @@ function TimeDropdown({ value, onChange }) {
     onChange(val);
     setOpen(false);
   };
-const preparePayload = (form) => ({
-  firstName: form.firstName,
-  lastName: form.lastName,
-  email: form.email,
-  phone: form.phone || "",
-  password: form.password,
-  address: form.address || "",
-  frequency: form.frequency || "",
-  duration: Number(form.duration) || null,
-  firstDate: form.firstDate,
-  cardNumber: form.cardNumber || "",
-  expiryDate: form.expiryDate || "",
-  cvc: form.cvc || "",
-  languages: form.languages || "",
-  hasPets: form.hasPets || "Nein",
-  petDetails: form.hasPets === "Ja" ? form.petDetails || "" : "",
-  services: form.services || [],          // array of strings
-  subServices: form.subServices || [],    // array of strings
-  schedules: form.schedules || [],        // array of schedule objects
-  arrivalConditions: form.arrivalConditions || [], // array
-  hasParking: form.hasParking || "",
-  entranceLocation: form.entranceLocation || "",
-  postalCode: form.postalCode || "",
-  city: form.city || "",
-  street: form.street || "",
-  mobilityAids: form.mobilityAids || [],
-  transportOption: form.transportOption || "",
-  shoppingWithClient: form.shoppingWithClient || "",
-  shoppingItems: form.shoppingItems || [],
-  mailboxKeyLocation: form.mailboxKeyLocation || "",
-  mailboxDetails: form.mailboxDetails || "",
-  additionalAccompaniment: form.additionalAccompaniment || "",
-  companionship: form.companionship || "",
-  cookingTogether: form.cookingTogether || "",
-  biographyWork: form.biographyWork || "",
-  hasTech: form.hasTech || "",
-  reading: form.reading || "",
-  cardGames: form.cardGames || "",
-  hasAllergies: form.hasAllergies || "",
-  allergyDetails: form.allergyDetails || "",
-  trips: form.trips || [],
-  height: Number(form.height) || null,
-  weight: Number(form.weight) || null,
-  careTools: form.careTools || [],
-  careToolsOther: form.careToolsOther || "",
-  incontinence: form.incontinence || [],
-  vision: form.vision || "",
-  hearing: form.hearing || "",
-  speaking: form.speaking || "",
-  nutritionSupport: form.nutritionSupport || [],
-  basicCare: form.basicCare || [],
-  basicCareOther: form.basicCareOther || "",
-  healthPromotion: form.healthPromotion || [],
-  healthPromotionOther: form.healthPromotionOther || "",
-  mentalSupportNeeded: form.mentalSupportNeeded || "",
-  diagnoses: form.diagnoses || [],
-  behaviorTraits: form.behaviorTraits || [],
-  healthFindings: form.healthFindings || "",
-  roomCount: Number(form.roomCount) || null,
-  householdSize: Number(form.householdSize) || null,
-  paymentIntentId: form.paymentIntentId || "",  // make sure this is set
-});
+
 
 
   return (
@@ -688,6 +860,7 @@ return (
               
   {allServices.map((srv) => {
     const isSelected = form.services.includes(srv.name);
+    
     return (
       <button
         key={srv.id}
@@ -1320,34 +1493,7 @@ onChange={(date) => {
     />
   </div>
 
-  {/* 💳 Card Element */}
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">
-      Kreditkarten-Informationen
-    </label>
-    <div className="relative">
-      <div className="w-full px-5 py-4 pr-16 border border-gray-300 rounded-xl shadow-sm focus-within:ring-2 focus-within:ring-[#B99B5F]">
-        <CardElement
-          id="card-element"
-          options={{
-            style: {
-              base: {
-                fontSize: '16px',
-                color: '#000',
-                '::placeholder': { color: '#a0aec0' },
-              },
-              invalid: {
-                color: '#e53e3e',
-              },
-            },
-          }}
-        />
-      </div>
-      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-        💳
-      </div>
-    </div>
-  </div>
+  
 
   {/* ✅ AGB */}
   <div className="flex items-start gap-2">
@@ -1381,7 +1527,7 @@ onChange={(date) => {
       <input
         name="firstName"
         placeholder="Vorname"
-        value={form.firstName || ""}
+        defaultValue ={form.firstName || ""}
         onChange={handleChange}
         className={inputClass}
       />
@@ -2130,24 +2276,46 @@ onChange={(date) => {
 )}
 
 
-          <div className="pt-6 flex justify-end gap-4">
-            {step > 1 && (
-              <button type="button" onClick={() => setStep((s) => s - 1)} className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg">
-                Zurück
-              </button>
-            )}
-{step < steps.length ? (
-  <button type="button" onClick={handleNext} className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg">
-    Weiter
-  </button>
-) : (
-  <button type="submit" className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg">
-    Registrierung abschliessen
-  </button>
-)}
+       <div className="pt-6 flex justify-end gap-4">
+  {step > 1 && (
+    <button
+      type="button"
+      onClick={() => setStep((s) => s - 1)}
+      className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg"
+    >
+      Zurück
+    </button>
+  )}
 
+  {/* ✅ For optional Step 4 */}
+  {step === 4 ? (
+    <>
+      <button
+        type="button"
+        onClick={() => router.push("/thank-you")} // skip logic
+        className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg"
+      >
+        Überspringen
+      </button>
+      <button
+        type="button"
+        onClick={handleOptionalSubmit} // sends data to DB
+        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+      >
+        Weiter
+      </button>
+    </>
+  ) : (
+    <button
+      type="button"
+      onClick={handleNext}
+      className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+    >
+      Weiter
+    </button>
+  )}
+</div>
 
-          </div>
         </form>
       </div>
 

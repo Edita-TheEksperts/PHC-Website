@@ -5,15 +5,6 @@ import { sendEmail } from "../../lib/emails";
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  console.log("📦 Incoming Form Data:", JSON.stringify(req.body, null, 2));
- // Helper to convert null/undefined to empty string
-  const safeString = (val) => (val == null ? "" : val);
-
-  // Fix: define safeStringOrNull to avoid error
-  const safeStringOrNull = (val) => (typeof val === "string" && val.trim() !== "" ? val : null);
-
-
-
   try {
     const {
       firstName,
@@ -22,250 +13,96 @@ export default async function handler(req, res) {
       phone,
       password,
       address,
+      street,
+      postalCode,
+      city,
       frequency,
       duration,
       firstDate,
-
-      cardNumber,
-      expiryDate,
-      cvc,
-      languages,
-
-      hasPets,
-      petDetails,
-
       services,
-      subServices: subServicesRaw,
-      allergies,
-      specialRequests,
+      subServices,
       schedules = [],
-
       paymentIntentId,
-
-      street,
-      entranceLocation,
-      postalCode,
-      city,
-      arrivalConditions,
-      hasParking,
-      entranceDescription,
-
-      mobilityAids,
-      transportOption,
-      appointmentTypes,
-      appointmentOther,
-      shoppingWithClient,
-      shoppingItems,
-      mailboxKeyLocation,
-      mailboxDetails,
-      additionalAccompaniment,
-
-      companionship,
-      cookingTogether,
-      biographyWork,
-      hasTech,
-      reading,
-      cardGames,
-      hasAllergies,
-      allergyDetails,
-      trips,
-
-      height,
-      weight,
-      careTools,
-      careToolsOther,
-      incontinence,
-      vision,
-      hearing,
-      speaking,
-      nutritionSupport,
-      basicCare,
-      basicCareOther,
-      healthPromotion,
-      healthPromotionOther,
-      mentalSupportNeeded,
-      diagnoses,
-      behaviorTraits,
-      healthFindings,
-
-      roomCount,
-      householdSize,
     } = req.body;
 
-    if (!firstName || !lastName || !email || !password || !firstDate || !paymentIntentId) {
-      return res.status(400).json({ message: "Required fields are missing (including paymentIntentId)" });
+    // 🧾 Log incoming body
+    console.log("📨 Incoming request body:", req.body);
+
+    // ✅ Basic validations
+    if (!firstName || !lastName || !email || !password || !firstDate || !services?.length || !subServices?.length) {
+      return res.status(400).json({ message: "❌ Missing required fields" });
     }
 
-    const parsedDate = new Date(firstDate);
-    if (isNaN(parsedDate.getTime())) {
-      return res.status(400).json({ message: "Invalid firstDate" });
-    }
-// ✅ Stripe Verification (only if not test mode)
-if (paymentIntentId && paymentIntentId !== "TEST_MODE_NO_PAYMENT") {
-  const Stripe = require('stripe');
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Make sure this is set in .env
+    // 🗓 Parse date
+    const parsedDate = new Date(firstDate.split(".").reverse().join("-"));
+    console.log("📆 Parsed date:", parsedDate);
 
-  try {
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
-    if (!["succeeded", "requires_capture", "requires_confirmation"].includes(paymentIntent.status)) {
-      return res.status(402).json({
-        message: "Zahlung wurde nicht erfolgreich verarbeitet.",
-        stripeStatus: paymentIntent.status,
-      });
-    }
-  } catch (stripeErr) {
-    console.error("Stripe verification failed:", stripeErr);
-    return res.status(500).json({ message: "Stripe PaymentIntent konnte nicht überprüft werden." });
-  }
-}
-
+    // 🔒 Hash password
     const passwordHash = await hash(password, 10);
 
-    if (!Array.isArray(services) || services.length === 0) {
-      return res.status(400).json({ message: "No services provided" });
-    }
-
+    // 📦 Fetch services and subservices
     const serviceRecords = await prisma.service.findMany({
       where: { name: { in: services } },
     });
-    if (serviceRecords.length !== services.length) {
-      return res.status(400).json({
-        message: "One or more services not found",
-        received: services,
-        found: serviceRecords.map((s) => s.name),
-      });
-    }
-
-    if (!Array.isArray(subServicesRaw) || subServicesRaw.length === 0) {
-      return res.status(400).json({ message: "No subservices provided" });
-    }
-
     const subServiceRecords = await prisma.subService.findMany({
-      where: { name: { in: subServicesRaw } },
+      where: { name: { in: subServices } },
     });
-    if (subServiceRecords.length !== subServicesRaw.length) {
-      return res.status(400).json({
-        message: "One or more subservices not found",
-        received: subServicesRaw,
-        found: subServiceRecords.map((s) => s.name),
-      });
+
+    console.log("🔗 Matched services:", serviceRecords.map(s => s.name));
+    console.log("🔗 Matched subservices:", subServiceRecords.map(s => s.name));
+
+    if (serviceRecords.length !== services.length || subServiceRecords.length !== subServices.length) {
+      return res.status(400).json({ message: "❌ Service or Subservice not found" });
     }
-const schedulesCreate = schedules
-  .filter((item) => item.day && item.startTime && item.hours && item.date)
-  .map((item) => ({
-    day: item.day,
-    startTime: item.startTime,
-    hours: parseInt(item.hours, 10) || 0,
-    date: new Date(item.date),
-  }));
 
+    // 📅 Prepare schedules
+    const schedulesCreate = schedules.map((entry) => ({
+      day: entry.day,
+      startTime: entry.startTime,
+      hours: parseFloat(entry.hours),
+      date: parsedDate,
+    }));
 
+    console.log("📋 Final schedules to insert:", schedulesCreate);
 
-
-    const HOURLY_RATE = 1;
+    // 💰 Calculate total payment
     const totalHours = schedulesCreate.reduce((sum, item) => sum + item.hours, 0);
+    const HOURLY_RATE = 1;
     const totalPayment = totalHours * HOURLY_RATE;
+    console.log("🧮 Total hours:", totalHours, "→ Payment:", totalPayment);
 
-    const pets = hasPets === "Ja" ? safeString(petDetails) : "";
+    // 💾 Save user to DB
+    const user = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        phone,
+        passwordHash,
+        address,
+        careStreet: street,
+        carePostalCode: postalCode,
+        careCity: city,
+        frequency,
+        duration,
+        firstDate: parsedDate,
+        paymentIntentId,
+        totalPayment,
+        services: {
+          connect: services.map((name) => ({ name })),
+        },
+        subServices: {
+          connect: subServiceRecords.map((s) => ({ id: s.id })),
+        },
+        schedules: {
+          create: schedulesCreate,
+        },
+      },
+    });
 
-    const joinOrEmpty = (val) =>
-      Array.isArray(val) ? val.join(", ") : safeString(val);
+    console.log("✅ User created with ID:", user.id);
 
-    const userData = {
-  // Basic fields
-  firstName,
-  lastName,
-  email,
-phone: safeString(phone),
-address: safeString(address),
-frequency: safeString(frequency),
-  passwordHash,
-  duration: typeof duration === "number" ? duration : parseInt(duration, 10) || null,
-  firstDate: parsedDate,
-  cardNumber: safeStringOrNull(cardNumber),
-  expiryDate: safeStringOrNull(expiryDate),
-  cvc: safeStringOrNull(cvc),
-  languages: safeStringOrNull(languages),
-  pets: hasPets === "Ja" ? safeStringOrNull(petDetails) : null,
-  allergies: safeStringOrNull(allergies),
-  specialRequests: safeStringOrNull(specialRequests),
-  totalPayment,
-  paymentIntentId,
-
-  postalCode: safeStringOrNull(postalCode),
-  careCity: safeStringOrNull(city),
-  careStreet: safeStringOrNull(street),
-  careEntrance: safeStringOrNull(entranceLocation),
-  careArrivalConditions: safeStringOrNull(arrivalConditions),
-  careHasParking: safeStringOrNull(hasParking),
-  careEntranceDetails: safeStringOrNull(entranceDescription),
-
-  height: height ? String(height) : null,
-  weight: weight ? String(weight) : null,
-
-  mobilityAids: safeStringOrNull(mobilityAids),
-  transportOption: safeStringOrNull(transportOption),
-
-  appointmentTypes: safeStringOrNull(appointmentTypes),
-  appointmentOther: safeStringOrNull(appointmentOther),
-  shoppingWithClient: safeStringOrNull(shoppingWithClient),
-  shoppingItems: safeStringOrNull(shoppingItems),
-  mailboxKeyLocation: safeStringOrNull(mailboxKeyLocation),
-  mailboxDetails: safeStringOrNull(mailboxDetails),
-  additionalAccompaniment: safeStringOrNull(additionalAccompaniment),
-
-companionship: safeStringOrNull(companionship),
-cooking: safeStringOrNull(cookingTogether),
-biographyWork: safeStringOrNull(biographyWork),
-hasTech: safeStringOrNull(hasTech),
-reads: safeStringOrNull(reading),
-playsCards: safeStringOrNull(cardGames),
-hasAllergies: safeStringOrNull(hasAllergies),
-allergyDetails: safeStringOrNull(allergyDetails),
-outings: safeStringOrNull(trips),
-
-aids: safeStringOrNull(careTools),
-aidsOther: safeStringOrNull(careToolsOther),
-incontinence: safeStringOrNull(incontinence),
-
-communicationSehen: safeStringOrNull(vision),
-communicationHören: safeStringOrNull(hearing),
-communicationSprechen: safeStringOrNull(speaking),
-
-foodSupport: safeStringOrNull(nutritionSupport),
-basicCare: safeStringOrNull(basicCare),
-basicCareOther: safeStringOrNull(basicCareOther),
-
-healthActivities: safeStringOrNull(healthPromotion),
-healthActivitiesOther: safeStringOrNull(healthPromotionOther),
-
-mentalSupport: safeStringOrNull(mentalSupportNeeded),
-mentalConditions: safeStringOrNull(diagnoses),
-
-
-  behaviorTraits: safeStringOrNull(behaviorTraits), // if your model supports this, else omit or store elsewhere
-  medicalFindings: safeStringOrNull(healthFindings),
-
-  householdRooms: roomCount ? parseInt(roomCount, 10) : null,
-  householdPeople: householdSize ? parseInt(householdSize, 10) : null,
-
-  services: {
-    connect: services.map((name) => ({ name })),
-  },
-  subServices: {
-    connect: subServiceRecords.map((record) => ({ id: record.id })),
-  },
-  schedules: {
-    create: schedulesCreate,
-  },
-};
-
-
-    console.log("🧪 Final Prisma Payload:", JSON.stringify(userData, null, 2));
-
-    const user = await prisma.user.create({ data: userData });
-
+    // 📧 Send confirmation email
     await sendEmail({
       to: email,
       subject: "Willkommen bei Prime Home Care – Ihr Zugang ist aktiv",
@@ -288,6 +125,7 @@ mentalConditions: safeStringOrNull(diagnoses),
       `,
     });
 
+    // 🔔 Create reminders
     await prisma.reminder.createMany({
       data: [
         {
@@ -305,14 +143,36 @@ mentalConditions: safeStringOrNull(diagnoses),
       ],
     });
 
-    return res.status(201).json({ message: "User registered successfully", userId: user.id });
-} catch (error) {
-  console.error("❌ Error during registration:", error?.stack || error);
-  return res.status(500).json({
-    message: "Internal server error",
-    error: error?.message || String(error)
-  });
-}
+    console.log("⏰ Reminders scheduled");
 
+    return res.status(201).json({ message: "✅ User registered successfully", userId: user.id });
+  } catch (error) {
+    console.error("❌ Error during registration:", {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      meta: error.meta,
+    });
 
+    // Prisma unique constraint violation (e.g., email already exists)
+    if (error.code === "P2002") {
+      return res.status(409).json({
+        message: "❌ Diese E-Mail-Adresse ist bereits registriert.",
+        field: error.meta?.target,
+      });
+    }
+
+    // Record not found
+    if (error.code === "P2025") {
+      return res.status(400).json({
+        message: "❌ Ein erforderlicher Datensatz konnte nicht gefunden werden.",
+      });
+    }
+
+    return res.status(500).json({
+      message: "❌ Interner Serverfehler",
+      error: error.message || "Unbekannter Fehler",
+    });
+  }
 }
