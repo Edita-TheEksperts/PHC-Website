@@ -40,7 +40,7 @@ export default function BlogPage() {
        {/* Blog Categories */}
        <div className="mb-[60px]">
         <h1 className="text-[#04436F] text-center font-metropolis text-[55px] font-semibold leading-[71.5px]">
-          Blog Categories
+          Blog Kategorien
         </h1>
         
         {/* Render categories dynamically */}
@@ -101,7 +101,7 @@ export default function BlogPage() {
           disabled={currentPage === 1}
           className={`px-6 py-2 lg:px-[150px] lg:py-[14px] rounded-full text-white bg-[#04436F] transition hover:bg-[#B99B5F] ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          Previous
+          Zurück
         </button>
         
         <span className="text-[#04436F] text-[18px] font-medium mt-4">
@@ -113,7 +113,7 @@ export default function BlogPage() {
           disabled={currentPage === totalPages}
           className={`px-6 py-2 lg:px-[150px] lg:py-[14px] rounded-full text-white bg-[#04436F] transition hover:bg-[#B99B5F] ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          Next
+          Weiter
         </button>
       </div>
 

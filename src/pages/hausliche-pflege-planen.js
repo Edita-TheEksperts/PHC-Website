@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function HomeCarePage() {
     return (
       <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
@@ -64,10 +65,12 @@ Von Alltagsbegleitung, Besorgungen und Hauswirtschaft bis hin zu sozialen Aktivi
   Sie haben das Gefühl, nicht alle Fakten zu kennen und sollen<br></br> weitreichende und kostspielige Entscheidungen erst noch unter<br></br> Zeitdruck treffen?<br></br>
 Nehmen Sie zuerst mit uns Kontakt auf, bevor Sie einen Entscheid<br></br> treffen!<br></br>
 Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und einfach</p>
+<Link href="/register-client">
 
-          <button className="bg-[#04436F] text-white lg:mt-[60px] px-6 py-3 rounded-full text-[18px] font-medium mt-6 transition duration-300 hover:bg-[#6FCF97]">
+          <button className="bg-[#04436F] text-white lg:mt-[60px] px-6 py-3 rounded-full text-[18px] font-medium mt-6 transition duration-300 hover:bg-[#B99B5F]">
           Jetzt buchen
                     </button>
+                    </Link>
         </section>
   
         {/* Image & Text Grid */}
@@ -88,7 +91,7 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
     
     {/* Heading */}
     <h3 className="text-[#04436F] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
-    Unsere Lösungen für eine optimale Ihre <br></br>Betreuung – einfach<br></br> digital organisiert
+    Unsere Lösungen für eine optimale Betreuung –<br></br> einfach digital organisiert
     </h3>
 
     {/* Description */}
@@ -147,10 +150,12 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
   <h2 className="text-[#04436F] text-[35px] leading-[45px] lg:text-[44px] font-semibold lg:leading-[52.8px]">
   Buchen Sie jetzt und erhalten <br></br>Sie direkt ein individuelles Angebot
   </h2>
-  
+  <Link href="/register-client">
+
   <button className="bg-[#04436F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] mt-[40px] py-3 px-5 rounded-[50px]">
     Buchen Sie jetzt
   </button>
+  </Link>
 </section>
  
 

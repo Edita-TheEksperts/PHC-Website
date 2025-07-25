@@ -112,7 +112,7 @@ export default function HomeCarePage() {
 >
   {/* Heading */}
   <h2 className="text-[#FAFCFF] text-[44px] font-semibold leading-[52.8px]">
-    Join our community of care
+    Lassen Sie sich Zuhause betreuen
   </h2>
 
   {/* Button with hover effect */}

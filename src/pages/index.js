@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import zipToCity from "../lib/zipToCity"; // adjust path if needed
+import Link from 'next/link';
 
 export default function Home() {
   const faqs = [
@@ -169,7 +170,7 @@ const handleSelect = (zip, cityName) => {
           setPostalCode("");
         }}
       >
-        <option value="">Bitte wählen</option>
+        <option value="">Bitte Dienstleistung wählen</option>
         {Object.keys(services).map((srv) => (
           <option key={srv}>{srv}</option>
         ))}
@@ -208,7 +209,7 @@ const handleSelect = (zip, cityName) => {
     <div className="w-full lg:w-auto mt-4 lg:mt-0">
       <button
         onClick={handleSubmit}
-        className="w-full bg-[#04436F] hover:bg-[#033559] text-white text-[16px] font-semibold rounded-[12px] px-6 py-4 transition shadow-lg"
+        className="w-full bg-[#04436F] hover:bg-[#B99B5F] text-white text-[16px] font-semibold rounded-[12px] px-6 py-4 transition shadow-lg"
       >
         Los geht’s!
       </button>
@@ -252,7 +253,7 @@ const handleSelect = (zip, cityName) => {
       </div>
 
       <h2 className="text-[#04436F] text-[24px] font-semibold mb-2">
-        Hilfreiche Lösungen für eine selbstbestimmte Pflege zu Hause
+        Hilfreiche Lösungen für ein selbstbestimmtes Leben zu Hause
       </h2>
       <ul className="list-disc pl-6 text-[#04436F] text-[16px] space-y-1">
         <li>Volldigitale Plattform</li>
@@ -378,9 +379,11 @@ const handleSelect = (zip, cityName) => {
         Buchen Sie hier<br></br> Ihre Betreuungsdienstleistung
         </p>
 
-<p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] lg:text-right underline">
-  Jetzt Buchen
-</p>
+<Link href="/register-client">
+  <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] lg:text-right underline cursor-pointer">
+    Jetzt Buchen
+  </p>
+</Link>
         </div>
         <div className="w-[80px] h-[80px] bg-[#B99B5F] rounded-full flex justify-center items-center">
         <svg
@@ -620,10 +623,12 @@ Regelmässige Betreuung
 
     {/* Button */}
     <div className="lg:mt-[100px] mt-6 mb-[50px]">
-      <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#033559]">
-        Book now
-      </button>
+     <Link href="/register-client">
+  <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
+                     transition duration-300 hover:bg-[#B99B5F]">
+    Jetzt Buchen
+  </button>
+</Link>
     </div>
 
   </div>
@@ -670,10 +675,12 @@ Einmalige Einsätze
 
     {/* Button */}
     <div className="lg:mt-[100px] mt-6 mb-[50px]">
-      <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#033559]">
-        Get Started
-      </button>
+<Link href="/register-client">
+  <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
+                     transition duration-300 hover:bg-[#B99B5F]">
+    Jetzt Buchen
+  </button>
+</Link>
     </div>
 
   </div>
@@ -702,10 +709,12 @@ Einmalige Einsätze
 
     {/* Button */}
     <div className="lg:mt-[100px] items-center justify-center mt-[60px] lg:mb-[50px]">
-      <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                         transition duration-300 hover:bg-[#033559]">
-        Contact us
-      </button>
+     <Link href="/register-client">
+  <button className="bg-[#04436F] text-white lg:px-[118px] py-3 px-6 rounded-full text-[18px] font-medium 
+                     transition duration-300 hover:bg-[#B99B5F]">
+    Jetzt Buchen
+  </button>
+</Link>
     </div>
 
   </div>
@@ -914,7 +923,7 @@ Einmalige Einsätze
           Ich akzeptiere die{" "}
           <a
             href="/agb"
-            className="underline text-[#04436F] hover:text-[#033353]"
+            className="underline text-[#04436F] hover:text-[#B99B5F]"
           >
             Nutzungsbedingungen für Plattform
           </a>
@@ -923,7 +932,7 @@ Einmalige Einsätze
 
       <button
         onClick={handleEmployeeStart}
-        className="w-full py-3 bg-[#04436F] text-white font-semibold rounded-xl hover:bg-[#033353] transition duration-200"
+        className="w-full py-3 bg-[#04436F] text-white font-semibold rounded-xl hover:bg-[#B99B5F] transition duration-200"
       >
         Jetzt Bewerben
       </button>

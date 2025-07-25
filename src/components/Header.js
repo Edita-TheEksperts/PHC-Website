@@ -79,12 +79,17 @@ const navLinks = [
       </div>
 
       {/* Logo Section */}
-      <div className="lg:block hidden flex items-center gap-4 xl:mr-[160px]">
-        <Image src="/Link - home.png" alt="PHC Logo" width={140} height={70} />
-      </div>
-      <div className="lg:hidden block flex items-center gap-4 lg:mr-[120px]">
-        <Image src="/Link - home.png" alt="PHC Logo" width={100} height={50} />
-      </div>
+    <div className="lg:block hidden flex items-center gap-4 xl:mr-[160px]">
+  <Link href="/">
+    <Image src="/Link - home.png" alt="PHC Logo" width={140} height={70} />
+  </Link>
+</div>
+
+<div className="lg:hidden block flex items-center gap-4 lg:mr-[120px]">
+  <Link href="/">
+    <Image src="/Link - home.png" alt="PHC Logo" width={100} height={50} />
+  </Link>
+</div>
       {/* Register and Login Buttons */}
       <div className="flex gap-4 hidden lg:flex">
         <Link href="/register-client" className=" px-[34px] py-[12px] rounded-[6px] bg-[#A99558] text-white text-center text-[15px] font-[Metropolis] font-medium leading-normal tracking-[-0.225px]">

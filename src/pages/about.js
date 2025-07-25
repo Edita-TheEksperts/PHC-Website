@@ -1,4 +1,6 @@
 
+import Link from 'next/link';
+
 const teamMembers = [
   { name: "Emma Johnson, RN", position: "Lorem", image: "/images/team1.png" },
   { name: "David Miller, LPN", position: "Lorem", image: "/images/team1.png" },
@@ -8,11 +10,23 @@ const teamMembers = [
 export default function About() {
   return (
     <div className="bg-[#FAFCFF] px-4 py-4 max-w-[1430px] mx-auto lg:py-0">
-        <section className="bg-[#B99B5F] p-4 rounded-[20px]">
-        <h1 className="mt-[200px] text-[#FAFCFF] text-center lg:text-[65px] text-[45px] leading-[55px] font-semibold lg:leading-[84.5px]">
-        Über die Prime Home Care AG</h1>
-        <p className="text-[#FAFCFF] mb-[200px] text-center text-[24px] font-normal leading-[31.6px]">
-        Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause.        </p>
+ 
+                <section className="bg-[#B99B5F] gap-10 lg:gap-[100px] text-white p-4 lg:p-[60px] rounded-[20px] flex flex-col lg:flex-row items-start">
+        <div className="lg:w-1/2 mt-6 lg:mt-0">
+            <img src="/images/hero-services.png" alt="Home Care" className="rounded-lg lg:w-[545px] lg:h-[335px] w-full" />
+          </div>
+        <div className="lg:w-1/2 flex flex-col justify-start items-start">
+  
+        <h1 className="text-[40px] lg:text-[52px] font-semibold leading-[47px] mt-2 lg:mt-[38px] lg:leading-[60px] tracking-[-1.04px] font-['Metropolis']">
+  <span className="text-[#FFFFFF]">Über die Prime Home Care AG</span>
+</h1>
+
+
+<p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2">
+Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause. </p>
+
+          </div>
+          
         </section>
 
       {/* Content with Image */}
@@ -60,7 +74,7 @@ export default function About() {
   <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
     At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
   </p>
-  <button className="bg-[#04436F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
+  <button className="bg-[#04436F] hover:bg-[#B99B5F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
     Buchen Sie jetzt
   </button>
 </section>
@@ -87,7 +101,7 @@ export default function About() {
         Unsere Werte
         </h2>
         <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2">
-        Qualität und Vertrauen sind die Grundlagen unseres Handelns. Durch kontinuierliche Weiterbildung und hohe Standards in der Betreuungstellen wir sicher, dass unsere Kundinnen und Kunden jederzeit in besten Händen sind. Unsere digitale Plattform sorgt zudem für maximale Transparenz und Effizienz – von der Buchung bis zur Abrechnung.        
+        Qualität und Vertrauen sind die Grundlagen unseres Handelns. Durch kontinuierliche Weiterbildung und hohe Standards in der Betreuung, stellen wir sicher, dass unsere Kundinnen und Kunden jederzeit in besten Händen sind. Unsere digitale Plattform sorgt zudem für maximale Transparenz und Effizienz – von der Buchung bis zur Abrechnung.        
         </p>
       </div>
     </section>
@@ -98,9 +112,11 @@ export default function About() {
   <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
  Haben Sie Fragen?<br></br> Kontaktieren Sie uns über unser Kontaktformular
    </h2>
-  <button className="bg-[#04436F] w-[180px] text-[#FAFCFF] mt-4 text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
+  <Link href="/contact">
+  <button className="bg-[#04436F]  hover:bg-[#B99B5F] w-[180px] text-[#FAFCFF] mt-4 text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
     Kontakt
   </button>
+</Link>
 </section>
 
     <section className="bg-[#FAFCFF] mt-[120px] mb-[40px] px-4 lg:px-[20px] text-center">

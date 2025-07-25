@@ -161,7 +161,7 @@ export default function Home() {
       fontWeight: "600",
     }}
   >
-    Jetzt bewerben und ab Frühling 2025 loslegen!
+    Jetzt bewerben und schon bald loslegen!
   </h1>
 
   {/* Subheading */}

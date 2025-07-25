@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function HomeCarePage() {
     return (
       <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
@@ -29,7 +30,7 @@ Prime Home Care – Ihr zuverlässiger Partner für die Seniorenbetreuung <br></
           <img src="/images/phc-intro2.png" alt="Senior care" className="w-full lg:w-1/2 rounded-lg lg:h-[700px] items-start flex justify-start align-top" />
           <div className="lg:w-1/2 text-left">
           <h2 className="text-[#04436F] text-[40px] lg:text-[56px] font-semibold leading-[50px] lg:leading-[64px] font-['Instrument Sans']">
-          Professionelle <br></br>stundenweise Betreuung <br></br>für den Alltag im
+          Professionelle <br></br>stundenweise Betreuung <br></br>für den Alltag im eigenen Zuhause
 </h2>
 
 <p className="text-[#04436F] text-[16px] lg:text-[18px] font-light leading-[25.6px] lg:leading-[28px] font-['Metropolis'] mt-2">
@@ -56,9 +57,10 @@ Die Prime Home Care organisiert stundenweise Unterstützung sowie Betreuung und 
 Sie haben das Gefühl, nicht alle Fakten zu kennen und sollen <br></br>weitreichende und kostspielige Entscheidungen erst noch unter<br></br> Zeitdruck treffen?<br></br>
 Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und einfach
 </p>
+<Link href="/register-client">
 
           <button className="bg-[#04436F] text-white lg:mt-[60px] px-6 py-3 rounded-full text-[18px] font-medium mt-6 transition duration-300 hover:bg-[#6FCF97]">
-          Buchen Sie jetzt                   </button>
+          Buchen Sie jetzt                   </button> </Link>
         </section>
   
         {/* Image & Text Grid */}
@@ -84,7 +86,7 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
 
     {/* Description */}
     <p className="text-[#04436F] text-[20px] font-light leading-[27px] font-['Metropolis'] mt-4">
-    Wir bei Prime Home Care haben viele Jahre<br></br> Erfahrung in der professionellen Betreuung von <br></br>Senioren und pflegebedürftigen Menschen<br></br> gesammelt. Hand in Hand mit externen<br></br> Pflegefachleuten, die uns bei der<br></br> Bedarfsanalyse unterstützen, organisieren wir<br></br> für Sie und Ihre Angehörigen individuelle und<br></br> ganzheitliche Betreuungslösungen.<br></br>Wir haben uns zum Ziel gesetzt, unseren<br></br> Kunden eine umfassende und neutrale Beratung<br></br> sowie eine nahtlose Organisation rund um das<br></br> Thema Pflege und Seniorenbetreuung zuhause<br></br> zu bieten. Im Folgenden stellen wir Ihnen einige<br></br> unserer Lösungen vor.
+    Wir bei Prime Home Care haben viele Jahre<br></br> Erfahrung in der professionellen Betreuung von Senioren und pflegebedürftigen Menschen<br></br> gesammelt. Hand in Hand mit externen<br></br> Pflegefachleuten, die uns bei der<br></br> Bedarfsanalyse unterstützen, organisieren wir<br></br> für Sie und Ihre Angehörigen individuelle und<br></br> ganzheitliche Betreuungslösungen.<br></br>Wir haben uns zum Ziel gesetzt, unseren<br></br> Kunden eine umfassende und neutrale Beratung sowie eine nahtlose Organisation rund um das Thema Pflege und Seniorenbetreuung zuhause<br></br> zu bieten. Im Folgenden stellen wir Ihnen einige unserer Lösungen vor.
     </p>
 
   </div>
@@ -101,7 +103,7 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
 Die Prime Home Care organisiert bedarfsgerechte und qualitativ hochwertige Seniorenbetreuung für das eigene Zuhause. Ganzheitlich überblicken wir den gesamten Prozess der häuslichen Betreuung mit allen dafür benötigten Pflegeleistungen und beziehen auch die benötigten Hilfsmittel und baulichen Massnahmen mit in unsere Überlegungen ein.
   </p>
 <p className="text-[#04436F] text-[20px]  font-light leading-[27px]  font-['Metropolis'] mt-4">
-Die Prime Home Care ist selbst kein Pflege-Anbieter oder Personaldienstleister. Es ist jedoch unser Ziel, die jeweils individuell beste und günstigste Hilfe für den Alltag in der gewohnten Umgebung zu organisieren. Dabei sind wir einzig unseren Kunden verpflichtet und agieren treuhänderisch. Unsere Empfehlungen orientieren sich allein an Ihren jeweiligen Betreuungs- und Pflegebedürfnissen. Unsere eigenen Leistungen erbringen wir zum Fixpreis und sind in unserer Beratung daher unabhängig davon, welche Lösung aus Anbietersicht lukrativer erscheint.</p>
+Die Prime Home Care ist selbst kein Pflege-Anbieter oder Personaldienstleister. Es ist jedoch unser Ziel, die jeweils individuell beste und günstigste Hilfe für den Alltag in der gewohnten Umgebung zu organisieren.</p>
 <p className="text-[#04436F] text-[20px]  font-light leading-[27px] font-['Metropolis'] mt-4">
 Bei der Organisation professioneller Seniorenbetreuung in der Schweiz ist dieser Ansatz völlig neu. Erfahren Sie mehr über unsere Lösungen für die häufigsten Probleme bei der privaten Altenbetreuung zu Hause.</p>
           </div>

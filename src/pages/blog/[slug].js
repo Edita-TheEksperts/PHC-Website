@@ -318,6 +318,8 @@ Unten weiterlesen
 
 
         {/* Button */}
+        <Link href="/contact">
+
         <button className="mt-6 lg:mt-[60px] px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
                    font-['Inter'] text-[18px] font-medium leading-[21.6px] 
                    rounded-[50px] flex items-center justify-center 
@@ -325,7 +327,7 @@ Unten weiterlesen
                    underline decoration-solid decoration-auto underline-offset-auto">
   Kostenlose Pflegeberatung sichern
 </button>
-
+</Link>
       </div>
 
       {/* Right Image */}

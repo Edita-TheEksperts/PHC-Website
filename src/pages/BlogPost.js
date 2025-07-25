@@ -44,7 +44,7 @@ export default function BlogPost() {
                 <p className="text-[#666] text-[14px] mt-1">{post.date}</p>
                 <Link to={`/blog/${post.id}`}>
                   <button className="bg-[#04436F] text-white mt-4 py-2 px-4 rounded-full text-[14px] font-medium hover:bg-[#B99B5F] transition">
-                    Read More
+                    Mehr Lesen
                   </button>
                 </Link>
               </div>

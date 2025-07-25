@@ -53,7 +53,7 @@ export default function ContactPage() {
   {/* Name */}
   <div className="flex flex-col">
     <label className="text-[#04436F] text-[15px] font-bold leading-[25.6px] font-['Inter']">
-      Name
+      Ihre Name
     </label>
     <input type="text" className="p-3 rounded-md border border-gray-300 w-full" />
   </div>
@@ -61,7 +61,7 @@ export default function ContactPage() {
   {/* Phone No */}
   <div className="flex flex-col">
     <label className="text-[#04436F] text-[15px] font-bold leading-[25.6px] font-['Inter']">
-      Phone No
+      Telefonnummer
     </label>
     <input type="text" className="p-3 rounded-md border border-gray-300 w-full" />
   </div>
@@ -77,14 +77,14 @@ export default function ContactPage() {
   {/* Message */}
   <div className="flex flex-col">
     <label className="text-[#04436F] text-[15px] font-bold leading-[25.6px] font-['Inter']">
-      Message
+      Ihre Nachricht
     </label>
     <textarea className="p-3 rounded-md border border-gray-300 w-full lg:h-[212px] h-[100px]"></textarea>
   </div>
 
   {/* Submit Button */}
   <button className="bg-[#04436F] text-white p-3 rounded-[20px] text-[18px] font-medium">
-    Submit
+    Senden
   </button>
 </form>
 

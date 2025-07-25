@@ -7,7 +7,7 @@ const blogsData = [
       title: "Barrierefreie Küchen, Ein- und Zugänge sowie Rampen",
         slug: "barrierefreie-kuechen-ein-und-zugaenge-sowie-rampen",
 
-      date: "January 24, 2024",
+      date: "09 Juli 2025",
       maintext:"In diesem Wiki dreht sich alles um barrierefreie Küchen, Ein- und Zugänge sowie entsprechende Rampen in der häuslichen Pflege und Betreuung in der Schweiz. Es ist wichtig, auf die Bedürfnisse von Senioren und Menschen mit eingeschränkter Mobilität einzugehen, um ihnen einen optimalen Lebensraum zu bieten. Melden Sie sich bei Prime Home Care an und erhalten Sie Informationen und Anregungen für die sichere Gestaltung Ihrer Küche, den problemlosen Zutritt zu Ihrem Zuhause und die Nutzung von Rampen und Zugangssystemen. Erfahren Sie, wie Sie finanzielle Unterstützung in Anspruch nehmen können und erhalten Sie Antworten auf die häufigsten Fragen zur Barrierefreiheit in Küchen und Zugangsbereichen.",
       author: {
         id: "author-1",
@@ -24,7 +24,7 @@ const blogsData = [
   "paragraphs": [
     {
       "id": "para-1-1",
-      "text": "Ein barrierefreies Zuhause ermöglicht älteren Menschen und Personen mit eingeschränkter Mobilität ein selbständiges und sicheres Leben in den eigenen vier Wänden. Barrierefreiheit ist nicht nur für die Bewohner selbst, sondern auch für ihre Familien und Pflegekräfte von großer Bedeutung. Das betrifft insbesondere Küchen und Zugänge, da diese Bereiche oft zu den zentralen Punkten des alltäglichen Lebens gehören. In diesem Artikel erfahren Sie, wie Sie barrierefreie Küchen und Zugänge gestalten können, um das Zuhause für alle angenehmer und sicherer zu machen."
+      "text": "Ein barrierefreies Zuhause ermöglicht älteren Menschen und Personen mit eingeschränkter Mobilität ein selbständiges und sicheres Leben in den eigenen vier Wänden. Barrierefreiheit ist nicht nur für die Bewohner selbst, sondern auch für ihre Familien und Pflegekräfte von grosser Bedeutung. Das betrifft insbesondere Küchen und Zugänge, da diese Bereiche oft zu den zentralen Punkten des alltäglichen Lebens gehören. In diesem Artikel erfahren Sie, wie Sie barrierefreie Küchen und Zugänge gestalten können, um das Zuhause für alle angenehmer und sicherer zu machen."
     },
     {
       "id": "para-1-2",
@@ -133,7 +133,7 @@ const blogsData = [
   "paragraphs": [
     {
       "id": "para-4-1",
-      "text": "Ein zunehmendes Alter kann dazu führen, dass sich die Bedürfnisse und Anforderungen an die eigene Küche verändern. Um Senioren ein höheres Maß an Komfort und Sicherheit zu bieten, sind spezielle Küchenumbauten eine wichtige Investition in die Wohnqualität. In diesem Artikel geben wir Ihnen einige Anregungen und Ideen, welche Umbaumaßnahmen für Senioren besonders sinnvoll sind."
+      "text": "Ein zunehmendes Alter kann dazu führen, dass sich die Bedürfnisse und Anforderungen an die eigene Küche verändern. Um Senioren ein höheres Mass an Komfort und Sicherheit zu bieten, sind spezielle Küchenumbauten eine wichtige Investition in die Wohnqualität. In diesem Artikel geben wir Ihnen einige Anregungen und Ideen, welche Umbaumassnahmen für Senioren besonders sinnvoll sind."
     },
     {
       "id": "para-4-2",
@@ -163,7 +163,7 @@ const blogsData = [
     {
       "id": "para-4-7",
       "title": "Fazit",
-      "text": "Küchenumbauten für Senioren sollten immer auf die individuellen Bedürfnisse und Anforderungen der betroffenen Person zugeschnitten sein. Sprechen Sie daher mit Ihren Angehörigen oder der betreuenden Person, um herauszufinden, welche spezifischen Maßnahmen erforderlich sind. Eine professionelle Beratung durch Experten im Bereich der barrierefreien und seniorengerechten Küchengestaltung kann dabei hilfreich sein, um die bestmögliche Lösung für Ihre Situation zu finden."
+      "text": "Küchenumbauten für Senioren sollten immer auf die individuellen Bedürfnisse und Anforderungen der betroffenen Person zugeschnitten sein. Sprechen Sie daher mit Ihren Angehörigen oder der betreuenden Person, um herauszufinden, welche spezifischen Massnahmen erforderlich sind. Eine professionelle Beratung durch Experten im Bereich der barrierefreien und seniorengerechten Küchengestaltung kann dabei hilfreich sein, um die bestmögliche Lösung für Ihre Situation zu finden."
     }
   ]
 }
@@ -175,8 +175,8 @@ const blogsData = [
       "paragraphs": [
         {
           "id": "para-5-1",
-          "title": "5.1 Türbreite: Mindestmaße und Anpassungsmöglichkeiten",
-          "text": "Um einen barrierefreien Zugang zu gewährleisten, sollten Türöffnungen in der Regel mindestens 80 cm breit sein. Für Rollstuhlfahrer wird eine Türbreite von mindestens 90 cm empfohlen. Eine umfassende Türanpassung kann die Türbreite weitgehend verändern und somit einen besseren Zugang ermöglichen. Dabei gibt es verschiedene Optionen, welche je nach vorhandener Türkonstruktion und -material in Frage kommen: Austausch der bestehenden Tür inklusive Zarge durch eine breitere Türvariante; Weitwinkeltürbänder ermöglichen einen größeren Öffnungswinkel der Tür; Verwendung von Schiebetüren oder Falttüren, die durch ihre Konstruktion weniger Platz benötigen. Wichtig: Achten Sie auch auf die nötige Wendezone für Rollstühle sowie auf gut erreichbare Griffe und Verschlüsse."
+          "title": "5.1 Türbreite: Mindestmasse und Anpassungsmöglichkeiten",
+          "text": "Um einen barrierefreien Zugang zu gewährleisten, sollten Türöffnungen in der Regel mindestens 80 cm breit sein. Für Rollstuhlfahrer wird eine Türbreite von mindestens 90 cm empfohlen. Eine umfassende Türanpassung kann die Türbreite weitgehend verändern und somit einen besseren Zugang ermöglichen. Dabei gibt es verschiedene Optionen, welche je nach vorhandener Türkonstruktion und -material in Frage kommen: Austausch der bestehenden Tür inklusive Zarge durch eine breitere Türvariante; Weitwinkeltürbänder ermöglichen einen grösseren Öffnungswinkel der Tür; Verwendung von Schiebetüren oder Falttüren, die durch ihre Konstruktion weniger Platz benötigen. Wichtig: Achten Sie auch auf die nötige Wendezone für Rollstühle sowie auf gut erreichbare Griffe und Verschlüsse."
         },
         {
           "id": "para-5-2",
@@ -246,7 +246,7 @@ const blogsData = [
         {
           "id": "para-8-1",
           "title": "8.1 Rampenarten und ihre Eigenschaften",
-          "text": "Typen: 1. Feste Rampen (Beton, Holz, Metall – dauerhaft installiert); 2. Portable Rampen (leicht, mobil – ideal für temporären Gebrauch); 3. Schwellenrampen (für kleine Höhenunterschiede); 4. Rollstuhl- und Plattformlifte (für größere Hindernisse)."
+          "text": "Typen: 1. Feste Rampen (Beton, Holz, Metall – dauerhaft installiert); 2. Portable Rampen (leicht, mobil – ideal für temporären Gebrauch); 3. Schwellenrampen (für kleine Höhenunterschiede); 4. Rollstuhl- und Plattformlifte (für grössere Hindernisse)."
         },
         {
           "id": "para-8-2",
@@ -323,7 +323,7 @@ const blogsData = [
   {
     "id": "faq-10-5",
     "question": "Welche Arten von Rampen gibt es?",
-    "answer": "Es gibt:\n– Feste Rampen (z. B. aus Beton oder Metall) für langfristige Lösungen\n– Mobile Rampen (meist aus Aluminium) für temporäre Nutzung\n– Schwellenrampen für kleine Höhenunterschiede\n– Plattformlifte als Alternative bei größeren Höhenunterschieden"
+    "answer": "Es gibt:\n– Feste Rampen (z. B. aus Beton oder Metall) für langfristige Lösungen\n– Mobile Rampen (meist aus Aluminium) für temporäre Nutzung\n– Schwellenrampen für kleine Höhenunterschiede\n– Plattformlifte als Alternative bei grösseren Höhenunterschieden"
   },
   {
     "id": "faq-10-6",
@@ -340,14 +340,14 @@ const blogsData = [
   "image": "/images/blog2.png",
   "category": "Herz-Kreislauf",
   "title": "Alterspflege & Wohnen im Alter in der Schweiz",
-  "date": "July 1, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Aufgrund der alternden Bevölkerung sind auch in der Schweiz altersbedingte Erkrankungen und Pflegebedürftigkeit ein zunehmend wichtiges Thema. Verschiedene Wohnformen im Alter, wie Pflegeheime, alternative Wohnkonzepte oder die Betreuung im eigenen Zuhause, bieten unterschiedliche Vor- und Nachteile und stellen betroffene Senioren und ihre Angehörigen vor schwierige Entscheidungen.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Pflege- und Wohnformen im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Pflege- und Wohnformen im Alter."
   },
   "sections": [
     {
@@ -543,7 +543,7 @@ const blogsData = [
   "image": "/images/blog3.png",
   "category": "Haut & Gelenke",
   "title": "Betreuung & Begleitung im Alter in der Schweiz",
-  "date": "July 1, 2025",
+  "date": "09 Juli 2025",
   "maintext": "In der Schweiz sind immer mehr Menschen auf Unterstützung im Alltag angewiesen, insbesondere Senioren. Eine professionelle und liebevolle Betreuung spielt dabei eine entscheidende Rolle für ihre Lebensqualität, Selbstständigkeit und soziale Teilhabe...",
   "author": {
     "id": "author-3",
@@ -683,7 +683,7 @@ const blogsData = [
         },
         {
           "id": "para-9-2",
-          "text": "Maßnahmen: Gespräche, Aktivitäten, emotionale Unterstützung, geistige Anregung."
+          "text": "Massnahmen: Gespräche, Aktivitäten, emotionale Unterstützung, geistige Anregung."
         }
       ]
     },
@@ -711,14 +711,14 @@ const blogsData = [
   "image": "/images/blog4.png",
   "category": "Gesundheit",
   "title": "Gesundheit und Ernährung im Alter",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Gesundheit und Ernährung spielen eine zentrale Rolle im Wohlbefinden im Alter. Unser Ratgeber bietet praktische Tipps zu gesunder Ernährung, Bewegung, Flüssigkeitszufuhr und sozialen Aspekten – für ein aktives und erfülltes Leben im Alter.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
     {
@@ -765,7 +765,7 @@ const blogsData = [
         },
         {
   "id": "para-2-3",
-  "text": "Auch die Verdauung unterliegt im Alter Veränderungen: Der Stoffwechsel wird langsamer, die Produktion von Speichel und Magensäure nimmt ab – das erschwert die Verdauung und verringert die Aufnahme wichtiger Nährstoffe wie Vitamin B12 und Calcium. Häufige Probleme sind Verstopfung, Sodbrennen oder Magenbeschwerden. Dagegen helfen ballaststoffreiche Lebensmittel wie Vollkorn, Gemüse und Hülsenfrüchte, ausreichend Flüssigkeit und regelmäßige Bewegung."
+  "text": "Auch die Verdauung unterliegt im Alter Veränderungen: Der Stoffwechsel wird langsamer, die Produktion von Speichel und Magensäure nimmt ab – das erschwert die Verdauung und verringert die Aufnahme wichtiger Nährstoffe wie Vitamin B12 und Calcium. Häufige Probleme sind Verstopfung, Sodbrennen oder Magenbeschwerden. Dagegen helfen ballaststoffreiche Lebensmittel wie Vollkorn, Gemüse und Hülsenfrüchte, ausreichend Flüssigkeit und regelmässige Bewegung."
 },
 {
   "id": "para-2-4",
@@ -826,7 +826,7 @@ const blogsData = [
     },
     {
       "id": "para-4-6",
-      "text": "Gesunde Fette: Ungesättigte Fettsäuren und Omega-3 aus Fisch, Nüssen und pflanzlichen Ölen sind gut fürs Herz und die Zellgesundheit. Tierische Fette sollten nur in Maßen konsumiert werden."
+      "text": "Gesunde Fette: Ungesättigte Fettsäuren und Omega-3 aus Fisch, Nüssen und pflanzlichen Ölen sind gut fürs Herz und die Zellgesundheit. Tierische Fette sollten nur in Massen konsumiert werden."
     },
     {
       "id": "para-4-7",
@@ -891,7 +891,7 @@ const blogsData = [
     },
     {
       "id": "para-6-3",
-      "text": "Häufige Gründe für Dehydratation:\n– Sinkender Wassergehalt im Körper\n– Geringere Schweißproduktion und schlechtere Anpassung an Hitze\n– Flüssigkeitsausscheidung durch Medikamente (z. B. Diuretika)\n– Schwächere Nierenfunktion im Alter"
+      "text": "Häufige Gründe für Dehydratation:\n– Sinkender Wassergehalt im Körper\n– Geringere Schweissproduktion und schlechtere Anpassung an Hitze\n– Flüssigkeitsausscheidung durch Medikamente (z. B. Diuretika)\n– Schwächere Nierenfunktion im Alter"
     },
     {
       "id": "para-6-4",
@@ -899,11 +899,11 @@ const blogsData = [
     },
     {
       "id": "para-6-5",
-      "text": "Tipps für ausreichendes Trinken im Alter:\n– Tagesziel setzen: 1,5 bis 2 Liter täglich\n– Abwechslung schaffen: Wasser, Tee, Säfte, Bouillon\n– Ansprechende Trinkgefäße verwenden, z. B. Gläser mit Griff\n– Hilfsmittel wie Trinkhalme oder Schnabeltassen nutzen\n– Trinken in Routinen einbauen (z. B. zu Mahlzeiten, Medikamenteneinnahme)\n– Gemeinsam trinken, um Motivation und Erinnerung zu fördern"
+      "text": "Tipps für ausreichendes Trinken im Alter:\n– Tagesziel setzen: 1,5 bis 2 Liter täglich\n– Abwechslung schaffen: Wasser, Tee, Säfte, Bouillon\n– Ansprechende Trinkgefässe verwenden, z. B. Gläser mit Griff\n– Hilfsmittel wie Trinkhalme oder Schnabeltassen nutzen\n– Trinken in Routinen einbauen (z. B. zu Mahlzeiten, Medikamenteneinnahme)\n– Gemeinsam trinken, um Motivation und Erinnerung zu fördern"
     },
     {
       "id": "para-6-6",
-      "text": "Fazit: Ausreichendes Trinken ist eine wichtige Gesundheitsmaßnahme im Alter. Mit einfachen Gewohnheiten und etwas Unterstützung kann Dehydratation effektiv vermieden werden."
+      "text": "Fazit: Ausreichendes Trinken ist eine wichtige Gesundheitsmassnahme im Alter. Mit einfachen Gewohnheiten und etwas Unterstützung kann Dehydratation effektiv vermieden werden."
     }
   ]
 }
@@ -948,7 +948,7 @@ const blogsData = [
 },
 {
   "id": "para-8-3",
-  "text": "Um Untergewicht und Mangelernährung im Alter vorzubeugen, sollten Senioren und ihre Angehörigen auf folgende Punkte achten: \n1. Regelmässige Mahlzeiten und gesunde Snacks: Ältere Menschen sollten regelmäßig essen und gesunde Zwischenmahlzeiten erhalten, um Energie- und Nährstoffbedarf zu decken. \n2. Anregung von Appetit und Geschmack: Eine ansprechende Präsentation der Speisen sowie der Einsatz von Kräutern und Gewürzen können den Appetit fördern und den Genuss steigern. \n3. Anpassung der Konsistenz: Bei Kau- oder Schluckproblemen sollten Speisen weich, püriert oder flüssig zubereitet werden. \n4. Gemeinsame Mahlzeiten: Essen in Gesellschaft regt den Appetit an und kann das Essverhalten positiv beeinflussen. \n5. Unterstützung bei der Nahrungsaufnahme: Falls nötig, sollten Betreuungspersonen oder Angehörige Hilfe beim Essen leisten, um eine ausreichende Ernährung sicherzustellen. \n6. Ernährungsberatung und ärztliche Kontrolle: Bei Anzeichen von Untergewicht sollte medizinisch abgeklärt werden, ob individuelle Anpassungen erforderlich sind.\n\nEine ausgewogene Ernährung und ein stabiles Körpergewicht sind für Lebensqualität und Gesundheit im Alter entscheidend. Mit gezielter Unterstützung – auch im Rahmen der häuslichen Pflege – kann Mangelernährung erfolgreich vermieden werden."
+  "text": "Um Untergewicht und Mangelernährung im Alter vorzubeugen, sollten Senioren und ihre Angehörigen auf folgende Punkte achten: \n1. Regelmässige Mahlzeiten und gesunde Snacks: Ältere Menschen sollten regelmässig essen und gesunde Zwischenmahlzeiten erhalten, um Energie- und Nährstoffbedarf zu decken. \n2. Anregung von Appetit und Geschmack: Eine ansprechende Präsentation der Speisen sowie der Einsatz von Kräutern und Gewürzen können den Appetit fördern und den Genuss steigern. \n3. Anpassung der Konsistenz: Bei Kau- oder Schluckproblemen sollten Speisen weich, püriert oder flüssig zubereitet werden. \n4. Gemeinsame Mahlzeiten: Essen in Gesellschaft regt den Appetit an und kann das Essverhalten positiv beeinflussen. \n5. Unterstützung bei der Nahrungsaufnahme: Falls nötig, sollten Betreuungspersonen oder Angehörige Hilfe beim Essen leisten, um eine ausreichende Ernährung sicherzustellen. \n6. Ernährungsberatung und ärztliche Kontrolle: Bei Anzeichen von Untergewicht sollte medizinisch abgeklärt werden, ob individuelle Anpassungen erforderlich sind.\n\nEine ausgewogene Ernährung und ein stabiles Körpergewicht sind für Lebensqualität und Gesundheit im Alter entscheidend. Mit gezielter Unterstützung – auch im Rahmen der häuslichen Pflege – kann Mangelernährung erfolgreich vermieden werden."
 }
 
 
@@ -964,7 +964,7 @@ const blogsData = [
         },
         {
   "id": "para-9-2",
-  "text": "Bewegung hat im Alter viele positive Effekte auf Körper und Geist:\n• Erhalt und Verbesserung der Muskelkraft – beugt Stürzen und Verletzungen vor\n• Steigerung der Ausdauer und Stärkung des Immunsystems\n• Förderung von Beweglichkeit und Koordination\n• Vorbeugung von Osteoporose durch bessere Knochengesundheit\n• Senkung von Bluthochdruck, Cholesterin- und Blutzuckerwerten\n• Stärkung des Herz-Kreislauf-Systems\n• Verbesserter Schlaf, bessere Stimmung und geistige Fitness\n\nWichtig: Vor Beginn eines neuen Bewegungsprogramms sollte eine ärztliche Abklärung erfolgen, um gesundheitliche Risiken auszuschließen."
+  "text": "Bewegung hat im Alter viele positive Effekte auf Körper und Geist:\n• Erhalt und Verbesserung der Muskelkraft – beugt Stürzen und Verletzungen vor\n• Steigerung der Ausdauer und Stärkung des Immunsystems\n• Förderung von Beweglichkeit und Koordination\n• Vorbeugung von Osteoporose durch bessere Knochengesundheit\n• Senkung von Bluthochdruck, Cholesterin- und Blutzuckerwerten\n• Stärkung des Herz-Kreislauf-Systems\n• Verbesserter Schlaf, bessere Stimmung und geistige Fitness\n\nWichtig: Vor Beginn eines neuen Bewegungsprogramms sollte eine ärztliche Abklärung erfolgen, um gesundheitliche Risiken auszuschliessen."
 },
 {
   "id": "para-9-3",
@@ -1003,7 +1003,7 @@ const blogsData = [
     {
       "id": "faq-10-3",
       "question": "Wie kann man im Alter ausreichend trinken, um einer Dehydratation vorzubeugen?",
-      "answer": "Da das Durstgefühl im Alter nachlässt, helfen feste Trinkzeiten, Erinnerungen oder spezielle Trinkhilfen. Kalorienarme Getränke wie Wasser, ungesüßte Tees oder verdünnte Fruchtsäfte sind ideal."
+      "answer": "Da das Durstgefühl im Alter nachlässt, helfen feste Trinkzeiten, Erinnerungen oder spezielle Trinkhilfen. Kalorienarme Getränke wie Wasser, ungesüsste Tees oder verdünnte Fruchtsäfte sind ideal."
     },
     {
       "id": "faq-10-4",
@@ -1027,14 +1027,14 @@ const blogsData = [
   "image": "/images/blog5.png",
   "category": "Gesundheit",
   "title": "Barrierefreies Bauen und Wohnen in der Schweiz",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Hindernisfreies Bauen und Wohnen gewinnt in der Schweiz immer mehr an Bedeutung, da die Anzahl älterer Menschen und Menschen mit Behinderungen stetig zunimmt und somit die Nachfrage nach barrierefreien Wohnräumen steigt. Dieser Artikel widmet sich den verschiedenen Aspekten des barrierefreien Bauens und Wohnens in der Schweiz, angefangen bei einer allgemeinen Einführung, über gesetzliche Regelungen, hin zu konkreten Beispielen, was hindernisfreies Wohnen bedeutet. Zudem werden kantonale Fördermassnahmen und Hilfeleistungen durch die Invalidenversicherung bei baulichen Anpassungen erläutert. Mieter, die auf barrierefreie Wohnungen angewiesen sind, erhalten ebenso nützliche Informationen und Tipps für den Alltag, um ihre Lebensqualität zu verbessern und ein selbstständiges Leben führen zu können.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
     {
@@ -1087,7 +1087,7 @@ const blogsData = [
   "paragraphs": [
     {
       "id": "para-3-1",
-      "text": "Hindernisfreies Wohnen bedeutet, dass das Wohnen und Leben in den eigenen vier Wänden so gestaltet ist, dass Menschen mit eingeschränkter Mobilität oder Behinderung möglichst selbstständig und ohne Barrieren agieren können. Dabei spielen sowohl bauliche Maßnahmen als auch intelligente Lösungen im Bereich der Technik eine wesentliche Rolle. Im Folgenden möchten wir Ihnen einige konkrete Beispiele für barrierefreies Wohnen vorstellen."
+      "text": "Hindernisfreies Wohnen bedeutet, dass das Wohnen und Leben in den eigenen vier Wänden so gestaltet ist, dass Menschen mit eingeschränkter Mobilität oder Behinderung möglichst selbstständig und ohne Barrieren agieren können. Dabei spielen sowohl bauliche Massnahmen als auch intelligente Lösungen im Bereich der Technik eine wesentliche Rolle. Im Folgenden möchten wir Ihnen einige konkrete Beispiele für barrierefreies Wohnen vorstellen."
     },
     {
       "id": "para-3-2",
@@ -1103,7 +1103,7 @@ const blogsData = [
     },
     {
       "id": "para-3-5",
-      "text": "Wohnräume und Schlafzimmer: Diese Räume sollten großzügige Bewegungsflächen bieten. Bodentiefe Fenster schaffen Licht und Sicht. Hilfreich sind Lichtschalter in erreichbarer Höhe und automatische Rollläden."
+      "text": "Wohnräume und Schlafzimmer: Diese Räume sollten grosszügige Bewegungsflächen bieten. Bodentiefe Fenster schaffen Licht und Sicht. Hilfreich sind Lichtschalter in erreichbarer Höhe und automatische Rollläden."
     },
     {
       "id": "para-3-6",
@@ -1137,7 +1137,7 @@ const blogsData = [
     },
     {
       "id": "para-4-4",
-      "text": "Kostenübernahme durch die Invalidenversicherung (IV). Neben den kantonalen Fördermassnahmen übernimmt auch die Invalidenversicherung (IV) unter bestimmten Voraussetzungen die Kosten für bauliche Anpassungen. Dies gilt insbesondere dann, wenn die Anpassungen dazu beitragen, die Eingliederung von Menschen mit einer Behinderung in das gesellschaftliche und berufliche Leben zu erleichtern. Dabei kann es sich sowohl um einmalige Kostenübernahmen für bauliche Massnahmen als auch um laufende Beiträge zur Finanzierung von technischen Hilfsmitteln oder Wohn-Assistenz handeln. Um Leistungen von der IV zu erhalten, muss ein entsprechender Antrag gestellt werden. Dabei ist es wichtig, dass die Anpassungen unmittelbar mit der Behinderung in Zusammenhang stehen und geeignet sind, die Lebenssituation des Betroffenen nachhaltig zu verbessern. Eine Kostenübernahme durch die IV erfolgt in der Regel nur, wenn keine anderen Finanzierungsmöglichkeiten wie z.B. kantonale Fördermassnahmen in Frage kommen. Tipp:Wenn Sie bauliche Anpassungen planen, sollten Sie frühzeitig mit der zuständigen IV-Stelle Kontakt aufnehmen, um sich über die Voraussetzungen für eine Kostenübernahme zu informieren und die entsprechenden Anträge rechtzeitig einzureichen. Abschließend ist zu erwähnen, dass die kantonalen Fördermassnahmen und die Unterstützung durch die Invalidenversicherung dazu beitragen, älteren Menschen und Menschen mit Behinderungen ein möglichst selbständiges Leben in den eigenen vier Wänden zu ermöglichen. Durch finanzielle Unterstützung bei der Anpassung der Wohnsituation können Barrieren abgebaut und die Lebensqualität erhöht werden. Es lohnt sich daher, sich frühzeitig über die individuellen Möglichkeiten zu informieren und die entsprechenden Anträge zu stellen."
+      "text": "Kostenübernahme durch die Invalidenversicherung (IV). Neben den kantonalen Fördermassnahmen übernimmt auch die Invalidenversicherung (IV) unter bestimmten Voraussetzungen die Kosten für bauliche Anpassungen. Dies gilt insbesondere dann, wenn die Anpassungen dazu beitragen, die Eingliederung von Menschen mit einer Behinderung in das gesellschaftliche und berufliche Leben zu erleichtern. Dabei kann es sich sowohl um einmalige Kostenübernahmen für bauliche Massnahmen als auch um laufende Beiträge zur Finanzierung von technischen Hilfsmitteln oder Wohn-Assistenz handeln. Um Leistungen von der IV zu erhalten, muss ein entsprechender Antrag gestellt werden. Dabei ist es wichtig, dass die Anpassungen unmittelbar mit der Behinderung in Zusammenhang stehen und geeignet sind, die Lebenssituation des Betroffenen nachhaltig zu verbessern. Eine Kostenübernahme durch die IV erfolgt in der Regel nur, wenn keine anderen Finanzierungsmöglichkeiten wie z.B. kantonale Fördermassnahmen in Frage kommen. Tipp:Wenn Sie bauliche Anpassungen planen, sollten Sie frühzeitig mit der zuständigen IV-Stelle Kontakt aufnehmen, um sich über die Voraussetzungen für eine Kostenübernahme zu informieren und die entsprechenden Anträge rechtzeitig einzureichen. Abschliessend ist zu erwähnen, dass die kantonalen Fördermassnahmen und die Unterstützung durch die Invalidenversicherung dazu beitragen, älteren Menschen und Menschen mit Behinderungen ein möglichst selbständiges Leben in den eigenen vier Wänden zu ermöglichen. Durch finanzielle Unterstützung bei der Anpassung der Wohnsituation können Barrieren abgebaut und die Lebensqualität erhöht werden. Es lohnt sich daher, sich frühzeitig über die individuellen Möglichkeiten zu informieren und die entsprechenden Anträge zu stellen."
     },
     
   ]
@@ -1323,7 +1323,7 @@ const blogsData = [
     {
       "id": "faq-10-3",
       "question": "Wie kann man im Alter ausreichend trinken, um einer Dehydratation vorzubeugen?",
-      "answer": "Da das Durstgefühl im Alter nachlässt, helfen feste Trinkzeiten, Erinnerungen oder spezielle Trinkhilfen. Kalorienarme Getränke wie Wasser, ungesüßte Tees oder verdünnte Fruchtsäfte sind ideal."
+      "answer": "Da das Durstgefühl im Alter nachlässt, helfen feste Trinkzeiten, Erinnerungen oder spezielle Trinkhilfen. Kalorienarme Getränke wie Wasser, ungesüsste Tees oder verdünnte Fruchtsäfte sind ideal."
     },
     {
       "id": "faq-10-4",
@@ -1347,14 +1347,14 @@ const blogsData = [
   "image": "/images/blog6.png",
   "category": "Gesundheit",
   "title": "Barrierefreie Badezimmer",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Im Laufe des Lebens steigt der Bedarf an Komfort und Sicherheit im eigenen Zuhause. Dies gilt insbesondere für das Badezimmer, denn die tägliche Hygiene sollte so einfach wie möglich gestaltet werden – vor allem, wenn körperliche Einschränkungen eine Rolle spielen. Ein barrierefreies Badezimmer schafft viele Erleichterungen und ermöglicht Senioren und Menschen mit Behinderungen ein selbstbestimmtes Leben. In diesem Wiki geben wir Ihnen einen umfassenden Überblick über die verschiedenen Möglichkeiten und Techniken, um Ihr Badezimmer barrierefrei zu gestalten. Von bodenebenen Duschen über Sitzbadewannen bis hin zu schnellen Anpassungen für mehr Sicherheit erfahren Sie alles, was Sie über die Kosten, Finanzierung und die Organisation von Umbauten wissen müssen. Zudem beantworten wir Ihre wichtigsten Fragen und zeigen alternative Wohnmöglichkeiten während des Umbaus auf.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
     {
@@ -1367,14 +1367,14 @@ const blogsData = [
     },
   {
   "id": "para-1-2",
-  "text": "Eigenständigkeit erhalten und Unabhängigkeit fördern. Ein barrierefreies Badezimmer kann dazu beitragen, die Selbstständigkeit und Unabhängigkeit von Senioren oder Menschen mit körperlichen Einschränkungen zu erhalten oder sogar zu fördern. Denn wenn sichere und passende Hilfsmittel zur Verfügung stehen, fällt es leichter, die täglichen Hygienemaßnahmen selbstständig zu erledigen, ohne auf fremde Hilfe angewiesen zu sein. In einem barrierefreien Badezimmer kann also nicht nur die Körperhygiene selbst, sondern auch das Selbstbewusstsein und das allgemeine Wohlbefinden der betroffenen Menschen gestärkt werden."
+  "text": "Eigenständigkeit erhalten und Unabhängigkeit fördern. Ein barrierefreies Badezimmer kann dazu beitragen, die Selbstständigkeit und Unabhängigkeit von Senioren oder Menschen mit körperlichen Einschränkungen zu erhalten oder sogar zu fördern. Denn wenn sichere und passende Hilfsmittel zur Verfügung stehen, fällt es leichter, die täglichen Hygienemassnahmen selbstständig zu erledigen, ohne auf fremde Hilfe angewiesen zu sein. In einem barrierefreien Badezimmer kann also nicht nur die Körperhygiene selbst, sondern auch das Selbstbewusstsein und das allgemeine Wohlbefinden der betroffenen Menschen gestärkt werden."
 },  {
   "id": "para-1-3",
   "text": "Sicherheit und Komfort erhöhen. Stürze im Badezimmer stellen ein hohes Risiko für ältere Menschen dar. Barrieren, wie eine hohe Badewannenkante oder rutschige Bodenfliesen, erhöhen das Sturzrisiko. Durch einen Umbau des Badezimmers zu einer barrierefreien Umgebung werden solche Risiken minimiert und die Sicherheit im Alltag erhöht. Bodenebene Duschen, stabilen Haltegriffen und rutschsicheren Böden sind Elemente, die zusammen mit ergonomischen Gestaltungen für mehr Komfort und Sicherheit beitragen."
 },
  {
   "id": "para-1-4",
-  "text": "Gezielte Anpassungen und individuelle Lösungen. Ein barrierefreies Badezimmer ist nicht immer gleichbedeutend mit einem vollständigen Umbau. Es gibt in vielen Fällen auch kleinere Anpassungen, die schon eine große Erleichterung bringen können. Wichtig ist es darauf zu achten, welche konkreten Bedürfnisse und Einschränkungen der betroffenen Person vorliegen und dementsprechend gezielte Lösungen einzusetzen. Prime Home Care kann dabei helfen, individuelle Möglichkeiten auszuloten und eine optimale Anpassung des Badezimmers zu erreichen. Beispielhafte Anpassungen für ein barrierefreies Badezimmer ,Bodenebene Duschen, Wannenumbau, Sitzbadewannen und Badewannen mit Tür, Barrierefreie Toiletten und Closomats, Erhöhte WC-Sitze, Handläufe und rutschfeste Böden. Ein barrierefreies Badezimmer kann somit für mehr Sicherheit, Komfort und Wohlbefinden im Alltag sorgen. Die Experten von Prime Home Care unterstützen Sie gerne bei der individuellen Planung und Anpassung Ihres Badezimmers und stehen Ihnen bei allen Fragen zur Seite. Nutzen Sie die angebotenen Lösungen und erleichtern Sie sich und Ihren Angehörigen den Alltag."
+  "text": "Gezielte Anpassungen und individuelle Lösungen. Ein barrierefreies Badezimmer ist nicht immer gleichbedeutend mit einem vollständigen Umbau. Es gibt in vielen Fällen auch kleinere Anpassungen, die schon eine grosse Erleichterung bringen können. Wichtig ist es darauf zu achten, welche konkreten Bedürfnisse und Einschränkungen der betroffenen Person vorliegen und dementsprechend gezielte Lösungen einzusetzen. Prime Home Care kann dabei helfen, individuelle Möglichkeiten auszuloten und eine optimale Anpassung des Badezimmers zu erreichen. Beispielhafte Anpassungen für ein barrierefreies Badezimmer ,Bodenebene Duschen, Wannenumbau, Sitzbadewannen und Badewannen mit Tür, Barrierefreie Toiletten und Closomats, Erhöhte WC-Sitze, Handläufe und rutschfeste Böden. Ein barrierefreies Badezimmer kann somit für mehr Sicherheit, Komfort und Wohlbefinden im Alltag sorgen. Die Experten von Prime Home Care unterstützen Sie gerne bei der individuellen Planung und Anpassung Ihres Badezimmers und stehen Ihnen bei allen Fragen zur Seite. Nutzen Sie die angebotenen Lösungen und erleichtern Sie sich und Ihren Angehörigen den Alltag."
 }
 
   ]
@@ -1389,7 +1389,7 @@ const blogsData = [
         },
         {
           "id": "para-2-2",
-          "text": "Mobilitätseinschränkungen. Im Alter nimmt die Mobilität natürlich ab, was zu einer Vielzahl von Problemen bei der Körperhygiene führt. Das Ein- und Aussteigen aus der Badewanne oder Dusche kann sehr mühsam sein, ebenso wie das Bücken, um Schuhe und Socken anzuziehen oder die Füße zu waschen. Ein barrierefreies Badezimmer ist speziell darauf ausgelegt, diese Hürden zu beseitigen und die tägliche Hygiene für Senioren zu erleichtern."
+          "text": "Mobilitätseinschränkungen. Im Alter nimmt die Mobilität natürlich ab, was zu einer Vielzahl von Problemen bei der Körperhygiene führt. Das Ein- und Aussteigen aus der Badewanne oder Dusche kann sehr mühsam sein, ebenso wie das Bücken, um Schuhe und Socken anzuziehen oder die Füsse zu waschen. Ein barrierefreies Badezimmer ist speziell darauf ausgelegt, diese Hürden zu beseitigen und die tägliche Hygiene für Senioren zu erleichtern."
         },
    {
   "id": "para-2-3",
@@ -1402,7 +1402,7 @@ const blogsData = [
 },
 {
   "id": "para-2-5",
-  "text": "Kognitive Einschränkungen: Altersbedingte kognitive Einschränkungen wie Demenz oder Alzheimer können dazu führen, dass Senioren selbst einfache Alltagshandlungen wie Zähneputzen oder Kämmen als kompliziert empfinden. Ein gut gestaltetes barrierefreies Badezimmer sollte daher übersichtlich und einfach zu verstehen sein. Hilfreich sind klare Strukturen und leicht bedienbare Armaturen. Empathie ist gefragt. Vergessen Sie nicht, dass ältere Menschen trotz aller Herausforderungen ein würdevolles und selbstbestimmtes Leben wünschen. Daher sollten barrierefreie Badezimmer nicht nur funktional, sondern auch ansprechend und einladend gestaltet sein. Insgesamt trägt ein barrierefreies Badezimmer maßgeblich dazu bei, die Herausforderungen und Risiken, die Senioren bei der Körperhygiene im Alter begegnen, zu bewältigen und ein sicheres, komfortables Umfeld für die tägliche Pflege zu bieten. Mit der richtigen Planung und Umsetzung können Sie einen wichtigen Beitrag zur Lebensqualität Ihrer älteren Angehörigen oder Sie selbst leisten."
+  "text": "Kognitive Einschränkungen: Altersbedingte kognitive Einschränkungen wie Demenz oder Alzheimer können dazu führen, dass Senioren selbst einfache Alltagshandlungen wie Zähneputzen oder Kämmen als kompliziert empfinden. Ein gut gestaltetes barrierefreies Badezimmer sollte daher übersichtlich und einfach zu verstehen sein. Hilfreich sind klare Strukturen und leicht bedienbare Armaturen. Empathie ist gefragt. Vergessen Sie nicht, dass ältere Menschen trotz aller Herausforderungen ein würdevolles und selbstbestimmtes Leben wünschen. Daher sollten barrierefreie Badezimmer nicht nur funktional, sondern auch ansprechend und einladend gestaltet sein. Insgesamt trägt ein barrierefreies Badezimmer massgeblich dazu bei, die Herausforderungen und Risiken, die Senioren bei der Körperhygiene im Alter begegnen, zu bewältigen und ein sicheres, komfortables Umfeld für die tägliche Pflege zu bieten. Mit der richtigen Planung und Umsetzung können Sie einen wichtigen Beitrag zur Lebensqualität Ihrer älteren Angehörigen oder Sie selbst leisten."
 }
 
 
@@ -1414,7 +1414,7 @@ const blogsData = [
   "paragraphs": [
     {
       "id": "para-3-1",
-      "text": "Hindernisfreies Wohnen bedeutet, dass das Wohnen und Leben in den eigenen vier Wänden so gestaltet ist, dass Menschen mit eingeschränkter Mobilität oder Behinderung möglichst selbstständig und ohne Barrieren agieren können. Dabei spielen sowohl bauliche Maßnahmen als auch intelligente Lösungen im Bereich der Technik eine wesentliche Rolle. Im Folgenden möchten wir Ihnen einige konkrete Beispiele für barrierefreies Wohnen vorstellen."
+      "text": "Hindernisfreies Wohnen bedeutet, dass das Wohnen und Leben in den eigenen vier Wänden so gestaltet ist, dass Menschen mit eingeschränkter Mobilität oder Behinderung möglichst selbstständig und ohne Barrieren agieren können. Dabei spielen sowohl bauliche Massnahmen als auch intelligente Lösungen im Bereich der Technik eine wesentliche Rolle. Im Folgenden möchten wir Ihnen einige konkrete Beispiele für barrierefreies Wohnen vorstellen."
     },
     {
       "id": "para-3-2",
@@ -1434,7 +1434,7 @@ const blogsData = [
     },
     {
       "id": "para-3-5",
-      "text": "Wohnräume und Schlafzimmer: Diese Räume sollten großzügige Bewegungsflächen bieten. Bodentiefe Fenster schaffen Licht und Sicht. Hilfreich sind Lichtschalter in erreichbarer Höhe und automatische Rollläden."
+      "text": "Wohnräume und Schlafzimmer: Diese Räume sollten grosszügige Bewegungsflächen bieten. Bodentiefe Fenster schaffen Licht und Sicht. Hilfreich sind Lichtschalter in erreichbarer Höhe und automatische Rollläden."
     },
     {
       "id": "para-3-6",
@@ -1465,11 +1465,11 @@ const blogsData = [
     },
     {
       "id": "para-4-3",
-      "text": "Ablauf eines Wannenumbaus: Der Wannenumbau ist ein Sanierungsprojekt, das in der Regel von Fachfirmen durchgeführt wird. Dabei wird die alte Badewanne komplett entfernt und durch eine neue, bodengleiche Dusche ersetzt. Anschließend werden die Wasserleitungen und die Kanalisation angepasst, sowie ein neues Abwassersystem installiert. Schließlich wird die Duschwanne mit einem rutschfesten Belag versehen und die Wandverkleidung erneuert. Für einen kompletten Umbau sollte man etwa ein bis zwei Wochen einplanen, je nach baulichen Gegebenheiten und individuellen Ansprüchen."
+      "text": "Ablauf eines Wannenumbaus: Der Wannenumbau ist ein Sanierungsprojekt, das in der Regel von Fachfirmen durchgeführt wird. Dabei wird die alte Badewanne komplett entfernt und durch eine neue, bodengleiche Dusche ersetzt. Anschliessend werden die Wasserleitungen und die Kanalisation angepasst, sowie ein neues Abwassersystem installiert. Schliesslich wird die Duschwanne mit einem rutschfesten Belag versehen und die Wandverkleidung erneuert. Für einen kompletten Umbau sollte man etwa ein bis zwei Wochen einplanen, je nach baulichen Gegebenheiten und individuellen Ansprüchen."
     },
     {
       "id": "para-4-4",
-      "text": "Kosten und Fördermöglichkeiten: Die Kosten für einen Wannenumbau variieren je nach Größe des Badezimmers, Qualität der gewünschten Materialien sowie regionalem Preisniveau. In der Schweiz kann man mit Kosten zwischen 5’000 und 15’000 CHF rechnen. Dabei sind die Preise für Material, Arbeitszeit und eventuelle Zusatzarbeiten enthalten. Für den Umbau gibt es verschiedene staatliche und kantonale Förderprogramme, die finanzielle Unterstützung in Form von Zuschüssen, zinsgünstigen Darlehen oder Steuerermässigungen anbieten. Auch einige Krankenkassen beteiligen sich unter bestimmten Voraussetzungen an den Kosten. Es lohnt sich daher, sich im Vorfeld über die verschiedenen Möglichkeiten zu informieren und die passenden Fördermöglichkeiten in Anspruch zu nehmen."
+      "text": "Kosten und Fördermöglichkeiten: Die Kosten für einen Wannenumbau variieren je nach Grösse des Badezimmers, Qualität der gewünschten Materialien sowie regionalem Preisniveau. In der Schweiz kann man mit Kosten zwischen 5’000 und 15’000 CHF rechnen. Dabei sind die Preise für Material, Arbeitszeit und eventuelle Zusatzarbeiten enthalten. Für den Umbau gibt es verschiedene staatliche und kantonale Förderprogramme, die finanzielle Unterstützung in Form von Zuschüssen, zinsgünstigen Darlehen oder Steuerermässigungen anbieten. Auch einige Krankenkassen beteiligen sich unter bestimmten Voraussetzungen an den Kosten. Es lohnt sich daher, sich im Vorfeld über die verschiedenen Möglichkeiten zu informieren und die passenden Fördermöglichkeiten in Anspruch zu nehmen."
     },
     {
       "id": "para-4-5",
@@ -1673,14 +1673,14 @@ const blogsData = [
   "image": "/images/blog7.png",
   "category": "Gesundheit",
   "title": "Liftsysteme",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Liftsysteme bieten eine effektive Lösung für Menschen mit eingeschränkter Mobilität und älteren Personen, die in ihrem Zuhause auf Hilfe angewiesen sind. Ob Treppenlifte, Plattformlifte oder Homelifts, diese Systeme ermöglichen es, die unterschiedlichsten Ebenen eines Wohnraums sicher und bequem zu erreichen. Im Folgenden Artikel werden die verschiedenen Liftsysteme näher vorgestellt und wichtige Aspekte wie Kosten, Leasing- und Mietmöglichkeiten sowie Gebrauchtkauf behandelt. Zudem erhalten Sie Antworten auf häufig gestellte Fragen, um Ihnen die Entscheidung für das passende Liftsystem zu erleichtern. Erfahren Sie mehr über die vielfältigen Optionen, die Ihnen zur Verfügung stehen, um ein höheres Mass an Unabhängigkeit, Komfort und Sicherheit im eigenen Zuhause zu gewährleisten.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
     {
@@ -1709,7 +1709,7 @@ const blogsData = [
     {
       "id": "para-1-5",
       "title": "1.4 Installation und Wartung",
-      "text": "Die Installation sollte immer durch ein Fachunternehmen erfolgen, um Sicherheit und Funktionalität zu gewährleisten. Nach dem Einbau sind regelmäßige Wartungen wichtig, damit das Liftsystem zuverlässig funktioniert. Anbieter stehen für Fragen, Wartungen und Reparaturen zur Verfügung."
+      "text": "Die Installation sollte immer durch ein Fachunternehmen erfolgen, um Sicherheit und Funktionalität zu gewährleisten. Nach dem Einbau sind regelmässige Wartungen wichtig, damit das Liftsystem zuverlässig funktioniert. Anbieter stehen für Fragen, Wartungen und Reparaturen zur Verfügung."
     },
     {
       "id": "para-1-6",
@@ -1760,12 +1760,12 @@ const blogsData = [
     {
       "id": "para-2-8",
       "title": "2.3 Hublift",
-      "text": "Hublifte sind für Rollstuhlfahrer gedacht. Sie transportieren die Person senkrecht zwischen zwei Ebenen. Die Plattform ist groß genug für einen Rollstuhl, meist mit Auffahrrampe. Geeignet für kurze Höhenunterschiede oder Außentreppen. Oft mit baulichen Anpassungen verbunden."
+      "text": "Hublifte sind für Rollstuhlfahrer gedacht. Sie transportieren die Person senkrecht zwischen zwei Ebenen. Die Plattform ist gross genug für einen Rollstuhl, meist mit Auffahrrampe. Geeignet für kurze Höhenunterschiede oder Aussentreppen. Oft mit baulichen Anpassungen verbunden."
     },
     {
       "id": "para-2-9",
       "title": "Vorteile Hublift",
-      "text": "– Rollstuhltauglich\n– Barrierefrei\n– Für Innen- und Außenbereiche geeignet"
+      "text": "– Rollstuhltauglich\n– Barrierefrei\n– Für Innen- und Aussenbereiche geeignet"
     },
     {
       "id": "para-2-10",
@@ -1786,7 +1786,7 @@ const blogsData = [
   "paragraphs": [
     {
       "id": "para-3-1",
-      "text": "Plattformlifte sind speziell entwickelte Liftsysteme, die ein barrierefreies Leben für Rollstuhlfahrer ermöglichen. Sie bieten eine sichere Lösung, um Höhenunterschiede im Innen- und Außenbereich zu überwinden."
+      "text": "Plattformlifte sind speziell entwickelte Liftsysteme, die ein barrierefreies Leben für Rollstuhlfahrer ermöglichen. Sie bieten eine sichere Lösung, um Höhenunterschiede im Innen- und Aussenbereich zu überwinden."
     },
     {
       "id": "para-3-2",
@@ -1796,7 +1796,7 @@ const blogsData = [
     {
       "id": "para-3-3",
       "title": "3.2 Schräg verlaufende Plattformlifte",
-      "text": "Diese Lifte folgen dem Verlauf der Treppe und sind besonders geeignet für kurvige oder unregelmäßige Treppen. Sie werden entlang einer angepassten Schiene montiert und bieten sicheren Transport für Rollstuhlfahrer."
+      "text": "Diese Lifte folgen dem Verlauf der Treppe und sind besonders geeignet für kurvige oder unregelmässige Treppen. Sie werden entlang einer angepassten Schiene montiert und bieten sicheren Transport für Rollstuhlfahrer."
     },
     {
       "id": "para-3-4",
@@ -1843,7 +1843,7 @@ const blogsData = [
     {
       "id": "para-4-4",
       "title": "4.3 Modelle von Kurvenliften",
-      "text": "– Sitzlift: Standardmodell mit Sitzfläche, Armlehnen und Gurt\n– Stehlift: Für Nutzer mit Schwierigkeiten beim Sitzen, mit Haltegriffen\n– Rollstuhllift: Mit großer Plattform für Rollstuhlfahrer, besonders stabil und tragfähig"
+      "text": "– Sitzlift: Standardmodell mit Sitzfläche, Armlehnen und Gurt\n– Stehlift: Für Nutzer mit Schwierigkeiten beim Sitzen, mit Haltegriffen\n– Rollstuhllift: Mit grosser Plattform für Rollstuhlfahrer, besonders stabil und tragfähig"
     },
     {
       "id": "para-4-5",
@@ -1853,7 +1853,7 @@ const blogsData = [
     {
       "id": "para-4-6",
       "title": "Fazit",
-      "text": "Kurvenlifte ermöglichen Mobilität auch bei komplexen Treppenformen. Sie lassen sich individuell anpassen und tragen maßgeblich zur Selbstständigkeit und Sicherheit im Alltag bei."
+      "text": "Kurvenlifte ermöglichen Mobilität auch bei komplexen Treppenformen. Sie lassen sich individuell anpassen und tragen massgeblich zur Selbstständigkeit und Sicherheit im Alltag bei."
     }
   ]
 }
@@ -1880,7 +1880,7 @@ const blogsData = [
     {
       "id": "para-5-4",
       "title": "5.3 Optionen und Ausführungen von Homelifts",
-      "text": "– Grösse: Von kompakten Modellen bis rollstuhlgerechten Varianten\n– Tragkraft: Unterschiedliche Modelle für Einzelpersonen oder größere Lasten\n– Antriebstechnik: Hydraulik, Seilzug oder Elektromechanik je nach Bedarf\n– Design: Anpassbar an verschiedene Wohnstile"
+      "text": "– Grösse: Von kompakten Modellen bis rollstuhlgerechten Varianten\n– Tragkraft: Unterschiedliche Modelle für Einzelpersonen oder grössere Lasten\n– Antriebstechnik: Hydraulik, Seilzug oder Elektromechanik je nach Bedarf\n– Design: Anpassbar an verschiedene Wohnstile"
     },
     {
       "id": "para-5-5",
@@ -2049,14 +2049,14 @@ const blogsData = [
   "image": "/images/blog8.png",
   "category": "Gesundheit",
   "title": "Leben im Alter & Dienstleistungen für Senioren",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Das Älterwerden bringt eine Vielzahl von Herausforderungen mit sich, darunter körperliche Einschränkungen, veränderte Ernährungsbedürfnisse sowie ein mitunter nachlassendes Gedächtnis. Vielen altersbedingten Einschränkungen und Krankheitssymptomen kann man jedoch durch Bewegung und Sport, durch gedächtnisfördernde Aktivitäten, durch Vorsorge sowie durch Information und Aufmerksamkeit gut begegnen. Genau hier setzen wir mit unseren Ratgeberseiten an. Zudem gibt es in der Schweiz eine Vielzahl qualitativ hochwertiger Dienstleistungen für Senioren, wie z.B. Betreuungs- und Unterstützungsangebote, die helfen, Lebensqualität und Unabhängigkeit im Alter zu bewahren. Die Prime Home Care möchte hier einen Überblick geben und kann helfen, die richtigen Angebote zu finden. Auf weiteren Ratgeberseiten beleuchten wir auch rechtliche Aspekte, vor allem beim Einsatz von Hilfen im Haushalt sowie bei Live-In-Betreuungskräften.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
     {
@@ -2146,12 +2146,12 @@ const blogsData = [
     {
       "id": "para-4-2",
       "title": "4.2 Wintermonate",
-      "text": "Im Winter sind warme Kleidung, ein stabiles Immunsystem und gute Stimmung wichtig. Lichttherapie kann gegen Winterdepression helfen, und vitaminreiche Ernährung stärkt die Abwehrkräfte. Wegen erhöhter Sturzgefahr bei Nässe und Glätte ist besondere Vorsicht geboten. Achten Sie zudem auf regelmäßiges Lüften zur Vorbeugung von Infektionen."
+      "text": "Im Winter sind warme Kleidung, ein stabiles Immunsystem und gute Stimmung wichtig. Lichttherapie kann gegen Winterdepression helfen, und vitaminreiche Ernährung stärkt die Abwehrkräfte. Wegen erhöhter Sturzgefahr bei Nässe und Glätte ist besondere Vorsicht geboten. Achten Sie zudem auf regelmässiges Lüften zur Vorbeugung von Infektionen."
     },
     {
       "id": "para-4-3",
       "title": "4.3 Betreuung im Jahresverlauf",
-      "text": "Betreuungskräfte helfen, Senioren ganzjährig sicher zu versorgen. Sie übernehmen Vorsichtsmaßnahmen, achten auf Gesundheit und unterstützen auch emotional. Prime Home Care hilft bei Planung, Vorbereitung und Administration von Betreuungspersonal – mit Fokus auf Einfühlungsvermögen, Zuverlässigkeit und Qualität."
+      "text": "Betreuungskräfte helfen, Senioren ganzjährig sicher zu versorgen. Sie übernehmen Vorsichtsmassnahmen, achten auf Gesundheit und unterstützen auch emotional. Prime Home Care hilft bei Planung, Vorbereitung und Administration von Betreuungspersonal – mit Fokus auf Einfühlungsvermögen, Zuverlässigkeit und Qualität."
     }
   ]
 }
@@ -2235,7 +2235,7 @@ const blogsData = [
     {
       "id": "para-8-2",
       "title": "8.2 Reinigungsservice für ein sauberes Zuhause",
-      "text": "Professionelle Reinigungsdienste übernehmen regelmäßig oder nach Bedarf Aufgaben wie Unterhaltsreinigung, Fensterputzen oder Grundreinigung. Viele Anbieter bieten Online-Buchung, transparente Abrechnung und flexible Zeitmodelle. Alternativ kann auch eine eigene Reinigungskraft angestellt werden, was jedoch eine ordnungsgemäße Anmeldung bei den Sozialversicherungen erfordert."
+      "text": "Professionelle Reinigungsdienste übernehmen regelmässig oder nach Bedarf Aufgaben wie Unterhaltsreinigung, Fensterputzen oder Grundreinigung. Viele Anbieter bieten Online-Buchung, transparente Abrechnung und flexible Zeitmodelle. Alternativ kann auch eine eigene Reinigungskraft angestellt werden, was jedoch eine ordnungsgemässe Anmeldung bei den Sozialversicherungen erfordert."
     },
     {
       "id": "para-8-3",
@@ -2291,20 +2291,20 @@ const blogsData = [
   "image": "/images/blog9.png",
   "category": "Gesundheit",
   "title": "Gesundheit und Ernährung im Alter",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Gesundheit und Ernährung spielen eine entscheidende Rolle im Wohlbefinden jedes Menschen, besonders im Alter. Eine gesunde Lebensweise trägt dazu bei, Krankheiten vorzubeugen und die Lebensqualität zu erhöhen. In diesem Ratgeber der Prime Home Care befassen wir uns mit den wichtigsten Aspekten rund um Gesundheit und Ernährung im Alter. Erfahren Sie mehr über die Bedeutung von gesunder Ernährung, wie sich Geschmack und Verdauung im Laufe der Zeit entwickeln, und die sozialen Aspekte des gemeinsamen Essens. Des Weiteren geben wir Ihnen Tipps für eine ausgewogene Ernährung, informieren Sie über chronische Krankheiten und wie Sie diesen vorbeugen können, sowie wie Sie aktiv bleiben und somit körperlich und geistig fit bleiben. Schliesslich beantworten wir häufig gestellte Fragen rund um das Thema Gesundheit und Ernährung im Alter, um Ihnen und Ihren Angehörigen ein gesundes und erfülltes Leben zu ermöglichen.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
     {
   "id": "section-1",
   "title": "Gesund und fit im Alter: Die Bedeutung von gesunder Ernährung",
-  "content": "Eine ausgewogene und gesunde Ernährung ist in jedem Lebensabschnitt wichtig – im Alter jedoch besonders entscheidend. Der Körper verändert sich mit den Jahren, der Stoffwechsel wird langsamer, der Energiebedarf sinkt, während der Bedarf an Vitaminen, Mineralstoffen und hochwertigen Eiweißen gleich bleibt oder steigt. Die richtige Nährstoffzufuhr stärkt das Immunsystem, unterstützt die Knochendichte, schützt vor Mangelerscheinungen und senkt das Risiko für chronische Erkrankungen wie Diabetes oder Herz-Kreislauf-Leiden.",
+  "content": "Eine ausgewogene und gesunde Ernährung ist in jedem Lebensabschnitt wichtig – im Alter jedoch besonders entscheidend. Der Körper verändert sich mit den Jahren, der Stoffwechsel wird langsamer, der Energiebedarf sinkt, während der Bedarf an Vitaminen, Mineralstoffen und hochwertigen Eiweissen gleich bleibt oder steigt. Die richtige Nährstoffzufuhr stärkt das Immunsystem, unterstützt die Knochendichte, schützt vor Mangelerscheinungen und senkt das Risiko für chronische Erkrankungen wie Diabetes oder Herz-Kreislauf-Leiden.",
   "details": {
     "gesunde_ernaehrung": "Die Ernährung im Alter sollte nährstoffreich, aber energiearm sein. Empfehlenswert sind viel Obst und Gemüse, Vollkornprodukte, fettarme Milchprodukte, mageres Fleisch, Fisch, Hülsenfrüchte und hochwertige Pflanzenöle. Fertiggerichte, Zucker und stark verarbeitete Lebensmittel sollten reduziert werden.",
     "wichtige_naehrstoffe": [
@@ -2368,7 +2368,7 @@ const blogsData = [
     {
       "id": "para-3-3",
       "title": "3.3 Gemeinsame Mahlzeiten in der häuslichen Pflege und Betreuung",
-      "text": "Auch in der häuslichen Pflege haben gemeinsame Mahlzeiten einen hohen Stellenwert. Eine regelmäßige Essensroutine, die Einbindung von Betreuungspersonen und besondere Anlässe wie Geburtstage oder Feiertage können helfen, das soziale Erleben zu stärken. Gemeinsame Mahlzeiten geben Struktur, Nähe und Freude."
+      "text": "Auch in der häuslichen Pflege haben gemeinsame Mahlzeiten einen hohen Stellenwert. Eine regelmässige Essensroutine, die Einbindung von Betreuungspersonen und besondere Anlässe wie Geburtstage oder Feiertage können helfen, das soziale Erleben zu stärken. Gemeinsame Mahlzeiten geben Struktur, Nähe und Freude."
     }
   ]
 }
@@ -2405,7 +2405,7 @@ const blogsData = [
     {
       "id": "para-4-6",
       "title": "4.6 Zucker und Salz reduzieren",
-      "text": "Zu viel Zucker und Salz erhöhen das Risiko für Krankheiten wie Diabetes und Bluthochdruck. Verwenden Sie stattdessen frische Kräuter und natürliche Süssungsmittel in Maßen."
+      "text": "Zu viel Zucker und Salz erhöhen das Risiko für Krankheiten wie Diabetes und Bluthochdruck. Verwenden Sie stattdessen frische Kräuter und natürliche Süssungsmittel in Massen."
     },
     {
       "id": "para-4-7",
@@ -2555,12 +2555,12 @@ const blogsData = [
     {
       "id": "faq-10-3",
       "question": "Wie kann man im Alter ausreichend trinken, um einer Dehydratation vorzubeugen?",
-      "answer": "Feste Trinkzeiten, Erinnerungen oder spezielle Trinkhilfen helfen, das Trinken nicht zu vergessen. Am besten geeignet sind Wasser, ungesüßte Tees und verdünnte Fruchtsäfte – etwa 1,5 bis 2 Liter täglich."
+      "answer": "Feste Trinkzeiten, Erinnerungen oder spezielle Trinkhilfen helfen, das Trinken nicht zu vergessen. Am besten geeignet sind Wasser, ungesüsste Tees und verdünnte Fruchtsäfte – etwa 1,5 bis 2 Liter täglich."
     },
     {
       "id": "faq-10-4",
       "question": "Wie können gemeinsame Mahlzeiten das Wohlbefinden im Alter fördern?",
-      "answer": "Gemeinsames Essen fördert soziale Kontakte, steigert die Freude am Essen und kann helfen, regelmäßig und gesünder zu essen. Es bringt Struktur in den Alltag und unterstützt ein positives Lebensgefühl."
+      "answer": "Gemeinsames Essen fördert soziale Kontakte, steigert die Freude am Essen und kann helfen, regelmässig und gesünder zu essen. Es bringt Struktur in den Alltag und unterstützt ein positives Lebensgefühl."
     },
     {
       "id": "faq-10-5",
@@ -2579,14 +2579,14 @@ const blogsData = [
   "image": "/images/blog5.png",
   "category": "Gesundheit",
   "title": "Hilfsmittel für die Pflege von Senioren",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Die Betreuung und Pflege von Senioren kann eine Herausforderung sein, ob sie zu Hause oder in einer Pflegeeinrichtung stattfindet. Eine Reihe von Hilfsmitteln kann jedoch dazu beitragen, die täglichen Aufgaben zu erleichtern und die Unabhängigkeit der zu betreuenden Person zu fördern. Von Kommunikationshilfen über Notrufsysteme, Hygieneartikel bis hin zu Mobilitätshilfen und digitalen Technologien wird dieser Ratgeber umfassend über die verschiedenen Hilfsmittel für die Seniorenpflege informieren. Des Weiteren werden Informationen über mögliche Kostenübernahmen, die Verschreibung von Hilfsmitteln durch Ärzte und die Einreichung von Anträgen bei der Krankenkasse dargestellt. Mit dieser Wissensgrundlage können Angehörige und betroffene Senioren bestmöglich unterstützt und informiert werden.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
    {
@@ -2802,7 +2802,7 @@ const blogsData = [
     {
       "id": "8.2",
       "title": "8.2 Lagerungshilfen",
-      "text": "Lagerungshilfen wie Wechseldruckmatratzen, Antidekubitus-Kissen oder Lagerungskissen helfen, den Körper angenehm und sicher zu positionieren. Sie beugen Druckstellen vor, fördern die Durchblutung und erhöhen den Liegekomfort. Besonders Wechseldruckmatratzen sind für bettlägerige Personen geeignet, da sie den Druck regelmäßig umlagern."
+      "text": "Lagerungshilfen wie Wechseldruckmatratzen, Antidekubitus-Kissen oder Lagerungskissen helfen, den Körper angenehm und sicher zu positionieren. Sie beugen Druckstellen vor, fördern die Durchblutung und erhöhen den Liegekomfort. Besonders Wechseldruckmatratzen sind für bettlägerige Personen geeignet, da sie den Druck regelmässig umlagern."
     },
     {
       "id": "8.3",
@@ -2869,14 +2869,14 @@ const blogsData = [
   "image": "/images/blog4.png",
   "category": "Gesundheit",
   "title": "Bett & Matratze",
-  "date": "July 9, 2025",
-  "maintext": "Ein erholsamer Schlaf ist für das körperliche und geistige Wohlbefinden von Senioren unerlässlich, daher ist die richtige Ausstattung des Schlafzimmers besonders wichtig. Dieser Ratgeber informiert Sie umfassend über die seniorengerechte Einrichtung des Schlafzimmers, vom Auswahl der passenden Matratze bis hin zur Ausstattung des Raumes mit einem geeigneten Pflegebett. Zudem erhalten Sie praktische Tipps zum Einsatz von Betten mit elektrischen Funktionen, Schutzsystemen und Hilfe zum Aufsetzen im Bett. Auch die finanziellen Aspekte neben Kauf oder Miete eines Pflegebettes kommen nicht zu kurz. Abschließend finden Sie eine FAQ-Sektion, in der häufig gestellte Fragen rund um das Thema Bett & Matratze im Alter beantwortet werden. Lassen Sie sich umfangreich beraten und treffen Sie die richtige Entscheidung für eine optimale Schlafatmosphäre und Schlafkomfort im goldenen Lebensabschnitt.",
+  "date": "09 Juli 2025",
+  "maintext": "Ein erholsamer Schlaf ist für das körperliche und geistige Wohlbefinden von Senioren unerlässlich, daher ist die richtige Ausstattung des Schlafzimmers besonders wichtig. Dieser Ratgeber informiert Sie umfassend über die seniorengerechte Einrichtung des Schlafzimmers, vom Auswahl der passenden Matratze bis hin zur Ausstattung des Raumes mit einem geeigneten Pflegebett. Zudem erhalten Sie praktische Tipps zum Einsatz von Betten mit elektrischen Funktionen, Schutzsystemen und Hilfe zum Aufsetzen im Bett. Auch die finanziellen Aspekte neben Kauf oder Miete eines Pflegebettes kommen nicht zu kurz. Abschliessend finden Sie eine FAQ-Sektion, in der häufig gestellte Fragen rund um das Thema Bett & Matratze im Alter beantwortet werden. Lassen Sie sich umfangreich beraten und treffen Sie die richtige Entscheidung für eine optimale Schlafatmosphäre und Schlafkomfort im goldenen Lebensabschnitt.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
  {
@@ -2963,7 +2963,7 @@ const blogsData = [
     {
       "id": "4-2",
       "title": "4.2 Verstellbare Liegepositionen für gesunden Schlaf",
-      "text": "Kopf- und Fußteil lassen sich individuell einstellen. Das hilft gegen Rückenschmerzen, fördert die Durchblutung und erleichtert das Atmen. So entsteht eine Schlafposition, die gesund ist und das Wohlbefinden steigert."
+      "text": "Kopf- und Fussteil lassen sich individuell einstellen. Das hilft gegen Rückenschmerzen, fördert die Durchblutung und erleichtert das Atmen. So entsteht eine Schlafposition, die gesund ist und das Wohlbefinden steigert."
     },
     {
       "id": "4-3",
@@ -3002,7 +3002,7 @@ const blogsData = [
     {
       "id": "5-3",
       "title": "5.3 Auf was sollte beim Einsatz von Schutzsystemen geachtet werden?",
-      "text": "Schutzsysteme müssen sicher, bequem und hygienisch sein. Sie sollten einfach zu bedienen sein, nicht die Bewegungsfreiheit einschränken und regelmäßig gereinigt werden können. Nur so kann ein effektiver Schutz ohne Einschränkung des Komforts gewährleistet werden."
+      "text": "Schutzsysteme müssen sicher, bequem und hygienisch sein. Sie sollten einfach zu bedienen sein, nicht die Bewegungsfreiheit einschränken und regelmässig gereinigt werden können. Nur so kann ein effektiver Schutz ohne Einschränkung des Komforts gewährleistet werden."
     }
   ]
 }
@@ -3027,7 +3027,7 @@ const blogsData = [
     {
       "id": "6-3",
       "title": "6.3 Elektrische Betten",
-      "text": "Elektrisch verstellbare Betten erleichtern das Aufrichten durch Hebefunktionen im Kopf- und Fußbereich. Sie sind besonders hilfreich für Menschen mit starker Bewegungseinschränkung oder erhöhtem Pflegebedarf. Gleichzeitig erhöhen sie den Komfort im Alltag."
+      "text": "Elektrisch verstellbare Betten erleichtern das Aufrichten durch Hebefunktionen im Kopf- und Fussbereich. Sie sind besonders hilfreich für Menschen mit starker Bewegungseinschränkung oder erhöhtem Pflegebedarf. Gleichzeitig erhöhen sie den Komfort im Alltag."
     },
     {
       "id": "6-4",
@@ -3159,14 +3159,14 @@ const blogsData = [
   "image": "/images/blog2.png",
   "category": "Gesundheit",
   "title": "Mobilitäts- und Hebehilfen",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Die Mobilität älterer Menschen und pflegebedürftiger Personen ist oft eingeschränkt, daher sind Mobilitätshilfen ein wichtiger Aspekt, um Selbstständigkeit und Lebensqualität zu erhalten. In diesem Blog-Artikel erhalten Sie einen Überblick über verschiedene Mobilitätshilfen, von Gehstöcken über Rollstühle bis hin zu Fahrrädern für Behinderte, sowie Informationen zu Hebehilfen und Schienensystemen. Dabei werden Vor- und Nachteile der unterschiedlichen Modelle erläutert, um Ihnen dabei zu helfen, die richtige Wahl für Ihre individuellen Bedürfnisse zu treffen. Zudem erfahren Sie, wie Sie diese Hilfsmittel richtig nutzen und was Sie bei der Auswahl beachten sollten. Abschliessend beantworten wir häufig gestellte Fragen rund um das Thema Mobilitäts- und Hebehilfen. Lesen Sie weiter und erfahren Sie alles Wichtige zu diesem Thema.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
  {
@@ -3187,7 +3187,7 @@ const blogsData = [
     {
       "id": "1-3",
       "title": "1.3 Rollstühle: Manuelle und motorisierte Modelle",
-      "text": "Rollstühle sind für Personen geeignet, die nicht oder nur eingeschränkt gehen können. Manuelle Modelle benötigen Armkraft oder Hilfe von außen, motorisierte Varianten ermöglichen eigenständige Bewegung. Viele sind individuell einstellbar und anpassbar."
+      "text": "Rollstühle sind für Personen geeignet, die nicht oder nur eingeschränkt gehen können. Manuelle Modelle benötigen Armkraft oder Hilfe von aussen, motorisierte Varianten ermöglichen eigenständige Bewegung. Viele sind individuell einstellbar und anpassbar."
     },
     {
       "id": "1-4",
@@ -3221,7 +3221,7 @@ const blogsData = [
     {
       "id": "2-3",
       "title": "2.3 Vierfüssige Gehhilfen",
-      "text": "Diese Gehhilfen bieten durch ihre vier Standfüße deutlich mehr Stabilität und eignen sich bei stärkerer Unsicherheit beim Gehen. Sie sind ebenfalls höhenverstellbar und unterstützen besonders gut bei Gleichgewichtsstörungen."
+      "text": "Diese Gehhilfen bieten durch ihre vier Standfüsse deutlich mehr Stabilität und eignen sich bei stärkerer Unsicherheit beim Gehen. Sie sind ebenfalls höhenverstellbar und unterstützen besonders gut bei Gleichgewichtsstörungen."
     },
     {
       "id": "2-4",
@@ -3236,7 +3236,7 @@ const blogsData = [
     {
       "id": "2-6",
       "title": "2.6 Wartung und Sicherheit",
-      "text": "Gehhilfen sollten regelmäßig geprüft werden: Bremsen, Räder, Gummipuffer und Griffe müssen intakt sein. Bei Verschleißteilen ist ein rechtzeitiger Austausch wichtig für Sicherheit und Funktionalität."
+      "text": "Gehhilfen sollten regelmässig geprüft werden: Bremsen, Räder, Gummipuffer und Griffe müssen intakt sein. Bei Verschleissteilen ist ein rechtzeitiger Austausch wichtig für Sicherheit und Funktionalität."
     }
   ]
 }
@@ -3245,7 +3245,7 @@ const blogsData = [
 {
   "id": "section-3",
   "title": "3. Rollatoren und ‚Böckli‘: Unterstützung im Alltag",
-  "description": "Rollatoren und Böckli helfen Menschen mit eingeschränkter Mobilität, sicher und selbstständig durch den Alltag zu kommen – sowohl draußen als auch in der Wohnung.",
+  "description": "Rollatoren und Böckli helfen Menschen mit eingeschränkter Mobilität, sicher und selbstständig durch den Alltag zu kommen – sowohl draussen als auch in der Wohnung.",
   "paragraphs": [
     {
       "id": "3-1",
@@ -3265,7 +3265,7 @@ const blogsData = [
     {
       "id": "3-4",
       "title": "3.4 Auswahl und Anpassung des passenden Modells",
-      "text": "Die Wahl hängt von Körpergröße, Gewicht und Einsatzbereich ab. Fachgeschäfte helfen bei der richtigen Einstellung von Griffhöhe und Sitz. So wird die optimale Sicherheit und Unterstützung gewährleistet."
+      "text": "Die Wahl hängt von Körpergrösse, Gewicht und Einsatzbereich ab. Fachgeschäfte helfen bei der richtigen Einstellung von Griffhöhe und Sitz. So wird die optimale Sicherheit und Unterstützung gewährleistet."
     },
     {
       "id": "3-5",
@@ -3323,7 +3323,7 @@ const blogsData = [
     {
       "id": "5-2",
       "title": "5.2 Motorisierte Rollstühle",
-      "text": "Motorisierte Rollstühle (Elektrorollstühle) sind mit einem Elektromotor und Akku ausgestattet und erleichtern die Fortbewegung. Sie werden meist über eine Bedieneinheit gesteuert. Vorteile: mehr Reichweite, weniger körperliche Anstrengung, höhere Selbstständigkeit bei eingeschränkter Kraft. Nachteile: höheres Gewicht, teurer in Anschaffung und Wartung, regelmäßiges Aufladen erforderlich."
+      "text": "Motorisierte Rollstühle (Elektrorollstühle) sind mit einem Elektromotor und Akku ausgestattet und erleichtern die Fortbewegung. Sie werden meist über eine Bedieneinheit gesteuert. Vorteile: mehr Reichweite, weniger körperliche Anstrengung, höhere Selbstständigkeit bei eingeschränkter Kraft. Nachteile: höheres Gewicht, teurer in Anschaffung und Wartung, regelmässiges Aufladen erforderlich."
     },
     {
       "id": "5-3",
@@ -3343,7 +3343,7 @@ const blogsData = [
   {
   "id": "section-6",
   "title": "6. Freiheit auf vier Rädern: Möglichkeiten und Vorteile von Elektromobilen",
-  "description": "Elektromobile bieten Menschen mit eingeschränkter Beweglichkeit eine flexible und komfortable Möglichkeit, mobil und selbstständig zu bleiben – drinnen wie draußen.",
+  "description": "Elektromobile bieten Menschen mit eingeschränkter Beweglichkeit eine flexible und komfortable Möglichkeit, mobil und selbstständig zu bleiben – drinnen wie draussen.",
   "paragraphs": [
     {
       "id": "6-0",
@@ -3353,12 +3353,12 @@ const blogsData = [
     {
       "id": "6-1",
       "title": "6.1 Verschiedene Arten von Elektromobilen",
-      "text": "Es gibt unterschiedliche Modelle wie E-Scooter für kurze Wege, E-Rollstühle für längere Strecken und E-Rollstuhl-Scooter als Kombination beider. Sie unterscheiden sich in Größe, Gewicht, Reichweite und Einsatzbereich – je nach Mobilitätsbedarf."
+      "text": "Es gibt unterschiedliche Modelle wie E-Scooter für kurze Wege, E-Rollstühle für längere Strecken und E-Rollstuhl-Scooter als Kombination beider. Sie unterscheiden sich in Grösse, Gewicht, Reichweite und Einsatzbereich – je nach Mobilitätsbedarf."
     },
     {
       "id": "6-2",
       "title": "6.2 Vorteile von Elektromobilen",
-      "text": "Elektromobile bieten mehr Selbstständigkeit, Bewegungsfreiheit, Sicherheit und Komfort. Sie eignen sich für Innen- und Außeneinsatz, haben oft gefederte Sitze, stabile Bremsen und sind emissionsfrei. Damit fördern sie Mobilität und Umweltschutz zugleich."
+      "text": "Elektromobile bieten mehr Selbstständigkeit, Bewegungsfreiheit, Sicherheit und Komfort. Sie eignen sich für Innen- und Ausseneinsatz, haben oft gefederte Sitze, stabile Bremsen und sind emissionsfrei. Damit fördern sie Mobilität und Umweltschutz zugleich."
     },
     {
       "id": "6-3",
@@ -3426,7 +3426,7 @@ const blogsData = [
     {
       "id": "8-4",
       "title": "8.4 Tipps für die Nutzung von Hebe- und Schienensystemen",
-      "text": "Lassen Sie sich gründlich einweisen und üben Sie die Anwendung. Achten Sie auf regelmäßige Wartung zur Sicherstellung der Funktionalität. Nur geschultes Personal oder gut informierte Angehörige sollten das System bedienen."
+      "text": "Lassen Sie sich gründlich einweisen und üben Sie die Anwendung. Achten Sie auf regelmässige Wartung zur Sicherstellung der Funktionalität. Nur geschultes Personal oder gut informierte Angehörige sollten das System bedienen."
     },
     {
       "id": "8-5",
@@ -3466,12 +3466,12 @@ const blogsData = [
     {
       "id": "9-5",
       "title": "9.5 Regelmässige Wartung und Kontrolle",
-      "text": "Mobilitätshilfen müssen regelmäßig geprüft und gewartet werden. Defekte Bremsen, wackelige Teile oder lockere Schrauben sollten rechtzeitig erkannt und behoben werden – für dauerhafte Sicherheit."
+      "text": "Mobilitätshilfen müssen regelmässig geprüft und gewartet werden. Defekte Bremsen, wackelige Teile oder lockere Schrauben sollten rechtzeitig erkannt und behoben werden – für dauerhafte Sicherheit."
     },
     {
       "id": "9-6",
       "title": "9.6 Fazit",
-      "text": "Die richtige Nutzung von Mobilitätshilfen steigert die Lebensqualität. Professionelle Beratung, gute Anpassung und regelmäßige Pflege sorgen für Sicherheit, Komfort und Unabhängigkeit."
+      "text": "Die richtige Nutzung von Mobilitätshilfen steigert die Lebensqualität. Professionelle Beratung, gute Anpassung und regelmässige Pflege sorgen für Sicherheit, Komfort und Unabhängigkeit."
     }
   ]
 }
@@ -3511,14 +3511,14 @@ const blogsData = [
   "image": "/images/blog2.png",
   "category": "Gesundheit",
   "title": "Pflege-Verbrauchsmaterial",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Die Betreuung und Pflege von Senioren zu Hause hat zum Ziel, ihnen ein sicheres und komfortables Umfeld zu bieten. Dabei spielt das richtige Pflege-Verbrauchsmaterial eine entscheidende Rolle. Dieser Artikel gibt Ihnen einen Überblick über alle wichtigen Aspekte rund um das Thema Pflege-Verbrauchsmaterial – von der unerlässlichen Checkliste über Sauberkeit und Hygiene, bis hin zu spezialisiertem Verbrauchsmaterial für Stoma-, PEG-Sonden- und Tracheostoma-Patienten. Zudem informieren wir Sie über die Grenzziehung zwischen Betreuung und Pflege, und welche Aufgaben nicht-diplomiertes Personal übernehmen darf. Schliesslich beantworten wir die häufigsten Fragen zum Thema Pflege-Verbrauchsmaterial, sodass Sie gut informiert die richtige Wahl für Ihre Angehörigen treffen können.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
  {
@@ -3567,7 +3567,7 @@ const blogsData = [
     {
       "id": "2-3",
       "title": "2.3 Richtiger Umgang mit Einweg-Tüchern und Handschuhen",
-      "text": "Hände vor und nach dem Tragen von Handschuhen gründlich waschen. Benutzte Materialien direkt entsorgen, um Keime nicht weiterzutragen. Vorräte regelmäßig prüfen und rechtzeitig auffüllen. Nur so ist ein hygienischer Pflegealltag gewährleistet."
+      "text": "Hände vor und nach dem Tragen von Handschuhen gründlich waschen. Benutzte Materialien direkt entsorgen, um Keime nicht weiterzutragen. Vorräte regelmässig prüfen und rechtzeitig auffüllen. Nur so ist ein hygienischer Pflegealltag gewährleistet."
     },
     {
       "id": "2-4",
@@ -3589,17 +3589,17 @@ const blogsData = [
     {
       "id": "3-2",
       "title": "3.2 Anwendung von Desinfektions- und Reinigungsmitteln",
-      "text": "Befolgen Sie stets die Herstellerhinweise. Desinfizieren Sie regelmäßig Hände und häufig berührte Flächen wie Türklinken oder Arbeitsflächen. Tragen Sie bei Bedarf Handschuhe und verwenden Sie Einwegtücher, um Kreuzkontaminationen zu vermeiden."
+      "text": "Befolgen Sie stets die Herstellerhinweise. Desinfizieren Sie regelmässig Hände und häufig berührte Flächen wie Türklinken oder Arbeitsflächen. Tragen Sie bei Bedarf Handschuhe und verwenden Sie Einwegtücher, um Kreuzkontaminationen zu vermeiden."
     },
     {
       "id": "3-3",
       "title": "3.3 Vorsichtsmassnahmen bei der Verwendung",
-      "text": "Lagern Sie Mittel sicher und außerhalb der Reichweite von Kindern. Überprüfen Sie das Haltbarkeitsdatum. Kontakt mit Augen oder Schleimhäuten vermeiden – im Notfall ärztlichen Rat einholen. Nur bestimmungsgemäß anwenden."
+      "text": "Lagern Sie Mittel sicher und ausserhalb der Reichweite von Kindern. Überprüfen Sie das Haltbarkeitsdatum. Kontakt mit Augen oder Schleimhäuten vermeiden – im Notfall ärztlichen Rat einholen. Nur bestimmungsgemäss anwenden."
     },
     {
       "id": "3-4",
       "title": "3.4 Fazit",
-      "text": "Hygiene beginnt mit den richtigen Produkten und deren sachgemäßer Anwendung. Desinfektions- und Reinigungsmittel schützen effektiv – wenn sie sorgfältig und verantwortungsvoll eingesetzt werden."
+      "text": "Hygiene beginnt mit den richtigen Produkten und deren sachgemässer Anwendung. Desinfektions- und Reinigungsmittel schützen effektiv – wenn sie sorgfältig und verantwortungsvoll eingesetzt werden."
     }
   ]
 }
@@ -3652,12 +3652,12 @@ const blogsData = [
     {
       "id": "5-3",
       "title": "5.3 Inkontinenz-Unterwäsche und -Hosen",
-      "text": "Diese speziell entwickelte Wäsche bietet Schutz bei Inkontinenz und ähnelt optisch normaler Unterwäsche. 'Pull-ups' lassen sich leicht an- und ausziehen, sind in verschiedenen Größen und Saugstärken erhältlich und eignen sich bei leichter bis mittelschwerer Inkontinenz."
+      "text": "Diese speziell entwickelte Wäsche bietet Schutz bei Inkontinenz und ähnelt optisch normaler Unterwäsche. 'Pull-ups' lassen sich leicht an- und ausziehen, sind in verschiedenen Grössen und Saugstärken erhältlich und eignen sich bei leichter bis mittelschwerer Inkontinenz."
     },
     {
       "id": "5-4",
       "title": "5.4 Windeln und Windelhosen für Erwachsene",
-      "text": "Für schwere Inkontinenz bieten Windeln besonders nachts oder bei bettlägerigen Personen zuverlässigen Schutz. Windelhosen sind etwas leichter und ebenfalls gut geeignet bei mittlerer bis schwerer Inkontinenz. Beide Varianten sind in vielen Größen und Saugstärken verfügbar."
+      "text": "Für schwere Inkontinenz bieten Windeln besonders nachts oder bei bettlägerigen Personen zuverlässigen Schutz. Windelhosen sind etwas leichter und ebenfalls gut geeignet bei mittlerer bis schwerer Inkontinenz. Beide Varianten sind in vielen Grössen und Saugstärken verfügbar."
     },
     {
       "id": "5-5",
@@ -3676,7 +3676,7 @@ const blogsData = [
     {
       "id": "6-1",
       "title": "6.1 Arten von Bettschutz-Unterlagen",
-      "text": "Es gibt drei Hauptarten: (1) Einwegunterlagen aus Zellstoff mit wasserdichter Unterseite, praktisch für einmaligen Gebrauch bei Inkontinenz; (2) Waschbare Unterlagen aus Baumwolle oder Polyester, wiederverwendbar und umweltfreundlich; (3) Matratzenauflagen, dicker und größer, schützen die gesamte Matratze und beugen Druckstellen vor."
+      "text": "Es gibt drei Hauptarten: (1) Einwegunterlagen aus Zellstoff mit wasserdichter Unterseite, praktisch für einmaligen Gebrauch bei Inkontinenz; (2) Waschbare Unterlagen aus Baumwolle oder Polyester, wiederverwendbar und umweltfreundlich; (3) Matratzenauflagen, dicker und grösser, schützen die gesamte Matratze und beugen Druckstellen vor."
     },
     {
       "id": "6-2",
@@ -3686,7 +3686,7 @@ const blogsData = [
     {
       "id": "6-3",
       "title": "6.3 Auswahl der passenden Bettschutz-Unterlage",
-      "text": "Wichtig bei der Auswahl sind Verwendungszweck, Grösse und Material. Die Unterlage sollte groß genug, hautfreundlich, atmungsaktiv und wenn möglich wasserdicht sein. Waschbare Varianten sind langfristig günstiger und umweltfreundlicher. Dennoch ersetzt der Bettschutz nicht die regelmäßige Reinigung von Bettwäsche und Matratze."
+      "text": "Wichtig bei der Auswahl sind Verwendungszweck, Grösse und Material. Die Unterlage sollte gross genug, hautfreundlich, atmungsaktiv und wenn möglich wasserdicht sein. Waschbare Varianten sind langfristig günstiger und umweltfreundlicher. Dennoch ersetzt der Bettschutz nicht die regelmässige Reinigung von Bettwäsche und Matratze."
     }
   ]
 }
@@ -3710,7 +3710,7 @@ const blogsData = [
     {
       "id": "7-3",
       "title": "7.3 Tracheostoma-Patienten",
-      "text": "Ein Tracheostoma muss regelmäßig gereinigt und gepflegt werden. Wichtige Materialien sind Absaugeinheiten, HME-Filter, Reinigungslösungen, sterile Tücher, Kanülen, Stomaplatten und Tracheostomaverschlüsse."
+      "text": "Ein Tracheostoma muss regelmässig gereinigt und gepflegt werden. Wichtige Materialien sind Absaugeinheiten, HME-Filter, Reinigungslösungen, sterile Tücher, Kanülen, Stomaplatten und Tracheostomaverschlüsse."
     }
   ]
 }
@@ -3723,7 +3723,7 @@ const blogsData = [
     {
       "id": "8-1",
       "title": "8.1 Qualität und Haltbarkeit von Verbandsmaterial",
-      "text": "Hochwertiges Verbandsmaterial sollte hautfreundlich, flexibel und reißfest sein. Achten Sie auf das Verfallsdatum, um stets einsatzbereite Produkte zu haben."
+      "text": "Hochwertiges Verbandsmaterial sollte hautfreundlich, flexibel und reissfest sein. Achten Sie auf das Verfallsdatum, um stets einsatzbereite Produkte zu haben."
     },
     {
       "id": "8-2",
@@ -3733,12 +3733,12 @@ const blogsData = [
     {
       "id": "8-3",
       "title": "8.3 Richtige Anwendung von Verbandsmaterial",
-      "text": "Die Technik ist entscheidend. Verbände sollten gleichmäßig sitzen – nicht zu straff, nicht zu locker. Bei komplizierten Wunden wie Dekubitus spezielle Anleitungen beachten."
+      "text": "Die Technik ist entscheidend. Verbände sollten gleichmässig sitzen – nicht zu straff, nicht zu locker. Bei komplizierten Wunden wie Dekubitus spezielle Anleitungen beachten."
     },
     {
       "id": "8-4",
       "title": "8.4 Aufbewahrung von Verbandsmaterial",
-      "text": "Lagern Sie Verbandsmaterial sauber, trocken und geschützt in einem Verbandskasten oder Schrank. Ablaufdaten regelmäßig prüfen und abgelaufene Produkte austauschen."
+      "text": "Lagern Sie Verbandsmaterial sauber, trocken und geschützt in einem Verbandskasten oder Schrank. Ablaufdaten regelmässig prüfen und abgelaufene Produkte austauschen."
     },
     {
       "id": "8-5",
@@ -3762,7 +3762,7 @@ const blogsData = [
     {
       "id": "9-2",
       "title": "9.2 Tätigkeiten, die Fachpersonal vorbehalten sind",
-      "text": "Medizinische Untersuchungen, Behandlungen und pflegerische Maßnahmen mit erhöhtem Risiko dürfen nur durch diplomiertes Pflegepersonal ausgeführt werden. Dazu zählen z. B. das Verabreichen von Medikamenten, Injektionen oder Wundversorgung."
+      "text": "Medizinische Untersuchungen, Behandlungen und pflegerische Massnahmen mit erhöhtem Risiko dürfen nur durch diplomiertes Pflegepersonal ausgeführt werden. Dazu zählen z. B. das Verabreichen von Medikamenten, Injektionen oder Wundversorgung."
     },
     {
       "id": "9-3",
@@ -3810,14 +3810,14 @@ const blogsData = [
   "image": "/images/blog6.png",
   "category": "Gesundheit",
   "title": "Notrufsysteme für Senioren",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Gerade im Alter möchte man Selbstständigkeit möglichst lange bewahren. Gleichzeitig steigt jedoch das Bedürfnis nach Sicherheit – und zwar gleichzeitig auf Seiten der Senioren sowie deren Angehörigen. Eine Lösung bieten Notruf- und Alarmsysteme für Senioren, die in verschiedenen Ausführungen für den Einsatz in der eigenen Wohnung oder unterwegs existieren. Doch welche Systeme sind wirklich sinnvoll und wie können sie im Ernstfall Leben retten? In diesem Ratgeber erfahren Sie mehr über die verschiedenen Möglichkeiten, vom Hausnotruf über Klingelmatten und ein überraschend nützliches Baby-Phone für Senioren bis hin zu mobilen Lösungen wie Alarm-Knopf und Uhr. Zudem erfahren Sie, welche Notrufnavigationssysteme sich im Test bewährt haben und wie unkompliziert bedienbare Senioren-Telefone zu mehr Sicherheit beitragen können. Persönliche Erfahrungsberichte zeigen, welchen positiven Einfluss die Systeme auf das Leben älterer Menschen haben können und im abschliessenden FAQ beantworten wir Ihre Fragen zu Notrufsystemen für Senioren.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
  {
@@ -3919,7 +3919,7 @@ const blogsData = [
     {
       "id": "4-2",
       "title": "4.2 Auswahlkriterien und Modelle von Baby-Phones für Senioren",
-      "text": "Beim Kauf eines Baby-Phones für Senioren sollten folgende Punkte beachtet werden:\n\n– Reichweite: Sollte mindestens die Entfernung vom Schlafzimmer zur Betreuungsperson überbrücken.\n– Geräuschsensibilität: Wichtig, um auch leise Rufe oder Atemgeräusche zu erfassen. Einstellbare Empfindlichkeit ist vorteilhaft.\n– Gegensprechfunktion: Erlaubt direkte Kommunikation, was im Notfall oder zur Beruhigung hilfreich ist.\n– Videoüberwachung: Optional, aber nur mit Zustimmung der betreuten Person zu verwenden.\n– Bedienkomfort: Einfache Handhabung, große Tasten, lauter Lautsprecher sind besonders bei eingeschränkten Fähigkeiten wichtig."
+      "text": "Beim Kauf eines Baby-Phones für Senioren sollten folgende Punkte beachtet werden:\n\n– Reichweite: Sollte mindestens die Entfernung vom Schlafzimmer zur Betreuungsperson überbrücken.\n– Geräuschsensibilität: Wichtig, um auch leise Rufe oder Atemgeräusche zu erfassen. Einstellbare Empfindlichkeit ist vorteilhaft.\n– Gegensprechfunktion: Erlaubt direkte Kommunikation, was im Notfall oder zur Beruhigung hilfreich ist.\n– Videoüberwachung: Optional, aber nur mit Zustimmung der betreuten Person zu verwenden.\n– Bedienkomfort: Einfache Handhabung, grosse Tasten, lauter Lautsprecher sind besonders bei eingeschränkten Fähigkeiten wichtig."
     },
     {
       "id": "4-3",
@@ -3937,12 +3937,12 @@ const blogsData = [
     {
       "id": "5-1",
       "title": "5.1 Vorteile von mobilen Notrufsystemen für Senioren",
-      "text": "Mobile Notrufsysteme bestehen aus tragbaren Geräten, die um den Hals oder am Handgelenk getragen werden. Mit einem Knopfdruck kann im Notfall sofort professionelle Hilfe gerufen werden – egal ob zuhause oder draußen. Vorteile:\n\n– Unabhängigkeit: Senioren können aktiv bleiben, ohne Angst vor Notfällen zu haben.\n– Komfort: Klein, leicht und bequem tragbar.\n– Kommunikation: Zwei-Wege-Gespräche mit der Notrufzentrale per Lautsprecherfunktion.\n– Ortung: GPS-Funktion hilft, schnell den Aufenthaltsort der Person zu ermitteln.\n– Personalisierung: Wichtige Gesundheitsdaten können hinterlegt werden.\n\nWichtiger Hinweis: Diese Systeme ersetzen keine persönliche Betreuung, sie ergänzen sie zur Erhöhung der Sicherheit."
+      "text": "Mobile Notrufsysteme bestehen aus tragbaren Geräten, die um den Hals oder am Handgelenk getragen werden. Mit einem Knopfdruck kann im Notfall sofort professionelle Hilfe gerufen werden – egal ob zuhause oder draussen. Vorteile:\n\n– Unabhängigkeit: Senioren können aktiv bleiben, ohne Angst vor Notfällen zu haben.\n– Komfort: Klein, leicht und bequem tragbar.\n– Kommunikation: Zwei-Wege-Gespräche mit der Notrufzentrale per Lautsprecherfunktion.\n– Ortung: GPS-Funktion hilft, schnell den Aufenthaltsort der Person zu ermitteln.\n– Personalisierung: Wichtige Gesundheitsdaten können hinterlegt werden.\n\nWichtiger Hinweis: Diese Systeme ersetzen keine persönliche Betreuung, sie ergänzen sie zur Erhöhung der Sicherheit."
     },
     {
       "id": "5-2",
       "title": "5.2 Auswahlkriterien für mobile Notrufsysteme",
-      "text": "Beim Kauf eines mobilen Notrufsystems sollten folgende Punkte berücksichtigt werden:\n\n– Bedürfnisse des Seniors: Grad der Mobilität, Gesundheitszustand und Alltag.\n– Reichweite: Funktioniert das Gerät auch außerhalb des Hauses?\n– Kosten: Achten Sie auf Anschaffungspreise, Monatsgebühren und Zusatzkosten.\n– Akkulaufzeit: Lange Laufzeiten sichern Einsatzbereitschaft.\n– Bewertungen: Erfahrungen anderer Nutzer helfen bei der Auswahl.\n\nMobile Notrufsysteme sind eine praktische Ergänzung zur häuslichen Pflege. In Kombination mit anderen Systemen wie Klingelmatten oder Hausnotrufen entsteht ein zuverlässiges Sicherheitsnetz für Senioren."
+      "text": "Beim Kauf eines mobilen Notrufsystems sollten folgende Punkte berücksichtigt werden:\n\n– Bedürfnisse des Seniors: Grad der Mobilität, Gesundheitszustand und Alltag.\n– Reichweite: Funktioniert das Gerät auch ausserhalb des Hauses?\n– Kosten: Achten Sie auf Anschaffungspreise, Monatsgebühren und Zusatzkosten.\n– Akkulaufzeit: Lange Laufzeiten sichern Einsatzbereitschaft.\n– Bewertungen: Erfahrungen anderer Nutzer helfen bei der Auswahl.\n\nMobile Notrufsysteme sind eine praktische Ergänzung zur häuslichen Pflege. In Kombination mit anderen Systemen wie Klingelmatten oder Hausnotrufen entsteht ein zuverlässiges Sicherheitsnetz für Senioren."
     }
   ]
 }
@@ -4005,12 +4005,12 @@ const blogsData = [
 {
   "id": "section-8",
   "title": "8. Senioren-Telefone: Einfache Bedienung für mehr Sicherheit",
-  "description": "Senioren-Telefone sind speziell entwickelte Geräte mit einfacher Bedienung, großer Tasten und nützlichen Sicherheitsfunktionen wie Notruftasten oder Lautstärkeverstärkung.",
+  "description": "Senioren-Telefone sind speziell entwickelte Geräte mit einfacher Bedienung, grosser Tasten und nützlichen Sicherheitsfunktionen wie Notruftasten oder Lautstärkeverstärkung.",
   "paragraphs": [
     {
       "id": "8-1",
       "title": "8.1 Einfache Bedienung als wichtigstes Kriterium",
-      "text": "Senioren-Telefone haben große Tasten, ein gut lesbares Display und eine übersichtliche Menüführung. Dadurch können ältere Menschen ohne technische Vorkenntnisse problemlos telefonieren oder Nachrichten schreiben."
+      "text": "Senioren-Telefone haben grosse Tasten, ein gut lesbares Display und eine übersichtliche Menüführung. Dadurch können ältere Menschen ohne technische Vorkenntnisse problemlos telefonieren oder Nachrichten schreiben."
     },
     {
       "id": "8-2",
@@ -4055,7 +4055,7 @@ const blogsData = [
     {
       "id": "9-3",
       "title": "9.3 Erfahrungsbericht 3: Das mobile Notrufsystem ermöglicht weiterhin soziale Aktivitäten",
-      "text": "Herr und Frau Keller (beide 70) sind gerne unterwegs. Mit einem mobilen Notrufsystem mit GPS können sie auch außerhalb der Wohnung im Notfall Hilfe anfordern. Sie genießen ihre Ausflüge sorgenfrei und bleiben aktiv."
+      "text": "Herr und Frau Keller (beide 70) sind gerne unterwegs. Mit einem mobilen Notrufsystem mit GPS können sie auch ausserhalb der Wohnung im Notfall Hilfe anfordern. Sie geniessen ihre Ausflüge sorgenfrei und bleiben aktiv."
     },
     {
       "id": "9-4",
@@ -4098,14 +4098,14 @@ const blogsData = [
 ,
   "category": "Gesundheit",
   "title": "Wissen für pflegende Angehörige",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Das Wohl unserer Lieben, die nun unserer Pflege bedürfen, liegt uns sehr am Herzen. Dabei fühlen wir uns oft unsicher, ob wir den Bedürfnissen unserer Angehörigen gerecht werden und ob wir rechtlich und organisatorisch alles korrekt machen. In diesem Ratgeber beleuchten wir Themen rund um die häusliche Pflege und Betreuung in der Schweiz, um Sie als pflegende Angehörige oder betroffene Senioren umfassend zu informieren und zu unterstützen. Sie finden wertvolle Informationen zur Bewertung von Pflegesituationen, zur Bedeutung von Pflegestufen, hygienischen Aspekten, Sturzprävention, finanzrechtlichen Fragen sowie zu psychologischen Hilfsangeboten und der Möglichkeit, auch mal eine Auszeit zu nehmen.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -4158,32 +4158,32 @@ const blogsData = [
 {
   "id": "section-3",
   "title": "3. Hygiene im häuslichen Pflegeumfeld: Alles, was Sie wissen müssen",
-  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Maßnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
+  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Massnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
   "paragraphs": [
     {
       "id": "3-1",
       "title": "3.1 Was versteht man unter Hygiene in der Pflege?",
-      "text": "Hygiene bedeutet mehr als Sauberkeit – sie umfasst alle Maßnahmen, die helfen, Krankheiten zu vermeiden. Dazu gehören Körperpflege, Reinigung der Umgebung, Desinfektion und der sichere Umgang mit Abfällen und medizinischen Produkten."
+      "text": "Hygiene bedeutet mehr als Sauberkeit – sie umfasst alle Massnahmen, die helfen, Krankheiten zu vermeiden. Dazu gehören Körperpflege, Reinigung der Umgebung, Desinfektion und der sichere Umgang mit Abfällen und medizinischen Produkten."
     },
     {
       "id": "3-2",
       "title": "3.2 Persönliche Hygiene: Wäsche, Haut und Mundpflege",
-      "text": "Die tägliche Körperpflege, das regelmäßige Waschen, Umkleiden und die Hautpflege schützen vor Infektionen. Auch die Mundpflege ist wichtig, um Zahnerkrankungen und andere Folgeprobleme zu verhindern."
+      "text": "Die tägliche Körperpflege, das regelmässige Waschen, Umkleiden und die Hautpflege schützen vor Infektionen. Auch die Mundpflege ist wichtig, um Zahnerkrankungen und andere Folgeprobleme zu verhindern."
     },
     {
       "id": "3-3",
       "title": "3.3 Hygiene im Wohnbereich und der Küche",
-      "text": "Eine saubere Wohnung trägt zur Gesundheit bei. Räume wie Küche und Bad sollten regelmäßig gereinigt werden. In der Küche verhindert gute Hygiene die Übertragung von Keimen über Lebensmittel."
+      "text": "Eine saubere Wohnung trägt zur Gesundheit bei. Räume wie Küche und Bad sollten regelmässig gereinigt werden. In der Küche verhindert gute Hygiene die Übertragung von Keimen über Lebensmittel."
     },
     {
       "id": "3-4",
       "title": "3.4 Umgang mit Medizinprodukten und Abfällen",
-      "text": "Spritzen, Katheter oder andere Hilfsmittel müssen hygienisch aufbewahrt, regelmäßig gewechselt und sachgerecht entsorgt werden. Medizinische Abfälle gehören nicht in den normalen Hausmüll."
+      "text": "Spritzen, Katheter oder andere Hilfsmittel müssen hygienisch aufbewahrt, regelmässig gewechselt und sachgerecht entsorgt werden. Medizinische Abfälle gehören nicht in den normalen Hausmüll."
     },
     {
       "id": "3-5",
       "title": "3.5 Infektionsprävention in der häuslichen Pflege",
-      "text": "Hände regelmäßig waschen und desinfizieren, Kontakt bei eigener Krankheit einschränken, eventuell eine Maske tragen – diese einfachen Maßnahmen schützen pflegebedürftige Personen mit schwachem Immunsystem."
+      "text": "Hände regelmässig waschen und desinfizieren, Kontakt bei eigener Krankheit einschränken, eventuell eine Maske tragen – diese einfachen Massnahmen schützen pflegebedürftige Personen mit schwachem Immunsystem."
     }
   ]
 }
@@ -4193,7 +4193,7 @@ const blogsData = [
 {
   "id": "section-4",
   "title": "4. Sturzprophylaxe: Wie Sie Unfälle im Haushalt vermeiden",
-  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Maßnahmen vorbeugt.",
+  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Massnahmen vorbeugt.",
   "paragraphs": [
     {
       "id": "4-1",
@@ -4238,12 +4238,12 @@ const blogsData = [
     {
       "id": "5-3",
       "title": "5.3 Inkontinenz-Unterwäsche und -Hosen",
-      "text": "Diese speziell entwickelte Wäsche bietet Schutz bei Inkontinenz und ähnelt optisch normaler Unterwäsche. 'Pull-ups' lassen sich leicht an- und ausziehen, sind in verschiedenen Größen und Saugstärken erhältlich und eignen sich bei leichter bis mittelschwerer Inkontinenz."
+      "text": "Diese speziell entwickelte Wäsche bietet Schutz bei Inkontinenz und ähnelt optisch normaler Unterwäsche. 'Pull-ups' lassen sich leicht an- und ausziehen, sind in verschiedenen Grössen und Saugstärken erhältlich und eignen sich bei leichter bis mittelschwerer Inkontinenz."
     },
     {
       "id": "5-4",
       "title": "5.4 Windeln und Windelhosen für Erwachsene",
-      "text": "Für schwere Inkontinenz bieten Windeln besonders nachts oder bei bettlägerigen Personen zuverlässigen Schutz. Windelhosen sind etwas leichter und ebenfalls gut geeignet bei mittlerer bis schwerer Inkontinenz. Beide Varianten sind in vielen Größen und Saugstärken verfügbar."
+      "text": "Für schwere Inkontinenz bieten Windeln besonders nachts oder bei bettlägerigen Personen zuverlässigen Schutz. Windelhosen sind etwas leichter und ebenfalls gut geeignet bei mittlerer bis schwerer Inkontinenz. Beide Varianten sind in vielen Grössen und Saugstärken verfügbar."
     },
     {
       "id": "5-5",
@@ -4262,7 +4262,7 @@ const blogsData = [
     {
       "id": "6-1",
       "title": "6.1 Arten von Bettschutz-Unterlagen",
-      "text": "Es gibt drei Hauptarten: (1) Einwegunterlagen aus Zellstoff mit wasserdichter Unterseite, praktisch für einmaligen Gebrauch bei Inkontinenz; (2) Waschbare Unterlagen aus Baumwolle oder Polyester, wiederverwendbar und umweltfreundlich; (3) Matratzenauflagen, dicker und größer, schützen die gesamte Matratze und beugen Druckstellen vor."
+      "text": "Es gibt drei Hauptarten: (1) Einwegunterlagen aus Zellstoff mit wasserdichter Unterseite, praktisch für einmaligen Gebrauch bei Inkontinenz; (2) Waschbare Unterlagen aus Baumwolle oder Polyester, wiederverwendbar und umweltfreundlich; (3) Matratzenauflagen, dicker und grösser, schützen die gesamte Matratze und beugen Druckstellen vor."
     },
     {
       "id": "6-2",
@@ -4272,7 +4272,7 @@ const blogsData = [
     {
       "id": "6-3",
       "title": "6.3 Auswahl der passenden Bettschutz-Unterlage",
-      "text": "Wichtig bei der Auswahl sind Verwendungszweck, Grösse und Material. Die Unterlage sollte groß genug, hautfreundlich, atmungsaktiv und wenn möglich wasserdicht sein. Waschbare Varianten sind langfristig günstiger und umweltfreundlicher. Dennoch ersetzt der Bettschutz nicht die regelmäßige Reinigung von Bettwäsche und Matratze."
+      "text": "Wichtig bei der Auswahl sind Verwendungszweck, Grösse und Material. Die Unterlage sollte gross genug, hautfreundlich, atmungsaktiv und wenn möglich wasserdicht sein. Waschbare Varianten sind langfristig günstiger und umweltfreundlicher. Dennoch ersetzt der Bettschutz nicht die regelmässige Reinigung von Bettwäsche und Matratze."
     }
   ]
 }
@@ -4296,7 +4296,7 @@ const blogsData = [
     {
       "id": "7-3",
       "title": "7.3 Tracheostoma-Patienten",
-      "text": "Ein Tracheostoma muss regelmäßig gereinigt und gepflegt werden. Wichtige Materialien sind Absaugeinheiten, HME-Filter, Reinigungslösungen, sterile Tücher, Kanülen, Stomaplatten und Tracheostomaverschlüsse."
+      "text": "Ein Tracheostoma muss regelmässig gereinigt und gepflegt werden. Wichtige Materialien sind Absaugeinheiten, HME-Filter, Reinigungslösungen, sterile Tücher, Kanülen, Stomaplatten und Tracheostomaverschlüsse."
     }
   ]
 }
@@ -4309,7 +4309,7 @@ const blogsData = [
     {
       "id": "8-1",
       "title": "8.1 Qualität und Haltbarkeit von Verbandsmaterial",
-      "text": "Hochwertiges Verbandsmaterial sollte hautfreundlich, flexibel und reißfest sein. Achten Sie auf das Verfallsdatum, um stets einsatzbereite Produkte zu haben."
+      "text": "Hochwertiges Verbandsmaterial sollte hautfreundlich, flexibel und reissfest sein. Achten Sie auf das Verfallsdatum, um stets einsatzbereite Produkte zu haben."
     },
     {
       "id": "8-2",
@@ -4319,12 +4319,12 @@ const blogsData = [
     {
       "id": "8-3",
       "title": "8.3 Richtige Anwendung von Verbandsmaterial",
-      "text": "Die Technik ist entscheidend. Verbände sollten gleichmäßig sitzen – nicht zu straff, nicht zu locker. Bei komplizierten Wunden wie Dekubitus spezielle Anleitungen beachten."
+      "text": "Die Technik ist entscheidend. Verbände sollten gleichmässig sitzen – nicht zu straff, nicht zu locker. Bei komplizierten Wunden wie Dekubitus spezielle Anleitungen beachten."
     },
     {
       "id": "8-4",
       "title": "8.4 Aufbewahrung von Verbandsmaterial",
-      "text": "Lagern Sie Verbandsmaterial sauber, trocken und geschützt in einem Verbandskasten oder Schrank. Ablaufdaten regelmäßig prüfen und abgelaufene Produkte austauschen."
+      "text": "Lagern Sie Verbandsmaterial sauber, trocken und geschützt in einem Verbandskasten oder Schrank. Ablaufdaten regelmässig prüfen und abgelaufene Produkte austauschen."
     },
     {
       "id": "8-5",
@@ -4348,7 +4348,7 @@ const blogsData = [
     {
       "id": "9-2",
       "title": "9.2 Tätigkeiten, die Fachpersonal vorbehalten sind",
-      "text": "Medizinische Untersuchungen, Behandlungen und pflegerische Maßnahmen mit erhöhtem Risiko dürfen nur durch diplomiertes Pflegepersonal ausgeführt werden. Dazu zählen z. B. das Verabreichen von Medikamenten, Injektionen oder Wundversorgung."
+      "text": "Medizinische Untersuchungen, Behandlungen und pflegerische Massnahmen mit erhöhtem Risiko dürfen nur durch diplomiertes Pflegepersonal ausgeführt werden. Dazu zählen z. B. das Verabreichen von Medikamenten, Injektionen oder Wundversorgung."
     },
     {
       "id": "9-3",
@@ -4396,14 +4396,14 @@ const blogsData = [
   "image": "/images/blog8.png",
   "category": "Gesundheit",
   "title": "Gesetzliche Grundlagen der Pflege & Betreuung in der Schweiz",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "In diesem Blogbeitrag gehen wir auf die gesetzlichen Grundlagen rund um die Pflege und Betreuung in der Schweiz ein. Wir werfen einen Blick auf die jeweiligen Zuständigkeiten von Bund und Kantonen und erklären die Auswirkungen der föderalen Struktur der Schweiz. Zusätzlich behandeln wir die Krankenpflege-Leistungsverordnung (KLV) und die kantonalen Gesundheitsgesetze, sowie die Rolle der Spitex als zugelassener Leistungserbringer. Ebenso erläutern wir die unterschiedlichen Geschäftsmodelle der gewerblich organisierten Betreuung zuhause, beleuchten treuhänderische Dienstleistungen und gehen auf das Schweizer Arbeitsrecht ein. Zuletzt thematisieren wir die Haftung bei Unfällen oder Schäden und diskutieren Vor- und Nachteile bei der direkten Anstellung von Personal. Diese ausführliche Einführung in das Thema zielt darauf ab, ein umfassendes Bild der Pflege und Betreuung in der Schweiz zu liefern, inkludiert sämtliche rechtlichen Aspekte und gibt Hilfestellungen für Entscheidungen in Bezug auf häusliche Betreuung.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -4456,32 +4456,32 @@ const blogsData = [
 {
   "id": "section-3",
   "title": "3. Hygiene im häuslichen Pflegeumfeld: Alles, was Sie wissen müssen",
-  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Maßnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
+  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Massnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
   "paragraphs": [
     {
       "id": "3-1",
       "title": "3.1 Was versteht man unter Hygiene in der Pflege?",
-      "text": "Hygiene bedeutet mehr als Sauberkeit – sie umfasst alle Maßnahmen, die helfen, Krankheiten zu vermeiden. Dazu gehören Körperpflege, Reinigung der Umgebung, Desinfektion und der sichere Umgang mit Abfällen und medizinischen Produkten."
+      "text": "Hygiene bedeutet mehr als Sauberkeit – sie umfasst alle Massnahmen, die helfen, Krankheiten zu vermeiden. Dazu gehören Körperpflege, Reinigung der Umgebung, Desinfektion und der sichere Umgang mit Abfällen und medizinischen Produkten."
     },
     {
       "id": "3-2",
       "title": "3.2 Persönliche Hygiene: Wäsche, Haut und Mundpflege",
-      "text": "Die tägliche Körperpflege, das regelmäßige Waschen, Umkleiden und die Hautpflege schützen vor Infektionen. Auch die Mundpflege ist wichtig, um Zahnerkrankungen und andere Folgeprobleme zu verhindern."
+      "text": "Die tägliche Körperpflege, das regelmässige Waschen, Umkleiden und die Hautpflege schützen vor Infektionen. Auch die Mundpflege ist wichtig, um Zahnerkrankungen und andere Folgeprobleme zu verhindern."
     },
     {
       "id": "3-3",
       "title": "3.3 Hygiene im Wohnbereich und der Küche",
-      "text": "Eine saubere Wohnung trägt zur Gesundheit bei. Räume wie Küche und Bad sollten regelmäßig gereinigt werden. In der Küche verhindert gute Hygiene die Übertragung von Keimen über Lebensmittel."
+      "text": "Eine saubere Wohnung trägt zur Gesundheit bei. Räume wie Küche und Bad sollten regelmässig gereinigt werden. In der Küche verhindert gute Hygiene die Übertragung von Keimen über Lebensmittel."
     },
     {
       "id": "3-4",
       "title": "3.4 Umgang mit Medizinprodukten und Abfällen",
-      "text": "Spritzen, Katheter oder andere Hilfsmittel müssen hygienisch aufbewahrt, regelmäßig gewechselt und sachgerecht entsorgt werden. Medizinische Abfälle gehören nicht in den normalen Hausmüll."
+      "text": "Spritzen, Katheter oder andere Hilfsmittel müssen hygienisch aufbewahrt, regelmässig gewechselt und sachgerecht entsorgt werden. Medizinische Abfälle gehören nicht in den normalen Hausmüll."
     },
     {
       "id": "3-5",
       "title": "3.5 Infektionsprävention in der häuslichen Pflege",
-      "text": "Hände regelmäßig waschen und desinfizieren, Kontakt bei eigener Krankheit einschränken, eventuell eine Maske tragen – diese einfachen Maßnahmen schützen pflegebedürftige Personen mit schwachem Immunsystem."
+      "text": "Hände regelmässig waschen und desinfizieren, Kontakt bei eigener Krankheit einschränken, eventuell eine Maske tragen – diese einfachen Massnahmen schützen pflegebedürftige Personen mit schwachem Immunsystem."
     }
   ]
 }
@@ -4491,7 +4491,7 @@ const blogsData = [
 {
   "id": "section-4",
   "title": "4. Sturzprophylaxe: Wie Sie Unfälle im Haushalt vermeiden",
-  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Maßnahmen vorbeugt.",
+  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Massnahmen vorbeugt.",
   "paragraphs": [
     {
       "id": "4-1",
@@ -4536,12 +4536,12 @@ const blogsData = [
     {
       "id": "5-3",
       "title": "5.3 Inkontinenz-Unterwäsche und -Hosen",
-      "text": "Diese speziell entwickelte Wäsche bietet Schutz bei Inkontinenz und ähnelt optisch normaler Unterwäsche. 'Pull-ups' lassen sich leicht an- und ausziehen, sind in verschiedenen Größen und Saugstärken erhältlich und eignen sich bei leichter bis mittelschwerer Inkontinenz."
+      "text": "Diese speziell entwickelte Wäsche bietet Schutz bei Inkontinenz und ähnelt optisch normaler Unterwäsche. 'Pull-ups' lassen sich leicht an- und ausziehen, sind in verschiedenen Grössen und Saugstärken erhältlich und eignen sich bei leichter bis mittelschwerer Inkontinenz."
     },
     {
       "id": "5-4",
       "title": "5.4 Windeln und Windelhosen für Erwachsene",
-      "text": "Für schwere Inkontinenz bieten Windeln besonders nachts oder bei bettlägerigen Personen zuverlässigen Schutz. Windelhosen sind etwas leichter und ebenfalls gut geeignet bei mittlerer bis schwerer Inkontinenz. Beide Varianten sind in vielen Größen und Saugstärken verfügbar."
+      "text": "Für schwere Inkontinenz bieten Windeln besonders nachts oder bei bettlägerigen Personen zuverlässigen Schutz. Windelhosen sind etwas leichter und ebenfalls gut geeignet bei mittlerer bis schwerer Inkontinenz. Beide Varianten sind in vielen Grössen und Saugstärken verfügbar."
     },
     {
       "id": "5-5",
@@ -4560,7 +4560,7 @@ const blogsData = [
     {
       "id": "6-1",
       "title": "6.1 Arten von Bettschutz-Unterlagen",
-      "text": "Es gibt drei Hauptarten: (1) Einwegunterlagen aus Zellstoff mit wasserdichter Unterseite, praktisch für einmaligen Gebrauch bei Inkontinenz; (2) Waschbare Unterlagen aus Baumwolle oder Polyester, wiederverwendbar und umweltfreundlich; (3) Matratzenauflagen, dicker und größer, schützen die gesamte Matratze und beugen Druckstellen vor."
+      "text": "Es gibt drei Hauptarten: (1) Einwegunterlagen aus Zellstoff mit wasserdichter Unterseite, praktisch für einmaligen Gebrauch bei Inkontinenz; (2) Waschbare Unterlagen aus Baumwolle oder Polyester, wiederverwendbar und umweltfreundlich; (3) Matratzenauflagen, dicker und grösser, schützen die gesamte Matratze und beugen Druckstellen vor."
     },
     {
       "id": "6-2",
@@ -4570,7 +4570,7 @@ const blogsData = [
     {
       "id": "6-3",
       "title": "6.3 Auswahl der passenden Bettschutz-Unterlage",
-      "text": "Wichtig bei der Auswahl sind Verwendungszweck, Grösse und Material. Die Unterlage sollte groß genug, hautfreundlich, atmungsaktiv und wenn möglich wasserdicht sein. Waschbare Varianten sind langfristig günstiger und umweltfreundlicher. Dennoch ersetzt der Bettschutz nicht die regelmäßige Reinigung von Bettwäsche und Matratze."
+      "text": "Wichtig bei der Auswahl sind Verwendungszweck, Grösse und Material. Die Unterlage sollte gross genug, hautfreundlich, atmungsaktiv und wenn möglich wasserdicht sein. Waschbare Varianten sind langfristig günstiger und umweltfreundlicher. Dennoch ersetzt der Bettschutz nicht die regelmässige Reinigung von Bettwäsche und Matratze."
     }
   ]
 }
@@ -4594,7 +4594,7 @@ const blogsData = [
     {
       "id": "7-3",
       "title": "7.3 Tracheostoma-Patienten",
-      "text": "Ein Tracheostoma muss regelmäßig gereinigt und gepflegt werden. Wichtige Materialien sind Absaugeinheiten, HME-Filter, Reinigungslösungen, sterile Tücher, Kanülen, Stomaplatten und Tracheostomaverschlüsse."
+      "text": "Ein Tracheostoma muss regelmässig gereinigt und gepflegt werden. Wichtige Materialien sind Absaugeinheiten, HME-Filter, Reinigungslösungen, sterile Tücher, Kanülen, Stomaplatten und Tracheostomaverschlüsse."
     }
   ]
 }
@@ -4607,7 +4607,7 @@ const blogsData = [
     {
       "id": "8-1",
       "title": "8.1 Qualität und Haltbarkeit von Verbandsmaterial",
-      "text": "Hochwertiges Verbandsmaterial sollte hautfreundlich, flexibel und reißfest sein. Achten Sie auf das Verfallsdatum, um stets einsatzbereite Produkte zu haben."
+      "text": "Hochwertiges Verbandsmaterial sollte hautfreundlich, flexibel und reissfest sein. Achten Sie auf das Verfallsdatum, um stets einsatzbereite Produkte zu haben."
     },
     {
       "id": "8-2",
@@ -4617,12 +4617,12 @@ const blogsData = [
     {
       "id": "8-3",
       "title": "8.3 Richtige Anwendung von Verbandsmaterial",
-      "text": "Die Technik ist entscheidend. Verbände sollten gleichmäßig sitzen – nicht zu straff, nicht zu locker. Bei komplizierten Wunden wie Dekubitus spezielle Anleitungen beachten."
+      "text": "Die Technik ist entscheidend. Verbände sollten gleichmässig sitzen – nicht zu straff, nicht zu locker. Bei komplizierten Wunden wie Dekubitus spezielle Anleitungen beachten."
     },
     {
       "id": "8-4",
       "title": "8.4 Aufbewahrung von Verbandsmaterial",
-      "text": "Lagern Sie Verbandsmaterial sauber, trocken und geschützt in einem Verbandskasten oder Schrank. Ablaufdaten regelmäßig prüfen und abgelaufene Produkte austauschen."
+      "text": "Lagern Sie Verbandsmaterial sauber, trocken und geschützt in einem Verbandskasten oder Schrank. Ablaufdaten regelmässig prüfen und abgelaufene Produkte austauschen."
     },
     {
       "id": "8-5",
@@ -4646,7 +4646,7 @@ const blogsData = [
     {
       "id": "9-2",
       "title": "9.2 Tätigkeiten, die Fachpersonal vorbehalten sind",
-      "text": "Medizinische Untersuchungen, Behandlungen und pflegerische Maßnahmen mit erhöhtem Risiko dürfen nur durch diplomiertes Pflegepersonal ausgeführt werden. Dazu zählen z. B. das Verabreichen von Medikamenten, Injektionen oder Wundversorgung."
+      "text": "Medizinische Untersuchungen, Behandlungen und pflegerische Massnahmen mit erhöhtem Risiko dürfen nur durch diplomiertes Pflegepersonal ausgeführt werden. Dazu zählen z. B. das Verabreichen von Medikamenten, Injektionen oder Wundversorgung."
     },
     {
       "id": "9-3",
@@ -4692,14 +4692,14 @@ const blogsData = [
   "image": "/images/blog2.png",
   "category": "Gesundheit",
   "title": "Beratung und Organisation von Betreuung zu Hause",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Willkommen bei Prime Home Care – Ihr zuverlässiger Partner für die Organisation von häuslicher Betreuung & Pflege in der Schweiz! ",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -4732,7 +4732,7 @@ const blogsData = [
 {
   "id": "section-3",
   "title": "Sie müssen private Betreuung für sich oder für einen nahen Angehörigen organisieren?",
-  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Maßnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
+  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Massnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
   "paragraphs": [
     {
       "id": "3-1",
@@ -4748,7 +4748,7 @@ const blogsData = [
 {
   "id": "section-4",
   "title": "Unsere Lösungen für eine optimale Ihre Betreuung – einfach digital organisiert",
-  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Maßnahmen vorbeugt.",
+  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Massnahmen vorbeugt.",
   "paragraphs": [
     {
       "id": "4-1",
@@ -4789,10 +4789,6 @@ const blogsData = [
       "question": "Was passiert, wenn sich die Betreuungs-Bedürfnisse im Laufe der Zeit ändern?",
       "answer": "In der Schweiz können ausgewählte Pflege-Verbrauchsmaterialien über die Grundversicherung oder eine Zusatzversicherung der gesetzlichen Krankenversicherung abgerechnet werden. Die Kostenübernahme variiert jedoch je nach Versicherungsmodell und individuellen Bedürfnissen. Setzen Sie sich daher am besten mit Ihrer Krankenkasse in Verbindung, um genaue Informationen zur Kostenerstattung zu erhalten."
     },
-    {
-      "question": "Wie läuft die Betreuungs-Organisation ab, wenn Betreuung und Pflege kurzfristig notwendig ist oder unerwartet mehr Unterstützung benötigt wird?",
-      "answer": "Je nach Art der Wunde und des Heilungsprozesses kommen unterschiedliche Verbandsmaterialien zum Einsatz. Wundauflagen, Fixierbinden, Mullkompressen und spezielle Wundverbände sind einige der gebräuchlichsten Materialien. Um die richtige Auswahl zu treffen, sollten Sie sich von einer Pflegefachperson oder einem Arzt beraten lassen."
-    },
      {
       "question": "Wie wird sichergestellt, dass die Pflegekräfte individuelle Bedürfnisse und Wünsche verstehen und umsetzen?",
       "answer": "Je nach Art der Wunde und des Heilungsprozesses kommen unterschiedliche Verbandsmaterialien zum Einsatz. Wundauflagen, Fixierbinden, Mullkompressen und spezielle Wundverbände sind einige der gebräuchlichsten Materialien. Um die richtige Auswahl zu treffen, sollten Sie sich von einer Pflegefachperson oder einem Arzt beraten lassen."
@@ -4809,14 +4805,14 @@ const blogsData = [
   "image": "/images/blog1.png",
   "category": "Gesundheit",
   "title": "Professionelle stundenweise Unterstützung im Alltag in der Schweiz",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Prime Home Care – Ihr zuverlässiger Partner für die Seniorenbetreuung zuhause in der Schweiz! ",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -4849,7 +4845,7 @@ const blogsData = [
 {
   "id": "section-3",
   "title": "Unsere Lösungen für eine optimale Betreuungs- Organisation",
-  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Maßnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
+  "description": "Hygiene ist ein zentraler Bestandteil der häuslichen Pflege. In diesem Abschnitt erfahren Sie, wie Sie mit einfachen Massnahmen Infektionen vermeiden und für ein gesundes Umfeld sorgen können.",
   "paragraphs": [
     {
       "id": "3-1",
@@ -4865,7 +4861,7 @@ const blogsData = [
 {
   "id": "section-4",
   "title": "Moderne Seniorenbetreuung – digital, flexibel und persönlich",
-  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Maßnahmen vorbeugt.",
+  "description": "Stürze im Haushalt zählen zu den häufigsten Unfallursachen bei Senioren. In diesem Abschnitt erfahren Sie, wie man Risiken erkennt und mit einfachen Massnahmen vorbeugt.",
   "paragraphs": [
     {
       "id": "4-1",
@@ -4952,20 +4948,20 @@ const blogsData = [
   "image": "/images/blog4.png",
   "category": "Gesundheit",
   "title": "Vorsorgliche Regelungen bei Pflegebedürftigkeit",
-  "date": "July 9, 2025",
-  "maintext": "Die Pflegebedürftigkeit ist ein Thema, das viele Menschen betrifft oder in Zukunft betreffen wird. Vorsorgliche Regelungen bei Pflegebedürftigkeit sind essenziell, um für den Fall der Fälle gewappnet zu sein. Sie können dazu beitragen, die Lebensqualität älterer Menschen und ihre Unabhängigkeit zu erhalten. In diesem Beitrag werden wir die verschiedenen Aspekte vorsorglicher Regelungen bei Pflegebedürftigkeit beleuchten – von Patientenverfügung und Vorsorgevollmacht über Betreuungsverfügung bis hin zur finanziellen Vorsorge. Dabei wird auch die Bedeutung von Testament und Nachlassplanung thematisiert. Des Weiteren wird auf die Möglichkeit der Planung der eigenen Beisetzung eingegangen und darauf, an wen Sie sich für Unterstützung und Beratung im Bereich der Vorsorgemaßnahmen wenden können. Abschliessend finden Sie häufig gestellte Fragen zum Thema vorsorglicher Regelungen bei Pflegebedürftigkeit.",
+  "date": "09 Juli 2025",
+  "maintext": "Die Pflegebedürftigkeit ist ein Thema, das viele Menschen betrifft oder in Zukunft betreffen wird. Vorsorgliche Regelungen bei Pflegebedürftigkeit sind essenziell, um für den Fall der Fälle gewappnet zu sein. Sie können dazu beitragen, die Lebensqualität älterer Menschen und ihre Unabhängigkeit zu erhalten. In diesem Beitrag werden wir die verschiedenen Aspekte vorsorglicher Regelungen bei Pflegebedürftigkeit beleuchten – von Patientenverfügung und Vorsorgevollmacht über Betreuungsverfügung bis hin zur finanziellen Vorsorge. Dabei wird auch die Bedeutung von Testament und Nachlassplanung thematisiert. Des Weiteren wird auf die Möglichkeit der Planung der eigenen Beisetzung eingegangen und darauf, an wen Sie sich für Unterstützung und Beratung im Bereich der Vorsorgemassnahmen wenden können. Abschliessend finden Sie häufig gestellte Fragen zum Thema vorsorglicher Regelungen bei Pflegebedürftigkeit.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
   "id": "section-1",
   "title": "1. Einführung: Die Bedeutung vorsorglicher Regelungen bei Pflegebedürftigkeit",
-  "description": "Dieser Abschnitt erklärt, warum es wichtig ist, frühzeitig Entscheidungen zur Pflegebedürftigkeit zu treffen. Er zeigt, welche Vorsorgemaßnahmen sinnvoll sind – von Patientenverfügung über Finanzplanung bis zur Bestattungsregelung – und welche Vorteile diese frühzeitige Planung mit sich bringt.",
+  "description": "Dieser Abschnitt erklärt, warum es wichtig ist, frühzeitig Entscheidungen zur Pflegebedürftigkeit zu treffen. Er zeigt, welche Vorsorgemassnahmen sinnvoll sind – von Patientenverfügung über Finanzplanung bis zur Bestattungsregelung – und welche Vorteile diese frühzeitige Planung mit sich bringt.",
   "paragraphs": [
     {
       "id": "1-1",
@@ -5009,7 +5005,7 @@ const blogsData = [
     {
       "id": "2-1",
       "title": "2.1 Patientenverfügung – medizinische Entscheidungen festlegen",
-      "text": "Die Patientenverfügung ist ein schriftliches Dokument, in dem Sie festlegen, welche medizinischen Maßnahmen Sie im Falle einer schweren Krankheit oder Pflegebedürftigkeit wünschen oder ablehnen. Sie gibt Ihnen Sicherheit, dass Ihre Vorstellungen berücksichtigt werden – auch wenn Sie nicht mehr selbst entscheiden können. Typische Punkte, die darin geregelt werden, sind: Wiederbelebung, künstliche Beatmung, Schmerztherapie, künstliche Ernährung, Organ- oder Gewebespende sowie Palliativversorgung. Wichtig ist, dass Ihre Patientenverfügung allen relevanten Personen – z. B. Angehörigen und Ärzten – vorliegt."
+      "text": "Die Patientenverfügung ist ein schriftliches Dokument, in dem Sie festlegen, welche medizinischen Massnahmen Sie im Falle einer schweren Krankheit oder Pflegebedürftigkeit wünschen oder ablehnen. Sie gibt Ihnen Sicherheit, dass Ihre Vorstellungen berücksichtigt werden – auch wenn Sie nicht mehr selbst entscheiden können. Typische Punkte, die darin geregelt werden, sind: Wiederbelebung, künstliche Beatmung, Schmerztherapie, künstliche Ernährung, Organ- oder Gewebespende sowie Palliativversorgung. Wichtig ist, dass Ihre Patientenverfügung allen relevanten Personen – z. B. Angehörigen und Ärzten – vorliegt."
     },
     {
       "id": "2-2",
@@ -5019,7 +5015,7 @@ const blogsData = [
     {
       "id": "2-3",
       "title": "2.3 Infobox: Wichtige Punkte im Überblick",
-      "text": "- Frühzeitig planen und mit Angehörigen sowie Ärzten sprechen\n- Patientenverfügung und Vorsorgevollmacht schriftlich festhalten\n- Klar definieren, welche medizinischen Maßnahmen gewünscht oder abgelehnt werden\n- Vertrauensperson auswählen und informieren\n- Dokumente regelmäßig überprüfen und bei Bedarf anpassen"
+      "text": "- Frühzeitig planen und mit Angehörigen sowie Ärzten sprechen\n- Patientenverfügung und Vorsorgevollmacht schriftlich festhalten\n- Klar definieren, welche medizinischen Massnahmen gewünscht oder abgelehnt werden\n- Vertrauensperson auswählen und informieren\n- Dokumente regelmässig überprüfen und bei Bedarf anpassen"
     },
     {
       "id": "2-4",
@@ -5058,7 +5054,7 @@ const blogsData = [
     {
       "id": "3-5",
       "title": "3.5 Ergänzung zu anderen Vorsorgedokumenten",
-      "text": "Die Betreuungsverfügung ergänzt Patientenverfügung und Vorsorgevollmacht. Während erstere medizinische Maßnahmen regelt und letztere rechtliche Vertretung ermöglicht, legt die Betreuungsverfügung die gewünschte Pflegegestaltung fest. Es ist sinnvoll, alle drei Dokumente aufeinander abzustimmen und gemeinsam aufzubewahren."
+      "text": "Die Betreuungsverfügung ergänzt Patientenverfügung und Vorsorgevollmacht. Während erstere medizinische Massnahmen regelt und letztere rechtliche Vertretung ermöglicht, legt die Betreuungsverfügung die gewünschte Pflegegestaltung fest. Es ist sinnvoll, alle drei Dokumente aufeinander abzustimmen und gemeinsam aufzubewahren."
     },
     {
       "id": "3-6",
@@ -5082,12 +5078,12 @@ const blogsData = [
     {
       "id": "4-2",
       "title": "4.2 Finanzierung und Leistungen der Krankenversicherung",
-      "text": "Die Grundversicherung übernimmt in der Schweiz nur einen Teil der Pflegekosten – und nur dann, wenn Leistungen von anerkannten Pflegediensten oder Spitex-Organisationen erbracht werden. Eine zusätzliche Vorsorge hilft, Lücken zu schließen."
+      "text": "Die Grundversicherung übernimmt in der Schweiz nur einen Teil der Pflegekosten – und nur dann, wenn Leistungen von anerkannten Pflegediensten oder Spitex-Organisationen erbracht werden. Eine zusätzliche Vorsorge hilft, Lücken zu schliessen."
     },
     {
       "id": "4-3",
       "title": "4.3 Optionen der vorsorglichen Finanzplanung",
-      "text": "Prüfen Sie verschiedene Möglichkeiten, z. B.:\n– Regelmäßige Rücklagen und Sparpläne\n– Pflegezusatzversicherungen\n– Überprüfung bestehender Versicherungen\n– Verrentung von Vermögenswerten wie Immobilien\nFrühzeitige Entscheidungen helfen, langfristig finanziell abgesichert zu sein."
+      "text": "Prüfen Sie verschiedene Möglichkeiten, z. B.:\n– Regelmässige Rücklagen und Sparpläne\n– Pflegezusatzversicherungen\n– Überprüfung bestehender Versicherungen\n– Verrentung von Vermögenswerten wie Immobilien\nFrühzeitige Entscheidungen helfen, langfristig finanziell abgesichert zu sein."
     },
     {
       "id": "4-4",
@@ -5131,7 +5127,7 @@ const blogsData = [
     {
       "id": "5-4",
       "title": "5.4 Aktualisierung nicht vergessen",
-      "text": "Passen Sie Ihr Testament regelmäßig an, z. B. bei:\n– Heirat, Scheidung oder Todesfall in der Familie\n– Geburt oder Adoption von Kindern\n– Vermögensveränderungen (z. B. Immobilienverkauf, Erbschaften)\n– Neuer Lebenssituation\nSo stellen Sie sicher, dass Ihre Regelungen auch in Zukunft Ihren Wünschen entsprechen."
+      "text": "Passen Sie Ihr Testament regelmässig an, z. B. bei:\n– Heirat, Scheidung oder Todesfall in der Familie\n– Geburt oder Adoption von Kindern\n– Vermögensveränderungen (z. B. Immobilienverkauf, Erbschaften)\n– Neuer Lebenssituation\nSo stellen Sie sicher, dass Ihre Regelungen auch in Zukunft Ihren Wünschen entsprechen."
     }
   ]
 }
@@ -5248,7 +5244,7 @@ const blogsData = [
  {
   "id": "section-9",
   "title": "9. Zusammenfassung und weiterführende Informationen",
-  "description": "Dieser abschließende Abschnitt fasst die wichtigsten Inhalte des Wikis zusammen und zeigt, wie Prime Home Care bei der häuslichen Pflege unterstützen kann – von Organisation bis Finanzierung.",
+  "description": "Dieser abschliessende Abschnitt fasst die wichtigsten Inhalte des Wikis zusammen und zeigt, wie Prime Home Care bei der häuslichen Pflege unterstützen kann – von Organisation bis Finanzierung.",
   "paragraphs": [
     {
       "id": "9-1",
@@ -5290,7 +5286,7 @@ const blogsData = [
     },
     {
       "question": "Wie kann ich sicherstellen, dass meine Wünsche im Falle einer Pflegebedürftigkeit berücksichtigt werden?",
-      "answer": "Ein wichtiger Schritt ist die Erstellung einer Betreuungsverfügung. In dieser können Sie festlegen, welche Personen Sie in welchen Bereichen unterstützen sollen und welche Rolle Sie bei Ihrer zukünftigen Betreuung und Pflege spielen möchten. Um sicherzustellen, dass Ihre Wünsche berücksichtigt werden, können Sie außerdem eine Patientenverfügung und eine Vorsorgevollmacht erstellen."
+      "answer": "Ein wichtiger Schritt ist die Erstellung einer Betreuungsverfügung. In dieser können Sie festlegen, welche Personen Sie in welchen Bereichen unterstützen sollen und welche Rolle Sie bei Ihrer zukünftigen Betreuung und Pflege spielen möchten. Um sicherzustellen, dass Ihre Wünsche berücksichtigt werden, können Sie ausserdem eine Patientenverfügung und eine Vorsorgevollmacht erstellen."
     },
     {
       "question": "Wie plane ich finanziell für eine mögliche Pflegebedürftigkeit vor?",
@@ -5315,14 +5311,14 @@ const blogsData = [
   "image": "/images/blog8.png",
   "category": "Gesundheit",
   "title": "Krankheiten im Alter",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "In einem Land wie der Schweiz mit einer stetig wachsenden älteren Bevölkerung gewinnt die häusliche Betreuung und Pflege von Senioren zunehmend an Bedeutung. Gerade im Alter sind Menschen anfälliger für Krankheiten und gesundheitliche Beschwerden, die eine qualifizierte und professionelle Betreuung erfordern. Um Ihnen dabei zu helfen, bestmögliche Lösungen für Ihre Familienmitglieder oder sich selbst zu finden, geht unser Blog-Beitrag darauf ein, welche speziellen Krankheiten im Alter auftreten und wie die häusliche Betreuung und Pflege entsprechend angepasst werden kann. Unser Ziel ist es, Ihnen eine umfassende und nützliche Informationsquelle zu bieten, um Ihren Lieben eine angemessene und qualitativ hochwertige Versorgung im Alter zu ermöglichen.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -5348,12 +5344,12 @@ const blogsData = [
     {
       "id": "1-4",
       "title": "1.4 Diabetes mellitus",
-      "text": "Diabetes tritt im Alter häufiger auf. Symptome sind starker Durst, häufiges Wasserlassen, Müdigkeit oder Sehstörungen. Bei älteren Menschen verlaufen diese oft unauffällig, daher sind regelmäßige Arztbesuche wichtig."
+      "text": "Diabetes tritt im Alter häufiger auf. Symptome sind starker Durst, häufiges Wasserlassen, Müdigkeit oder Sehstörungen. Bei älteren Menschen verlaufen diese oft unauffällig, daher sind regelmässige Arztbesuche wichtig."
     },
     {
       "id": "1-5",
       "title": "1.5 Arthritis und Gelenkbeschwerden",
-      "text": "Arthritis verursacht Gelenkschmerzen, Schwellungen und Bewegungseinschränkungen. Am weitesten verbreitet ist die Osteoarthritis (Verschleißarthritis), die mit dem Alter zunimmt. Rheumatoide Arthritis beginnt meist früher und verläuft chronisch."
+      "text": "Arthritis verursacht Gelenkschmerzen, Schwellungen und Bewegungseinschränkungen. Am weitesten verbreitet ist die Osteoarthritis (Verschleissarthritis), die mit dem Alter zunimmt. Rheumatoide Arthritis beginnt meist früher und verläuft chronisch."
     },
     {
       "id": "1-6",
@@ -5397,12 +5393,12 @@ const blogsData = [
     {
       "id": "2-4",
       "title": "2.4 Regelmässige Vorsorgeuntersuchungen",
-      "text": "Früherkennung rettet Leben. Blutdruck, Blutzucker, Knochendichte oder Krebsfrüherkennung – regelmäßige Checks helfen, Krankheiten rechtzeitig zu behandeln oder gar zu verhindern."
+      "text": "Früherkennung rettet Leben. Blutdruck, Blutzucker, Knochendichte oder Krebsfrüherkennung – regelmässige Checks helfen, Krankheiten rechtzeitig zu behandeln oder gar zu verhindern."
     },
     {
       "id": "2-5",
       "title": "2.5 Nicht rauchen und mässiger Alkoholkonsum",
-      "text": "Rauchen schädigt Herz und Lunge und fördert viele Krankheiten. Aufzuhören lohnt sich in jedem Alter. Auch Alkohol sollte nur in Maßen genossen werden, um Leber und Gehirn zu schützen."
+      "text": "Rauchen schädigt Herz und Lunge und fördert viele Krankheiten. Aufzuhören lohnt sich in jedem Alter. Auch Alkohol sollte nur in Massen genossen werden, um Leber und Gehirn zu schützen."
     },
     {
       "id": "2-6",
@@ -5426,7 +5422,7 @@ const blogsData = [
     {
       "id": "3-1",
       "title": "3.1 Anzeichen und Symptome von Demenz und Alzheimer",
-      "text": "Demenz und Alzheimer äußern sich durch Gedächtnisverlust, nachlassende geistige Fähigkeiten, Persönlichkeitsveränderungen, Sprachprobleme und motorische Einschränkungen. Je früher die Erkrankung erkannt wird, desto besser kann der Verlauf beeinflusst und die Lebensqualität erhalten werden. Wichtig ist daher eine ärztliche Abklärung bei ersten Anzeichen."
+      "text": "Demenz und Alzheimer äussern sich durch Gedächtnisverlust, nachlassende geistige Fähigkeiten, Persönlichkeitsveränderungen, Sprachprobleme und motorische Einschränkungen. Je früher die Erkrankung erkannt wird, desto besser kann der Verlauf beeinflusst und die Lebensqualität erhalten werden. Wichtig ist daher eine ärztliche Abklärung bei ersten Anzeichen."
     },
     {
       "id": "3-2",
@@ -5455,7 +5451,7 @@ const blogsData = [
 {
   "id": "section-4",
   "title": "4. Schlaganfall erkennen und richtig reagieren: Ratschläge für Angehörige",
-  "description": "Ein Schlaganfall erfordert schnelles und richtiges Handeln. In diesem Abschnitt erfahren Sie, wie man die Symptome erkennt, was im Notfall zu tun ist und welche Maßnahmen zur Nachsorge wichtig sind.",
+  "description": "Ein Schlaganfall erfordert schnelles und richtiges Handeln. In diesem Abschnitt erfahren Sie, wie man die Symptome erkennt, was im Notfall zu tun ist und welche Massnahmen zur Nachsorge wichtig sind.",
   "paragraphs": [
     {
       "id": "4-1",
@@ -5465,7 +5461,7 @@ const blogsData = [
     {
       "id": "4-2",
       "title": "4.2 Richtiges Handeln im Notfall",
-      "text": "So handeln Sie im Ernstfall:\n– Wählen Sie sofort den Notruf 144\n– Beschreiben Sie die Symptome genau\n– Lagern Sie die Person mit leicht erhöhtem Oberkörper\n– Lockern Sie beengende Kleidung und sorgen Sie für frische Luft\n– Bleiben Sie ruhig und sprechen Sie beruhigend mit der betroffenen Person\nJede Minute kann über das Ausmaß der bleibenden Schäden entscheiden."
+      "text": "So handeln Sie im Ernstfall:\n– Wählen Sie sofort den Notruf 144\n– Beschreiben Sie die Symptome genau\n– Lagern Sie die Person mit leicht erhöhtem Oberkörper\n– Lockern Sie beengende Kleidung und sorgen Sie für frische Luft\n– Bleiben Sie ruhig und sprechen Sie beruhigend mit der betroffenen Person\nJede Minute kann über das Ausmass der bleibenden Schäden entscheiden."
     },
     {
       "id": "4-3",
@@ -5489,17 +5485,17 @@ const blogsData = [
     {
       "id": "5-1",
       "title": "5.1 Die häufigsten Herz-Kreislauf-Erkrankungen im Alter",
-      "text": "Zu den häufigsten Herz-Kreislauf-Erkrankungen bei älteren Menschen gehören:\n– Koronare Herzkrankheit (Verengung der Herzkranzgefäße)\n– Herzinsuffizienz (Herzschwäche)\n– Herzrhythmusstörungen (z. B. Vorhofflimmern)\n– Bluthochdruck (Hypertonie)\nDiese Erkrankungen können die Selbstständigkeit und Lebensqualität erheblich einschränken – besonders, wenn mehrere gleichzeitig auftreten."
+      "text": "Zu den häufigsten Herz-Kreislauf-Erkrankungen bei älteren Menschen gehören:\n– Koronare Herzkrankheit (Verengung der Herzkranzgefässe)\n– Herzinsuffizienz (Herzschwäche)\n– Herzrhythmusstörungen (z. B. Vorhofflimmern)\n– Bluthochdruck (Hypertonie)\nDiese Erkrankungen können die Selbstständigkeit und Lebensqualität erheblich einschränken – besonders, wenn mehrere gleichzeitig auftreten."
     },
     {
       "id": "5-2",
       "title": "5.2 Auswirkungen auf die häusliche Pflege",
-      "text": "Herz-Kreislauf-Erkrankungen beeinflussen den Alltag älterer Menschen unter anderem durch:\n– geringere Belastbarkeit und Mobilität\n– erhöhtes Sturzrisiko durch Schwindel oder Schwäche\n– Notwendigkeit zur regelmäßigen Medikamenteneinnahme\n– spezielle Ernährungsanforderungen\n– erhöhtes Risiko für Herzinfarkt oder Schlaganfall\nPflegende sollten diese Faktoren bei der Betreuung täglich berücksichtigen."
+      "text": "Herz-Kreislauf-Erkrankungen beeinflussen den Alltag älterer Menschen unter anderem durch:\n– geringere Belastbarkeit und Mobilität\n– erhöhtes Sturzrisiko durch Schwindel oder Schwäche\n– Notwendigkeit zur regelmässigen Medikamenteneinnahme\n– spezielle Ernährungsanforderungen\n– erhöhtes Risiko für Herzinfarkt oder Schlaganfall\nPflegende sollten diese Faktoren bei der Betreuung täglich berücksichtigen."
     },
     {
       "id": "5-3",
       "title": "5.3 Betreuung im häuslichen Umfeld – worauf achten?",
-      "text": "Für eine sichere Betreuung sind folgende Punkte besonders wichtig:\n– Vitalzeichen regelmäßig kontrollieren (z. B. Blutdruck, Puls, Sauerstoff)\n– Medikamente zuverlässig verabreichen und dokumentieren\n– Herzfreundliche Ernährung fördern (salzarm, fettarm, ausgewogen)\n– Sanfte Bewegung integrieren (z. B. Gehtraining, Atemübungen)\n– Zusammenarbeit mit Ärzt*innen und Therapeut*innen sichern\n– Angehörige im Umgang mit Notfällen schulen"
+      "text": "Für eine sichere Betreuung sind folgende Punkte besonders wichtig:\n– Vitalzeichen regelmässig kontrollieren (z. B. Blutdruck, Puls, Sauerstoff)\n– Medikamente zuverlässig verabreichen und dokumentieren\n– Herzfreundliche Ernährung fördern (salzarm, fettarm, ausgewogen)\n– Sanfte Bewegung integrieren (z. B. Gehtraining, Atemübungen)\n– Zusammenarbeit mit Ärzt*innen und Therapeut*innen sichern\n– Angehörige im Umgang mit Notfällen schulen"
     },
     {
       "id": "5-4",
@@ -5522,8 +5518,8 @@ const blogsData = [
     },
     {
       "id": "6-2",
-      "title": "6.2 Blutzuckerkontrolle: Regelmäßige Messungen sind essenziell",
-      "text": "Tägliche Blutzuckermessungen – insbesondere morgens und nach den Mahlzeiten – helfen, den Verlauf zu dokumentieren. Nutzen Sie ein zuverlässiges Gerät, kalibrieren Sie es regelmäßig und verwenden Sie frische Teststreifen. Führen Sie ein Blutzucker-Tagebuch und besprechen Sie die Werte regelmäßig mit Ihrem Arzt."
+      "title": "6.2 Blutzuckerkontrolle: Regelmässige Messungen sind essenziell",
+      "text": "Tägliche Blutzuckermessungen – insbesondere morgens und nach den Mahlzeiten – helfen, den Verlauf zu dokumentieren. Nutzen Sie ein zuverlässiges Gerät, kalibrieren Sie es regelmässig und verwenden Sie frische Teststreifen. Führen Sie ein Blutzucker-Tagebuch und besprechen Sie die Werte regelmässig mit Ihrem Arzt."
     },
     {
       "id": "6-3",
@@ -5533,7 +5529,7 @@ const blogsData = [
     {
       "id": "6-4",
       "title": "6.4 Zusammenarbeit mit medizinischem Fachpersonal",
-      "text": "Eine enge Abstimmung mit Ärzt*innen und Pflegepersonal ist entscheidend:\n– Therapie regelmäßig anpassen lassen (z. B. Medikamente, Insulin)\n– Pflegekräfte in die Betreuung einbinden\n– Angehörige informieren und unterstützen\nSo wird die Versorgung sicherer, effektiver – und weniger belastend für alle Beteiligten."
+      "text": "Eine enge Abstimmung mit Ärzt*innen und Pflegepersonal ist entscheidend:\n– Therapie regelmässig anpassen lassen (z. B. Medikamente, Insulin)\n– Pflegekräfte in die Betreuung einbinden\n– Angehörige informieren und unterstützen\nSo wird die Versorgung sicherer, effektiver – und weniger belastend für alle Beteiligten."
     },
     {
       "id": "6-5",
@@ -5596,12 +5592,12 @@ const blogsData = [
     {
       "id": "8-1",
       "title": "8.1 Wichtigkeit von präventiven Massnahmen",
-      "text": "Osteoporose entwickelt sich schleichend – deshalb ist Vorbeugung entscheidend:\n– **Kalziumreiche Ernährung**: Milchprodukte, grünes Gemüse, kalziumhaltiges Mineralwasser.\n– **Vitamin D**: Sonnenlicht, fetter Fisch, ggf. Nahrungsergänzungsmittel.\n– **Regelmäßige Bewegung**: Krafttraining, Spazierengehen, Übungen zur Sturzprophylaxe fördern den Knochenaufbau und schützen vor Brüchen."
+      "text": "Osteoporose entwickelt sich schleichend – deshalb ist Vorbeugung entscheidend:\n– **Kalziumreiche Ernährung**: Milchprodukte, grünes Gemüse, kalziumhaltiges Mineralwasser.\n– **Vitamin D**: Sonnenlicht, fetter Fisch, ggf. Nahrungsergänzungsmittel.\n– **Regelmässige Bewegung**: Krafttraining, Spazierengehen, Übungen zur Sturzprophylaxe fördern den Knochenaufbau und schützen vor Brüchen."
     },
     {
       "id": "8-2",
       "title": "8.2 Diagnose und Behandlung",
-      "text": "Früherkennung gelingt durch Knochendichtemessung (DEXA). Bei Diagnose hilft eine Kombination aus:\n– **Medikamentöser Therapie**: z. B. Bisphosphonate, Kalzium/Vitamin-D-Präparate, Hormontherapien\n– **Nicht-medikamentösen Maßnahmen**: Ernährung, Bewegung, Sonnenlicht und Vermeidung von Stürzen\nTherapien werden individuell vom Arzt abgestimmt."
+      "text": "Früherkennung gelingt durch Knochendichtemessung (DEXA). Bei Diagnose hilft eine Kombination aus:\n– **Medikamentöser Therapie**: z. B. Bisphosphonate, Kalzium/Vitamin-D-Präparate, Hormontherapien\n– **Nicht-medikamentösen Massnahmen**: Ernährung, Bewegung, Sonnenlicht und Vermeidung von Stürzen\nTherapien werden individuell vom Arzt abgestimmt."
     },
     {
       "id": "8-3",
@@ -5630,7 +5626,7 @@ const blogsData = [
     {
       "id": "9-2",
       "title": "9.2 Umgang und Unterstützung für depressive Senioren",
-      "text": "Folgende Maßnahmen können helfen:\n– **Gespräche führen**: Zuhören, Verständnis zeigen, ernst nehmen\n– **Soziale Kontakte stärken**: Vereinsamung aktiv verhindern\n– **Bewegung fördern**: Schon leichte Bewegung wirkt stimmungsaufhellend\n– **Professionelle Hilfe suchen**: Hausarzt oder Facharzt einbeziehen\nWichtig: Depression ist keine normale Alterserscheinung – sie ist behandelbar!"
+      "text": "Folgende Massnahmen können helfen:\n– **Gespräche führen**: Zuhören, Verständnis zeigen, ernst nehmen\n– **Soziale Kontakte stärken**: Vereinsamung aktiv verhindern\n– **Bewegung fördern**: Schon leichte Bewegung wirkt stimmungsaufhellend\n– **Professionelle Hilfe suchen**: Hausarzt oder Facharzt einbeziehen\nWichtig: Depression ist keine normale Alterserscheinung – sie ist behandelbar!"
     },
     {
       "id": "9-3",
@@ -5659,7 +5655,7 @@ const blogsData = [
     {
       "id": "10-2",
       "title": "10.2 Hilfsmittel für den Alltag",
-      "text": "Passende Hilfsmittel erleichtern die Pflege und stärken die Selbstständigkeit:\n– **Mobilitätshilfen**: Rollatoren, Rollstühle, Treppenlifte\n– **Pflegehilfsmittel**: Pflegebetten, Anti-Dekubitus-Matratzen, Toilettensitzerhöhungen\n– **Ess- und Trinkhilfen**: Rutschfeste Unterlagen, Spezialbesteck, Trinkhilfen\n– **Kommunikations- und Beschäftigungshilfen**: Großtasten-Telefone, Spiele, Hörhilfen\n– **Sicherheitstechnik**: Notrufsysteme, Sturzmelder, Orientierungshilfen\nWichtig: Jedes Hilfsmittel sollte individuell ausgewählt, regelmäßig gewartet und auf den Bedarf des Seniors abgestimmt werden."
+      "text": "Passende Hilfsmittel erleichtern die Pflege und stärken die Selbstständigkeit:\n– **Mobilitätshilfen**: Rollatoren, Rollstühle, Treppenlifte\n– **Pflegehilfsmittel**: Pflegebetten, Anti-Dekubitus-Matratzen, Toilettensitzerhöhungen\n– **Ess- und Trinkhilfen**: Rutschfeste Unterlagen, Spezialbesteck, Trinkhilfen\n– **Kommunikations- und Beschäftigungshilfen**: Grosstasten-Telefone, Spiele, Hörhilfen\n– **Sicherheitstechnik**: Notrufsysteme, Sturzmelder, Orientierungshilfen\nWichtig: Jedes Hilfsmittel sollte individuell ausgewählt, regelmässig gewartet und auf den Bedarf des Seniors abgestimmt werden."
     },
     {
       "id": "10-3",
@@ -5677,14 +5673,14 @@ const blogsData = [
   "image": "/images/blog6.png",
   "category": "Gesundheit",
   "title": "Dekubitus",
-  "date": "July 9, 2025",
-  "maintext": "Die häusliche Pflege von Senioren ist eine anspruchsvolle Aufgabe, insbesondere wenn es darum geht, den Betroffenen vor gesundheitlichen Komplikationen wie Dekubitus oder Druckgeschwüren zu schützen. Dekubitus ist ein ernstzunehmendes Problem, das sowohl ambulante als auch stationäre Patienten betrifft und häufig mit Schmerzen, Infektionen und einer verminderten Lebensqualität einhergeht. In diesem Artikel führen wir Sie durch die Welt des Dekubitus, von seinen Ursachen und Risikofaktoren über Anatomie, Stadien und Präventionsmaßnahmen bis hin zu Therapiemöglichkeiten und häuslichen Pflegetipps. Dabei halten wir uns stets an die geltenden rechtlichen Grundlagen in der Schweiz. Erfahren Sie alles Wissenswerte zu diesem Thema, um sowohl Ihre Angehörigen als auch sich selbst vor den Folgen von Dekubitus zu schützen.",
+  "date": "09 Juli 2025",
+  "maintext": "Die häusliche Pflege von Senioren ist eine anspruchsvolle Aufgabe, insbesondere wenn es darum geht, den Betroffenen vor gesundheitlichen Komplikationen wie Dekubitus oder Druckgeschwüren zu schützen. Dekubitus ist ein ernstzunehmendes Problem, das sowohl ambulante als auch stationäre Patienten betrifft und häufig mit Schmerzen, Infektionen und einer verminderten Lebensqualität einhergeht. In diesem Artikel führen wir Sie durch die Welt des Dekubitus, von seinen Ursachen und Risikofaktoren über Anatomie, Stadien und Präventionsmassnahmen bis hin zu Therapiemöglichkeiten und häuslichen Pflegetipps. Dabei halten wir uns stets an die geltenden rechtlichen Grundlagen in der Schweiz. Erfahren Sie alles Wissenswerte zu diesem Thema, um sowohl Ihre Angehörigen als auch sich selbst vor den Folgen von Dekubitus zu schützen.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -5724,22 +5720,22 @@ const blogsData = [
     {
       "id": "2-2",
       "title": "2.2 Feuchtigkeit",
-      "text": "Feuchte Haut ist besonders anfällig für Schäden. Ursachen können Inkontinenz, starkes Schwitzen oder unsachgemäß eingesetzte Kompressen sein. Die aufgeweichte Haut verliert ihre Schutzfunktion, was das Eindringen von Bakterien erleichtert und das Entstehen von Druckgeschwüren fördert."
+      "text": "Feuchte Haut ist besonders anfällig für Schäden. Ursachen können Inkontinenz, starkes Schwitzen oder unsachgemäss eingesetzte Kompressen sein. Die aufgeweichte Haut verliert ihre Schutzfunktion, was das Eindringen von Bakterien erleichtert und das Entstehen von Druckgeschwüren fördert."
     },
     {
       "id": "2-3",
       "title": "2.3 Unzureichende Mobilität",
-      "text": "Menschen, die sich kaum oder gar nicht bewegen können – z. B. nach Operationen, bei Lähmungen oder im hohen Alter – haben ein hohes Risiko für Dekubitus. Ohne regelmäßige Positionswechsel lastet über lange Zeit Druck auf denselben Hautstellen. Das unterbricht die Blutzufuhr und erhöht das Risiko für Druckschäden."
+      "text": "Menschen, die sich kaum oder gar nicht bewegen können – z. B. nach Operationen, bei Lähmungen oder im hohen Alter – haben ein hohes Risiko für Dekubitus. Ohne regelmässige Positionswechsel lastet über lange Zeit Druck auf denselben Hautstellen. Das unterbricht die Blutzufuhr und erhöht das Risiko für Druckschäden."
     },
     {
       "id": "2-4",
       "title": "2.4 Medizinische Zustände und Ernährung",
-      "text": "Krankheiten wie Diabetes, Durchblutungsstörungen oder Demenz beeinflussen die Hautgesundheit und das Schmerzempfinden. Auch eine schlechte Ernährung – besonders bei Eiweiß-, Vitamin- oder Flüssigkeitsmangel – schwächt das Gewebe und verzögert die Heilung bestehender Wunden."
+      "text": "Krankheiten wie Diabetes, Durchblutungsstörungen oder Demenz beeinflussen die Hautgesundheit und das Schmerzempfinden. Auch eine schlechte Ernährung – besonders bei Eiweiss-, Vitamin- oder Flüssigkeitsmangel – schwächt das Gewebe und verzögert die Heilung bestehender Wunden."
     },
     {
       "id": "2-summary",
       "title": "Fazit",
-      "text": "Die Hauptursachen für Dekubitus sind anhaltender Druck, Reibung, Feuchtigkeit, Bewegungsmangel und gesundheitliche Schwächen. Wer gefährdet ist, sollte besonders auf Hautpflege, regelmäßige Positionswechsel und ausgewogene Ernährung achten, um Druckgeschwüre zu vermeiden."
+      "text": "Die Hauptursachen für Dekubitus sind anhaltender Druck, Reibung, Feuchtigkeit, Bewegungsmangel und gesundheitliche Schwächen. Wer gefährdet ist, sollte besonders auf Hautpflege, regelmässige Positionswechsel und ausgewogene Ernährung achten, um Druckgeschwüre zu vermeiden."
     }
   ]
 }
@@ -5753,17 +5749,17 @@ const blogsData = [
     {
       "id": "3-1",
       "title": "3.1 Hautschichten und betroffenes Gewebe",
-      "text": "Die Haut besteht aus drei Schichten: der Oberhaut (Epidermis), der Lederhaut (Dermis) und der Unterhaut (Subkutis). Druckgeschwüre können in allen diesen Schichten entstehen – je tiefer die Schädigung, desto schwerer ist das Druckgeschwür. Die Epidermis bildet eine wichtige Schutzbarriere gegen äußere Einflüsse. Wird sie beschädigt, steigt das Risiko für Infektionen deutlich."
+      "text": "Die Haut besteht aus drei Schichten: der Oberhaut (Epidermis), der Lederhaut (Dermis) und der Unterhaut (Subkutis). Druckgeschwüre können in allen diesen Schichten entstehen – je tiefer die Schädigung, desto schwerer ist das Druckgeschwür. Die Epidermis bildet eine wichtige Schutzbarriere gegen äussere Einflüsse. Wird sie beschädigt, steigt das Risiko für Infektionen deutlich."
     },
     {
       "id": "3-2",
       "title": "3.2 Entstehung von Druckgeschwüren",
-      "text": "Wenn auf eine bestimmte Hautstelle über längere Zeit Druck ausgeübt wird – zum Beispiel durch langes Sitzen oder Liegen – wird die Durchblutung unterbrochen. Ohne ausreichend Sauerstoff und Nährstoffe stirbt das Gewebe ab. Es bildet sich ein Druckgeschwür. Besonders gefährdete Stellen sind dort, wo Knochen direkt unter der Haut liegen: Fersen, Knie, Hüfte, Steißbein, Ellenbogen, Schulterblätter und Ohren."
+      "text": "Wenn auf eine bestimmte Hautstelle über längere Zeit Druck ausgeübt wird – zum Beispiel durch langes Sitzen oder Liegen – wird die Durchblutung unterbrochen. Ohne ausreichend Sauerstoff und Nährstoffe stirbt das Gewebe ab. Es bildet sich ein Druckgeschwür. Besonders gefährdete Stellen sind dort, wo Knochen direkt unter der Haut liegen: Fersen, Knie, Hüfte, Steissbein, Ellenbogen, Schulterblätter und Ohren."
     },
     {
       "id": "3-3",
       "title": "3.3 Risikofaktoren für die Entwicklung von Dekubitus",
-      "text": "Die häufigsten Risikofaktoren für die Entstehung von Dekubitus sind: mangelnde Bewegung (z. B. durch Bettlägerigkeit), schlechte Ernährung, Flüssigkeitsmangel, Inkontinenz, höheres Alter und bestimmte Erkrankungen wie Diabetes oder Gefäßerkrankungen. Auch extremes Über- oder Untergewicht kann das Risiko erhöhen. Diese Faktoren schwächen Haut und Gewebe und machen sie anfälliger für Druckschäden."
+      "text": "Die häufigsten Risikofaktoren für die Entstehung von Dekubitus sind: mangelnde Bewegung (z. B. durch Bettlägerigkeit), schlechte Ernährung, Flüssigkeitsmangel, Inkontinenz, höheres Alter und bestimmte Erkrankungen wie Diabetes oder Gefässerkrankungen. Auch extremes Über- oder Untergewicht kann das Risiko erhöhen. Diese Faktoren schwächen Haut und Gewebe und machen sie anfälliger für Druckschäden."
     },
     {
       "id": "3-summary",
@@ -5782,7 +5778,7 @@ const blogsData = [
     {
       "id": "4-1",
       "title": "4.1 Stadium 1: Nicht-invasive Hautrötung",
-      "text": "In diesem frühen Stadium zeigt sich eine anhaltende Rötung der Haut, die bei leichtem Druck nicht verblasst. Die betroffene Stelle kann wärmer, kühler oder empfindlicher als die Umgebung sein. Es liegt noch keine offene Wunde vor. Eine frühzeitige Druckentlastung, Hautpflege und regelmäßige Lagerung können helfen, das Fortschreiten zu verhindern."
+      "text": "In diesem frühen Stadium zeigt sich eine anhaltende Rötung der Haut, die bei leichtem Druck nicht verblasst. Die betroffene Stelle kann wärmer, kühler oder empfindlicher als die Umgebung sein. Es liegt noch keine offene Wunde vor. Eine frühzeitige Druckentlastung, Hautpflege und regelmässige Lagerung können helfen, das Fortschreiten zu verhindern."
     },
     {
       "id": "4-2",
@@ -5792,7 +5788,7 @@ const blogsData = [
     {
       "id": "4-3",
       "title": "4.3 Stadium 3: Tiefe Wunde und Gewebeschädigung",
-      "text": "Hier reicht der Schaden bis in die Unterhaut (Subkutis). Es entsteht eine tiefe, offene Wunde mit Gewebeverlust. Fettgewebe ist sichtbar, aber keine Knochen, Sehnen oder Muskeln. Die Behandlung erfordert eine Kombination aus medizinischer Wundversorgung, regelmäßiger Umlagerung und speziellen Matratzen zur Druckentlastung."
+      "text": "Hier reicht der Schaden bis in die Unterhaut (Subkutis). Es entsteht eine tiefe, offene Wunde mit Gewebeverlust. Fettgewebe ist sichtbar, aber keine Knochen, Sehnen oder Muskeln. Die Behandlung erfordert eine Kombination aus medizinischer Wundversorgung, regelmässiger Umlagerung und speziellen Matratzen zur Druckentlastung."
     },
     {
       "id": "4-4",
@@ -5807,7 +5803,7 @@ const blogsData = [
     {
       "id": "4-summary",
       "title": "Fazit",
-      "text": "Die Einteilung in vier Stadien hilft dabei, das Ausmaß eines Dekubitus richtig einzuschätzen und passende Behandlungsmaßnahmen einzuleiten. Je früher ein Druckgeschwür erkannt wird, desto besser sind die Heilungschancen. Regelmäßige Hautkontrollen und gezielte Pflege sind entscheidend für die Vermeidung schwerer Schäden."
+      "text": "Die Einteilung in vier Stadien hilft dabei, das Ausmass eines Dekubitus richtig einzuschätzen und passende Behandlungsmassnahmen einzuleiten. Je früher ein Druckgeschwür erkannt wird, desto besser sind die Heilungschancen. Regelmässige Hautkontrollen und gezielte Pflege sind entscheidend für die Vermeidung schwerer Schäden."
     }
   ]
 }
@@ -5815,18 +5811,18 @@ const blogsData = [
 ,
 {
   "id": "section-5",
-  "title": "5. Vorbeugung ist besser als Heilung: Präventionsmaßnahmen für Zuhause",
-  "description": "Dieser Abschnitt zeigt praxisnahe Maßnahmen zur Vorbeugung von Dekubitus in der häuslichen Pflege. Ziel ist es, durch einfache, aber effektive Methoden das Risiko für Druckgeschwüre deutlich zu senken.",
+  "title": "5. Vorbeugung ist besser als Heilung: Präventionsmassnahmen für Zuhause",
+  "description": "Dieser Abschnitt zeigt praxisnahe Massnahmen zur Vorbeugung von Dekubitus in der häuslichen Pflege. Ziel ist es, durch einfache, aber effektive Methoden das Risiko für Druckgeschwüre deutlich zu senken.",
   "paragraphs": [
     {
       "id": "5-1",
-      "title": "5.1 Regelmäßige Positionswechsel",
+      "title": "5.1 Regelmässige Positionswechsel",
       "text": "Pflegebedürftige Personen sollten alle zwei Stunden umgelagert werden, um dauerhaften Druck auf eine Körperstelle zu vermeiden. Seiten-, Rücken- und 30-Grad-Lagerungen können helfen, die Druckbelastung zu verringern und die Durchblutung zu fördern. Wichtig ist, die Lagerung individuell anzupassen."
     },
     {
       "id": "5-2",
       "title": "5.2 Druckentlastende Hilfsmittel",
-      "text": "Spezialmatratzen, Wechseldrucksysteme, Lagerungskissen oder Anti-Dekubitus-Sitzauflagen helfen, den Druck auf gefährdete Stellen wie Fersen, Kreuzbein oder Ellenbogen zu reduzieren. Achten Sie darauf, dass diese Hilfsmittel regelmäßig geprüft und korrekt verwendet werden."
+      "text": "Spezialmatratzen, Wechseldrucksysteme, Lagerungskissen oder Anti-Dekubitus-Sitzauflagen helfen, den Druck auf gefährdete Stellen wie Fersen, Kreuzbein oder Ellenbogen zu reduzieren. Achten Sie darauf, dass diese Hilfsmittel regelmässig geprüft und korrekt verwendet werden."
     },
     {
       "id": "5-3",
@@ -5841,12 +5837,12 @@ const blogsData = [
     {
       "id": "5-5",
       "title": "5.5 Ernährung und Flüssigkeitszufuhr",
-      "text": "Eine eiweißreiche, vitaminreiche Ernährung stärkt das Gewebe. Achten Sie auf Lebensmittel mit Zink, Vitamin C und E. Trinken ist genauso wichtig: 1,5 bis 2 Liter täglich halten die Haut elastisch. Bei Bedarf sind Trinkpläne oder Nahrungsergänzungsmittel sinnvoll."
+      "text": "Eine eiweissreiche, vitaminreiche Ernährung stärkt das Gewebe. Achten Sie auf Lebensmittel mit Zink, Vitamin C und E. Trinken ist genauso wichtig: 1,5 bis 2 Liter täglich halten die Haut elastisch. Bei Bedarf sind Trinkpläne oder Nahrungsergänzungsmittel sinnvoll."
     },
     {
       "id": "5-summary",
       "title": "Fazit",
-      "text": "Dekubitus lässt sich durch vorbeugende Maßnahmen meist vermeiden. Konsequente Lagerung, gezielte Hautpflege, passende Hilfsmittel, Förderung der Bewegung und eine gute Ernährung bilden das Fundament für eine erfolgreiche Dekubitusprävention im Alltag."
+      "text": "Dekubitus lässt sich durch vorbeugende Massnahmen meist vermeiden. Konsequente Lagerung, gezielte Hautpflege, passende Hilfsmittel, Förderung der Bewegung und eine gute Ernährung bilden das Fundament für eine erfolgreiche Dekubitusprävention im Alltag."
     }
   ]
 }
@@ -5860,17 +5856,17 @@ const blogsData = [
     {
       "id": "6-1",
       "title": "6.1 Spezielle Matratzen und Auflagen",
-      "text": "Dekubitusmatratzen wie Weichlagerungsmatratzen, Luftkammermatratzen oder viskoelastische Auflagen verteilen das Körpergewicht gleichmäßig und reduzieren Druckspitzen. Sie sind besonders für bettlägerige Personen geeignet. Eine ärztliche Verordnung kann die Kostenübernahme durch die Krankenkasse ermöglichen. Die regelmäßige Pflege und Wartung der Matratze ist entscheidend für die Wirksamkeit."
+      "text": "Dekubitusmatratzen wie Weichlagerungsmatratzen, Luftkammermatratzen oder viskoelastische Auflagen verteilen das Körpergewicht gleichmässig und reduzieren Druckspitzen. Sie sind besonders für bettlägerige Personen geeignet. Eine ärztliche Verordnung kann die Kostenübernahme durch die Krankenkasse ermöglichen. Die regelmässige Pflege und Wartung der Matratze ist entscheidend für die Wirksamkeit."
     },
     {
       "id": "6-2",
       "title": "6.2 Sitzkissen und -auflagen",
-      "text": "Für Rollstuhlfahrer oder Personen, die viel sitzen, sind druckentlastende Sitzkissen aus Schaumstoff, Gel oder mit Luftkammern wichtig. Sie beugen Druckgeschwüren im Gesäßbereich vor. Diese Hilfsmittel lassen sich individuell anpassen und können bei Bedarf ebenfalls ärztlich verordnet werden."
+      "text": "Für Rollstuhlfahrer oder Personen, die viel sitzen, sind druckentlastende Sitzkissen aus Schaumstoff, Gel oder mit Luftkammern wichtig. Sie beugen Druckgeschwüren im Gesässbereich vor. Diese Hilfsmittel lassen sich individuell anpassen und können bei Bedarf ebenfalls ärztlich verordnet werden."
     },
     {
       "id": "6-3",
       "title": "6.3 Lagerungshilfen und Umlagerungshilfen",
-      "text": "Lagerungskissen, -rollen, -ringe und Keile helfen, bestimmte Körperstellen gezielt zu entlasten. Umlagerungshilfen wie Gleitmatten oder Transferlaken erleichtern das regelmäßige Umlagern von Patienten und schützen Pflegekräfte vor Überbelastung. Damit wird nicht nur das Risiko von Dekubitus, sondern auch das von Pflegefehlern gesenkt."
+      "text": "Lagerungskissen, -rollen, -ringe und Keile helfen, bestimmte Körperstellen gezielt zu entlasten. Umlagerungshilfen wie Gleitmatten oder Transferlaken erleichtern das regelmässige Umlagern von Patienten und schützen Pflegekräfte vor Überbelastung. Damit wird nicht nur das Risiko von Dekubitus, sondern auch das von Pflegefehlern gesenkt."
     },
     {
       "id": "6-4",
@@ -5880,7 +5876,7 @@ const blogsData = [
     {
       "id": "6-summary",
       "title": "Fazit",
-      "text": "Der gezielte Einsatz von Matratzen, Sitzkissen, Lagerungshilfen und Hautpflegeprodukten kann Dekubitus effektiv vorbeugen. Wichtig ist die regelmäßige Kontrolle und individuelle Anpassung der Hilfsmittel – angepasst an die Bedürfnisse der pflegebedürftigen Person."
+      "text": "Der gezielte Einsatz von Matratzen, Sitzkissen, Lagerungshilfen und Hautpflegeprodukten kann Dekubitus effektiv vorbeugen. Wichtig ist die regelmässige Kontrolle und individuelle Anpassung der Hilfsmittel – angepasst an die Bedürfnisse der pflegebedürftigen Person."
     }
   ]
 }
@@ -5894,7 +5890,7 @@ const blogsData = [
     {
       "id": "7-1",
       "title": "7.1 Anzeichen und Symptome",
-      "text": "Frühe Anzeichen für Dekubitus sind Rötungen oder Verfärbungen der Haut, Schmerzen, Juckreiz, Wärme, Schwellungen oder Taubheitsgefühle. Diese Symptome treten meist an stark belasteten Körperstellen auf. Regelmäßige Hautkontrollen helfen, Druckgeschwüre früh zu erkennen und zu behandeln."
+      "text": "Frühe Anzeichen für Dekubitus sind Rötungen oder Verfärbungen der Haut, Schmerzen, Juckreiz, Wärme, Schwellungen oder Taubheitsgefühle. Diese Symptome treten meist an stark belasteten Körperstellen auf. Regelmässige Hautkontrollen helfen, Druckgeschwüre früh zu erkennen und zu behandeln."
     },
     {
       "id": "7-2",
@@ -5904,7 +5900,7 @@ const blogsData = [
     {
       "id": "7-3",
       "title": "7.3 Dokumentation und Verlaufskontrolle",
-      "text": "Zur effektiven Behandlung gehört die regelmäßige Dokumentation von Hautveränderungen und des Stadiums des Dekubitus. Verlaufskontrollen helfen, den Heilungsprozess zu überwachen und rechtzeitig bei Komplikationen zu reagieren."
+      "text": "Zur effektiven Behandlung gehört die regelmässige Dokumentation von Hautveränderungen und des Stadiums des Dekubitus. Verlaufskontrollen helfen, den Heilungsprozess zu überwachen und rechtzeitig bei Komplikationen zu reagieren."
     }
   ]
 }
@@ -5913,27 +5909,27 @@ const blogsData = [
 {
   "id": "section-8",
   "title": "8. Therapiemöglichkeiten: So geht’s der Wunde an den Kragen",
-  "description": "In diesem Abschnitt erfahren Sie, welche konkreten Behandlungsmöglichkeiten es bei einem bestehenden Dekubitus gibt – von Druckentlastung über Wundpflege bis hin zu chirurgischen Maßnahmen.",
+  "description": "In diesem Abschnitt erfahren Sie, welche konkreten Behandlungsmöglichkeiten es bei einem bestehenden Dekubitus gibt – von Druckentlastung über Wundpflege bis hin zu chirurgischen Massnahmen.",
   "paragraphs": [
     {
       "id": "8-1",
       "title": "8.1 Druckentlastung und Lagerungswechsel",
-      "text": "Regelmäßige Lagerungswechsel und die Verwendung druckentlastender Matratzen oder Kissen sind entscheidend. Ziel ist es, den Druck auf gefährdete Körperstellen zu verringern und die Durchblutung zu fördern."
+      "text": "Regelmässige Lagerungswechsel und die Verwendung druckentlastender Matratzen oder Kissen sind entscheidend. Ziel ist es, den Druck auf gefährdete Körperstellen zu verringern und die Durchblutung zu fördern."
     },
     {
       "id": "8-2",
       "title": "8.2 Wundversorgung und Reinigung",
-      "text": "Die Wunde muss regelmäßig gereinigt und abgestorbenes Gewebe entfernt werden (Debridement). Spezielle Wundauflagen wie Hydrogele oder Alginate helfen, die Heilung zu fördern und die Wundumgebung feucht zu halten."
+      "text": "Die Wunde muss regelmässig gereinigt und abgestorbenes Gewebe entfernt werden (Debridement). Spezielle Wundauflagen wie Hydrogele oder Alginate helfen, die Heilung zu fördern und die Wundumgebung feucht zu halten."
     },
     {
       "id": "8-3",
       "title": "8.3 Medikamentöse Behandlung",
-      "text": "Bei Bedarf kommen Antibiotika zur Infektionsbehandlung oder Schmerzmittel zum Einsatz. Diese Maßnahmen sollten immer mit einem Arzt abgestimmt sein."
+      "text": "Bei Bedarf kommen Antibiotika zur Infektionsbehandlung oder Schmerzmittel zum Einsatz. Diese Massnahmen sollten immer mit einem Arzt abgestimmt sein."
     },
     {
       "id": "8-4",
       "title": "8.4 Chirurgische Eingriffe",
-      "text": "Wenn konservative Maßnahmen nicht ausreichen, kann ein chirurgischer Eingriff nötig sein. Dabei wird abgestorbenes Gewebe entfernt oder gesundes Gewebe transplantiert."
+      "text": "Wenn konservative Massnahmen nicht ausreichen, kann ein chirurgischer Eingriff nötig sein. Dabei wird abgestorbenes Gewebe entfernt oder gesundes Gewebe transplantiert."
     },
     {
       "id": "8-5",
@@ -5963,7 +5959,7 @@ const blogsData = [
     {
       "id": "9-3",
       "title": "9.3 Flüssigkeitszufuhr",
-      "text": "Trinken hält die Haut elastisch und unterstützt den Heilungsprozess. Täglich sollten mindestens 1,5–2 Liter Wasser, ungesüßter Tee oder verdünnte Fruchtsäfte getrunken werden. Bei erhöhtem Bedarf muss die Menge angepasst werden."
+      "text": "Trinken hält die Haut elastisch und unterstützt den Heilungsprozess. Täglich sollten mindestens 1,5–2 Liter Wasser, ungesüsster Tee oder verdünnte Fruchtsäfte getrunken werden. Bei erhöhtem Bedarf muss die Menge angepasst werden."
     },
     {
       "id": "9-4",
@@ -5977,12 +5973,12 @@ const blogsData = [
 {
   "id": "section-10",
   "title": "10. Pflege bei Dekubitus: Tipps und Tricks für die häusliche Betreuung",
-  "description": "Dekubitus erfordert im häuslichen Umfeld besondere Pflege. Hier finden Sie praktische Maßnahmen, um die Heilung zu fördern und Beschwerden zu lindern.",
+  "description": "Dekubitus erfordert im häuslichen Umfeld besondere Pflege. Hier finden Sie praktische Massnahmen, um die Heilung zu fördern und Beschwerden zu lindern.",
   "paragraphs": [
     {
       "id": "10-1",
-      "title": "10.1 Regelmäßiges Umlagern und Druckentlastung",
-      "text": "Positionieren Sie die betroffene Person regelmäßig neu, mindestens alle zwei Stunden. Nutzen Sie Kissen und Lagerungshilfen zur Druckentlastung und vermeiden Sie Druckspitzen."
+      "title": "10.1 Regelmässiges Umlagern und Druckentlastung",
+      "text": "Positionieren Sie die betroffene Person regelmässig neu, mindestens alle zwei Stunden. Nutzen Sie Kissen und Lagerungshilfen zur Druckentlastung und vermeiden Sie Druckspitzen."
     },
     {
       "id": "10-2",
@@ -5997,12 +5993,12 @@ const blogsData = [
     {
       "id": "10-4",
       "title": "10.4 Überwachung der Dekubitusentwicklung",
-      "text": "Beobachten Sie die Wunde regelmäßig, dokumentieren Sie Größe, Farbe und Veränderungen. Informieren Sie Ihr Pflege- oder Ärzteteam über Auffälligkeiten."
+      "text": "Beobachten Sie die Wunde regelmässig, dokumentieren Sie Grösse, Farbe und Veränderungen. Informieren Sie Ihr Pflege- oder Ärzteteam über Auffälligkeiten."
     },
     {
       "id": "10-5",
       "title": "10.5 Anpassung der Ernährung",
-      "text": "Stellen Sie sicher, dass der Patient genug Eiweiß, Vitamine (v.a. C und Zink) und Flüssigkeit erhält. Gegebenenfalls Nahrungsergänzung nach Rücksprache einsetzen."
+      "text": "Stellen Sie sicher, dass der Patient genug Eiweiss, Vitamine (v.a. C und Zink) und Flüssigkeit erhält. Gegebenenfalls Nahrungsergänzung nach Rücksprache einsetzen."
     },
     {
       "id": "10-6",
@@ -6019,14 +6015,14 @@ const blogsData = [
   "image": "/images/blog3.png",
   "category": "Gesundheit",
   "title": "Gesundheit",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "In einer immer älter werdenden Gesellschaft ist die Versorgung und Betreuung von Menschen mit Demenz eine wachsende Herausforderung, der sich viele Familien und Pflegekräfte stellen müssen. Demenz zeigt sich in unterschiedlichen Erkrankungen und Beeinträchtigungen, die sowohl Betroffene als auch ihre Angehörigen vor zahlreiche Probleme und Entscheidungen stellen. In diesem umfassenden Wiki möchten wir Ihnen das notwendige Wissen rund um das Thema häusliche Pflege bei Demenz in der Schweiz vermitteln. Sie werden Sie hier eine Vielzahl an Informationen finden, um besser mit der Erkrankung umzugehen und um Betroffenen ein angemessenes Leben zu ermöglichen. Unsere Themen reichen von einer allgemeinen Einführung über praktische Betreuungs-Tipps bis hin zu den rechtlichen Aspekten und worauf bei der Auswahl geeigneter Pflegekräfte zu achten ist.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -6047,7 +6043,7 @@ const blogsData = [
     {
       "id": "1-3",
       "title": "1.3 Frühzeitige Diagnose und Bedeutung",
-      "text": "Je früher eine Demenz erkannt wird, desto besser kann sie behandelt werden. Eine frühe Diagnose ermöglicht es, rechtzeitig Unterstützungsmaßnahmen einzuleiten und die Lebensqualität zu verbessern."
+      "text": "Je früher eine Demenz erkannt wird, desto besser kann sie behandelt werden. Eine frühe Diagnose ermöglicht es, rechtzeitig Unterstützungsmassnahmen einzuleiten und die Lebensqualität zu verbessern."
     }
   ]
 }
@@ -6182,12 +6178,12 @@ const blogsData = [
     {
       "id": "6-2",
       "title": "6.2 Beispiele für Aktivierung und Beschäftigung bei Demenz",
-      "text": "• Erinnerungsarbeit: Fotos anschauen, Geschichten erzählen, Musik hören.\n• Kreative Aktivitäten: Malen, Basteln, Musizieren.\n• Bewegung: Spaziergänge, Sitzgymnastik, Tanzen.\n• Alltag einbeziehen: Tischdecken, Kochen, Gartenarbeit – kleine Aufgaben mit großer Wirkung."
+      "text": "• Erinnerungsarbeit: Fotos anschauen, Geschichten erzählen, Musik hören.\n• Kreative Aktivitäten: Malen, Basteln, Musizieren.\n• Bewegung: Spaziergänge, Sitzgymnastik, Tanzen.\n• Alltag einbeziehen: Tischdecken, Kochen, Gartenarbeit – kleine Aufgaben mit grosser Wirkung."
     },
     {
       "id": "6-3",
       "title": "6.3 Wie findet man die geeigneten Aktivitäten?",
-      "text": "• Wünsche und frühere Interessen des Patienten berücksichtigen.\n• Aktivitäten regelmäßig anpassen – keine Überforderung.\n• Beobachten, was Freude bereitet und gut gelingt.\n• Beratung durch Fachstellen oder Selbsthilfegruppen in Anspruch nehmen."
+      "text": "• Wünsche und frühere Interessen des Patienten berücksichtigen.\n• Aktivitäten regelmässig anpassen – keine Überforderung.\n• Beobachten, was Freude bereitet und gut gelingt.\n• Beratung durch Fachstellen oder Selbsthilfegruppen in Anspruch nehmen."
     }
   ]
 }
@@ -6201,12 +6197,12 @@ const blogsData = [
     {
       "id": "7-1",
       "title": "7.1 Bedeutung der richtigen Ernährung bei Demenz",
-      "text": "• Unterstützt Immunsystem, Herz-Kreislauf-Gesundheit und kognitive Leistungsfähigkeit.\n• Liefert wichtige Vitamine, Mineralstoffe und entzündungshemmende Nährstoffe.\n• Hilft bei der Bewältigung von Begleiterkrankungen wie Diabetes oder Bluthochdruck.\n• Wichtig: Regelmäßige Flüssigkeitszufuhr – am besten Wasser oder ungesüßter Tee."
+      "text": "• Unterstützt Immunsystem, Herz-Kreislauf-Gesundheit und kognitive Leistungsfähigkeit.\n• Liefert wichtige Vitamine, Mineralstoffe und entzündungshemmende Nährstoffe.\n• Hilft bei der Bewältigung von Begleiterkrankungen wie Diabetes oder Bluthochdruck.\n• Wichtig: Regelmässige Flüssigkeitszufuhr – am besten Wasser oder ungesüsster Tee."
     },
     {
       "id": "7-2",
       "title": "7.2 Anpassungen der Ernährung an die Bedürfnisse von Demenzpatienten",
-      "text": "• Kleine, regelmäßige Mahlzeiten statt großer Portionen.\n• Abwechslungsreiche Kost mit wichtigen Nährstoffen.\n• Rücksicht auf veränderten Geschmackssinn.\n• Ruhige, angenehme Essensatmosphäre schaffen.\n• Unterstützung beim Essen anbieten, z. B. mundgerechte Stücke oder spezielles Besteck."
+      "text": "• Kleine, regelmässige Mahlzeiten statt grosser Portionen.\n• Abwechslungsreiche Kost mit wichtigen Nährstoffen.\n• Rücksicht auf veränderten Geschmackssinn.\n• Ruhige, angenehme Essensatmosphäre schaffen.\n• Unterstützung beim Essen anbieten, z. B. mundgerechte Stücke oder spezielles Besteck."
     },
     {
       "id": "7-3",
@@ -6255,7 +6251,7 @@ const blogsData = [
     {
       "id": "9-1",
       "title": "9.1 Pflegepause und Zeit für sich selbst",
-      "text": "Pflege bedeutet Verantwortung – aber auch, sich selbst nicht zu vergessen. Nehmen Sie regelmäßig Auszeiten: Sei es ein Spaziergang, ein freier Nachmittag oder ein betreuter Urlaubstag für den Angehörigen. Angebote wie Tagespflege oder Kurzzeitbetreuung helfen dabei. In der Schweiz finden Sie solche Entlastungsangebote z. B. über Spitex, Pro Senectute oder Prime Home Care."
+      "text": "Pflege bedeutet Verantwortung – aber auch, sich selbst nicht zu vergessen. Nehmen Sie regelmässig Auszeiten: Sei es ein Spaziergang, ein freier Nachmittag oder ein betreuter Urlaubstag für den Angehörigen. Angebote wie Tagespflege oder Kurzzeitbetreuung helfen dabei. In der Schweiz finden Sie solche Entlastungsangebote z. B. über Spitex, Pro Senectute oder Prime Home Care."
     },
     {
       "id": "9-2",
@@ -6322,35 +6318,35 @@ const blogsData = [
   "image": "/images/blog4.png",
   "category": "Haut & Gelenke",
   "title": "Demenz",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Mit zunehmendem Alter wird die Gesundheit von Haut und Gelenken immer wichtiger, um Lebensqualität und Mobilität zu erhalten. In diesem Wiki erhalten Sie wertvolle Informationen, Tipps und Ratschläge rund um die Themen Haut- und Gelenkpflege bei Senioren. Dabei erfahren Sie, wie eine angepasste Hautpflege für ältere Menschen aussieht, welche Hautpflegeprodukte empfohlen werden und wie sich Gelenkschmerzen vorbeugen und behandeln lassen. Wir berücksichtigen dabei unter anderem auch die Bedeutung von Bewegung und körperlicher Aktivität, alternative Therapien sowie eine professionelle häusliche Betreuung und Pflege bei Haut- und Gelenkbeschwerden. Erfolgsgeschichten aus der Praxis sowie eine Checkliste zur Auswahl der idealen Betreuungs- und Pflegelösung für Ihre Liebsten runden das Thema ab. Zudem erhalten Sie Antworten zu häufig gestellten Fragen in unserem FAQ-Bereich.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
   "id": "section-1",
   "title": "1. Einführung: Die Bedeutung von Haut- und Gelenkgesundheit im Alter",
-  "description": "Mit zunehmendem Alter verändert sich unser Körper – Haut und Gelenke verlieren an Elastizität, Feuchtigkeit und Kraft. In diesem Abschnitt erfahren Sie, warum Haut- und Gelenkpflege im Alter so wichtig ist und wie Sie mit einfachen Maßnahmen zur Lebensqualität beitragen können.",
+  "description": "Mit zunehmendem Alter verändert sich unser Körper – Haut und Gelenke verlieren an Elastizität, Feuchtigkeit und Kraft. In diesem Abschnitt erfahren Sie, warum Haut- und Gelenkpflege im Alter so wichtig ist und wie Sie mit einfachen Massnahmen zur Lebensqualität beitragen können.",
   "paragraphs": [
     {
       "id": "1-0",
       "title": null,
-      "text": "Die Haut ist nicht nur unser größtes Organ, sondern auch ein wesentlicher Bestandteil unseres Körpers, der uns vor äußeren Einflüssen schützt und zur Regulierung der Körpertemperatur beiträgt. Unsere Gelenke ermöglichen es uns, uns mühelos zu bewegen und ein aktives Leben zu führen. Doch mit zunehmendem Alter können sowohl die Haut als auch die Gelenke an Elastizität und Kraft verlieren, was die Lebensqualität älterer Menschen erheblich beeinträchtigen kann. Daher ist die Haut- und Gelenkgesundheit im Alter besonders wichtig.\n\nIm Laufe der Zeit verliert die Haut an Feuchtigkeit, Kollagen und Elastin, was zu Falten, Trockenheit und verminderter Widerstandsfähigkeit führen kann. Zudem neigt die dünner werdende Haut im Alter zu Verletzungen, Infektionen und Druckgeschwüren. Deshalb ist es essenziell für Senioren, auf eine angemessene Hautpflege zu achten, um diese Probleme zu vermeiden."
+      "text": "Die Haut ist nicht nur unser grösstes Organ, sondern auch ein wesentlicher Bestandteil unseres Körpers, der uns vor äusseren Einflüssen schützt und zur Regulierung der Körpertemperatur beiträgt. Unsere Gelenke ermöglichen es uns, uns mühelos zu bewegen und ein aktives Leben zu führen. Doch mit zunehmendem Alter können sowohl die Haut als auch die Gelenke an Elastizität und Kraft verlieren, was die Lebensqualität älterer Menschen erheblich beeinträchtigen kann. Daher ist die Haut- und Gelenkgesundheit im Alter besonders wichtig.\n\nIm Laufe der Zeit verliert die Haut an Feuchtigkeit, Kollagen und Elastin, was zu Falten, Trockenheit und verminderter Widerstandsfähigkeit führen kann. Zudem neigt die dünner werdende Haut im Alter zu Verletzungen, Infektionen und Druckgeschwüren. Deshalb ist es essenziell für Senioren, auf eine angemessene Hautpflege zu achten, um diese Probleme zu vermeiden."
     },
     {
       "id": "1-1",
       "title": "1.1 Die Bedeutung gesunder Gelenke im Alter",
-      "text": "Gesunde Gelenke ermöglichen uns, auch im hohen Alter mobil und aktiv zu bleiben, und tragen somit maßgeblich zur Lebensqualität bei. Doch Gelenkschmerzen, Entzündungen und Gelenkverschleiß (Arthrose) können mit zunehmendem Alter häufiger auftreten und somit auch die Bewegungsfähigkeit einschränken. Umso wichtiger ist es, sich bereits frühzeitig um die Gesundheit der Gelenke zu kümmern.\n\nWichtige Faktoren für gesunde Haut und Gelenke sind unter anderem eine ausgewogene Ernährung, ausreichende Flüssigkeitszufuhr, Bewegung und angemessene Pflege."
+      "text": "Gesunde Gelenke ermöglichen uns, auch im hohen Alter mobil und aktiv zu bleiben, und tragen somit massgeblich zur Lebensqualität bei. Doch Gelenkschmerzen, Entzündungen und Gelenkverschleiss (Arthrose) können mit zunehmendem Alter häufiger auftreten und somit auch die Bewegungsfähigkeit einschränken. Umso wichtiger ist es, sich bereits frühzeitig um die Gesundheit der Gelenke zu kümmern.\n\nWichtige Faktoren für gesunde Haut und Gelenke sind unter anderem eine ausgewogene Ernährung, ausreichende Flüssigkeitszufuhr, Bewegung und angemessene Pflege."
     },
     {
       "id": "1-2",
       "title": null,
-      "text": "In diesem Wiki möchten wir Ihnen hilfreiche Informationen, Tipps und Empfehlungen rund um das Thema Haut- und Gelenkgesundheit im Alter bieten. Dabei soll es nicht nur um die richtige Pflege gehen, sondern auch um Prävention von Beschwerden und die Förderung von Mobilität, um so das Wohlbefinden der älteren Personen zu erhalten und zu verbessern.\n\nErfahren Sie mehr über Hautpflege für Senioren, empfohlene Hautpflegeprodukte, Vorbeugung und Behandlung von Gelenkschmerzen, wichtige Nährstoffe, Bewegung und körperliche Aktivität, alternative Therapien und die Rolle von professioneller häuslicher Betreuung und Pflege bei Haut- und Gelenkbeschwerden. Darüber hinaus werden wir konkrete Fallbeispiele vorstellen, um das erlernte Wissen zu veranschaulichen und um Ihnen schließlich bei der Suche nach der idealen Betreuungs- und Pflegelösung für Ihre Liebsten zu helfen. Wir beantworten auch häufige Fragen rund um das Thema Haut- und Gelenkpfelege bei Senioren, damit Sie bestmöglich informiert sind und das Wohlbefinden Ihrer Liebsten unterstützen können."
+      "text": "In diesem Wiki möchten wir Ihnen hilfreiche Informationen, Tipps und Empfehlungen rund um das Thema Haut- und Gelenkgesundheit im Alter bieten. Dabei soll es nicht nur um die richtige Pflege gehen, sondern auch um Prävention von Beschwerden und die Förderung von Mobilität, um so das Wohlbefinden der älteren Personen zu erhalten und zu verbessern.\n\nErfahren Sie mehr über Hautpflege für Senioren, empfohlene Hautpflegeprodukte, Vorbeugung und Behandlung von Gelenkschmerzen, wichtige Nährstoffe, Bewegung und körperliche Aktivität, alternative Therapien und die Rolle von professioneller häuslicher Betreuung und Pflege bei Haut- und Gelenkbeschwerden. Darüber hinaus werden wir konkrete Fallbeispiele vorstellen, um das erlernte Wissen zu veranschaulichen und um Ihnen schliesslich bei der Suche nach der idealen Betreuungs- und Pflegelösung für Ihre Liebsten zu helfen. Wir beantworten auch häufige Fragen rund um das Thema Haut- und Gelenkpfelege bei Senioren, damit Sie bestmöglich informiert sind und das Wohlbefinden Ihrer Liebsten unterstützen können."
     }
   ]
 }
@@ -6363,7 +6359,7 @@ const blogsData = [
   "paragraphs": [
     {
       "id": "2-1",
-      "title": "2.1 Regelmäßige Reinigung und Pflege",
+      "title": "2.1 Regelmässige Reinigung und Pflege",
       "text": "Reinigen Sie die Haut täglich mit einer milden, pH-neutralen Seife. Danach sollte eine feuchtigkeitsspendende Lotion oder Creme aufgetragen werden. Achten Sie auf Produkte mit Inhaltsstoffen wie Hyaluronsäure, Vitamin C oder Coenzym Q10 – sie unterstützen die Regeneration und verlangsamen den Alterungsprozess."
     },
     {
@@ -6374,12 +6370,12 @@ const blogsData = [
     {
       "id": "2-3",
       "title": "2.3 Vermeiden von trockener Haut",
-      "text": "Trinken Sie ausreichend Wasser und verwenden Sie regelmäßig feuchtigkeitsspendende Cremes. Vermeiden Sie heiße, lange Bäder und Duschen. Ein zusätzlicher Tipp: Mischen Sie ein paar Tropfen Pflanzenöl wie Jojoba- oder Mandelöl in Ihre Pflegecreme – das versorgt die Haut mit Nährstoffen und schützt sie zusätzlich."
+      "text": "Trinken Sie ausreichend Wasser und verwenden Sie regelmässig feuchtigkeitsspendende Cremes. Vermeiden Sie heisse, lange Bäder und Duschen. Ein zusätzlicher Tipp: Mischen Sie ein paar Tropfen Pflanzenöl wie Jojoba- oder Mandelöl in Ihre Pflegecreme – das versorgt die Haut mit Nährstoffen und schützt sie zusätzlich."
     },
     {
       "id": "2-4",
       "title": "2.4 Beobachten von Hautveränderungen",
-      "text": "Beobachten Sie die Haut regelmäßig auf Auffälligkeiten wie Rötungen, Schwellungen oder offene Stellen. Frühzeitiges Erkennen von Hautproblemen hilft, Infektionen und Komplikationen zu vermeiden. Ziehen Sie bei Auffälligkeiten einen Arzt hinzu."
+      "text": "Beobachten Sie die Haut regelmässig auf Auffälligkeiten wie Rötungen, Schwellungen oder offene Stellen. Frühzeitiges Erkennen von Hautproblemen hilft, Infektionen und Komplikationen zu vermeiden. Ziehen Sie bei Auffälligkeiten einen Arzt hinzu."
     },
     {
       "id": "2-5",
@@ -6431,17 +6427,17 @@ const blogsData = [
 {
   "id": "section-4",
   "title": "4. Vorbeugung und Behandlung von Gelenkschmerzen bei Senioren",
-  "description": "Gelenkschmerzen können im Alter die Lebensqualität deutlich beeinträchtigen. In diesem Abschnitt erfahren Sie, wie Schmerzen vorgebeugt und behandelt werden können – von Bewegung über Hausmittel bis hin zu therapeutischen Maßnahmen.",
+  "description": "Gelenkschmerzen können im Alter die Lebensqualität deutlich beeinträchtigen. In diesem Abschnitt erfahren Sie, wie Schmerzen vorgebeugt und behandelt werden können – von Bewegung über Hausmittel bis hin zu therapeutischen Massnahmen.",
   "paragraphs": [
     {
       "id": "4-1",
       "title": "4.1 Regelmässige Bewegung und körperliche Aktivität",
-      "text": "Regelmäßige Bewegung stärkt die Muskulatur, entlastet die Gelenke und kann Schmerzen vorbeugen. Geeignet sind Aktivitäten wie Spazieren, Radfahren, Schwimmen oder Gymnastik. Die Bewegungen sollten an die körperliche Verfassung angepasst werden. Eine Betreuungsperson kann motivieren und bei Übungen helfen."
+      "text": "Regelmässige Bewegung stärkt die Muskulatur, entlastet die Gelenke und kann Schmerzen vorbeugen. Geeignet sind Aktivitäten wie Spazieren, Radfahren, Schwimmen oder Gymnastik. Die Bewegungen sollten an die körperliche Verfassung angepasst werden. Eine Betreuungsperson kann motivieren und bei Übungen helfen."
     },
     {
       "id": "4-2",
       "title": "4.2 Gewichtskontrolle",
-      "text": "Ein gesundes Körpergewicht reduziert den Druck auf die Gelenke. Eine ausgewogene Ernährung kombiniert mit regelmäßiger Bewegung ist entscheidend. Pflegepersonen können beim Kochen helfen und zu Bewegung anregen, um Übergewicht zu vermeiden."
+      "text": "Ein gesundes Körpergewicht reduziert den Druck auf die Gelenke. Eine ausgewogene Ernährung kombiniert mit regelmässiger Bewegung ist entscheidend. Pflegepersonen können beim Kochen helfen und zu Bewegung anregen, um Übergewicht zu vermeiden."
     },
     {
       "id": "4-3",
@@ -6508,7 +6504,7 @@ const blogsData = [
     {
       "id": "6-2",
       "title": "6.2 Wirkung von Bewegung auf die Gelenke",
-      "text": "Körperliche Aktivität stärkt die stützende Muskulatur rund um die Gelenke und fördert die Produktion von Gelenkflüssigkeit, die als Schmiermittel dient. Regelmäßige Bewegung beugt Steifheit und Verschleiß vor. Gelenkschonende Sportarten wie Schwimmen, Radfahren oder Yoga sind besonders geeignet für ältere Menschen."
+      "text": "Körperliche Aktivität stärkt die stützende Muskulatur rund um die Gelenke und fördert die Produktion von Gelenkflüssigkeit, die als Schmiermittel dient. Regelmässige Bewegung beugt Steifheit und Verschleiss vor. Gelenkschonende Sportarten wie Schwimmen, Radfahren oder Yoga sind besonders geeignet für ältere Menschen."
     },
     {
       "id": "6-3",
@@ -6541,7 +6537,7 @@ const blogsData = [
     {
       "id": "7-4",
       "title": "7.4 Massage und Physiotherapie",
-      "text": "Massagen und physiotherapeutische Maßnahmen fördern die Durchblutung, lösen Verspannungen und verbessern die Beweglichkeit. Sie sollten individuell abgestimmt und von geschultem Fachpersonal durchgeführt werden."
+      "text": "Massagen und physiotherapeutische Massnahmen fördern die Durchblutung, lösen Verspannungen und verbessern die Beweglichkeit. Sie sollten individuell abgestimmt und von geschultem Fachpersonal durchgeführt werden."
     }
   ]
 }
@@ -6560,7 +6556,7 @@ const blogsData = [
     {
       "id": "8-2",
       "title": "8.2 Worauf Sie bei der Auswahl des Pflegepersonals achten sollten",
-      "text": "Wichtige Auswahlkriterien für Pflegepersonal sind Qualifikation, Erfahrung, Kommunikationsfähigkeit und Empathie. Referenzen, Verfügbarkeit und Flexibilität spielen ebenfalls eine große Rolle. Anbieter wie Prime Home Care unterstützen bei der Vermittlung passender Pflegekräfte in der Schweiz."
+      "text": "Wichtige Auswahlkriterien für Pflegepersonal sind Qualifikation, Erfahrung, Kommunikationsfähigkeit und Empathie. Referenzen, Verfügbarkeit und Flexibilität spielen ebenfalls eine grosse Rolle. Anbieter wie Prime Home Care unterstützen bei der Vermittlung passender Pflegekräfte in der Schweiz."
     }
   ]
 }
@@ -6631,14 +6627,14 @@ const blogsData = [
   "image": "/images/blog2.png",
   "category": "Herz-Kreislauf",
   "title": "Herz-Kreislauf",
-  "date": "July 9, 2025",
-  "maintext": "Das Herz-Kreislauf-System ist essenziell für die Gesundheit und das Wohlbefinden eines jeden Menschen. Es ist verantwortlich für die lebenswichtige Versorgung des gesamten Körpers mit Sauerstoff und Nährstoffen und spielt daher eine entscheidende Rolle für ein langes und gesundes Leben. In diesem Wiki erfahren Sie Wissenswertes rund um das Herz-Kreislauf-System, wie Sie durch Prävention und geeignete Maßnahmen das Risiko von herzbedingten Erkrankungen minimieren können und warum eine herzgesunde Ernährung sowie Bewegung und Stressbewältigung so wichtig sind. Zudem gehen wir auf die Bedeutung von regelmäßigen Arztbesuchen und Vorsorgeuntersuchungen ein und bieten Informationen zur Betreuung und Pflege von Menschen mit Herz-Kreislauf-Erkrankungen in der Schweiz an. Wir möchten Ihnen als Entscheidungsträger in Familien und älteren Menschen selbst dabei helfen, die Herz-Kreislauf-Gesundheit zu verbessern und somit zur Lebensqualität beizutragen.",
+  "date": "09 Juli 2025",
+  "maintext": "Das Herz-Kreislauf-System ist essenziell für die Gesundheit und das Wohlbefinden eines jeden Menschen. Es ist verantwortlich für die lebenswichtige Versorgung des gesamten Körpers mit Sauerstoff und Nährstoffen und spielt daher eine entscheidende Rolle für ein langes und gesundes Leben. In diesem Wiki erfahren Sie Wissenswertes rund um das Herz-Kreislauf-System, wie Sie durch Prävention und geeignete Massnahmen das Risiko von herzbedingten Erkrankungen minimieren können und warum eine herzgesunde Ernährung sowie Bewegung und Stressbewältigung so wichtig sind. Zudem gehen wir auf die Bedeutung von regelmässigen Arztbesuchen und Vorsorgeuntersuchungen ein und bieten Informationen zur Betreuung und Pflege von Menschen mit Herz-Kreislauf-Erkrankungen in der Schweiz an. Wir möchten Ihnen als Entscheidungsträger in Familien und älteren Menschen selbst dabei helfen, die Herz-Kreislauf-Gesundheit zu verbessern und somit zur Lebensqualität beizutragen.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -6673,7 +6669,7 @@ const blogsData = [
 {
   "id": "section-2",
   "title": "2. Anatomie und Funktion: Die Schlüsselkomponenten des Herz-Kreislauf-Systems",
-  "description": "Das Herz-Kreislauf-System versorgt den Körper mit Sauerstoff und Nährstoffen. Dieses Kapitel erklärt anschaulich die wichtigsten Bestandteile: Herz, Blutgefäße und Blut.",
+  "description": "Das Herz-Kreislauf-System versorgt den Körper mit Sauerstoff und Nährstoffen. Dieses Kapitel erklärt anschaulich die wichtigsten Bestandteile: Herz, Blutgefässe und Blut.",
   "paragraphs": [
     {
       "id": "2-1",
@@ -6682,13 +6678,13 @@ const blogsData = [
     },
     {
       "id": "2-2",
-      "title": "2.2 Blutgefäße",
-      "text": "Das Gefäßsystem besteht aus:\n– Arterien: transportieren sauerstoffreiches Blut vom Herzen weg\n– Venen: bringen sauerstoffarmes Blut zurück\n– Kapillaren: kleinste Gefäße, ermöglichen den Austausch von Sauerstoff, Nährstoffen und Abfallstoffen"
+      "title": "2.2 Blutgefässe",
+      "text": "Das Gefässsystem besteht aus:\n– Arterien: transportieren sauerstoffreiches Blut vom Herzen weg\n– Venen: bringen sauerstoffarmes Blut zurück\n– Kapillaren: kleinste Gefässe, ermöglichen den Austausch von Sauerstoff, Nährstoffen und Abfallstoffen"
     },
     {
       "id": "2-3",
       "title": "2.3 Das Blut",
-      "text": "Blut besteht aus Plasma und Zellen:\n– Rote Blutkörperchen: transportieren Sauerstoff\n– Weiße Blutkörperchen: Teil des Immunsystems\n– Blutplättchen: helfen bei der Blutgerinnung\nBlut reguliert auch die Körpertemperatur und hält lebenswichtige Funktionen aufrecht."
+      "text": "Blut besteht aus Plasma und Zellen:\n– Rote Blutkörperchen: transportieren Sauerstoff\n– Weisse Blutkörperchen: Teil des Immunsystems\n– Blutplättchen: helfen bei der Blutgerinnung\nBlut reguliert auch die Körpertemperatur und hält lebenswichtige Funktionen aufrecht."
     }
   ]
 }
@@ -6702,22 +6698,22 @@ const blogsData = [
     {
       "id": "3-1",
       "title": "3.1 Koronare Herzkrankheit (KHK)",
-      "text": "Bei KHK sind die Herzkranzgefäße verengt – das Herz bekommt zu wenig Sauerstoff. Symptome sind oft Brustschmerzen (Angina pectoris). Ursachen sind u. a. Bluthochdruck, Rauchen, Bewegungsmangel. Eine frühe Diagnose und ein gesunder Lebensstil können Komplikationen wie Herzinfarkt verhindern."
+      "text": "Bei KHK sind die Herzkranzgefässe verengt – das Herz bekommt zu wenig Sauerstoff. Symptome sind oft Brustschmerzen (Angina pectoris). Ursachen sind u. a. Bluthochdruck, Rauchen, Bewegungsmangel. Eine frühe Diagnose und ein gesunder Lebensstil können Komplikationen wie Herzinfarkt verhindern."
     },
     {
       "id": "3-2",
       "title": "3.2 Herzinfarkt",
-      "text": "Ein Herzinfarkt entsteht durch den plötzlichen Verschluss eines Herzkranzgefäßes. Symptome: starke Brustschmerzen, Atemnot, Übelkeit, Schweißausbrüche. Es zählt jede Minute – schnelles Handeln kann Leben retten. Vorbeugung: gesunde Ernährung, Bewegung, Vorsorgeuntersuchungen."
+      "text": "Ein Herzinfarkt entsteht durch den plötzlichen Verschluss eines Herzkranzgefässes. Symptome: starke Brustschmerzen, Atemnot, Übelkeit, Schweissausbrüche. Es zählt jede Minute – schnelles Handeln kann Leben retten. Vorbeugung: gesunde Ernährung, Bewegung, Vorsorgeuntersuchungen."
     },
     {
       "id": "3-3",
       "title": "3.3 Herzinsuffizienz (Herzschwäche)",
-      "text": "Bei einer Herzinsuffizienz pumpt das Herz nicht mehr ausreichend Blut. Symptome: Müdigkeit, Atemnot, geschwollene Beine. Ursachen: KHK, Bluthochdruck, Herzklappenfehler. Wichtig sind regelmäßige Kontrolle und die Behandlung der Grunderkrankung."
+      "text": "Bei einer Herzinsuffizienz pumpt das Herz nicht mehr ausreichend Blut. Symptome: Müdigkeit, Atemnot, geschwollene Beine. Ursachen: KHK, Bluthochdruck, Herzklappenfehler. Wichtig sind regelmässige Kontrolle und die Behandlung der Grunderkrankung."
     },
     {
       "id": "3-4",
       "title": "3.4 Herzrhythmusstörungen",
-      "text": "Unregelmäßiger Herzschlag kann harmlos oder gefährlich sein. Symptome: Herzrasen, Schwindel, Bewusstlosigkeit. Behandlungsmöglichkeiten: Medikamente, Schrittmacher, OP. Vermeiden Sie Risikofaktoren wie Stress, Alkohol und Rauchen."
+      "text": "Unregelmässiger Herzschlag kann harmlos oder gefährlich sein. Symptome: Herzrasen, Schwindel, Bewusstlosigkeit. Behandlungsmöglichkeiten: Medikamente, Schrittmacher, OP. Vermeiden Sie Risikofaktoren wie Stress, Alkohol und Rauchen."
     },
     {
       "id": "3-5",
@@ -6736,7 +6732,7 @@ const blogsData = [
     {
       "id": "4-1",
       "title": "4.1 Rauchen",
-      "text": "Rauchen schädigt die Blutgefäße, senkt die Sauerstoffzufuhr und erhöht das Risiko für Herzinfarkt und Schlaganfall. Ein Rauchstopp ist einer der wirksamsten Schritte für die Herzgesundheit."
+      "text": "Rauchen schädigt die Blutgefässe, senkt die Sauerstoffzufuhr und erhöht das Risiko für Herzinfarkt und Schlaganfall. Ein Rauchstopp ist einer der wirksamsten Schritte für die Herzgesundheit."
     },
     {
       "id": "4-2",
@@ -6746,12 +6742,12 @@ const blogsData = [
     {
       "id": "4-3",
       "title": "4.3 Bluthochdruck (Hypertonie)",
-      "text": "Bluthochdruck bleibt oft unbemerkt, kann aber das Herz überlasten. Erhöhter Druck schädigt langfristig Gefäße und Herzmuskulatur. Regelmäßige Kontrolle und Lebensstiländerungen sind wichtig."
+      "text": "Bluthochdruck bleibt oft unbemerkt, kann aber das Herz überlasten. Erhöhter Druck schädigt langfristig Gefässe und Herzmuskulatur. Regelmässige Kontrolle und Lebensstiländerungen sind wichtig."
     },
     {
       "id": "4-4",
       "title": "4.4 Diabetes mellitus",
-      "text": "Diabetes greift die Blutgefäße an und erhöht das Risiko für Herzkrankheiten. Eine gute Blutzuckereinstellung und gesunde Lebensweise verringern das Risiko deutlich."
+      "text": "Diabetes greift die Blutgefässe an und erhöht das Risiko für Herzkrankheiten. Eine gute Blutzuckereinstellung und gesunde Lebensweise verringern das Risiko deutlich."
     },
     {
       "id": "4-5",
@@ -6766,7 +6762,7 @@ const blogsData = [
     {
       "id": "4-7",
       "title": "4.7 Familiäre Vorbelastung",
-      "text": "Herzkrankheiten können vererbt werden. Wer eine familiäre Vorbelastung hat, sollte umso mehr auf gesunde Ernährung, Bewegung und regelmäßige Kontrollen achten."
+      "text": "Herzkrankheiten können vererbt werden. Wer eine familiäre Vorbelastung hat, sollte umso mehr auf gesunde Ernährung, Bewegung und regelmässige Kontrollen achten."
     }
   ]
 }
@@ -6775,17 +6771,17 @@ const blogsData = [
 {
   "id": "section-5",
   "title": "5. Bluthochdruck: Ursachen, Symptome und die richtige Behandlung",
-  "description": "Dieses Kapitel erklärt, wie Bluthochdruck entsteht, woran man ihn erkennt und welche Maßnahmen helfen, ihn zu kontrollieren.",
+  "description": "Dieses Kapitel erklärt, wie Bluthochdruck entsteht, woran man ihn erkennt und welche Massnahmen helfen, ihn zu kontrollieren.",
   "paragraphs": [
     {
       "id": "5-1",
       "title": "5.1 Ursachen von Bluthochdruck",
-      "text": "Bluthochdruck kann durch verschiedene Faktoren verursacht werden, darunter Vererbung, Übergewicht, ungesunde Ernährung, Bewegungsmangel, Stress, Rauchen und übermäßiger Alkoholkonsum. Eine Kombination dieser Risikofaktoren erhöht die Wahrscheinlichkeit, an Hypertonie zu erkranken."
+      "text": "Bluthochdruck kann durch verschiedene Faktoren verursacht werden, darunter Vererbung, Übergewicht, ungesunde Ernährung, Bewegungsmangel, Stress, Rauchen und übermässiger Alkoholkonsum. Eine Kombination dieser Risikofaktoren erhöht die Wahrscheinlichkeit, an Hypertonie zu erkranken."
     },
     {
       "id": "5-2",
       "title": "5.2 Symptome von Bluthochdruck",
-      "text": "Bluthochdruck bleibt oft unbemerkt, da er in der Regel keine klaren Symptome verursacht. Mögliche Anzeichen sind Kopfschmerzen, Schwindel, Kurzatmigkeit, Nasenbluten und Sehstörungen. Eine regelmäßige Blutdruckmessung ist daher wichtig zur Früherkennung."
+      "text": "Bluthochdruck bleibt oft unbemerkt, da er in der Regel keine klaren Symptome verursacht. Mögliche Anzeichen sind Kopfschmerzen, Schwindel, Kurzatmigkeit, Nasenbluten und Sehstörungen. Eine regelmässige Blutdruckmessung ist daher wichtig zur Früherkennung."
     },
     {
       "id": "5-3",
@@ -6809,12 +6805,12 @@ const blogsData = [
     {
       "id": "6-2",
       "title": "6.2 Lebensmittel für eine herzgesunde Ernährung",
-      "text": "Besonders förderlich für das Herz sind Obst, Gemüse, Vollkornprodukte, fettarme Eiweißquellen, gesunde Fette wie Olivenöl sowie Omega-3-Fettsäuren aus Fisch. Diese Lebensmittel fördern die Gefäßgesundheit, wirken entzündungshemmend und senken das Risiko für Herzprobleme."
+      "text": "Besonders förderlich für das Herz sind Obst, Gemüse, Vollkornprodukte, fettarme Eiweissquellen, gesunde Fette wie Olivenöl sowie Omega-3-Fettsäuren aus Fisch. Diese Lebensmittel fördern die Gefässgesundheit, wirken entzündungshemmend und senken das Risiko für Herzprobleme."
     },
     {
       "id": "6-3",
       "title": "6.3 Umsetzung einer herzgesunden Ernährung",
-      "text": "Mit einfachen Maßnahmen wie Mahlzeitenplanung, kleineren Portionen, weniger Salz und gesunden Fetten lässt sich die Ernährung nachhaltig verbessern. Auch der bewusste Umgang mit Alkohol gehört dazu. Eine solche Ernährung ergänzt ideal weitere gesundheitsfördernde Maßnahmen."
+      "text": "Mit einfachen Massnahmen wie Mahlzeitenplanung, kleineren Portionen, weniger Salz und gesunden Fetten lässt sich die Ernährung nachhaltig verbessern. Auch der bewusste Umgang mit Alkohol gehört dazu. Eine solche Ernährung ergänzt ideal weitere gesundheitsfördernde Massnahmen."
     }
   ]
 }
@@ -6857,7 +6853,7 @@ const blogsData = [
     {
       "id": "8-2",
       "title": "8.2 Entspannungstechniken zur Stressbewältigung",
-      "text": "Techniken wie Meditation, Atemübungen, progressive Muskelentspannung, Yoga oder Tai Chi helfen, Stresshormone zu senken. Regelmäßige Anwendung verbessert das Wohlbefinden und schützt das Herz."
+      "text": "Techniken wie Meditation, Atemübungen, progressive Muskelentspannung, Yoga oder Tai Chi helfen, Stresshormone zu senken. Regelmässige Anwendung verbessert das Wohlbefinden und schützt das Herz."
     },
     {
       "id": "8-3",
@@ -6876,7 +6872,7 @@ const blogsData = [
 {
   "id": "section-9",
   "title": "9. Die Bedeutung von regelmässigen Arztbesuchen und Vorsorgeuntersuchungen",
-  "description": "Frühzeitige Erkennung ist der Schlüssel zur Herzgesundheit. In diesem Abschnitt erfahren Sie, warum regelmäßige Arztbesuche und Vorsorgeuntersuchungen so wichtig sind – besonders für die Prävention von Herz-Kreislauf-Erkrankungen.",
+  "description": "Frühzeitige Erkennung ist der Schlüssel zur Herzgesundheit. In diesem Abschnitt erfahren Sie, warum regelmässige Arztbesuche und Vorsorgeuntersuchungen so wichtig sind – besonders für die Prävention von Herz-Kreislauf-Erkrankungen.",
   "paragraphs": [
     {
       "id": "9-1",
@@ -6934,14 +6930,14 @@ const blogsData = [
   "image": "/images/blog4.png",
   "category": "Herzinfarkt",
   "title": "Herzinfarkt",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Herzinfarkt stellt eine der häufigsten Ursachen für medizinische Notfälle in der Schweiz dar und betrifft sowohl die Betroffenen als auch ihre Angehörigen. In diesem informativen Artikel möchten wir Sie über die verschiedenen Aspekte rund um das Thema Herzinfarkt aufklären und Ihnen wertvolle Informationen zur Vorbeugung, Erkennung und Behandlung eines Herzinfarkts geben. Zudem erfahren Sie mehr über häusliche Betreuungs- und Pflegemöglichkeiten sowie rechtliche und finanzielle Aspekte der häuslichen Pflege in der Schweiz. Unsere Anlaufstellen und Adressen bieten Ihnen Unterstützung und Beratung, um Ihnen und Ihren Liebsten in dieser schwierigen Zeit zur Seite zu stehen. Folgen Sie unserem Inhaltsverzeichnis, um Antworten auf die wichtigsten Fragen rund um das Thema Herzinfarkt in der häuslichen Pflege zu erhalten.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -6952,7 +6948,7 @@ const blogsData = [
     {
       "id": "1-1",
       "title": "1.1 Herzinfarkt",
-      "text": "In der Schweiz ist der Herzinfarkt leider eine häufige und ernstzunehmende Erkrankung, die für zahlreiche medizinische Notfälle sorgt. Jährlich sind mehrere Tausend Menschen betroffen, wobei die Zahl der Herzinfarkte in den letzten Jahren zwar leicht rückläufig ist, jedoch weiterhin eine bedeutende gesundheitliche Herausforderung darstellt. Besonders betroffen sind ältere Menschen, bei denen die Gefahr eines Herzinfarkts aufgrund von altersbedingten Veränderungen und verschiedenen Risikofaktoren erhöht ist. In diesem Zusammenhang spielt die häusliche Pflege und Betreuung eine zentrale Rolle, um Betroffenen und ihren Angehörigen den bestmöglichen Umgang mit der Erkrankung und eine möglichst schnelle und effektive Genesung zu ermöglichen. Die häusliche Pflege und Betreuung stellt daher auch für Prime Home Care ein wichtiges Thema dar, das im Zentrum der angebotenen Dienstleistungen steht. Ziel ist es, möglichst vielen Betroffenen in der Schweiz einen passenden Pflegeplatz zu vermitteln und sie bei der Genesung nach einem Herzinfarkt bestmöglich zu unterstützen. Zusammen mit der Vermittlung von qualifizierten Fachkräften kann somit auch die häusliche Pflege und Betreuung von Herzinfarkt-Patienten in der Schweiz maßgeblich verbessert werden und für eine höhere Lebensqualität sorgen. In diesem Wiki geht es daher um verschiedene Aspekte der häuslichen Pflege und Betreuung von Herzinfarkt-Patienten in der Schweiz. Dabei werden unterschiedliche Bereiche wie die Ursachen und Risikofaktoren für Herzinfarkte, die Erkennung und das Verständnis der Symptome, die Erste Hilfe und die Notfallversorgung sowie die Behandlungsmöglichkeiten in der Schweiz thematisiert. Zudem wird auf die Nachsorge und Rehabilitation, die Vorbeugung und Prävention von Herzinfarkten, die finanziellen und rechtlichen Aspekte sowie hilfreiche Adressen und Anlaufstellen eingegangen. Abgerundet wird das Wiki durch eine FAQ mit den wichtigsten Fragen und Antworten rund um das Thema Herzinfarkt in der häuslichen Pflege."
+      "text": "In der Schweiz ist der Herzinfarkt leider eine häufige und ernstzunehmende Erkrankung, die für zahlreiche medizinische Notfälle sorgt. Jährlich sind mehrere Tausend Menschen betroffen, wobei die Zahl der Herzinfarkte in den letzten Jahren zwar leicht rückläufig ist, jedoch weiterhin eine bedeutende gesundheitliche Herausforderung darstellt. Besonders betroffen sind ältere Menschen, bei denen die Gefahr eines Herzinfarkts aufgrund von altersbedingten Veränderungen und verschiedenen Risikofaktoren erhöht ist. In diesem Zusammenhang spielt die häusliche Pflege und Betreuung eine zentrale Rolle, um Betroffenen und ihren Angehörigen den bestmöglichen Umgang mit der Erkrankung und eine möglichst schnelle und effektive Genesung zu ermöglichen. Die häusliche Pflege und Betreuung stellt daher auch für Prime Home Care ein wichtiges Thema dar, das im Zentrum der angebotenen Dienstleistungen steht. Ziel ist es, möglichst vielen Betroffenen in der Schweiz einen passenden Pflegeplatz zu vermitteln und sie bei der Genesung nach einem Herzinfarkt bestmöglich zu unterstützen. Zusammen mit der Vermittlung von qualifizierten Fachkräften kann somit auch die häusliche Pflege und Betreuung von Herzinfarkt-Patienten in der Schweiz massgeblich verbessert werden und für eine höhere Lebensqualität sorgen. In diesem Wiki geht es daher um verschiedene Aspekte der häuslichen Pflege und Betreuung von Herzinfarkt-Patienten in der Schweiz. Dabei werden unterschiedliche Bereiche wie die Ursachen und Risikofaktoren für Herzinfarkte, die Erkennung und das Verständnis der Symptome, die Erste Hilfe und die Notfallversorgung sowie die Behandlungsmöglichkeiten in der Schweiz thematisiert. Zudem wird auf die Nachsorge und Rehabilitation, die Vorbeugung und Prävention von Herzinfarkten, die finanziellen und rechtlichen Aspekte sowie hilfreiche Adressen und Anlaufstellen eingegangen. Abgerundet wird das Wiki durch eine FAQ mit den wichtigsten Fragen und Antworten rund um das Thema Herzinfarkt in der häuslichen Pflege."
     },
   
   ]
@@ -7238,14 +7234,14 @@ const blogsData = [
   "image": "/images/blog5.png",
   "category": "Herzinsuffizienz",
   "title": "Herzinsuffizienz",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Herzinsuffizienz, auch als Herzschwäche bekannt, ist eine Krankheit, die sowohl den Patienten als auch deren Angehörige vor Herausforderungen stellen kann. Um Betroffenen und ihren Familien eine umfassende Informationsquelle zu geben, möchten wir mit dieser Ratgeber-Seite über häusliche Betreuung und Pflege bei Herzinsuffizienz in der Schweiz berichten. Wir möchten Ihnen einige nützliche Informationen und Ratschläge geben, um die Lebensqualität von Patienten zu verbessern und Angehörigen bei der Organisation von häuslicher Betreuung zu helfen. In diesem Ratgeber erfahren Sie mehr über die Ursachen, Symptome und Stadien der Herzinsuffizienz sowie über individuelle Betreuungskonzepte. Wir werden auch die Rolle der Ernährung, körperlichen Aktivität, technischen Hilfsmittel und digitalen Lösungen erläutern, die Ihnen im Alltag mit Herzinsuffizienz helfen können. Schliesslich werden wir auf Erfahrungsberichte von Experten und Betroffenen eingehen, um Ihnen einen umfassenden Einblick in die Herausforderungen und Erfolge bei der Bewältigung von Herzinsuffizienz zu geben.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -7261,7 +7257,7 @@ const blogsData = [
     {
       "id": "1-2",
       "title": "1.2 Symptome der Herzinsuffizienz",
-      "text": "Die Beschwerden können schleichend auftreten und im Verlauf stärker werden:\n\n– Müdigkeit und geringe Belastbarkeit\n– Atemnot bei Bewegung oder im Liegen\n– Wasseransammlungen (Ödeme), besonders an Beinen und Knöcheln\n– Gewichtszunahme durch Flüssigkeitseinlagerung\n– Vergrößerte Leber\n– Schlafprobleme und häufiges nächtliches Wasserlassen\n– Schwindel, Konzentrationsprobleme, Verwirrtheit\n– Übelkeit und Appetitlosigkeit\n– Kalte Hände und Füße, blasse oder bläuliche Haut\n– Herzrhythmusstörungen\n\nFrühes Erkennen hilft, den Krankheitsverlauf günstig zu beeinflussen und die Lebensqualität zu verbessern."
+      "text": "Die Beschwerden können schleichend auftreten und im Verlauf stärker werden:\n\n– Müdigkeit und geringe Belastbarkeit\n– Atemnot bei Bewegung oder im Liegen\n– Wasseransammlungen (Ödeme), besonders an Beinen und Knöcheln\n– Gewichtszunahme durch Flüssigkeitseinlagerung\n– Vergrösserte Leber\n– Schlafprobleme und häufiges nächtliches Wasserlassen\n– Schwindel, Konzentrationsprobleme, Verwirrtheit\n– Übelkeit und Appetitlosigkeit\n– Kalte Hände und Füsse, blasse oder bläuliche Haut\n– Herzrhythmusstörungen\n\nFrühes Erkennen hilft, den Krankheitsverlauf günstig zu beeinflussen und die Lebensqualität zu verbessern."
     }
   ]
 }
@@ -7512,14 +7508,14 @@ const blogsData = [
   "image": "/images/blog6.png",
   "category": "Inkontinenz",
   "title": "Inkontinenz",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Inkontinenz ist eine weit verbreitete und oftmals unterschätzte gesundheitliche Einschränkung, die das tägliche Leben von Senioren und deren Angehörigen nachhaltig beeinflussen kann. Etwa jeder dritte Mensch über 60 Jahre ist von Inkontinenz betroffen, was die Wichtigkeit dieses Themas unterstreicht. Um Betroffenen und ihren Familien den bestmöglichen Umgang mit dieser Einschränkung zu ermöglichen, ist es erforderlich, den verschiedenen Aspekten der Inkontinenz Rechnung zu tragen – von ihrer Diagnose über die Auswahl geeigneter Hilfsmittel bis hin zu möglichen Therapieansätzen sowie den Rahmenbedingungen der häuslichen Pflege in der Schweiz. Der folgende Text bietet einen umfassenden Überblick über das Thema Inkontinenz und unterstützt Betroffene, Angehörige und Entscheidungsträger dabei, ein selbstbestimmtes Leben zu führen und die bestmögliche Begleitung sicherzustellen.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -7665,7 +7661,7 @@ const blogsData = [
     {
       "id": "6-1",
       "title": "6.1 Erstellung eines Toilettengangs-Plans",
-      "text": "Ein regelmäßiger Toilettenplan hilft, Unfälle zu vermeiden und das Sicherheitsgefühl zu stärken. Die Flüssigkeitszufuhr sollte gleichmäßig über den Tag verteilt werden."
+      "text": "Ein regelmässiger Toilettenplan hilft, Unfälle zu vermeiden und das Sicherheitsgefühl zu stärken. Die Flüssigkeitszufuhr sollte gleichmässig über den Tag verteilt werden."
     },
     {
       "id": "6-2",
@@ -7680,7 +7676,7 @@ const blogsData = [
     {
       "id": "6-4",
       "title": "6.4 Hygiene und Hautpflege",
-      "text": "Sanfte Reinigung, gründliches Trocknen und der Einsatz von schützenden Cremes beugen Hautreizungen und Infektionen vor. Kleidung und Bettwäsche sollten regelmäßig gewechselt werden."
+      "text": "Sanfte Reinigung, gründliches Trocknen und der Einsatz von schützenden Cremes beugen Hautreizungen und Infektionen vor. Kleidung und Bettwäsche sollten regelmässig gewechselt werden."
     },
     {
       "id": "6-5",
@@ -7776,14 +7772,14 @@ const blogsData = [
   "image": "/images/blog7.png",
   "category": "Nervensystem",
   "title": "Nervensystem",
-  "date": "July 9, 2025",
-  "maintext": "Menschen, die an Erkrankungen des Nervensystems leiden, stehen häufig vor besonderen Herausforderungen, die die Pflege und Betreuung in ihren eigenen vier Wänden beeinflussen. In diesem Wiki erhalten Angehörige, Betroffene und Entscheidungsträger in Familien wertvolle Informationen zu verschiedenen neurologischen Erkrankungen, wie Demenz, Parkinson, Multiple Sklerose und Schlaganfall, und deren Auswirkungen auf die häusliche Pflege. Zudem werden praktische Tipps und Hilfsmittel zur Unterstützung der Betreuung vorgestellt und die rechtlichen Aspekte der Arbeit unter Berücksichtigung des Schweizer Rechts beleuchtet. Schließlich befinden sich Empfehlungen zur Auswahl des passenden Pflegedienstes oder Betreuungspersonals sowie Antworten auf häufig gestellte Fragen rund um das Nervensystem im Zusammenhang mit der häuslichen Betreuung und Pflege in der Schweiz.",
+  "date": "09 Juli 2025",
+  "maintext": "Menschen, die an Erkrankungen des Nervensystems leiden, stehen häufig vor besonderen Herausforderungen, die die Pflege und Betreuung in ihren eigenen vier Wänden beeinflussen. In diesem Wiki erhalten Angehörige, Betroffene und Entscheidungsträger in Familien wertvolle Informationen zu verschiedenen neurologischen Erkrankungen, wie Demenz, Parkinson, Multiple Sklerose und Schlaganfall, und deren Auswirkungen auf die häusliche Pflege. Zudem werden praktische Tipps und Hilfsmittel zur Unterstützung der Betreuung vorgestellt und die rechtlichen Aspekte der Arbeit unter Berücksichtigung des Schweizer Rechts beleuchtet. Schliesslich befinden sich Empfehlungen zur Auswahl des passenden Pflegedienstes oder Betreuungspersonals sowie Antworten auf häufig gestellte Fragen rund um das Nervensystem im Zusammenhang mit der häuslichen Betreuung und Pflege in der Schweiz.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -7818,7 +7814,7 @@ const blogsData = [
     {
       "id": "2-1",
       "title": "2.1 Zentrales und peripheres Nervensystem",
-      "text": "Das zentrale Nervensystem (ZNS) besteht aus Gehirn und Rückenmark und verarbeitet Informationen. Das periphere Nervensystem (PNS) überträgt sensorische Signale zum ZNS und motorische Befehle zurück in den Körper. Eine Eselsbrücke: Das ZNS ist die 'Zentrale', das PNS sind die 'Außenstellen'."
+      "text": "Das zentrale Nervensystem (ZNS) besteht aus Gehirn und Rückenmark und verarbeitet Informationen. Das periphere Nervensystem (PNS) überträgt sensorische Signale zum ZNS und motorische Befehle zurück in den Körper. Eine Eselsbrücke: Das ZNS ist die 'Zentrale', das PNS sind die 'Aussenstellen'."
     },
     {
       "id": "2-2",
@@ -7871,7 +7867,7 @@ const blogsData = [
     {
       "id": "4-3",
       "title": "4.3 Erinnerungshilfen nutzen",
-      "text": "Kalender, Uhr mit großen Ziffern, Fotos und Beschriftungen können helfen, sich zu orientieren und selbstständig zu bleiben."
+      "text": "Kalender, Uhr mit grossen Ziffern, Fotos und Beschriftungen können helfen, sich zu orientieren und selbstständig zu bleiben."
     },
     {
       "id": "4-4",
@@ -7978,7 +7974,7 @@ const blogsData = [
     {
       "id": "7-5",
       "title": "7.5 Förderung von Kommunikation und Kognition",
-      "text": "• Häufige Folgen: Sprachstörungen und Denkprobleme.\n• Hilfreiche Maßnahmen:\n  – Logopädische Übungen\n  – Gehirnjogging, z. B. mit Spielen oder Apps\n  – Unterstützende Geräte: Sprachhilfen oder Kommunikationskarten\n• Pflegepersonal und Therapeuten helfen bei der Auswahl geeigneter Methoden."
+      "text": "• Häufige Folgen: Sprachstörungen und Denkprobleme.\n• Hilfreiche Massnahmen:\n  – Logopädische Übungen\n  – Gehirnjogging, z. B. mit Spielen oder Apps\n  – Unterstützende Geräte: Sprachhilfen oder Kommunikationskarten\n• Pflegepersonal und Therapeuten helfen bei der Auswahl geeigneter Methoden."
     },
     {
       "id": "7-6",
@@ -7997,12 +7993,12 @@ const blogsData = [
     {
       "id": "8-1",
       "title": "8.1 Typen von Neuropathie und ihre Symptome",
-      "text": "• Neuropathie betrifft die peripheren Nerven und kann durch Diabetes, Verletzungen oder Mangelerscheinungen entstehen.\n• Häufige Formen:\n  – Periphere Neuropathie (z. B. bei Diabetes)\n  – Autonome Neuropathie (betrifft Organe wie Herz, Magen, Blase)\n  – Mononeuropathie (einzelne Nerven, z. B. nach Verletzungen)\n• Typische Symptome:\n  – Schmerzen, Taubheitsgefühl oder Missempfindungen in Händen und Füßen\n  – Muskelschwäche, Unsicherheit beim Gehen\n  – Überempfindlichkeit bei Berührung\n  – Verdauungsprobleme oder Probleme mit der Blase"
+      "text": "• Neuropathie betrifft die peripheren Nerven und kann durch Diabetes, Verletzungen oder Mangelerscheinungen entstehen.\n• Häufige Formen:\n  – Periphere Neuropathie (z. B. bei Diabetes)\n  – Autonome Neuropathie (betrifft Organe wie Herz, Magen, Blase)\n  – Mononeuropathie (einzelne Nerven, z. B. nach Verletzungen)\n• Typische Symptome:\n  – Schmerzen, Taubheitsgefühl oder Missempfindungen in Händen und Füssen\n  – Muskelschwäche, Unsicherheit beim Gehen\n  – Überempfindlichkeit bei Berührung\n  – Verdauungsprobleme oder Probleme mit der Blase"
     },
     {
       "id": "8-2",
       "title": "8.2 Herausforderungen in der häuslichen Betreuung und Pflege bei Neuropathie",
-      "text": "• Pflege muss individuell an die Symptome angepasst werden.\n• Wichtige Aspekte:\n  – Schmerzmanagement: Schonende Pflege bei Bewegung, Kleidung oder Körperpflege\n  – Mobilität: Einsatz von Gehhilfen, Treppenliften, rutschfeste Böden\n  – Haut- und Fußpflege: Tägliche Kontrolle auf Verletzungen, sanfte Pflege\n  – Kommunikation: Ermöglichen, dass Betroffene über Beschwerden sprechen können\n• Ziel: Sicherheit, Schmerzreduktion und Lebensqualität im Alltag"
+      "text": "• Pflege muss individuell an die Symptome angepasst werden.\n• Wichtige Aspekte:\n  – Schmerzmanagement: Schonende Pflege bei Bewegung, Kleidung oder Körperpflege\n  – Mobilität: Einsatz von Gehhilfen, Treppenliften, rutschfeste Böden\n  – Haut- und Fusspflege: Tägliche Kontrolle auf Verletzungen, sanfte Pflege\n  – Kommunikation: Ermöglichen, dass Betroffene über Beschwerden sprechen können\n• Ziel: Sicherheit, Schmerzreduktion und Lebensqualität im Alltag"
     },
     {
       "id": "8-3",
@@ -8020,7 +8016,7 @@ const blogsData = [
     {
       "id": "9-1",
       "title": "9.1 Anpassungen im häuslichen Umfeld",
-      "text": "• Ziel: Alltag sicherer und barrierefrei gestalten\n• Beispiele für Anpassungen:\n  – Handläufe und Haltegriffe im Bad und WC\n  – Rutschfeste Matten in Bad und Küche\n  – Ebenerdige Zugänge zu Wohnräumen\n  – Helle und gleichmäßige Beleuchtung\n  – Höhenverstellbare Möbel\n  – Notrufsystem zur schnellen Hilfe\n• Wichtig: Maßnahmen individuell auf die Einschränkungen des Betroffenen abstimmen"
+      "text": "• Ziel: Alltag sicherer und barrierefrei gestalten\n• Beispiele für Anpassungen:\n  – Handläufe und Haltegriffe im Bad und WC\n  – Rutschfeste Matten in Bad und Küche\n  – Ebenerdige Zugänge zu Wohnräumen\n  – Helle und gleichmässige Beleuchtung\n  – Höhenverstellbare Möbel\n  – Notrufsystem zur schnellen Hilfe\n• Wichtig: Massnahmen individuell auf die Einschränkungen des Betroffenen abstimmen"
     },
     {
       "id": "9-2",
@@ -8081,14 +8077,14 @@ const blogsData = [
   "image": "/images/blog8.png",
   "category": "Oberschenkelhalsbruch",
   "title": "Oberschenkelhalsbruch",
-  "date": "July 9, 2025",
+  "date": "09 Juli 2025",
   "maintext": "Ein Oberschenkelhalsbruch ist ein ernstes Gesundheitsproblem, das insbesondere ältere Menschen betrifft und deren Lebensqualität drastisch beeinträchtigen kann. In der häuslichen Pflege und Betreuung ist es daher von grosser Bedeutung, sich mit den Ursachen, Symptomen und Behandlungsmöglichkeiten eines solchen Bruchs auseinanderzusetzen. In diesem umfassenden Leitfaden erfahren Sie alles, was Sie über das Thema Oberschenkelhalsbruch wissen müssen, von den grundlegenden medizinischen Aspekten bis hin zu den verschiedenen Pflege- und Betreuungsmöglichkeiten in der Schweiz. Dabei werden sowohl rechtliche Rahmenbedingungen als auch finanzielle und organisatorische Aspekte beleuchtet, um Ihnen einen vollständigen Überblick über die Möglichkeiten und Herausforderungen bei der Versorgung von Betroffenen mit einem Oberschenkelhalsbruch zu geben.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -8103,7 +8099,7 @@ const blogsData = [
     {
       "id": "1-2",
       "title": "1.2 Pflegeherausforderungen nach einem Bruch",
-      "text": "• Schmerzbehandlung: Regelmäßige und richtige Gabe von Schmerzmitteln\n• Wundversorgung: Kontrolle und Pflege der Operationswunde zur Vermeidung von Infektionen\n• Mobilitätsförderung: Unterstützung bei Physiotherapie und ersten Gehversuchen\n• Wohnraumanpassung: Einsatz von Gehhilfen, Haltegriffen und barrierefreier Einrichtung\n• Emotionale Unterstützung: Gespräche, Gesellschaft und Motivation gegen Einsamkeit und Angst"
+      "text": "• Schmerzbehandlung: Regelmässige und richtige Gabe von Schmerzmitteln\n• Wundversorgung: Kontrolle und Pflege der Operationswunde zur Vermeidung von Infektionen\n• Mobilitätsförderung: Unterstützung bei Physiotherapie und ersten Gehversuchen\n• Wohnraumanpassung: Einsatz von Gehhilfen, Haltegriffen und barrierefreier Einrichtung\n• Emotionale Unterstützung: Gespräche, Gesellschaft und Motivation gegen Einsamkeit und Angst"
     },
     {
       "id": "1-3",
@@ -8131,7 +8127,7 @@ const blogsData = [
     {
       "id": "2-3",
       "title": "2.3 Mangelnde körperliche Aktivität",
-      "text": "• Wenig Bewegung schwächt Muskulatur und Knochen\n• Regelmäßige Aktivität fördert Knochengesundheit und Gleichgewicht\n• Bewegung kann Sturzrisiko senken"
+      "text": "• Wenig Bewegung schwächt Muskulatur und Knochen\n• Regelmässige Aktivität fördert Knochengesundheit und Gleichgewicht\n• Bewegung kann Sturzrisiko senken"
     },
     {
       "id": "2-4",
@@ -8232,7 +8228,7 @@ const blogsData = [
     {
       "id": "6-4",
       "title": "6.4 Langfristige Rehabilitation und Nachsorge",
-      "text": "• Ziel: Alltag sicher bewältigen können\n• Orte: Rehaklinik, betreutes Wohnen, Zuhause\n• Regelmäßige Nachsorgeuntersuchungen durch Physio-/Ergotherapie\n• Therapie wird bei Bedarf angepasst"
+      "text": "• Ziel: Alltag sicher bewältigen können\n• Orte: Rehaklinik, betreutes Wohnen, Zuhause\n• Regelmässige Nachsorgeuntersuchungen durch Physio-/Ergotherapie\n• Therapie wird bei Bedarf angepasst"
     },
     {
       "id": "6-5",
@@ -8260,17 +8256,17 @@ const blogsData = [
     {
       "id": "7-3",
       "title": "7.3 Körperliche Fitness fördern",
-      "text": "• Bewegung stärkt Muskulatur und Gleichgewicht\n• Empfohlene Aktivitäten:\n  – Seniorengymnastik\n  – Yoga oder Tai Chi\n  – Spaziergänge und Balancetraining\n• Regelmäßiges Training senkt das Sturzrisiko deutlich"
+      "text": "• Bewegung stärkt Muskulatur und Gleichgewicht\n• Empfohlene Aktivitäten:\n  – Seniorengymnastik\n  – Yoga oder Tai Chi\n  – Spaziergänge und Balancetraining\n• Regelmässiges Training senkt das Sturzrisiko deutlich"
     },
     {
       "id": "7-4",
       "title": "7.4 Regelmässige Seh- und Hörkontrollen",
-      "text": "• Seh- oder Hörprobleme können Orientierung und Gleichgewicht beeinträchtigen\n• Brille und Hörgeräte regelmäßig überprüfen und anpassen\n• Vorsorge hilft, Stürze frühzeitig zu verhindern"
+      "text": "• Seh- oder Hörprobleme können Orientierung und Gleichgewicht beeinträchtigen\n• Brille und Hörgeräte regelmässig überprüfen und anpassen\n• Vorsorge hilft, Stürze frühzeitig zu verhindern"
     },
     {
       "id": "7-5",
       "title": "7.5 Medikamenteneinnahme überwachen",
-      "text": "• Manche Medikamente verursachen Schwindel oder Gangunsicherheit\n• Regelmäßige Kontrolle der Medikation mit dem Arzt besprechen\n• Ziel: Nebenwirkungen erkennen und minimieren"
+      "text": "• Manche Medikamente verursachen Schwindel oder Gangunsicherheit\n• Regelmässige Kontrolle der Medikation mit dem Arzt besprechen\n• Ziel: Nebenwirkungen erkennen und minimieren"
     }
   ]
 }
@@ -8373,14 +8369,14 @@ const blogsData = [
   "image": "/images/blog9.png",
   "category": "Osteoporose",
   "title": "Osteoporose",
-  "date": "July 9, 2025",
-  "maintext": "Osteoporose ist eine weit verbreitete und oft unterschätzte Erkrankung der Knochen, die insbesondere im Alter auftritt und die Lebensqualität der Betroffenen spürbar beeinträchtigt. Das sogenannte „stille Leiden“ kann gravierende Folgen haben, wie Knochenbrüche und eine eingeschränkte Mobilität. In diesem umfassenden Artikel werden wir Ihnen Informationen rund um diese Erkrankung vermitteln, wie beispielsweise deren Ursachen und Risikofaktoren, wie sie sich äußert, wie sie diagnostiziert wird und welche Behandlungsmöglichkeiten es gibt. Darüber hinaus befassen wir uns mit Themen wie Ernährung, Sport, Sturzprävention und häuslicher Pflege im Zusammenhang mit Osteoporose. Schliesslich gehen wir auf die psychischen Belastungen ein, mit denen Betroffene und deren Angehörige konfrontiert sind, und beantworten häufig gestellte Fragen zum Thema.",
+  "date": "09 Juli 2025",
+  "maintext": "Osteoporose ist eine weit verbreitete und oft unterschätzte Erkrankung der Knochen, die insbesondere im Alter auftritt und die Lebensqualität der Betroffenen spürbar beeinträchtigt. Das sogenannte „stille Leiden“ kann gravierende Folgen haben, wie Knochenbrüche und eine eingeschränkte Mobilität. In diesem umfassenden Artikel werden wir Ihnen Informationen rund um diese Erkrankung vermitteln, wie beispielsweise deren Ursachen und Risikofaktoren, wie sie sich äussert, wie sie diagnostiziert wird und welche Behandlungsmöglichkeiten es gibt. Darüber hinaus befassen wir uns mit Themen wie Ernährung, Sport, Sturzprävention und häuslicher Pflege im Zusammenhang mit Osteoporose. Schliesslich gehen wir auf die psychischen Belastungen ein, mit denen Betroffene und deren Angehörige konfrontiert sind, und beantworten häufig gestellte Fragen zum Thema.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -8441,7 +8437,7 @@ const blogsData = [
     {
       "id": "3-2",
       "title": "3.2 Veränderung der Körperhaltung",
-      "text": "• Gekrümmte Wirbelsäule, sog. 'Witwenbuckel'\n• Körpergröße nimmt ab\n• Unsicherer Gang und eingeschränkte Beweglichkeit"
+      "text": "• Gekrümmte Wirbelsäule, sog. 'Witwenbuckel'\n• Körpergrösse nimmt ab\n• Unsicherer Gang und eingeschränkte Beweglichkeit"
     },
     {
       "id": "3-3",
@@ -8497,7 +8493,7 @@ const blogsData = [
     {
       "id": "5-1",
       "title": "5.1 Nicht medikamentöse Therapien",
-      "text": "• Ernährung: Kalzium- und Vitamin-D-reich essen\n• Bewegung: regelmäßige Aktivität, z. B. Spazieren, Gymnastik\n• Sturzprävention: Wohnraumanpassung, Hilfsmittel\n• Physio-/Ergotherapie: Koordination, Gleichgewicht und Kraft verbessern"
+      "text": "• Ernährung: Kalzium- und Vitamin-D-reich essen\n• Bewegung: regelmässige Aktivität, z. B. Spazieren, Gymnastik\n• Sturzprävention: Wohnraumanpassung, Hilfsmittel\n• Physio-/Ergotherapie: Koordination, Gleichgewicht und Kraft verbessern"
     },
     {
       "id": "5-2",
@@ -8589,7 +8585,7 @@ const blogsData = [
     {
       "id": "8-3",
       "title": "8.3 Wie oft sollte man sich bewegen?",
-      "text": "• Ideal: mind. 5x pro Woche für 30 Minuten\n• Kombination aus Ausdauer, Kraft und Koordination\n• Wichtig: Regelmäßigkeit statt Überforderung"
+      "text": "• Ideal: mind. 5x pro Woche für 30 Minuten\n• Kombination aus Ausdauer, Kraft und Koordination\n• Wichtig: Regelmässigkeit statt Überforderung"
     },
     {
       "id": "8-4",
@@ -8673,14 +8669,14 @@ const blogsData = [
   "image": "/images/blog3.png",
   "category": "Vergrösserte Prostata",
   "title": "Vergrösserte Prostata",
-  "date": "July 9, 2025",
-  "maintext": "Eine vergrößerte Prostata ist eine der häufigsten gesundheitlichen Beschwerden bei Männern über 50 Jahren und betrifft etwa jeden zweiten Mann in diesem Altersbereich. Bei einer Prostatavergrößerung handelt es sich um eine gutartige Veränderung, die in vielen Fällen zu unangenehmen Beschwerden beim Wasserlassen und damit einhergehend zu einem beeinträchtigten Wohlbefinden führt. Eine frühzeitige Diagnose und Behandlung sind entscheidend, um mögliche Komplikationen zu vermeiden und die Lebensqualität der Betroffenen zu erhalten. Im Rahmen dieses Wiki werden wir sämtliche Aspekte rund um das Thema vergrößerte Prostata beleuchten – von der Erklärung der medizinischen Hintergründe über Symptome und Diagnoseverfahren bis hin zu verschiedenen Behandlungsmöglichkeiten und unterstützenden Massnahmen in der häuslichen Pflege. Zudem werden wir hilfreiche Ressourcen und Anlaufstellen in der Schweiz für Betroffene und Angehörige vorstellen sowie häufig gestellte Fragen beantworten.",
+  "date": "09 Juli 2025",
+  "maintext": "Eine vergrösserte Prostata ist eine der häufigsten gesundheitlichen Beschwerden bei Männern über 50 Jahren und betrifft etwa jeden zweiten Mann in diesem Altersbereich. Bei einer Prostatavergrösserung handelt es sich um eine gutartige Veränderung, die in vielen Fällen zu unangenehmen Beschwerden beim Wasserlassen und damit einhergehend zu einem beeinträchtigten Wohlbefinden führt. Eine frühzeitige Diagnose und Behandlung sind entscheidend, um mögliche Komplikationen zu vermeiden und die Lebensqualität der Betroffenen zu erhalten. Im Rahmen dieses Wiki werden wir sämtliche Aspekte rund um das Thema vergrösserte Prostata beleuchten – von der Erklärung der medizinischen Hintergründe über Symptome und Diagnoseverfahren bis hin zu verschiedenen Behandlungsmöglichkeiten und unterstützenden Massnahmen in der häuslichen Pflege. Zudem werden wir hilfreiche Ressourcen und Anlaufstellen in der Schweiz für Betroffene und Angehörige vorstellen sowie häufig gestellte Fragen beantworten.",
   "author": {
     "id": "author-2",
     "name": "Patrick Kälin",
     "position": "Redakteur für Prime Home Care",
     "image": "/images/phc-author.png",
-    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmäßig über Gesundheit, Pflege und Ernährung im Alter."
+    "description": "Patrick Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Gesundheit, Pflege und Ernährung im Alter."
   },
   "sections": [
 {
@@ -8690,7 +8686,7 @@ const blogsData = [
     {
       "id": "1-1",
       "title": "1.1 Was ist eine vergrösserte Prostata?",
-      "text": "• Häufig bei älteren Männern – ca. 50 % ab 60 Jahren, 90 % ab 80 Jahren\n• Vergrößerung kann Harnfluss behindern und Beschwerden verursachen\n• Kein Krebs, aber kann zu ernsten Problemen führen, z. B. Harnverhalt, Infektionen"
+      "text": "• Häufig bei älteren Männern – ca. 50 % ab 60 Jahren, 90 % ab 80 Jahren\n• Vergrösserung kann Harnfluss behindern und Beschwerden verursachen\n• Kein Krebs, aber kann zu ernsten Problemen führen, z. B. Harnverhalt, Infektionen"
     },
     {
       "id": "1-2",
@@ -8703,12 +8699,12 @@ const blogsData = [
 ,
 {
   "id": "section-2",
-  "title": "2. Was ist eine vergrößerte Prostata? Definition und medizinischer Hintergrund",
+  "title": "2. Was ist eine vergrösserte Prostata? Definition und medizinischer Hintergrund",
   "paragraphs": [
     {
       "id": "2-1",
       "title": "2.1 Definition",
-      "text": "• Gutartige Vergrößerung der Prostata – medizinisch: benigne Prostatahyperplasie (BPH)\n• Keine Krebserkrankung – aber ähnliche Symptome möglich\n• Drüse wächst und drückt auf die Harnröhre"
+      "text": "• Gutartige Vergrösserung der Prostata – medizinisch: benigne Prostatahyperplasie (BPH)\n• Keine Krebserkrankung – aber ähnliche Symptome möglich\n• Drüse wächst und drückt auf die Harnröhre"
     },
     {
       "id": "2-2",
@@ -8814,12 +8810,12 @@ const blogsData = [
 },
 {
   "id": "section-6",
-  "title": "6. Behandlungsmöglichkeiten für eine vergrößerte Prostata: Von Medikamenten bis Operation",
+  "title": "6. Behandlungsmöglichkeiten für eine vergrösserte Prostata: Von Medikamenten bis Operation",
   "paragraphs": [
     {
       "id": "6-1",
       "title": "6.1 Medikamentöse Therapie",
-      "text": "Die medikamentöse Therapie ist oftmals der erste Schritt, um die Beschwerden einer vergrößerten Prostata zu lindern. Es stehen verschiedene Medikamente zur Verfügung, die entweder einzeln oder in Kombination eingesetzt werden können:\n\n– Alpha-Blocker: Diese Medikamente entspannen die Muskulatur in der Prostata und im Blasenhals, was das Wasserlassen erleichtert. Zu den gängigen Alpha-Blockern zählen beispielsweise Tamsulosin und Alfuzosin.\n\n– 5-Alpha-Reduktase-Hemmer: Diese Medikamente wirken direkt auf das Prostatagewebe und verkleinern die Drüse, indem sie die Umwandlung von Testosteron in Dihydrotestosteron (DHT) hemmen. Zu dieser Medikamentengruppe gehören beispielsweise Finasterid und Dutasterid.\n\nIn manchen Fällen kombinieren Ärzte auch Alpha-Blocker und 5-Alpha-Reduktase-Hemmer, um eine optimale Wirkung zu erzielen. Es ist wichtig, dass die Medikamente nach Anweisung des Arztes eingenommen werden und mögliche Nebenwirkungen abgeklärt werden."
+      "text": "Die medikamentöse Therapie ist oftmals der erste Schritt, um die Beschwerden einer vergrösserten Prostata zu lindern. Es stehen verschiedene Medikamente zur Verfügung, die entweder einzeln oder in Kombination eingesetzt werden können:\n\n– Alpha-Blocker: Diese Medikamente entspannen die Muskulatur in der Prostata und im Blasenhals, was das Wasserlassen erleichtert. Zu den gängigen Alpha-Blockern zählen beispielsweise Tamsulosin und Alfuzosin.\n\n– 5-Alpha-Reduktase-Hemmer: Diese Medikamente wirken direkt auf das Prostatagewebe und verkleinern die Drüse, indem sie die Umwandlung von Testosteron in Dihydrotestosteron (DHT) hemmen. Zu dieser Medikamentengruppe gehören beispielsweise Finasterid und Dutasterid.\n\nIn manchen Fällen kombinieren Ärzte auch Alpha-Blocker und 5-Alpha-Reduktase-Hemmer, um eine optimale Wirkung zu erzielen. Es ist wichtig, dass die Medikamente nach Anweisung des Arztes eingenommen werden und mögliche Nebenwirkungen abgeklärt werden."
     },
     {
       "id": "6-2",
@@ -8829,7 +8825,7 @@ const blogsData = [
     {
       "id": "6-3",
       "title": "6.3 Operative Eingriffe",
-      "text": "Wenn medikamentöse Therapie und minimalinvasive Verfahren nicht zum gewünschten Erfolg führen, kann ein chirurgischer Eingriff notwendig werden. Die häufigste Operation bei einer vergrößerten Prostata ist die sogenannte transurethrale Resektion der Prostata (TURP). Dabei wird überschüssiges Prostatagewebe mithilfe einer speziellen Vorrichtung, die durch die Harnröhre eingeführt wird, entfernt. Die TURP ist eine recht sichere und effektive Methode, jedoch sind Komplikationen und Nebenwirkungen wie Blutungen oder Infektionen möglich.\n\nIn einigen Fällen kann auch eine offene Prostatektomie erforderlich sein. Hierbei handelt es sich um eine größere Operation, bei der die Prostata durch einen Schnitt im Unterbauch teilweise oder vollständig entfernt wird. Diese Methode kommt vor allem bei sehr großen, stark vergrößerten Prostata-Drüsen zum Einsatz.\n\nDie Wahl des geeigneten Verfahrens hängt von verschiedenen Faktoren ab und sollte immer in Absprache mit dem behandelnden Arzt getroffen werden. Eine gute Zusammenarbeit zwischen Patient, Familie und medizinischem Team ist dabei entscheidend für eine erfolgreiche Therapie und eine rasche Erholung."
+      "text": "Wenn medikamentöse Therapie und minimalinvasive Verfahren nicht zum gewünschten Erfolg führen, kann ein chirurgischer Eingriff notwendig werden. Die häufigste Operation bei einer vergrösserten Prostata ist die sogenannte transurethrale Resektion der Prostata (TURP). Dabei wird überschüssiges Prostatagewebe mithilfe einer speziellen Vorrichtung, die durch die Harnröhre eingeführt wird, entfernt. Die TURP ist eine recht sichere und effektive Methode, jedoch sind Komplikationen und Nebenwirkungen wie Blutungen oder Infektionen möglich.\n\nIn einigen Fällen kann auch eine offene Prostatektomie erforderlich sein. Hierbei handelt es sich um eine grössere Operation, bei der die Prostata durch einen Schnitt im Unterbauch teilweise oder vollständig entfernt wird. Diese Methode kommt vor allem bei sehr grossen, stark vergrösserten Prostata-Drüsen zum Einsatz.\n\nDie Wahl des geeigneten Verfahrens hängt von verschiedenen Faktoren ab und sollte immer in Absprache mit dem behandelnden Arzt getroffen werden. Eine gute Zusammenarbeit zwischen Patient, Familie und medizinischem Team ist dabei entscheidend für eine erfolgreiche Therapie und eine rasche Erholung."
     }
   ]
 }
@@ -8842,7 +8838,7 @@ const blogsData = [
     {
       "id": "7-1",
       "title": "7.1 Gesunde Ernährung",
-      "text": "Eine ausgewogene und gesunde Ernährung spielt eine zentrale Rolle bei der Vorbeugung und Behandlung von Prostatavergrößerung. Lebensmittel, die reich an Antioxidantien, Ballaststoffen, Omega-3-Fettsäuren und pflanzlichen Eiweissen sind, fördern die Gesundheit der Prostata. Beispiele hierfür sind Gemüse, Obst, Vollkornprodukte, Fisch, Hülsenfrüchte und Nüsse. Auf der anderen Seite sollten Sie den Verzehr von gesättigten Fetten, Milchprodukten, rotem Fleisch und verarbeiteten Lebensmitteln reduzieren."
+      "text": "Eine ausgewogene und gesunde Ernährung spielt eine zentrale Rolle bei der Vorbeugung und Behandlung von Prostatavergrösserung. Lebensmittel, die reich an Antioxidantien, Ballaststoffen, Omega-3-Fettsäuren und pflanzlichen Eiweissen sind, fördern die Gesundheit der Prostata. Beispiele hierfür sind Gemüse, Obst, Vollkornprodukte, Fisch, Hülsenfrüchte und Nüsse. Auf der anderen Seite sollten Sie den Verzehr von gesättigten Fetten, Milchprodukten, rotem Fleisch und verarbeiteten Lebensmitteln reduzieren."
     },
     {
       "id": "7-2",
@@ -8857,7 +8853,7 @@ const blogsData = [
     {
       "id": "7-4",
       "title": "7.4 Beckenbodentraining",
-      "text": "Ein gezieltes Training der Beckenbodenmuskulatur kann dazu beitragen, die Blasenkontrolle zu verbessern und den Harndrang bei Prostatavergrößerung zu reduzieren. Hierzu gibt es spezielle Übungen, die regelmässig durchgeführt werden sollten. Ein Physiotherapeut oder ein spezialisierter Pflegefachmann können Ihnen hierbei helfen und Übungen für die häusliche Betreuung erstellen."
+      "text": "Ein gezieltes Training der Beckenbodenmuskulatur kann dazu beitragen, die Blasenkontrolle zu verbessern und den Harndrang bei Prostatavergrösserung zu reduzieren. Hierzu gibt es spezielle Übungen, die regelmässig durchgeführt werden sollten. Ein Physiotherapeut oder ein spezialisierter Pflegefachmann können Ihnen hierbei helfen und Übungen für die häusliche Betreuung erstellen."
     },
     {
       "id": "7-5",
@@ -8901,17 +8897,17 @@ const blogsData = [
     {
       "id": "9-1",
       "title": "9.1 Auswirkungen auf die Lebensqualität",
-      "text": "Eine vergrößerte Prostata kann zu einer Vielzahl von Beschwerden führen, die den Alltag negativ beeinflussen können. Typische Symptome wie häufiger Harndrang, nächtliches Wasserlassen oder Schwierigkeiten beim Wasserlassen können die Schlafqualität verringern und somit die Leistungsfähigkeit am Tag beeinträchtigen. Ausserdem kann es zu emotionalen Belastungen wie Angst, Stress oder Depressionen kommen, da sich Männer aufgrund ihrer Beschwerden oft eingeschränkt oder unwohl fühlen.\n\nEs ist wichtig zu wissen, dass es viele Männer gibt, die die gleichen Herausforderungen bewältigen. Eine proaktive Haltung und Offenheit in Bezug auf das Thema können dazu beitragen, dass man sich nicht isoliert fühlt und besser mit der Situation umgehen kann."
+      "text": "Eine vergrösserte Prostata kann zu einer Vielzahl von Beschwerden führen, die den Alltag negativ beeinflussen können. Typische Symptome wie häufiger Harndrang, nächtliches Wasserlassen oder Schwierigkeiten beim Wasserlassen können die Schlafqualität verringern und somit die Leistungsfähigkeit am Tag beeinträchtigen. Ausserdem kann es zu emotionalen Belastungen wie Angst, Stress oder Depressionen kommen, da sich Männer aufgrund ihrer Beschwerden oft eingeschränkt oder unwohl fühlen.\n\nEs ist wichtig zu wissen, dass es viele Männer gibt, die die gleichen Herausforderungen bewältigen. Eine proaktive Haltung und Offenheit in Bezug auf das Thema können dazu beitragen, dass man sich nicht isoliert fühlt und besser mit der Situation umgehen kann."
     },
     {
       "id": "9-2",
       "title": "9.2 Einfluss auf die Sexualfunktion",
-      "text": "Die Prostatavergrösserung kann auch das Sexualleben beeinträchtigen. Männer mit BPH können unter Erektionsstörungen, verminderter Libido oder Schmerzen während des Geschlechtsverkehrs leiden.\n\nMöglicherweise ist auch die Ejakulation betroffen, da die vergrößerte Prostata den Fluss der Samenflüssigkeit beeinflussen kann. Hierdurch können Männer ein verändertes Orgasmusgefühl oder Probleme mit der Zeugungsfähigkeit erleben. Es ist wichtig, offen mit seinem Partner oder seiner Partnerin über die sexuellen Veränderungen und Bedürfnisse zu sprechen und gemeinsam nach Lösungen zu suchen."
+      "text": "Die Prostatavergrösserung kann auch das Sexualleben beeinträchtigen. Männer mit BPH können unter Erektionsstörungen, verminderter Libido oder Schmerzen während des Geschlechtsverkehrs leiden.\n\nMöglicherweise ist auch die Ejakulation betroffen, da die vergrösserte Prostata den Fluss der Samenflüssigkeit beeinflussen kann. Hierdurch können Männer ein verändertes Orgasmusgefühl oder Probleme mit der Zeugungsfähigkeit erleben. Es ist wichtig, offen mit seinem Partner oder seiner Partnerin über die sexuellen Veränderungen und Bedürfnisse zu sprechen und gemeinsam nach Lösungen zu suchen."
     },
     {
       "id": "9-3",
       "title": "9.3 Unterstützung und Bewältigungsstrategien",
-      "text": "Zahlreiche Unterstützungsmöglichkeiten und Bewältigungsstrategien können helfen, die Lebensqualität und Sexualität bei einer Prostatavergrößerung zu verbessern. Dazu gehören:\n\n– Medizinische Behandlung: Alphablocker, die den Harndrang reduzieren, und 5-Alpha-Reduktasehemmer, die das Prostatawachstum verlangsamen, können helfen, die Symptome der Prostatavergrößerung zu lindern.\n\n– Psychologische Hilfe: Psychotherapie oder Paartherapie kann dazu beitragen, emotionale Belastungen abzubauen und das Sexualleben wiederzubeleben.\n\n– Beckenbodentraining: Ein gezieltes Training der Beckenbodenmuskulatur kann das Wasserlassen erleichtern und die Sexualfunktion verbessern.\n\n– Lebensstiländerungen: Eine gesunde Ernährung, ausreichend Bewegung und der Verzicht auf Alkohol und Nikotin können allgemein zur Verbesserung der Lebensqualität beitragen.\n\n– Entspannungstechniken: Yoga, Meditation oder Atemübungen können dabei helfen, Stress und Angst abzubauen und somit die Lebensqualität positiv beeinflussen.\n\nMit der richtigen Unterstützung und proaktiven Schritten zur Verbesserung der Lebensqualität und Sexualität können Männer mit einer vergrößerten Prostata ein erfülltes und zufriedenes Leben führen. Es ist wichtig, offen über das Thema zu sprechen und professionelle Hilfe in Anspruch zu nehmen, wenn nötig."
+      "text": "Zahlreiche Unterstützungsmöglichkeiten und Bewältigungsstrategien können helfen, die Lebensqualität und Sexualität bei einer Prostatavergrösserung zu verbessern. Dazu gehören:\n\n– Medizinische Behandlung: Alphablocker, die den Harndrang reduzieren, und 5-Alpha-Reduktasehemmer, die das Prostatawachstum verlangsamen, können helfen, die Symptome der Prostatavergrösserung zu lindern.\n\n– Psychologische Hilfe: Psychotherapie oder Paartherapie kann dazu beitragen, emotionale Belastungen abzubauen und das Sexualleben wiederzubeleben.\n\n– Beckenbodentraining: Ein gezieltes Training der Beckenbodenmuskulatur kann das Wasserlassen erleichtern und die Sexualfunktion verbessern.\n\n– Lebensstiländerungen: Eine gesunde Ernährung, ausreichend Bewegung und der Verzicht auf Alkohol und Nikotin können allgemein zur Verbesserung der Lebensqualität beitragen.\n\n– Entspannungstechniken: Yoga, Meditation oder Atemübungen können dabei helfen, Stress und Angst abzubauen und somit die Lebensqualität positiv beeinflussen.\n\nMit der richtigen Unterstützung und proaktiven Schritten zur Verbesserung der Lebensqualität und Sexualität können Männer mit einer vergrösserten Prostata ein erfülltes und zufriedenes Leben führen. Es ist wichtig, offen über das Thema zu sprechen und professionelle Hilfe in Anspruch zu nehmen, wenn nötig."
     }
   ]
 },
