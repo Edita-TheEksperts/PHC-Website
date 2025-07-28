@@ -1,26 +1,18 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+// pages/_document.js
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="de-CH">
-        <Head>
-           <link
-          rel="preload"
-          href="/fonts/Metropolis-Regular.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
-        </Head>
+      <Html>
+        <Head />
         <body>
           <Main />
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
 
-export default MyDocument;
-
+export default MyDocument
