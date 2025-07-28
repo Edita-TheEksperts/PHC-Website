@@ -25,22 +25,32 @@ export default async function handler(req, res) {
       paymentIntentId,
     } = req.body;
 
-    // 🧾 Log incoming body
     console.log("📨 Incoming request body:", req.body);
 
-    // ✅ Basic validations
+    // ✅ Required field check
     if (!firstName || !lastName || !email || !password || !firstDate || !services?.length || !subServices?.length) {
       return res.status(400).json({ message: "❌ Missing required fields" });
     }
 
-    // 🗓 Parse date
-    const parsedDate = new Date(firstDate.split(".").reverse().join("-"));
-    console.log("📆 Parsed date:", parsedDate);
+    // ✅ Check for missing paymentIntentId
+    if (!paymentIntentId) {
+      return res.status(400).json({ message: "❌ paymentIntentId is missing!" });
+    }
 
-    // 🔒 Hash password
+    console.log("💳 Received paymentIntentId:", paymentIntentId);
+
+    // ✅ Date parsing
+    const parsedDate =
+      typeof firstDate === "string" && firstDate.includes(".")
+        ? new Date(firstDate.split(".").reverse().join("-"))
+        : new Date(firstDate);
+
+    console.log("📆 Parsed first date:", parsedDate.toISOString());
+
+    // ✅ Hash password
     const passwordHash = await hash(password, 10);
 
-    // 📦 Fetch services and subservices
+    // ✅ Validate services
     const serviceRecords = await prisma.service.findMany({
       where: { name: { in: services } },
     });
@@ -48,84 +58,94 @@ export default async function handler(req, res) {
       where: { name: { in: subServices } },
     });
 
-    console.log("🔗 Matched services:", serviceRecords.map(s => s.name));
-    console.log("🔗 Matched subservices:", subServiceRecords.map(s => s.name));
-
     if (serviceRecords.length !== services.length || subServiceRecords.length !== subServices.length) {
       return res.status(400).json({ message: "❌ Service or Subservice not found" });
     }
 
-    // 📅 Prepare schedules
+    console.log("🔗 Matched services:", serviceRecords.map((s) => s.name));
+    console.log("🔗 Matched subservices:", subServiceRecords.map((s) => s.name));
+
+    // ✅ Build individual schedule entries
     const schedulesCreate = schedules.map((entry) => ({
       day: entry.day,
       startTime: entry.startTime,
       hours: parseFloat(entry.hours),
-      date: parsedDate,
+      date: new Date(entry.date), // ✅ Use entry's date
     }));
 
     console.log("📋 Final schedules to insert:", schedulesCreate);
 
-    // 💰 Calculate total payment
-    const totalHours = schedulesCreate.reduce((sum, item) => sum + item.hours, 0);
+    // ✅ Payment calculation
+    const totalHours = schedulesCreate.reduce((sum, s) => sum + s.hours, 0);
     const HOURLY_RATE = 1;
     const totalPayment = totalHours * HOURLY_RATE;
     console.log("🧮 Total hours:", totalHours, "→ Payment:", totalPayment);
 
-    // 💾 Save user to DB
-    const user = await prisma.user.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        phone,
-        passwordHash,
-        address,
-        careStreet: street,
-        carePostalCode: postalCode,
-        careCity: city,
-        frequency,
-        duration,
-        firstDate: parsedDate,
-        paymentIntentId,
-        totalPayment,
-        services: {
-          connect: services.map((name) => ({ name })),
-        },
-        subServices: {
-          connect: subServiceRecords.map((s) => ({ id: s.id })),
-        },
-        schedules: {
-          create: schedulesCreate,
-        },
-      },
-    });
+    // ✅ Create or update user
+    let user = await prisma.user.findUnique({ where: { email } });
 
-    console.log("✅ User created with ID:", user.id);
+    if (user) {
+      console.log("⚠️ User already exists, updating:", email);
+      user = await prisma.user.update({
+        where: { email },
+        data: {
+          paymentIntentId,
+          totalPayment,
+        },
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          firstName,
+          lastName,
+          email,
+          phone,
+          passwordHash,
+          address,
+          careStreet: street,
+          carePostalCode: postalCode,
+          careCity: city,
+          frequency,
+          duration,
+          firstDate: parsedDate,
+          paymentIntentId,
+          totalPayment,
+          services: {
+            connect: services.map((name) => ({ name })),
+          },
+          subServices: {
+            connect: subServiceRecords.map((s) => ({ id: s.id })),
+          },
+          schedules: {
+            create: schedulesCreate,
+          },
+        },
+      });
+    }
 
-    // 📧 Send confirmation email
+    console.log("✅ User created/updated with ID:", user.id);
+    console.log("💾 Stored paymentIntentId:", user.paymentIntentId);
+
+    // ✅ Email confirmation
     await sendEmail({
       to: email,
       subject: "Willkommen bei Prime Home Care – Ihr Zugang ist aktiv",
       html: `
         <p>Guten Tag ${firstName} ${lastName},</p>
         <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.<br/>
-        Ihr persönlicher Zugang zum Kundenportal wurde erfolgreich eingerichtet. Ab sofort können Sie:</p>
+        Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet:</p>
         <ul>
-          <li>Ihre Buchungen verwalten</li>
+          <li>Buchungen verwalten</li>
           <li>Rechnungen einsehen</li>
-          <li>Betreuungspersonen kennenlernen</li>
-          <li>Mit uns direkt kommunizieren</li>
-          <li>u.v.m</li>
+          <li>Mit uns kommunizieren</li>
         </ul>
-        <p><strong>Portal-Zugang:</strong> <a href="http://localhost:3000/login">Login-Link</a><br/>
+        <p><strong>Login:</strong> <a href="http://localhost:3000/login">Zum Portal</a><br/>
         <strong>Benutzername:</strong> ${email}</p>
-        <p>Bei Fragen zum Portal stehen wir Ihnen gerne zur Verfügung.</p>
-        <p>Herzlich willkommen<br/>
-        Ihr Prime Home Care Team</p>
+        <p>Ihr Prime Home Care Team</p>
       `,
     });
 
-    // 🔔 Create reminders
+    // ✅ Create reminders
     await prisma.reminder.createMany({
       data: [
         {
@@ -144,18 +164,11 @@ export default async function handler(req, res) {
     });
 
     console.log("⏰ Reminders scheduled");
+    return res.status(201).json({ message: "✅ Registration complete", userId: user.id });
 
-    return res.status(201).json({ message: "✅ User registered successfully", userId: user.id });
   } catch (error) {
-    console.error("❌ Error during registration:", {
-      name: error.name,
-      message: error.message,
-      stack: error.stack,
-      code: error.code,
-      meta: error.meta,
-    });
+    console.error("❌ Error during registration:", error);
 
-    // Prisma unique constraint violation (e.g., email already exists)
     if (error.code === "P2002") {
       return res.status(409).json({
         message: "❌ Diese E-Mail-Adresse ist bereits registriert.",
@@ -163,7 +176,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Record not found
     if (error.code === "P2025") {
       return res.status(400).json({
         message: "❌ Ein erforderlicher Datensatz konnte nicht gefunden werden.",

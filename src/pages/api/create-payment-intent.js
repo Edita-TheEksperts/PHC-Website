@@ -10,17 +10,18 @@ export default async function handler(req, res) {
   const { amount } = req.body;
 
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: 'chf',
-      capture_method: 'manual', // optional: for delayed capture
-    });
+const paymentIntent = await stripe.paymentIntents.create({
+  amount,
+  currency: 'chf',
+  capture_method: 'manual',
+});
 
-    // ✅ RETURN BOTH clientSecret AND id
-    res.status(200).json({
-      clientSecret: paymentIntent.client_secret,
-      id: paymentIntent.id,
-    });
+// ✅ This is what Stripe sends you
+res.status(200).json({
+  clientSecret: paymentIntent.client_secret,     // for frontend use
+  paymentIntentId: paymentIntent.id,             // THIS is the "fucking number"
+});
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

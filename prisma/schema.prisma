@@ -31,6 +31,8 @@ model Schedule {
   hours      Int
   kilometers Int?
   date       DateTime?    // ← Make it optional!
+    captured   Boolean   @default(false) // ✅ ADD THIS
+
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   employeeId String?
@@ -69,7 +71,8 @@ model User {
   cardNumber            String?
   expiryDate            String?
   cvc                   String?
-
+stripeCustomerId      String?
+  stripePaymentMethodId String?
   // Service relations
   services              Service[]       @relation("UserServices")
   subServices           SubService[]    @relation("UserSubServices")

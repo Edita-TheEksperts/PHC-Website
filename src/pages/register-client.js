@@ -12,13 +12,15 @@ import DatePicker from 'react-datepicker';
 import { de } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import { parse, addDays, format } from "date-fns";
-
+import CardSetupForm from '../components/StripeSaveCardForm';
 export default function RegisterPage() {
     const testMode = false; 
 const { watch } = useForm();
 
   const router = useRouter();
 const { service, subService } = router.query;
+const [clientSecret, setClientSecret] = useState(null);
+
 
 useEffect(() => {
   const fetchSubServices = async () => {
@@ -45,8 +47,18 @@ subServices: prev.subServices?.length ? prev.subServices : [data[0]?.name].filte
   fetchSubServices();
 }, [service]);
   const [subServices, setSubServices] = useState([]);
-  const [step, setStep] = useState(1);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+const [step, setStep] = useState(1);
+
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const saved = parseInt(sessionStorage.getItem('step'));
+    if (saved) setStep(saved);
+  }
+}, []);
+
+
+
+const [isSubmitted, setIsSubmitted] = useState(false);
 
   const today = new Date();
   const minDate = new Date();
@@ -62,6 +74,71 @@ useEffect(() => {
     setStep(Number(router.query.step)); // or keep as string if your `step` is string
   }
 }, [router.query.step]);
+
+const [userId, setUserId] = useState('');
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const storedUserId = sessionStorage.getItem('userId');
+    if (storedUserId) setUserId(storedUserId);
+  }
+}, []);
+ const [form, setForm] = useState({
+  services: [], // ✅ important: default to empty array
+  frequency: "",
+  duration: 2,
+  firstDate: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  password: "",
+  address: "",
+  subServices: [], // ✅ was "" — now fixed to be an array
+  schedules: [{ day: "", startTime: "08:00", hours: 2 }], // ✅ 1 day by default
+  arrivalConditions: [],
+  hasParking: "",
+  entranceLocation: "",
+  mobilityAids: [],
+  transportOption: "",
+});
+const HOURLY_RATE = 1;
+
+const totalHours = form.schedules?.reduce(
+  (sum, entry) => sum + (parseFloat(entry.hours) || 0),
+  0
+);
+
+const totalPayment = totalHours * HOURLY_RATE;
+
+useEffect(() => {
+  if (step === 3 && !clientSecret && totalPayment > 0) {
+    const fetchPaymentIntent = async () => {
+      try {
+        const res = await fetch("/api/create-payment-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: totalPayment * 100 }),
+        });
+
+        const data = await res.json();
+        console.log("✅ PaymentIntent received:", data); // this must contain paymentIntentId
+
+        setClientSecret(data.clientSecret);
+
+        setForm((prev) => ({
+          ...prev,
+          paymentIntentId: data.paymentIntentId, // must be pi_***
+        }));
+      } catch (err) {
+        console.error("❌ Error getting paymentIntent:", err);
+      }
+    };
+
+    fetchPaymentIntent();
+  }
+}, [step, clientSecret, totalPayment]);
+
+
 
 // Load user data from Stripe session
 useEffect(() => {
@@ -111,25 +188,7 @@ useEffect(() => {
 }, [user]);
 
 
- const [form, setForm] = useState({
-  services: [], // ✅ important: default to empty array
-  frequency: "",
-  duration: 2,
-  firstDate: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  password: "",
-  address: "",
-  subServices: [], // ✅ was "" — now fixed to be an array
-  schedules: [{ day: "", startTime: "08:00", hours: 2 }], // ✅ 1 day by default
-  arrivalConditions: [],
-  hasParking: "",
-  entranceLocation: "",
-  mobilityAids: [],
-  transportOption: "",
-});
+
 {Array.isArray(form.schedules) && form.schedules.map((entry, i) => (
   <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
     {/* existing mapping code */}
@@ -278,80 +337,27 @@ if (!testMode) {
 const handleNext = async () => {
   if (!validateStep()) return;
 
-if (step === 3 && !testMode) {
-  try {
-    const totalHours = form.schedules.reduce((sum, entry) => sum + (parseFloat(entry.hours) || 0), 0);
-    const totalPayment = totalHours * HOURLY_RATE;
-
-    const res = await fetch('/api/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        form: preparePayload(form),
-        totalAmount: totalPayment,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (data?.url) {
-      window.location.href = data.url; // Redirect to Stripe Checkout
-    } else {
-      alert("Stripe Checkout konnte nicht gestartet werden.");
-    }
-  } catch (err) {
-    console.error("Checkout Session Fehler:", err);
-    alert("Ein Fehler ist aufgetreten.");
+  // Step 2: Just move to step 3, no user registration yet
+  if (step === 2) {
+    setStep(3);
+    return;
   }
-  return;
-}
 
+  // Step 3: Handle Stripe payment
+  if (step === 3 && !testMode) {
+    await handleSubmit({ preventDefault: () => {} }); // runs payment + registration
+    return;
+  }
 
+  // Test mode: skip payment
+  if (step === 3 && testMode) {
+    setStep(4);
+    return;
+  }
 
-
+  // Any other case: just move to next step
   setStep((prev) => prev + 1);
 };
-
-
-const createCheckoutSession = async (priceId) => {
-  try {
-    const response = await fetch('/api/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ priceId }),
-    });
-
-    const data = await response.json();
-    return data.url;
-  } catch (err) {
-    console.error("Checkout session error:", err);
-    return null;
-  }
-};
-useEffect(() => {
-  const sessionId = new URLSearchParams(window.location.search).get("session_id");
-
-  if (sessionId && !form.paymentIntentId) {
-    const completeRegistration = async () => {
-      try {
-        const res = await fetch(`/api/complete-registration?session_id=${sessionId}`);
-        const data = await res.json();
-
-        if (data.success) {
-          setIsSubmitted(true);
-          setStep(4); // proceed to optional step
-        } else {
-          alert("Registrierung nach Zahlung fehlgeschlagen.");
-        }
-      } catch (err) {
-        console.error("❌ Fehler bei der Registrierung nach Zahlung:", err);
-        alert("Ein Fehler ist aufgetreten.");
-      }
-    };
-
-    completeRegistration();
-  }
-}, []);
 
 
 useEffect(() => {
@@ -400,168 +406,181 @@ function generateScheduleDates({ firstDateStr, schedules, repeat = 6 }) {
 }
 const handleSubmit = async (e) => {
   e.preventDefault();
- 
-  if (!validateStep()) {
-    alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
+
+  if (!stripe || !elements) {
+    alert("❌ Stripe ist nicht bereit");
     return;
   }
 
-   const generatedSchedules = generateScheduleDates({
-  firstDateStr: form.firstDate,
-  schedules: form.schedules,
-  repeat: 6 // Adjust as needed
-});
+  const cardElement = elements.getElement(CardElement);
+  if (!cardElement) {
+    alert("❌ Kartenfeld fehlt");
+    return;
+  }
 
-
-  const HOURLY_RATE = 1;
-  const totalHours = form.schedules.reduce(
-    (sum, entry) => sum + (parseInt(entry.hours) || 0),
-    0
-  );
-  const totalPayment = totalHours * HOURLY_RATE;
-  console.log("Form data being sent:", { ...form, totalPayment });
-
-  // ✅ Skip Stripe if testMode is on
-  if (testMode) {
+  // 🔐 Get or reuse existing clientSecret for PaymentIntent
+  let secret = clientSecret;
+  if (!secret) {
     try {
-      const res = await fetch("/api/client-register-api", {
+      const intentRes = await fetch("/api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-   body: JSON.stringify({
-  ...form,
-  totalPayment,
-  paymentIntentId: "TEST_MODE_NO_PAYMENT",
-  firstDate: (() => {
-    const [day, month, year] = form.firstDate.split(".");
-    return `${year}-${month}-${day}`;
-  })(),
-  schedules: generatedSchedules, // ✅ added full dates
-}),
-
+        body: JSON.stringify({ amount: totalPayment * 100 }),
       });
 
-      if (res.ok) {
-        setIsSubmitted(true);
-        router.push("/login");
-      } else {
-        const err = await res.json();
-        alert("Fehler bei der Registrierung: " + err.message);
+      const data = await intentRes.json();
+
+      if (!data.clientSecret) {
+        alert("❌ clientSecret fehlt. Zahlung kann nicht durchgeführt werden.");
+        return;
       }
+
+      secret = data.clientSecret;
     } catch (err) {
-      alert("Serverfehler. Bitte versuchen Sie es später erneut.");
-      console.error(err);
+      console.error("❌ Fehler beim Erstellen von PaymentIntent:", err);
+      alert("Fehler beim Erstellen der Zahlungsanfrage.");
+      return;
     }
-    return;
   }
 
-  // ✅ Stripe logic for live mode
-  if (!stripe || !elements) {
-    alert("Stripe ist noch nicht geladen.");
-    return;
-  }
-
-try {
-  const paymentIntentRes = await fetch("/api/create-payment-intent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ amount: totalPayment * 100 }),
-  });
-
-  const data = await paymentIntentRes.json();
-  console.log("📦 Stripe response:", data);
-
-  // ❌ If error from backend
-  if (data.error) {
-    alert("Stripe Fehler: " + data.error);
-    return;
-  }
-
-  // ✅ FIX: Define it before using
-  const clientSecret = data.clientSecret;
-  const paymentIntentId = data.id;
-
-  // ❗ double-check both are there
-  if (!clientSecret || !paymentIntentId) {
-    console.error("❌ clientSecret or paymentIntentId fehlt:", data);
-    alert("Fehler: Stripe clientSecret wurde nicht empfangen.");
-    return;
-  }
-
-  const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-    payment_method: {
-      card: elements.getElement(CardElement),
-      billing_details: {
-        name: form.billingName,
-        email: form.billingEmail,
-        phone: form.billingPhone,
-        address: {
-          line1: form.billingStreet,
-          city: form.billingCity,
-          postal_code: form.billingPostalCode,
-          country: form.billingCountry || "CH",
+  try {
+    const { paymentIntent, error } = await stripe.confirmCardPayment(secret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: form.billingName || `${form.firstName} ${form.lastName}`,
+          email: form.billingEmail || form.email,
         },
       },
-    },
-  });
+    });
 
-  if (error) {
-    alert("Zahlungsfehler: " + error.message);
-    return;
-  }
+    if (error) {
+      alert("❌ Fehler bei der Karte: " + error.message);
+      return;
+    }
 
-  if (
-    paymentIntent.status === "requires_capture" ||
-    paymentIntent.status === "requires_confirmation" ||
-    paymentIntent.status === "succeeded"
-  ) {
+    const paymentMethodId = paymentIntent.payment_method;
+    console.log("✅ Zahlung erfolgreich. PaymentMethod ID:", paymentMethodId);
+
+    // 📆 Build schedules
+    const generatedSchedules = generateScheduleDates({
+      firstDateStr: form.firstDate,
+      schedules: form.schedules,
+      repeat: 6,
+    });
+
+    // 📬 Finish registration
     const res = await fetch("/api/client-register-api", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...form,
-        totalPayment,
-        paymentIntentId,
+        paymentIntentId: form.paymentIntentId || "", // important!
+        schedules: generatedSchedules,
         firstDate: form.firstDate,
       }),
     });
 
-    if (res.ok) {
-      setIsSubmitted(true);
-      router.push("/login");
-    } else {
-      const err = await res.json();
-      alert("Fehler bei der Registrierung: " + err.message);
-    }
-  }
-} catch (err) {
-  alert("❌ Fehler bei der Zahlung.");
-  console.error("💥 Stripe Payment Error:", err);
+    const data = await res.json();
+
+    // After registration success
+if (res.ok && data.userId) {
+  const userId = data.userId;
+
+  // ✅ Create SetupIntent
+  const setupRes = await fetch("/api/create-setup-intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: form.email }), // or userId if needed
+  });
+
+  const { clientSecret, customerId } = await setupRes.json();
+
+  const setupResult = await stripe.confirmCardSetup(clientSecret, {
+    payment_method: {
+      card: elements.getElement(CardElement),
+      billing_details: {
+        name: `${form.firstName} ${form.lastName}`,
+        email: form.email,
+      },
+    },
+  });
+if (!setupResult.error) {
+  const paymentMethodId = setupResult.setupIntent.payment_method;
+
+  await fetch("/api/save-payment-method", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId,
+      stripeCustomerId: customerId,
+      stripePaymentMethodId: paymentMethodId,
+    }),
+  });
+
+  // ✅ GO TO STEP 4 after everything is successful
+  setUserId(userId);
+  setIsSubmitted(true);
+  setStep(4);
+} else {
+  alert("❌ Fehler beim Speichern der Karte: " + setupResult.error.message);
 }
 
+}
+
+
+  } catch (err) {
+    console.error("❌ Stripe error:", err);
+    alert("Zahlungsfehler aufgetreten");
+  }
 };
 
 
 const handleOptionalSubmit = async () => {
-  try {
-    const res = await fetch('/api/save-optional-data', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    userId: user?.id,             // ✅ make sure user exists
-    optionalData: form            // ✅ send form as optionalData
-  }),
-});
+  if (!userId) {
+    alert("❌ userId fehlt – Registrierung nicht abgeschlossen");
+    return;
+  }
 
-    if (res.ok) {
-      router.push("/login");
+  // ✅ Create a shallow copy to avoid mutating original form
+  const optionalData = { ...form };
+
+  // ✅ Convert only if in DD.MM.YYYY format
+  if (optionalData.firstDate && typeof optionalData.firstDate === "string" && optionalData.firstDate.includes(".")) {
+    const [day, month, year] = optionalData.firstDate.split(".");
+    if (day && month && year) {
+      const fixedDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
+      if (!isNaN(fixedDate.getTime())) {
+        optionalData.firstDate = fixedDate.toISOString();
+      } else {
+        console.warn("❌ Ungültiges Datum:", optionalData.firstDate);
+      }
+    }
+  }
+
+  try {
+    const res = await fetch("/api/save-optional-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId,
+        optionalData, // ✅ this one is formatted safely
+      }),
+    });
+
+    const result = await res.json();
+
+if (res.ok) {
+  console.log("✅ Optional data saved");
+  router.push("/login");
     } else {
-      alert("Fehler beim Speichern der Angaben.");
+      alert("❌ Fehler beim Speichern: " + result.error);
     }
   } catch (err) {
-    console.error("Step 4 Save Error:", err);
-    alert("Ein Fehler ist aufgetreten.");
+    console.error("❌ Fehler im Submit:", err);
   }
 };
+
 
 useEffect(() => {
   const fetchSubServices = async () => {
@@ -593,15 +612,7 @@ useEffect(() => {
 const steps = testMode
   ? ["Wann?", "Finalisieren" ,"Abschluss"]
   : ["Wann?", "Finalisieren", "Zahlungdetails" ,"Abschluss"];
-const HOURLY_RATE = 1;
 
-const totalHours = form.schedules.reduce(
-  (sum, entry) => sum + (parseFloat(entry.hours) || 0),
-  0
-);
-
-// totalPayment is kept as a number, formatted when displayed
-const totalPayment = totalHours * HOURLY_RATE;
 
 const parseSwissDate = (str) => {
   const [day, month, year] = str.split('.');
@@ -1423,95 +1434,35 @@ onChange={(date) => {
 
 {step === 3 && !testMode && (
   <>
+    <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
 
-    <div className="space-y-6">
-  <h2 className="text-2xl font-bold text-black">Zahlungsdetails</h2>
+    <div className="mb-4">
+      <CardElement
+        options={{
+          style: {
+            base: {
+              fontSize: '16px',
+              color: '#32325d',
+              '::placeholder': { color: '#a0aec0' },
+            },
+            invalid: { color: '#fa755a' },
+          },
+        }}
+      />
+    </div>
 
-  {/* 👤 Karteninhaber */}
-  <div className="grid grid-cols-1  gap-4">
-    <input
-      name="billingName"
-      placeholder="Name des Karteninhabers"
-      value={form.billingName || `${form.firstName || ''} ${form.lastName || ''}`}
-      onChange={handleChange}
-      className={inputClass}
-      required
-    />
-    <input
-      type="email"
-      name="billingEmail"
-      placeholder="E-Mail"
-      value={form.billingEmail || form.email}
-      onChange={handleChange}
-      className={inputClass}
-      required
-    />
-    <input
-      type="tel"
-      name="billingPhone"
-      placeholder="Telefonnummer"
-      value={form.billingPhone || form.phone}
-      onChange={handleChange}
-      className={inputClass}
-      required
-    />
-  </div>
-
-  {/* 🏠 Adresse */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <input
-      name="billingStreet"
-      placeholder="Straße und Hausnummer"
-      value={form.billingStreet || form.street}
-      onChange={handleChange}
-      className={inputClass}
-      required
-    />
-    <input
-      name="billingPostalCode"
-      placeholder="PLZ"
-      value={form.billingPostalCode || form.postalCode}
-      onChange={handleChange}
-      className={inputClass}
-      required
-    />
-    <input
-      name="billingCity"
-      placeholder="Ort"
-      value={form.billingCity || form.city}
-      onChange={handleChange}
-      className={inputClass}
-      required
-    />
-    <input
-      name="billingCountry"
-      placeholder="Land (z. B. CH)"
-      value={form.billingCountry || "CH"}
-      onChange={handleChange}
-      className={inputClass}
-      required
-    />
-  </div>
-
-  
-
-  {/* ✅ AGB */}
-  <div className="flex items-start gap-2">
-    <input type="checkbox" required id="agb" className="mt-1" />
-    <label htmlFor="agb" className="text-sm text-gray-700">
-      Ich habe die <a href="/AGB" className="underline text-[#B99B5F]">AGB's</a> gelesen und bin damit einverstanden.
-    </label>
-  </div>
-</div>
-
-
-    {isSubmitted && (
-      <p className="text-[#B99B5F] mt-4 font-medium">
-        ✓ Registrierig erfolgrich!
-      </p>
-    )}
+  <button
+  className="bg-[#B99B5F] text-white px-4 py-2 rounded"
+  onClick={handleSubmit}
+  disabled={!form.paymentIntentId} // ← This prevents early submission
+>
+  Jetzt bezahlen
+</button>
   </>
 )}
+
+
+
 
 {(testMode ? step === 3 : step === 4) && (
   <>
