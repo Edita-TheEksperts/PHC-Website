@@ -4,7 +4,7 @@ import { prisma } from "../lib/prisma.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export async function runCapturePayments() {
+export async function chargeUnpaidUsers() {
   const now = new Date();
   const compareTime = subHours(now, 24);
 
