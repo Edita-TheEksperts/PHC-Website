@@ -40,16 +40,16 @@ const Footer = () => {
               lineHeight: '30.8px'
             }}
           >
-            Stay updated with our newsletter
+            Bleiben Sie mit unserem Newsletter auf dem Laufenden 
           </p> 
           <div className="mt-3 pr-2 flex items-center border border-gray-300 rounded-[50px] overflow-hidden w-full">
   <input
     type="email"
-    placeholder="Enter your email address"
+    placeholder="E-Mail-Adresse eingeben"
     className="w-full px-4 py-4 outline-none bg-transparent text-[#04436F] placeholder:text-[#04436F]"
   />
   <button className="bg-[#033559] text-white px-4 py-2 rounded-[50px]">
-    Subscribe
+    Abonnieren
   </button>
 </div>
 
@@ -69,7 +69,7 @@ const Footer = () => {
           <div className="bg-[#F1F1F1] p-4 lg:p-[45px] lg:rounded-tl-[20px] lg:rounded-bl-[20px]">
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Pages</h3>
+              <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Seiten</h3>
               <ul className="space-y-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">
                 <li>Lorem</li>
                 <li>Lorem</li>
@@ -79,7 +79,7 @@ const Footer = () => {
               </ul>
             </div>
             <div>
-              <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Utility Pages</h3>
+              <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Nützliche Seiten</h3>
               <ul className=" space-y-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">
                 <li>Lorem</li>
                 <li>Lorem</li>
@@ -93,7 +93,7 @@ const Footer = () => {
 
         {/* Right Section */}
         <div className="bg-[#F1F1F1] p-4 lg:p-[45px]  lg:rounded-tr-[20px] lg:rounded-br-[20px]">
-          <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]" >Contact Information</h3>
+          <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]" >Kontaktinformationen</h3>
           <p className="] text-[#04436F] text-[18px] leading-[25.2px] font-normal">Address</p>
           <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">Lorem</p>
           <p className="mt-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">Phone</p>

@@ -69,11 +69,10 @@ Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für indi
   style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
 >
   <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
-    Join our community of care
+Werden Sie Teil unserer Pflegegemeinschaft 
   </h2>
   <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
-    At Prime Home Care, we're here to provide compassionate and personalized care to you or your loved ones.
-  </p>
+Bei Prime Home Care bieten wir einfühlsame und individuelle Betreuung – für Sie oder Ihre Liebsten.   </p>
   <button className="bg-[#04436F] hover:bg-[#B99B5F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
     Buchen Sie jetzt
   </button>

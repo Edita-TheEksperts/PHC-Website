@@ -744,7 +744,7 @@ Einmalige Einsätze
             </svg>
           </div>
           <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mb-6">
-          "Dank der stundenweisen Betreuung durch Prime Home Care kann ich weiterhin zu Hause leben – genau so, wie ich es mir wünsche. Meine Betreuerin hilft mir beim Einkaufen und leistet mir Gesellschaft. Ich freue mich jedes Mal auf ihren Besuch."          </p>
+          "Ich war anfangs besorgt, aber schon bei meinem allerersten Besuch fühlte ich mich willkommen und gut aufgehoben. Die Pflegekräfte und das Personal sind wie eine Familie. "          </p>
           <div className="flex items-center gap-3 mt-auto">
             <Image src="/images/avatar1.png" width={70} height={70} className="rounded-full" alt="Client 1" />
             <div>
@@ -770,8 +770,7 @@ Einmalige Einsätze
           </div>
 
           <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mb-6">
-            I was apprehensive at first, but from my very first visit, I felt welcomed and cared for. The caregivers and staff are like family.
-          </p>
+Ich war anfangs besorgt, aber schon bei meinem allerersten Besuch fühlte ich mich willkommen und gut aufgehoben. Die Pflegekräfte und das Personal sind wie eine Familie.           </p>
           <div className="flex items-center gap-3 mt-auto lg:mt-[70px]">
             <div>
             <p className="text-[#04436F] leading-[26px] font-[500] text-[22px]">Lorem Ipsum</p>
@@ -801,7 +800,7 @@ Einmalige Einsätze
     />
   </div>
   <div className="p-[30px]">
-          <div className="flex gap-1 mb-6">
+          <div className="flex gap-1 mb-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="140" height="25" viewBox="0 0 140 25" fill="none">
             <path d="M8.38333 6.70392C8.84521 5.44002 9.07616 4.80807 9.27754 4.49847C10.5593 2.52786 13.4446 2.52786 14.7264 4.49847C14.9278 4.80807 15.1587 5.44002 15.6206 6.70393L15.6678 6.8331C15.7078 6.94265 15.7278 6.99743 15.7487 7.04632C16.0481 7.74765 16.7203 8.21768 17.4818 8.25819C17.5349 8.26101 17.5933 8.26101 17.7099 8.26101H18.2079C18.5417 8.26101 18.7086 8.26101 18.7907 8.26516C21.8177 8.41833 23.0059 12.2656 20.5924 14.099C20.5269 14.1487 20.3891 14.2428 20.1135 14.431C20.0649 14.4642 20.0407 14.4808 20.0193 14.4961C19.3092 15.0089 19.0153 15.9242 19.2943 16.7545C19.3026 16.7794 19.3138 16.8099 19.3361 16.8709C19.5762 17.5281 19.6963 17.8567 19.7378 18.0228C20.4134 20.7235 17.6023 22.9681 15.1181 21.7115C14.9653 21.6343 14.6883 21.4553 14.1343 21.0974L13.2911 20.5528C13.0948 20.4259 12.9966 20.3625 12.9002 20.3141C12.3351 20.03 11.6689 20.03 11.1038 20.3141C11.0074 20.3625 10.9092 20.4259 10.7128 20.5528L9.88664 21.0864C9.3189 21.4532 9.03502 21.6366 8.87825 21.7153C6.39788 22.9618 3.59742 20.7257 4.26402 18.031C4.30615 17.8607 4.4288 17.5251 4.67408 16.8538C4.69756 16.7896 4.7093 16.7575 4.71819 16.7309C4.99168 15.912 4.70881 15.01 4.01664 14.4939C3.99416 14.4772 3.96858 14.4592 3.91743 14.4232C3.62918 14.2207 3.48505 14.1194 3.41583 14.0649C1.06046 12.211 2.25684 8.42814 5.24988 8.26578C5.33784 8.26101 5.514 8.26101 5.86633 8.26101H6.29724C6.41079 8.26101 6.46757 8.261 6.51925 8.25834C7.28284 8.21879 7.95706 7.74734 8.2563 7.04373C8.27655 6.9961 8.29604 6.94278 8.33501 6.83613L8.38333 6.70392Z" fill="#04436F"/>
             <path d="M37.3833 6.70392C37.8452 5.44002 38.0761 4.80807 38.2775 4.49847C39.5592 2.52786 42.4446 2.52786 43.7264 4.49847C43.9278 4.80807 44.1587 5.44002 44.6206 6.70393L44.6677 6.8331C44.7077 6.94265 44.7277 6.99743 44.7486 7.04632C45.048 7.74765 45.7202 8.21768 46.4817 8.25819C46.5348 8.26101 46.5932 8.26101 46.7098 8.26101H47.2078C47.5416 8.26101 47.7085 8.26101 47.7906 8.26516C50.8176 8.41833 52.0058 12.2656 49.5923 14.099C49.5268 14.1487 49.3891 14.2428 49.1135 14.431C49.0649 14.4642 49.0407 14.4808 49.0193 14.4961C48.3092 15.0089 48.0152 15.9242 48.2942 16.7545C48.3025 16.7794 48.3137 16.8099 48.3361 16.8709C48.5762 17.5281 48.6962 17.8567 48.7377 18.0228C49.4133 20.7235 46.6022 22.9681 44.118 21.7115C43.9652 21.6343 43.6882 21.4553 43.1342 21.0974L42.291 20.5528C42.0947 20.4259 41.9965 20.3625 41.9001 20.3141C41.335 20.03 40.6688 20.03 40.1038 20.3141C40.0073 20.3625 39.9091 20.4259 39.7127 20.5528L38.8866 21.0864C38.3188 21.4532 38.035 21.6366 37.8782 21.7153C35.3978 22.9618 32.5974 20.7257 33.264 18.031C33.3061 17.8607 33.4287 17.5251 33.674 16.8538C33.6975 16.7896 33.7092 16.7575 33.7181 16.7309C33.9916 15.912 33.7087 15.01 33.0166 14.4939C32.9941 14.4772 32.9685 14.4592 32.9174 14.4232C32.6291 14.2207 32.485 14.1194 32.4158 14.0649C30.0604 12.211 31.2568 8.42814 34.2498 8.26578C34.3378 8.26101 34.5139 8.26101 34.8663 8.26101H35.2973C35.4108 8.26101 35.4676 8.261 35.5193 8.25834C36.2829 8.21879 36.9571 7.74734 37.2563 7.04373C37.2766 6.9961 37.2961 6.94278 37.3351 6.83613L37.3833 6.70392Z" fill="#04436F"/>
@@ -812,9 +811,8 @@ Einmalige Einsätze
           </div>
 
           <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mb-6">
-            I was apprehensive at first, but from my very first visit, I felt welcomed and cared for. The caregivers and staff are like family.
-          </p>
-          <div className="flex items-center gap-3 mt-auto lg:mt-[70px]">
+Ich war anfangs besorgt, aber schon bei meinem allerersten Besuch fühlte ich mich willkommen und gut aufgehoben. Die Pflegekräfte und das Personal sind wie eine Familie.           </p>
+          <div className="flex items-center gap-3 mt-auto lg:mt-[40px]">
             <div>
             <p className="text-[#04436F] leading-[26px] font-[500] text-[22px]">Lorem Ipsum</p>
             <p className="text-[#04436F] text-[16px] leading-[25px]">Lorem Ipsum</p>
