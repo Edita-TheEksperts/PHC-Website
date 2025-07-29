@@ -824,7 +824,48 @@ Einmalige Einsätze
         </div>
       </div>
     </section>
+    <section className="bg-[#EDF2FB] rounded-[20px] py-14 px-6 md:px-20 mb-[120px] mt-[120px]">
+  <div className="max-w-xl mx-auto bg-white p-10 rounded-2xl shadow-xl space-y-6 border border-[#F2E6C6]">
+    <h2 className="text-3xl font-bold text-[#04436F] text-center">
+      Mitarbeiter Registrierung starten
+    </h2>
 
+    <div className="space-y-4">
+      <input
+        type="email"
+        placeholder="Ihre E-Mail-Adresse"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none"
+      />
+
+      <label className="flex items-center space-x-3 text-sm text-gray-700">
+        <input
+          type="checkbox"
+          checked={agbAccepted}
+          onChange={() => setAgbAccepted(!agbAccepted)}
+          className="h-5 w-5 text-[#04436F] focus:ring-[#04436F] rounded border-gray-300"
+        />
+        <span>
+          Ich akzeptiere die{" "}
+          <a
+            href="/agb"
+            className="underline text-[#04436F] hover:text-[#B99B5F]"
+          >
+            Nutzungsbedingungen für Plattform
+          </a>
+        </span>
+      </label>
+
+      <button
+        onClick={handleEmployeeStart}
+        className="w-full py-3 bg-[#04436F] text-white font-semibold rounded-xl hover:bg-[#B99B5F] transition duration-200"
+      >
+        Jetzt Bewerben
+      </button>
+    </div>
+  </div>
+</section>
 
 
              {/* FAQ Section */}
@@ -897,48 +938,7 @@ Einmalige Einsätze
     </div>
 
         </section>
-    <section className="bg-[#EDF2FB] rounded-[20px] py-14 px-6 md:px-20 mb-[120px]">
-  <div className="max-w-xl mx-auto bg-white p-10 rounded-2xl shadow-xl space-y-6 border border-[#F2E6C6]">
-    <h2 className="text-3xl font-bold text-[#04436F] text-center">
-      Mitarbeiter Registrierung starten
-    </h2>
 
-    <div className="space-y-4">
-      <input
-        type="email"
-        placeholder="Ihre E-Mail-Adresse"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none"
-      />
-
-      <label className="flex items-center space-x-3 text-sm text-gray-700">
-        <input
-          type="checkbox"
-          checked={agbAccepted}
-          onChange={() => setAgbAccepted(!agbAccepted)}
-          className="h-5 w-5 text-[#04436F] focus:ring-[#04436F] rounded border-gray-300"
-        />
-        <span>
-          Ich akzeptiere die{" "}
-          <a
-            href="/agb"
-            className="underline text-[#04436F] hover:text-[#B99B5F]"
-          >
-            Nutzungsbedingungen für Plattform
-          </a>
-        </span>
-      </label>
-
-      <button
-        onClick={handleEmployeeStart}
-        className="w-full py-3 bg-[#04436F] text-white font-semibold rounded-xl hover:bg-[#B99B5F] transition duration-200"
-      >
-        Jetzt Bewerben
-      </button>
-    </div>
-  </div>
-</section>
 
 
     </div>

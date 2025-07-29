@@ -1,6 +1,6 @@
 
 import { useState } from "react";               // React hook to use component state
-import { useRouter } from "next/router";       // For redirecting after submission
+import { useRouter } from "next/router"; 
 import { useEffect } from "react";              // React hook to handle side effects
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase"; // adjust path based on your structure
@@ -78,6 +78,42 @@ const scrollToTop = () => {
     servicesOffered: [],
     howDidYouHearAboutUs: "",
   });
+const services = {
+  "Alltagsbegleitung und Besorgungen": [
+    "Beleitung zu Terminen",
+    "Einkäufe erledigen",
+    "Postgänge",
+    "Sonstige Begleitungen",
+  ],
+  "Freizeit und Soziale Aktivitäten": [
+    "Gesellschaft leisten",
+    "Gemeinsames Kochen",
+    "Vorlesen",
+    "Kartenspiele",
+    "Ausflüge und Reisebegleitung",
+  ],
+  "Gesundheitsführsorge": [
+    "Körperliche Unterstützung",
+    "Nahrungsaufnahme",
+    "Grundpflegerische Tätigkeiten",
+    "Gesundheitsfördernde Aktivitäten",
+    "Geistige Unterstützung",
+  ],
+  "Haushaltshilfe und Wohnpflege": [
+    "Hauswirtschaft",
+    "Balkon und Blumenpflege",
+    "Waschen / Bügeln",
+    "Kochen",
+    "Fenster Putzen",
+    "Bettwäsche wechseln",
+    "Aufräumen",
+    "Trennung / Entsorgung / Abfall",
+    "Abstauben",
+    "Staubsaugen",
+    "Boden wischen",
+    "Vorhänge reinigen",
+  ],
+};
 
   const [agbAccepted, setAgbAccepted] = useState(false); // Tracks if user accepted terms
 
@@ -247,13 +283,12 @@ await fetch("/api/send-interview-email", {
 
     if (!res.ok) throw new Error("API error");
 
-    setSubmissionMessage(
-      "Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen."
-    );
+ setSubmissionMessage(
+  `Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen. <strong>Zu beachten: Der Login Bereich wird nach Bestätigung der PHC freigeschaltet.</strong>`
+);
 
-    setTimeout(() => {
-      router.push("/");
-    }, 3000);
+
+    
   } catch (error) {
     console.error("❌ Upload/Submit error:", error);
     setSubmissionMessage("❌ Fehler beim Hochladen oder Senden der Daten.");
@@ -506,10 +541,9 @@ useEffect(() => {
   <option value="B">B</option>
   <option value="C">C</option>
   <option value="CH Pass">CH Pass</option>
-  <option value="Andere">Andere (nicht möglich)</option>
 </select>
 
-    <label className="block font-medium mt-4">Arbeitserfahrung (Jahre)</label>
+    <label className="block font-medium mt-4">Wie viele Jahre Erfahrung in der Pflege, Betreuung oder Hauswirtschaft?</label>
 
     <select
   name="experienceYears"
@@ -524,17 +558,15 @@ useEffect(() => {
 </select>
 
    {/* Erfahrung auswählen */}
-<label className="block font-medium mt-4">Wo gearbeitet?</label>
-<select
+<label className="block font-medium mt-4">Letzte Anstellung (Firma)?</label>
+<input
+  type="text"
   name="experienceWhere"
   value={form.experienceWhere}
   onChange={handleChange}
   className={inputClass}
->
-  <option value="">Bitte wählen</option>
-  <option value="Privat">Privat</option>
-  <option value="Firma">Firma</option>
-</select>
+/>
+
 
 {/* Zeige Textfeld nur wenn "Firma" gewählt wurde */}
 {form.experienceWhere === "Firma" && (
@@ -588,7 +620,7 @@ useEffect(() => {
 
         {form.hasCar === "ja" && (
           <>
-            <label className="block font-medium mt-4">Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung)</label>
+            <label className="block font-medium mt-4">Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung exklusiv Arbeitsweg)</label>
             <select
               name="carAvailableForWork"
               value={form.carAvailableForWork || ""}
@@ -604,14 +636,19 @@ useEffect(() => {
       </>
     )}
 
-    <label className="block font-medium mt-4">Was ist mit mobilität genau gemeint?</label>
-    <input
-      name="howFarCanYouTravel"
-      placeholder="z. B. 10km, ÖV, Auto"
-      value={form.howFarCanYouTravel}
-      onChange={handleChange}
-      className={inputClass}
-    />
+    <label className="block font-medium mt-4">In welchem KM-Radius sind Sie bereit zu arbeiten</label>
+<select
+  name="howFarCanYouTravel"
+  value={form.howFarCanYouTravel}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="0-15km">0–15km</option>
+  <option value="15-30km">15–30km</option>
+  <option value="30km+">30km+</option>
+</select>
+
 
     <label className="block font-medium mt-6">Wie viele Stunden pro Woche möchten Sie arbeiten?</label>
     <select
@@ -627,8 +664,6 @@ useEffect(() => {
       <option value="16.8">16.8 Std / 2 Tage / 40%</option>
       <option value="8.4">8.4 Std / 1 Tag / 20%</option>
       <option value="4.2">4.2 Std / 0.5 Tage / 10%</option>
-      <option value="2.1">2.1 Std / 0.25 Tage / 5%</option>
-      <option value="0.84">0.84 Std / 0.1 Tage / 2%</option>
     </select>
 
     <label className="block font-medium mt-4">Rauchen Sie?</label>
@@ -643,21 +678,29 @@ useEffect(() => {
       <option value="nein">Nein</option>
     </select>
 
-    <label className="block font-medium mt-4">Kurzfristige Einsätze möglich?</label>
-    <select
-      name="onCallAvailable"
-      value={form.onCallAvailable || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
+<label className="block font-medium mt-4">
+  Kurzfristige Einsätze möglich? <br />
+  <span className="text-sm font-normal text-gray-600">
+    (z. B. spontane Einsätze, Springerfunktion, Bereitschafts- oder Pikettdienst)
+  </span>
+</label>
+<select
+  name="onCallAvailable"
+  value={form.onCallAvailable || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+
 
     <label className="block font-medium mt-4">Fortbildungen</label>
 <div className="flex flex-wrap gap-6">
-  {["Demenzbetreuung", "Palliativbetreuung", "Andere"].map((option) => (
+  {["Demenzbetreuung", "Palliativbetreuung","Haushälterische Funktionen",
+    "Kochkurs",
+    "Nothelferkurs", "Andere"].map((option) => (
     <label key={option} className="flex items-center space-x-2">
       <input
         type="checkbox"
@@ -724,7 +767,14 @@ useEffect(() => {
 
     <label className="block font-medium mt-4">Kommunikationsfähigkeit & Empathie</label>
 <div className="flex flex-wrap gap-6">
-  {["Kommunikativ", "Ruhig", "Fröhlich", "Geduldig"].map((trait) => (
+  {["Kommunikativ", "Ruhig", "Fröhlich", "Geduldig" ,   "Humorvoll",
+    "Energisch",
+    "Freundlich",
+    "Unkompliziert",
+    "Durchsetzungsfähig",
+    "Naturverbunden",
+    "Zurückhaltend",
+    "Eigenverantwortlich"].map((trait) => (
     <label key={trait} className="flex items-center space-x-2">
       <input
         type="checkbox"
@@ -784,72 +834,6 @@ useEffect(() => {
   className={inputClass + " mt-4"}
 />
 
-   <label className="block font-medium mt-4">Ernährungsbedürfnisse</label>
-<div className="flex gap-6 mt-2 flex-wrap">
-  {["Diäten", "Allergien"].map((item) => (
-    <label key={item} className="flex items-center space-x-2">
-      <input
-        type="checkbox"
-        name="dietaryExperience"
-        value={item}
-        checked={
-          item === "Allergien"
-            ? form.dietaryExperience?.some((v) => v.startsWith("Allergien:"))
-            : form.dietaryExperience?.includes(item)
-        }
-        onChange={(e) => {
-          const isChecked = e.target.checked;
-
-          setForm((prev) => {
-            let updated = prev.dietaryExperience || [];
-
-            if (item === "Allergien") {
-              // Remove existing "Allergien:" entry
-              updated = updated.filter((v) => !v.startsWith("Allergien:"));
-              if (isChecked) {
-                updated.push("Allergien:");
-              }
-            } else {
-              updated = isChecked
-                ? [...updated, item]
-                : updated.filter((v) => v !== item);
-            }
-
-            return { ...prev, dietaryExperience: updated };
-          });
-        }}
-        className="h-5 w-5 text-[#04436F]"
-      />
-      <span>{item}</span>
-
-      {/* Show input if Allergien is checked */}
-      {item === "Allergien" &&
-        form.dietaryExperience?.some((v) => v.startsWith("Allergien:")) && (
-          <input
-            type="text"
-            placeholder="Welche Allergien?"
-            value={
-              form.dietaryExperience.find((v) => v.startsWith("Allergien:"))?.split(":")[1] || ""
-            }
-            onChange={(e) => {
-              const value = e.target.value;
-              setForm((prev) => {
-                const filtered = (prev.dietaryExperience || []).filter(
-                  (v) => !v.startsWith("Allergien:")
-                );
-                return {
-                  ...prev,
-                  dietaryExperience: [...filtered, `Allergien:${value}`],
-                };
-              });
-            }}
-            className={inputClass}
-          />
-        )}
-    </label>
-  ))}
-</div>
-
 
 
     <label className="block font-medium mt-4">Reisen- und Ferienbegleitung möglich?</label>
@@ -896,79 +880,7 @@ useEffect(() => {
 
 {step === 3 && (
   <>
-    {/* Modal on entering Step 3 */}
-{showReferralModal && (
-  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-xl shadow-xl w-[90%] max-w-md relative">
-      {/* Close button */}
-      <button
-        onClick={() => setShowReferralModal(false)}
-        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold"
-      >
-        &times;
-      </button>
-
-      <h3 className="text-xl font-bold text-[#04436F] mb-4">Wie haben Sie von uns erfahren?</h3>
-
-    <div className="space-y-3 mb-4">
-  {["LinkedIn", "Facebook", "Instagram"].map((option) => (
-    <label key={option} className="flex items-center gap-2">
-      <input
-        type="checkbox"
-        name="howDidYouHearAboutUs"
-        value={option}
-        checked={form.howDidYouHearAboutUs === option}
-        onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
-      />
-      {option}
-    </label>
-  ))}
-
-  {/* Andere Checkbox */}
-  <label className="flex items-center gap-2">
-    <input
-      type="checkbox"
-      name="howDidYouHearAboutUs"
-      value="Andere"
-      checked={form.howDidYouHearAboutUs?.startsWith("Andere:")}
-      onChange={(e) => {
-        const isChecked = e.target.checked;
-        setForm((prev) => ({
-          ...prev,
-          howDidYouHearAboutUs: isChecked ? "Andere:" : "",
-        }));
-      }}
-    />
-    Andere
-  </label>
-
-  {/* Show input only if Andere is checked */}
-  {form.howDidYouHearAboutUs?.startsWith("Andere:") && (
-    <input
-      type="text"
-      placeholder="z. B. Google, Freund..."
-      value={form.howDidYouHearAboutUs.split(":")[1] || ""}
-      onChange={(e) =>
-        setForm((prev) => ({
-          ...prev,
-          howDidYouHearAboutUs: `Andere:${e.target.value}`,
-        }))
-      }
-      className="w-full border border-gray-300 rounded-lg px-4 py-2"
-    />
-  )}
-</div>
-
-
-      <button
-        onClick={() => setShowReferralModal(false)}
-        className="bg-[#04436F] hover:bg-[#04438F] text-white font-semibold px-4 py-2 rounded w-full"
-      >
-        Speichern
-      </button>
-    </div>
-  </div>
-)}
+  
 
     <h2 className="text-2xl font-bold text-[#04436F] mb-4">Arbeitsbereitschaft</h2>
 <div className="space-y-2">
@@ -993,44 +905,64 @@ useEffect(() => {
   <option value="nein">Nein</option>
 </select>
 <label className="block font-medium mt-4">Häufigkeit der Nachtschichten (z. B. 1x/Woche)</label>
-<input
+<select
   name="nightShiftFrequency"
-  placeholder="z. B. 2x pro Woche"
   value={form.nightShiftFrequency || ""}
   onChange={handleChange}
   className={inputClass}
-/>
+>
+  <option value="">Bitte wählen</option>
+  <option value="1x/Woche">1x/Woche</option>
+  <option value="2x/Woche">2x/Woche</option>
+  <option value="3x/Woche">3x/Woche</option>
+  <option value="4x/Woche">4x/Woche</option>
+  <option value="5x/Woche">5x/Woche</option>
+  <option value="6x/Woche">6x/Woche</option>
+  <option value="7x/Woche">7x/Woche</option>
+</select>
+
 
 
     <DateEmployee form={form} setForm={setForm} handleChange={handleChange} />
 
 
-    <div className="space-y-2 mt-6">
+   <div className="space-y-2 mt-6">
   <label className="font-medium">Welche Tätigkeiten bieten Sie an?</label>
-  <div className="flex flex-wrap gap-4">
-    {["Reinigung", "Pflege", "Kochen", "Begleitung"].map((task) => (
-      <label key={task} className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          name="servicesOffered"
-          value={task}
-          checked={form.servicesOffered.includes(task)}
-          onChange={(e) => {
-            const value = e.target.value;
-            setForm((prev) => {
-              const updated = prev.servicesOffered.includes(value)
-                ? prev.servicesOffered.filter((item) => item !== value)
-                : [...prev.servicesOffered, value];
-              return { ...prev, servicesOffered: updated };
-            });
-          }}
-          className="h-5 w-5 text-[#04436F]"
-        />
-        <span>{task}</span>
-      </label>
+  <div className="flex flex-col gap-4">
+    {Object.entries(services).map(([category, subservices]) => (
+      <div key={category} className="flex flex-col">
+        <label className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            name="servicesOffered"
+            value={category}
+            checked={form.servicesOffered.includes(category)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setForm((prev) => {
+                const updated = prev.servicesOffered.includes(value)
+                  ? prev.servicesOffered.filter((item) => item !== value)
+                  : [...prev.servicesOffered, value];
+                return { ...prev, servicesOffered: updated };
+              });
+            }}
+            className="h-5 w-5 text-[#04436F]"
+          />
+          <span>{category}</span>
+        </label>
+
+        {form.servicesOffered.includes(category) && (
+          <ul className="ml-6 mt-1 list-disc text-sm text-gray-600">
+            {subservices.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        )}
+      </div>
     ))}
   </div>
 </div>
+
 {/* Document Uploads */}
 <div className="space-y-6 mt-10">
   <h3 className="text-2xl font-bold text-[#04436F]">Dokumente hochladen</h3>
@@ -1038,13 +970,14 @@ useEffect(() => {
   {/* Upload Field Template */}
   {[
     { label: "ID oder Reisepass", key: "passportFile", required: true },
-    { label: "Strafregisterauszug", key: "policeLetterFile", required: true },
+    { label: "Arbeitsbewilligung", key: "workPermitFile", required: true },
+    { label: "Strafregisterauszug", key: "policeLetterFile", required: false },
     { label: "Lebenslauf", key: "cvFile", required: true },
     { label: "Zertifakte/Arbeitszeugnisse", key: "certificateFile", required: true },
   ].map((field) => (
     <div key={field.key}>
       <label className="block text-sm font-medium text-gray-700 mb-1">
-        {field.label} (PDF){" "}
+        {field.label}{" "}
         {field.required ? (
           <span className="text-red-500 font-bold">*</span>
         ) : (
@@ -1052,56 +985,111 @@ useEffect(() => {
         )}
       </label>
       <input
-        type="file"
-        accept="application/pdf"
-        onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
-        required={field.required}
-        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
-      />
+  type="file"
+  multiple
+  onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
+  required={field.required}
+  className="text-sm text-gray-700 
+             file:mr-4 file:py-2 file:px-4 
+             file:rounded-lg file:border-0 
+             file:bg-[#04436F] file:text-white 
+             hover:file:bg-[#a6884a] 
+             file:cursor-pointer 
+             w-auto"
+/>
+
     </div>
   ))}
 
   {/* Driving Licence – Conditionally Shown */}
-{form.hasLicense === "ja" && (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">
-      Führerschein (PDF){" "}
-      {form.hasLicense === "ja" ? (
-        <span className="text-red-500 font-bold">*</span>
-      ) : (
-        <span className="text-gray-500 text-sm">(optional)</span>
-      )}
-    </label>
-    <input
-      type="file"
-      accept="application/pdf"
-      required
-      onChange={(e) =>
-        setForm({ ...form, drivingLicenceFile: e.target.files[0] })
-      }
-      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
-    />
-  </div>
-)}
-
+  {form.hasLicense === "ja" && (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        Führerschein <span className="text-red-500 font-bold">*</span>
+      </label>
+      <input
+        type="file"
+        multiple
+        onChange={(e) =>
+          setForm({ ...form, drivingLicenceFile: e.target.files })
+        }
+        required
+        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
+      />
+    </div>
+  )}
 
   {/* Photo Upload */}
   <div>
     <label className="block text-sm font-medium text-gray-700 mb-1">
-      Foto (JPG, PNG) <span className="text-red-500 font-bold">*</span>
+      Foto <span className="text-red-500 font-bold">*</span>
     </label>
     <input
       type="file"
-      accept="image/*"
-      onChange={(e) => setForm({ ...form, profilePhoto: e.target.files[0] })}
+      multiple
+      onChange={(e) =>
+        setForm({ ...form, profilePhoto: e.target.files })
+      }
       required
       className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
     />
   </div>
 </div>
 
+    <div className="space-y-2 mt-6">
 
+  <label className="font-medium ">  Wie haben Sie von uns erfahren?
+</label>
 
+<div className="space-y-3 ">
+  {["LinkedIn", "Facebook", "Instagram" ,"Google"].map((option) => (
+    <label key={option} className="flex items-center gap-2">
+      <input
+        type="checkbox"
+        name="howDidYouHearAboutUs"
+        value={option}
+        checked={form.howDidYouHearAboutUs === option}
+        onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
+      />
+      {option}
+    </label>
+  ))}
+
+  {/* Andere (Other) option */}
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      name="howDidYouHearAboutUs"
+      value="Andere"
+      checked={form.howDidYouHearAboutUs?.startsWith("Andere:")}
+      onChange={(e) => {
+        const isChecked = e.target.checked;
+        setForm((prev) => ({
+          ...prev,
+          howDidYouHearAboutUs: isChecked ? "Andere:" : "",
+        }));
+      }}
+    />
+    Andere
+  </label>
+
+  {form.howDidYouHearAboutUs?.startsWith("Andere:") && (
+    <input
+      type="text"
+      placeholder="z. B. Google, Freund..."
+      value={form.howDidYouHearAboutUs.split(":")[1] || ""}
+      onChange={(e) =>
+        setForm((prev) => ({
+          ...prev,
+          howDidYouHearAboutUs: `Andere:${e.target.value}`,
+        }))
+      }
+      className={inputClass + " mt-2"}
+    />
+  )}
+</div>
+
+</div>
     
 
   </>
@@ -1127,33 +1115,38 @@ useEffect(() => {
 
 
           {/* Navigation Buttons */}
-          <div className="pt-6 flex justify-end gap-4">
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={() => setStep(step - 1)}
-                className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg"
-              >
-                Zurück
-              </button>
-            )}
-            {step < steps.length ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="px-6 py-3 bg-white text-[#04436F] border-[#04436F] border-[2px] rounded-lg"
-              >
-                Weiter
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="px-6 py-3 bg-[#04436F] text-white rounded-lg"
-              >
-                Registrierung abschliessen
-              </button>
-            )}
-          </div>
+        {/* Navigation Buttons */}
+<div className="pt-6 flex justify-end gap-4">
+  {/* Hide "Zurück" on step 4 */}
+  {step > 1 && step !== 4 && (
+    <button
+      type="button"
+      onClick={() => setStep(step - 1)}
+      className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg"
+    >
+      Zurück
+    </button>
+  )}
+
+  {step < steps.length ? (
+    <button
+      type="button"
+      onClick={handleNext}
+      className="px-6 py-3 bg-white text-[#04436F] border-[#04436F] border-[2px] rounded-lg"
+    >
+      Weiter
+    </button>
+  ) : (
+    <button
+      type="submit"
+  onClick={() => router.push("/")}
+      className="px-6 py-3 bg-[#04436F] text-white rounded-lg"
+    >
+      Registrierung abschliessen
+    </button>
+  )}
+</div>
+
         </form>
       </div>
 
