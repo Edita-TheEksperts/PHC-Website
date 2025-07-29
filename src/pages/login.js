@@ -82,10 +82,9 @@ if (data.role === "employee") {
   
           {/* Welcome Back */}
           <h1 className="text-[#04436F] text-left font-bold text-[40px] leading-[17px] tracking-[0.18px] ">
-            Welcome Back
-          </h1>
+Willkommen bei PHC          </h1>
           <p className="text-[#04436F] text-left mt-6 text-[16px]">
-            New to Prime Home Care? Create your account here
+  Wir freuen uns, Sie wieder bei Prime Home Care begrüssen zu dürfen.
           </p>
   
           {/* Form */}
@@ -94,11 +93,11 @@ if (data.role === "employee") {
             {/* Email */}
             <div className="flex flex-col w-full">
               <label className="text-[#04436F] font-bold text-[15px] leading-[25.6px] mb-2">
-                Email Address
+      E-Mail-Adresse
               </label>
               <input
   type="email"
-  placeholder="Enter your email"
+  placeholder="Ihre Email"
   className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
   value={email}
   onChange={(e) => setEmail(e.target.value)}
@@ -110,11 +109,11 @@ if (data.role === "employee") {
             {/* Password */}
             <div className="flex flex-col w-full">
               <label className="text-[#04436F] font-bold text-[15px] leading-[25.6px] mb-2">
-                Password
+                Passwort
               </label>
               <input
   type="password"
-  placeholder="Enter your password"
+  placeholder="Ihr Passwort"
   className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
   value={password}
   onChange={(e) => setPassword(e.target.value)}
@@ -128,31 +127,14 @@ if (data.role === "employee") {
               type="submit"
               className="bg-[#04436F] text-white text-[18px] font-[500] h-[48px] rounded-[10px] mt-4"
             >
-              Submit
+              Absenden
             </button>
             <div className="text-right mt-2">
   <a href="/forgot-password" className="text-[#04436F] text-sm underline">
-    Forgot your password?
+      Passwort vergessen?
   </a>
 </div>
 
-{/* Add the "Don't have an account?" link */}
-<div className="text-right mt-2">
-  <span className="text-sm">Don't have an account? </span>
-  <a href="/register" className="text-[#04436F] text-sm underline">
-    Register here
-  </a>
-</div>
-
-            {/* Extra Buttons */}
-            <div className="flex w-full gap-4 mt-2">
-              <button className="flex-1 bg-[#C4C4C4] text-[#FAFCFF] text-[18px] font-[500] h-[48px] rounded-[10px]">
-                Lorem
-              </button>
-              <button className="flex-1 bg-[#A9A9A9] text-[#FAFCFF] text-[18px] font-[500] h-[48px] rounded-[10px]">
-                Lorem
-              </button>
-            </div>
   
           </form>
         </div>

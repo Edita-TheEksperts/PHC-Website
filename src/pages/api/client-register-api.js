@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     console.log("📨 Incoming request body:", req.body);
 
     // ✅ Required field check
-    if (!firstName || !lastName || !email || !password || !firstDate || !services?.length || !subServices?.length) {
+    if (!firstName || !lastName || !email || !password || !firstDate || !services?.length) {
       return res.status(400).json({ message: "❌ Missing required fields" });
     }
 
@@ -131,7 +131,7 @@ export default async function handler(req, res) {
       to: email,
       subject: "Willkommen bei Prime Home Care – Ihr Zugang ist aktiv",
       html: `
-        <p>Guten Tag ${firstName} ${lastName},</p>
+        <p>Guten Tag ${firstName} ${lastName}</p>
         <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.<br/>
         Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet:</p>
         <ul>

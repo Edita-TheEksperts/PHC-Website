@@ -40,18 +40,18 @@ export default function Custom404() {
           404
         </h1>
 
-        {/* Page not found Text */}
-        <p className="text-[#04436F] font-[400] font-[Metropolis] text-[24px] leading-[32px] tracking-[0.18px] mb-12 max-w-[320px]">
-          Page not found <br />
-          Sorry, we can't find the page you're looking for.
-        </p>
+       {/* Seite nicht gefunden Text */}
+<p className="text-[#04436F] font-[400] font-[Metropolis] text-[24px] leading-[32px] tracking-[0.18px] mb-12 max-w-[320px]">
+  Seite nicht gefunden <br />
+  Leider können wir die gesuchte Seite nicht finden.
+</p>
 
-        {/* Button */}
-        <Link href="/">
-          <button className="bg-[#04436F] text-white font-[500] text-[18px] w-[283px] h-[50px] rounded-[10px] hover:bg-[#033254]">
-            Return Back Home
-          </button>
-        </Link>
+{/* Button */}
+<Link href="/">
+  <button className="bg-[#04436F] text-white font-[500] text-[18px] w-[283px] h-[50px] rounded-[10px] hover:bg-[#033254]">
+    Zur Startseite zurückkehren
+  </button>
+</Link>
 
       </div>
 

@@ -1,8 +1,7 @@
 const Footer = () => {
     return (
       <footer className="bg-[#FAFCFF]">
-        <div className="max-w-[1430px] p-4 mx-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
-          
+ <div className="max-w-[1430px] p-4 mx-auto grid grid-cols-1 lg:grid-cols-[500px_1fr] gap-6">          
           {/* Left Section */}
           <div className="bg-[#ECF2FF] lg:p-[45px] p-4 rounded-[20px] lg:mr-[50px] mr-0 mb-[50px] lg:mb-0 ">
           <svg xmlns="http://www.w3.org/2000/svg" width="160" height="79" viewBox="0 0 160 79" fill="none" className="lg:mb-[200px] mb-[80px]">
@@ -65,43 +64,61 @@ const Footer = () => {
 </svg></a>
             </div>
           </div>
-  
-          <div className="bg-[#F1F1F1] p-4 lg:p-[45px] lg:rounded-tl-[20px] lg:rounded-bl-[20px]">
+      <div className="grid lg:grid-cols-2 gap-6 bg-[#F1F1F1]  p-4 lg:p-[45px] lg:rounded-tl-[20px] lg:rounded-bl-[20px]">
+
+          <div className="bg-[#F1F1F1] ">
           <div className="grid grid-cols-2 gap-6">
-            <div>
-              <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Seiten</h3>
-              <ul className="space-y-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">
-                <li>Lorem</li>
-                <li>Lorem</li>
-                <li>About</li>
-                <li>Lorem</li>
-                <li>Lorem</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Nützliche Seiten</h3>
-              <ul className=" space-y-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">
-                <li>Lorem</li>
-                <li>Lorem</li>
-                <li>Lorem</li>
-                <li>Lorem</li>
-                <li>Lorem</li>
-              </ul>
-            </div>
+        <div>
+  <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Seiten</h3>
+  <ul className="space-y-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">
+    <li>
+      <a href="/" className="hover:underline">Home</a>
+    </li>
+    <li>
+      <a href="/about" className="hover:underline">Über uns</a>    </li>
+
+        <li><a href="/BlogPage" className="hover:underline">Blog</a></li>
+    <li>
+      <a href="/services" className="hover:underline">Dienstleistungen</a>
+    </li>
+    <li>
+      <a href="/Registrierung-Jobs" className="hover:underline">Jobs</a>
+    </li>
+    <li>
+      <a href="/contact" className="hover:underline">Support</a>     </li>
+
+      <li><a href="/FAQ" className="hover:underline">FAQ</a></li>
+  </ul>
+</div>
+
+
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="bg-[#F1F1F1] p-4 lg:p-[45px]  lg:rounded-tr-[20px] lg:rounded-br-[20px]">
-          <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]" >Kontaktinformationen</h3>
-          <p className="] text-[#04436F] text-[18px] leading-[25.2px] font-normal">Address</p>
-          <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">Lorem</p>
-          <p className="mt-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">Phone</p>
-          <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">Lorem</p>
-          <p className="mt-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">E-mail</p>
-          <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">Lorem</p>
-        </div>
+      <div className="bg-[#F1F1F1] ">
+  <h3 className="text-[#04436F] text-[22px] font-semibold mb-[40px]">Kontaktinformationen</h3>
 
+  {/* Address */}
+  <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">Adresse</p>
+  <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">
+    Schulhausstrasse 1,<br />
+    8834 Schindellegi
+  </p>
+
+  {/* Opening Hours */}
+  <p className="mt-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">Öffnungszeiten</p>
+  <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">
+    8:30 – 11:00 und 13:30 – 16:00 Uhr
+  </p>
+
+  {/* Email */}
+  <p className="mt-[15px] text-[#04436F] text-[18px] leading-[25.2px] font-normal">E-Mail</p>
+  <p className="text-[#04436F] text-[18px] leading-[25.2px] font-normal">
+    <a href="mailto:info@phc.ch" className="hover:underline">info@phc.ch</a>
+  </p>
+</div>
+</div>
         </div>
       </footer>
     );

@@ -363,28 +363,6 @@ export default function ClientDashboard() {
       <p className="italic text-gray-400">Keine Termine geplant</p>
     )}
   </div>
-
-  {/* Formularstatus */}
-  <div>
-    <h4 className="font-semibold text-lg text-gray-700 mb-2">Formularstatus</h4>
-    <ul className="flex flex-wrap gap-3">
-      {[
-        { label: "Haushaltshilfe & Wohnpflege", completed: userData.form1Completed },
-        { label: "Freizeit & Soziale Aktivitäten", completed: userData.form2Completed },
-        { label: "Gesundheitsführsorge", completed: userData.form3Completed },
-        { label: "Alltagsbegleitung & Besorgungen", completed: userData.form4Completed },
-      ].map(({ label, completed }) => (
-        <li
-          key={label}
-          className={`rounded-full px-4 py-1 font-semibold text-sm ${
-            completed ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
-          }`}
-        >
-          {label}: {completed ? "Abgeschlossen" : "Offen"}
-        </li>
-      ))}
-    </ul>
-  </div>
 </article>
 
 

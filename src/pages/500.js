@@ -50,18 +50,19 @@ export default function Custom500() {
           500
         </h1>
 
-        {/* Page not found Text */}
-        <p className="text-[#B99B5F] font-[400] font-[Metropolis] text-[24px] leading-[32px] tracking-[0.18px] mb-12 max-w-[320px]">
-          Page not found <br />
-          Sorry, we can't find the page you're looking for.
-        </p>
+       {/* Seite nicht gefunden Text */}
+<p className="text-[#B99B5F] font-[400] font-[Metropolis] text-[24px] leading-[32px] tracking-[0.18px] mb-12 max-w-[320px]">
+  Seite nicht gefunden <br />
+  Leider können wir die Seite, die Sie suchen, nicht finden.
+</p>
 
-        {/* Button */}
-        <Link href="/">
-          <button className="bg-[#B99B5F] text-white font-[500] text-[18px] w-[283px] h-[50px] rounded-[10px] hover:bg-[#A6884A]">
-            Return Back Home
-          </button>
-        </Link>
+{/* Button */}
+<Link href="/">
+  <button className="bg-[#B99B5F] text-white font-[500] text-[18px] w-[283px] h-[50px] rounded-[10px] hover:bg-[#A6884A]">
+    Zurück zur Startseite
+  </button>
+</Link>
+
 
       </div>
 

@@ -94,7 +94,7 @@ useEffect(() => {
   password: "",
   address: "",
   subServices: [], // ✅ was "" — now fixed to be an array
-  schedules: [{ day: "", startTime: "08:00", hours: 2 }], // ✅ 1 day by default
+  schedules: [{ day: "", startTime: "08:00", hours: 2,  subServices: [] }], // ✅ 1 day by default
   arrivalConditions: [],
   hasParking: "",
   entranceLocation: "",
@@ -279,10 +279,15 @@ const preparePayload = (form) => ({
       alert("Bitte wählen Sie mindestens eine Dienstleistung.");
       return false;
     }
-    if (!form.subServices || form.subServices.length === 0) {
-      alert("Bitte wählen Sie mindestens eine Zusatzleistung.");
-      return false;
-    }
+   const hasAnySubService = form.schedules.some(
+  (entry) => Array.isArray(entry.subServices) && entry.subServices.length > 0
+);
+
+if (!hasAnySubService) {
+  alert("Bitte wählen Sie mindestens eine Zusatzleistung für mindestens einen Tag.");
+  return false;
+}
+
   }
 
   if (step === 2) {
@@ -468,6 +473,22 @@ const handleSubmit = async (e) => {
       schedules: form.schedules,
       repeat: 6,
     });
+const collectedSubservices = Array.from(
+  new Set(
+    form.schedules.flatMap((entry) => entry.subServices || [])
+  )
+);
+
+// Create the payload for submission
+const payload = {
+  ...form,
+  subServices: collectedSubservices,
+  schedules: generateScheduleDates({
+    firstDateStr: form.firstDate,
+    schedules: form.schedules,
+    repeat: 6, // or however you repeat
+  }),
+};
 
     // 📬 Finish registration
     const res = await fetch("/api/client-register-api", {
@@ -476,6 +497,8 @@ const handleSubmit = async (e) => {
       body: JSON.stringify({
         ...form,
         paymentIntentId: form.paymentIntentId || "", // important!
+          subServices: collectedSubservices, // ✅ this fixes the issue
+
         schedules: generatedSchedules,
         firstDate: form.firstDate,
       }),
@@ -836,8 +859,10 @@ const handlePasswordChange = (e) => {
     [fieldName]: Array.from(updated),
   }));
 };
+const isEinmalig = form.frequency === "einmalig";
 
-  
+  const showTravelNotice = form.subServices?.includes("Ausflüge und Reisebegleitung");
+
 return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
       <div className="flex-1 space-y-8">
@@ -870,8 +895,7 @@ return (
             <div className="flex flex-wrap gap-3">
               
   {allServices.map((srv) => {
-    const isSelected = form.services.includes(srv.name);
-    
+ const isSelected = (form.services || []).includes(srv.name);    
     return (
       <button
         key={srv.id}
@@ -897,7 +921,7 @@ return (
                 <div className="space-y-2">
                   <p className="font-semibold text-gray-800">Wie oft wünschen Sie Unterstützung?</p>
                   <div className="flex flex-wrap gap-4">
-                    {["einmalig", "wöchentlich", "Alle 2 Wochen", "monatlich", "öfter"].map((option) => (
+                    {["einmalig", "wöchentlich", "Alle 2 Wochen", "monatlich"].map((option) => (
                       <button
                         key={option}
                         type="button"
@@ -935,21 +959,26 @@ return (
         −
       </button>
       <span className="font-semibold">{form.schedules.length || 1}</span>
-      <button
-        type="button"
-        onClick={() =>
-          setForm((prev) => ({
-            ...prev,
-            schedules: [
-              ...prev.schedules,
-              { day: "", startTime: "08:00", hours: 2 }
-            ].slice(0, 7)
-          }))
-        }
-        className="w-8 h-8 text-xl border rounded-full"
-      >
-        +
-      </button>
+ <button
+  type="button"
+  onClick={() => {
+    if (isEinmalig) return; // 🚫 block adding if "einmalig"
+    setForm((prev) => ({
+      ...prev,
+      schedules: [
+        ...prev.schedules,
+        { day: "", startTime: "08:00", hours: 2 }
+      ].slice(0, 7), // max 7 days
+    }));
+  }}
+  disabled={isEinmalig}
+  className={`w-8 h-8 text-xl border rounded-full ${
+    isEinmalig ? "opacity-50 cursor-not-allowed" : ""
+  }`}
+>
+  +
+</button>
+
     </div>
 
     {/* Each day's schedule */}
@@ -1039,6 +1068,62 @@ return (
     +
   </button>
 </div>
+{/* Subservices for this day */}
+<div className="col-span-4 mt-4">
+  <label className="block mb-2 font-semibold text-gray-800">
+    Zusatzleistungen für {entry.day || `Tag ${i + 1}`}
+  </label>
+
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {form.schedules[i]?.subServices?.includes("Ausflüge und Reisebegleitung") && (
+  <div className="mt-4 col-span-full p-4 border-l-4 border-[#B99B5F] bg-[#FFF8EA] rounded">
+    <p className="text-gray-800 mb-2 font-semibold">
+      Für <span className="text-[#B99B5F]">„Ausflüge und Reisebegleitung“</span> bitten wir Sie, uns direkt zu kontaktieren.
+    </p>
+    <a
+      href="/kontakt"
+      className="text-[#04436F] underline font-medium hover:text-[#033552]"
+    >
+      Zum Kontaktformular
+    </a>
+  </div>
+)}
+
+    {subServices.map((sub) => {
+      
+      const isSelected = entry.subServices?.includes(sub.name);
+
+      return (
+        <button
+          key={sub.id}
+          type="button"
+          onClick={() => {
+            const updated = [...form.schedules];
+            const current = updated[i].subServices || [];
+
+            updated[i].subServices = isSelected
+              ? current.filter((s) => s !== sub.name)
+              : [...current, sub.name];
+
+            // Optional: auto-update hours based on subservices
+            const count = updated[i].subServices.length;
+            updated[i].hours = count <= 2 ? 2 : Math.min(count, 24);
+
+            setForm({ ...form, schedules: updated });
+          }}
+          className={`flex flex-col items-center justify-center p-4 border rounded-xl text-center space-y-2 ${
+            isSelected ? "border-[#B99B5F] bg-[#f0f9ff]" : "border-gray-300"
+          }`}
+        >
+          <span className="font-medium">{sub.name}</span>
+          <span className="text-sm text-gray-500">
+            {isSelected ? "Ausgewählt" : "Hinzufügen"}
+          </span>
+        </button>
+      );
+    })}
+  </div>
+</div>
 
 
       </div>
@@ -1046,57 +1131,6 @@ return (
   </div>
 )}
 
-{form.services && (
-  <div className="space-y-2">
-    <label className="block mb-2 font-semibold text-gray-800">Welche Extras möchten Sie?</label>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {subServices.map((sub) => {
-        const isSelected = form.subServices.includes(sub.name);
-
-        return (
-          <button
-            key={sub.id}
-            type="button"
-           onClick={() =>
-  setForm((prev) => {
-const currentSub = Array.isArray(prev.subServices) ? prev.subServices : [];
-
-    const alreadySelected = currentSub.includes(sub.name);
-    const updatedSub = alreadySelected
-      ? currentSub.filter((name) => name !== sub.name)
-      : [...currentSub, sub.name];
-
-    // Correct logic: first 2 subservices => 2 hours, then increase by count
-    const subCount = updatedSub.length;
-    const hours = subCount <= 2 ? 2 : Math.min(subCount, 24);
-
-    const updatedSchedule = prev.schedules.map((entry) => ({
-      ...entry,
-      hours,
-    }));
-
-    return {
-      ...prev,
-      subServices: updatedSub,
-      schedules: updatedSchedule,
-    };
-  })
-}
-
-            className={`flex flex-col items-center justify-center p-4 border rounded-xl text-center space-y-2 ${
-              isSelected ? "border-[#B99B5F] bg-[#f0f9ff]" : "border-gray-300"
-            }`}
-          >
-            <span className="font-medium">{sub.name}</span>
-            <span className="text-sm text-gray-500">
-              {isSelected ? "Ausgewählt" : "Hinzufügen"}
-            </span>
-          </button>
-        );
-      })}
-    </div>
-  </div>
-)}
 
 
 
@@ -1145,26 +1179,39 @@ onChange={(date) => {
       {/* Vollständiger Name */}
  <div>
   <label className="block font-semibold mb-1">Vollständiger Name</label>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
-    <input
-      name="firstName"
-      placeholder="Vorname"
-      value={form.firstName || ""}
-      onChange={handleChange}
-      className={inputClass}
-    />
-    <input
-      name="lastName"
-      placeholder="Nachname"
-      value={form.lastName || ""}
-      onChange={handleChange}
-      className={inputClass}
-    />
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+<div className="mb-2">
+  <label className="block text-sm font-medium mb-1">
+    Vorname
+  </label>
+  <input
+    name="firstName"
+    placeholder="Vorname"
+    value={form.firstName || ""}
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
+
+       <div className="mb-2">
+  <label className="block text-sm font-medium mb-1">
+    Nachname
+  </label>
+  <input
+    name="lastName"
+    placeholder="Nachname"
+    value={form.lastName || ""}
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
+
   </div>
 </div>
     {/* Telefon */}
       <div>
-        <label className="block font-semibold mb-1">Telefonnummer</label>
+          <label className="block text-sm font-medium mb-1">
+Telefonnummer</label>
        <input
   name="phone"
   value={form.phone}
@@ -1184,7 +1231,8 @@ onChange={(date) => {
 
       {/* E-Mail */}
       <div>
-        <label className="block font-semibold mb-1">E-Mail</label>
+          <label className="block text-sm font-medium mb-1">
+E-Mail</label>
        <input
   type="email"
   name="email"
@@ -1200,7 +1248,8 @@ onChange={(date) => {
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
   {/* Password */}
   <div className="relative">
-    <label className="block font-semibold mb-1">Passwort*</label>
+      <label className="block text-sm font-medium mb-1">
+Passwort*</label>
     <div className="relative">
       <input
         type={showPassword ? "text" : "password"}
@@ -1291,7 +1340,8 @@ onChange={(date) => {
 
   {/* Confirm Password */}
   <div className="relative">
-    <label className="block font-semibold mb-1">Passwort bestätigen*</label>
+      <label className="block text-sm font-medium mb-1">
+Passwort bestätigen*</label>
     <div className="relative">
       <input
         type={showConfirm ? "text" : "password"}
@@ -1474,7 +1524,54 @@ onChange={(date) => {
   {/* Anfragende Person */}
   <div className="mb-8">
     <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div className="mb-2">
+    <label className="block text-sm font-medium mb-1">
+      Vorname
+    </label>
+    <input
+      name="firstName"
+      placeholder="Vorname"
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
+
+  <div className="mb-2">
+    <label className="block text-sm font-medium mb-1">
+      Nachname
+    </label>
+    <input
+      name="lastName"
+      placeholder="Nachname"
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
+
+  <div className="mb-2">
+    <label className="block text-sm font-medium mb-1">
+      Telefonnummer
+    </label>
+    <input
+      name="phone"
+      placeholder="Telefonnummer"
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
+</div>
+
+  </div>
+
+  {/* Einsatzort */}
+  <div>
+    <h4 className="font-[600] text-[16px] mb-4">Einsatzort</h4>
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+      <div className="mb-2">
+       <label className="block text-sm font-medium mb-1">
+    Vorname
+  </label>
       <input
         name="firstName"
         placeholder="Vorname"
@@ -1482,6 +1579,11 @@ onChange={(date) => {
         onChange={handleChange}
         className={inputClass}
       />
+      </div>
+            <div className="mb-2">
+ <label className="block text-sm font-medium mb-1">
+    Nachname
+  </label>
       <input
         name="lastName"
         placeholder="Nachname"
@@ -1489,6 +1591,10 @@ onChange={(date) => {
         onChange={handleChange}
         className={inputClass}
       />
+      </div>
+      <div className="mb-2">
+         <label className="block text-sm font-medium mb-1">
+Telefonnummer  </label>
       <input
         name="phone"
         placeholder="Telefonnummer"
@@ -1496,90 +1602,153 @@ onChange={(date) => {
         onChange={handleChange}
         className={inputClass}
       />
+      </div>
     </div>
-  </div>
-
-  {/* Einsatzort */}
-  <div>
-    <h4 className="font-[600] text-[16px] mb-4">Einsatzort</h4>
-
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <input
-        name="street"
-        placeholder="Adresse & Hausnummer"
-        value={form.street || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-      <input
-        name="entranceLocation"
-        placeholder="Stockwerk / Eingangscode"
-        value={form.entranceLocation || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-      <input
-        type="number"
-        name="postalCode"
-        placeholder="PLZ"
-        value={form.postalCode || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-      <input
-        name="city"
-        placeholder="Ort"
-        value={form.city || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
+ <div className="mb-2">
+  <label className="block text-sm font-medium mb-1">
+    Adresse & Hausnummer
+  </label>
+  <input
+    name="street"
+    placeholder="Adresse & Hausnummer"
+    onChange={handleChange}
+value={form.address ||''}    className={inputClass}
+  />
+</div>
+
+   <div className="mb-2">
+  <label className="block text-sm font-medium mb-1">
+    Stockwerk / Eingangscode
+  </label>
+  <input
+    name="entranceLocation"
+    placeholder="Stockwerk / Eingangscode"
+    onChange={handleChange}
+
+    className={inputClass}
+  />
+</div>
+
+     <div className="mb-2">
+  <label className="block text-sm font-medium mb-1">
+    PLZ
+  </label>
+  <input
+    type="number"
+    name="postalCode"
+    placeholder="PLZ"
+                value={form.postalCode || ""}
+
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
+
+   <div className="mb-2">
+  <label className="block text-sm font-medium mb-1">
+    Ort
+  </label>
+  <input
+    name="city"
+    placeholder="Ort"
+    value={form.city || ""}
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
+
     </div>
 
     {/* Ankunftsbedingungen */}
-    <div className="mb-6">
-      <p className="font-[500] text-gray-800 mb-2">Ankunftsbedingungen</p>
-      <div className="flex flex-wrap items-center gap-6">
-        {["Schlüssel ist hinterlegt", "Es ist jemand zu Hause"].map((option) => (
-          <label
-            key={option}
-            className="inline-flex items-center gap-2 text-sm text-gray-800"
-          >
-            <input
-              type="checkbox"
-              className="w-5 h-5 accent-[#B99B5F]"
-              checked={form.arrivalConditions?.includes(option)}
-              onChange={() => toggleCheckbox("arrivalConditions", option)}
-            />
-            <span>{option}</span>
-          </label>
-        ))}
-      </div>
-    </div>
+   <div className="mb-6">
+  <p className="font-[500] text-gray-800 mb-2">Ankunftsbedingungen</p>
 
-    {/* Parkplatz vorhanden */}
-    <div className="mb-4">
-      <label className="block font-[500] mb-1">Parkplatz vorhanden?</label>
-      <select
-        name="hasParking"
-        value={form.hasParking || ""}
-        onChange={handleChange}
-        className={inputClass}
+  <div className="flex flex-wrap items-center gap-6">
+    {["Schlüssel ist hinterlegt", "Es ist jemand zu Hause"].map((option) => (
+      <label
+        key={option}
+        className="inline-flex items-center gap-2 text-sm text-gray-800"
       >
-        <option value="">Bitte auswählen</option>
-        <option value="Ja">Ja</option>
-        <option value="Nein">Nein</option>
-      </select>
-    </div>
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#B99B5F]"
+          checked={form.arrivalConditions?.includes(option)}
+          onChange={() => toggleCheckbox("arrivalConditions", option)}
+        />
+        <span>{option}</span>
+      </label>
+    ))}
+  </div>
 
-    {/* Wo befindet sich der Eingang */}
-    <div>
+  {form.arrivalConditions?.includes("Schlüssel ist hinterlegt") && (
+    <div className="mt-4">
+      <label className="block text-sm font-medium mb-1">
+        Wo ist der Schlüssel hinterlegt?
+      </label>
       <input
-        name="entranceDescription"
-        placeholder="Wo befindet sich der Eingang?"
-        value={form.entranceDescription || ""}
+        name="keyLocation"
+        placeholder="z. B. unter der Fußmatte, beim Nachbarn..."
         onChange={handleChange}
         className={inputClass}
       />
+    </div>
+  )}
+
+  {form.arrivalConditions?.length === 0 && (
+    <p className="text-red-600 text-sm mt-2">
+      Bitte wählen Sie mindestens eine Option aus: Schlüssel oder jemand ist zu Hause.
+    </p>
+  )}
+</div>
+
+
+    {/* Parkplatz vorhanden */}
+   <div className="mb-4">
+  <label className="block font-[500] mb-1">Parkplatz vorhanden?</label>
+  <select
+    name="hasParking"
+    value={form.hasParking || ""}
+    onChange={handleChange}
+    className={inputClass}
+  >
+    <option value="">Bitte auswählen</option>
+    <option value="Ja">Ja</option>
+    <option value="Nein">Nein</option>
+  </select>
+</div>
+
+{form.hasParking === "Ja" && (
+  <>
+   
+    <div className="mb-4">
+      <label className="block text-sm font-medium mb-1">
+        Ort (Parkplatz)
+      </label>
+      <input
+        name="parkingLocation"
+        placeholder="Ort (Parkplatz)"
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  </>
+)}
+
+
+    {/* Wo befindet sich der Eingang */}
+    <div>
+           <div className="mb-2">
+  <label className="block text-sm font-medium mb-1">
+    Wo befindet sich der Eingang?
+  </label>
+  <input
+    name="entranceDescription"
+    placeholder="Wo befindet sich der Eingang?"
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
     </div>
   </div>
 </div>
@@ -2014,7 +2183,7 @@ onChange={(date) => {
   />
 
   {/* 🔹 Geistige Unterstützung */}
-  <h3 className="text-[18px] font-semibold mb-2">Geistige Unterstützung</h3>
+  <h3 className="text-[18px] font-semibold mb-2">Geistiger Zustand</h3>
   <div className="mb-4">
     <label className="block font-medium text-gray-800 mb-1">Notwendig?</label>
     <select
@@ -2241,13 +2410,7 @@ onChange={(date) => {
   {/* ✅ For optional Step 4 */}
   {step === 4 ? (
     <>
-      <button
-        type="button"
-        onClick={() => router.push("/thank-you")} // skip logic
-        className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg"
-      >
-        Überspringen
-      </button>
+
       <button
         type="button"
         onClick={handleOptionalSubmit} // sends data to DB
@@ -2276,7 +2439,10 @@ onChange={(date) => {
 
   <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
     <SummaryRow label="Häufigkeit" value={form.frequency} />
-    <SummaryRow label="Dauer" value={`${form.duration} Stunden`} />
+<SummaryRow
+  label="Dauer"
+  value={`${form.schedules.reduce((sum, s) => sum + (s.hours || 0), 0)} Stunden`}
+/>
     <SummaryRow label="Beginndatum" value={form.firstDate} />
     <SummaryRow label="Gesamtsumme pro Einsatz" value={`${totalPayment.toFixed(2)} CHF`} />
 
