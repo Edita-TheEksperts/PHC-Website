@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from "react";
 import { useForm } from 'react-hook-form';
+import { parse, addMonths, startOfMonth, format } from "date-fns";
 
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -11,8 +12,7 @@ import 'react-clock/dist/Clock.css'
 import DatePicker from 'react-datepicker';
 import { de } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
-import { parse, addDays, format } from "date-fns";
-import CardSetupForm from '../components/StripeSaveCardForm';
+import {  addDays } from "date-fns";
 export default function RegisterPage() {
     const testMode = false; 
 const { watch } = useForm();
@@ -448,11 +448,25 @@ const handleSubmit = async (e) => {
     console.log("✅ Zahlung erfolgreich. PaymentMethod ID:", paymentMethodId);
 
     // 📆 Build schedules
-    const generatedSchedules = generateScheduleDates({
-      firstDateStr: form.firstDate,
-      schedules: form.schedules,
-      repeat: 6,
-    });
+ let generatedSchedules;
+
+if (form.frequency === "monatlich") {
+  generatedSchedules = generateMonthlyDates({
+    startDate: form.firstDate,
+    weekIndex: form.monthlyWeekIndex,
+    dayName: form.monthlyDay,
+    startTime: "08:00",
+    hours: 2,
+    count: 6,
+  });
+} else {
+  generatedSchedules = generateScheduleDates({
+    firstDateStr: form.firstDate,
+    schedules: form.schedules,
+    repeat: 6,
+  });
+}
+
 const collectedSubservices = Array.from(
   new Set(
     form.schedules.flatMap((entry) => entry.subServices || [])
@@ -868,6 +882,51 @@ const handlePasswordChange = (e) => {
 const isEinmalig = form.frequency === "einmalig";
 
   const showTravelNotice = form.subServices?.includes("Ausflüge und Reisebegleitung");
+function generateMonthlyDates({ startDate, weekIndex, dayName, count = 6, startTime = "08:00", hours = 2 }) {
+  const weekdays = {
+    Sonntag: 0,
+    Montag: 1,
+    Dienstag: 2,
+    Mittwoch: 3,
+    Donnerstag: 4,
+    Freitag: 5,
+    Samstag: 6,
+  };
+
+  const results = [];
+  const baseDate = typeof startDate === "string" ? parse(startDate, "dd.MM.yyyy", new Date()) : startDate;
+
+  for (let i = 0; i < count; i++) {
+    const monthDate = addMonths(baseDate, i);
+    const firstOfMonth = startOfMonth(monthDate);
+    const targetDay = weekdays[dayName];
+
+    let countDay = 0;
+    let date = new Date(firstOfMonth);
+
+    while (date.getMonth() === monthDate.getMonth()) {
+      if (date.getDay() === targetDay) {
+        countDay++;
+        const isTargetWeek =
+          (weekIndex === "last" && addMonths(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7), 0).getMonth() !== date.getMonth()) ||
+          countDay === parseInt(weekIndex);
+
+        if (isTargetWeek) {
+          results.push({
+            date: format(date, "yyyy-MM-dd"),
+            day: dayName,
+            startTime,
+            hours,
+          });
+          break;
+        }
+      }
+      date.setDate(date.getDate() + 1);
+    }
+  }
+
+  return results;
+}
 
 return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
@@ -944,7 +1003,45 @@ return (
                   </div>
                 </div>
 
-              
+             {form.frequency === "monatlich" && (
+  <div className="space-y-3 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+    <h3 className="text-lg font-semibold text-gray-900">Monatlicher Termin wählen</h3>
+
+    {/* Week Index */}
+    <div className="flex flex-col space-y-1">
+      <label className="text-sm font-medium text-gray-700">Woche im Monat</label>
+      <select
+        value={form.monthlyWeekIndex || ""}
+        onChange={(e) => setForm({ ...form, monthlyWeekIndex: e.target.value })}
+        className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+      >
+        <option value="">Woche wählen</option>
+        <option value="1">Erste</option>
+        <option value="2">Zweite</option>
+        <option value="3">Dritte</option>
+        <option value="4">Vierte</option>
+        <option value="last">Letzte</option>
+      </select>
+    </div>
+
+    {/* Weekday */}
+    <div className="flex flex-col space-y-1">
+      <label className="text-sm font-medium text-gray-700">Wochentag</label>
+      <select
+        value={form.monthlyDay || ""}
+        onChange={(e) => setForm({ ...form, monthlyDay: e.target.value })}
+        className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+      >
+        <option value="">Wochentag wählen</option>
+        {["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"].map((day) => (
+          <option key={day} value={day}>{day}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+)}
+
+
                 {form.frequency !== "Einmal" && (
   <div className="space-y-4">
     <p className="font-semibold text-gray-800">Wann genau wünschen Sie Unterstützung?</p>
@@ -1031,30 +1128,36 @@ return (
 
 
         {/* Duration */}
- <div className="flex items-center gap-2">
- {(() => {
-  const subServiceCount = form.subServices.length;
-  const minHours = Math.min(Math.max(subServiceCount, 2), 24);
-  const currentHours = form.schedules[i].hours;
+<div className="flex items-center gap-2">
+  {/* Minus Button – always rendered, just disabled when needed */}
+  <button
+    type="button"
+    onClick={() => {
+      const subServiceCount = form.subServices.length;
+      const minHours = Math.min(Math.max(subServiceCount, 2), 24);
+      const currentHours = form.schedules[i].hours;
 
-  return currentHours > minHours ? (
-    <button
-      type="button"
-      onClick={() => {
-        const updated = [...form.schedules];
-        const newValue = parseFloat((currentHours - 0.5).toFixed(1));
-        updated[i].hours = newValue;
-        setForm({ ...form, schedules: updated });
-      }}
-      className="w-8 h-8 border rounded-full"
-    >
-      −
-    </button>
-  ) : null;
-})()}
+      if (currentHours <= minHours) return;
 
+      const updated = [...form.schedules];
+      const newValue = parseFloat((currentHours - 0.5).toFixed(1));
+      updated[i].hours = newValue;
+      setForm({ ...form, schedules: updated });
+    }}
+    disabled={form.schedules[i].hours <= Math.min(Math.max(form.subServices.length, 2), 24)}
+    className={`w-8 h-8 border rounded-full text-xl flex items-center justify-center ${
+      form.schedules[i].hours <= Math.min(Math.max(form.subServices.length, 2), 24)
+        ? "opacity-50 cursor-not-allowed"
+        : ""
+    }`}
+  >
+    −
+  </button>
 
-<span className="inline-block w-[60px] text-center">{entry.hours} Std</span>
+  {/* Display hours */}
+  <span className="inline-block w-[60px] text-center">
+    {form.schedules[i].hours} Std
+  </span>
 
   {/* Plus Button */}
   <button
@@ -1069,11 +1172,12 @@ return (
         setForm({ ...form, schedules: updated });
       }
     }}
-    className="w-8 h-8 border rounded-full"
+    className="w-8 h-8 border rounded-full text-xl flex items-center justify-center"
   >
     +
   </button>
 </div>
+
 {/* Subservices for this day */}
 <div className="col-span-4 mt-4">
   <label className="block mb-2 font-semibold text-gray-800">
