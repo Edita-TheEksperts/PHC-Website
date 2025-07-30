@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
-import 'react-clock/dist/Clock.css';
+import 'react-clock/dist/Clock.css'
 import DatePicker from 'react-datepicker';
 import { de } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -20,32 +20,12 @@ const { watch } = useForm();
   const router = useRouter();
 const { service, subService } = router.query;
 const [clientSecret, setClientSecret] = useState(null);
+const selectedServices = service
+  ? service.split(",").map((s) => s.trim()).filter((s) => s)
+  : [];
 
 
-useEffect(() => {
-  const fetchSubServices = async () => {
-    if (!service) return;
 
-    try {
-   const res = await fetch(`/api/subservices?serviceName=${encodeURIComponent(service)}`);
-if (!res.ok) {
-  console.error("Status:", res.status);
-  return;
-}
-const data = await res.json();
-setSubServices(Array.isArray(data) ? data : []);
-setForm(prev => ({
-  ...prev,
-subServices: prev.subServices?.length ? prev.subServices : [data[0]?.name].filter(Boolean)
-}));
-
-    } catch (err) {
-      console.error("Fehler beim Laden der Subservices", err);
-    }
-  };
-
-  fetchSubServices();
-}, [service]);
   const [subServices, setSubServices] = useState([]);
 const [step, setStep] = useState(1);
 
@@ -664,13 +644,18 @@ useEffect(() => {
         )
       );
 
-      // Flatten and remove duplicates
       const allSubservices = allFetched.flat();
       const unique = Array.from(
         new Map(allSubservices.map((s) => [s.name, s])).values()
       );
 
       setSubServices(unique);
+
+      // Only update form if it's empty
+      setForm((prev) => ({
+        ...prev,
+        subServices: prev.subServices?.length ? prev.subServices : [unique[0]?.name].filter(Boolean),
+      }));
     } catch (err) {
       console.error("Fehler beim Laden der Subservices", err);
     }
@@ -678,6 +663,21 @@ useEffect(() => {
 
   fetchAllSubServices();
 }, [form.services]);
+useEffect(() => {
+  if (service) {
+    const selected = service
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    setForm((prev) => ({
+      ...prev,
+      services: selected, // ← ONLY use the clean list
+    }));
+  }
+}, [service]);
+
+
 useEffect(() => {
   const fetchAllServices = async () => {
     try {
@@ -694,12 +694,18 @@ useEffect(() => {
 }, []);
 useEffect(() => {
   if (service) {
+    const selected = service
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     setForm((prev) => ({
       ...prev,
-      services: prev.services.includes(service) ? prev.services : [...prev.services, service],
+      services: selected, // ← ✅ THIS IS CORRECT
     }));
   }
 }, [service]);
+
 
 const timeOptions = Array.from({ length: 28 }, (_, i) => {
   const hour = Math.floor(i / 2) + 7; // from 07:00
@@ -1081,7 +1087,7 @@ return (
       Für <span className="text-[#B99B5F]">„Ausflüge und Reisebegleitung“</span> bitten wir Sie, uns direkt zu kontaktieren.
     </p>
     <a
-      href="/kontakt"
+      href="/contact"
       className="text-[#04436F] underline font-medium hover:text-[#033552]"
     >
       Zum Kontaktformular
@@ -1486,7 +1492,7 @@ Passwort bestätigen*</label>
   <>
     <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
 
-    <div className="mb-4">
+  <div className="p-4 border border-gray-300 rounded-md shadow-sm bg-white">
       <CardElement
         options={{
           style: {
@@ -1500,7 +1506,29 @@ Passwort bestätigen*</label>
         }}
       />
     </div>
+<p className="mt-2 text-sm text-gray-500">
+    Alle unsere Zahlungen werden sicher über Stripe verarbeitet.
+  </p>
 
+  <div className=" flex items-center">
+    <input
+      type="checkbox"
+      id="agb"
+      className="mr-2 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+    />
+<label htmlFor="agb" className="text-sm text-gray-700">
+  Ich akzeptiere die{" "}
+  <a
+    href="/AGB"
+    className="text-blue-600 underline"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    AGB
+  </a>.
+</label>
+
+  </div>
   <button
   className="bg-[#B99B5F] text-white px-4 py-2 rounded"
   onClick={handleSubmit}
