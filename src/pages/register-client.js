@@ -1249,9 +1249,14 @@ return (
 <DatePicker
   selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
 onChange={(date) => {
-  const formatted = format(date, "dd.MM.yyyy");
-  setForm({ ...form, firstDate: formatted }); 
+  if (!date) {
+    setForm({ ...form, firstDate: "" }); // Clear the date in the form
+  } else {
+    const formatted = format(date, "dd.MM.yyyy");
+    setForm({ ...form, firstDate: formatted });
+  }
 }}
+
 
 
   dateFormat="dd.MM.yyyy"
