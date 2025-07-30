@@ -284,7 +284,7 @@ await fetch("/api/send-interview-email", {
     if (!res.ok) throw new Error("API error");
 
  setSubmissionMessage(
-  `Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen. <strong>Zu beachten: Der Login Bereich wird nach Bestätigung der PHC freigeschaltet.</strong>`
+  `Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen. Zu beachten: Der Login Bereich wird nach Bestätigung der PHC freigeschaltet.`
 );
 
 
@@ -561,6 +561,7 @@ useEffect(() => {
 <label className="block font-medium mt-4">Letzte Anstellung (Firma)?</label>
 <input
   type="text"
+  placeholder="Name der Firma eingeben"
   name="experienceWhere"
   value={form.experienceWhere}
   onChange={handleChange}
@@ -620,7 +621,7 @@ useEffect(() => {
 
         {form.hasCar === "ja" && (
           <>
-            <label className="block font-medium mt-4">Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung exklusiv Arbeitsweg)</label>
+            <label className="block font-medium mt-4">Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung), exklusiv Arbeitsweg</label>
             <select
               name="carAvailableForWork"
               value={form.carAvailableForWork || ""}
