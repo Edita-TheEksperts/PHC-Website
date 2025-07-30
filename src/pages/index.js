@@ -1294,9 +1294,22 @@ Einmalige Einsätze
           </a>
         </span>
       </label>
+<button
+        onClick={() => {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      <button
-        onClick={handleEmployeeStart}
+          if (!emailRegex.test(email)) {
+            alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+            return;
+          }
+
+          if (!agbAccepted) {
+            alert("Bitte akzeptieren Sie die Nutzungsbedingungen.");
+            return;
+          }
+
+          handleEmployeeStart();
+        }}
         className="w-full py-3 bg-[#04436F] text-white font-semibold rounded-xl hover:bg-[#B99B5F] transition duration-200"
       >
         Jetzt Bewerben

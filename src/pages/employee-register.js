@@ -10,6 +10,7 @@ export default function RegisterEmployee() {
   const router = useRouter();                   // Next.js router
   const [step, setStep] = useState(1);         // Current form step (1 to 4)
   const [isSubmitted, setIsSubmitted] = useState(false); // To show confirmation after submit
+const [stepError, setStepError] = useState("");
 
   // Component for showing summary rows
   const SummaryRow = ({ label, value }) => (
@@ -193,41 +194,63 @@ const handleChange = (e) => {
       form.howFarCanYouTravel
     );
 case 3:
-  const days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
+  const days = [
+    "Montag", "Dienstag", "Mittwoch", "Donnerstag",
+    "Freitag", "Samstag", "Sonntag"
+  ];
+
   const hasAvailability = days.some(
     (day) => form[`available_${day}`] && parseFloat(form[`availabilityHours_${day}`]) > 0
   );
 
-   return (
-    form.availabilityDays?.length > 0 &&
-    form.servicesOffered.length > 0 &&
-    form.availabilityFrom
+  // Required documents
+  const requiredFiles = ["passportFile", "cvFile", "certificateFile"];
+
+  // Only add workPermitFile if NOT "CH Pass"
+  if (form.residencePermit !== "CH Pass") {
+    requiredFiles.push("workPermitFile");
+  }
+
+  // Only add drivingLicenceFile if hasLicense is "ja"
+  if (form.hasLicense === "ja") {
+    requiredFiles.push("drivingLicenceFile");
+  }
+
+  // Validate: file must exist and have length > 0
+  const allFilesValid = requiredFiles.every(
+    (key) => form[key] && form[key].length > 0
   );
 
+  return (
+    form.availabilityDays?.length > 0 &&
+    form.servicesOffered.length > 0 &&
+    form.availabilityFrom &&
+    allFilesValid
+  );
 
-
-  default:
-    return true;
 }
 
   };
 
-  const handleNext = () => {
-    if (!validateStep()) {
-      alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
-      return;
-    }
-    setStep((s) => s + 1);
-  };
+ const handleNext = () => {
+  if (!validateStep()) {
+    setStepError("Bitte alle Pflichtfelder ausfüllen.");
+    scrollToTop(); // optional to move up
+    return;
+  }
+
+  setStepError(""); // clear error
+  setStep((s) => s + 1);
+};
 
  const [submissionMessage, setSubmissionMessage] = useState("");
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!validateStep()) {
-    alert("Bitte alle Pflichtfelder korrekt ausfüllen.");
-    return;
-  }
+ setStepError("");
+setIsSubmitted(true);
+setSubmissionMessage("Dateien werden hochgeladen...");
+
 
   setIsSubmitted(true);
   setSubmissionMessage("Dateien werden hochgeladen...");
@@ -284,7 +307,7 @@ await fetch("/api/send-interview-email", {
     if (!res.ok) throw new Error("API error");
 
  setSubmissionMessage(
-  `Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen. Zu beachten: Der Login Bereich wird nach Bestätigung der PHC freigeschaltet.`
+  `Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen. Zu beachten: Der Login Bereich wird nach Bestätigung durch die PHC freigeschaltet.`
 );
 
 
@@ -334,6 +357,10 @@ useEffect(() => {
     <p>
       Bitte <a href="/login" className="underline text-red-800 font-bold">hier einloggen</a>, wenn Sie bereits ein Konto haben.
     </p>
+  </div>
+)}{stepError && (
+  <div className="bg-red-100 text-red-700 border border-red-300 p-4 rounded text-sm mb-4">
+    {stepError}
   </div>
 )}
         <form
@@ -969,72 +996,123 @@ useEffect(() => {
   <h3 className="text-2xl font-bold text-[#04436F]">Dokumente hochladen</h3>
 
   {/* Upload Field Template */}
-  {[
-    { label: "ID oder Reisepass", key: "passportFile", required: true },
-    { label: "Arbeitsbewilligung", key: "workPermitFile", required: true },
-    { label: "Strafregisterauszug", key: "policeLetterFile", required: false },
-    { label: "Lebenslauf", key: "cvFile", required: true },
-    { label: "Zertifakte/Arbeitszeugnisse", key: "certificateFile", required: true },
-  ].map((field) => (
+{[
+  { label: "ID oder Reisepass", key: "passportFile", required: true },
+  { label: "Arbeitsbewilligung", key: "workPermitFile", required: true ,hideIfCHPass: true,},
+{ label: "Strafregisterauszug", key: "policeLetterFile", required: false,  hideOptional: true },
+  { label: "Lebenslauf", key: "cvFile", required: true },
+  { label: "Zertifakte/Arbeitszeugnisse", key: "certificateFile", required: true },
+].map((field) => {
+  if (field.hideIfCHPass && form.residencePermit === "CH Pass") return null;
+
+  return (
     <div key={field.key}>
       <label className="block text-sm font-medium text-gray-700 mb-1">
         {field.label}{" "}
-        {field.required ? (
-          <span className="text-red-500 font-bold">*</span>
-        ) : (
-          <span className="text-gray-500 text-sm">(optional)</span>
-        )}
-      </label>
-      <input
-  type="file"
-  multiple
-  onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
-  required={field.required}
-  className="text-sm text-gray-700 
-             file:mr-4 file:py-2 file:px-4 
-             file:rounded-lg file:border-0 
-             file:bg-[#04436F] file:text-white 
-             hover:file:bg-[#a6884a] 
-             file:cursor-pointer 
-             w-auto"
-/>
+       {field.required ? (
+  <span className="text-red-500 font-bold">*</span>
+) : field.hideOptional !== true ? (
+  <span className="text-gray-500 text-sm">(optional)</span>
+) : null}
 
+      </label>
+     {/* Hidden file input */}
+  <input
+    type="file"
+    id={field.key}
+    multiple
+    style={{ display: "none" }}
+    onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
+    required={field.required}
+  />
+
+  {/* Custom button label */}
+  <label
+    htmlFor={field.key}
+    className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+  >
+    Dokumente hochladen
+  </label>
+
+  {/* File name display (optional) */}
+  <p className="text-sm text-gray-600 mt-1">
+    {form[field.key]?.length > 0 ? `${form[field.key].length} Datei(en) ausgewählt` : "Keine Datei ausgewählt"}
+  </p>
     </div>
-  ))}
+  );
+})}
+
 
   {/* Driving Licence – Conditionally Shown */}
-  {form.hasLicense === "ja" && (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        Führerschein <span className="text-red-500 font-bold">*</span>
-      </label>
-      <input
-        type="file"
-        multiple
-        onChange={(e) =>
-          setForm({ ...form, drivingLicenceFile: e.target.files })
-        }
-        required
-        className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
-      />
-    </div>
-  )}
-
-  {/* Photo Upload */}
+{form.hasLicense === "ja" && (
   <div>
     <label className="block text-sm font-medium text-gray-700 mb-1">
-      Foto <span className="text-red-500 font-bold">*</span>
+      Führerschein <span className="text-red-500 font-bold">*</span>
     </label>
+
+    {/* Hidden input */}
     <input
       type="file"
+      id="drivingLicenceFile"
       multiple
+      style={{ display: "none" }}
       onChange={(e) =>
-        setForm({ ...form, profilePhoto: e.target.files })
+        setForm({ ...form, drivingLicenceFile: e.target.files })
       }
       required
-      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#04436F] file:text-white hover:file:bg-[#a6884a]"
     />
+
+    {/* Custom upload button */}
+    <label
+      htmlFor="drivingLicenceFile"
+      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+    >
+      Dokumente hochladen
+    </label>
+
+    {/* File status */}
+    <p className="text-sm text-gray-600 mt-1">
+      {form.drivingLicenceFile?.length > 0
+        ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
+        : "Keine Datei ausgewählt"}
+    </p>
   </div>
+)}
+
+{/* Photo Upload */}
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Foto <span className="text-red-500 font-bold">*</span>
+  </label>
+
+  {/* Hidden input */}
+  <input
+    type="file"
+    id="profilePhoto"
+    multiple
+    style={{ display: "none" }}
+    onChange={(e) =>
+      setForm({ ...form, profilePhoto: e.target.files })
+    }
+    required
+  />
+
+  {/* Custom upload button */}
+  <label
+    htmlFor="profilePhoto"
+    className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+  >
+    Dokumente hochladen
+  </label>
+
+  {/* File status */}
+  <p className="text-sm text-gray-600 mt-1">
+    {form.profilePhoto?.length > 0
+      ? `${form.profilePhoto.length} Datei(en) ausgewählt`
+      : "Keine Datei ausgewählt"}
+  </p>
+</div>
+
 </div>
 
     <div className="space-y-2 mt-6">
