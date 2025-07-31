@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
   const subject = "Terminvereinbarung für ein persönliches Kennenlernen";
   const body = `
-Liebe ${firstName},
+Liebe ${firstName}
 
 Vielen Dank für Ihre Bewerbung – wir freuen uns, Sie näher kennenzulernen!
 

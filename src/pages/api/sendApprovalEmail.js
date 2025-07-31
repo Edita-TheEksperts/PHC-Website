@@ -17,7 +17,7 @@ export default async function sendApprovalEmail(email, firstName, portalUrl)
    const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f9f9f9; border-radius: 8px;">
       <h2 style="color: #04436F;">Willkommen im Prime Home Care Team</h2>
-      <p>Liebe ${firstName},</p>
+      <p>Liebe ${firstName}</p>
 
       <p>Vielen Dank für Ihre Registrierung bei der <strong>Prime Home Care AG</strong>.</p>
 

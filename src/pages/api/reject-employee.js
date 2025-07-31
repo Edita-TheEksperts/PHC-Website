@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     });
 
     const subject = "Ihre Bewerbung bei Prime Home Care AG";
-    const text = `Liebe ${updated.firstName},
+    const text = `Liebe ${updated.firstName}
 
 Vielen Dank für Ihre Bewerbung und Ihr Interesse an der Prime Home Care AG.
 
