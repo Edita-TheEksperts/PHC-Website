@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from "react";
 import { useForm } from 'react-hook-form';
 import { parse, addMonths, startOfMonth, format,setDate, isAfter, startOfDay, isSameMonth, isBefore } from "date-fns";
-
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
@@ -16,6 +15,7 @@ import {  addDays } from "date-fns";
 export default function RegisterPage() {
     const testMode = false; 
 const { watch } = useForm();
+const [formError, setFormError] = useState("");
 
   const router = useRouter();
 const { service, subService } = router.query;
@@ -248,15 +248,15 @@ const preparePayload = (form) => ({
   const validateStep = () => {
   if (step === 1) {
     if (!form.frequency) {
-      alert("Bitte wählen Sie die Häufigkeit der Unterstützung.");
+  setFormError("Bitte wählen Sie die Häufigkeit der Unterstützung.");
       return false;
     }
     if (!form.firstDate) {
-      alert("Bitte wählen Sie ein Beginndatum.");
+      setFormError("Bitte wählen Sie ein Beginndatum.");
       return false;
     }
     if (!form.services || form.services.length === 0) {
-      alert("Bitte wählen Sie mindestens eine Dienstleistung.");
+      setFormError("Bitte wählen Sie mindestens eine Dienstleistung.");
       return false;
     }
    const hasAnySubService = form.schedules.some(
@@ -264,7 +264,7 @@ const preparePayload = (form) => ({
 );
 
 if (!hasAnySubService) {
-  alert("Bitte wählen Sie mindestens eine Zusatzleistung für mindestens einen Tag.");
+  setFormError("Bitte wählen Sie mindestens eine Zusatzleistung für mindestens einen Tag.");
   return false;
 }
 
@@ -272,27 +272,27 @@ if (!hasAnySubService) {
 
   if (step === 2) {
     if (!form.firstName) {
-      alert("Bitte geben Sie den Vornamen ein.");
+      setFormError("Bitte geben Sie den Vornamen ein.");
       return false;
     }
     if (!form.lastName) {
-      alert("Bitte geben Sie den Nachnamen ein.");
+      setFormError("Bitte geben Sie den Nachnamen ein.");
       return false;
     }
     if (!form.email) {
-      alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+      setFormError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
       return false;
     }
     if (!form.phone) {
-      alert("Bitte geben Sie eine gültige Telefonnummer ein.");
+      setFormError("Bitte geben Sie eine gültige Telefonnummer ein.");
       return false;
     }
     if (!form.password) {
-      alert("Bitte geben Sie ein Passwort ein.");
+      setFormError("Bitte geben Sie ein Passwort ein.");
       return false;
     }
     if (!form.address) {
-      alert("Bitte geben Sie die Adresse ein.");
+      setFormError("Bitte geben Sie die Adresse ein.");
       return false;
     }
   }
@@ -307,7 +307,7 @@ if (!testMode) {
 
   if (step === 4 || (testMode && step === 3)) {
     if (!form.transportOption) {
-      alert("Bitte wählen Sie eine Transportoption.");
+      setFormError("Bitte wählen Sie eine Transportoption.");
       return false;
     }
   }
@@ -320,27 +320,25 @@ if (!testMode) {
     setForm({ ...form, [e.target.name]: e.target.value });
 
 const handleNext = async () => {
+  setFormError(""); 
+
   if (!validateStep()) return;
 
-  // Step 2: Just move to step 3, no user registration yet
   if (step === 2) {
     setStep(3);
     return;
   }
 
-  // Step 3: Handle Stripe payment
   if (step === 3 && !testMode) {
-    await handleSubmit({ preventDefault: () => {} }); // runs payment + registration
+    await handleSubmit({ preventDefault: () => {} }); 
     return;
   }
 
-  // Test mode: skip payment
   if (step === 3 && testMode) {
     setStep(4);
     return;
   }
 
-  // Any other case: just move to next step
   setStep((prev) => prev + 1);
 };
 
@@ -1005,6 +1003,11 @@ return (
             </div>
           ))}
         </div>
+{formError && (
+  <div className="bg-red-100 text-red-700 border border-red-400 px-4 py-3 rounded relative">
+    {formError}
+  </div>
+)}
 
         <form
           onSubmit={handleSubmit}

@@ -319,8 +319,6 @@ await fetch("/api/send-interview-email", {
   }
 };
 
-
-
 useEffect(() => {
   scrollToTop();
 }, [step]);
@@ -1197,8 +1195,6 @@ useEffect(() => {
   </>
 )}
 
-
-          {/* Navigation Buttons */}
         {/* Navigation Buttons */}
 <div className="pt-6 flex justify-end gap-4">
   {/* Hide "Zurück" on step 4 */}
