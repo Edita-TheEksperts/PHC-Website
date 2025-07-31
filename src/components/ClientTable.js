@@ -12,6 +12,46 @@ export default function ClientTable({ clients }) {
   const [selectedService, setSelectedService] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [sortBy, setSortBy] = useState("name");
+function getStatus(client) {
+  if (client.status === "canceled") return "Canceled";
+
+  const now = new Date();
+  const serviceDate = new Date(client.firstDate);
+  return serviceDate < now ? "Done" : "Open";
+}
+function isCancelable(client) {
+  const now = new Date();
+  const serviceDate = new Date(client.firstDate);
+  const diffHours = (serviceDate - now) / (1000 * 60 * 60);
+  return diffHours >= 24;
+}
+async function handleCancel(clientId) {
+  const confirmCancel = window.confirm("Are you sure you want to cancel this service?");
+  if (!confirmCancel) return;
+
+  try {
+    const res = await fetch("/api/admin/cancel-service", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clientId }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setMessage("❌ Service canceled.");
+      router.reload(); // ← Refresh to reflect canceled status
+    } else {
+      setMessage(`❌ Failed to cancel: ${data.message}`);
+    }
+  } catch (err) {
+    console.error("Cancel error:", err);
+    setMessage("❌ Something went wrong.");
+  }
+
+  setTimeout(() => setMessage(""), 3000);
+}
+
 
   useEffect(() => {
     async function fetchEmployees() {
@@ -152,17 +192,19 @@ useEffect(() => {
 <div className="hidden sm:block bg-white rounded-xl shadow overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-100 text-left">
-            <tr>
-              <th className="p-3">Name</th>
-              <th className="p-3">Email</th>
-              <th className="p-3">Phone</th>
-              <th className="p-3">Service</th>
-              <th className="p-3">Date</th>
-              <th className="p-3">Assign Employee</th>
-              <th className="p-3">Action</th>
-            </tr>
+        <tr className="bg-gray-100 text-sm text-gray-700 uppercase tracking-wide">
+  <th className="px-4 py-2 text-left">Name</th>
+  <th className="px-4 py-2 text-left">Email</th>
+  <th className="px-4 py-2 text-left">Phone</th>
+  <th className="px-4 py-2 text-left">Service</th>
+  <th className="px-4 py-2 text-left">Date</th>
+  <th className="px-4 py-2 text-left">Assign Employee</th>
+  <th className="px-4 py-2 text-left">Action</th>
+  <th className="px-4 py-2 text-left">Status</th>
+</tr>
+
           </thead>
-          <tbody>
+<tbody className="text-sm text-gray-700">
             {filteredClients.map((client) => (
               <tr key={client.id} className="border-t hover:bg-gray-50">
                 <td className="p-3">{client.firstName} {client.lastName}</td>
@@ -202,37 +244,78 @@ useEffect(() => {
                     </select>
                   )}
                 </td>
-                <td className="p-3">
-                  <button
-                    disabled={!selectedEmployee[client.id]}
-                    onClick={() => handleAssign(client.id)}
-                    className={`px-3 py-1 rounded text-white ${
-                      selectedEmployee[client.id]
-                        ? "bg-green-500 hover:bg-green-600"
-                        : "bg-gray-400 cursor-not-allowed"
-                    }`}
-                  >
-                    Assign
-                  </button>
-{client.assignments?.length > 0 && (() => {
-  const latest = client.assignments[0]; // or find the latest by date if needed
+            <td className="p-3">
+  <div className="flex flex-col gap-2">
+    {/* Assign Button */}
+    <button
+      disabled={!selectedEmployee[client.id]}
+      onClick={() => handleAssign(client.id)}
+      className={`w-full px-3 py-1 rounded-md text-sm font-medium shadow-sm transition ${
+        selectedEmployee[client.id]
+          ? "bg-green-600 hover:bg-green-700 text-white"
+          : "bg-gray-200 text-gray-400 cursor-not-allowed"
+      }`}
+    >
+      Assign
+    </button>
 
-  return (
-    <div className="text-xs mt-1" style={{ color: "#2563eb" }}>
-      Assigned to {latest.employee?.firstName || "—"} (
-      {latest.confirmationStatus === "pending"
-        ? "Pending"
-        : latest.confirmationStatus === "confirmed"
-        ? "Confirmed"
-        : "Rejected"}
-      )
-    </div>
-  );
-})()}
+    {/* Assignment Info */}
+    {client.assignments?.length > 0 && (() => {
+      const latest = client.assignments[0];
+      return (
+      <div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 w-fit">
+        <span>
+          Assigned to <span className="font-semibold">{latest.employee?.firstName || "—"}</span>
+        </span>
+        <span className="ml-1 text-blue-500">(
+          {latest.confirmationStatus === "pending"
+            ? "Pending"
+            : latest.confirmationStatus === "confirmed"
+            ? "Confirmed"
+            : "Rejected"}
+        )</span>
+      </div>
+
+      );
+    })()}
+
+    {/* Cancel Button */}
+    {getStatus(client) === "Open" && (
+      <button
+        onClick={() => handleCancel(client.id)}
+        disabled={!isCancelable(client)}
+        className={`w-full px-3 py-1 rounded-md text-sm font-medium shadow-sm transition ${
+          isCancelable(client)
+            ? "bg-red-500 hover:bg-red-600 text-white"
+            : "bg-gray-200 text-gray-400 cursor-not-allowed"
+        }`}
+      >
+        Cancel
+      </button>
+    )}
+  </div>
+</td>
 
 
+           <td className="p-3">
+  {getStatus(client) === "Open" && (
+    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+      <span className="w-2 h-2 bg-green-500 rounded-full"></span> Open
+    </span>
+  )}
+  {getStatus(client) === "Done" && (
+    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-700">
+      <span className="w-2 h-2 bg-gray-500 rounded-full"></span> Done
+    </span>
+  )}
+  {getStatus(client) === "Canceled" && (
+    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+      <span className="w-2 h-2 bg-red-500 rounded-full"></span> Canceled
+    </span>
+  )}
+</td>
 
-                </td>
+
               </tr>
             ))}
           </tbody>
@@ -245,57 +328,92 @@ useEffect(() => {
 {/* 📱 Mobile Card View (only visible on small screens) */}
 <div className="sm:hidden flex flex-col gap-4">
   {filteredClients.map((client) => (
-    <div key={client.id} className="bg-white p-4 rounded-xl shadow space-y-2">
-      <p><span className="font-semibold text-[#04436F]">Name:</span> {client.firstName} {client.lastName}</p>
-      <p><span className="font-semibold text-[#04436F]">Email:</span> {client.email}</p>
-      <p><span className="font-semibold text-[#04436F]">Phone:</span> {client.phone}</p>
-      <p><span className="font-semibold text-[#04436F]">Service:</span> {(client.services || []).map(s => s.name).join(", ") || "-"}</p>
-      <p><span className="font-semibold text-[#04436F]">Date:</span> {client.firstDate ? new Date(client.firstDate).toISOString().slice(0, 10) : "-"}</p>
-
-      <div className="space-y-2">
-        <select
-          value={selectedEmployee[client.id] || ""}
-          onChange={(e) =>
-            setSelectedEmployee({ ...selectedEmployee, [client.id]: e.target.value })
-          }
-          className="border w-full px-3 py-2 rounded"
-        >
-          <option value="">Select Employee</option>
-          {employees.map((emp) => (
-            <option key={emp.id} value={emp.id}>
-              {emp.firstName} {emp.lastName} ({emp.status})
-            </option>
-          ))}
-        </select>
-
-        <button
-          disabled={!selectedEmployee[client.id]}
-          onClick={() => handleAssign(client.id)}
-          className={`w-full px-3 py-2 rounded text-white ${
-            selectedEmployee[client.id]
-              ? "bg-green-500 hover:bg-green-600"
-              : "bg-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Assign
-        </button>
-
-        {client.assignments?.length > 0 && (() => {
-          const latest = client.assignments[0];
-          return (
-            <p className="text-xs text-blue-600">
-              Assigned to {latest.employee?.firstName || "—"} (
-              {latest.confirmationStatus === "pending"
-                ? "Pending"
-                : latest.confirmationStatus === "confirmed"
-                ? "Confirmed"
-                : "Rejected"}
-              )
-            </p>
-          );
-        })()}
-      </div>
+<div key={client.id} className="bg-white p-4 rounded-xl shadow-md border border-gray-100 space-y-2">
+  <div className="flex justify-between items-center">
+    <p className="font-semibold text-[#04436F]">{client.firstName} {client.lastName}</p>
+    <div>
+      {getStatus(client) === "Open" && (
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+          <span className="w-2 h-2 bg-green-500 rounded-full"></span> Open
+        </span>
+      )}
+      {getStatus(client) === "Done" && (
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-700">
+          <span className="w-2 h-2 bg-gray-500 rounded-full"></span> Done
+        </span>
+      )}
+      {getStatus(client) === "Canceled" && (
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+          <span className="w-2 h-2 bg-red-500 rounded-full"></span> Canceled
+        </span>
+      )}
     </div>
+  </div>
+
+  <p><span className="text-sm text-gray-500">Email:</span> {client.email}</p>
+  <p><span className="text-sm text-gray-500">Phone:</span> {client.phone}</p>
+  <p><span className="text-sm text-gray-500">Service:</span> {(client.services || []).map(s => s.name).join(", ") || "-"}</p>
+  <p><span className="text-sm text-gray-500">Date:</span> {client.firstDate ? new Date(client.firstDate).toISOString().slice(0, 10) : "-"}</p>
+
+  <div className="space-y-2">
+    <select
+      value={selectedEmployee[client.id] || ""}
+      onChange={(e) =>
+        setSelectedEmployee({ ...selectedEmployee, [client.id]: e.target.value })
+      }
+      className="border w-full px-3 py-2 rounded"
+    >
+      <option value="">Select Employee</option>
+      {employees.map((emp) => (
+        <option key={emp.id} value={emp.id}>
+          {emp.firstName} {emp.lastName} ({emp.status})
+        </option>
+      ))}
+    </select>
+
+    <button
+      disabled={!selectedEmployee[client.id]}
+      onClick={() => handleAssign(client.id)}
+      className={`w-full px-3 py-2 rounded-md text-sm font-medium shadow-sm ${
+        selectedEmployee[client.id]
+          ? "bg-green-500 hover:bg-green-600 text-white"
+          : "bg-gray-200 text-gray-400 cursor-not-allowed"
+      }`}
+    >
+      Assign
+    </button>
+
+    {getStatus(client) === "Open" && (
+      <button
+        onClick={() => handleCancel(client.id)}
+        disabled={!isCancelable(client)}
+        className={`w-full px-3 py-2 rounded-md text-sm font-medium shadow-sm ${
+          isCancelable(client)
+            ? "bg-red-500 hover:bg-red-600 text-white"
+            : "bg-gray-200 text-gray-400 cursor-not-allowed"
+        }`}
+      >
+        Cancel
+      </button>
+    )}
+
+    {client.assignments?.length > 0 && (() => {
+      const latest = client.assignments[0];
+      return (
+        <p className="text-xs text-blue-600">
+          Assigned to {latest.employee?.firstName || "—"} (
+          {latest.confirmationStatus === "pending"
+            ? "Pending"
+            : latest.confirmationStatus === "confirmed"
+            ? "Confirmed"
+            : "Rejected"}
+          )
+        </p>
+      );
+    })()}
+  </div>
+</div>
+
   ))}
 </div>
 
