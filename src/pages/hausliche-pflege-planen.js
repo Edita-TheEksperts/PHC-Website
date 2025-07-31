@@ -144,7 +144,7 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
 </section>
 
 <section 
-  className="bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] relative overflow-hidden" 
+  className="bg-[#F1F1F1] lg:h-[300px] h-[400px] flex flex-col rounded-[20px] justify-center items-center text-center mt-[120px] mb-[120px] relative overflow-hidden" 
   style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
 >
   <h2 className="text-[#04436F] text-[35px] leading-[45px] lg:text-[44px] font-semibold lg:leading-[52.8px]">
@@ -158,79 +158,6 @@ Registrieren Sie sich und erstellen Sie ihre eigene Offerte direkt<br></br> und 
   </Link>
 </section>
  
-
-  
-        {/* Flexible Care Models */}
-        <section className="mt-[120px]  flex flex-col lg:flex-row items-start gap-10">
-          <img src="/images/phc-containerrr.png" alt="Care model" className="lg:h-[500px] w-full lg:w-1/2 rounded-[20px]" />
-          <div className="lg:w-1/2 text-left px-6">
-          <h3 className="text-[#003588] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
-  Flexible Betreuungs-Modelle
-</h3>
-<p className="text-[#04436F]  text-[20px] font-normal leading-[27px] font-['Metropolis'] mt-2">
-  Flexibilität und die Anpassungsfähigkeit an sich wandelnde Bedürfnisse sind wichtige Aspekte bei Wahl 
-  der richtigen der Seniorenbetreuung. Unser Modell bietet gegenüber reinen Verleihangeboten mehr 
-  Flexibilität, die häusliche Betreuung vertraglich umfassend und zugleich rechtskonform zu regeln. 
-  <br /><br />
-  Individuelle Arbeitsverträge können dank unserer Beratung und einer umfassenden juristischen 
-  Hilfestellung leichter auf sich im Zeitablauf ändernde Rahmenbedingungen angepasst werden. Zugleich 
-  bietet unser Treuhandmodell für unsere Kunden den Komfort, sich für alle Fragen und Wünsche nur an 
-  einen Ansprechpartner wenden zu müssen.
-</p>
-
-          </div>
-        </section>
-  
-        {/* FAQ Section */}
-        <section className="mt-[120px] text-center">
-        <h2 className="text-[#04436F] text-[40px] font-semibold leading-[48px] font-['Metropolis']">
-    Häufig gestellte Fragen bei der Betreuungs-Organisation
-  </h2>
-
-  {/* Paragraph */}
-  <p className="text-[#04436F] lg:px-[60px] text-[24px] font-normal leading-[32px] font-['Metropolis'] mt-3">
-    Wir haben hier für Sie einige der am häufigsten gestellten Fragen zusammengestellt.
-    <br /><br />
-    Ihre Frage wurde nicht beantwortet? Warum treten Sie nicht direkt mit uns in Kontakt? 
-    Unser<br></br> Team freut sich, von Ihnen zu hören!
-  </p>
-  <div className="mt-6 lg:mt-[60px] space-y-[30px] lg:px-[80px] mb-[70px]">
-  {[
-    "Wie wird sichergestellt, dass die Pflegekräfte zuverlässig und qualifiziert sind?",
-    "Wie funktioniert die Abrechnung und Bezahlung Ihrer Dienstleistungen?",
-    "Was passiert, wenn sich die Betreuungs-Bedürfnisse im Laufe der Zeit ändern?",
-    "Wie läuft die Betreuungs-Organisation ab, wenn Betreuung und Pflege kurzfristig notwendig ist oder unerwartet mehr Unterstützung benötigt wird?",
-    "Wie wird sichergestellt, dass die Pflegekräfte individuelle Bedürfnisse und Wünsche verstehen und umsetzen?",
-  ].map((faq, index) => (
-    <div 
-      key={index} 
-      className="bg-[#EDF2FB] p-5 rounded-[20px] flex justify-between items-center cursor-pointer"
-    >
-      {/* FAQ Text */}
-      <h4 className="text-[#04436F] lg:w-[850px] text-left text-[20px] font-semibold leading-[28px] font-['Metropolis']">
-        {faq}
-      </h4>
-
-      {/* Dropdown Icon */}
-      <div className="w-[24px] h-[26px] flex justify-center items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 24 26" fill="none">
-          <g clip-path="url(#clip0_1352_2251)">
-            <path d="M12 0.630859C5.37258 0.630859 0 6.00344 0 12.6309C0 19.2583 5.37258 24.6309 12 24.6309C18.6274 24.6309 24 19.2583 24 12.6309C24 6.00344 18.6274 0.630859 12 0.630859Z" fill="#04436F"/>
-            <path d="M16.4443 10.409L11.9999 14.8535L7.5554 10.409" stroke="white" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-          </g>
-          <defs>
-            <clipPath id="clip0_1352_2251">
-              <rect width="24" height="25" fill="white" transform="matrix(-1 0 0 -1 24 25.1309)"/>
-            </clipPath>
-          </defs>
-        </svg>
-      </div>
-    </div>
-  ))}
-</div>
-
-        </section>
-  
       </div>
     );
   }

@@ -168,6 +168,7 @@ const [selectedService, setSelectedService] = useState([]);
   const removeService = (service) => {
     setSelectedService((prev) => prev.filter((item) => item !== service));
   };
+const [searchText, setSearchText] = useState("");
 
   return (
     
@@ -187,57 +188,77 @@ Jetzt Ihre Betreuung buchen!</p>
    <div className="bg-white rounded-[20px]  p-6 lg:p-6 mt-4 w-full">
   <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-4 w-full">
     
-        <div className="relative w-full lg:w-[400px]" ref={wrapperRef}>
+        <div className="relative w-full lg:w-[370px]" ref={wrapperRef}>
       {/* Main Selector Display */}
-      <div
-        className="min-h-[60px] border border-gray-300 rounded-[12px] px-4 py-3 bg-white cursor-pointer flex flex-wrap gap-2"
-        onClick={() => setDropdownOpen(!dropdownOpen)}
+     <div
+  className="min-h-[65px] max-h-[60px] mt-[5px] overflow-y-auto border border-gray-300 rounded-[12px] px-4 py-3 bg-white cursor-pointer flex flex-wrap gap-3 items-center"
+  onClick={() => setDropdownOpen(!dropdownOpen)}
+  style={{
+    scrollbarColor: "#B99B5F transparent",
+    scrollbarWidth: "thin",
+  }}
+>
+  {selectedService.length > 0 ? (
+    selectedService.map((srv) => (
+      <span
+        key={srv}
+        className="bg-[#B99B5F] text-white px-4 py-1.5 rounded-full flex items-center text-sm font-medium shadow-sm"
       >
-        {selectedService.length > 0 ? (
-          selectedService.map((srv) => (
-            <span
-              key={srv}
-              className="bg-[#B99B5F] text-white px-3 py-1 rounded-full flex items-center text-sm"
-            >
-              {srv}
-              <button
-                className="ml-2 text-white hover:text-gray-200"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeService(srv);
-                }}
-              >
-                &times;
-              </button>
-            </span>
-          ))
-        ) : (
-          <span className="text-gray-500">Bitte Dienstleistung wählen</span>
-        )}
-      </div>
+        {srv}
+        <button
+          className="ml-2 text-white hover:text-gray-200 focus:outline-none"
+          onClick={(e) => {
+            e.stopPropagation();
+            removeService(srv);
+          }}
+        >
+          ×
+        </button>
+      </span>
+    ))
+  ) : (
+<span className="text-[#6B7280] text-base opacity-70">
+      Bitte Dienstleistung wählen
+    </span>  )}
+</div>
 
-      {/* Dropdown Content */}
+
       {dropdownOpen && (
-  <div className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-[12px] shadow-lg max-h-[250px] overflow-y-auto p-3">
-    {Object.keys(services).map((srv) => (
-      <label key={srv} className="flex items-center space-x-2 py-1">
-        <input
-          type="checkbox"
-          value={srv}
-          checked={selectedService.includes(srv)}
-          onChange={() => toggleService(srv)}
-          className="accent-[#04436F]"
-        />
-        <span className="text-sm">{srv}</span>
-      </label>
-    ))}
+  <div className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl max-h-[300px] overflow-y-auto p-3 space-y-2">
+    
+    {/* Search Filter (optional) */}
+    <input
+      type="text"
+      placeholder="Dienstleistung suchen..."
+      value={searchText}
+      onChange={(e) => setSearchText(e.target.value)}
+      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-[#B99B5F] focus:border-[#B99B5F] text-sm"
+    />
+
+    {/* Services list */}
+    {Object.keys(services)
+      .filter((srv) =>
+        srv.toLowerCase().includes(searchText.toLowerCase())
+      )
+      .map((srv) => (
+        <label key={srv} className="flex items-center space-x-2 hover:bg-gray-50 px-2 py-1 rounded-md cursor-pointer">
+          <input
+            type="checkbox"
+            value={srv}
+            checked={selectedService.includes(srv)}
+            onChange={() => toggleService(srv)}
+            className="accent-[#04436F]"
+          />
+          <span className="text-sm">{srv}</span>
+        </label>
+      ))}
   </div>
 )}
 
 
     </div>
 
-<div className="w-full lg:w-[300px] relative">
+<div className="w-full lg:w-[250px] relative h-[60px]">
   <input
     type="text"
     className="w-full border border-gray-300 rounded-[12px] px-5 py-5 text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] transition"
@@ -269,7 +290,7 @@ Jetzt Ihre Betreuung buchen!</p>
     <div className="w-full lg:w-auto mt-4 lg:mt-0">
       <button
         onClick={handleSubmit}
-        className="w-full bg-[#04436F] hover:bg-[#B99B5F] text-white text-[16px] font-semibold rounded-[12px] px-6 py-4 transition shadow-lg"
+        className="w-full bg-[#04436F] hover:bg-[#B99B5F] text-white text-[16px] font-semibold rounded-[12px] px-4 py-5 transition shadow-lg"
       >
         Los geht’s!
       </button>
@@ -640,150 +661,110 @@ Jetzt Ihre Betreuung buchen!</p>
     </section>
 
 
-    <section className="text-center mt-[120px]">
-        <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px] text-center">
-        Preise
-         </h2>
+ <section className="text-center mt-[120px]">
+  <h2 className="text-[#04436F] text-[55px] mb-4 lg:mb-[70px] font-semibold leading-[71.5px]">
+    Preise
+  </h2>
 
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-  
-  {/* Hourly Care Plan */}
-  <div className="rounded-[20px] text-center relative overflow-hidden bg-[#FFFFFF]">
-    
-    {/* Header */}
-    <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#EDF2FB] text-[#000000]">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
 
-{/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px]">
-Regelmässige Betreuung
-</h3>
+    {/* Card 1 – Regelmässige Betreuung */}
+    <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
+      <div className="w-full p-[50px] text-left bg-[#EDF2FB] text-[#000000] rounded-t-[20px]">
+        <h3 className="text-[22px] font-medium leading-[30.8px] mb-1">
+          Regelmässige Betreuung
+        </h3>
+        <div className="flex items-baseline gap-2 mt-[20px]">
+          <span className="text-[#04436F] text-[48px] font-semibold leading-[70px]">CHF 49.—</span>
+          <span className="text-[#04436F] text-[16px] leading-[25px]">pro Stunde</span>
+        </div>
+      </div>
 
-{/* Price Section - Now properly aligned */}
-<div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-[#04436F] text-[48px] font-semibold leading-[70px] ">
-  CHF 49/
-  </span>
-  <span className="text-[#04436F] text-[16px] font-normal leading-[25px] ">
-  Stunde
-  </span>
-</div>
+      <div className="px-[50px] pt-6 pb-4 text-left text-[#04436F] flex-grow">
+        <p className="text-[16px] font-semibold mb-2">Ideal für den Alltag</p>
+        <p className="text-[16px] leading-[26px] mb-6">
+          Unsere regelmässigen Betreuungslösungen bieten zuverlässige Unterstützung im Alltag – flexibel und individuell angepasst. Ob stundenweise Begleitung oder feste Termine.
+        </p>
+        <h4 className="text-[16px] font-semibold mb-2">Ihre Vorteile</h4>
+        <ul className="list-disc pl-5 space-y-2 text-[16px] font-normal">
+          <li>Planbare Betreuung</li>
+          <li>Feste Bezugspersonen</li>
+          <li>Kosteneffizient bei langfristiger Inanspruchnahme</li>
+        </ul>
+      </div>
 
-</div>
+      <div className="mt-auto px-[50px] pb-[50px]">
+        <Link href="/register-client">
+          <button className="w-full bg-[#04436F] text-white py-3 rounded-full text-[18px] font-medium transition duration-300 hover:bg-[#B99B5F]">
+            Jetzt Buchen
+          </button>
+        </Link>
+      </div>
+    </div>
 
-<div className="p-[50px] flex flex-col justify-center">
-  {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
-    <li>Personal care assistance</li>
-    <li>Medication reminders</li>
-    <li>Meal preparation and feeding assistance</li>
-    <li>Companionship and emotional support</li>
-  </ul>
-</div>
+    {/* Card 2 – Einmalige Einsätze */}
+    <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
+      <div className="w-full p-[50px] text-left bg-[#B99B5F] text-white rounded-t-[20px]">
+        <h3 className="text-[22px] font-medium leading-[30.8px] mb-1">Einmalige Einsätze</h3>
+        <div className="flex items-baseline gap-2 mt-[20px]">
+          <span className="text-[48px] font-semibold leading-[70px]">CHF 60.—</span>
+          <span className="text-[16px] leading-[25px]">pro Stunde</span>
+        </div>
+      </div>
 
+      <div className="px-[50px] pt-6 pb-4 text-left text-[#04436F] flex-grow">
+        <p className="text-[16px] font-semibold mb-2">Ideal für flexible Bedürfnisse</p>
+        <p className="text-[16px] leading-[26px] mb-6">
+          Für einmalige Unterstützung – sei es nach einem Spitalaufenthalt oder einfach zur Entlastung. Unkompliziert online buchbar.
+        </p>
+        <h4 className="text-[16px] font-semibold mb-2">Typische Einsätze</h4>
+        <ul className="list-disc pl-5 space-y-2 text-[16px] font-normal">
+          <li>Betreuung nach ambulanten Eingriffen</li>
+          <li>Ferienvertretung für Angehörige</li>
+          <li>Einzelne Begleitdienste</li>
+        </ul>
+      </div>
 
-    {/* Button */}
-    <div className="lg:mt-[100px] mt-6 mb-[50px]">
-     <Link href="/register-client">
-  <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                     transition duration-300 hover:bg-[#B99B5F]">
-    Jetzt Buchen
-  </button>
-</Link>
+      <div className="mt-auto px-[50px] pb-[50px]">
+        <Link href="/register-client">
+          <button className="w-full bg-[#04436F] text-white py-3 rounded-full text-[18px] font-medium transition duration-300 hover:bg-[#B99B5F]">
+            Jetzt Buchen
+          </button>
+        </Link>
+      </div>
+    </div>
+
+    {/* Card 3 – Individuelle Dienstleistungen */}
+    <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
+      <div className="w-full p-[50px] lg:h-[220px] text-left bg-[#EDF2FB] text-[#000000] rounded-t-[20px] justify-center">
+        <h3 className="text-[22px] font-medium leading-[30.8px]">Individuelle Dienstleistungen</h3>
+      </div>
+
+      <div className="px-[50px] pt-6 pb-4 text-left text-[#04436F] flex-grow">
+        <p className="text-[16px] leading-[26px] mb-6">
+          Wir bei der Prime Home Care AG verstehen die individuellen Bedürfnisse unserer Kunden.
+        </p>
+        <ul className="list-disc pl-5 space-y-2 text-[16px] font-normal">
+          <li>24 Stunden Live-In Betreuung</li>
+          <li>Ferienbegleitung</li>
+          <li>Konzertbesuche</li>
+          <li>Biographiearbeit</li>
+        </ul>
+      </div>
+
+      <div className="mt-auto px-[50px] pb-[50px]">
+        <Link href="/register-client">
+          <button className="w-full bg-[#04436F] text-white py-3 rounded-full text-[18px] font-medium transition duration-300 hover:bg-[#B99B5F]">
+            Jetzt Buchen
+          </button>
+        </Link>
+      </div>
     </div>
 
   </div>
-
-  {/* Hourly Care Plan */}
-  <div className="rounded-[20px] text-center relative overflow-hidden bg-[#EDF2FB]">
-    
-    {/* Header */}
-    <div className="w-full p-[50px] text-left rounded-t-[20px] bg-[#B99B5F] text-white">
-
-{/* Plan Title */}
-<h3 className="text-[22px] font-medium leading-[30.8px] ">
-Einmalige Einsätze
-</h3>
-
-{/* Price Section - Now properly aligned */}
-<div className="flex items-baseline gap-1 mt-[20px]">
-  <span className="text-white text-[48px] font-semibold leading-[70px] ">
-  CHF 60/
-  </span>
-  <span className="text-white text-[16px] font-normal leading-[25px]">
-  Stunde
-  </span>
-</div>
-
-</div>
-
-<div className="p-[50px] flex flex-col justify-center">
-  {/* Features */}
-  <ul className="mt-4 space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px] list-disc pl-[20px]">
-    <li>Personal care assistance</li>
-    <li>Medication reminders</li>
-    <li>Meal preparation and feeding assistance</li>
-    <li>Companionship and emotional support</li>
-    <li>Companionship and emotional support</li>
-
-    <li>Companionship and emotional support</li>
-
-    <li>Companionship and emotional support</li>
-
-  </ul>
-</div>
+</section>
 
 
-    {/* Button */}
-    <div className="lg:mt-[100px] mt-6 mb-[50px]">
-<Link href="/register-client">
-  <button className="bg-[#04436F] text-white lg:px-[120px] py-3 px-6 rounded-full text-[18px] font-medium 
-                     transition duration-300 hover:bg-[#B99B5F]">
-    Jetzt Buchen
-  </button>
-</Link>
-    </div>
-
-  </div>
-
-  {/* Customized Care Plan */}
-  <div className="p-[50px] lg:h-[730px] rounded-[20px] text-center bg-[#EDF2FB] flex flex-col justify-between h-full">
-    
-    {/* Header */}
-    <div className="w-full text-left text-[22px] font-medium leading-[30.8px] 
-                    rounded-t-[20px]  text-[#04436F]">
-      Individuelle Dienstleistungen
-    </div>
-    <p className="text-[#04436F] text-left text-[16px] font-normal leading-[25.6px]  mt-[20px] mb-[20px]">
-    Wir bei der Prime Home Care AG <br></br>verstehen die individuellen Bedürfnisse<br></br> unserer Kunden
-</p>
-
-    {/* Features */}
-    <ul className="mt-4 text-left space-y-[20px] text-[#04436F] text-[16px] font-normal text-left leading-[25.6px]  list-disc pl-[20px]">
-    <li>24 Stunden Live-In Betreuung</li>
-    <li>Ferienbegleitung</li>
-    <li>Konzertbesuche</li>
-    <li>Biographiearbeit</li>
-  
-
-  </ul>
-
-    {/* Button */}
-    <div className="lg:mt-[100px] items-center justify-center mt-[60px] lg:mb-[50px]">
-     <Link href="/register-client">
-  <button className="bg-[#04436F] text-white lg:px-[118px] py-3 px-6 rounded-full text-[18px] font-medium 
-                     transition duration-300 hover:bg-[#B99B5F]">
-    Jetzt Buchen
-  </button>
-</Link>
-    </div>
-
-  </div>
-
-</div>
-
-
-
-        </section>
  <section className="flex flex-col items-center justify-center px-2 md:px-5 md:py-2 mt-[180px]  text-[#04436F]">
                     {/* Main heading */}
                     <p style={  {background: "linear-gradient(70deg, #B2EAFF 0%, #A9B4B9 75%, rgba(0, 0, 0, 0.00) 100%)",}  

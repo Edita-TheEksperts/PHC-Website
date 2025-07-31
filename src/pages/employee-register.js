@@ -1115,61 +1115,66 @@ useEffect(() => {
 
 </div>
 
-    <div className="space-y-2 mt-6">
+  <div className="space-y-4 mt-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+  <label   className="text-2xl font-bold text-[#04436F]">
+    Wie haben Sie von uns erfahren?
+  </label>
 
-  <label className="font-medium ">  Wie haben Sie von uns erfahren?
-</label>
+  <div className="flex flex-col gap-3">
+    {["LinkedIn", "Facebook", "Instagram", "Google"].map((option) => (
+      <label
+        key={option}
+        className="flex items-center gap-3 text-sm font-medium text-gray-700"
+      >
+        <input
+          type="checkbox"
+          name="howDidYouHearAboutUs"
+          value={option}
+          checked={form.howDidYouHearAboutUs === option}
+          onChange={(e) =>
+            setForm({ ...form, howDidYouHearAboutUs: e.target.value })
+          }
+          className="h-4 w-4 accent-[#04436F]"
+        />
+        {option}
+      </label>
+    ))}
 
-<div className="space-y-3 ">
-  {["LinkedIn", "Facebook", "Instagram" ,"Google"].map((option) => (
-    <label key={option} className="flex items-center gap-2">
+    <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
       <input
         type="checkbox"
         name="howDidYouHearAboutUs"
-        value={option}
-        checked={form.howDidYouHearAboutUs === option}
-        onChange={(e) => setForm({ ...form, howDidYouHearAboutUs: e.target.value })}
+        value="Andere"
+        checked={form.howDidYouHearAboutUs?.startsWith("Andere:")}
+        onChange={(e) => {
+          const isChecked = e.target.checked;
+          setForm((prev) => ({
+            ...prev,
+            howDidYouHearAboutUs: isChecked ? "Andere:" : "",
+          }));
+        }}
+        className="h-4 w-4 accent-[#04436F]"
       />
-      {option}
+      Andere
     </label>
-  ))}
 
-  {/* Andere (Other) option */}
-  <label className="flex items-center gap-2">
-    <input
-      type="checkbox"
-      name="howDidYouHearAboutUs"
-      value="Andere"
-      checked={form.howDidYouHearAboutUs?.startsWith("Andere:")}
-      onChange={(e) => {
-        const isChecked = e.target.checked;
-        setForm((prev) => ({
-          ...prev,
-          howDidYouHearAboutUs: isChecked ? "Andere:" : "",
-        }));
-      }}
-    />
-    Andere
-  </label>
-
-  {form.howDidYouHearAboutUs?.startsWith("Andere:") && (
-    <input
-      type="text"
-      placeholder="z. B. Google, Freund..."
-      value={form.howDidYouHearAboutUs.split(":")[1] || ""}
-      onChange={(e) =>
-        setForm((prev) => ({
-          ...prev,
-          howDidYouHearAboutUs: `Andere:${e.target.value}`,
-        }))
-      }
-      className={inputClass + " mt-2"}
-    />
-  )}
+    {form.howDidYouHearAboutUs?.startsWith("Andere:") && (
+      <input
+        type="text"
+        placeholder="z. B. Empfehlung, Werbung..."
+        value={form.howDidYouHearAboutUs.split(":")[1] || ""}
+        onChange={(e) =>
+          setForm((prev) => ({
+            ...prev,
+            howDidYouHearAboutUs: `Andere:${e.target.value}`,
+          }))
+        }
+        className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+      />
+    )}
+  </div>
 </div>
 
-</div>
-    
 
   </>
 )}
