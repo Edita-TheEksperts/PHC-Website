@@ -47,10 +47,8 @@ async function handleInvite(emp) {
 
   return (
 <AdminLayout>
-  <div className="px-4 sm:px-6 md:px-8">
     <h1 className="text-2xl sm:text-3xl font-bold text-[#04436F] mb-6">All Employees</h1>
     <EmployeeTable employees={employees} onApprove={handleApproval} onReject={handleRejection} onInvite={handleInvite} />
-  </div>
 </AdminLayout>
 
   );

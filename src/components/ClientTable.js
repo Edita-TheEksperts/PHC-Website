@@ -195,7 +195,6 @@ useEffect(() => {
         <tr className="bg-gray-100 text-sm text-gray-700 uppercase tracking-wide">
   <th className="px-4 py-2 text-left">Name</th>
   <th className="px-4 py-2 text-left">Email</th>
-  <th className="px-4 py-2 text-left">Phone</th>
   <th className="px-4 py-2 text-left">Service</th>
   <th className="px-4 py-2 text-left">Date</th>
   <th className="px-4 py-2 text-left">Assign Employee</th>
@@ -209,7 +208,6 @@ useEffect(() => {
               <tr key={client.id} className="border-t hover:bg-gray-50">
                 <td className="p-3">{client.firstName} {client.lastName}</td>
                 <td className="p-3">{client.email}</td>
-                <td className="p-3">{client.phone}</td>
 <td className="p-3">
   {(client.services && client.services.length > 0)
     ? client.services.map(s => s.name).join(", ")
@@ -244,13 +242,13 @@ useEffect(() => {
                     </select>
                   )}
                 </td>
-            <td className="p-3">
-  <div className="flex flex-col gap-2">
+           <td className="p-3">
+  <div className="flex flex-col gap-2 w-36">
     {/* Assign Button */}
     <button
       disabled={!selectedEmployee[client.id]}
       onClick={() => handleAssign(client.id)}
-      className={`w-full px-3 py-1 rounded-md text-sm font-medium shadow-sm transition ${
+      className={`px-3 py-1 rounded text-sm font-medium shadow-sm transition ${
         selectedEmployee[client.id]
           ? "bg-green-600 hover:bg-green-700 text-white"
           : "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -259,23 +257,22 @@ useEffect(() => {
       Assign
     </button>
 
-    {/* Assignment Info */}
+    {/* View Details Button */}
+    <button
+      onClick={() => router.push(`/admin/clients/${client.id}`)}
+      className="px-3 py-1 rounded text-sm font-medium shadow-sm bg-blue-600 text-white hover:bg-blue-700 transition"
+    >
+      View Details
+    </button>
+
+    {/* Assigned info */}
     {client.assignments?.length > 0 && (() => {
       const latest = client.assignments[0];
       return (
-      <div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 w-fit">
-        <span>
-          Assigned to <span className="font-semibold">{latest.employee?.firstName || "—"}</span>
-        </span>
-        <span className="ml-1 text-blue-500">(
-          {latest.confirmationStatus === "pending"
-            ? "Pending"
-            : latest.confirmationStatus === "confirmed"
-            ? "Confirmed"
-            : "Rejected"}
-        )</span>
-      </div>
-
+        <p className="text-xs text-blue-600">
+          Assigned to <span className="font-semibold">{latest.employee?.firstName || "—"}{" "}
+          ({latest.confirmationStatus || "Pending"})</span>
+        </p>
       );
     })()}
 
@@ -284,7 +281,7 @@ useEffect(() => {
       <button
         onClick={() => handleCancel(client.id)}
         disabled={!isCancelable(client)}
-        className={`w-full px-3 py-1 rounded-md text-sm font-medium shadow-sm transition ${
+        className={`px-3 py-1 rounded text-sm font-medium shadow-sm transition ${
           isCancelable(client)
             ? "bg-red-500 hover:bg-red-600 text-white"
             : "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -295,6 +292,7 @@ useEffect(() => {
     )}
   </div>
 </td>
+
 
 
            <td className="p-3">
@@ -382,6 +380,17 @@ useEffect(() => {
     >
       Assign
     </button>
+<div className="flex flex-col gap-2">
+  {/* Existing Assign and Cancel buttons */}
+
+  {/* View Details Button */}
+  <button
+    onClick={() => router.push(`/admin/clients/${client.id}`)}
+    className="w-full px-3 py-1 rounded-md text-sm font-medium shadow-sm bg-blue-600 text-white hover:bg-blue-700 transition"
+  >
+    View Details
+  </button>
+</div>
 
     {getStatus(client) === "Open" && (
       <button
