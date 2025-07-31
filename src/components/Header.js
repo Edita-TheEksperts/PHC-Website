@@ -131,7 +131,7 @@ useEffect(() => {
     </div>
 
     {/* Navigation */}
-    <nav className="flex flex-col items-center gap-6">
+    <nav className="flex flex-col items-center gap-4">
       {navLinks.map((link, index) => (
         <div key={index} className="w-full text-center">
           {link.subLinks ? (
@@ -171,7 +171,7 @@ useEffect(() => {
       ))}
 
       {/* Mobile Buttons */}
-      <div className="flex flex-col gap-4 mt-6 w-full items-center">
+      <div className="flex flex-col gap-4 mt-4 w-full items-center">
         <Link
           href="/register-client"
           className="px-[44px] py-[15px] rounded-[6px] bg-[#A99558] text-white text-[15px] font-medium tracking-[-0.225px] w-full text-center"
