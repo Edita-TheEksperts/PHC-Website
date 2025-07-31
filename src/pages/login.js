@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router"; // ← Add this line
+import Link from 'next/link';
 
 
 export default function LoginPage() {
@@ -51,6 +52,8 @@ if (data.role === "employee") {
         <div className="flex flex-col justify-center mt-[30] lg:mt-0 items-left w-full lg:w-1/2 px-2 lg:px-10">
   
           {/* Logo */}
+  <Link href="/">
+
           <div className="mb-20">
           <svg xmlns="http://www.w3.org/2000/svg" width="100" height="49" viewBox="0 0 100 49" fill="none">
   <g clip-path="url(#clip0_1799_1710)">
@@ -79,9 +82,9 @@ if (data.role === "employee") {
   </defs>
 </svg>
           </div>
-  
+  </Link>
           {/* Welcome Back */}
-          <h1 className="text-[#04436F] text-left font-bold text-[40px] leading-[17px] tracking-[0.18px] ">
+          <h1 className="text-[#04436F] text-left font-bold text-[40px] lg:leading-[17px] tracking-[0.18px] ">
 Willkommen bei PHC          </h1>
           <p className="text-[#04436F] text-left mt-6 text-[16px]">
   Wir freuen uns, Sie wieder bei Prime Home Care begrüssen zu dürfen.

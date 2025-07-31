@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Header = () => {
   const router = useRouter();
@@ -34,7 +35,13 @@ const navLinks = [
    },
 ];
 
-
+useEffect(() => {
+  if (isMobileMenuOpen) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+}, [isMobileMenuOpen]);
 
   return (
 <header className="sticky top-0 z-[999] flex justify-between items-center mx-auto max-w-[1430px] p-4 bg-[#FAFCFF] ">
@@ -110,56 +117,83 @@ const navLinks = [
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={`lg:hidden fixed top-0 left-0 w-full h-full bg-white z-40 flex flex-col items-center justify-center space-y-4 ${isMobileMenuOpen ? 'block' : 'hidden'}`}
-        style={{ top: '70px' }} // Adjust the space to the header height
-      >
-       {navLinks.map((link, index) => (
-  <div key={index} className="text-center">
-    {/* Top-level link */}
-    {link.subLinks ? (
-      <>
-        <p className="text-[18px] font-medium text-[#222] hover:text-[#A99558]">
-          {link.name}
-        </p>
-        <div className="flex flex-col gap-2 mt-2">
-          {link.subLinks.map((sub, subIndex) => (
+   {/* Mobile Fullscreen Menu */}
+{isMobileMenuOpen && (
+  <div className="lg:hidden fixed inset-0 z-[999] bg-white px-6 py-6 overflow-y-auto">
+    {/* Close Button */}
+    <button
+      onClick={() => setIsMobileMenuOpen(false)}
+      className="absolute top-4 right-6 text-3xl text-[#04436F]"
+    >
+      ×
+    </button>
+
+    {/* Logo */}
+    <div className="flex justify-center mb-6 mt-2">
+      <Link href="/">
+        <Image src="/Link - home.png" alt="PHC Logo" width={120} height={60} />
+      </Link>
+    </div>
+
+    {/* Navigation */}
+    <nav className="flex flex-col items-center gap-6">
+      {navLinks.map((link, index) => (
+        <div key={index} className="w-full text-center">
+          {link.subLinks ? (
+            <>
+              <Link
+                href={link.path}
+                className="text-[18px] font-medium text-[#222] hover:text-[#A99558]"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+              <div className="flex flex-col gap-2 mt-2">
+                {link.subLinks.map((sub, subIndex) => (
+                  <Link
+                    key={subIndex}
+                    href={sub.path}
+                    className="text-[16px] text-[#555] hover:text-[#A99558]"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {sub.name}
+                  </Link>
+                ))}
+              </div>
+            </>
+          ) : (
             <Link
-              key={subIndex}
-              href={sub.path}
-              className="text-[16px] text-[#555] hover:text-[#A99558]"
+              href={link.path}
+              className={`text-[18px] font-medium ${
+                router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'
+              } hover:text-[#A99558]`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              {sub.name}
+              {link.name}
             </Link>
-          ))}
+          )}
         </div>
-      </>
-    ) : (
-      <Link
-        href={link.path}
-        className={`text-[18px] font-medium ${
-          router.pathname === link.path ? 'text-[#04436F]' : 'text-[#222]'
-        } hover:text-[#A99558]`}
-        onClick={() => setIsMobileMenuOpen(false)}
-      >
-        {link.name}
-      </Link>
-    )}
-  </div>
-))}
+      ))}
 
-
-        <div className="flex flex-col gap-4">
-          <Link href="/register-client" className="px-[44px] py-[15px] rounded-[6px] bg-[#A99558] text-white text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">
-            Jetzt Buchen
-          </Link>
-          <Link href="/login" className="px-[44px] py-[15px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] text-center  text-[15px] font-medium leading-normal tracking-[-0.225px]">
-            Log in
-          </Link>
-        </div>
+      {/* Mobile Buttons */}
+      <div className="flex flex-col gap-4 mt-6 w-full items-center">
+        <Link
+          href="/register-client"
+          className="px-[44px] py-[15px] rounded-[6px] bg-[#A99558] text-white text-[15px] font-medium tracking-[-0.225px] w-full text-center"
+        >
+          Jetzt Buchen
+        </Link>
+        <Link
+          href="/login"
+          className="px-[44px] py-[15px] rounded-[6px] border border-[#A99558] bg-white text-[#A99558] text-[15px] font-medium tracking-[-0.225px] w-full text-center"
+        >
+          Log in
+        </Link>
       </div>
+    </nav>
+  </div>
+)}
+
     </header>
   );
 };

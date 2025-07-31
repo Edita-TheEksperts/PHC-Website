@@ -177,7 +177,7 @@ const [searchText, setSearchText] = useState("");
     <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-2 px-4 lg:px-[20px] py-12 lg:py-[70px]">
   {/* Left Content */}
   <div className="flex-1 w-full max-w-[830px]">
-    <h1 className="text-[#04436F] text-[36px] lg:text-[60px] font-semibold leading-tight">
+    <h1 className="text-[#04436F] text-[34px] lg:text-[60px] font-semibold leading-tight">
       Individuelle<br /> Betreuungslösungen<br /> für Sie in Ihrem Zuhause
 
     </h1>
@@ -1244,8 +1244,8 @@ Jetzt Ihre Betreuung buchen!</p>
 
       
     <section className="bg-[#EDF2FB] rounded-[20px] py-14 px-6 md:px-20 mb-[120px] mt-[120px]">
-  <div className="max-w-xl mx-auto bg-white p-10 rounded-2xl shadow-xl space-y-6 border border-[#F2E6C6]">
-    <h2 className="text-3xl font-bold text-[#04436F] text-center">
+  <div className="max-w-xl mx-auto bg-white p-4 lg:p-10 rounded-2xl shadow-xl space-y-6 border border-[#F2E6C6]">
+    <h2 className="text-[28px] lg:text-3xl font-bold text-[#04436F] text-center">
       Mitarbeiter Registrierung starten
     </h2>
 

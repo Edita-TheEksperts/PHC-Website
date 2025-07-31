@@ -993,7 +993,7 @@ useEffect(() => {
 return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
       <div className="flex-1 space-y-8">
-        <div className="flex justify-between text-base font-medium text-[#B99B5F]">
+<div className="flex flex-wrap gap-y-4 justify-center md:justify-between text-sm md:text-base font-medium text-[#B99B5F]">
           {steps.map((label, i) => (
             <div key={i} className="flex-1 flex items-center gap-2">
               <div
@@ -1018,7 +1018,7 @@ return (
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-xl border-2 border-gray-200 space-y-8 text-base text-gray-800"
+          className="bg-white  p-2 lg:p-8 rounded-xl border-2 border-gray-200 space-y-8 text-base text-gray-800"
         >
           {step === 1 && (
             <>

@@ -44,7 +44,7 @@ export default function BlogPage() {
         </h1>
         
         {/* Render categories dynamically */}
-        <div className="mt-4 flex justify-center gap-4">
+<div className="mt-4 flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
           {categories.map((category, index) => (
             <span
               key={index}
