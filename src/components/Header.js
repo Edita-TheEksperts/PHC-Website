@@ -15,16 +15,11 @@ const navLinks = [
     path: '/about', // <-- make parent clickable
     subLinks: [
       { name: 'Blog', path: '/BlogPage' },
-      { name: 'E-Learning', path: '/E-Learning' },
     ],
   },
   {
     name: 'Dienstleistungen',
     path: '/services', // <-- make parent clickable
-    subLinks: [
-      { name: 'Häusliche Pflege planen', path: '/hausliche-pflege-planen' },
-      { name: 'Betreuung zuhause organisieren', path: '/betreuung-zuhause-organisieren' },
-    ],
   },
   { name: 'Jobs', path: '/Registrierung-Jobs' },
   { name: 'Support', 
