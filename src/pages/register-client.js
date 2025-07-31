@@ -982,6 +982,13 @@ useEffect(() => {
   }
 }, [form.fixedDayOfMonth, form.frequency, form.monthlyMode]);
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+useEffect(() => {
+  scrollToTop();
+}, [step]);
+
 
 return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
