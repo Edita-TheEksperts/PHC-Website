@@ -70,7 +70,7 @@ Prime Home Care AG
 
   return (
     <AdminLayout>
-      <div className="max-w-3xl mx-auto space-y-12 p-6">
+      <div className="max-w-3xl mx-auto space-y-12 p-2">
         <section className="bg-white rounded-xl shadow p-6 space-y-6">
           <h2 className="text-xl font-bold text-[#04436F]">Feedbackanfrage E-Mail an alle Kunden</h2>
 

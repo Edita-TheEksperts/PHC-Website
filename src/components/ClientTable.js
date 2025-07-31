@@ -149,7 +149,7 @@ useEffect(() => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl shadow overflow-x-auto">
+<div className="hidden sm:block bg-white rounded-xl shadow overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-100 text-left">
             <tr>
@@ -242,6 +242,62 @@ useEffect(() => {
           <p className="text-center text-gray-500 mt-4">No clients found.</p>
         )}
       </div>
+{/* 📱 Mobile Card View (only visible on small screens) */}
+<div className="sm:hidden flex flex-col gap-4">
+  {filteredClients.map((client) => (
+    <div key={client.id} className="bg-white p-4 rounded-xl shadow space-y-2">
+      <p><span className="font-semibold text-[#04436F]">Name:</span> {client.firstName} {client.lastName}</p>
+      <p><span className="font-semibold text-[#04436F]">Email:</span> {client.email}</p>
+      <p><span className="font-semibold text-[#04436F]">Phone:</span> {client.phone}</p>
+      <p><span className="font-semibold text-[#04436F]">Service:</span> {(client.services || []).map(s => s.name).join(", ") || "-"}</p>
+      <p><span className="font-semibold text-[#04436F]">Date:</span> {client.firstDate ? new Date(client.firstDate).toISOString().slice(0, 10) : "-"}</p>
+
+      <div className="space-y-2">
+        <select
+          value={selectedEmployee[client.id] || ""}
+          onChange={(e) =>
+            setSelectedEmployee({ ...selectedEmployee, [client.id]: e.target.value })
+          }
+          className="border w-full px-3 py-2 rounded"
+        >
+          <option value="">Select Employee</option>
+          {employees.map((emp) => (
+            <option key={emp.id} value={emp.id}>
+              {emp.firstName} {emp.lastName} ({emp.status})
+            </option>
+          ))}
+        </select>
+
+        <button
+          disabled={!selectedEmployee[client.id]}
+          onClick={() => handleAssign(client.id)}
+          className={`w-full px-3 py-2 rounded text-white ${
+            selectedEmployee[client.id]
+              ? "bg-green-500 hover:bg-green-600"
+              : "bg-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Assign
+        </button>
+
+        {client.assignments?.length > 0 && (() => {
+          const latest = client.assignments[0];
+          return (
+            <p className="text-xs text-blue-600">
+              Assigned to {latest.employee?.firstName || "—"} (
+              {latest.confirmationStatus === "pending"
+                ? "Pending"
+                : latest.confirmationStatus === "confirmed"
+                ? "Confirmed"
+                : "Rejected"}
+              )
+            </p>
+          );
+        })()}
+      </div>
+    </div>
+  ))}
+</div>
 
       {/* Assignment Message */}
       {message && (

@@ -171,7 +171,7 @@ async function fetchData() {
 <DashboardCard title="Woher kommen unsere Bewerbungen?">
   <div className="flex flex-col md:flex-row gap-6 items-start">
     {/* 🟣 Chart */}
-    <div className="w-full md:w-1/2">
+<div className="w-full md:w-1/2 min-w-0">
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie
@@ -222,7 +222,7 @@ async function fetchData() {
 
 
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 px-4 pb-16 mt-8">
+<div className="grid grid-cols-1 gap-6 px-4 pb-16 mt-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         <DashboardCard title="Active Clients">
           <ActiveClients clients={clients} />
         </DashboardCard>
