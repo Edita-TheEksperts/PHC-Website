@@ -1047,13 +1047,12 @@ return (
     );
   })}
 </div>
-
               <h2 className="text-2xl font-bold text-black">Wie oft & wann?</h2>
               <div className="space-y-6">
                 <div className="space-y-2">
                   <p className="font-semibold text-gray-800">Wie oft wünschen Sie Unterstützung?</p>
                   <div className="flex flex-wrap gap-4">
-                    {["einmalig", "wöchentlich", "Alle 2 Wochen", "monatlich"].map((option) => (
+                    {["einmalig", "wöchentlich", "alle 2 Wochen", "monatlich"].map((option) => (
                       <button
                         key={option}
                         type="button"

@@ -223,10 +223,10 @@ Jetzt Ihre Betreuung buchen!</p>
 </div>
 
 
-      {dropdownOpen && (
-  <div className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl max-h-[300px] overflow-y-auto p-3 space-y-2">
+    {dropdownOpen && (
+  <div className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl max-h-[300px] overflow-y-auto p-4 space-y-3">
     
-    {/* Search Filter (optional) */}
+    {/* Search Filter */}
     <input
       type="text"
       placeholder="Dienstleistung suchen..."
@@ -235,27 +235,29 @@ Jetzt Ihre Betreuung buchen!</p>
       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-[#B99B5F] focus:border-[#B99B5F] text-sm"
     />
 
-    {/* Services list */}
-    {Object.keys(services)
-      .filter((srv) =>
-        srv.toLowerCase().includes(searchText.toLowerCase())
-      )
-      .map((srv) => (
-        <label key={srv} className="flex items-center space-x-2 hover:bg-gray-50 px-2 py-1 rounded-md cursor-pointer">
-          <input
-            type="checkbox"
-            value={srv}
-            checked={selectedService.includes(srv)}
-            onChange={() => toggleService(srv)}
-            className="accent-[#04436F]"
-          />
-          <span className="text-sm">{srv}</span>
-        </label>
-      ))}
+    {/* Service Tags */}
+    <div className="flex flex-wrap gap-2">
+      {Object.keys(services)
+        .filter((srv) =>
+          srv.toLowerCase().includes(searchText.toLowerCase())
+        )
+        .map((srv) => {
+          const isSelected = selectedService.includes(srv);
+          return (
+            <div
+              key={srv}
+              onClick={() => toggleService(srv)}
+              className={`cursor-pointer px-3 py-1 rounded-full border text-sm transition 
+                ${isSelected ? "bg-[#04436F] text-white border-[#04436F]" : "bg-gray-100 text-gray-700 border-gray-300"}
+              `}
+            >
+              {srv}
+            </div>
+          );
+        })}
+    </div>
   </div>
 )}
-
-
     </div>
 
 <div className="w-full lg:w-[250px] relative h-[60px]">

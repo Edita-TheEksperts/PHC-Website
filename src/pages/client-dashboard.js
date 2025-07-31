@@ -80,6 +80,8 @@ const BookingsOverTimeChart = ({ schedules }) => {
     ],
   }
 
+
+
   return (
     <section className="bg-white p-6 rounded-2xl shadow-lg transition-shadow hover:shadow-xl">
       <h3 className="text-xl font-semibold text-[#B99B5F] mb-6">Buchungen im Zeitverlauf</h3>
@@ -305,16 +307,9 @@ export default function ClientDashboard() {
               <p className="text-lg mb-3"><strong>Email:</strong> {userData.email}</p>
               <p className="text-lg mb-3"><strong>Telefon:</strong> {userData.phone}</p>
               <p className="text-lg mb-3"><strong>Adresse:</strong> {userData.address}</p>
-              {userData.schedules?.length > 0 && (
-                <>
-                  <h4 className="mt-10 mb-4 font-semibold text-[#B99B5F] text-xl">Geplante Termine</h4>
-                  {userData.schedules.map(({ id, day, startTime, hours }) => (
-                    <p key={id} className="text-gray-800 text-base mb-2">
-                      {day} – {startTime} – {hours} Std
-                    </p>
-                  ))}
-                </>
-              )}
+ 
+
+
             </article>
 
         <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
