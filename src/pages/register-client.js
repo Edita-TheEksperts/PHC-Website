@@ -1386,7 +1386,7 @@ onChange={(date) => {
 
          {step === 2 && (
   <>
-    <h2 className="text-2xl font-bold text-black">Personalien</h2>
+    <h2 className="text-2xl font-bold text-black">Persönliche Angaben</h2>
 
     <div className="text-sm text-left mt-6">
       <p>
@@ -1766,16 +1766,15 @@ Passwort bestätigen*</label>
 
     <div className="space-y-8 mt-6">
     <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
-  <h3 className="font-bold text-[20px] mb-6">Persönliche Angaben</h3>
+  <h3 className="font-bold text-[20px] mb-6">Persönliche Angaben (Zusammenfassung)</h3>
 
   {/* Anfragende Person */}
   <div className="mb-8">
     <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {/* First row: Vorname and Nachname */}
   <div className="mb-2">
-    <label className="block text-sm font-medium mb-1">
-      Vorname
-    </label>
+    <label className="block text-sm font-medium mb-1">Vorname</label>
     <input
       name="firstName"
       placeholder="Vorname"
@@ -1785,9 +1784,7 @@ Passwort bestätigen*</label>
   </div>
 
   <div className="mb-2">
-    <label className="block text-sm font-medium mb-1">
-      Nachname
-    </label>
+    <label className="block text-sm font-medium mb-1">Nachname</label>
     <input
       name="lastName"
       placeholder="Nachname"
@@ -1796,10 +1793,9 @@ Passwort bestätigen*</label>
     />
   </div>
 
+  {/* Second row: Telefonnummer and Email */}
   <div className="mb-2">
-    <label className="block text-sm font-medium mb-1">
-      Telefonnummer
-    </label>
+    <label className="block text-sm font-medium mb-1">Telefonnummer</label>
     <input
       name="phone"
       placeholder="Telefonnummer"
@@ -1807,14 +1803,26 @@ Passwort bestätigen*</label>
       className={inputClass}
     />
   </div>
+
+  <div className="mb-2">
+    <label className="block text-sm font-medium mb-1">Email</label>
+    <input
+      name="email"
+      placeholder="Email"
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
 </div>
+
 
   </div>
 
   {/* Einsatzort */}
   <div>
-    <h4 className="font-[600] text-[16px] mb-4">Einsatzort</h4>
- <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+<h4 className="font-[600] text-[16px] ">Einsatzort</h4>
+<p className="text-[14px] font-semibold mb-4">zu betreuende Person</p>
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
       <div className="mb-2">
        <label className="block text-sm font-medium mb-1">
     Vorname
@@ -1850,6 +1858,16 @@ Telefonnummer  </label>
         className={inputClass}
       />
       </div>
+            <div className="mb-2">
+               <label className="block text-sm font-medium mb-1">Email</label>
+    <input
+      name="email"
+      placeholder="Email"
+      value={form.email || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+</div>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
  <div className="mb-2">
@@ -1909,7 +1927,7 @@ value={form.address ||''}    className={inputClass}
 
     {/* Ankunftsbedingungen */}
    <div className="mb-6">
-  <p className="font-[500] text-gray-800 mb-2">Ankunftsbedingungen</p>
+  <p className="font-[600] text-[16px] mb-4">Ankunftsbedingungen</p>
 
   <div className="flex flex-wrap items-center gap-6">
     {["Schlüssel ist hinterlegt", "Es ist jemand zu Hause"].map((option) => (
@@ -1952,7 +1970,7 @@ value={form.address ||''}    className={inputClass}
 
     {/* Parkplatz vorhanden */}
    <div className="mb-4">
-  <label className="block font-[500] mb-1">Parkplatz vorhanden?</label>
+  <label className="block font-[600] mb-4">Parkplatz vorhanden?</label>
   <select
     name="hasParking"
     value={form.hasParking || ""}
@@ -2018,14 +2036,14 @@ value={form.address ||''}    className={inputClass}
 
 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
   {/* Main Section Title */}
-  <h2 className="text-[22px] font-bold mb-6"> Alltagsbegleitung & Besorgungen</h2>
+  <h2 className="font-bold text-[20px] mb-6"> Alltagsbegleitung & Besorgungen</h2>
 
   {/* 🔹 Mobilität */}
-  <h3 className="text-[18px] font-semibold mb-2">Mobilität</h3>
+  <h3 className="font-[600] text-[16px] mb-4">Mobilität</h3>
 
   {/* Verfügbare Hilfsmittel */}
   <div className="mb-4">
-    <p className="font-medium text-gray-800 mb-2">Verfügbare Hilfsmittel</p>
+    <p className="font-medium mb-1">Verfügbare Hilfsmittel</p>
     <div className="flex flex-wrap gap-6">
       {["Rollstuhl", "Rollator", "Gehstock"].map((aid) => (
         <label key={aid} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2043,7 +2061,7 @@ value={form.address ||''}    className={inputClass}
 
   {/* Transportmittel Auswahl */}
   <div className="mb-6">
-    <label className="block font-medium text-gray-800 mb-1">Transportmittel</label>
+    <label className="block font-medium mb-1">Transportmittel</label>
     <select
       name="transportOption"
       value={form.transportOption || ""}
@@ -2059,7 +2077,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Begleitung zu Terminen */}
-  <h3 className="text-[18px] font-semibold mb-2">Begleitung zu Terminen</h3>
+  <h3 className="font-medium mb-1">Begleitung zu Terminen</h3>
 
   {/* Checkboxen + Sonstiges */}
   <div className="mb-6">
@@ -2094,11 +2112,11 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Einkäufe */}
-  <h3 className="text-[18px] font-semibold mb-2">Einkäufe</h3>
+  <h3 className="font-[600] text-[16px] mb-4">Einkäufe</h3>
 
   {/* Begleitung durch Kunde */}
   <div className="mb-4">
-    <label className="block font-medium text-gray-800 mb-1">Begleitung durch Kunde?</label>
+    <label className="block font-medium mb-1">Begleitung durch Kunde?</label>
     <select
       name="shoppingWithClient"
       value={form.shoppingWithClient || ""}
@@ -2113,7 +2131,7 @@ value={form.address ||''}    className={inputClass}
 
   {/* Art der Einkäufe */}
   <div className="mb-6">
-    <p className="font-medium text-gray-800 mb-2">Art der Einkäufe</p>
+    <p className="font-medium mb-1">Art der Einkäufe</p>
     <div className="flex flex-wrap gap-6">
       {["Lebensmittel", "Apotheke", "Garten", "Kleidung"].map((item) => (
         <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2134,7 +2152,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Postgänge */}
-  <h3 className="text-[18px] font-semibold mb-2">Postgänge</h3>
+  <h3 className="font-medium mb-1">Postgänge</h3>
 
   <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
     <input
@@ -2154,7 +2172,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Weitere Begleitungen */}
-  <h3 className="text-[18px] font-semibold mb-2">Weitere Begleitungen</h3>
+  <h3 className="font-medium mb-1">Weitere Begleitungen</h3>
 
   <div>
     <textarea
@@ -2170,10 +2188,10 @@ value={form.address ||''}    className={inputClass}
       {/* Freizeit & soziale Aktivitäten */}
      <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
   {/* Main Section Title */}
-  <h2 className="text-[22px] font-bold mb-6"> Freizeit & soziale Aktivitäten</h2>
+  <h2 className="font-bold text-[20px] mb-6"> Freizeit & soziale Aktivitäten</h2>
 
   {/* 🔹 Aktivitäten */}
-  <h3 className="text-[18px] font-semibold mb-4">Aktivitäten</h3>
+  <h3 className="font-[600] text-[16px] mb-4">Aktivitäten</h3>
 
   <div className="space-y-6">
     {[
@@ -2186,7 +2204,7 @@ value={form.address ||''}    className={inputClass}
       ["Kartenspiele", "cardGames"]
     ].map(([label, name]) => (
       <div key={name}>
-        <label className="block font-medium text-gray-800 mb-1">{label}</label>
+        <label className="block font-medium mb-1">{label}</label>
         <select
           name={name}
           value={form[name] || ""}
@@ -2213,7 +2231,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Ausflüge & Reisebegleitung */}
-  <h3 className="text-[18px] font-semibold mt-8 mb-2">Ausflüge & Reisebegleitung</h3>
+  <h3 className="font-[600] text-[16px] mb-1 mt-4">Ausflüge & Reisebegleitung</h3>
 
   <div className="flex flex-wrap items-center gap-6">
     {["Theaterbesuch", "Kinobesuch", "Konzertbesuch", "Fussballspiel", "Urlaubsbegleitung"].map((trip) => (
@@ -2237,13 +2255,13 @@ value={form.address ||''}    className={inputClass}
 
     <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
   {/* Main Title */}
-  <h2 className="text-[22px] font-bold mb-6"> Gesundheitsfürsorge</h2>
+  <h2 className="font-bold text-[20px] mb-6"> Gesundheitsfürsorge</h2>
 
   {/* 🔹 Körperliche Unterstützung */}
-  <h3 className="text-[18px] font-semibold mb-2">Körperliche Unterstützung</h3>
+  <h3 className="font-[600] text-[16px] mb-4">Körperliche Unterstützung</h3>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
    <div>
-    <label className="block text-sm font-medium mb-1">
+    <label className="block font-medium mb-1">
       Grösse (cm)
     </label>
     <input
@@ -2255,7 +2273,7 @@ value={form.address ||''}    className={inputClass}
       className={inputClass}
     />
   </div>
-  <div> <label className="block text-sm font-medium mb-1">
+  <div> <label className="block font-medium mb-1">
       Gewicht (kg)
     </label>
     <input
@@ -2270,7 +2288,7 @@ value={form.address ||''}    className={inputClass}
 
   {/* Zustand */}
   <div className="mb-6">
-    <p className="font-semibold text-gray-800 mb-2">Zustand</p>
+    <p className="block  font-medium mb-1">Zustand</p>
     <div className="flex flex-wrap gap-6">
       {[
         "Vollständig mobil",
@@ -2298,7 +2316,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Vorhandene Hilfsmittel */}
-  <h3 className="text-[18px] font-semibold mb-2">Vorhandene Hilfsmittel</h3>
+  <h3 className="block  font-medium mb-1">Vorhandene Hilfsmittel</h3>
   <div className="mb-4 flex flex-wrap gap-6">
     {[
       "Gehstock",
@@ -2334,7 +2352,7 @@ value={form.address ||''}    className={inputClass}
   />
 
   {/* 🔹 Inkontinenz */}
-  <h3 className="text-[18px] font-semibold mb-2">Inkontinenz</h3>
+  <h3 className="block  font-medium mb-1">Inkontinenz</h3>
   <div className="mb-6 flex flex-wrap gap-6">
     {["Urin", "Stuhl", "Dauerkatheter", "Stoma"].map((inc) => (
       <label key={inc} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2354,7 +2372,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Kommunikation */}
-  <h3 className="text-[18px] font-semibold mb-2">Kommunikation</h3>
+  <h3 className="block  font-medium mb-1">Kommunikation</h3>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     {["Sehen", "Hören", "Sprechen"].map((field) => (
       <select
@@ -2373,7 +2391,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Nahrungsaufnahme */}
-  <h3 className="text-[18px] font-semibold mb-2">Nahrungsaufnahme</h3>
+  <h3 className="block  font-medium mb-1">Nahrungsaufnahme</h3>
   <div className="mb-6 flex flex-wrap gap-6">
     {[
       "Unterstützung notwendig",
@@ -2399,7 +2417,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Grundpflege */}
-  <h3 className="text-[18px] font-semibold mb-2">Grundpflege</h3>
+  <h3 className="block  font-medium mb-1">Grundpflege</h3>
   <div className="mb-4 flex flex-wrap gap-6">
     {["Körperhygiene", "An-/Auskleiden"].map((item) => (
       <label key={item} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2426,7 +2444,7 @@ value={form.address ||''}    className={inputClass}
   />
 
   {/* 🔹 Gesundheitsförderung */}
-  <h3 className="text-[18px] font-semibold mb-2">Gesundheitsförderung</h3>
+  <h3 className="block  font-medium mb-1">Gesundheitsförderung</h3>
   <div className="mb-4 flex flex-wrap gap-6">
     {["Gymnastik", "Spaziergänge", "Aktivierende Betreuung"].map((act) => (
       <label key={act} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2453,11 +2471,11 @@ value={form.address ||''}    className={inputClass}
   />
 
   {/* 🔹 Geistige Unterstützung */}
-  <h3 className="text-[18px] font-semibold mb-4">Geistiger Zustand</h3>
+  <h3 className="font-[600] text-[16px] mb-4">Geistiger Zustand</h3>
 
 
   {/* Diagnosen */}
-  <p className="font-semibold text-gray-800 mb-2">Diagnosen</p>
+  <p className="block  font-medium mb-1">Diagnosen</p>
   <div className="mb-6 flex flex-wrap gap-6">
     {["Depression", "Demenz", "Alzheimer"].map((diag) => (
       <label key={diag} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2477,7 +2495,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* Verhaltensmerkmale */}
-  <p className="font-semibold text-gray-800 mb-2">Verhaltensmerkmale</p>
+  <p className="block  font-medium mb-1">Verhaltensmerkmale</p>
   <div className="mb-6 flex flex-wrap gap-6">
     {[
       "Gestörter Tag-/Nachtrhythmus",
@@ -2516,21 +2534,33 @@ value={form.address ||''}    className={inputClass}
 
 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
   {/* Main Title */}
-  <h2 className="text-[22px] font-bold mb-6"> Haushaltshilfe & Wohnpflege</h2>
+  <h2 className="font-bold text-[20px] mb-6"> Haushaltshilfe & Wohnpflege</h2>
 
   {/* 🔹 Allgemeines */}
-  <h3 className="text-[18px] font-semibold mb-2">Allgemeines</h3>
+  <h3 className="font-[600] text-[16px] mb-4">Allgemeines</h3>
+  
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+  <div>
+    <label className="block font-medium mb-1" htmlFor="roomCount">
+      Anzahl Zimmer
+    </label>
     <input
       type="number"
+      id="roomCount"
       name="roomCount"
       placeholder="Anzahl Zimmer"
       value={form.roomCount || ""}
       onChange={handleChange}
       className={inputClass}
     />
+  </div>
+  <div>
+    <label className="block font-medium mb-1" htmlFor="householdSize">
+      Wieviel-Personen-Haushalt?
+    </label>
     <input
       type="number"
+      id="householdSize"
       name="householdSize"
       placeholder="Wieviel-Personen-Haushalt?"
       value={form.householdSize || ""}
@@ -2538,9 +2568,13 @@ value={form.address ||''}    className={inputClass}
       className={inputClass}
     />
   </div>
+</div>
+
 
   {/* 🔹 Tätigkeiten */}
-  <h3 className="text-[18px] font-semibold mb-2">Tätigkeiten</h3>
+  <h3 className="font-[600] text-[16px] mb-4">Tätigkeiten</h3>
+  <label className="block font-medium mb-1">Ihre Tätigkeiten aus</label>
+
   <div className="flex flex-wrap gap-6 mb-4">
     {[
       "Balkon- & Blumenpflege",
@@ -2590,10 +2624,10 @@ value={form.address ||''}    className={inputClass}
 
     <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
   {/* Main Title */}
-  <h2 className="text-[22px] font-bold mb-6"> Weitere Angaben für die Einsatzplanung</h2>
+  <h2 className="font-bold text-[20px] mb-6"> Weitere Angaben für die Einsatzplanung</h2>
 
   {/* 🔹 Sprache der Betreuungsperson */}
-  <h3 className="text-[18px] font-semibold mb-2">Sprache der Betreuungsperson</h3>
+  <h3 className="font-medium mb-1">Sprache der Betreuungsperson</h3>
   <div className="flex flex-wrap gap-6 mb-4">
     {["CH-Deutsch", "Deutsch", "Englisch", "Französisch", "Italienisch"].map((lang) => (
       <label key={lang} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2624,7 +2658,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Haustiere im Haushalt */}
-  <h3 className="text-[18px] font-semibold mb-2">Haustiere im Haushalt?</h3>
+  <h3 className="font-medium mb-1">Haustiere im Haushalt?</h3>
   <div className="mb-4">
     <select
       name="hasPets"
@@ -2678,7 +2712,7 @@ value={form.address ||''}    className={inputClass}
       onClick={handleNext}
       className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
     >
-      Jetzt bezahlen & Weiter
+      Jetzt bezahlen & weiter
     </button>
   ) : (
     <button

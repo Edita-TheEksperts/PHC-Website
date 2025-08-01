@@ -225,15 +225,7 @@ Jetzt Ihre Betreuung buchen!</p>
 
     {dropdownOpen && (
   <div className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl max-h-[300px] overflow-y-auto p-4 space-y-3">
-    
-    {/* Search Filter */}
-    <input
-      type="text"
-      placeholder="Dienstleistung suchen..."
-      value={searchText}
-      onChange={(e) => setSearchText(e.target.value)}
-      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-[#B99B5F] focus:border-[#B99B5F] text-sm"
-    />
+     
 
     {/* Service Tags */}
     <div className="flex flex-wrap gap-2">
@@ -676,10 +668,11 @@ Jetzt Ihre Betreuung buchen!</p>
         <h3 className="text-[22px] font-medium leading-[30.8px] mb-1">
           Regelmässige Betreuung
         </h3>
-        <div className="flex items-baseline gap-2 mt-[20px]">
-          <span className="text-[#04436F] text-[48px] font-semibold leading-[70px]">CHF 49.—</span>
-          <span className="text-[#04436F] text-[16px] leading-[25px]">pro Stunde</span>
-        </div>
+   <div className="flex flex-col items-left mt-[20px]">
+  <span className="text-[#04436F] text-[48px] font-semibold leading-[70px]">CHF 49.—</span>
+  <span className="text-[#04436F] text-[16px] leading-[25px]">pro Stunde</span>
+</div>
+
       </div>
 
       <div className="px-[50px] pt-6 pb-4 text-left text-[#04436F] flex-grow">
@@ -708,7 +701,7 @@ Jetzt Ihre Betreuung buchen!</p>
     <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
       <div className="w-full p-[50px] text-left bg-[#B99B5F] text-white rounded-t-[20px]">
         <h3 className="text-[22px] font-medium leading-[30.8px] mb-1">Einmalige Einsätze</h3>
-        <div className="flex items-baseline gap-2 mt-[20px]">
+   <div className="flex flex-col items-left mt-[20px]">
           <span className="text-[48px] font-semibold leading-[70px]">CHF 60.—</span>
           <span className="text-[16px] leading-[25px]">pro Stunde</span>
         </div>
@@ -738,8 +731,13 @@ Jetzt Ihre Betreuung buchen!</p>
 
     {/* Card 3 – Individuelle Dienstleistungen */}
     <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
-      <div className="w-full p-[50px] lg:h-[220px] text-left bg-[#EDF2FB] text-[#000000] rounded-t-[20px] justify-center">
+      <div className="w-full p-[50px] lg:h-[245px] text-left bg-[#EDF2FB] text-[#000000] rounded-t-[20px] justify-center">
+           <div className="flex flex-col items-left">
+
         <h3 className="text-[22px] font-medium leading-[30.8px]">Individuelle Dienstleistungen</h3>
+                <h3 className="text-[20px] font-[300] leading-[26.8px] mt-4">Auf Anfrage</h3>
+
+        </div>
       </div>
 
       <div className="px-[50px] pt-6 pb-4 text-left text-[#04436F] flex-grow">
@@ -755,9 +753,9 @@ Jetzt Ihre Betreuung buchen!</p>
       </div>
 
       <div className="mt-auto px-[50px] pb-[50px]">
-        <Link href="/register-client">
+        <Link href="/contact">
           <button className="w-full bg-[#04436F] text-white py-3 rounded-full text-[18px] font-medium transition duration-300 hover:bg-[#B99B5F]">
-            Jetzt Buchen
+            Jetzt kontaktieren
           </button>
         </Link>
       </div>
