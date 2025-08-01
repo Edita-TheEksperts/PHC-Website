@@ -1048,9 +1048,9 @@ return (
   })}
 </div>
               <h2 className="text-2xl font-bold text-black">Wie oft & wann?</h2>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="space-y-2">
-                  <p className="font-semibold text-gray-800">Wie oft wünschen Sie Unterstützung?</p>
+                  <p className="font-medium">Wie oft wünschen Sie Unterstützung?</p>
                   <div className="flex flex-wrap gap-4">
                     {["einmalig", "wöchentlich", "alle 2 Wochen", "monatlich"].map((option) => (
                       <button
@@ -1152,7 +1152,7 @@ return (
 
                 {form.frequency !== "Einmal" && (
   <div className="space-y-4">
-    <p className="font-semibold text-gray-800">Wann genau wünschen Sie Unterstützung?</p>
+    <p className="font-medium">Wann genau wünschen Sie Unterstützung?</p>
 
     {/* Allow adjusting number of days */}
     <div className="flex items-center gap-4">
@@ -1287,8 +1287,8 @@ return (
 </div>
 
 {/* Subservices for this day */}
-<div className="col-span-4 mt-4">
-  <label className="block mb-2 font-semibold text-gray-800">
+<div className="col-span-4 mt-2 mb-4">
+  <label className="block mb-2 font-medium">
     Zusatzleistungen für {entry.day || `Tag ${i + 1}`}
   </label>
 
@@ -1353,7 +1353,7 @@ return (
 
 
               <div>
-  <label className="block mb-2 font-semibold text-gray-800">Beginndatum auswählen</label>
+  <label className="block mb-2 font-medium">Beginndatum auswählen</label>
 <DatePicker
   selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
 onChange={(date) => {
