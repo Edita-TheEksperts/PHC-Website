@@ -183,6 +183,9 @@ stripeCustomerId      String?
   mentalDiagnoses       String?
   behaviorTraits        String?
   healthFindings        String?
+
+   resetToken        String?    // stores the password reset token, optional
+  resetTokenExpiry  DateTime?  // stores the expiry time of the token, optional
 }
 
 

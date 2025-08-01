@@ -6,7 +6,18 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
+  // Log the raw body to debug
+  console.log("req.body:", req.body);
+
+  if (!req.body) {
+    return res.status(400).json({ message: "Request body is missing" });
+  }
+
   const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
 
   const user = await prisma.user.findUnique({ where: { email } });
 
@@ -14,18 +25,21 @@ export default async function handler(req, res) {
     return res.status(404).json({ message: "Email not found" });
   }
 
-  // ✅ Create a random reset token
+  // Create a random reset token
   const resetToken = crypto.randomBytes(32).toString("hex");
 
-  // ✅ Save resetToken into database
-  await prisma.user.update({
-    where: { email },
-    data: {
-      resetToken, // You need to add resetToken column in your User model in database
-      resetTokenExpiry: new Date(Date.now() + 3600000), // 1 hour expiry
-    },
-  });
+  try {
+    await prisma.user.update({
+      where: { email },
+      data: {
+        resetToken,
+        resetTokenExpiry: new Date(Date.now() + 3600000),
+      },
+    });
+  } catch (error) {
+    console.error("Prisma update error:", error);
+    return res.status(500).json({ message: "Failed to update user with reset token" });
+  }
 
-  // (Later) send resetToken in real email - for now we just return it for testing
   res.status(200).json({ message: "Reset link created", resetToken });
 }

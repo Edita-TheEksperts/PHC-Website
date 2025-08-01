@@ -3,26 +3,24 @@ import { useState } from "react";
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-  
-    const res = await fetch("/api/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-  
-    if (res.ok) {
-      const data = await res.json(); // <- this is missing maybe
-      console.log(data); // 👈 See if resetToken is coming
-      window.location.href = `/reset-password?resetToken=${data.resetToken}`;
-    } else {
-      alert("Email not found or error.");
-    }
+ async function handleSubmit(e) {
+  e.preventDefault();
+
+  const res = await fetch("/api/forgot-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }), // email must be a non-empty string
+  });
+
+  if (res.ok) {
+    const data = await res.json(); // Parse JSON response
+    console.log(data); // See if resetToken is coming
+    window.location.href = `/reset-password?resetToken=${data.resetToken}`;
+  } else {
+    alert("Email not found or error.");
   }
-  
-  
-  
+}
+
     return (
       <div className="flex bg-[#FAFCFF] max-w-[1410px] w-full mx-auto  px-2 lg:px-0 py-[0px] lg:py-0">
         
