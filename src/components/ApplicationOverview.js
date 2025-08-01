@@ -19,7 +19,7 @@ export default function ApplicationOverview({ employees }) {
 
   if (!employees || employees.length === 0) {
     return (
-      <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 my-6 max-w-3xl">
+      <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 my-6">
         <h2 className="text-xl font-bold text-[#04436F] mb-4">📋 Application Overview</h2>
         <p className="text-gray-500">No employee data available.</p>
       </div>
@@ -44,62 +44,95 @@ export default function ApplicationOverview({ employees }) {
     fill: STATUS_COLORS[status],
   }));
 
-  // Filtered employee list
   const filteredEmployees = employees.filter((e) =>
     filter === "all" ? true : (e.status || "pending") === filter
   );
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 my-6 max-w-7xl">
-      <h2 className="text-xl font-bold text-[#04436F] mb-4">📋 Application Overview</h2>
+    <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 my-6 w-full">
+      {/* Layout split */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Chart section */}
+        <div className="w-full lg:w-1/2">
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                outerRadius={100}
+                label
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
 
-      {/* Chart */}
-      <ResponsiveContainer width="100%" height={250}>
-        <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" outerRadius={90} label>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.fill} />
+          {/* Status Count */}
+          <div className="mt-6 space-y-2 text-base text-gray-700 text-center">
+            <p><strong className="text-green-600">🟢 Approved:</strong> {counts.approved}</p>
+            <p><strong className="text-yellow-500">🟡 Pending:</strong> {counts.pending}</p>
+            <p><strong className="text-red-500">🔴 Rejected:</strong> {counts.rejected}</p>
+          </div>
+        </div>
+
+        {/* List + Filters */}
+        <div className="w-full lg:w-1/2 flex flex-col">
+          {/* Filters */}
+          <div className="flex justify-center gap-3 mb-4 flex-wrap">
+            {["all", "approved", "pending", "rejected"].map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilter(status)}
+                className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+                  filter === status
+                    ? "bg-[#04436F] text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {status === "all"
+                  ? "Show All"
+                  : status.charAt(0).toUpperCase() + status.slice(1)}
+              </button>
             ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+          </div>
 
-      {/* Status Count */}
-      <div className="mt-4 space-y-1 text-[18px] text-center text-gray-700">
-        <p><strong>🟢 Approved:</strong> {counts.approved}</p>
-        <p><strong>🟡 Pending:</strong> {counts.pending}</p>
-        <p><strong>🔴 Rejected:</strong> {counts.rejected}</p>
+          {/* Employee list */}
+          <div className="overflow-y-auto max-h-[320px] pr-1">
+            {filteredEmployees.length === 0 ? (
+              <p className="text-center text-gray-400 italic mt-6">No employees found.</p>
+            ) : (
+              <ul className="space-y-2 text-sm text-gray-800">
+                {filteredEmployees.map((e) => (
+                  <li
+                    key={e.id}
+                    className="flex justify-between items-center px-4 py-2 bg-gray-50 rounded-md border"
+                  >
+                    <span className="truncate">
+                      {e.firstName} {e.lastName}
+                    </span>
+                    <span
+                      className={`text-xs font-semibold px-2 py-1 rounded-full capitalize ${
+                        e.status === "approved"
+                          ? "bg-green-100 text-green-700"
+                          : e.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {e.status || "pending"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
       </div>
-
-      {/* Filter Dropdown */}
-      <div className="mt-6 flex justify-center">
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="border border-gray-300 rounded-lg px-3 py-1 text-sm"
-        >
-          <option value="all">Show All</option>
-          <option value="approved">Approved</option>
-          <option value="pending">Pending</option>
-          <option value="rejected">Rejected</option>
-        </select>
-      </div>
-
-      {/* Filtered Employee List */}
-      <ul className="mt-4 space-y-2 max-w-md mx-auto text-gray-700 text-sm">
-        {filteredEmployees.length === 0 ? (
-          <p className="text-center text-gray-400 italic">No employees found.</p>
-        ) : (
-          filteredEmployees.map((e) => (
-            <li key={e.id} className="flex justify-between px-4 py-2 bg-gray-50 rounded-md border">
-              <span>{e.firstName} {e.lastName}</span>
-              <span className="capitalize text-gray-500">{e.status || "pending"}</span>
-            </li>
-          ))
-        )}
-      </ul>
     </div>
   );
 }

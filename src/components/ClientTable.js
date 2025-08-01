@@ -146,47 +146,74 @@ useEffect(() => {
     <div>
       <h2 className="text-2xl font-bold text-[#04436F] mb-4">Clients</h2>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-4">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="border px-3 py-2 rounded w-64"
-        />
-        <select
-          value={selectedService}
-          onChange={(e) => setSelectedService(e.target.value)}
-          className="border px-3 py-2 rounded"
-        >
-          <option value="">All Services</option>
-          {uniqueServices.map((service) => (
-            <option key={service} value={service}>{service}</option>
-          ))}
-        </select>
-        <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          className="border px-3 py-2 rounded"
-        />
-        <button onClick={() => {
+      {/* Filter Labels and Controls */}
+  <div className="flex flex-wrap gap-4 mb-4">
+    
+    {/* 🔍 Search by Name */}
+    <div className="flex flex-col text-sm">
+      <label className="mb-1 text-gray-600 font-medium">Search by Name</label>
+      <input
+        type="text"
+        placeholder="e.g. John"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="border px-3 py-2 rounded w-64"
+      />
+    </div>
+
+    {/* 🧾 Filter by Service */}
+    <div className="flex flex-col text-sm">
+      <label className="mb-1 text-gray-600 font-medium">Filter by Service</label>
+      <select
+        value={selectedService}
+        onChange={(e) => setSelectedService(e.target.value)}
+        className="border px-3 py-2 rounded"
+      >
+        <option value="">All Services</option>
+        {uniqueServices.map((service) => (
+          <option key={service} value={service}>{service}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* 📅 Filter by Date */}
+    <div className="flex flex-col text-sm">
+      <label className="mb-1 text-gray-600 font-medium">Filter by Date of Service</label>
+      <input
+        type="date"
+        value={selectedDate}
+        onChange={(e) => setSelectedDate(e.target.value)}
+        className="border px-3 py-2 rounded"
+      />
+    </div>
+
+    {/* 🔄 Sort Options */}
+    <div className="flex flex-col text-sm">
+      <label className="mb-1 text-gray-600 font-medium">Sort Clients</label>
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+        className="border px-3 py-2 rounded"
+      >
+        <option value="name">Sort by Name</option>
+        <option value="date">Sort by Date</option>
+      </select>
+    </div>
+
+    {/* 🧹 Clear Button */}
+    <div className="flex flex-col justify-end">
+      <button
+        onClick={() => {
           setSearchTerm("");
           setSelectedService("");
           setSelectedDate("");
-        }} className="bg-gray-200 px-3 py-2 rounded">
-          Clear Filters
-        </button>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="border px-3 py-2 rounded"
-        >
-          <option value="name">Sort by Name</option>
-          <option value="date">Sort by Date</option>
-        </select>
-      </div>
+        }}
+        className="bg-gray-200 px-3 py-2 rounded text-sm hover:bg-gray-300"
+      >
+        Clear Filters
+      </button>
+    </div>
+  </div>
 
       {/* Table */}
 <div className="hidden sm:block bg-white rounded-xl shadow overflow-x-auto">
