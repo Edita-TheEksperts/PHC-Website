@@ -152,7 +152,7 @@ useEffect(() => {
 
   // CSS class for inputs
   const inputClass =
-    "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500";
+    "w-full mb-6 px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500";
 
   // Step names shown at top of form
   const steps = [
@@ -327,7 +327,7 @@ useEffect(() => {
     
     <div className="min-h-screen bg-gray-50 p-6 md:p-10 flex flex-col md:flex-row gap-8">
       {/* Form Section */}
-      <div className="flex-1 space-y-8">
+      <div className="flex-1 ">
         {/* Stepper */}
         <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 text-base font-medium text-[#04436F]">
           {steps.map((label, i) => (
@@ -363,19 +363,19 @@ useEffect(() => {
 )}
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-xl shadow space-y-8 text-base text-gray-800"
+          className="bg-white p-8 rounded-xl shadow  text-base text-gray-800"
         >
 
 
     {step === 1 && (
   <>
-    <h2 className="text-2xl font-bold text-[#04436F] mb-4">
+    <h2 className="text-2xl font-bold text-[#04436F] mb-8">
       Persönliche Informationen
     </h2>
 
     {/* Anrede */}
     <div className="mb-4">
-      <label className="block font-semibold mb-1">Anrede</label>
+      <label className="block font-medium mb-1">Anrede</label>
       <select
         name="salutation"
         value={form.salutation}
@@ -393,7 +393,7 @@ useEffect(() => {
     {/* Vorname & Nachname */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <label className="block font-semibold mb-1">Vorname</label>
+        <label className="block font-medium mb-1">Vorname</label>
         <input
           name="firstName"
           placeholder="Vorname"
@@ -405,7 +405,7 @@ useEffect(() => {
         />
       </div>
       <div>
-        <label className="block font-semibold mb-1">Nachname</label>
+        <label className="block font-medium mb-1">Nachname</label>
         <input
           name="lastName"
           placeholder="Nachname"
@@ -420,7 +420,7 @@ useEffect(() => {
 
     {/* Telefonnummer */}
     <div className="mt-4">
-      <label className="block font-semibold mb-1">Telefonnummer</label>
+      <label className="block font-medium mb-1">Telefonnummer</label>
       <input
         name="phone"
         placeholder="Telefonnummer"
@@ -435,7 +435,7 @@ useEffect(() => {
     {/* Strasse & Hausnummer */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
       <div className="md:col-span-2">
-        <label className="block font-semibold mb-1">Strasse</label>
+        <label className="block font-medium mb-1">Strasse</label>
         <input
           name="address"
           placeholder="Strasse"
@@ -447,7 +447,7 @@ useEffect(() => {
         />
       </div>
       <div>
-        <label className="block font-semibold mb-1">Hausnummer</label>
+        <label className="block font-medium mb-1">Hausnummer</label>
         <input
           name="houseNumber"
           placeholder="Hausnummer"
@@ -463,7 +463,7 @@ useEffect(() => {
     {/* PLZ & Ort */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
       <div>
-        <label className="block font-semibold mb-1">PLZ</label>
+        <label className="block font-medium mb-1">PLZ</label>
         <input
           name="zipCode"
           placeholder="PLZ"
@@ -475,7 +475,7 @@ useEffect(() => {
         />
       </div>
       <div>
-        <label className="block font-semibold mb-1">Ort</label>
+        <label className="block font-medium mb-1">Ort</label>
         <input
           name="city"
           placeholder="Ort"
@@ -491,7 +491,7 @@ useEffect(() => {
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
   {/* Kanton */}
   <div>
-    <label className="block font-semibold mb-1">Kanton</label>
+    <label className="block font-medium mb-1">Kanton</label>
     <select
       name="canton"
       value={form.canton || ""}
@@ -514,7 +514,7 @@ useEffect(() => {
 
   {/* Nationalität */}
   <div>
-    <label className="block font-semibold mb-1">Nationalität</label>
+    <label className="block font-medium mb-1">Nationalität</label>
     <input
       name="nationality"
       placeholder="z. B. Schweiz, Deutschland..."
@@ -528,7 +528,7 @@ useEffect(() => {
 
     {/* Land */}
     <div className="mt-4">
-      <label className="block font-semibold mb-1">Land</label>
+      <label className="bblock font-medium mb-1">Land</label>
       <select
         name="country"
         value={form.country || ""}
@@ -551,8 +551,8 @@ useEffect(() => {
   <>
 
 
-    <h2 className="text-2xl font-bold text-[#04436F]">Weitere Informationen</h2>
-        <label className="block font-medium mt-4">Aufenthaltsbewilligung</label>
+    <h2 className="text-2xl font-bold text-[#04436F] mb-8">Weitere Informationen</h2>
+        <label className="block font-medium mb-1">Aufenthaltsbewilligung</label>
 
    <select
   name="residencePermit"
@@ -568,7 +568,7 @@ useEffect(() => {
   <option value="CH Pass">CH Pass</option>
 </select>
 
-    <label className="block font-medium mt-4">Wie viele Jahre Erfahrung in der Pflege, Betreuung oder Hauswirtschaft?</label>
+    <label className="block font-medium mb-1">Wie viele Jahre Erfahrung in der Pflege, Betreuung oder Hauswirtschaft?</label>
 
     <select
   name="experienceYears"
@@ -583,7 +583,7 @@ useEffect(() => {
 </select>
 
    {/* Erfahrung auswählen */}
-<label className="block font-medium mt-4">Letzte Anstellung (Firma)?</label>
+<label className="block font-medium mb-1">Letzte Anstellung (Firma)?</label>
 <input
   type="text"
   placeholder="Name der Firma eingeben"
@@ -601,12 +601,12 @@ useEffect(() => {
     placeholder="Name der Firma"
     value={form.experienceCompany || ""}
     onChange={handleChange}
-    className={inputClass + " mt-2"}
+    className={inputClass}
   />
 )}
 
 
-    <label className="block font-medium mt-4">PKW Führerschein vorhanden?</label>
+    <label className="block font-medium mb-1">PKW Führerschein vorhanden?</label>
     <select
       name="hasLicense"
       value={form.hasLicense}
@@ -620,7 +620,7 @@ useEffect(() => {
 
     {form.hasLicense === "ja" && (
       <>
-        <label className="block font-medium mt-4">Fahrzeugtyp</label>
+        <label className="block font-medium mb-1">Fahrzeugtyp</label>
         <select
           name="licenseType"
           value={form.licenseType || ""}
@@ -632,7 +632,7 @@ useEffect(() => {
           <option value="Manuell">Manuell</option>
         </select>
 
-        <label className="block font-medium mt-4">Eigenes Auto vorhanden?</label>
+        <label className="block font-medium mb-1">Eigenes Auto vorhanden?</label>
         <select
           name="hasCar"
           value={form.hasCar || ""}
@@ -646,7 +646,7 @@ useEffect(() => {
 
         {form.hasCar === "ja" && (
           <>
-            <label className="block font-medium mt-4">Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung), exklusiv Arbeitsweg</label>
+            <label className="block font-medium mb-1">Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung), exklusiv Arbeitsweg</label>
             <select
               name="carAvailableForWork"
               value={form.carAvailableForWork || ""}
@@ -662,7 +662,7 @@ useEffect(() => {
       </>
     )}
 
-    <label className="block font-medium mt-4">In welchem KM-Radius sind Sie bereit zu arbeiten</label>
+    <label className="block font-medium mb-1">In welchem KM-Radius sind Sie bereit zu arbeiten</label>
 <select
   name="howFarCanYouTravel"
   value={form.howFarCanYouTravel}
@@ -676,7 +676,7 @@ useEffect(() => {
 </select>
 
 
-    <label className="block font-medium mt-6">Wie viele Stunden pro Woche möchten Sie arbeiten?</label>
+    <label className="block font-medium mb-1">Wie viele Stunden pro Woche möchten Sie arbeiten?</label>
     <select
       name="desiredWeeklyHours"
       value={form.desiredWeeklyHours || ""}
@@ -692,7 +692,7 @@ useEffect(() => {
       <option value="4.2">4.2 Std / 0.5 Tage / 10%</option>
     </select>
 
-    <label className="block font-medium mt-4">Rauchen Sie?</label>
+    <label className="block font-medium mb-1">Rauchen Sie?</label>
     <select
       name="smoker"
       value={form.smoker || ""}
@@ -704,7 +704,7 @@ useEffect(() => {
       <option value="nein">Nein</option>
     </select>
 
-<label className="block font-medium mt-4">
+<label className="block font-medium mb-1">
   Kurzfristige Einsätze möglich? <br />
   <span className="text-sm font-normal text-gray-600">
     (z. B. spontane Einsätze, Springerfunktion, Bereitschafts- oder Pikettdienst)
@@ -722,8 +722,8 @@ useEffect(() => {
 </select>
 
 
-    <label className="block font-medium mt-4">Fortbildungen</label>
-<div className="flex flex-wrap gap-6">
+    <label className="block font-medium mb-1">Fortbildungen</label>
+<div className="flex flex-wrap gap-4 mb-6">
   {["Demenzbetreuung", "Palliativbetreuung","Haushälterische Funktionen",
     "Kochkurs",
     "Nothelferkurs", "Andere"].map((option) => (
@@ -791,8 +791,8 @@ useEffect(() => {
 
 
 
-    <label className="block font-medium mt-4">Kommunikationsfähigkeit & Empathie</label>
-<div className="flex flex-wrap gap-6">
+    <label className="block font-medium mb-1">Kommunikationsfähigkeit & Empathie</label>
+<div className="flex flex-wrap gap-4 mb-6">
   {["Kommunikativ", "Ruhig", "Fröhlich", "Geduldig" ,   "Humorvoll",
     "Energisch",
     "Freundlich",
@@ -825,8 +825,8 @@ useEffect(() => {
   ))}
 </div>
 
-    <label className="block font-medium mt-4">Sprachen</label>
-<div className="flex flex-wrap gap-6">
+    <label className="block font-medium mb-1">Sprachen</label>
+<div className="flex flex-wrap gap-4 mb-6">
   {["CH-Deutsch", "Deutsch", "Englisch", "Französisch", "Italienisch"].map((lang) => (
     <label key={lang} className="flex items-center space-x-2">
       <input
@@ -857,12 +857,12 @@ useEffect(() => {
   placeholder="Weitere Sprachen:"
   value={form.languageOther || ""}
   onChange={handleChange}
-  className={inputClass + " mt-4"}
+  className={inputClass + "mt-[-4px]"}
 />
 
 
 
-    <label className="block font-medium mt-4">Reisen- und Ferienbegleitung möglich?</label>
+    <label className="block font-medium mb-1">Reisen- und Ferienbegleitung möglich?</label>
     <select
       name="travelSupport"
       value={form.travelSupport || ""}
@@ -874,7 +874,7 @@ useEffect(() => {
       <option value="nein">Nein</option>
     </select>
 
-    <label className="block font-medium mt-4">Sind Sie bereit dazu Unterstützung in der Körperpflege zu leisten? (Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)</label>
+    <label className="block font-medium mb-1">Sind Sie bereit dazu Unterstützung in der Körperpflege zu leisten? (Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)</label>
     <select
       name="bodyCareSupport"
       value={form.bodyCareSupport || ""}
@@ -888,7 +888,7 @@ useEffect(() => {
 
   
 
-    <label className="block font-medium mt-4">Können Sie in einem Haushalt mit Tieren arbeiten?
+    <label className="block font-medium mb-1">Können Sie in einem Haushalt mit Tieren arbeiten?
 </label>
     <select
       name="worksWithAnimals"
@@ -908,9 +908,9 @@ useEffect(() => {
   <>
   
 
-    <h2 className="text-2xl font-bold text-[#04436F] mb-4">Arbeitsbereitschaft</h2>
-<div className="space-y-2">
-  <label className="font-medium">Verfügbar ab wann?</label>
+    <h2 className="text-2xl font-bold text-[#04436F] mb-8">Arbeitsbereitschaft</h2>
+<div className="mb-2">
+  <label className="font-medium mb-1">Verfügbar ab wann?</label>
   <input
     type="date"
     name="availabilityFrom"
@@ -919,18 +919,18 @@ useEffect(() => {
     className={inputClass}
   />
 </div>
-<label className="block font-medium mt-4">Nachtarbeit möglich? (23.00 Uhr bis 06.00 Uhr)</label>
+<label className="block font-medium mb-1">Nachtarbeit möglich? (23.00 Uhr bis 06.00 Uhr)</label>
 <select
   name="nightShifts"
   value={form.nightShifts || ""}
   onChange={handleChange}
-  className={inputClass}
+  className={inputClass + " mb-2"}
 >
   <option value="">Bitte wählen</option>
   <option value="ja">Ja</option>
   <option value="nein">Nein</option>
 </select>
-<label className="block font-medium mt-4">Häufigkeit der Nachtschichten (z. B. 1x/Woche)</label>
+<label className="block font-medium mb-1">Häufigkeit der Nachtschichten (z. B. 1x/Woche)</label>
 <select
   name="nightShiftFrequency"
   value={form.nightShiftFrequency || ""}
@@ -953,7 +953,7 @@ useEffect(() => {
 
 
    <div className="space-y-2 mt-6">
-  <label className="font-medium">Welche Tätigkeiten bieten Sie an?</label>
+  <label className="font-medium mb-1">Welche Tätigkeiten bieten Sie an?</label>
   <div className="flex flex-col gap-4">
     {Object.entries(services).map(([category, subservices]) => (
       <div key={category} className="flex flex-col">
@@ -990,8 +990,8 @@ useEffect(() => {
 </div>
 
 {/* Document Uploads */}
-<div className="space-y-6 mt-10">
-  <h3 className="text-2xl font-bold text-[#04436F]">Dokumente hochladen</h3>
+<div className="mt-6">
+  <h3 className="text-xl font-semibold ">Dokumente hochladen</h3>
 
   {/* Upload Field Template */}
 {[
@@ -1005,7 +1005,7 @@ useEffect(() => {
 
   return (
     <div key={field.key}>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="block font-medium mb-1 mt-4">
         {field.label}{" "}
        {field.required ? (
   <span className="text-red-500 font-bold">*</span>
@@ -1027,7 +1027,7 @@ useEffect(() => {
   {/* Custom button label */}
   <label
     htmlFor={field.key}
-    className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+    className=" inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
   >
     Dokumente hochladen
   </label>
@@ -1114,7 +1114,7 @@ useEffect(() => {
 </div>
 
   <div className="space-y-4 mt-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-  <label   className="text-2xl font-bold text-[#04436F]">
+  <label   className="text-xl font-semibold mb-1">
     Wie haben Sie von uns erfahren?
   </label>
 

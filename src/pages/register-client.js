@@ -1406,7 +1406,7 @@ onChange={(date) => {
   <label className="block font-semibold mb-1">Vollständiger Name</label>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
 <div className="mb-2">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block font-medium mb-1">
     Vorname
   </label>
   <input
@@ -1419,7 +1419,7 @@ onChange={(date) => {
 </div>
 
        <div className="mb-2">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block font-medium mb-1">
     Nachname
   </label>
   <input
@@ -1435,7 +1435,7 @@ onChange={(date) => {
 </div>
     {/* Telefon */}
       <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block  font-medium mb-1">
 Telefonnummer</label>
        <input
   name="phone"
@@ -1456,7 +1456,7 @@ Telefonnummer</label>
 
       {/* E-Mail */}
       <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block font-medium mb-1">
 E-Mail</label>
        <input
   type="email"
@@ -1473,7 +1473,7 @@ E-Mail</label>
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
   {/* Password */}
   <div className="relative">
-      <label className="block text-sm font-medium mb-1">
+      <label className="block font-medium mb-1">
 Passwort*</label>
     <div className="relative">
       <input
@@ -1565,7 +1565,7 @@ Passwort*</label>
 
   {/* Confirm Password */}
   <div className="relative">
-      <label className="block text-sm font-medium mb-1">
+      <label className="block font-medium mb-1">
 Passwort bestätigen*</label>
     <div className="relative">
       <input
@@ -1641,7 +1641,7 @@ Passwort bestätigen*</label>
         {/* Strasse & Hausnummer */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Strasse</label>
+            <label className="block font-medium mb-1">Strasse</label>
             <input
               name="street"
               placeholder="z. B. Bahnhofstrasse"
@@ -1651,7 +1651,7 @@ Passwort bestätigen*</label>
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Hausnummer</label>
+            <label className="block font-medium mb-1">Hausnummer</label>
             <input
               name="houseNumber"
               placeholder="z. B. 12a"
@@ -1665,7 +1665,7 @@ Passwort bestätigen*</label>
         {/* PLZ & Ort */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div>
-            <label className="block text-sm font-medium mb-1">PLZ</label>
+            <label className="block font-medium mb-1">PLZ</label>
             <input
               name="postalCode"
                       placeholder="z. B. 8000"
@@ -1676,7 +1676,7 @@ Passwort bestätigen*</label>
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Ort</label>
+            <label className="block font-medium mb-1">Ort</label>
             <input
               name="city"
                       placeholder="z. B. Zürich"
@@ -1690,7 +1690,7 @@ Passwort bestätigen*</label>
 
         {/* Land */}
         <div className="mt-4">
-          <label className="block text-sm font-medium mb-1">Land</label>
+          <label className="block font-medium mb-1">Land</label>
           <input
             name="address"
             placeholder="z. B. Schweiz"
@@ -1774,7 +1774,7 @@ Passwort bestätigen*</label>
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
   {/* First row: Vorname and Nachname */}
   <div className="mb-2">
-    <label className="block text-sm font-medium mb-1">Vorname</label>
+    <label className="block font-medium mb-1">Vorname</label>
     <input
       name="firstName"
       placeholder="Vorname"
@@ -1784,7 +1784,7 @@ Passwort bestätigen*</label>
   </div>
 
   <div className="mb-2">
-    <label className="block text-sm font-medium mb-1">Nachname</label>
+    <label className="block font-medium mb-1">Nachname</label>
     <input
       name="lastName"
       placeholder="Nachname"
@@ -1795,7 +1795,7 @@ Passwort bestätigen*</label>
 
   {/* Second row: Telefonnummer and Email */}
   <div className="mb-2">
-    <label className="block text-sm font-medium mb-1">Telefonnummer</label>
+    <label className="block font-medium mb-1">Telefonnummer</label>
     <input
       name="phone"
       placeholder="Telefonnummer"
@@ -1805,7 +1805,7 @@ Passwort bestätigen*</label>
   </div>
 
   <div className="mb-2">
-    <label className="block text-sm font-medium mb-1">Email</label>
+    <label className="block font-medium mb-1">Email</label>
     <input
       name="email"
       placeholder="Email"
@@ -1824,7 +1824,7 @@ Passwort bestätigen*</label>
 <p className="text-[14px] font-semibold mb-4">zu betreuende Person</p>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
       <div className="mb-2">
-       <label className="block text-sm font-medium mb-1">
+       <label className="block font-medium mb-1">
     Vorname
   </label>
       <input
@@ -1836,7 +1836,7 @@ Passwort bestätigen*</label>
       />
       </div>
             <div className="mb-2">
- <label className="block text-sm font-medium mb-1">
+ <label className="block font-medium mb-1">
     Nachname
   </label>
       <input
@@ -1848,7 +1848,7 @@ Passwort bestätigen*</label>
       />
       </div>
       <div className="mb-2">
-         <label className="block text-sm font-medium mb-1">
+         <label className="block font-medium mb-1">
 Telefonnummer  </label>
       <input
         name="phone"
@@ -1859,7 +1859,7 @@ Telefonnummer  </label>
       />
       </div>
             <div className="mb-2">
-               <label className="block text-sm font-medium mb-1">Email</label>
+               <label className="block font-medium mb-1">Email</label>
     <input
       name="email"
       placeholder="Email"
@@ -1871,7 +1871,7 @@ Telefonnummer  </label>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
  <div className="mb-2">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block font-medium mb-1">
     Adresse & Hausnummer
   </label>
   <input
@@ -1883,7 +1883,7 @@ value={form.address ||''}    className={inputClass}
 </div>
 
    <div className="mb-2">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block font-medium mb-1">
     Stockwerk / Eingangscode
   </label>
   <input
@@ -1896,7 +1896,7 @@ value={form.address ||''}    className={inputClass}
 </div>
 
      <div className="mb-2">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block font-medium mb-1">
     PLZ
   </label>
   <input
@@ -1911,7 +1911,7 @@ value={form.address ||''}    className={inputClass}
 </div>
 
    <div className="mb-2">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block font-medium mb-1">
     Ort
   </label>
   <input
@@ -1927,7 +1927,7 @@ value={form.address ||''}    className={inputClass}
 
     {/* Ankunftsbedingungen */}
    <div className="mb-6">
-  <p className="font-[600] text-[16px] mb-4">Ankunftsbedingungen</p>
+  <p className="font-[600] text-[16px] mb-1">Ankunftsbedingungen</p>
 
   <div className="flex flex-wrap items-center gap-6">
     {["Schlüssel ist hinterlegt", "Es ist jemand zu Hause"].map((option) => (
@@ -1970,7 +1970,7 @@ value={form.address ||''}    className={inputClass}
 
     {/* Parkplatz vorhanden */}
    <div className="mb-4">
-  <label className="block font-[600] mb-4">Parkplatz vorhanden?</label>
+  <label className="block font-[600] mb-1">Parkplatz vorhanden?</label>
   <select
     name="hasParking"
     value={form.hasParking || ""}
@@ -2004,7 +2004,7 @@ value={form.address ||''}    className={inputClass}
     {/* Wo befindet sich der Eingang */}
     <div>
            <div className="mb-2">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block font-medium mb-1">
     Wo befindet sich der Eingang?
   </label>
   <input
@@ -2017,8 +2017,8 @@ value={form.address ||''}    className={inputClass}
     </div>
 
 
-      <div className="mb-2 mt-1">
-  <label className="block text-sm font-medium mb-1">
+      <div className="mt-3">
+  <label className="block font-medium mb-1">
     Zusätzliche Informationen hinzufügen
   </label>
   <textarea
@@ -2043,7 +2043,7 @@ value={form.address ||''}    className={inputClass}
 
   {/* Verfügbare Hilfsmittel */}
   <div className="mb-4">
-    <p className="font-medium mb-1">Verfügbare Hilfsmittel</p>
+    <p className="font-medium mb-2">Verfügbare Hilfsmittel</p>
     <div className="flex flex-wrap gap-6">
       {["Rollstuhl", "Rollator", "Gehstock"].map((aid) => (
         <label key={aid} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2061,7 +2061,7 @@ value={form.address ||''}    className={inputClass}
 
   {/* Transportmittel Auswahl */}
   <div className="mb-6">
-    <label className="block font-medium mb-1">Transportmittel</label>
+    <label className="block font-medium mb-2">Transportmittel</label>
     <select
       name="transportOption"
       value={form.transportOption || ""}
@@ -2231,7 +2231,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* 🔹 Ausflüge & Reisebegleitung */}
-  <h3 className="font-[600] text-[16px] mb-1 mt-4">Ausflüge & Reisebegleitung</h3>
+  <h3 className="font-[600] text-[16px] mb-2 mt-4">Ausflüge & Reisebegleitung</h3>
 
   <div className="flex flex-wrap items-center gap-6">
     {["Theaterbesuch", "Kinobesuch", "Konzertbesuch", "Fussballspiel", "Urlaubsbegleitung"].map((trip) => (
@@ -2475,7 +2475,7 @@ value={form.address ||''}    className={inputClass}
 
 
   {/* Diagnosen */}
-  <p className="block  font-medium mb-1">Diagnosen</p>
+  <p className="block  font-medium mb-2">Diagnosen</p>
   <div className="mb-6 flex flex-wrap gap-6">
     {["Depression", "Demenz", "Alzheimer"].map((diag) => (
       <label key={diag} className="inline-flex items-center gap-2 text-sm text-gray-800">
@@ -2495,7 +2495,7 @@ value={form.address ||''}    className={inputClass}
   </div>
 
   {/* Verhaltensmerkmale */}
-  <p className="block  font-medium mb-1">Verhaltensmerkmale</p>
+  <p className="block  font-medium mb-2">Verhaltensmerkmale</p>
   <div className="mb-6 flex flex-wrap gap-6">
     {[
       "Gestörter Tag-/Nachtrhythmus",
@@ -2573,7 +2573,7 @@ value={form.address ||''}    className={inputClass}
 
   {/* 🔹 Tätigkeiten */}
   <h3 className="font-[600] text-[16px] mb-4">Tätigkeiten</h3>
-  <label className="block font-medium mb-1">Ihre Tätigkeiten aus</label>
+  <label className="block font-medium mb-2">Ihre Tätigkeiten aus</label>
 
   <div className="flex flex-wrap gap-6 mb-4">
     {[
@@ -2627,7 +2627,7 @@ value={form.address ||''}    className={inputClass}
   <h2 className="font-bold text-[20px] mb-6"> Weitere Angaben für die Einsatzplanung</h2>
 
   {/* 🔹 Sprache der Betreuungsperson */}
-  <h3 className="font-medium mb-1">Sprache der Betreuungsperson</h3>
+  <h3 className="font-medium mb-2">Sprache der Betreuungsperson</h3>
   <div className="flex flex-wrap gap-6 mb-4">
     {["CH-Deutsch", "Deutsch", "Englisch", "Französisch", "Italienisch"].map((lang) => (
       <label key={lang} className="inline-flex items-center gap-2 text-sm text-gray-800">

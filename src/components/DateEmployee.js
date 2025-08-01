@@ -63,8 +63,8 @@ export default function DateEmployee({ form, setForm }) {
   };
 
   return (
-    <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-800">Ihre Verfügbarkeit</h3>
+    <div className="mb-4">
+      <h3 className="font-medium mb-1">Ihre Verfügbarkeit</h3>
 
       <div className="flex gap-4 items-center">
         <select
