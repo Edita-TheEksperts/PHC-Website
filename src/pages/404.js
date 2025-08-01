@@ -30,7 +30,7 @@ export default function Custom404() {
   </g>
   <defs>
     <clipPath id="clip0_1799_1251">
-      <rect width="100" height="49" fill="white"/>
+      <rect width="100"  height="49" fill="white"/>
     </clipPath>
   </defs>
 </svg>
