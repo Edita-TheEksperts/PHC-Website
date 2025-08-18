@@ -250,8 +250,6 @@ const calculatePayment = (services = [], schedules = []) => {
         <h2 className="text-3xl font-bold text-center tracking-wide">PHC</h2>
         <nav className="space-y-3">
           <SidebarLink label="Dashboard" />
-          <SidebarLink label="Profil" />
-          <SidebarLink label="Einstellungen" />
           <SidebarLink
             label="Logout"
             onClick={() => {
@@ -266,12 +264,7 @@ const calculatePayment = (services = [], schedules = []) => {
       <main className="flex-1 px-10 py-10 space-y-10">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-[#04436F]">Mitarbeiter-Dashboard</h1>
-          <button
-            onClick={() => router.push("/edit-employee-profile")}
-            className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
-          >
-            Profil bearbeiten
-          </button>
+    
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

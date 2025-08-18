@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function HomeCarePage() {
     return (
       <div className="bg-[#FAFCFF] px-4 mx-auto max-w-[1430px]">
@@ -116,10 +117,12 @@ export default function HomeCarePage() {
   </h2>
 
   {/* Button with hover effect */}
-  <button className="bg-[#B99B5F] text-[#FAFCFF] py-3 px-6 rounded-[50px] text-[14px] lg:text-[18px] font-medium mt-4 
+  <Link   href="/register-client" className="bg-[#B99B5F] text-[#FAFCFF] py-3 px-6 rounded-[50px] text-[14px] lg:text-[18px] font-medium mt-4 
                      transition duration-300 hover:bg-[#04436F]">
+
 Buchen Sie jetzt
- </button>
+   </Link>
+
 </section>
 
   

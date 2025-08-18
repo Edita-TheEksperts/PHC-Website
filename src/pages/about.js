@@ -73,9 +73,9 @@ Werden Sie Teil unserer Pflegegemeinschaft
   </h2>
   <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
 Bei Prime Home Care bieten wir einfühlsame und individuelle Betreuung – für Sie oder Ihre Liebsten.   </p>
-  <button className="bg-[#04436F] hover:bg-[#B99B5F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
+  <Link   href="/register-client" className="bg-[#04436F] hover:bg-[#B99B5F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
     Buchen Sie jetzt
-  </button>
+  </Link>
 </section>
 
 
