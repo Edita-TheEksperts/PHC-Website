@@ -18,145 +18,119 @@ export default function EmployeeDetails() {
 
   if (!employee) return <p className="p-6 text-gray-600">Loading...</p>;
 
-  // Sections to render
-  const leftSections = [
-    {
-      title: "👤 Basic Information",
-      content: (
-        <>
-          <p><span className="font-semibold">Salutation:</span> {employee.salutation || "—"}</p>
-          <p><span className="font-semibold">Email:</span> {employee.email}</p>
-          <p><span className="font-semibold">Phone:</span> {employee.phone || "—"}</p>
-          <p>
-            <span className="font-semibold">Status:</span>{" "}
-            <span
-              className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
-                employee.status === "pending"
-                  ? "bg-yellow-200 text-yellow-800"
-                  : employee.status === "approved"
-                  ? "bg-green-200 text-green-800"
-                  : "bg-red-200 text-red-800"
-              }`}
-            >
-              {employee.status}
-            </span>
-          </p>
-        </>
-      ),
-    },
-    {
-      title: "📅 Availability",
-      content: (
-        <>
-          <p><span className="font-semibold">From:</span> {employee.availabilityFrom ? new Date(employee.availabilityFrom).toLocaleDateString() : "—"}</p>
-          <p><span className="font-semibold">Days:</span> {(employee.availabilityDays || []).join(", ") || "—"}</p>
-        </>
-      ),
-    },
-    {
-      title: "⚙️ Other Information",
-      content: (
-        <>
-          <p><span className="font-semibold">Smoker:</span> {employee.smoker || "—"}</p>
-          <p><span className="font-semibold">On Call Available:</span> {employee.onCallAvailable || "—"}</p>
-          <p><span className="font-semibold">Weekend Ready:</span> {employee.weekendReady || "—"}</p>
-          <p><span className="font-semibold">Night Shifts:</span> {employee.nightShifts || "—"}</p>
-          <p><span className="font-semibold">Night Shift Frequency:</span> {employee.nightShiftFrequency || "—"}</p>
-          <p><span className="font-semibold">Travel Support:</span> {employee.travelSupport || "—"}</p>
-          <p><span className="font-semibold">Body Care Support:</span> {employee.bodyCareSupport || "—"}</p>
-          <p><span className="font-semibold">Has Allergies:</span> {employee.hasAllergies || "—"}</p>
-          <p><span className="font-semibold">Works With Animals:</span> {employee.worksWithAnimals || "—"}</p>
-          <p><span className="font-semibold">How Far Can You Travel:</span> {employee.howFarCanYouTravel || "—"}</p>
-          <p><span className="font-semibold">How Did You Hear About Us:</span> {employee.howDidYouHearAboutUs || "—"}</p>
-          <p><span className="font-semibold">Desired Weekly Hours:</span> {employee.desiredWeeklyHours || "—"}</p>
-        </>
-      ),
-    },
-  ];
+  const formatDate = (d) => d ? new Date(d).toLocaleDateString() : "—";
+  const formatUrl = (file, label) => file ? <a className="text-blue-600 underline" href={file} target="_blank" rel="noreferrer">{label}</a> : "—";
 
-  const rightSections = [
-    {
-      title: "📍 Address",
-      content: (
-        <>
-          <p>{employee.address || "—"} {employee.houseNumber || ""}</p>
-          <p>{employee.zipCode || "—"} {employee.city || "—"}</p>
-          <p>{employee.canton || "—"}, {employee.country || "—"}</p>
-          <p><span className="font-semibold">Nationality:</span> {employee.nationality || "—"}</p>
-        </>
-      ),
-    },
-    {
-      title: "💼 Experience",
-      content: (
-        <>
-          <p><span className="font-semibold">Years:</span> {employee.experienceYears || "—"}</p>
-          <p><span className="font-semibold">Where:</span> {employee.experienceWhere || "—"}</p>
-          <p><span className="font-semibold">Company:</span> {employee.experienceCompany || "—"}</p>
-        </>
-      ),
-    },
-    {
-      title: "🚗 License & Car",
-      content: (
-        <>
-          <p><span className="font-semibold">Has License:</span> {employee.hasLicense ? "Yes" : "No"}</p>
-          <p><span className="font-semibold">License Type:</span> {employee.licenseType || "—"}</p>
-          <p><span className="font-semibold">Has Car:</span> {employee.hasCar || "—"}</p>
-          <p><span className="font-semibold">Car Available For Work:</span> {employee.carAvailableForWork || "—"}</p>
-        </>
-      ),
-    },
-    {
-      title: "🧰 Skills & Traits",
-      content: (
-        <>
-          <p><span className="font-semibold">Special Trainings:</span> {(employee.specialTrainings || []).join(", ") || "—"}</p>
-          <p><span className="font-semibold">Communication Traits:</span> {(employee.communicationTraits || []).join(", ") || "—"}</p>
-          <p><span className="font-semibold">Languages:</span> {(employee.languages || []).join(", ") || "—"}</p>
-          <p><span className="font-semibold">Dietary Experience:</span> {(employee.dietaryExperience || []).join(", ") || "—"}</p>
-        </>
-      ),
-    },
+  const fileLinks = [
+    { key: "passportFile", label: "Passport" },
+    { key: "visaFile", label: "Visa" },
+    { key: "policeLetterFile", label: "Police Letter" },
+    { key: "cvFile", label: "CV" },
+    { key: "certificateFile", label: "Certificate" },
+    { key: "drivingLicenceFile", label: "Driving Licence" },
+    { key: "profilePhoto", label: "Profile Photo" },
   ];
 
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-white rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-extrabold text-[#04436F] border-b-4 border-[#04436F] pb-3 mb-6">
+    <div className="max-w-6xl mx-auto p-6">
+      <h1 className="text-3xl font-bold text-[#04436F] mb-4">
         Employee Profile: {employee.firstName} {employee.lastName}
-      </h2>
+      </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Left Column */}
-        <div className="space-y-6">
-          {leftSections.map(({ title, content }) => (
-            <section key={title} className="rounded-lg p-5 shadow-sm">
-              <h3 className="text-2xl font-semibold mb-3 border-b border-gray-300 pb-2">{title}</h3>
-              <div className="space-y-1 text-gray-800">{content}</div>
-            </section>
-          ))}
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* === LEFT COLUMN === */}
+        <div className="space-y-5">
+          <Section title="👤 Basic Info">
+            <Item label="Email" value={employee.email} />
+            <Item label="Phone" value={employee.phone} />
+            <Item label="Status" value={employee.status} />
+            <Item label="Created At" value={formatDate(employee.createdAt)} />
+          </Section>
+
+          <Section title="📍 Address">
+            <Item label="Street" value={`${employee.address || "—"} ${employee.houseNumber || ""}`} />
+            <Item label="City/ZIP" value={`${employee.city || "—"}, ${employee.zipCode || "—"}`} />
+            <Item label="Country" value={`${employee.country || "—"} (${employee.canton || "—"})`} />
+            <Item label="Nationality" value={employee.nationality} />
+          </Section>
+
+          <Section title="📅 Availability">
+            <Item label="From" value={formatDate(employee.availabilityFrom)} />
+            <Item label="Days" value={(employee.availabilityDays || []).join(", ")} />
+          </Section>
+
+          <Section title="🗂 Uploaded Files">
+            {fileLinks.map((f) => (
+              <Item key={f.key} label={f.label} value={formatUrl(employee[f.key], f.label)} />
+            ))}
+          </Section>
         </div>
 
-        {/* Right Column */}
-        <div className="space-y-6">
-          {rightSections.map(({ title, content }) => (
-            <section key={title} className="rounded-lg p-5 shadow-sm">
-              <h3 className="text-2xl font-semibold mb-3 border-b border-gray-300 pb-2">{title}</h3>
-              <div className="space-y-1 text-gray-800">{content}</div>
-            </section>
-          ))}
+        {/* === RIGHT COLUMN === */}
+        <div className="space-y-5">
+          <Section title="💼 Experience">
+            <Item label="Years" value={employee.experienceYears} />
+            <Item label="Where" value={employee.experienceWhere} />
+            <Item label="Company" value={employee.experienceCompany} />
+          </Section>
+
+          <Section title="🚘 License & Vehicle">
+            <Item label="Has License" value={employee.hasLicense ? "Yes" : "No"} />
+            <Item label="Type" value={employee.licenseType} />
+            <Item label="Has Car" value={employee.hasCar} />
+            <Item label="Car for Work" value={employee.carAvailableForWork} />
+          </Section>
+
+          <Section title="⚙️ Traits & Support">
+            <Item label="Trainings" value={(employee.specialTrainings || []).join(", ")} />
+            <Item label="Languages" value={(employee.languages || []).join(", ")} />
+            <Item label="Communication" value={(employee.communicationTraits || []).join(", ")} />
+            <Item label="Dietary Exp" value={(employee.dietaryExperience || []).join(", ")} />
+          </Section>
+
+          <Section title="📊 Assignments & Schedules">
+            <Item label="Total Assignments" value={employee.assignments?.length || 0} />
+            <Item label="Total Schedules" value={employee.schedules?.length || 0} />
+            {employee.schedules?.length > 0 && (
+              <ul className="list-disc ml-6 text-sm text-gray-700">
+                {employee.schedules.map((s) => (
+                  <li key={s.id}>
+                    {s.day} - {s.hours}h @ {s.startTime} ({formatDate(s.date)})
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Section>
         </div>
       </div>
 
-      {/* Back Button */}
-      <div className="pt-8 text-center">
+      <div className="mt-10 text-center">
         <button
           onClick={() => router.push("/admin/employees")}
-          className="inline-block px-8 py-3 bg-[#04436F] text-white font-semibold rounded-lg shadow hover:bg-[#033350] transition"
+          className="px-6 py-2 bg-[#04436F] text-white rounded hover:bg-[#033350]"
         >
           ← Back to Employees
         </button>
       </div>
     </div>
+  );
+}
+
+// === REUSABLE COMPONENTS ===
+
+function Section({ title, children }) {
+  return (
+    <div className="bg-white p-5 rounded-xl shadow">
+      <h2 className="text-xl font-semibold text-[#04436F] mb-3">{title}</h2>
+      <div className="space-y-2">{children}</div>
+    </div>
+  );
+}
+
+function Item({ label, value }) {
+  return (
+    <p>
+      <span className="font-medium">{label}:</span> {value || "—"}
+    </p>
   );
 }
