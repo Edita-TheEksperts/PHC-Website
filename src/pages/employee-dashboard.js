@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 import AssignmentCalendar from "../components/AssignmentCalendar";
 
 export default function EmployeeDashboard() {
+  const [vacations, setVacations] = useState([]);
+const [vacationStart, setVacationStart] = useState("");
+const [vacationEnd, setVacationEnd] = useState("");
+
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [rejectedAssignments, setRejectedAssignments] = useState([]);
@@ -33,6 +37,48 @@ useEffect(() => {
 
   loadRejected();
 }, [employeeData]);
+useEffect(() => {
+  async function loadVacations() {
+    if (!employeeData?.email) return;
+
+    const res = await fetch("/api/employee/vacations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: employeeData.email }),
+    });
+
+    const data = await res.json();
+    setVacations(data);
+  }
+
+  loadVacations();
+}, [employeeData]);
+
+const handleVacationSave = async () => {
+  if (!vacationStart || !vacationEnd) {
+    alert("Bitte Start- und Enddatum auswählen");
+    return;
+  }
+
+  const res = await fetch("/api/employee/save-vacation", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: employeeData.email,
+      start: vacationStart,
+      end: vacationEnd,
+    }),
+  });
+
+  if (res.ok) {
+    const newVacation = { start: vacationStart, end: vacationEnd, status: "Geplant" };
+    setVacations((prev) => [...prev, newVacation]);
+    setVacationStart("");
+    setVacationEnd("");
+  } else {
+    alert("❌ Fehler beim Speichern des Urlaubs");
+  }
+};
 
   const handlePaymentEditRequest = async () => {
   try {
@@ -284,6 +330,45 @@ const calculatePayment = (services = [], schedules = []) => {
             <Info label="Firma" value={employeeData.experienceCompany || "—"} />
             <Info label="Führerschein" value={employeeData.hasLicense ? "Ja" : "Nein"} />
             <Info label="Autotyp" value={employeeData.licenseType || "—"} />
+            <Card title="🏖 Urlaub">
+  <div className="space-y-3">
+    <div className="flex flex-col space-y-2">
+      <input
+        type="date"
+        value={vacationStart}
+        onChange={(e) => setVacationStart(e.target.value)}
+        className="border p-2 rounded"
+      />
+      <input
+        type="date"
+        value={vacationEnd}
+        onChange={(e) => setVacationEnd(e.target.value)}
+        className="border p-2 rounded"
+      />
+    </div>
+    <button
+      onClick={handleVacationSave}
+      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    >
+      Urlaub speichern
+    </button>
+
+    {/* Show existing vacations */}
+    <div className="mt-4 space-y-2">
+      {vacations.length === 0 ? (
+        <p className="text-sm text-gray-500">Kein Urlaub geplant.</p>
+      ) : (
+        vacations.map((v, i) => (
+          <div key={i} className="border p-2 rounded bg-gray-50 text-sm">
+            {new Date(v.start).toLocaleDateString()} –{" "}
+            {new Date(v.end).toLocaleDateString()} ({v.status})
+          </div>
+        ))
+      )}
+    </div>
+  </div>
+</Card>
+
           </Card>
 
           <Card title="📅 Verfügbarkeit">

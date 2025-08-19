@@ -364,25 +364,25 @@ Jetzt Ihre Betreuung buchen!</p>
       title: "Alltagsbegleitung & Besorgungen",
       description:
         "Wir begleiten Sie zuverlässig zu Arztterminen, Therapien, Behördengängen oder beim Einkaufen – ob Supermarkt, Apotheke oder Modegeschäft. Auch Postgänge und sonstige Erledigungen übernehmen wir gerne.",
-      icon: "/images/phc-icon-nursing.png",
+      icon: "/images/medical-report.png",
     },
     {
       title: "Freizeit & soziale Aktivitäten",
       description:
         "Für mehr Lebensfreude im Alltag: Wir leisten Gesellschaft, kochen gemeinsam, lesen vor, spielen Karten oder begleiten Sie zu Theater, Kino, Konzerten, Sportanlässen oder in den Urlaub.",
-      icon: "/images/phc-icon-companion.png",
+      icon: "/images/music (1).png",
     },
     {
       title: "Gesundheitsfürsorge & Grundpflege",
       description:
         "Einfühlsame Unterstützung bei der Körperpflege, Nahrungsaufnahme und bei alltäglichen pflegerischen Aufgaben – ergänzt durch gesundheitsfördernde Aktivitäten für Körper und Geist.",
-      icon: "/images/phc-icon-health-aides.png",
+      icon: "/images/heart-beat (1).png",
     },
     {
       title: "Haushaltshilfe & Wohnpflege",
       description:
         "Wir sorgen für ein sauberes, gepflegtes Zuhause: von Kochen, Waschen und Bügeln bis hin zu Fenster putzen, Staubsaugen, Pflanzenpflege oder dem Wechseln der Bettwäsche.",
-      icon: "/images/phc-icon-medication.png",
+      icon: "/images/house (1).png",
     },
   ].map((service, index) => (
     <div

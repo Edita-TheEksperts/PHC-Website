@@ -39,6 +39,19 @@ model Schedule {
   employee   Employee? @relation(fields: [employeeId], references: [id])
 }
 
+model Vacation {
+  id          String    @id @default(uuid())
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+
+  employeeId  String?
+  employee    Employee? @relation(fields: [employeeId], references: [id])
+
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+}
+
 
 
 model User {
@@ -186,6 +199,9 @@ stripeCustomerId      String?
 
    resetToken        String?    // stores the password reset token, optional
   resetTokenExpiry  DateTime?  // stores the expiry time of the token, optional
+
+    vacations Vacation[]
+
 }
 
 
@@ -292,6 +308,7 @@ assignments Assignment[]  // Add this line
   rejectionWarnings  RejectionWarning[] // <-- relation back to RejectionWarning
     inviteSentAt DateTime?
       schedules   Schedule[]    // ✅ Add this line to complete the relation
+vacations Vacation[]
 
 }
 

@@ -12,6 +12,31 @@ export default function ClientTable({ clients }) {
   const [selectedService, setSelectedService] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [sortBy, setSortBy] = useState("name");
+  const [recommended, setRecommended] = useState({});
+const [showModal, setShowModal] = useState(false);
+const [modalRecs, setModalRecs] = useState([]);
+useEffect(() => {
+  async function fetchRecommendations() {
+    for (const client of clients) {
+      try {
+        const res = await fetch(`/api/admin/matchmaking?clientId=${client.id}`);
+        const data = await res.json();
+
+        setRecommended(prev => ({
+          ...prev,
+          [client.id]: data,   // attach results to client
+        }));
+      } catch (err) {
+        console.error("❌ Matchmaking error:", err);
+      }
+    }
+  }
+  if (clients.length > 0) {
+    fetchRecommendations();
+  }
+}, [clients]);
+
+
 function getStatus(client) {
   if (client.status === "canceled") return "Canceled";
 
@@ -246,29 +271,60 @@ useEffect(() => {
     ? new Date(client.firstDate).toISOString().slice(0, 10)
     : "-"}
 </td>
-                <td className="p-3">
-                  {employees.length === 0 ? (
-                    <span className="text-red-500">Loading...</span>
-                  ) : (
-                    <select
-                      value={selectedEmployee[client.id] || ""}
-                      onChange={(e) =>
-                        setSelectedEmployee({
-                          ...selectedEmployee,
-                          [client.id]: e.target.value,
-                        })
-                      }
-                      className="border px-2 py-1 rounded"
-                    >
-                      <option value="">Select</option>
-                      {employees.map((emp) => (
-                        <option key={emp.id} value={emp.id}>
-                          {emp.firstName} {emp.lastName} ({emp.status})
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </td>
+               <td className="p-3">
+{recommended[client.id] && recommended[client.id].length > 0 ? (
+  <div className="space-y-1">
+    {recommended[client.id].slice(0, 3).map((rec) => (
+      <div key={rec.employeeId} className="flex items-center gap-2">
+        <span className="px-2 py-0.5 rounded bg-green-100 text-green-800 text-xs font-medium">
+          ⭐ {rec.firstName} {rec.lastName} (Score: {rec.score})
+        </span>
+        <button
+          className="text-blue-600 text-xs underline"
+          onClick={() => {
+            setModalRecs(recommended[client.id]);
+            setShowModal(true);
+          }}
+        >
+          Why?
+        </button>
+      </div>
+    ))}
+  </div>
+) : (
+  <div className="space-y-1">
+    <span className="text-gray-500 text-sm">No strong match</span>
+    {employees.slice(0, 2).map((emp) => (
+      <div key={emp.id} className="flex items-center gap-2">
+        <span className="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-xs font-medium">
+          ⚠️ {emp.firstName} {emp.lastName}
+        </span>
+      </div>
+    ))}
+  </div>
+)}
+
+
+  {/* fallback dropdown */}
+  <select
+    value={selectedEmployee[client.id] || ""}
+    onChange={(e) =>
+      setSelectedEmployee({
+        ...selectedEmployee,
+        [client.id]: e.target.value,
+      })
+    }
+    className="border px-2 py-1 rounded mt-2"
+  >
+    <option value="">Select Employee</option>
+    {employees.map((emp) => (
+      <option key={emp.id} value={emp.id}>
+        {emp.firstName} {emp.lastName} ({emp.status})
+      </option>
+    ))}
+  </select>
+</td>
+
            <td className="p-3">
   <div className="flex flex-col gap-2 w-36">
     {/* Assign Button */}
@@ -457,6 +513,37 @@ useEffect(() => {
       {message && (
         <p className="text-center text-sm mt-4 text-blue-700">{message}</p>
       )}
+
+      {showModal && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+    <div className="bg-white p-6 rounded-xl shadow-lg w-[400px]">
+      <h3 className="text-lg font-bold mb-4">Why Recommended?</h3>
+      <ul className="space-y-3">
+        {modalRecs.map((rec) => (
+          <li key={rec.employeeId} className="p-3 border rounded">
+            <p className="font-medium">
+              ⭐ {rec.firstName} {rec.lastName} (Score: {rec.score})
+            </p>
+            <ul className="list-disc ml-5 text-sm text-gray-600">
+              {rec.reasons.map((reason, i) => (
+                <li key={i}>{reason}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-4 text-right">
+        <button
+          onClick={() => setShowModal(false)}
+          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

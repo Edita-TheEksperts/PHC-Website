@@ -6,6 +6,7 @@ import RegisterForm3 from "../components/RegisterForm3"
 import RegisterForm4 from "../components/RegisterForm4"
 import { Pie, Line } from "react-chartjs-2"
 import OvertimeAlerts from "../components/OvertimeAlerts"; // Adjust import based on your file structure
+import { CalendarDays } from "lucide-react" // or any icon library you use
 
 import {
   Chart as ChartJS,
@@ -90,6 +91,7 @@ const BookingsOverTimeChart = ({ schedules }) => {
   )
 }
 
+
 export default function ClientDashboard() {
   const [userData, setUserData] = useState(null)
   const [employees, setEmployees] = useState([]);  // State to store employee data
@@ -101,6 +103,20 @@ export default function ClientDashboard() {
   const [services, setServices] = useState("")
   const [isNotifVisible, setIsNotifVisible] = useState(false)
   const router = useRouter()
+const [vacations, setVacations] = useState([])
+
+const fetchVacations = async (userId) => {
+  const res = await fetch(`/api/vacation/get?userId=${userId}`)
+  if (res.ok) {
+    const data = await res.json()
+    setVacations(data)
+  }
+}
+useEffect(() => {
+  if (userData?.id) {
+    fetchVacations(userData.id)
+  }
+}, [userData])
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -205,6 +221,32 @@ export default function ClientDashboard() {
     )
 
   const SelectedForm = formMap[services]
+function VacationForm({ userId, refreshVacations }) {
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await fetch("/api/vacation/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, startDate, endDate }),
+    })
+    setStartDate("")
+    setEndDate("")
+    refreshVacations()
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+      <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+      <button type="submit" className="bg-[#04436F] text-white py-2 px-4 rounded-lg">
+        Urlaub speichern
+      </button>
+    </form>
+  )
+}
 
   return (
     <div className="relative min-h-screen bg-gray-100 font-sans">
@@ -310,6 +352,7 @@ export default function ClientDashboard() {
  
 
 
+
             </article>
 
         <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
@@ -358,6 +401,51 @@ export default function ClientDashboard() {
       <p className="italic text-gray-400">Keine Termine geplant</p>
     )}
   </div>
+<section className="bg-gradient-to-b from-white to-gray-50 p-2 rounded-3xl  border border-t-gray-100 max-w-md mx-auto">
+  {/* Title */}
+  <h3 className="text-3xl font-bold text-[#B99B5F] uppercase mb-8 text-center tracking-wide">
+    Urlaub
+  </h3>
+
+  {/* Vacation Form */}
+  <div className="bg-gray-50 rounded-2xl p-5 shadow-inner mb-6">
+    <VacationForm 
+      userId={userData.id} 
+      refreshVacations={() => fetchVacations(userData.id)} 
+    />
+  </div>
+
+  {/* Vacation List */}
+  <div className="mt-4">
+    {vacations.length > 0 ? (
+      <ul className="space-y-4">
+        {vacations.map((v) => (
+          <li 
+            key={v.id} 
+            className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition duration-200"
+          >
+            {/* Icon */}
+            <div className="flex-shrink-0 bg-[#B99B5F]/10 p-3 rounded-xl">
+              <CalendarDays className="text-[#B99B5F] w-6 h-6" />
+            </div>
+
+            {/* Date Info */}
+            <div>
+              <p className="text-gray-800 font-semibold">
+                {new Date(v.startDate).toLocaleDateString()} – {new Date(v.endDate).toLocaleDateString()}
+              </p>
+              <p className="text-gray-500 text-sm italic">Geplant</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p className="text-gray-400 italic text-center mt-6">
+        Kein Urlaub eingetragen
+      </p>
+    )}
+  </div>
+</section>
 </article>
 
 

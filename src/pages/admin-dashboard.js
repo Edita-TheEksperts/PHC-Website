@@ -33,6 +33,8 @@ export default function DashboardPage() {
   const [schedules, setSchedules] = useState([]);
   const [sourceData, setSourceData] = useState([]);
   const [andereDetails, setAndereDetails] = useState([]);
+  const [vacations, setVacations] = useState([]);
+
 const [activity, setActivity] = useState([
   {
     actor: "Admin",
@@ -50,7 +52,35 @@ const [activity, setActivity] = useState([
     fetchData();
     fetchStats();
     fetchWarnings();
+      fetchVacations();   // 👈 add this
+
   }, []);
+useEffect(() => {
+  fetchData();
+  fetchStats();
+  fetchWarnings();
+  fetchVacations();   // 👈 add this
+}, []);
+
+async function fetchVacations() {
+  try {
+    const res = await fetch("/api/admin/vacations");
+    const data = await res.json();
+
+    // Check if backend wraps in { vacations: [...] }
+    if (Array.isArray(data)) {
+      setVacations(data);
+    } else if (Array.isArray(data.vacations)) {
+      setVacations(data.vacations);
+    } else {
+      setVacations([]);
+    }
+  } catch (err) {
+    console.error("Error fetching vacations:", err);
+    setVacations([]);
+  }
+}
+
 
   async function fetchData() {
     const res = await fetch("/api/admin/dashboard");
@@ -97,6 +127,64 @@ const [activity, setActivity] = useState([
       console.error("Error loading warnings:", err);
     }
   }
+
+  async function cancelVacation(id) {
+  const res = await fetch(`/api/admin/vacations/cancel`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id }),
+  });
+  const data = await res.json();
+  alert(data.message || "Vacation cancelled");
+}
+
+async function reassignVacation(id) {
+  const res = await fetch(`/api/admin/vacations/reassign`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id }),
+  });
+  const data = await res.json();
+  alert(data.message || "Vacation reassigned");
+}
+
+async function getSuggestions(id) {
+  const res = await fetch(`/api/admin/vacations/suggestions?vacationId=${id}`);
+  const data = await res.json();
+  alert("Suggested dates: " + JSON.stringify(data));
+}
+useEffect(() => {
+  async function fetchConflicts() {
+    const res = await fetch("/api/admin/vacations/conflicts");
+    const data = await res.json();
+    console.log("⚠ Conflicts:", data);
+  }
+  fetchConflicts();
+}, []);
+
+function ReassignModal({ vacation }) {
+  const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() => {
+    fetch(`/api/admin/vacations/suggestions?clientId=${vacation.assignments[0].client.id}&date=${vacation.startDate}&serviceId=${vacation.assignments[0].serviceId}`)
+      .then(res => res.json())
+      .then(setSuggestions);
+  }, [vacation]);
+
+  return (
+    <div className="modal">
+      <h2 className="text-lg font-bold">Reassign {vacation.employee.firstName}</h2>
+      <ul className="space-y-2 mt-3">
+        {suggestions.map(s => (
+          <li key={s.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span>{s.firstName} {s.lastName} ({s.zip})</span>
+            <button className="btn-green">Assign</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
   return (
     <AdminLayout>
@@ -285,7 +373,106 @@ const [activity, setActivity] = useState([
     </div>
   </DashboardCard>
 </Tab.Panel>
+<Tab.Panel>
+<DashboardCard title="🌴 Vacations">
+  <div className="bg-white rounded-xl shadow-md p-4">
+    {Array.isArray(vacations) && vacations.length > 0 ? (
+      <ul className="space-y-3">
+        {vacations.map((v) => (
+          <li key={v.id} className="p-3 border rounded-lg">
+            <div>
+              <p className="font-medium text-gray-800">
+                {v.employee ? `👷 Employee: ${v.employee.firstName} ${v.employee.lastName}` : ""}
+                {v.user ? ` 🙋 Client: ${v.user.firstName} ${v.user.lastName}` : ""}
+              </p>
+              <p className="text-sm text-gray-600">
+                {new Date(v.startDate).toLocaleDateString()} →{" "}
+                {new Date(v.endDate).toLocaleDateString()}
+              </p>
+            </div>
 
+            {/* Action buttons */}
+            <div className="flex gap-2 mt-2">
+              {/* Call button for employee */}
+              {v.employee?.phone && (
+                <button
+                  onClick={() => window.open(`tel:${v.employee.phone}`)}
+                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
+                >
+                  📞 Call
+                </button>
+              )}
+
+              {/* Call button for client */}
+              {v.user?.phone && (
+                <button
+                  onClick={() => window.open(`tel:${v.user.phone}`)}
+                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
+                >
+                  📞 Call Client
+                </button>
+              )}
+
+              {/* Suggestions button (only for employees) */}
+              {v.employee && (
+                <button
+                  onClick={async () => {
+                    const res = await fetch(`/api/admin/vacations/suggestions?vacationId=${v.id}`);
+                    const data = await res.json();
+                    v.suggestions = data;
+                    setVacations([...vacations]); // trigger re-render
+                  }}
+                  className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
+                >
+                  💡 Suggestions
+                </button>
+              )}
+            </div>
+
+            {/* Suggestions list (only for employees) */}
+            {v.employee && v.suggestions && v.suggestions.length > 0 && (
+              <div className="mt-3 bg-gray-50 p-2 rounded-lg border text-sm">
+                <p className="font-semibold text-gray-700">💡 Suggested Alternatives:</p>
+                <ul className="mt-2 space-y-2 text-sm text-gray-700">
+                  {v.suggestions.map((s, i) => (
+                    <li
+                      key={i}
+                      className="flex justify-between items-center p-2 border rounded-lg bg-gray-50"
+                    >
+                      <div>
+                        <p>
+                          {new Date(s.startDate).toLocaleDateString()} →{" "}
+                          {new Date(s.endDate).toLocaleDateString()}
+                        </p>
+                        <p className="font-medium">
+                          👷 {s.employee.firstName} {s.employee.lastName}
+                        </p>
+                      </div>
+                      {s.employee.phone && (
+                        <button
+                          onClick={() => window.open(`tel:${s.employee.phone}`)}
+                          className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
+                        >
+                          📞 Call
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p className="text-gray-500 italic">No vacations found</p>
+    )}
+  </div>
+</DashboardCard>
+
+
+
+  </Tab.Panel>
 
           <Tab.Panel>
             <DashboardCard title="Rejection Warnings">
