@@ -1,4 +1,28 @@
+import { useState } from "react";
+
 const Footer = () => {
+     const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const subscribe = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setSubscribed(true);
+      setMessage(data.message); // success message
+    } else {
+      setMessage(data.error); // error message
+    }
+  };
     return (
       <footer className="bg-[#FAFCFF]">
  <div className="max-w-[1430px] p-4 mx-auto grid grid-cols-1 lg:grid-cols-[500px_1fr] gap-6">          
@@ -30,38 +54,61 @@ const Footer = () => {
     </clipPath>
   </defs>
 </svg>          
-<p 
-            className="mt-4 text-[#04436F] font-medium"
-            style={{
-              fontFamily: '"Instrument Sans", sans-serif',
-              fontSize: '22px',
-              fontWeight: '500',
-              lineHeight: '30.8px'
-            }}
+ <div>
+      <p 
+        className="mt-4 text-[#04436F] font-medium"
+        style={{
+          fontFamily: '"Instrument Sans", sans-serif',
+          fontSize: "22px",
+          fontWeight: "500",
+          lineHeight: "30.8px"
+        }}
+      >
+        Bleiben Sie mit unserem Newsletter auf dem Laufenden
+      </p>
+
+     {!subscribed ? (
+        <form
+          onSubmit={subscribe}
+          className="mt-3 pr-2 flex items-center border border-gray-300 rounded-[50px] overflow-hidden w-full"
+        >
+          <input
+            type="email"
+            placeholder="E-Mail-Adresse eingeben"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-4 outline-none bg-transparent text-[#04436F] placeholder:text-[#04436F]"
+          />
+          <button
+            type="submit"
+            className="bg-[#033559] text-white px-4 py-2 rounded-[50px]"
           >
-            Bleiben Sie mit unserem Newsletter auf dem Laufenden 
-          </p> 
-          <div className="mt-3 pr-2 flex items-center border border-gray-300 rounded-[50px] overflow-hidden w-full">
-  <input
-    type="email"
-    placeholder="E-Mail-Adresse eingeben"
-    className="w-full px-4 py-4 outline-none bg-transparent text-[#04436F] placeholder:text-[#04436F]"
-  />
-  <button className="bg-[#033559] text-white px-4 py-2 rounded-[50px]">
-    Abonnieren
-  </button>
-</div>
+            Abonnieren
+          </button>
+        </form>
+      ) : (
+        <p  className="mt-4 text-[#04436F] font-medium"
+        style={{
+          fontFamily: '"Instrument Sans", sans-serif',
+          fontSize: "22px",
+          fontWeight: "500",
+          lineHeight: "30.8px"
+        }}>{message}</p>
+      )}
+
+      {!subscribed && message && (
+        <p className="mt-2 text-red-600 text-sm">{message}</p>
+      )}
+    </div>
 
             <div className="flex gap-3 mt-4">
-              <a href="#" className="text-blue-600 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+              <a href="https://www.facebook.com/people/Prime-Home-Care/61578812924579/" className="text-blue-600 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
   <path d="M11.8 22.0381H12.2C12.9499 22.0381 13.3249 22.0381 13.5878 21.8471C13.6727 21.7854 13.7473 21.7108 13.809 21.6259C14 21.363 14 20.988 14 20.2381V13.9131H15.2C15.9499 13.9131 16.3249 13.9131 16.5878 13.7221C16.6727 13.6604 16.7473 13.5858 16.809 13.5009C17 13.238 17 12.863 17 12.1131V11.9214C17 11.1715 17 10.7965 16.809 10.5336C16.7473 10.4488 16.6727 10.3741 16.5878 10.3124C16.3249 10.1214 15.9499 10.1214 15.2 10.1214H14V7.82976C14 7.36382 14 7.13084 14.0761 6.94707C14.1776 6.70205 14.3723 6.50737 14.6173 6.40588C14.8011 6.32976 15.0341 6.32976 15.5 6.32976C15.9659 6.32976 16.1989 6.32976 16.3827 6.25364C16.6277 6.15214 16.8224 5.95747 16.9239 5.71244C17 5.52867 17 5.2957 17 4.82976V4.09365C17 3.57548 17 3.3164 16.9063 3.11547C16.8069 2.9024 16.6357 2.73114 16.4226 2.63178C16.2217 2.53809 15.9626 2.53809 15.4444 2.53809C13.6309 2.53809 12.7241 2.53809 12.0208 2.86601C11.2751 3.21377 10.6757 3.81316 10.3279 4.55893C10 5.26216 10 6.16895 10 7.98254V10.1214H8.8C8.05005 10.1214 7.67508 10.1214 7.41221 10.3124C7.32732 10.3741 7.25266 10.4488 7.19098 10.5336C7 10.7965 7 11.1715 7 11.9214V12.1131C7 12.863 7 13.238 7.19098 13.5009C7.25266 13.5858 7.32732 13.6604 7.41221 13.7221C7.67508 13.9131 8.05005 13.9131 8.8 13.9131H10V20.2381C10 20.988 10 21.363 10.191 21.6259C10.2527 21.7108 10.3273 21.7854 10.4122 21.8471C10.6751 22.0381 11.0501 22.0381 11.8 22.0381Z" fill="#04436F"/>
 </svg></a>
-              <a href="#" className="text-blue-600 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+              <a href="https://www.instagram.com/primehomecareag/" className="text-blue-600 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2 2.53809H10.8C7.23775 2.53809 5.45663 2.53809 4.20802 3.44526C3.80477 3.73824 3.45015 4.09286 3.15717 4.49611C2.25 5.74472 2.25 7.52584 2.25 11.0881V13.4881C2.25 17.0503 2.25 18.8315 3.15717 20.0801C3.45015 20.4833 3.80477 20.838 4.20802 21.1309C5.45663 22.0381 7.23775 22.0381 10.8 22.0381H13.2C16.7622 22.0381 18.5434 22.0381 19.792 21.1309C20.1952 20.838 20.5499 20.4833 20.8428 20.0801C21.75 18.8315 21.75 17.0503 21.75 13.4881V11.0881C21.75 7.52584 21.75 5.74472 20.8428 4.49611C20.5499 4.09286 20.1952 3.73824 19.792 3.44526C18.5434 2.53809 16.7622 2.53809 13.2 2.53809ZM16 12.2881C16 14.4972 14.2091 16.2881 12 16.2881C9.79086 16.2881 8 14.4972 8 12.2881C8 10.0789 9.79086 8.28809 12 8.28809C14.2091 8.28809 16 10.0789 16 12.2881ZM17.5 7.78809C18.0523 7.78809 18.5 7.34037 18.5 6.78809C18.5 6.23581 18.0523 5.78809 17.5 5.78809C16.9477 5.78809 16.5 6.23581 16.5 6.78809C16.5 7.34037 16.9477 7.78809 17.5 7.78809Z" fill="#04436F"/>
 </svg></a>
-              <a href="#" className="text-blue-600 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 11.0881C2.25 7.52584 2.25 5.74472 3.15717 4.49611C3.45015 4.09286 3.80477 3.73824 4.20802 3.44526C5.45663 2.53809 7.23775 2.53809 10.8 2.53809H13.2C16.7622 2.53809 18.5434 2.53809 19.792 3.44526C20.1952 3.73824 20.5499 4.09286 20.8428 4.49611C21.75 5.74472 21.75 7.52584 21.75 11.0881V13.4881C21.75 17.0503 21.75 18.8315 20.8428 20.0801C20.5499 20.4833 20.1952 20.838 19.792 21.1309C18.5434 22.0381 16.7622 22.0381 13.2 22.0381H10.8C7.23775 22.0381 5.45663 22.0381 4.20802 21.1309C3.80477 20.838 3.45015 20.4833 3.15717 20.0801C2.25 18.8315 2.25 17.0503 2.25 13.4881V11.0881ZM7.5 10.0381C7.91421 10.0381 8.25 10.3739 8.25 10.7881V16.7881C8.25 17.2023 7.91421 17.5381 7.5 17.5381C7.08579 17.5381 6.75 17.2023 6.75 16.7881V10.7881C6.75 10.3739 7.08579 10.0381 7.5 10.0381ZM11 10.0381C11.4142 10.0381 11.75 10.3739 11.75 10.7881V11.0142C12.4773 10.4049 13.4145 10.0381 14.4375 10.0381C15.9908 10.0381 17.25 11.2973 17.25 12.8506V16.7881C17.25 17.2023 16.9142 17.5381 16.5 17.5381C16.0858 17.5381 15.75 17.2023 15.75 16.7881V12.8506C15.75 12.1257 15.1624 11.5381 14.4375 11.5381C12.9532 11.5381 11.75 12.7413 11.75 14.2256V16.7881C11.75 17.2023 11.4142 17.5381 11 17.5381C10.5858 17.5381 10.25 17.2023 10.25 16.7881V14.2256V10.7881C10.25 10.3739 10.5858 10.0381 11 10.0381ZM7.5 8.78809C8.05228 8.78809 8.5 8.34037 8.5 7.78809C8.5 7.23581 8.05228 6.78809 7.5 6.78809C6.94772 6.78809 6.5 7.23581 6.5 7.78809C6.5 8.34037 6.94772 8.78809 7.5 8.78809Z" fill="#04436F"/>
-</svg></a>
+ 
             </div>
           </div>
       <div className="grid lg:grid-cols-2 gap-6 bg-[#F1F1F1]  p-4 lg:p-[45px] lg:rounded-tl-[20px] lg:rounded-bl-[20px]">
