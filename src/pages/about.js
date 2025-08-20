@@ -47,7 +47,7 @@ Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für indi
       alt="Philosophie Icon"
       className="w-[50px] h-[50px] bg-[#B99B5F] rounded-full object-contain p-2"
     />
-    <p className="text-[#04436F] text-[28px] font-[500] leading-[33.6px]">
+    <p className="text-[#04436F] text-[28px] font-[500] leading-[33.6px] mt-3">
       Unsere Philosophie
     </p>
   </div>
@@ -58,7 +58,7 @@ Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für indi
   </p>
 </div>
 
-        <div className="flex flex-col justify-center mt-[16px]">
+        <div className="flex flex-col justify-center mt-[30px]">
        <div className="flex items-center gap-3">
     <img 
       src="/images/security.png"  // <-- replace with your actual image path
