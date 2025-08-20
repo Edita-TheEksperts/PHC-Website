@@ -104,6 +104,34 @@ export default function ClientDashboard() {
   const [isNotifVisible, setIsNotifVisible] = useState(false)
   const router = useRouter()
 const [vacations, setVacations] = useState([])
+const [appointments, setAppointments] = useState([])
+useEffect(() => {
+  if (!userData?.id) return
+
+  fetch(`/api/appointments?userId=${userData.id}`) // ✅ filter by current client
+    .then((res) => res.json())
+    .then((data) => setAppointments(data))
+}, [userData])
+
+const markAsDone = async (id) => {
+  await fetch("/api/appointments", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, update: { captured: true } }),
+  })
+  setAppointments((prev) =>
+    prev.map((appt) => (appt.id === id ? { ...appt, captured: true } : appt))
+  )
+}
+
+const cancelAppointment = async (id) => {
+  await fetch("/api/appointments", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id }),
+  })
+  setAppointments((prev) => prev.filter((appt) => appt.id !== id))
+}
 
 const fetchVacations = async (userId) => {
   const res = await fetch(`/api/vacation/get?userId=${userId}`)
@@ -356,51 +384,61 @@ function VacationForm({ userId, refreshVacations }) {
             </article>
 
         <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
-  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">Kundeninformationen & Services</h3>
+  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">Nächste Termine</h3>
 
-  {/* Gebuchte Services */}
-  <div className="mb-6">
-    <h4 className="font-semibold text-lg text-gray-700 mb-2">Gebuchte Services</h4>
-    <ul className="list-disc list-inside text-gray-800">
-      {userData.services.length > 0 ? (
-        userData.services.map(({ name }) => (
-          <li key={name}>{name}</li>
-        ))
-      ) : (
-        <li className="italic text-gray-400">Keine Services gebucht</li>
-      )}
+
+
+{/* Geplante Termine */}
+<div className="mb-6">
+
+  {appointments.length > 0 ? (
+    <ul className="space-y-4">
+      {appointments.map(({ id, day, startTime, hours, date }) => (
+        <li
+          key={id}
+          className="flex items-center justify-between p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition"
+        >
+          {/* Appointment Info */}
+          <div className="flex flex-col text-gray-700">
+            <span className="text-lg font-semibold flex items-center gap-2">
+              📅 {day}
+            </span>
+            {date && (
+              <span className="text-sm flex items-center gap-2 text-gray-500">
+                🗓 {new Date(date).toLocaleDateString("de-DE", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+            )}
+            <span className="text-sm flex items-center gap-2">
+              ⏰ {startTime}
+            </span>
+            <span className="text-sm flex items-center gap-2">
+              ⌛ {hours} Std
+            </span>
+          </div>
+
+          {/* Cancel Button */}
+          <button
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-xl shadow transition"
+            onClick={() => cancelAppointment(id)}
+          >
+            Cancel
+          </button>
+        </li>
+      ))}
     </ul>
-  </div>
+  ) : (
+    <p className="italic text-gray-400">Keine Termine geplant</p>
+  )}
+</div>
 
-  {/* Unterservices */}
-  <div className="mb-6">
-    <h4 className="font-semibold text-lg text-gray-700 mb-2">Unterservices</h4>
-    <ul className="list-disc list-inside text-gray-800">
-      {userData.subServices.length > 0 ? (
-        userData.subServices.map(({ name }) => (
-          <li key={name}>{name}</li>
-        ))
-      ) : (
-        <li className="italic text-gray-400">Keine Unterservices</li>
-      )}
-    </ul>
-  </div>
 
-  {/* Geplante Termine */}
-  <div className="mb-6">
-    <h4 className="font-semibold text-lg text-gray-700 mb-2">Geplante Termine</h4>
-    {userData.schedules.length > 0 ? (
-      <ul className="list-disc list-inside text-gray-800">
-        {userData.schedules.map(({ id, day, startTime, hours }) => (
-          <li key={id}>
-            {day} – {startTime} – {hours} Std
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p className="italic text-gray-400">Keine Termine geplant</p>
-    )}
-  </div>
+
+
 <section className="bg-gradient-to-b from-white to-gray-50 p-2 rounded-3xl  border border-t-gray-100 max-w-md mx-auto">
   {/* Title */}
   <h3 className="text-3xl font-bold text-[#B99B5F] uppercase mb-8 text-center tracking-wide">

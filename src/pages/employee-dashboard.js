@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AssignmentCalendar from "../components/AssignmentCalendar";
-
+import EmployeeScheduleList from "../components/EmployeeScheduleList";
 export default function EmployeeDashboard() {
   const [vacations, setVacations] = useState([]);
 const [vacationStart, setVacationStart] = useState("");
 const [vacationEnd, setVacationEnd] = useState("");
+  const [employeeId, setEmployeeId] = useState(null);
 
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -109,7 +110,14 @@ function getFirstScheduleDate(schedules) {
 
   return new Date(Math.min(...validDates));
 }
+ const [schedules, setSchedules] = useState([]);
 
+  useEffect(() => {
+    fetch("/api/employee-dashboard")
+      .then((res) => res.json())
+      .then((data) => setSchedules(data))
+      .catch((err) => console.error("❌ Error loading:", err));
+  }, []);
 const [pendingAssignments, setPendingAssignments] = useState([]);
 
 useEffect(() => {
@@ -174,7 +182,14 @@ const handleAssignmentAction = async (assignmentId, action) => {
   }
 };
 
+const [assignments, setAssignments] = useState([]);
 
+  useEffect(() => {
+    fetch("/api/assignments")
+      .then((res) => res.json())
+      .then((data) => setAssignments(data))
+      .catch((err) => console.error("Error loading assignments:", err));
+  }, []);
 const [payment, setPayment] = useState({
   iban: "",
   accountHolder: "",
@@ -330,8 +345,9 @@ const calculatePayment = (services = [], schedules = []) => {
             <Info label="Firma" value={employeeData.experienceCompany || "—"} />
             <Info label="Führerschein" value={employeeData.hasLicense ? "Ja" : "Nein"} />
             <Info label="Autotyp" value={employeeData.licenseType || "—"} />
-            <Card title="🏖 Urlaub">
+         <Card title="🏖 Urlaub">
   <div className="space-y-3">
+    {/* Date pickers */}
     <div className="flex flex-col space-y-2">
       <input
         type="date"
@@ -346,6 +362,8 @@ const calculatePayment = (services = [], schedules = []) => {
         className="border p-2 rounded"
       />
     </div>
+
+    {/* Save button */}
     <button
       onClick={handleVacationSave}
       className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
@@ -358,16 +376,26 @@ const calculatePayment = (services = [], schedules = []) => {
       {vacations.length === 0 ? (
         <p className="text-sm text-gray-500">Kein Urlaub geplant.</p>
       ) : (
-        vacations.map((v, i) => (
-          <div key={i} className="border p-2 rounded bg-gray-50 text-sm">
-            {new Date(v.start).toLocaleDateString()} –{" "}
-            {new Date(v.end).toLocaleDateString()} ({v.status})
-          </div>
-        ))
+        vacations.map((v, i) => {
+          // Safely format dates
+          const start = v.startDate
+            ? new Date(v.startDate).toLocaleDateString("de-DE")
+            : "–";
+          const end = v.endDate
+            ? new Date(v.endDate).toLocaleDateString("de-DE")
+            : "–";
+
+          return (
+            <div key={i} className="border p-2 rounded bg-gray-50 text-sm">
+              {start} – {end} ({v.status || "ohne Status"})
+            </div>
+          );
+        })
       )}
     </div>
   </div>
 </Card>
+
 
           </Card>
 
@@ -537,6 +565,7 @@ const workedHours = schedule.hours;
 </Card>
 
 <Card ><AssignmentCalendar assignments={confirmedAssignments} />
+  <EmployeeScheduleList employeeId={employeeId} />
 </Card>
 
           <Card title="📄 Dokumente">

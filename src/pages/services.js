@@ -27,7 +27,7 @@ export default function HomeCarePage() {
 <section className="grid grid-cols-1 p-2 md:grid-cols-2 lg:grid-cols-2 gap-[16px] mt-[40px]">
   {[
     {
-      icon: "user",
+      icon: "/images/shopping-cart.png",
       title: "Alltagsbegleitung und Besorgungen",
       description: [
         "Beleitung zu Terminen",
@@ -37,7 +37,7 @@ export default function HomeCarePage() {
       ]
     },
     {
-      icon: "heart",
+      icon: "/images/music (1).png",
       title: "Freizeit und Soziale Aktivitäten",
       description: [
         "Gesellschaft leisten",
@@ -48,7 +48,7 @@ export default function HomeCarePage() {
       ]
     },
     {
-      icon: "users",
+      icon: "/images/medical-report.png",
       title: "Gesundheitsführsorge",
       description: [
         "Körperliche Unterstützung",
@@ -59,7 +59,7 @@ export default function HomeCarePage() {
       ]
     },
     {
-      icon: "wheelchair",
+      icon: "/images/house (1).png",
       title: "Haushaltshilfe und Wohnpflege",
       description: [
         "Hauswirtschaft",
@@ -84,9 +84,9 @@ export default function HomeCarePage() {
       {/* Icon */}
       <div className="flex justify-center items-center p-4 bg-white w-[100px] h-[100px] rounded-full mb-[10px] lg:mb-[30px]">
         <img
-          src={`/images/${service.icon}.svg`}
+          src={service.icon}
           alt={service.title}
-          className="w-[40px] h-[40px]"
+          className="w-[40px] h-[40px] object-contain"
         />
       </div>
 

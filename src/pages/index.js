@@ -364,7 +364,7 @@ Jetzt Ihre Betreuung buchen!</p>
       title: "Alltagsbegleitung & Besorgungen",
       description:
         "Wir begleiten Sie zuverlässig zu Arztterminen, Therapien, Behördengängen oder beim Einkaufen – ob Supermarkt, Apotheke oder Modegeschäft. Auch Postgänge und sonstige Erledigungen übernehmen wir gerne.",
-      icon: "/images/medical-report.png",
+      icon: "/images/shopping-cart.png",
     },
     {
       title: "Freizeit & soziale Aktivitäten",
@@ -376,7 +376,7 @@ Jetzt Ihre Betreuung buchen!</p>
       title: "Gesundheitsfürsorge & Grundpflege",
       description:
         "Einfühlsame Unterstützung bei der Körperpflege, Nahrungsaufnahme und bei alltäglichen pflegerischen Aufgaben – ergänzt durch gesundheitsfördernde Aktivitäten für Körper und Geist.",
-      icon: "/images/heart-beat (1).png",
+      icon: "/images/medical-report.png",
     },
     {
       title: "Haushaltshilfe & Wohnpflege",

@@ -353,7 +353,7 @@ useEffect(() => {
 const stripe = useStripe();
 const elements = useElements();
 
-function generateScheduleDates({ firstDateStr, schedules, repeat = 6 }) {
+function generateScheduleDates({ firstDateStr, schedules, frequency, repeatYears = 10 }) {
   const weekdays = {
     Montag: 1,
     Dienstag: 2,
@@ -366,6 +366,13 @@ function generateScheduleDates({ firstDateStr, schedules, repeat = 6 }) {
 
   const firstDate = parse(firstDateStr, "dd.MM.yyyy", new Date());
   const result = [];
+  const weeks = repeatYears * 52; // about 10 years
+
+  // Decide interval based on frequency
+  let step;
+  if (frequency === "wöchentlich") step = 7;
+  else if (frequency === "alle 2 Wochen") step = 14;
+  else step = 7; // fallback
 
   for (const { day, startTime, hours } of schedules) {
     if (!day) continue;
@@ -375,9 +382,9 @@ function generateScheduleDates({ firstDateStr, schedules, repeat = 6 }) {
       date = addDays(date, 1);
     }
 
-    for (let i = 0; i < repeat; i++) {
+    for (let i = 0; i < weeks; i++) {
       result.push({
-        date: format(addDays(date, i * 7), "yyyy-MM-dd"),
+        date: format(addDays(date, i * step), "yyyy-MM-dd"),
         day,
         startTime,
         hours,
@@ -387,6 +394,7 @@ function generateScheduleDates({ firstDateStr, schedules, repeat = 6 }) {
 
   return result;
 }
+
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -444,33 +452,44 @@ const handleSubmit = async (e) => {
 
     const paymentMethodId = paymentIntent.payment_method;
     console.log("✅ Zahlung erfolgreich. PaymentMethod ID:", paymentMethodId);
+let generatedSchedules = [];
 
-    let generatedSchedules = [];
-
-if (form.frequency === "monatlich") {
+if (form.frequency === "einmalig") {
+  // Only one single date with user input
+  const firstDate = parse(form.firstDate, "dd.MM.yyyy", new Date());
+  generatedSchedules = [{
+    date: format(firstDate, "yyyy-MM-dd"),
+    day: format(firstDate, "EEEE", { locale: de }),
+    startTime: form.startTime || "08:00", // use user input, fallback default
+    hours: form.hours || 2,               // use user input, fallback default
+  }];
+} 
+else if (form.frequency === "monatlich") {
   if (form.monthlyMode === "pattern") {
     generatedSchedules = generateMonthlyDates({
       startDate: form.firstDate,
       weekIndex: form.monthlyWeekIndex,
       dayName: form.monthlyDay,
-      startTime: "08:00",
-      hours: 2,
-      count: 6,
+      startTime: form.startTime || "08:00",
+      hours: form.hours || 2,
+      countYears: 10,
     });
   } else if (form.monthlyMode === "date") {
     generatedSchedules = generateFixedDayDates({
       startDate: form.firstDate,
       fixedDay: Number(form.fixedDayOfMonth),
-      startTime: "08:00",
-      hours: 2,
-      count: 6,
+      startTime: form.startTime || "08:00",
+      hours: form.hours || 2,
+      countYears: 10,
     });
   }
-} else {
+} 
+else {
   generatedSchedules = generateScheduleDates({
     firstDateStr: form.firstDate,
     schedules: form.schedules,
-    repeat: 6,
+    frequency: form.frequency,
+    repeatYears: 10,
   });
 }
 
@@ -886,7 +905,7 @@ const handlePasswordChange = (e) => {
 const isEinmalig = form.frequency === "einmalig";
 
   const showTravelNotice = form.subServices?.includes("Ausflüge und Reisebegleitung");
-function generateMonthlyDates({ startDate, weekIndex, dayName, count = 6, startTime = "08:00", hours = 2 }) {
+function generateMonthlyDates({ startDate, weekIndex, dayName, countYears = 10, startTime = "08:00", hours = 2 }) {
   const weekdays = {
     Sonntag: 0,
     Montag: 1,
@@ -899,11 +918,12 @@ function generateMonthlyDates({ startDate, weekIndex, dayName, count = 6, startT
 
   const results = [];
   const baseDate = typeof startDate === "string" ? parse(startDate, "dd.MM.yyyy", new Date()) : startDate;
+  const months = countYears * 12; // 10 years worth of months
+  const targetDay = weekdays[dayName];
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < months; i++) {
     const monthDate = addMonths(baseDate, i);
     const firstOfMonth = startOfMonth(monthDate);
-    const targetDay = weekdays[dayName];
 
     let countDay = 0;
     let date = new Date(firstOfMonth);
@@ -912,7 +932,7 @@ function generateMonthlyDates({ startDate, weekIndex, dayName, count = 6, startT
       if (date.getDay() === targetDay) {
         countDay++;
         const isTargetWeek =
-          (weekIndex === "last" && addMonths(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7), 0).getMonth() !== date.getMonth()) ||
+          (weekIndex === "last" && addDays(date, 7).getMonth() !== date.getMonth()) ||
           countDay === parseInt(weekIndex);
 
         if (isTargetWeek) {
@@ -931,23 +951,25 @@ function generateMonthlyDates({ startDate, weekIndex, dayName, count = 6, startT
 
   return results;
 }
-function generateFixedDayDates({ startDate, fixedDay, startTime, hours, count }) {
+
+function generateFixedDayDates({ startDate, fixedDay, startTime, hours, countYears = 10 }) {
   const start = parse(startDate, "dd.MM.yyyy", new Date());
   const results = [];
+  const months = countYears * 12; // 10 years
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < months; i++) {
     const dateObj = setDate(addMonths(start, i), fixedDay);
-
     results.push({
       date: format(dateObj, "yyyy-MM-dd"),
-      day: format(dateObj, "EEEE", { locale: de }), // e.g. "Montag"
-      startTime: startTime,
-      hours: hours,
+      day: format(dateObj, "EEEE", { locale: de }),
+      startTime,
+      hours,
     });
   }
 
   return results;
 }
+
 
 
 useEffect(() => {

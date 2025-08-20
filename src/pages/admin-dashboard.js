@@ -257,11 +257,32 @@ function ReassignModal({ vacation }) {
 
 
       <Tab.Group>
-        <Tab.List className="flex space-x-4 mb-4">
-          {['Overview', 'Employees', 'Clients', 'Analytics', 'Warnings', 'Application Overview', 'OvertimeAlerts' ,'Working Time Tracking'].map(tab => (
-            <Tab key={tab} className={({ selected }) => `px-4 py-2 rounded-lg ${selected ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}>{tab}</Tab>
-          ))}
-        </Tab.List>
+    <Tab.List className="flex flex-wrap gap-2 mb-4">
+  {[
+    "Overview",
+    "Employees",
+    "Clients",
+    "Analytics",
+    "Warnings",
+    "Application Overview",
+    "OvertimeAlerts",
+    "Working Time Tracking",
+  ].map((tab) => (
+    <Tab
+      key={tab}
+      className={({ selected }) =>
+        `px-4 py-2 rounded-lg text-sm ${
+          selected
+            ? "bg-blue-600 text-white"
+            : "bg-gray-100 hover:bg-gray-200"
+        }`
+      }
+    >
+      {tab}
+    </Tab>
+  ))}
+</Tab.List>
+
         <Tab.Panels>
           <Tab.Panel>
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

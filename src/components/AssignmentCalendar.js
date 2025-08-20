@@ -1,4 +1,3 @@
-// 📁 components/AssignmentCalendar.js
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import { useMemo } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -7,7 +6,7 @@ import moment from "moment";
 // Setup localization
 const localizer = momentLocalizer(moment);
 
-// ✅ Place this function HERE (top-level, outside the component)
+// ✅ Utility to compute actual Date for weekday + time
 function getNextWeekdayDate(weekdayName, timeStr) {
   const weekdays = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
   const dayIndex = weekdays.indexOf(weekdayName);
@@ -29,6 +28,9 @@ function getNextWeekdayDate(weekdayName, timeStr) {
 
 export default function AssignmentCalendar({ assignments }) {
   const events = useMemo(() => {
+    const startOfCurrentMonth = moment().startOf("month");
+    const endOfNextMonth = moment().add(1, "month").endOf("month");
+
     return assignments.flatMap((assignment) => {
       const client = assignment.user;
       const schedules = client?.schedules || [];
@@ -36,6 +38,11 @@ export default function AssignmentCalendar({ assignments }) {
       return schedules.map((schedule) => {
         const date = getNextWeekdayDate(schedule.day, schedule.startTime);
         if (!date) return null;
+
+        const mDate = moment(date);
+        if (!mDate.isBetween(startOfCurrentMonth, endOfNextMonth, null, "[]")) {
+          return null; // ❌ skip events outside range
+        }
 
         return {
           id: `${assignment.id}-${schedule.day}-${schedule.startTime}`,
@@ -53,7 +60,9 @@ export default function AssignmentCalendar({ assignments }) {
 
   return (
     <div className="my-6">
-      <h3 className="text-xl font-bold mb-4 text-[#04436F]">🗓 Einsatz-Kalender</h3>
+      <h3 className="text-xl font-bold mb-4 text-[#04436F]">
+        🗓 Einsätze: Diesen Monat & Nächsten Monat
+      </h3>
       <Calendar
         localizer={localizer}
         events={events}
