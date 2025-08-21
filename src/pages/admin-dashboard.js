@@ -12,6 +12,8 @@ import EmployeeClientConnections from "../components/EmployeeClientConnections";
 import CurrentRevenue from "../components/CurrentRevenue";
 import EmployeeTable from "../components/EmployeeTable";
 import ClientTable from "../components/ClientTable";
+import axios from "axios";
+
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import {
   LineChart,
@@ -81,6 +83,19 @@ async function fetchVacations() {
   }
 }
 
+
+  const [data, setData] = useState({
+    totalIncome: 0,
+    totalCost: 0,
+    incomePerService: [],
+    costPerService: [],
+  });
+
+  useEffect(() => {
+    axios.get("/api/admin/finance").then((res) => {
+      setData(res.data);
+    });
+  }, []);
 
   async function fetchData() {
     const res = await fetch("/api/admin/dashboard");
@@ -194,23 +209,13 @@ function ReassignModal({ vacation }) {
         </div>
       )}
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-8">
   {/* 👥 Employees */}
-  <DashboardCard title="👥 Employees">
-    <div className="text-2xl font-bold text-[#04436F]">{employees.length}</div>
-    <p className="text-sm text-gray-500 mt-1">Gesamtanzahl registrierter Mitarbeiter</p>
-  </DashboardCard>
 
   {/* ✅ Approved */}
   <DashboardCard title="✅ Approved">
     <div className="text-2xl font-bold text-green-600">{approvedEmployees.length}</div>
     <p className="text-sm text-gray-500 mt-1">Bestätigte Mitarbeiter</p>
-  </DashboardCard>
-
-  {/* 📦 Clients */}
-  <DashboardCard title="📦 Clients">
-    <div className="text-2xl font-bold text-[#04436F]">{clients.length}</div>
-    <p className="text-sm text-gray-500 mt-1">Aktive Klienten im System</p>
   </DashboardCard>
 
 
@@ -253,6 +258,41 @@ function ReassignModal({ vacation }) {
       </ul>
     </div>
   </DashboardCard>
+
+ <DashboardCard title="💰 Total Income">
+        <p className="text-2xl font-bold text-green-600">
+          CHF {data.totalIncome.toFixed(2)}
+        </p>
+      </DashboardCard>
+
+ 
+
+      {/* Income per Service */}
+      <DashboardCard title="💰 Income per Service">
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data.incomePerService}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="serviceName" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="amount" fill="#22C55E" />
+          </BarChart>
+        </ResponsiveContainer>
+      </DashboardCard>
+
+      {/* Cost per Service */}
+      <DashboardCard title="💸 Cost per Service">
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data.costPerService}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="serviceName" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="amount" fill="#EF4444" />
+          </BarChart>
+        </ResponsiveContainer>
+      </DashboardCard>
+
 </div>
 
 

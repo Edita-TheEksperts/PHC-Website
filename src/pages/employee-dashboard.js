@@ -250,6 +250,24 @@ useEffect(() => {
 }, [employeeData]);
 
 
+const [paymentTotals, setPaymentTotals] = useState(null);
+
+useEffect(() => {
+  if (!employeeData?.email) return;
+
+  const fetchTotals = async () => {
+    const res = await fetch("/api/employee/total-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: employeeData.email }),
+    });
+
+    const data = await res.json();
+    setPaymentTotals(data);
+  };
+
+  fetchTotals();
+}, [employeeData]);
 
   const handlePaymentChange = (e) => {
     const { name, value } = e.target;
@@ -398,6 +416,53 @@ const calculatePayment = (services = [], schedules = []) => {
 
 
           </Card>
+<Card title="💰 Gesamtzahlung">
+  {paymentTotals ? (
+    <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-6 text-sm space-y-4">
+      {/* Invoice Header */}
+      <div className="flex justify-between items-center border-b pb-3">
+        <h3 className="text-lg font-semibold text-[#04436F]">Zahlungsübersicht</h3>
+        <span className="text-xs text-gray-500">
+          {new Date().toLocaleDateString("de-DE")}
+        </span>
+      </div>
+
+      {/* Service Costs */}
+      <div className="flex justify-between">
+        <span className="text-gray-600">Servicekosten</span>
+        <span className="font-medium">
+          {(paymentTotals.serviceCost ?? 0).toFixed(2)} CHF
+        </span>
+      </div>
+
+      {/* Travel Costs */}
+      <div className="flex justify-between">
+        <span className="text-gray-600">Fahrkosten</span>
+        <span className="font-medium">
+          {(paymentTotals.travelCost ?? 0).toFixed(2)} CHF
+        </span>
+      </div>
+
+      {/* Divider */}
+      <hr className="border-gray-300" />
+
+      {/* Total */}
+      <div className="flex justify-between items-center text-lg font-bold text-[#04436F]">
+        <span>Gesamtbetrag</span>
+        <span>{(paymentTotals.total ?? 0).toFixed(2)} CHF</span>
+      </div>
+
+      {/* Footer / Note */}
+      <p className="text-xs text-gray-500 pt-2 italic">
+        * Betrag basiert auf bestätigten Einsätzen
+      </p>
+    </div>
+  ) : (
+    <p className="text-sm text-gray-500">Noch keine Zahlungen berechnet.</p>
+  )}
+</Card>
+
+
 
           <Card title="📅 Verfügbarkeit">
             <Info label="Ab" value={new Date(employeeData.availabilityFrom).toLocaleDateString()} />

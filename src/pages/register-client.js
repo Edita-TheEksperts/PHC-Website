@@ -12,8 +12,36 @@ import DatePicker from 'react-datepicker';
 import { de } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import {  addDays } from "date-fns";
+import { isSunday, isWithinInterval } from "date-fns";
+import Holidays from "date-holidays";
 export default function RegisterPage() {
     const testMode = false; 
+
+    const hd = new Holidays("CH"); // Switzerland
+
+// Optional: with canton (e.g., Zurich)
+const hdZH = new Holidays("CH", "ZH");
+
+function isSwissHoliday(date) {
+  return Boolean(hd.isHoliday(date));
+}
+function getSurcharge(date) {
+  let surcharge = 0;
+
+  const hour = date.getHours();
+
+  // Night check
+  if (hour >= 23 || hour <= 5) surcharge += 0.25;
+
+  // Sunday check
+  if (date.getDay() === 0) surcharge += 0.5;
+
+  // Swiss holiday check
+  if (hd.isHoliday(date)) surcharge += 0.5;
+
+  return surcharge;
+}
+
 const { watch } = useForm();
 const [formError, setFormError] = useState("");
 
@@ -81,42 +109,105 @@ useEffect(() => {
   mobilityAids: [],
   transportOption: "",
 });
-const HOURLY_RATE = 1;
-
-const totalHours = form.schedules?.reduce(
-  (sum, entry) => sum + (parseFloat(entry.hours) || 0),
-  0
-);
-
-const totalPayment = totalHours * HOURLY_RATE;
-
-useEffect(() => {
-  if (step === 3 && !clientSecret && totalPayment > 0) {
-    const fetchPaymentIntent = async () => {
-      try {
-        const res = await fetch("/api/create-payment-intent", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: totalPayment * 100 }),
-        });
-
-        const data = await res.json();
-        console.log("✅ PaymentIntent received:", data); // this must contain paymentIntentId
-
-        setClientSecret(data.clientSecret);
-
-        setForm((prev) => ({
-          ...prev,
-          paymentIntentId: data.paymentIntentId, // must be pi_***
-        }));
-      } catch (err) {
-        console.error("❌ Error getting paymentIntent:", err);
-      }
-    };
-
-    fetchPaymentIntent();
+// ✅ Helper to check if date is Swiss holiday
+  function isSwissHoliday(date) {
+    return Boolean(hd.isHoliday(date));
   }
-}, [step, clientSecret, totalPayment]);
+
+  // ✅ Combine day + startTime into full Date
+  function parseScheduleDate(entry) {
+    if (!entry.day || !entry.startTime) return new Date();
+
+    const [hours, minutes] = entry.startTime.split(":").map(Number);
+    const date = new Date(entry.day);
+    date.setHours(hours);
+    date.setMinutes(minutes);
+
+    return date;
+  }
+
+  // ✅ Surcharge calculation
+  function getSurcharge(date) {
+    let surcharge = 0;
+
+    if (date.getHours() >= 23 || date.getHours() <= 5) surcharge += 0.25; // Night
+    if (date.getDay() === 0) surcharge += 0.5; // Sunday
+    if (isSwissHoliday(date)) surcharge += 0.5; // Holiday
+
+    return surcharge;
+  }
+
+  const frequency = form?.frequency?.toLowerCase();
+  const isRecurring = ["wöchentlich", "alle 2 wochen", "monatlich"].includes(
+    frequency
+  );
+
+function buildDate(entry, firstDateStr) {
+  if (!firstDateStr) return new Date();
+
+  // Parse "07.09.2025"
+  const [day, month, year] = firstDateStr.split(".").map(Number);
+  const [hours, minutes] = entry.startTime.split(":").map(Number);
+
+  const date = new Date(year, month - 1, day, hours, minutes);
+
+  // adjust date to correct weekday if user picked "Sunday" etc.
+  const targetDay = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"]
+    .indexOf(entry.day);
+  while (date.getDay() !== targetDay && targetDay !== -1) {
+    date.setDate(date.getDate() + 1);
+  }
+
+  return date;
+}
+
+let totalPayment = 0;
+
+if (frequency === "einmalig") {
+  totalPayment = form.schedules?.reduce((sum, entry) => {
+    const date = buildDate(entry, form.firstDate);
+    const hours = parseFloat(entry.hours) || 0;
+    const surcharge = getSurcharge(date);
+    const hourlyRate = 60 * (1 + surcharge);  // once = 60 CHF/h
+    return sum + hours * hourlyRate;
+  }, 0);
+} else if (isRecurring) {
+  totalPayment = form.schedules?.reduce((sum, entry) => {
+    const date = buildDate(entry, form.firstDate);
+    const hours = parseFloat(entry.hours) || 0;
+    const surcharge = getSurcharge(date);
+    const hourlyRate = 49 * (1 + surcharge);  // recurring = 49 CHF/h
+    return sum + hours * hourlyRate;
+  }, 0);
+}
+
+
+  // ✅ Fetch Stripe PaymentIntent
+  useEffect(() => {
+    if (step === 3 && !clientSecret && totalPayment > 0) {
+      const fetchPaymentIntent = async () => {
+        try {
+          const res = await fetch("/api/create-payment-intent", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: totalPayment * 100 }),
+          });
+
+          const data = await res.json();
+          setClientSecret(data.clientSecret);
+
+          setForm((prev) => ({
+            ...prev,
+            paymentIntentId: data.paymentIntentId,
+          }));
+        } catch (err) {
+          console.error("❌ Error getting paymentIntent:", err);
+        }
+      };
+
+      fetchPaymentIntent();
+    }
+  }, [step, clientSecret, totalPayment]);
 
 
 
@@ -1386,8 +1477,6 @@ onChange={(date) => {
     setForm({ ...form, firstDate: formatted });
   }
 }}
-
-
 
   dateFormat="dd.MM.yyyy"
   locale={de}

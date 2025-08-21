@@ -37,6 +37,8 @@ model Schedule {
   user       User     @relation(fields: [userId], references: [id])
   employeeId String?
   employee   Employee? @relation(fields: [employeeId], references: [id])
+    transactions Transaction[]
+
 }
 
 model Vacation {
@@ -201,6 +203,8 @@ stripeCustomerId      String?
   resetTokenExpiry  DateTime?  // stores the expiry time of the token, optional
 
     vacations Vacation[]
+      transactions Transaction[]
+
 
 }
 
@@ -309,6 +313,8 @@ assignments Assignment[]  // Add this line
     inviteSentAt DateTime?
       schedules   Schedule[]    // ✅ Add this line to complete the relation
 vacations Vacation[]
+  transactions Transaction[]
+
 
 }
 
@@ -319,3 +325,21 @@ enum Role {
   employee
 }
 
+model Transaction {
+  id              String   @id @default(uuid())
+  scheduleId      Int      // Link to the work
+  schedule        Schedule @relation(fields: [scheduleId], references: [id])
+
+  userId          String   // Client who pays
+  user            User     @relation(fields: [userId], references: [id])
+
+  employeeId      String   // Employee who works
+  employee        Employee @relation(fields: [employeeId], references: [id])
+
+  paymentIntentId String   @unique   // 👈 make it unique
+  amountClient    Float    // What client pays (e.g. 49 CHF)
+  amountEmployee  Float    // What employee earns (e.g. 28.15 CHF)
+  status          String   @default("pending") // pending, paid, failed
+
+  createdAt       DateTime @default(now())
+}

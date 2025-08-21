@@ -7,7 +7,7 @@ import RegisterForm4 from "../components/RegisterForm4"
 import { Pie, Line } from "react-chartjs-2"
 import OvertimeAlerts from "../components/OvertimeAlerts"; // Adjust import based on your file structure
 import { CalendarDays } from "lucide-react" // or any icon library you use
-
+import ClientDashboard2 from "../components/ClientDashboard2"
 import {
   Chart as ChartJS,
   ArcElement,
@@ -377,7 +377,6 @@ function VacationForm({ userId, refreshVacations }) {
               <p className="text-lg mb-3"><strong>Email:</strong> {userData.email}</p>
               <p className="text-lg mb-3"><strong>Telefon:</strong> {userData.phone}</p>
               <p className="text-lg mb-3"><strong>Adresse:</strong> {userData.address}</p>
- 
 
 
 
@@ -518,6 +517,11 @@ function VacationForm({ userId, refreshVacations }) {
         </button>
       ))}
   </div>
+   
+<div className="mt-8">
+  {userData?.id && <ClientDashboard2 userId={userData.id} />}
+</div>
+
 </article>
 
           </section>
