@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { sendEmail } from "../../lib/emails"; // ✅ must match function name below
+import { sendEmail } from "../../lib/emails";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -12,53 +12,36 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  const calendlyLink = "https://calendly.com/YOUR_CALENDLY_LINK";
-
-  const subject = "Terminvereinbarung für ein persönliches Kennenlernen";
-  const body = `
-Liebe ${firstName}
-
-Vielen Dank für Ihre Bewerbung – wir freuen uns, Sie näher kennenzulernen!
-
-Bitte wählen Sie über folgenden Link einen passenden Termin für ein Interview mit uns:
-${calendlyLink}
-
-Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.
-
-Freundliche Grüsse  
-Prime Home Care AG
-`;
-
   try {
- await sendEmail({
-  to: email,
-  subject,
-  html: `
-    <div style="font-family: Arial, sans-serif; line-height: 1.5; max-width: 600px; margin: auto;">
-      <p>Liebe ${firstName},</p>
+    // 🔎 fetch template from DB
+    const template = await prisma.emailTemplate.findUnique({
+      where: { name: "interviewInvite" }, // 👈 store this in DB
+    });
 
-      <p>Vielen Dank für Ihre Bewerbung – wir freuen uns, Sie näher kennenzulernen!</p>
+    if (!template) {
+      return res.status(404).json({ message: "❌ Template interviewInvite not found" });
+    }
 
-      <p>Bitte wählen Sie über folgenden Link einen passenden Termin für ein Interview mit uns:</p>
+    // 📝 replace placeholders
+    let body = template.body;
+    body = body.replace(/{{firstName}}/g, firstName);
+    body = body.replace(/{{calendlyLink}}/g, "https://calendly.com/YOUR_CALENDLY_LINK");
 
-      <p><a href="${calendlyLink}" style="color: #1a73e8;">Interview buchen</a></p>
+    // 📧 send email
+    await sendEmail({
+      to: email,
+      subject: template.subject,
+      html: body,
+    });
 
-      <p>Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
-
-      <p>Freundliche Grüsse<br>Prime Home Care AG</p>
-    </div>
-  `,
-});
-
-
-  await prisma.employee.update({
-  where: { email },
-  data: {
-    invited: true,
-    inviteSentAt: new Date(), // ⏱ Save invite time
-  },
-});
-
+    // ✅ update employee
+    await prisma.employee.update({
+      where: { email },
+      data: {
+        invited: true,
+        inviteSentAt: new Date(),
+      },
+    });
 
     return res.status(200).json({ message: "Einladung gesendet" });
   } catch (err) {

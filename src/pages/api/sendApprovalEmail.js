@@ -1,45 +1,46 @@
-import nodemailer from 'nodemailer';
+import { prisma } from "../../lib/prisma";
+import { sendEmail } from "../../lib/emails";
 
-export default async function sendApprovalEmail(email, firstName, portalUrl) 
- {
-  const transporter = nodemailer.createTransport({
-    host: 'asmtp.mail.hostpoint.ch',
-    port: 465,
-    secure: true,
-    auth: {
-       user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
-    },
-  });
+export default async function handler(req, res) {
+  if (req.method !== "POST") return res.status(405).end("Method not allowed");
 
+  const { email, firstName } = req.body;
+  const portalUrl = "http://localhost:3000/login"; // ✅ update in prod
   const setPasswordUrl = `http://localhost:3000/set-password?email=${encodeURIComponent(email)}`;
 
-   const htmlContent = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-      <h2 style="color: #04436F;">Willkommen im Prime Home Care Team</h2>
-      <p>Liebe ${firstName}</p>
+  try {
+    // Update employee status
+    const updated = await prisma.employee.update({
+      where: { email },
+      data: { status: "approved", approvedAt: new Date() },
+    });
 
-      <p>Vielen Dank für Ihre Registrierung bei der <strong>Prime Home Care AG</strong>.</p>
+    // Fetch template
+    const template = await prisma.emailTemplate.findUnique({
+      where: { name: "approvalEmail" },
+    });
 
-      <p>Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Dort finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.</p>
+    if (!template) {
+      return res.status(404).json({ message: "❌ approvalEmail template not found" });
+    }
 
-      <p><strong>Login-Link:</strong> <a href="${portalUrl}" style="color: #1a73e8;">${portalUrl}</a></p>
-      <p><strong>Benutzername:</strong> ${email}</p>
+    // Replace placeholders
+    let body = template.body;
+    body = body.replace(/{{firstName}}/g, firstName);
+    body = body.replace(/{{email}}/g, email);
+    body = body.replace(/{{portalUrl}}/g, portalUrl);
+    body = body.replace(/{{setPasswordUrl}}/g, setPasswordUrl);
 
-      <p>Bitte setzen Sie Ihr Passwort über den folgenden Link:</p>
-      <p><a href="http://localhost:3000/set-password?email=${encodeURIComponent(email)}" style="color: #1a73e8;">Passwort festlegen</a></p>
+    // Send email
+    await sendEmail({
+      to: email,
+      subject: template.subject,
+      html: body,
+    });
 
-      <p>Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
-
-      <p>Herzliche Grüsse<br/>Ihr Prime Home Care Team</p>
-    </div>
-  `;
-
-  await transporter.sendMail({
-    from: `"PHC Admin" <landingpage@phc.ch>`,
-    to: email,
-    subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
-    html: htmlContent,
-  });
+    res.status(200).json({ message: "✅ Approval email sent" });
+  } catch (err) {
+    console.error("❌ Approval error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 }
-

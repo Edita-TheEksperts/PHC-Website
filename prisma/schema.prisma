@@ -336,10 +336,17 @@ model Transaction {
   employeeId      String   // Employee who works
   employee        Employee @relation(fields: [employeeId], references: [id])
 
-  paymentIntentId String   @unique   // 👈 make it unique
   amountClient    Float    // What client pays (e.g. 49 CHF)
   amountEmployee  Float    // What employee earns (e.g. 28.15 CHF)
   status          String   @default("pending") // pending, paid, failed
 
   createdAt       DateTime @default(now())
+}
+model EmailTemplate {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique     // e.g. "assignmentNotification"
+  subject   String
+  body      String   // HTML text with placeholders like {{firstName}}
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

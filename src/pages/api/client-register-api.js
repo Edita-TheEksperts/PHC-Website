@@ -126,24 +126,26 @@ export default async function handler(req, res) {
     console.log("✅ User created/updated with ID:", user.id);
     console.log("💾 Stored paymentIntentId:", user.paymentIntentId);
 
-    // ✅ Email confirmation
-    await sendEmail({
-      to: email,
-      subject: "Willkommen bei Prime Home Care – Ihr Zugang ist aktiv",
-      html: `
-        <p>Guten Tag ${firstName} ${lastName}</p>
-        <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.<br/>
-        Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet:</p>
-        <ul>
-          <li>Buchungen verwalten</li>
-          <li>Rechnungen einsehen</li>
-          <li>Mit uns kommunizieren</li>
-        </ul>
-        <p><strong>Login:</strong> <a href="http://localhost:3000/login">Zum Portal</a><br/>
-        <strong>Benutzername:</strong> ${email}</p>
-        <p>Ihr Prime Home Care Team</p>
-      `,
-    });
+// ✅ Email confirmation (template just for this handler)
+const template = await prisma.emailTemplate.findUnique({
+  where: { name: "welcomeEmail" },
+});
+
+if (!template) {
+  console.warn("⚠️ No welcomeEmail template found, skipping email");
+} else {
+  let body = template.body;
+  body = body.replace(/{{firstName}}/g, firstName || "");
+  body = body.replace(/{{lastName}}/g, lastName || "");
+  body = body.replace(/{{email}}/g, email || "");
+
+  await sendEmail({
+    to: email,
+    subject: template.subject,
+    html: body,
+  });
+}
+
 
     // ✅ Create reminders
     await prisma.reminder.createMany({

@@ -12,6 +12,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// 🔹 Helper to load template and replace {{variables}}
+async function getTemplate(name, variables) {
+  const template = await prisma.emailTemplate.findUnique({ where: { name } });
+  if (!template) throw new Error(`Template ${name} not found`);
+
+  let body = template.body;
+  for (const key in variables) {
+    body = body.replace(new RegExp(`{{${key}}}`, "g"), variables[key] || "");
+  }
+
+  return { subject: template.subject, body };
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
@@ -25,9 +38,7 @@ export default async function handler(req, res) {
     // Update confirmation status
     const updated = await prisma.assignment.update({
       where: { id: assignmentId },
-      data: {
-        confirmationStatus: action,
-      },
+      data: { confirmationStatus: action },
       include: {
         user: { include: { services: true } },
         employee: true,
@@ -36,21 +47,23 @@ export default async function handler(req, res) {
 
     // ✉️ If accepted: notify client
     if (action === "accepted") {
-      const { user, employee, serviceName, firstDate } = updated;
+      const { user, employee, serviceName } = updated;
+
+      const { subject, body } = await getTemplate("assignmentAccepted", {
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        employeeName: `${employee.firstName} ${employee.lastName}`,
+        employeeEmail: employee.email,
+        employeePhone: employee.phone || "",
+        serviceName: serviceName || (user.services?.map(s => s.name).join(", ") || "—"),
+        startDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
+      });
 
       await transporter.sendMail({
         from: `"PHC Team" <${process.env.SMTP_USER}>`,
         to: user.email,
-        subject: "Ihr Einsatz wurde bestätigt",
-        html: `
-          <p>Hallo ${user.firstName || ""} ${user.lastName || ""},</p>
-          <p>Ihr Einsatz wurde erfolgreich bestätigt!</p>
-          <p><strong>Betreuer:</strong> ${employee.firstName} ${employee.lastName}</p>
-          <p><strong>Kontakt:</strong> ${employee.email} ${employee.phone ? ` | ${employee.phone}` : ""}</p>
-          <p><strong>Service:</strong> ${serviceName || (user.services?.map(s => s.name).join(", ") || "—")}</p>
-          <p><strong>Startdatum:</strong> ${new Date(updated.createdAt).toLocaleDateString("de-DE")}</p>
-          <p>Wir danken Ihnen für Ihr Vertrauen.<br/>Ihr PHC Team</p>
-        `,
+        subject,
+        html: body,
       });
     }
 
@@ -59,10 +72,7 @@ export default async function handler(req, res) {
       const employeeId = updated.employee.id;
 
       const rejectedCount = await prisma.assignment.count({
-        where: {
-          employeeId,
-          confirmationStatus: "rejected",
-        },
+        where: { employeeId, confirmationStatus: "rejected" },
       });
 
       const warningSent = await prisma.rejectionWarning.findFirst({
@@ -70,25 +80,19 @@ export default async function handler(req, res) {
       });
 
       if (rejectedCount >= 5 && !warningSent) {
+        const { subject, body } = await getTemplate("rejectionWarning", {
+          employeeFirstName: updated.employee.firstName,
+        });
+
         await transporter.sendMail({
           from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
           to: updated.employee.email,
-          subject: "Rückmeldung zu Ihren Einsatzentscheidungen",
-          html: `
-            <p>Liebe ${updated.employee.firstName},</p>
-            <p>Uns ist aufgefallen, dass Sie in letzter Zeit mehrere Einsatzvorschläge abgelehnt haben.</p>
-            <p>Bitte beachten Sie, dass eine regelmässige Ablehnung von Einsätzen unsere Einsatzplanung erschwert.</p>
-            <p>Gerne möchten wir mit Ihnen besprechen, ob es bestimmte Gründe gibt und wie wir Sie besser unterstützen können.</p>
-            <p><a href="https://calendly.com/your-link">Jetzt Termin buchen</a></p>
-            <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
-          `,
+          subject,
+          html: body,
         });
 
         await prisma.rejectionWarning.create({
-          data: {
-            employeeId,
-            sentAt: new Date(),
-          },
+          data: { employeeId, sentAt: new Date() },
         });
       }
     }

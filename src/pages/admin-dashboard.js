@@ -13,7 +13,6 @@ import CurrentRevenue from "../components/CurrentRevenue";
 import EmployeeTable from "../components/EmployeeTable";
 import ClientTable from "../components/ClientTable";
 import axios from "axios";
-
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import {
   LineChart,
@@ -307,6 +306,7 @@ function ReassignModal({ vacation }) {
     "Application Overview",
     "OvertimeAlerts",
     "Working Time Tracking",
+
   ].map((tab) => (
     <Tab
       key={tab}
@@ -573,6 +573,8 @@ function ReassignModal({ vacation }) {
 
   </DashboardCard>
 </Tab.Panel>
+              
+
         </Tab.Panels>
       </Tab.Group>
     </AdminLayout>

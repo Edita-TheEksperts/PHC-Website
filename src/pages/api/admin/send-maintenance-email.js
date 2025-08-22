@@ -1,5 +1,5 @@
 import { prisma } from "../../../lib/prisma";
-import { sendEmail } from "../../../lib/emails"; // Your email sender utility
+import { sendEmail } from "../../../lib/emails";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
@@ -10,26 +10,35 @@ export default async function handler(req, res) {
   }
 
   try {
-    const clients = await prisma.user.findMany({
-      select: { email: true, firstName: true, lastName: true }
+    // get template
+    const template = await prisma.emailTemplate.findUnique({
+      where: { name: "maintenanceEmail" },
     });
 
-    const subject = "Information: Vorübergehende Systemwartung";
+    if (!template) {
+      return res.status(500).json({ message: "Template not found" });
+    }
+
+    const clients = await prisma.user.findMany({
+      select: { email: true, firstName: true, lastName: true },
+    });
+
     const phone = process.env.SUPPORT_PHONE || "[Telefonnummer]";
 
-    const sendTasks = clients.map(client => {
-      console.log(`📤 Sende E-Mail an: ${client.email}`);
-      
+    const sendTasks = clients.map((client) => {
+      // Replace placeholders
+      const html = template.body
+        .replace(/{{firstName}}/g, client.firstName || "")
+        .replace(/{{lastName}}/g, client.lastName || "")
+        .replace(/{{date}}/g, date)
+        .replace(/{{timeStart}}/g, timeStart)
+        .replace(/{{timeEnd}}/g, timeEnd)
+        .replace(/{{phone}}/g, phone);
+
       return sendEmail({
         to: client.email,
-        subject,
-        html: `
-          <p>Guten Tag ${client.firstName} ${client.lastName},</p>
-          <p>Am ${date} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.</p>
-          <p>In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${phone}.</p>
-          <p>Vielen Dank für Ihr Verständnis.</p>
-          <p>Freundliche Grüsse<br/>Ihr Prime Home Care Team</p>
-        `
+        subject: template.subject,
+        html,
       });
     });
 

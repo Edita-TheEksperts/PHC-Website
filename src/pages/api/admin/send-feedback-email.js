@@ -11,33 +11,41 @@ export default async function handler(req, res) {
   }
 
   try {
-    const clients = await prisma.user.findMany({
-      // adjust filter if needed
-      select: { email: true, firstName: true, lastName: true }
+    // fetch template
+    const template = await prisma.emailTemplate.findUnique({
+      where: { name: "feedbackEmail" },
     });
 
-    const subject = "Wie zufrieden sind Sie mit unserer Betreuung?";
+    if (!template) {
+      return res.status(500).json({ message: "Template not found" });
+    }
 
-    await Promise.all(
-      clients.map(client =>
-        sendEmail({
-          to: client.email,
-          subject,
-          html: `
-            <p>Guten Tag ${client.firstName} ${client.lastName},</p>
-            <p>Wir hoffen, dass Sie mit der Betreuung durch ${caregiverName} zufrieden waren.</p>
-            <p>Wir freuen uns über Ihre Rückmeldung: <a href="${feedbackLink}">${feedbackLink}</a></p>
-            <p>Ihr Feedback hilft uns, unsere Dienstleistung weiter zu verbessern.</p>
-            <p>Danke für Ihr Vertrauen!</p>
-            <p>Prime Home Care AG</p>
-          `
-        })
-      )
-    );
+    const clients = await prisma.user.findMany({
+      select: { email: true, firstName: true, lastName: true },
+    });
 
-    res.status(200).json({ message: `Feedback-Mails an ${clients.length} Kunden gesendet.` });
+    // send for each client
+    const sendTasks = clients.map((client) => {
+      const html = template.body
+        .replace(/{{firstName}}/g, client.firstName || "")
+        .replace(/{{lastName}}/g, client.lastName || "")
+        .replace(/{{caregiverName}}/g, caregiverName)
+        .replace(/{{feedbackLink}}/g, feedbackLink);
+
+      return sendEmail({
+        to: client.email,
+        subject: template.subject,
+        html,
+      });
+    });
+
+    await Promise.all(sendTasks);
+
+    res.status(200).json({
+      message: `Feedback-Mails an ${clients.length} Kunden gesendet.`,
+    });
   } catch (error) {
-    console.error(error);
+    console.error("❌ Fehler beim Senden:", error);
     res.status(500).json({ message: "Fehler beim Senden der Feedback-Mails." });
   }
 }

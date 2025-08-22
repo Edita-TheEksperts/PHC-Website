@@ -12,22 +12,23 @@ export default async function handler(req, res) {
       data: { status: "rejected" },
     });
 
-    const subject = "Ihre Bewerbung bei Prime Home Care AG";
-    const text = `Liebe ${updated.firstName}
+    // 🔎 get rejection template
+    const template = await prisma.emailTemplate.findUnique({
+      where: { name: "rejectionEmail" },
+    });
 
-Vielen Dank für Ihre Bewerbung und Ihr Interesse an der Prime Home Care AG.
+    if (!template) {
+      return res.status(404).json({ message: "❌ rejectionEmail template not found" });
+    }
 
-Nach sorgfältiger Prüfung haben wir uns entschieden, den Auswahlprozess mit anderen Kandidat*innen fortzusetzen.
-
-Wir danken Ihnen herzlich für Ihre Zeit und wünschen Ihnen für Ihre berufliche Zukunft alles Gute.
-
-Freundliche Grüsse  
-Prime Home Care AG`;
+    // 📝 replace placeholders
+    let body = template.body;
+    body = body.replace(/{{firstName}}/g, updated.firstName || "");
 
     await sendEmail({
       to: email,
-      subject,
-      html: text,
+      subject: template.subject,
+      html: body,
     });
 
     res.status(200).json({ message: "Rejected and email sent." });

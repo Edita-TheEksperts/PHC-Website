@@ -40,6 +40,10 @@ export default function AdminLayout({ children }) {
           <Link href="/admin/feedback-email" className="hover:text-blue-400">
             Feedback Email
           </Link>
+          <Link href="/admin/email-templates" className="hover:text-blue-400">
+  Email Templates
+</Link>
+
         </nav>
       </aside>
 
