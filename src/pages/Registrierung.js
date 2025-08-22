@@ -595,7 +595,7 @@ Seien Sie unter den Ersten, die von unserer innovativen Betreuung profitieren</p
     {/* Card 1 */}
     <div className="flex flex-col items-center text-center p-[4px] rounded-[20px] ">
       <img
-        src="/images/Link.png"
+        src="/images/Link1.png"
         alt="Familien"
         className="w-[352px] h-auto object-contain rounded-[20px]"
       />
@@ -604,7 +604,7 @@ Seien Sie unter den Ersten, die von unserer innovativen Betreuung profitieren</p
     {/* Card 2 */}
     <div className="flex flex-col items-center text-center p-[4px] rounded-[20px] ">
       <img
-        src="/images/Link (1).png"
+        src="/images/Link1 (1).png"
         alt="Senioren"
         className="w-[352px] h-auto object-contain rounded-[20px]"
       />
@@ -614,7 +614,7 @@ Seien Sie unter den Ersten, die von unserer innovativen Betreuung profitieren</p
     {/* Card 3 */}
     <div className="flex flex-col items-center text-center p-[4px] rounded-[20px] ">
       <img
-        src="/images/Link (2).png"
+        src="/images/Link1 (2).png"
         alt="Berufstätige"
         className="w-[352px] h-auto object-contain rounded-[20px]"
       />
@@ -693,7 +693,7 @@ Seien Sie unter den Ersten, die von unserer innovativen Betreuung profitieren</p
   {/* Left Side - Image */}
   <div className='mt-[100px]'>
     <img
-      src="/images/backphc.png"
+      src="/images/backphc1.png"
       alt="Working with senior"
       className="w-[586px] h-[657px] object-cover"
     />
