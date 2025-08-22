@@ -39,7 +39,7 @@ export default function Home() {
   {/* Background Image */}
   <div className="absolute top-0 left-0 w-full h-full">
     <img
-      src="/images/Landing Page 2 (1).png"
+      src="/images/Landing Page 2 (2).png"
       alt="Hero Image"
       className="object-cover w-full h-full"
     />
@@ -186,7 +186,7 @@ Flexible Betreuung –  Ihre Unterstützung genau wie<br></br> Sie sie brauchen!
 <section
   className="lg:block hidden font-montserat rounded-[20px] max-w-[1290px] h-[360px] relative lg:flex flex-col items-center justify-center bg-cover mt-[100px] lg:mb-[160px]"
   style={{
-    backgroundImage: "url('/images/goldboxes.png')", 
+    backgroundImage: "url('/images/goldboxes2.png')", 
     marginLeft: 'auto', 
     width: "100%", maxWidth: "1270px", minWidth: "1000px",
     backgroundRepeat: 'no-repeat', 
@@ -841,7 +841,7 @@ Seien Sie unter den Ersten, die von unserer innovativen Betreuung profitieren</p
 >
   <div className='lg:block hidden'>
     <img className='flex justify-center'
-      src="/images/Web-Experience.png" 
+      src="/images/Web-Experience1.png" 
       alt="Warum Prime Home Care"
       style={{
         width: "467px", 
@@ -910,7 +910,7 @@ Seien Sie unter den Ersten, die von unserer innovativen Betreuung profitieren</p
 <section
   className="lg:block hidden font-montserat rounded-[20px] max-w-[1290px] h-[360px] relative lg:flex flex-col items-center justify-center bg-cover mt-[100px] lg:mb-[160px]"
   style={{
-    backgroundImage: "url('/images/goldboxes.png')", 
+    backgroundImage: "url('/images/goldboxes2.png')", 
     marginLeft: 'auto', 
     width: "100%", maxWidth: "1270px", minWidth: "1000px",
     backgroundRepeat: 'no-repeat', 
