@@ -4,25 +4,39 @@ const Footer = () => {
      const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [subscribed, setSubscribed] = useState(false);
- 
-  const subscribe = async (e) => {
-    e.preventDefault();
- 
-    const res = await fetch("/api/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
- 
-    const data = await res.json();
- 
-    if (res.ok) {
-      setSubscribed(true);
-      setMessage(data.message); // success message
-    } else {
-      setMessage(data.error); // error message
-    }
-  };
+const subscribe = async (e) => {
+  e.preventDefault();
+
+  // Check if email is empty
+  if (!email) {
+    setMessage("E-Mail ist erforderlich");
+    return;
+  }
+
+  // Regex check for valid email (with @ and domain, allows Bindestrich -)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setMessage("Bitte geben Sie eine gültige E-Mail-Adresse ein");
+    return;
+  }
+
+  // API call
+  const res = await fetch("/api/subscribe", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    setSubscribed(true);
+    setMessage(data.message || "Erfolgreich abonniert!");
+  } else {
+    setMessage(data.error || "Ein Fehler ist aufgetreten. Bitte erneut versuchen.");
+  }
+};
+
     return (
       <footer className="bg-[#FAFCFF]">
       <div className="max-w-[1400px] mx-auto px-4 pb-2 pt-3 grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-4">
@@ -88,22 +102,16 @@ const Footer = () => {
 
           {/* Socials */}
           <div className="flex gap-2 mt-3">
-            <a href="#" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#DCE6F3] bg-white hover:bg-[#F5FAFF] transition">
+            <a href="https://www.facebook.com/profile.php?id=61578812924579" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#DCE6F3] bg-white hover:bg-[#F5FAFF] transition">
               {/* Facebook */}
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 25" fill="none">
                 <path d="M22.675 0.5H1.325C0.593 0.5 0 1.093 0 1.825V23.175C0 23.907 0.593 24.5 1.325 24.5H12.82V15.031H9.692V11.309H12.82V8.577C12.82 5.473 14.713 3.769 17.455 3.769C18.769 3.769 19.949 3.867 20.266 3.909V7.13H18.416C16.941 7.13 16.641 7.83 16.641 8.839V11.305H20.145L19.682 15.027H16.641V24.5H22.675C23.407 24.5 24 23.907 24 23.175V1.825C24 1.093 23.407 0.5 22.675 0.5Z" fill="#04436F"/>
               </svg>
             </a>
             {/* Instagram */}
-            <a href="#" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#DCE6F3] bg-white hover:bg-[#F5FAFF] transition">
+            <a href="https://www.instagram.com/primehomecareag/" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#DCE6F3] bg-white hover:bg-[#F5FAFF] transition">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 25" fill="none">
                 <path fillRule="evenodd" clipRule="evenodd" d="M7.5 2.5H16.5C20.09 2.5 22.5 4.91 22.5 8.5V16.5C22.5 20.09 20.09 22.5 16.5 22.5H7.5C3.91 22.5 1.5 20.09 1.5 16.5V8.5C1.5 4.91 3.91 2.5 7.5 2.5ZM12 8.5C9.515 8.5 7.5 10.515 7.5 13C7.5 15.485 9.515 17.5 12 17.5C14.485 17.5 16.5 15.485 16.5 13C16.5 10.515 14.485 8.5 12 8.5ZM18 7C18.552 7 19 7.448 19 8C19 8.552 18.552 9 18 9C17.448 9 17 8.552 17 8C17 7.448 17.448 7 18 7ZM12 10.5C13.379 10.5 14.5 11.621 14.5 13C14.5 14.379 13.379 15.5 12 15.5C10.621 15.5 9.5 14.379 9.5 13C9.5 11.621 10.621 10.5 12 10.5Z" fill="#04436F"/>
-              </svg>
-            </a>
-            {/* LinkedIn */}
-            <a href="#" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#DCE6F3] bg-white hover:bg-[#F5FAFF] transition">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 25" fill="none">
-                <path d="M4.984 3.5C4.984 4.604 4.092 5.5 2.984 5.5C1.876 5.5 0.984 4.604 0.984 3.5C0.984 2.396 1.876 1.5 2.984 1.5C4.092 1.5 4.984 2.396 4.984 3.5ZM0.984 8.5H4.984V22.5H0.984V8.5ZM8.984 8.5H12.819V10.338H12.872C13.406 9.337 14.731 8.281 16.697 8.281C20.244 8.281 21 10.604 21 14.057V22.5H17V14.844C17 13.365 16.969 11.5 15.156 11.5C13.312 11.5 13 12.979 13 14.74V22.5H9V8.5H8.984Z" fill="#04436F"/>
               </svg>
             </a>
           </div>
@@ -131,12 +139,12 @@ const Footer = () => {
       <h3 className="text-[#04436F] text-[16px] font-semibold">Kontaktinformationen</h3>
       <div className="flex-1 flex flex-col justify-between text-[#04436F] text-[17px] mt-2">
         <div>
-          <p>Adresse</p>
-          <p>Schulhausstrasse 1,<br/>8834 Schindellegi</p>
+          <p>Adresse folgendermassen:</p>
+          <p>Prime Home Care AG <br></br>Schulhausstrasse 1<br/>8834 Schindellegi</p>
         </div>
         <div>
           <p>Öffnungszeiten</p>
-          <p className="text-[#6B8AA1]">8:30 – 11:00 und 13:30 – 16:00 Uhr</p>
+          <p>8:30 – 11:00 und 13:30 – 16:00 Uhr</p>
         </div>
         <div>
           <p>E-Mail</p>
@@ -150,18 +158,15 @@ const Footer = () => {
 
       </div>
 {/* Bottom bar */}
-<div className="border-t border-[#E5EDF7] mt-8">
-  <div className="max-w-[1400px] mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between text-[#033559] text-[15px]">
-    <span>
-      © {new Date().getFullYear()} | Development by <span className="font-semibold">the eksperts</span>
-    </span>
-    <div className="flex items-center gap-5 mt-2 md:mt-0">
-      <a href="/AGB" className="hover:underline">AGB</a>
-      <a href="/impressum" className="hover:underline">Impressum</a>
-      <a href="/datenschutz" className="hover:underline">Datenschutz</a>
-    </div>
-  </div>
+{/* Claim über der Linie */}
+<div className="mt-8 text-center text-[#04436F] font-medium">
+  Einfach. Flexibel. Digital. Und Zusammen Gutes bewirken.
 </div>
+
+
+{/* Bottom bar */}
+<div className="border-t border-[#E5EDF7] mt-8"> <div className="max-w-[1400px] mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between text-[#033559] text-[15px]"> <span> © {new Date().getFullYear()} | Development by <span className="font-semibold">the eksperts</span> </span> <div className="flex items-center gap-5 mt-2 md:mt-0"> <a href="/AGB" className="hover:underline">AGB</a> <a href="/impressum" className="hover:underline">Impressum</a> <a href="/datenschutz" className="hover:underline">Datenschutz</a> </div> </div> </div>
+
       </footer>
     );
   };

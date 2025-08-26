@@ -20,7 +20,8 @@ export default function HomeCarePage() {
       {/* Services Grid */}
         <div className="max-w-[1000px] mx-auto text-center px-4">
   <h2 className="text-[#04436F] text-[40px] font-semibold leading-[48px] mt-[120px]">
-    Entdecken Sie eine Vielzahl von Dienstleistungen, die darauf ausgerichtet sind, einfühlsame und professionelle Betreuung in der Geborgenheit Ihres Zuhauses zu bieten.
+    Entdecken Sie eine Vielzahl von Dienstleistungen, die darauf ausgerichtet sind, einfühlsame und professionelle Betreuung in der Geborgenheit Ihres Zuhauses zu bieten
+
   </h2>
 </div>
 
@@ -136,7 +137,7 @@ Buchen Sie jetzt
 Weil es auf Vertrauen, Herzlichkeit und Verlässlichkeit ankommt.<br></br>Die Entscheidung für eine Betreuung ist oft mit vielen Fragen verbunden – besonders, wenn es um die Unterstützung im eigenen Zuhause geht. Bei der Prime Home Care AG stehen Sie und Ihre individuellen Bedürfnisse im Mittelpunkt. Unsere stundenweise Betreuung bietet die perfekte Balance zwischen Selbstständigkeit <br></br> und gezielter Unterstützung.
 </p>
 
-<h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600] mt-[30px]">Ihre Vorteile auf einen Blick:</h1>
+<h1 className="text-[#04436F] text-[30px] leading-[36px] font-[600] mt-[30px]">Ihre Vorteile auf einen Blick</h1>
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
   <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Individuell & flexibel</h1>
   <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Ob ein kurzer Einkauf, ein Arztbesuch oder einfach jemand zum Reden – wir passen uns Ihrem Alltag an, nicht umgekehrt.</p>
@@ -147,23 +148,18 @@ Weil es auf Vertrauen, Herzlichkeit und Verlässlichkeit ankommt.<br></br>Die En
 </div>
 
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
-  <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Persönlich & nah</h1>
-  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Als regional verankertes Unternehmen sind wir schnell zur Stelle, kennen die lokalen Gegebenheiten – und nehmen uns Zeit.</p>
-</div>
-
-<div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
   <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Mehr Lebensfreude zu Hause</h1>
   <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Mit einfühlsamer Begleitung und kleinen Gesten schaffen wir Wohlbefinden im Alltag – für Sie oder Ihre Angehörigen.</p>
 </div>
 <div className="p-[16px] bg-[#EDF2FB] rounded-[16px] mb-[16px]">
   <h1 className="text-[#04436F] text-[24px] leading-[36px] font-[500]">Einfach & zuverlässig organisiert</h1>
-  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Keine langen Wartezeiten, keine unnötige Bürokratie – dafür direkte Ansprechpartner:innen und unkomplizierte Abläufe.</p>
+  <p className="text-[#04436F] text-[16px] leading-[25px] font-[400]">Keine langen Wartezeiten, keine unnötige Bürokratie – dafür direkte Ansprechpartner und unkomplizierte Abläufe.</p>
 </div>
 
 
           </div>
           <div className="lg:w-1/2 lg:mt-0 ">
-            <img src="/images/phc-why-choose.png" alt="Why Choose Us" className="rounded-[20px] lg:h-[1020px] h-[500px] lg:w-[600px] lg:ml-[80px] w-[380px]" />
+            <img src="/images/phc-why-choose.png" alt="Why Choose Us" className="rounded-[20px] lg:h-[840px] h-[600px] lg:w-[600px] lg:ml-[80px] w-[380px]" />
           </div>
         </section>
   

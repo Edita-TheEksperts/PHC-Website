@@ -53,7 +53,7 @@ export default function Home() {
                         borderRadius: "50px 0px 0px 50px",
                     }}
                     >
-                    Ab Frühsommer 2025
+                   Jetzt durchstarten 
                     </p>
 
                         <h2 className="mb-1 text-[24px] lg:text-[65px] font-[600] leading-[60px] ">
@@ -68,7 +68,7 @@ export default function Home() {
                             <button
                                 className="mt-[6px] font-metropolis flex flex-col items-center text-center font-metropolis text-[18px] font-[500] leading-[21.6px] rounded-[50px] px-[20px] py-[12px] bg-primaryButton transition-all duration-0"
                             >
-                                Gestalte deine Arbeit so individuell wie du bist.
+                                Gestalte deine Arbeit so individuell wie du bist
                             </button>
                             </Link>
                     </div>
@@ -171,7 +171,7 @@ export default function Home() {
       fontWeight: "400",
     }}
   >
-    Werde Teil unseres Teams und gestalte Betreuung neu.
+    Gestalte mit uns die Zukunft der Betreuung – werde Teil unseres Teams 
   </p>
 
   {/* Button */}
@@ -182,7 +182,7 @@ export default function Home() {
       borderRadius: "50px",
     }}
   >
-    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren!
+    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
   </button>
   </Link>
 
@@ -202,7 +202,7 @@ export default function Home() {
       lineHeight: '32px', // 100%
     }}
   >
-   Jetzt bewerben und <br></br> ab Frühsommer <br></br> 2025 loslegen!  
+   Jetzt bewerben und <br></br> und schon bald loslegen!  
   </h2>
 
   <p
@@ -216,8 +216,8 @@ export default function Home() {
       lineHeight: '25.6px', // 160%
     }}
   >
-Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
-
+    Gestalte mit uns die Zukunft der Betreuung – werde Teil unseres Teams 
+    </p>
   {/* Button Section */}
   <div className="flex flex-col items-center justify-center px-[2px] ">
   <Link href="/Registrierung-Jobs-Form1">
@@ -234,7 +234,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
         borderRadius: '10px',
       }}
     >
-      Hier klicken, um dein Profil zu erstellen und mehr zu erfahren! 
+    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
     </button>
     </Link>
   </div>
@@ -248,9 +248,9 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       background:
         "linear-gradient(70deg, #B2EAFF 0%, #A9B4B9 75%, rgba(0, 0, 0, 0.00) 100%)",
     }}
-    className="text-center font-metropolis text-[16px] font-[400] leading-[24px] mb-[16px] px-2 py-1 rounded-[50px_0px_0px_50px]"
+    className="text-center font-metropolis text-[18px] font-[400] leading-[24px] mb-[16px] px-2 py-1 rounded-[50px_0px_0px_50px]"
   >
-    Werde Teil von etwas Grossem.
+    Werde Teil von etwas Grossem
   </p>
 
   {/* Subheading */}
@@ -287,10 +287,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       {/* Text */}
       <div className="flex flex-col flex-grow items-center text-center">
         <h3 className="text-[28px] md:text-[30px] font-metropolis font-[700] leading-[1.15] mb-3">
-          Flexibilität:
+          Flexibilität
         </h3>
         <p className="text-[20px] font-metropolis font-normal leading-[25.6px]">
-          Plane deine Einsätze, wie es dir passt.
+          Plane deine Einsätze, wie es dir passt
         </p>
       </div>
     </div>
@@ -312,10 +312,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       {/* Text */}
       <div className="flex flex-col flex-grow items-center text-center">
         <h3 className="text-[28px] md:text-[30px] font-metropolis font-[700] leading-[1.15] mb-3">
-          Fairer Verdienst:
+          Fairer Verdienst
         </h3>
         <p className="text-[20px] md:text-[20px] leading-[25.6px] font-metropolis font-normal">
-          Transparent und pünktlich.
+          Transparent und pünktlich
         </p>
       </div>
     </div>
@@ -337,10 +337,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       {/* Text */}
       <div className="flex flex-col flex-grow items-center text-center">
         <h3 className="text-[28px] md:text-[30px] font-metropolis font-[700] leading-[1.15] mb-3">
-          Unterstützung:
+          Unterstützung
         </h3>
         <p className="text-[20px] text-[#04436F] font-metropolis font-normal leading-[25.6px]">
-          Wir kümmern uns um die<br /> Organisation – du <br />konzentrierst dich auf die <br /> Betreuung.
+          Wir kümmern uns um die<br /> Organisation – du <br />konzentrierst dich auf die <br /> Betreuung
         </p>
       </div>
     </div>
@@ -359,10 +359,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
         </svg>      </div>
       <div className="flex flex-col w-[230px]">
         <h3 className="text-[28px] text-[#04436F] font-metropolis font-[600] leading-[33.6px] mb-2">
-          Flexibilität:
+          Flexibilität
         </h3>
         <p className="text-[16px] text-[#04436F] font-metropolis font-normal leading-[16px]">
-          Plane deine Einsätze,<br /> wie es dir passt.
+          Plane deine Einsätze,<br /> wie es dir passt
         </p>
       </div>
     </div>
@@ -376,10 +376,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
         </svg>      </div>
       <div className="flex flex-col w-[230px]">
         <h3 className="text-[28px] text-[#04436F] font-metropolis font-[600] leading-[33.6px] mb-2">
-          Fairer Verdienst:
+          Fairer Verdienst
         </h3>
         <p className="text-[16px] text-[#04436F] font-metropolis font-normal leading-[18px]">
-          Transparent und pünktlich.
+          Transparent und pünktlich
         </p>
       </div>
     </div>
@@ -393,10 +393,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
         </svg>      </div>
       <div className="flex flex-col w-[230px]">
         <h3 className="text-[28px] text-[#04436F] font-metropolis font-[600] leading-[33.6px] mb-2">
-          Unterstützung:
+          Unterstützung
         </h3>
         <p className="text-[16px] text-[#04436F] font-metropolis font-normal leading-[18px]">
-          Wir kümmern uns um die Organisation – du konzentrierst dich auf die Betreuung.
+          Wir kümmern uns um die Organisation – du konzentrierst dich auf die Betreuung
         </p>
       </div>
     </div>
@@ -461,7 +461,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
 
                             {/* Description */}
                             <p className="text-[#04436F] font-metropolis text-[20px] font-normal leading-[30px]">
-                            Deine Fürsorge macht den Unterschied.
+                            Deine Fürsorge macht den Unterschied
                             </p>
                         </div>
                         </div>
@@ -495,7 +495,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
 
                             {/* Description */}
                             <p className="text-[#04436F] font-metropolis text-[20px] font-normal leading-[30px]">
-                            Ob Profi oder Quereinsteiger – wir bringen dich weiter. 
+                            Ob Profi oder Quereinsteiger – wir bringen dich weiter
                             </p>
                         </div>
                         </div>
@@ -539,7 +539,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
 
                             {/* Description */}
                             <p className="text-[#04436F] font-metropolis text-[20px] font-normal leading-[30px]">
-                            Du bestimmst, wann und wo du arbeitest.
+                            Du bestimmst, wann und wo du arbeitest
                             </p>
                         </div>
                         </div>
@@ -550,7 +550,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
                     <div
                 className="md:w-[620px] flex flex-col items-start rounded-[50px_0px_0px_50px] p-[4px_70px_4px_10px]"
                 style={{
-                    background: "linear-gradient(92deg, #04436F 85.1%, rgba(255, 255, 255, 0.00) 99.45%)",
+                    background: "linear-gradient(92deg, #04436F 100%, rgba(255, 255, 255, 0.00) 100%)",
                 }}
                 >
                 <p className="text-[#FAFCFF] font-metropolis text-[16px] font-[400] leading-[25.6px] whitespace-nowrap">
@@ -744,10 +744,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px]">
-        Flexibles Arbeiten:
+        Flexibles Arbeiten
       </h3>
       <p className="text-white font-metropolis text-[20px] font-normal leading-[40px]">
-        Passe deine Einsätze an <br></br>deinen Alltag an.
+        Passe deine Einsätze an <br></br>deinen Alltag an
       </p>
     </div>
 
@@ -759,10 +759,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px]">
-        Sinnvolle Arbeit:
+        Sinnvolle Arbeit
       </h3>
       <p className="text-white font-metropolis text-[20px] font-normal leading-[40px]">
-        Du hilfst Menschen direkt und <br></br>persönlich.
+        Du hilfst Menschen direkt und <br></br>persönlich
       </p>
     </div>
 
@@ -774,10 +774,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px]">
-        Digitale Plattform:
+        Digitale Plattform
       </h3>
       <p className="text-white font-metropolis text-[20px] font-normal leading-[40px]">
-        Einfaches Verwalten deiner <br></br> Einsätze über unsere App.
+        Einfaches Verwalten deiner <br></br> Einsätze über unsere App
       </p>
     </div>
 
@@ -789,10 +789,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px]">
-        Community:
+        Community
       </h3>
       <p className="text-white font-metropolis text-[20px] font-normal leading-[40px] ">
-        Austausch und Unterstützung <br></br>durch ein starkes Team.
+        Austausch und Unterstützung <br></br>durch ein starkes Team
       </p>
     </div>
   </div>
@@ -838,10 +838,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px] text-center">
-        Flexibles Arbeiten:
+        Flexibles Arbeiten
       </h3>
       <p className="text-white font-metropolis leading-tight text-[16px] font-normal leading-[40px] text-center">
-        Passe deine Einsätze an deinen Alltag an.
+        Passe deine Einsätze an deinen Alltag an
       </p>
     </div>
 
@@ -853,10 +853,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px] text-center">
-        Sinnvolle Arbeit:
+        Sinnvolle Arbeit
       </h3>
       <p className="text-white font-metropolis leading-tight text-[16px] font-normal leading-[40px] text-center">
-        Du hilfst Menschen direkt und persönlich.
+        Du hilfst Menschen direkt und persönlich
       </p>
     </div>
 
@@ -868,10 +868,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px] text-center">
-        Digitale Plattform:
+        Digitale Plattform
       </h3>
       <p className="text-white font-metropolis leading-tight text-[16px] font-normal leading-[40px] text-center">
-        Einfaches Verwalten deiner Einsätze über unsere App.
+        Einfaches Verwalten deiner Einsätze über unsere App
       </p>
     </div>
 
@@ -883,10 +883,10 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       }}
     >
       <h3 className="text-white font-metropolis text-[24px] font-semibold leading-[51.5px] text-center">
-        Community:
+        Community
       </h3>
       <p className="text-white font-metropolis leading-tight text-[16px] font-normal leading-[40px] text-center">
-        Austausch und Unterstützung durch ein starkes Team.
+        Austausch und Unterstützung durch ein starkes Team
       </p>
     </div>
   </div>
@@ -908,13 +908,13 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
   <div className="flex flex-col gap-4 max-w-[380px] md:max-w-[730px]">
     {/* Top Label */}
     <span
-  className="text-[#04436F] text-center md:text-left text-[20px] md:w-[440px] font-metropolis font-normal leading-[24px] px-[10px] py-[4px] inline-block"
+  className="text-[#04436F] text-center md:text-left text-[18px] md:w-[470px] font-metropolis font-normal leading-[24px] px-[10px] py-[4px] inline-block"
   style={{
     borderRadius: "50px 0px 0px 50px",
     background: "linear-gradient(70deg, #B2EAFF 0%, #A9B4B9 75%, rgba(0, 0, 0, 0.00) 100%)",
   }}
 >
-  In wenigen Schritten zur Betreuungsperson
+  In kurzer Zeit Teil unseres Betreuungsteams werden
 </span>
 
 
@@ -939,7 +939,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
           Online bewerben
         </span>
         <p className="text-[#04436F] text-[20px] lg:text-[24px] text-center lg:text-left font-metropolis font-[500] leading-[25.6px] md:ml-[20px]">
-          Erstelle dein Profil in wenigen Minuten.
+          Erstelle dein Profil in wenigen Minuten
         </p>
       </div>
 
@@ -949,7 +949,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
           Schulung
         </span>
         <p className="text-[#04436F] text-[20px] lg:text-[24px] text-center lg:text-left font-metropolis font-[500] leading-[25.6px] md:ml-[20px]">
-          Wir machen dich fit für deine Einsätze.
+          Wir machen dich fit für deine Einsätze
         </p>
       </div>
 
@@ -959,7 +959,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
           Einsätze starten
         </span>
         <p className="text-[#04436F] text-[20px] lg:text-[24px] text-center lg:text-left font-metropolis font-[500] leading-[25.6px] md:ml-[20px]">
-          Wähle, wann und wo du arbeiten möchtest.
+          Wähle, wann und wo du arbeiten möchtest
         </p>
       </div>
     </div>
@@ -1106,78 +1106,26 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
     {/* Row 2 - Right */}
     <div className="flex items-center gap-[32px] w-[432px] flex-shrink-0">
   {/* Icon Container */}
-  <div
-    className="bg-[#04436F] flex justify-center items-center rounded-full flex-shrink-0"
+{/* Icon Container */}
+<div
+  className="bg-[#04436F] flex justify-center items-center rounded-full flex-shrink-0"
+  style={{
+    width: "80px",
+    height: "80px",
+    padding: "15px",
+  }}
+>
+  <img 
+    src="/images/values.png" // <-- replace with your PNG path
+    alt="icon"
     style={{
-      width: "80px",
-      height: "80px",
-      padding: "15px",
+      width: "60px",
+      height: "60px",
+      objectFit: "contain"
     }}
-  >
-   <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
-  <g>
-    <path 
-      fillRule="evenodd" 
-      clipRule="evenodd" 
-      d="M12.2223 23.6218L26.3782 37.7777C28.9418 40.3413 28.9418 44.5363 26.3782 47.0998C23.8147 49.6634 19.6197 49.6634 17.0561 47.0998L2.90021 32.944C0.336649 30.3805 0.336649 26.1855 2.90021 23.6219C5.46377 21.0583 9.65878 21.0582 12.2223 23.6218Z" 
-      stroke="#FAFCFF" 
-      strokeWidth="1.95312" 
-      strokeMiterlimit="22.9256" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-    <path 
-      d="M18.9548 31.0448L10.3232 39.6764" 
-      stroke="#FAFCFF" 
-      strokeWidth="1.95312" 
-      strokeMiterlimit="22.9256" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-    <path 
-      d="M33.106 16.5988C38.7946 10.9103 41.4297 4.32243 38.9918 1.88451C36.5539 -0.553414 29.9661 2.08173 24.2775 7.77026C18.589 13.4588 15.9539 20.0466 18.3918 22.4846C20.8297 24.9225 27.4175 22.2873 33.106 16.5988Z" 
-      stroke="#FAFCFF" 
-      strokeWidth="1.95312" 
-      strokeMiterlimit="22.9256" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-    <path 
-      d="M24.6519 8.14453L32.7323 16.225" 
-      stroke="#FAFCFF" 
-      strokeWidth="1.95312" 
-      strokeMiterlimit="22.9256" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-    <path 
-      d="M39.6005 40.451C44.8052 40.451 49.0243 36.2318 49.0243 31.0272C49.0243 25.8226 44.8052 21.6034 39.6005 21.6034C34.3959 21.6034 30.1768 25.8226 30.1768 31.0272C30.1768 36.2318 34.3959 40.451 39.6005 40.451Z" 
-      stroke="#FAFCFF" 
-      strokeWidth="1.95312" 
-      strokeMiterlimit="22.9256" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-    <path 
-      d="M35.0259 23.3457L47.2828 35.6026" 
-      stroke="#FAFCFF" 
-      strokeWidth="1.95312" 
-      strokeMiterlimit="22.9256" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-    <path 
-      d="M31.9185 26.453L44.1753 38.7099" 
-      stroke="#FAFCFF" 
-      strokeWidth="1.95312" 
-      strokeMiterlimit="22.9256" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-  </g>
-</svg>
+  />
+</div>
 
-  </div>
 
   {/* Text */}
   <p
@@ -1202,7 +1150,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
     lineHeight: "40px",
   }}
 >
-  Finde deine Balance zwischen Arbeit und Leben – mit Prime Home Care.
+  Finde deine Balance zwischen Arbeit und Leben – mit Prime Home Care
 </p>
 
 </section>
@@ -1444,7 +1392,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
     <h2
       className="flex items-center justify-center text-[55px] font-semibold leading-[71.5px] text-[#04436F]"
     >
-      Offene Stellen:
+      Offene Stellen
     </h2>
     <h1 className="flex justify-start items-start text-[39px] font-semibold leading-[48px] text-[#04436F] mt-[32px]">
       Stellenbeschreibung für Mitarbeiter der Prime Home Care AG
@@ -1554,7 +1502,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       <strong className="font-bold">Standort:</strong> Schweiz (verschiedene Standorte möglich)
     </p>
     <p>
-      <strong className="font-bold">Arbeitsbeginn:</strong> Ab Sommer 2025
+      <strong className="font-bold">Arbeitsbeginn:</strong> Jederzeit möglich
     </p>
   </div>
 </div>
@@ -1587,7 +1535,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
 
 
 <section
-   className="lg:block hidden font-montserat rounded-[20px] max-w-[1290px] h-[280px] relative lg:flex flex-col items-center justify-center bg-cover md:mt-[160px]"
+   className="mb-[160px] lg:block hidden font-montserat rounded-[20px] max-w-[1290px] h-[280px] relative lg:flex flex-col items-center justify-center bg-cover md:mt-[160px]"
    style={{
      backgroundImage: "url('/images/White Box 1280.png')", 
      marginLeft: 'auto', 
@@ -1603,7 +1551,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       fontWeight: "600",
     }}
   >
-    Jetzt bewerben und ab Frühling 2025 loslegen!
+    Jetzt bewerben und schon bald loslegen!
   </h1>
 
   {/* Subheading */}
@@ -1613,7 +1561,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       fontWeight: "400",
     }}
   >
-    Werde Teil unseres Teams und gestalte Betreuung neu.
+    Gestalte mit uns die Zukunft der Betreuung – werde Teil unseres Teams 
   </p>
 
   {/* Button */}
@@ -1624,11 +1572,11 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       borderRadius: "50px",
     }}
   >
-    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren!
+    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
   </button>
   </Link>
-</section>
 
+</section>
 <section
   className="mb-[160px] font-montserat rounded-[20px] max-w-[1290px] px-[16px] py-4 bg-white relative flex flex-col items-center justify-center bg-cover mt-[160px] block lg:hidden"
 >
@@ -1643,7 +1591,7 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       lineHeight: '32px', // 100%
     }}
   >
-   Jetzt bewerben und <br></br> ab Frühsommer <br></br> 2025 loslegen!  
+   Jetzt bewerben und <br></br> und schon bald loslegen!  
   </h2>
 
   <p
@@ -1657,8 +1605,8 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
       lineHeight: '25.6px', // 160%
     }}
   >
-Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
-
+    Gestalte mit uns die Zukunft der Betreuung – werde Teil unseres Teams 
+    </p>
   {/* Button Section */}
   <div className="flex flex-col items-center justify-center px-[2px] ">
   <Link href="/Registrierung-Jobs-Form1">
@@ -1675,187 +1623,16 @@ Werde Teil unseres Teams und gestalte <br></br> Betreuung neu.  </p>
         borderRadius: '10px',
       }}
     >
-      Hier klicken, um dein Profil zu erstellen und mehr zu erfahren! 
+    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
     </button>
     </Link>
   </div>
 </section>
 
-        <section className="lg:block hidden mt-[160px] mb-[120px] lg:flex flex-col justify-center items-center">
-        {/* Main Content */}
-        <div
-            className="flex justify-between items-start w-[1238px] h-[193px] px-2"
-            style={{
-            color: "#04436F",
-            fontFamily: "Metropolis",
-            width: "100%", maxWidth: "1238px", minWidth: "1000px" ,
-            }}
-        >
-            {/* Left Section */}
-            <div className="flex flex-col">
-            <h1
-                className="text-[#04436F] font-metropolis font-bold mb-2"
-                style={{
-                fontSize: "48px",
-                lineHeight: "64.167%",
-                }}
-            >
-                Prime Home Care AG
-            </h1>
-        
-            <p
-                className="text-[#04436F] font-metropolis"
-                style={{
-                fontSize: "22px",
-                fontWeight: "500",
-                lineHeight: "30.8px",
-                }}
-            >
-                Zusammen Gutes bewirken.
-            </p>
 
-            <p
-                className="text-[#04436F] font-metropolis mt-[80px] text-left"
-                style={{
-                fontSize: "22px",
-                fontWeight: "500",
-                fontFamily: "Metropolis",
-                fontStyle: 'italic',
-                lineHeight: "30.8px",
-                }}
-            >
-                Einfach. Flexibel. Digital.
-            </p>
-            </div>
+      
 
-            {/* Right Section */}
-            <div
-        className="flex flex-col mt-[14px] items-left text-left gap-8"
-        style={{
-            color: "#04436F",
-            fontFamily: "Metropolis",
-        }}
-        >
-        <h2
-            className="font-bold"
-            style={{
-            fontSize: "24px",
-            lineHeight: "30.8px", // 128.333%
-            }}
-        >
-            Kontakt:
-        </h2>
-        <p
-            className="font-normal"
-            style={{
-            fontSize: "24px",
-            lineHeight: "30.8px", // 128.333%
-            }}
-        >
-             <a href="mailto:jobs@phc.ch">
-                      jobs@phc.ch
-                    </a>
-        </p>
-        <Link href="www.phc.ch">
-        <p
-            className="font-normal"
-            style={{
-            fontSize: "24px",
-            lineHeight: "30.8px", // 128.333%
-            }}
-        >
-            <a href="https://www.phc.ch" target="_blank" rel="noopener noreferrer">
-                      www.phc.ch
-            </a>
-        </p>
-        </Link>
-        </div>
-
-                </div>
-                </section>
-
-                <section className="block lg:hidden mt-[160px] mb-[160px] flex flex-col justify-start items-left">
-                {/* Main Content */}
-                <div
-                  className="flex flex-col justify-start items-left text-left px-2"
-                  style={{
-                    color: "#04436F",
-                    fontFamily: "Metropolis",
-                  }}
-                >
-                  {/* Left Section */}
-                  <div className="flex flex-col mb-[80px]">
-                    <h1
-                      className="text-[#04436F] font-bold"
-                      style={{
-                        fontSize: "32px",
-                        lineHeight: "30px", // 100%
-                      }}
-                    >
-                      Prime Home Care AG
-                    </h1>
-
-                    <p
-                      className="text-[#04436F] font-normal"
-                      style={{
-                        fontSize: "22px",
-                        fontWeight: "500",
-                        lineHeight: "30px", // 160%
-                      }}
-                    >
-                      Zusammen Gutes bewirken.
-                    </p>
-
-                    <p
-                      className="text-[#04436F] font-normal mt-[80px]"
-                      style={{
-                        fontSize: "22px",
-                        fontWeight: "500",
-                        lineHeight: "25.6px",
-                        fontFamily: "Metropolis",
-                        fontStyle: 'italic', // 160%
-                      }}
-                    >
-                      Einfach. Flexibel. Digital.
-                    </p>
-                  </div>
-
-                  {/* Right Section */}
-                  <div className="flex text-[#04436F] flex-col text-left gap-8">
-                    <h2
-                      className="font-bold"
-                      style={{
-                        fontSize: "24px",
-                        lineHeight: "30.8px", // 128.333%
-                      }}
-                    >
-                      Kontakt:
-                    </h2>
-                    <p
-                      className="font-normal"
-                      style={{
-                        fontSize: "24px",
-                        lineHeight: "30.8px", // 128.333%
-                      }}
-                    >
-                       <a href="mailto:jobs@phc.ch">
-                      jobs@phc.ch
-                    </a>
-                    </p>
-                    <p
-                      className="font-normal"
-                      style={{
-                        fontSize: "24px",
-                        lineHeight: "30.8px", // 128.333%
-                      }}
-                    >
-                      <a href="https://www.phc.ch" target="_blank" rel="noopener noreferrer">
-                      www.phc.ch
-                    </a>
-                    </p>
-                  </div>
-                </div>
-              </section>
+               
             </div>
     );
   }

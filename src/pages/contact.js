@@ -108,7 +108,7 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit} className="flex flex-col space-y-4 lg:space-y-[30px]">
             {/* Name */}
             <div className="flex flex-col">
-              <label className="text-[#04436F] font-bold text-[15px]">Ihr Name *</label>
+              <label className="text-[#04436F] font-bold text-[15px]">Vor- und Nachname *</label>
               <input
                 type="text"
                 name="name"
@@ -133,7 +133,7 @@ export default function ContactPage() {
 
             {/* Email */}
             <div className="flex flex-col">
-              <label className="text-[#04436F] font-bold text-[15px]">Email *</label>
+              <label className="text-[#04436F] font-bold text-[15px]">E-Mail *</label>
               <input
                 type="email"
                 name="email"

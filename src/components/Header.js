@@ -22,7 +22,7 @@ const navLinks = [
     path: '/services', // <-- make parent clickable
   },
   { name: 'Jobs', path: '/Registrierung-Jobs' },
-  { name: 'Support', 
+  { name: 'Kontakt', 
     path: '/contact',
      subLinks: [
       { name: 'FAQ', path: '/FAQ' },

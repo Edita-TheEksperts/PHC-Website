@@ -61,7 +61,6 @@ export default async function handler(req, res) {
               <td style="padding: 10px; border: 1px solid #ddd;">${message}</td>
             </tr>
           </table>
-          <p style="margin-top: 20px; text-align: center;">Bitte antworten Sie so bald wie möglich.</p>
         </div>
       `;
 

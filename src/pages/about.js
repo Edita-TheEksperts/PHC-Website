@@ -23,7 +23,7 @@ export default function About() {
 
 
 <p className="text-[#FFFFFF] text-[16px] font-normal leading-[25.6px] font-['Inter'] mt-2">
-Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause. </p>
+Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause </p>
 
           </div>
           
@@ -33,7 +33,7 @@ Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für indi
       <section className="flex flex-col p-4 lg:flex-row items-center justify-between mt-[120px] gap-[40px]">
         <div className="flex-1">
           <h2 className="text-[#04436F] text-[40px] font-semibold leading-[48px] ">
-          Verpflichtet zu fürsorglicher Seniorenbetreuung in den<br></br> eigenen vier Wänden.
+          Verpflichtet zu fürsorglicher Seniorenbetreuung in den<br></br> eigenen vier Wänden
           </h2>
           <p className="text-[#04436F] lg:pr-[80px] text-[16px] font-normal leading-[25.6px] mt-4">
           Seit unserer Gründung verfolgen wir das Ziel, Menschen in ihrem vertrauten Umfeld die bestmögliche Betreuung und Unterstützung zu bieten. Mit einem engagierten Team aus erfahrenen Mitarbeitern und einem breiten Spektrum an Dienstleistungen setzen wir uns täglich dafür ein, die Lebensqualität unserer Kundinnen und Kunden zu verbessern.
@@ -54,7 +54,7 @@ Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für indi
 
   {/* Paragraph text */}
   <p className="text-[#04436F] lg:pr-[70px] text-[16px] font-normal leading-[25.6px] mt-2">
-    Unsere Philosophie basiert auf Empathie, Respekt und Kompetenz. Wir wissen, dass jede Person einzigartige Bedürfnisse hat. Daher legen wir grossen Wert auf eine persönliche und flexible Betreuung, die genau auf die individuellen Anforderungen abgestimmt ist. Von der Betreuung über Gesellschaft Leisten bis hin zu hauswirtschaftlichen Dienstleistungen – wir stehen Ihnen zuverlässig zur Seite.
+    Unsere Philosophie basiert auf Empathie, Respekt und Kompetenz. Wir wissen, dass jede Person einzigartige Bedürfnisse hat. Daher legen wir grossen Wert auf eine persönliche und flexible Betreuung, die genau auf die individuellen Anforderungen abgestimmt ist. Von Betreuung und Gesellschaft bis hin zu hauswirtschaftlichen Dienstleistungen – wir stehen Ihnen zuverlässig zur Seite 
   </p>
 </div>
 
@@ -85,8 +85,7 @@ Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für indi
   style={{ backgroundImage: 'url(/images/phc-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
 >
   <h2 className="text-[#04436F] text-[44px] font-semibold leading-[52.8px]">
-Werden Sie Teil unserer Pflegegemeinschaft 
-  </h2>
+ Mehr Zeit und Entlastung gewinnen  </h2>
   <p className="text-[#04436F] text-[16px] font-normal leading-[25.6px] mt-2 mb-10">
 Bei Prime Home Care bieten wir einfühlsame und individuelle Betreuung – für Sie oder Ihre Liebsten.   </p>
   <Link   href="/register-client" className="bg-[#04436F] hover:bg-[#B99B5F] w-[180px] text-[#FAFCFF] text-[18px] font-medium leading-[21.6px] py-3 px-5 rounded-[50px]">
@@ -99,12 +98,12 @@ Bei Prime Home Care bieten wir einfühlsame und individuelle Betreuung – für 
       {/* Images */}
       <div className="flex flex-col lg:flex-row gap-10">
         <img
-          src="/images/photo1.png"
+          src="/images/photo11.png"
           alt="Elderly care 1"
           className="lg:max-w-[294.59px] lg:h-[306px] lg:mt-[150px] w-full h-auto rounded-[20px]"
         />
         <img
-          src="/images/phc-2-container.png"
+          src="/images/phc-2-container1.png"
           alt="Elderly care 2"
           className="max-w-[368.25px] lg:h-[406px] w-full h-auto rounded-[20px]"
         />
@@ -136,10 +135,10 @@ Bei Prime Home Care bieten wir einfühlsame und individuelle Betreuung – für 
 
     <section className="bg-[#FAFCFF] mt-[120px] mb-[40px] px-4 lg:px-[20px] text-center">
       {/* Title */}
-      <h2 className="text-[#04436F] text-left text-[40px] leading-[47px] lg:text-[55px] font-semibold lg:leading-[71.5px]  mb-[60px]">
+      <h2 className="text-[#04436F] text-left text-[40px] leading-[47px] lg:text-[55px] font-semibold lg:leading-[71.5px]  mb-[30px]">
       Ihre Zufriedenheit ist unser Antrieb      
       </h2>
-      <h2 className="text-[#04436F] text-left text-[32px] font-[400] leading-[40.5px]  mb-[120px]">
+      <h2 className="text-[#04436F] text-left text-[24px] font-[400] leading-[27.5px]  mb-[120px]">
       Wir bei der Prime Home Care AG sind stolz darauf, Ihnen ein Stück Lebensqualität und Selbstständigkeit zurückzugeben – in Ihrem Zuhause, wo Sie sich am wohlsten fühlen.      </h2>
     </section>
       </div>

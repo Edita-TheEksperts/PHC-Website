@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   const excludedPages = [
-    '/old-index', '/Registrierung-Jobs', '/Registrierung', '/Registrierung-Form1',
+    '/old-index', '/Registrierung', '/Registrierung-Form1',
     '/Registrierung-Form2', '/Registrierung-Jobs-Form1', '/Registrierung-Jobs-Form2',
     '/login', '/register', '/confirmation-page', '/forgot-password', '/404',
     '/500', '/reset-password', '/dashboard', '/admin-dashboard', '/client-dashboard',

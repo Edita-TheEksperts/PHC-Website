@@ -18,25 +18,34 @@ export default function Home() {
     },
     {
       question: "Welche Kosten entstehen für eine private Betreuung zu Hause?",
-      answer: "Unser Ziel ist es stets, Betreuung für unsere Kunden so bequem wie möglich und gleichzeitig maximal kostengünstig zu organisieren. Die Höhe der Betreuungskosten richtet sich nach Ihren individuellen Wünschen, dem Pflegebedarf sowie der damit verbundenen der Höhe der möglichen Kostenübernahme seitens der Krankenkasse und schliesslich dem gewählten Anstellungsmodell. Auch kantonal unterscheiden sich die Abgaben, was einen Einfluss auf Lohn und Kosten hat. Vorgängig ist es dadurch allerdings nicht möglich, ein pauschales Angebot abzugeben. In aller Regel übernehmen wir ein umfassendes Mandat, welches die vorgängige Planung, Vorschläge und Vorselektion der eingebundenen Partner sowie die Kontrolle und Aufsicht über diese sowie die Lohnadministration miteinschliesst. Unsere Leistungen bieten wir zu einem monatlichen Pauschalhonorar an. Sie erhalten von uns jeweils eine Rechnung, in welcher alle Kostenbestandteile transparent aufgeschlüsselt werden. Ein pauschaler Preis für eine Betreuung zu Hause mit Tages- oder Monatspauschalen wie er von vielen Verleihagenturen angeboten wird, wird stets höher liegen, als die Kosten, die mit unserem Administrativ-Modell verbunden sind. Einen ersten Überblick über die zu erwartenden monatlichen Betreuungskosten erhalten Sie mit unserem Kontaktformular.",
+      answer: "Bei Prime Home Care AG bieten wir flexible, unkomplizierte Betreuungsdienstleistungen – ganz nach Ihren Bedürfnissen. Der Einstieg ist einfach und transparent Regelmässige Betreuung,für wiederholte Unterstützung im Alltag (z. B. fixe Termine oder stundenweise Begleitung) berechnen wir CHF 59.– pro Stunde. Diese Variante eignet sich ideal für langfristige, planbare Unterstützung und bietet Ihnen eine vertraute Betreuungsperson. Sie profitieren von planbaren Kosten, einer konstanten Ansprechperson und einer effizienten Betreuungslösung.Einmalige Einsätze, für kurzfristige oder situativ bedingte Begleitung (wie etwa nach einem Spitalaufenthalt, Ferienvertretung oder einzelne Besorgungen) gelten CHF 75.– pro Stunde. Diese Option ist optimal für flexible, gezielte Unterstützung – unkompliziert online buchbar und ohne langfristige Bindung. Darüber hinaus bieten wir individuelle Dienstleistungen auf Anfrage an, zum Beispiel 24Stunden-Live-In-Betreuung, Ferienbegleitung oder gemeinsame Aktivitäten. Hier stimmen wir die Konditionen direkt mit Ihnen ab. ",
     },
+{
+  question: "Können auch einzelne Leistungen in Anspruch genommen werden?",
+  answer: (
+    <div>
+      <p>
+        Ja, bei der Prime Home Care AG sind Sie völlig flexibel! Sie können einzelne Leistungen ganz nach Bedarf buchen – ohne feste Pakete oder Verpflichtungen.
+      </p>
+      <p className="mt-2 font-semibold">Unsere Optionen:</p>
+      <ul className="list-disc list-inside">
+        <li>Alltagsbegleitung & Besorgungen: Arzttermine, Einkäufe, Erledigungen</li>
+        <li>Freizeit & Gesellschaft: Spaziergänge, Ausflüge, gemeinsame Aktivitäten</li>
+        <li>Grundpflege & Gesundheitsfürsorge: Unterstützung bei Körperpflege und Nahrungsaufnahme</li>
+        <li>Haushaltshilfe: Kochen, Putzen, Wäsche, Pflanzenpflege</li>
+      </ul>
+    </div>
+  )
+}
+,
     {
-      question: "Können auch einzelne Leistungen in Anspruch genommen werden?",
-      answer: "Als Auftraggeber entscheiden Sie gemeinsam mit Ihrer Familie darüber, in welchem Umfang Sie unser Angebot in Anspruch nehmen. Ganz egal, ob Sie lediglich eine Beratung über das zu wählende Pflegemodell benötigen, unsere Hilfe bei der Beschaffung von Hilfsmitteln oder baulichen Veränderungen oder die Übernahme administrativer Belange sowie eine laufende Koordination wünschen.",
-    },
-    {
-      question: "Wenn eine Betreuungskraft benötigt wird, wer wählt diese aus?",
-      answer: "Aufgrund unserer Erfahrung wissen wir, dass es von zentraler Bedeutung ist, dass sich die zu pflegenden Senioren mit den Betreuerinnen oder Betreuern wohlfühlen und ein liebevoller Umgang gegeben ist. Wir bieten jedoch selbst keine Betreuungsdienstleistungen an und betreiben auch keine Arbeitsvermittlung. Für die Personalrekrutierung oder -verleih empfehlen wir Ihnen dazu zuverlässige und SECO-bewilligte Partner. In der Regel stellen Ihnen diese mehrere Kandidaten vor, mit denen Sie Kontakt aufnehmen und selbst Ihre Favoriten auswählen können.",
-    },
-    {
-      question: "Welche Aufgaben und Tätigkeiten übernimmt ein Betreuer oder eine Betreuerin?",
-      answer: "Die Unterstützung bei Alltagsaufgaben durch eine Haushaltshilfe wird oft mit zu Hause geleisteter Altenbetreuung gleichgesetzt. Professionelle Betreuung zu Hause ist jedoch viel weitreichender: Leistet zum Beispiel eine Betreuungsperson Grundpflege im Namen und unter Obhut einer kantonal anerkannten Organisation mit Spitex-Bewilligung, können die Kosten für solche Pflegeleistungen mit der Krankenkasse abgerechnet werden. Dafür vermitteln wir Ihnen – zunächst in den deutschsprachigen Kantonen der Schweiz – geeignete und zugelassene Partner für die Abrechnung mit Ihrer Krankenkasse. Allerdings stellt es für die Betreuungskräfte häufig eine Entlastung dar, wenn für Pflegetätigkeiten zusätzlich Spitex-Mitarbeitende ins Haus kommen. Für die (medizinische) Behandlungspflege braucht diese ohnehin. Durch uns organisierte Betreuung bezieht solche Überlegungen von vornherein in die Planung mit ein. Ganz allgemein gehören zu den typischen Betreuungsaufgaben Tätigkeiten wie Einkaufen, Kochen, Putzen, Waschen oder Bügeln. Auch Handreichungen bei der Einnahme von Speisen und Getränken sowie der Mobilität drinnen und draussen sowie bei Körperpflege und -hygiene gewährleisten eine grosse Entlastung für Senioren und ihre pflegenden Angehörigen. Mehr und mehr steht heute auch die Betreuung zuhause bei Demenz oder Alzheimer sowie die palliative Pflege in den heimischen vier Wänden im Vordergrund.",
+      question: "Wer wählt die passende Betreuungskraft aus? ",
+      answer: "Bei Prime Home Care unterstützt Sie ein vollautomatisches Matchingsystem: Auf Basis Ihrer Angaben schlagen wir passende Betreuungspersonen vor – schnell, digital und unkompliziert. Unser Ziel: eine harmonische und vertrauensvolle Betreuung. Eine 100 % Übereinstimmung aller Wünsche können wir jedoch nicht garantieren. So behalten Sie die Wahl und finden die Betreuungskraft, die am besten zu Ihrer Situation passt. ",
     },
     {
       question: "Was unterscheidet stundenweise Betreuung von einer 24 Stunden Betreuung?",
-      answer: "Bei einer Live-In-Betreuung wohnen Betreute und Betreuende zusammen unter einem Dach. Bei diesem auch 24-Stunden-Betreuung genannten Modell bedeutet dies aber keineswegs «Arbeit rund um die Uhr». Vielmehr wird ein normales Arbeitspensum von in der Regel 42 Wochenstunden über den ganzen Tag und über die Woche verteilt. Maximal zulässig ist in der Schweiz ein Arbeitspensum von 50 Stunden pro Woche. Zusätzlich zu den vereinbarten Arbeits- und Bereitschaftszeiten müssen einer Betreuungsperson über den Tag und vor allem in der Nacht genügend Freizeit und Pausen gewährt werden. Überstunden, ausgefallenen Freitage oder kantonale Feiertage müssen kompensiert werden. Wir helfen Ihnen bei der Wahl und Konzeption des richtigen Modells. Wird hingegen nur eine punktuelle Alltagsbetreuung oder eine Hilfe im Haushalt benötigt, ohne dass der zu betreuende Mensch mit den Betreuerinnen oder einem Betreuer rund um die Uhr zusammen leben, kann es günstiger sein, nur für einige Stunden pro Woche eine Betreuung über die lokale Spitex oder einen Pflegedienst wie Home Instead zu beziehen. So eine stundenweise Begleitung kommt jedoch schnell sehr teuer, vor allem, wenn der Pflege- und Betreuungsumfang mit der Zeit ansteigt. Gerne beraten wir Sie auch hierzu umfassend.",
-    },
-  ];
+      answer: "Manchmal braucht es nur ein paar Stunden Hilfe pro Woche, manchmal rund um die Uhr – und genau hier liegt der Unterschied: Stundenweise Betreuung bedeutet: Unterstützung dann, wenn Sie sie brauchen. Zum Beispiel für Einkäufe, Arztbesuche, Spaziergänge oder Hilfe im Haushalt. Sie bleiben flexibel und bezahlen nur die tatsächlich geleisteten Stunden. Ideal, wenn Angehörige zwischendurch entlastet werden sollen oder Sie punktuell Unterstützung suchen. 24-Stunden-Betreuung hingegen bietet eine dauerhafte Präsenz im Zuhause. Eine Betreuungsperson lebt mit im Haushalt und ist jederzeit vor Ort – für Pflege, Gesellschaft und Sicherheit. Perfekt, wenn eine kontinuierliche Betreuung notwendig ist und Angehörige vollständig entlastet werden sollen. "
+}];
 
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -574,14 +583,16 @@ Jetzt Ihre Betreuung buchen!</p>
     <section className="max-w-[1400] mt-[120px] mx-auto p-4 lg:px-4 flex flex-col lg:flex-row items-center gap-12 lg:gap-[80px]">
       
       {/* Left: Image with Custom Cropped Shape */}
-      <div className="relative w-full lg:w-[610px] h-[400px] lg:h-[730px]">
-        <Image
-          src="/images/phc-easy-care-steps.png"  // Change to your actual image path
-          alt="Easy Care"
-          layout="fill"
-          objectFit="cover rounded-[20px]"
-        />
-      </div>
+    <div className="relative w-full max-w-[610px] rounded-[20px] overflow-hidden">
+  <Image
+    src="/images/phc-easy-care-steps.png" // Change to your actual image path
+    alt="Easy Care"
+    width={610}
+    height={750}
+    className="w-full h-auto object-cover rounded-[20px]"
+  />
+</div>
+
 
       {/* Right: Text Content */}
       <div className="lg:w-1/2">
@@ -605,15 +616,15 @@ Jetzt Ihre Betreuung buchen!</p>
         <div className="space-y-6 lg:space-y-[50px]">
           {[
             {
-              number: "01",
+              number: "1",
               title: "Registration",
               description:
-                "Erstellen Sie Ihr Profil samt Ihren Wünschen an die Betreuung",
+                "Erstellen Sie Ihr Profil samt Ihren Wünschen an die Betreuung.",
               bgColor: "bg-[#EDF2FB]",
               textColor: "text-[#003588]",
             },
             {
-              number: "02",
+              number: "2",
               title: "Passende Betreuungsperson finden",
               description:
                 "Wir finden die richtige Betreuungsperson – einfühlsam, fachlich versiert und zuverlässig.",
@@ -621,8 +632,8 @@ Jetzt Ihre Betreuung buchen!</p>
               textColor: "text-white",
             },
             {
-              number: "03",
-              title: "Geniessen Sie Ihre Betreuung Zuhause",
+              number: "3",
+              title: "Geniessen Sie Ihre Betreuung zuhause",
               description:
                 "Wir übernehmen die Betreuung – Sie oder Ihre Angehörigen können sich entspannen.",
               bgColor: "bg-[#003588]",
@@ -662,48 +673,15 @@ Jetzt Ihre Betreuung buchen!</p>
 
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
 
-    {/* Card 1 – Regelmässige Betreuung */}
-    <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
-      <div className="w-full p-[50px] text-left bg-[#EDF2FB] text-[#000000] rounded-t-[20px]">
-        <h3 className="text-[22px] font-medium leading-[30.8px] mb-1">
-          Regelmässige Betreuung
-        </h3>
-   <div className="flex flex-col items-left mt-[20px]">
-  <span className="text-[#04436F] text-[48px] font-semibold leading-[70px]">CHF 49.—</span>
-  <span className="text-[#04436F] text-[16px] leading-[25px]">pro Stunde</span>
-</div>
-
-      </div>
-
-      <div className="px-[50px] pt-6 pb-4 text-left text-[#04436F] flex-grow">
-        <p className="text-[16px] font-semibold mb-2">Ideal für den Alltag</p>
-        <p className="text-[16px] leading-[26px] mb-6">
-          Unsere regelmässigen Betreuungslösungen bieten zuverlässige Unterstützung im Alltag – flexibel und individuell angepasst. Ob stundenweise Begleitung oder feste Termine.
-        </p>
-        <h4 className="text-[16px] font-semibold mb-2">Ihre Vorteile</h4>
-        <ul className="list-disc pl-5 space-y-2 text-[16px] font-normal">
-          <li>Planbare Betreuung</li>
-          <li>Feste Bezugspersonen</li>
-          <li>Kosteneffizient bei langfristiger Inanspruchnahme</li>
-        </ul>
-      </div>
-
-      <div className="mt-auto px-[50px] pb-[50px]">
-        <Link href="/register-client">
-          <button className="w-full bg-[#04436F] text-white py-3 rounded-full text-[18px] font-medium transition duration-300 hover:bg-[#B99B5F]">
-            Jetzt Buchen
-          </button>
-        </Link>
-      </div>
-    </div>
+   
 
     {/* Card 2 – Einmalige Einsätze */}
     <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
-      <div className="w-full p-[50px] text-left bg-[#B99B5F] text-white rounded-t-[20px]">
+      <div className="w-full p-[50px] text-left bg-[#EDF2FB] text-[#000000] rounded-t-[20px]">
         <h3 className="text-[22px] font-medium leading-[30.8px] mb-1">Einmalige Einsätze</h3>
    <div className="flex flex-col items-left mt-[20px]">
-          <span className="text-[48px] font-semibold leading-[70px]">CHF 60.—</span>
-          <span className="text-[16px] leading-[25px]">pro Stunde</span>
+          <span className="text-[48px] text-[#04436F] font-semibold leading-[70px]">CHF 75.—</span>
+          <span className="text-[16px] text-[#04436F] leading-[25px]">pro Stunde</span>
         </div>
       </div>
 
@@ -728,10 +706,46 @@ Jetzt Ihre Betreuung buchen!</p>
         </Link>
       </div>
     </div>
+ {/* Card 1 – Regelmässige Betreuung */}
+    <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
+              <div className="w-full p-[50px] text-left bg-[#B99B5F] text-white rounded-t-[20px]">
+
+        <h3 className="text-[22px] font-medium leading-[30.8px] mb-1">
+          Regelmässige Betreuung
+        </h3>
+   <div className="flex flex-col items-left mt-[20px]">
+  <span className="text-white text-[48px] font-semibold leading-[70px]">CHF 59.—</span>
+  <span className="text-white text-[16px] leading-[25px]">pro Stunde</span>
+</div>
+
+      </div>
+
+      <div className="px-[50px] pt-6 pb-4 text-left text-[#04436F] flex-grow">
+        <p className="text-[16px] font-semibold mb-2">Ideal für den Alltag</p>
+        <p className="text-[16px] leading-[26px] mb-6">
+          Unsere regelmässigen Betreuungslösungen bieten zuverlässige Unterstützung im Alltag – flexibel und individuell angepasst.
+        </p>
+        <h4 className="text-[16px] font-semibold mb-2">Ihre Vorteile</h4>
+        <ul className="list-disc pl-5 space-y-2 text-[16px] font-normal">
+          <li>Planbare Betreuung</li>
+          <li>Feste Bezugspersonen</li>
+          <li>Kosteneffizient bei langfristiger Inanspruchnahme</li>
+        </ul>
+      </div>
+
+      <div className="mt-auto px-[50px] pb-[50px]">
+        <Link href="/register-client">
+          <button className="w-full bg-[#04436F] text-white py-3 rounded-full text-[18px] font-medium transition duration-300 hover:bg-[#B99B5F]">
+            Jetzt Buchen
+          </button>
+        </Link>
+      </div>
+    </div>
 
     {/* Card 3 – Individuelle Dienstleistungen */}
     <div className="rounded-[20px] text-center bg-white shadow-md border border-gray-100 flex flex-col justify-between overflow-hidden">
       <div className="w-full p-[50px] lg:h-[245px] text-left bg-[#EDF2FB] text-[#000000] rounded-t-[20px] justify-center">
+        
            <div className="flex flex-col items-left">
 
         <h3 className="text-[22px] font-medium leading-[30.8px]">Individuelle Dienstleistungen</h3>
@@ -747,7 +761,7 @@ Jetzt Ihre Betreuung buchen!</p>
         <ul className="list-disc pl-5 space-y-2 text-[16px] font-normal">
           <li>24 Stunden Live-In Betreuung</li>
           <li>Ferienbegleitung</li>
-          <li>Konzertbesuche</li>
+      <li>Beratungsdienstleistungen</li>
           <li>Biographiearbeit</li>
         </ul>
       </div>
@@ -774,12 +788,13 @@ Jetzt Ihre Betreuung buchen!</p>
     }}
     className="text-center font-metropolis text-[16px] font-[400] leading-[24px] mb-[16px] px-2 py-1 rounded-[50px_0px_0px_50px]"
   >
-    Werde Teil von etwas Grossem.
+    Deine Chance – Betreuung neu gedacht
   </p>
  
   {/* Subheading */}
   <h1 className="text-center font-metropolis text-[32px] lg:text-[55px] font-[600] leading-[32px] lg:leading-[71.5px] mb-[16px] md:mb-2">
-    Deine Chance – Betreuung neu gedacht
+        Werde Teil unseres Betreuungsteams.
+
   </h1>
  
   {/* Paragraph */}
@@ -811,10 +826,10 @@ Jetzt Ihre Betreuung buchen!</p>
       {/* Text */}
       <div className="flex flex-col flex-grow items-center text-center">
         <h3 className="text-[28px] md:text-[30px] font-metropolis font-[700] leading-[1.15] mb-3">
-          Flexibilität:
+          Flexibilität
         </h3>
         <p className="text-[20px] font-metropolis font-normal leading-[25.6px]">
-          Plane deine Einsätze, wie es dir passt.
+          Plane deine Einsätze, wie es dir passt
         </p>
       </div>
     </div>
@@ -836,10 +851,10 @@ Jetzt Ihre Betreuung buchen!</p>
       {/* Text */}
       <div className="flex flex-col flex-grow items-center text-center">
         <h3 className="text-[28px] md:text-[30px] font-metropolis font-[700] leading-[1.15] mb-3">
-          Fairer Verdienst:
+          Fairer Verdienst
         </h3>
         <p className="text-[20px] md:text-[20px] leading-[25.6px] font-metropolis font-normal">
-          Transparent und pünktlich.
+          Transparent und pünktlich
         </p>
       </div>
     </div>
@@ -861,10 +876,10 @@ Jetzt Ihre Betreuung buchen!</p>
       {/* Text */}
       <div className="flex flex-col flex-grow items-center text-center">
         <h3 className="text-[28px] md:text-[30px] font-metropolis font-[700] leading-[1.15] mb-3">
-          Unterstützung:
+          Unterstützung
         </h3>
         <p className="text-[20px] text-[#04436F] font-metropolis font-normal leading-[25.6px]">
-          Wir kümmern uns um die<br /> Organisation – du <br />konzentrierst dich auf die <br /> Betreuung.
+          Wir kümmern uns um die<br /> Organisation – du <br />konzentrierst dich auf die <br /> Betreuung
         </p>
       </div>
     </div>
@@ -883,10 +898,10 @@ Jetzt Ihre Betreuung buchen!</p>
         </svg>      </div>
       <div className="flex flex-col w-[230px]">
         <h3 className="text-[28px] text-[#04436F] font-metropolis font-[600] leading-[33.6px] mb-2">
-          Flexibilität:
+          Flexibilität
         </h3>
         <p className="text-[16px] text-[#04436F] font-metropolis font-normal leading-[16px]">
-          Plane deine Einsätze,<br /> wie es dir passt.
+          Plane deine Einsätze,<br /> wie es dir passt
         </p>
       </div>
     </div>
@@ -900,10 +915,10 @@ Jetzt Ihre Betreuung buchen!</p>
         </svg>      </div>
       <div className="flex flex-col w-[230px]">
         <h3 className="text-[28px] text-[#04436F] font-metropolis font-[600] leading-[33.6px] mb-2">
-          Fairer Verdienst:
+          Fairer Verdienst
         </h3>
         <p className="text-[16px] text-[#04436F] font-metropolis font-normal leading-[18px]">
-          Transparent und pünktlich.
+          Transparent und pünktlich
         </p>
       </div>
     </div>
@@ -917,10 +932,10 @@ Jetzt Ihre Betreuung buchen!</p>
         </svg>      </div>
       <div className="flex flex-col w-[230px]">
         <h3 className="text-[28px] text-[#04436F] font-metropolis font-[600] leading-[33.6px] mb-2">
-          Unterstützung:
+          Unterstützung
         </h3>
         <p className="text-[16px] text-[#04436F] font-metropolis font-normal leading-[18px]">
-          Wir kümmern uns um die Organisation – du konzentrierst dich auf die Betreuung.
+          Wir kümmern uns um die Organisation – du konzentrierst dich auf die Betreuung
         </p>
       </div>
     </div>
@@ -1075,7 +1090,7 @@ Jetzt Ihre Betreuung buchen!</p>
                     <div
                 className="md:w-[620px] flex flex-col items-start rounded-[50px_0px_0px_50px] p-[4px_70px_4px_10px]"
                 style={{
-                    background: "linear-gradient(92deg, #04436F 85.1%, rgba(255, 255, 255, 0.00) 99.45%)",
+    background: "linear-gradient(92deg, #04436F 80%, rgba(4,67,111,0.8) 100%)",
                 }}
                 >
                 <p className="text-[#FAFCFF] font-metropolis text-[16px] font-[400] leading-[25.6px] whitespace-nowrap">
@@ -1243,8 +1258,7 @@ Jetzt Ihre Betreuung buchen!</p>
     <section className="bg-[#EDF2FB] rounded-[20px] py-14 px-6 md:px-20 mb-[120px] mt-[120px]">
   <div className="max-w-xl mx-auto bg-white p-4 lg:p-10 rounded-2xl shadow-xl space-y-6 border border-[#F2E6C6]">
     <h2 className="text-[28px] lg:text-3xl font-bold text-[#04436F] text-center">
-      Mitarbeiter Registrierung starten
-    </h2>
+Mitarbeiter-Registrierung     </h2>
 
     <div className="space-y-4">
       <input
@@ -1265,7 +1279,7 @@ Jetzt Ihre Betreuung buchen!</p>
         <span>
           Ich akzeptiere die{" "}
           <a
-            href="/agb"
+            href="/nutzungsbedingungen"
             className="underline text-[#04436F] hover:text-[#B99B5F]"
           >
             Nutzungsbedingungen für Plattform
