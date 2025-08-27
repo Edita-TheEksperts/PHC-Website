@@ -8,345 +8,301 @@ datasource db {
 }
 
 model Service {
-  id          String        @id @default(uuid())
-  name        String        @unique
-  users       User[]        @relation("UserServices")
-  subServices SubService[]  @relation("ServiceToSubService") // needs match
+  id          String       @id @default(uuid())
+  name        String       @unique
+  subServices SubService[] @relation("ServiceToSubService")
+  users       User[]       @relation("UserServices")
 }
 
 model SubService {
   id        String   @id @default(uuid())
   name      String   @unique
-  serviceId String?  // still optional for now
-  service   Service? @relation("ServiceToSubService", fields: [serviceId], references: [id]) // <-- fix added here
+  serviceId String?
+  service   Service? @relation("ServiceToSubService", fields: [serviceId], references: [id])
   users     User[]   @relation("UserSubServices")
 }
 
-
-
 model Schedule {
-  id         Int       @id @default(autoincrement())
-  day        String
-  startTime  String
-  hours      Int
-  kilometers Int?
-  date       DateTime?    // ← Make it optional!
-    captured   Boolean   @default(false) // ✅ ADD THIS
-
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  employeeId String?
-  employee   Employee? @relation(fields: [employeeId], references: [id])
-    transactions Transaction[]
-
+  id           Int           @id @default(autoincrement())
+  day          String
+  startTime    String
+  hours        Int
+  userId       String
+  kilometers   Int?
+  employeeId   String?
+  date         DateTime?
+  captured     Boolean       @default(false)
+    status       String        @default("active") 
+  employee     Employee?     @relation(fields: [employeeId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
 }
 
 model Vacation {
-  id          String    @id @default(uuid())
-  userId      String?
-  user        User?     @relation(fields: [userId], references: [id])
-
-  employeeId  String?
-  employee    Employee? @relation(fields: [employeeId], references: [id])
-
-  startDate   DateTime
-  endDate     DateTime
-  createdAt   DateTime @default(now())
+  id         String    @id @default(uuid())
+  userId     String?
+  startDate  DateTime
+  endDate    DateTime
+  createdAt  DateTime  @default(now())
+  employeeId String?
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id])
 }
-
-
 
 model User {
-  id                    String          @id @default(uuid())
-  email                 String          @unique
-  passwordHash          String
-  role                  Role            @default(client)
-  createdAt             DateTime        @default(now())
-  updatedAt             DateTime        @updatedAt
-
-  // Core info
-  firstName             String?
-  lastName              String?
-  phone                 String?
-  address               String
-  postalCode            String?   
-  languages             String?
-  pets                  String?
-
-  // Emergency
-  emergencyContactName  String?
-  emergencyContactPhone String?
-  status      String? @default("open")
-
-  // Dates & Payment
-  firstDate             DateTime?
-  frequency             String
-  duration              Int?
-  paymentIntentId       String?
-  totalPayment          Float?
-  cardNumber            String?
-  expiryDate            String?
-  cvc                   String?
-stripeCustomerId      String?
-  stripePaymentMethodId String?
-  // Service relations
-  services              Service[]       @relation("UserServices")
-  subServices           SubService[]    @relation("UserSubServices")
-  schedules             Schedule[]
-
-  // ✅ Form 1: Haushalt
-  householdRooms        Int?
-  householdPeople       Int?
-  householdTasks        Json?
-  form1Completed        Boolean?        @default(false)
-
-  // ✅ Form 2: Freizeit & Soziale Aktivitäten
-  mobility              String?
-  transport             String?
-  companionship         String?
-  cooking               String?
-  hasAllergies          String?
-  allergyDetails        String?
-  hasTech               String?
-  reads                 String?
-  playsCards            String?
-  outings               String?
-  form2Completed        Boolean?        @default(false)
-
-  // ✅ Form 3: Gesundheitsführsorge
-  height                String?
-  weight                String?
-  aids                  String?
-  aidsOther             String?
-  incontinence          String?
-  communicationSehen    String?
-  communicationHören    String?
-  communicationSprechen String?
-  foodSupport           String?
-  basicCare             String?
-  basicCareOther        String?
-  healthActivities      String?
-  healthActivitiesOther String?
-  mentalSupport         String?
-  mentalConditions      String?
-  medicalFindings       String?
-  form3Completed        Boolean?        @default(false)
-
-  // ✅ Form 4: Alltagsbegleitung
-  appointments          String?
-  appointmentsOther     String?
-  shoppingAssist        String?
-  shoppingType          String?
-  briefkasten           String?
-  postfach              String?
-  sonstige              String?
-  form4Completed        Boolean?        @default(false)
-
-  // Extra from registration
-  allergies             String?
-  specialRequests       String?
-  reminders Reminder[]  // Add this line
-  assignments Assignment[]  // Add this line
-
-    // ✅ ➕ Step 4 from Registration Flow (NEW fields)
-  careFirstName         String?
-  careLastName          String?
-  carePhone             String?
-
-  careStreet            String?
-  careEntrance          String?
-  carePostalCode        String?
-  careCity              String?
-  careArrivalConditions String?
-  careHasParking        String?
-  careEntranceDetails   String?
-
-  mobilityAids          String?
-  transportOption       String?
-
-  appointmentTypes      String?
-  appointmentOther      String?
-  shoppingWithClient    String?
-  shoppingItems         String?
-  mailboxKeyLocation    String?
-  mailboxDetails        String?
+  id                      String        @id @default(uuid())
+  email                   String        @unique
+  passwordHash            String
+  role                    Role          @default(client)
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  phone                   String?
+  address                 String
+  frequency               String
+  cardNumber              String?
+  cvc                     String?
+  duration                Int?
+  emergencyContactName    String?
+  emergencyContactPhone   String?
+  expiryDate              String?
+  firstDate               DateTime?
+  languages               String?
+  pets                    String?
+  appointments            String?
+  appointmentsOther       String?
+  briefkasten             String?
+  mobility                String?
+  postfach                String?
+  shoppingAssist          String?
+  shoppingType            String?
+  sonstige                String?
+  transport               String?
+  form4Completed          Boolean?      @default(false)
+  postalCode              String?
+  firstName               String?
+  lastName                String?
+  allergies               String?
+  specialRequests         String?
+  totalPayment            Float?
+  paymentIntentId         String?
+  aids                    String?
+  aidsOther               String?
+  allergyDetails          String?
+  basicCare               String?
+  basicCareOther          String?
+  communicationHören     String?
+  communicationSehen      String?
+  communicationSprechen   String?
+  companionship           String?
+  cooking                 String?
+  foodSupport             String?
+  form1Completed          Boolean?      @default(false)
+  form2Completed          Boolean?      @default(false)
+  form3Completed          Boolean?      @default(false)
+  hasAllergies            String?
+  hasTech                 String?
+  healthActivities        String?
+  healthActivitiesOther   String?
+  height                  String?
+  householdPeople         Int?
+  householdRooms          Int?
+  householdTasks          Json?
+  incontinence            String?
+  medicalFindings         String?
+  mentalConditions        String?
+  mentalSupport           String?
+  outings                 String?
+  playsCards              String?
+  reads                   String?
+  weight                  String?
   additionalAccompaniment String?
-
-  companionshipSupport  String?
-  jointCooking          String?
-  biographyWork         String?
-  techAvailable         String?
-  reading               String?
-  cardGames             String?
-  allergyCheck          String?
-  allergyWhich          String?
-  trips                 String?
-
-  physicalState         String?
-  toolsAvailable        String?
-  toolsOther            String?
-  incontinenceTypes     String?
-  communicationVision   String?
-  communicationHearing  String?
-  communicationSpeech   String?
-  foodSupportTypes      String?
-  basicCareNeeds        String?
-  basicCareOtherField   String?
-  healthPromotions      String?
-  healthPromotionOther  String?
-  mentalSupportNeeded   String?
-  mentalDiagnoses       String?
-  behaviorTraits        String?
-  healthFindings        String?
-
-   resetToken        String?    // stores the password reset token, optional
-  resetTokenExpiry  DateTime?  // stores the expiry time of the token, optional
-
-    vacations Vacation[]
-      transactions Transaction[]
-
-
+  allergyCheck            String?
+  allergyWhich            String?
+  appointmentOther        String?
+  appointmentTypes        String?
+  basicCareNeeds          String?
+  basicCareOtherField     String?
+  behaviorTraits          String?
+  biographyWork           String?
+  cardGames               String?
+  careArrivalConditions   String?
+  careCity                String?
+  careEntrance            String?
+  careEntranceDetails     String?
+  careFirstName           String?
+  careHasParking          String?
+  careLastName            String?
+  carePhone               String?
+  carePostalCode          String?
+  careStreet              String?
+  communicationHearing    String?
+  communicationSpeech     String?
+  communicationVision     String?
+  companionshipSupport    String?
+  foodSupportTypes        String?
+  healthFindings          String?
+  healthPromotionOther    String?
+  healthPromotions        String?
+  incontinenceTypes       String?
+  jointCooking            String?
+  mailboxDetails          String?
+  mailboxKeyLocation      String?
+  mentalDiagnoses         String?
+  mentalSupportNeeded     String?
+  mobilityAids            String?
+  physicalState           String?
+  reading                 String?
+  shoppingItems           String?
+  shoppingWithClient      String?
+  techAvailable           String?
+  toolsAvailable          String?
+  toolsOther              String?
+  transportOption         String?
+  trips                   String?
+  stripeCustomerId        String?
+  stripePaymentMethodId   String?
+  status                  String?       @default("open")
+  resetToken              String?
+  resetTokenExpiry        DateTime?
+  assignments             Assignment[]
+  reminders               Reminder[]
+  schedules               Schedule[]
+  transactions            Transaction[]
+  vacations               Vacation[]
+  services                Service[]     @relation("UserServices")
+  subServices             SubService[]  @relation("UserSubServices")
 }
-
 
 model Reminder {
   id          String   @id @default(uuid())
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  type        String   // "4h_reminder" or "48h_reminder"
+  type        String
   scheduledAt DateTime
   sent        Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
 }
+
 model Assignment {
-  id                 String   @id @default(uuid())
+  id                 String    @id @default(uuid())
   userId             String
-  user               User     @relation(fields: [userId], references: [id])
   employeeId         String
-  employee           Employee @relation(fields: [employeeId], references: [id])
-  status             String   @default("active") // active, completed, cancelled
-  confirmationStatus String   @default("pending") // pending, accepted, rejected
-  serviceName        String?                       // ✅ add this
-  firstDate          DateTime?                     // ✅ add this
-  createdAt          DateTime @default(now())
+  status             String    @default("active")
+  createdAt          DateTime  @default(now())
+  confirmationStatus String    @default("pending")
+  firstDate          DateTime?
+  serviceName        String?
+  employee           Employee  @relation(fields: [employeeId], references: [id])
+  user               User      @relation(fields: [userId], references: [id])
 }
 
 model RejectionWarning {
   id         String   @id @default(uuid())
-  employee   Employee @relation(fields: [employeeId], references: [id])
   employeeId String
   sentAt     DateTime @default(now())
+  employee   Employee @relation(fields: [employeeId], references: [id])
 }
-
 
 model Feedback {
   id         String   @id @default(uuid())
   userId     String
   employeeId String
   comment    String
-  rating     Int      // 1-5
+  rating     Int
   createdAt  DateTime @default(now())
 }
 
-
 model Employee {
-  id                   String   @id @default(uuid())
-  email                String   @unique
-  salutation           String?
+  id                   String             @id @default(uuid())
+  email                String             @unique
   firstName            String
   lastName             String
   phone                String?
   address              String?
-  houseNumber          String?
-  zipCode              String?
-  city                 String?
-  country              String?
-  canton               String?     
-  nationality          String?
   residencePermit      String?
   experienceYears      String
   experienceWhere      String?
-  experienceCompany    String?
   hasLicense           Boolean
-  licenseType          String?
-  hasCar               String?
-  carAvailableForWork  String?
-  smoker               String?
-  onCallAvailable      String?
-  specialTrainings     String[]
-  weekendReady         String?
-  nightShifts          String?
-  nightShiftFrequency  String?
-  communicationTraits  String[]
-  languages            String[]
-  languageOther        String?
-  dietaryExperience    String[]
-  travelSupport        String?
-  bodyCareSupport      String?
-  hasAllergies         String?
-  worksWithAnimals     String?
-  howFarCanYouTravel   String?
   availabilityFrom     DateTime
   availabilityDays     String[]
   servicesOffered      String[]
+  howFarCanYouTravel   String?
+  status               String             @default("pending")
+  createdAt            DateTime           @default(now())
+  bodyCareSupport      String?
+  carAvailableForWork  String?
+  city                 String?
+  communicationTraits  String[]
+  country              String?
+  dietaryExperience    String[]
+  experienceCompany    String?
+  hasAllergies         String?
+  hasCar               String?
+  houseNumber          String?
   howDidYouHearAboutUs String?
+  languageOther        String?
+  languages            String[]
+  licenseType          String?
+  nightShiftFrequency  String?
+  nightShifts          String?
+  onCallAvailable      String?
+  salutation           String?
+  smoker               String?
+  specialTrainings     String[]
+  travelSupport        String?
+  weekendReady         String?
+  worksWithAnimals     String?
+  zipCode              String?
   desiredWeeklyHours   String?
-  passportFile        String?
-visaFile            String?
-policeLetterFile    String?
-cvFile              String?
-certificateFile     String?
-drivingLicenceFile  String?
-profilePhoto        String?
-  invited Boolean @default(false)
-status  String  @default("pending")
-
-  createdAt            DateTime @default(now())
-    password String?  // Add this if not present
-iban           String?
-accountHolder  String?
-bankName       String?
-bic            String?
-assignments Assignment[]  // Add this line
-  rejectionWarnings  RejectionWarning[] // <-- relation back to RejectionWarning
-    inviteSentAt DateTime?
-      schedules   Schedule[]    // ✅ Add this line to complete the relation
-vacations Vacation[]
-  transactions Transaction[]
-
-
+  certificateFile      String?
+  cvFile               String?
+  drivingLicenceFile   String?
+  passportFile         String?
+  policeLetterFile     String?
+  profilePhoto         String?
+  visaFile             String?
+  password             String?
+  canton               String?
+  nationality          String?
+  accountHolder        String?
+  bankName             String?
+  bic                  String?
+  iban                 String?
+  invited              Boolean            @default(false)
+  inviteSentAt         DateTime?
+  assignments          Assignment[]
+  rejectionWarnings    RejectionWarning[]
+  schedules            Schedule[]
+  transactions         Transaction[]
+  vacations            Vacation[]
 }
 
+model Transaction {
+  id             String   @id @default(uuid())
+  scheduleId     Int
+  userId         String
+  employeeId     String
+  amountClient   Float
+  amountEmployee Float
+  status         String   @default("pending")
+  createdAt      DateTime @default(now())
+  employee       Employee @relation(fields: [employeeId], references: [id])
+  schedule       Schedule @relation(fields: [scheduleId], references: [id])
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model EmailTemplate {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  subject   String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 enum Role {
   admin
   client
   employee
-}
-
-model Transaction {
-  id              String   @id @default(uuid())
-  scheduleId      Int      // Link to the work
-  schedule        Schedule @relation(fields: [scheduleId], references: [id])
-
-  userId          String   // Client who pays
-  user            User     @relation(fields: [userId], references: [id])
-
-  employeeId      String   // Employee who works
-  employee        Employee @relation(fields: [employeeId], references: [id])
-
-  amountClient    Float    // What client pays (e.g. 49 CHF)
-  amountEmployee  Float    // What employee earns (e.g. 28.15 CHF)
-  status          String   @default("pending") // pending, paid, failed
-
-  createdAt       DateTime @default(now())
-}
-model EmailTemplate {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique     // e.g. "assignmentNotification"
-  subject   String
-  body      String   // HTML text with placeholders like {{firstName}}
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

@@ -369,15 +369,18 @@ function VacationForm({ userId, refreshVacations }) {
   <article className="bg-white p-8 rounded-3xl shadow-xl max-w-3xl mx-auto space-y-12">
 
   {/* --- NÄCHSTE TERMINE --- */}
-  <section>
-    <header className="flex items-center gap-2 mb-6">
-      <CalendarDays className="w-6 h-6 text-[#B99B5F]" />
-      <h3 className="text-xl font-bold text-gray-800">Nächste Termine</h3>
-    </header>
+ {/* --- NÄCHSTE TERMINE --- */}
+<section>
+  <header className="flex items-center gap-2 mb-6">
+    <CalendarDays className="w-6 h-6 text-[#B99B5F]" />
+    <h3 className="text-xl font-bold text-gray-800">Nächste Termine</h3>
+  </header>
 
-    {appointments.length > 0 ? (
-      <ul className="space-y-4">
-        {appointments.map(({ id, day, startTime, hours, date }) => (
+  {appointments.filter(a => a.status !== "cancelled").length > 0 ? (
+    <ul className="space-y-4">
+      {appointments
+        .filter((a) => a.status !== "cancelled")
+        .map(({ id, day, startTime, hours, date }) => (
           <li
             key={id}
             className="p-5 bg-gray-50 border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition flex justify-between items-center"
@@ -415,11 +418,11 @@ function VacationForm({ userId, refreshVacations }) {
             </button>
           </li>
         ))}
-      </ul>
-    ) : (
-      <p className="italic text-gray-400">Keine Termine geplant</p>
-    )}
-  </section>
+    </ul>
+  ) : (
+    <p className="italic text-gray-400">Keine Termine geplant</p>
+  )}
+</section>
 
   {/* --- URLAUB --- */}
   <section>
@@ -465,43 +468,100 @@ function VacationForm({ userId, refreshVacations }) {
 
 
 
-     <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
-  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">Gewählter Service</h3>
+  <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
+  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">
+    Services Übersicht
+  </h3>
 
-  {/* Highlight the chosen service */}
-  <div className="mb-6 p-6 bg-[#B99B5F] text-white rounded-2xl shadow-md font-bold text-xl text-center select-none">
-    {userData.services[0]?.name || "Kein Service ausgewählt"}
+  {/* Deine Services */}
+  <div className="mb-8">
+    <h4 className="text-lg font-semibold text-gray-800 mb-4">Deine Services</h4>
+    {userData.services && userData.services.length > 0 ? (
+      <div className="space-y-3">
+        {userData.services.map((service) => (
+          <div
+            key={service.id}
+            className="flex items-center justify-between p-4 bg-[#B99B5F] text-white rounded-xl shadow-md font-semibold text-lg select-none"
+          >
+            <span>{service.name}</span>
+            {/* X button */}
+            <button
+              onClick={async () => {
+                const res = await fetch("/api/updateUserData", {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    id: userData.id,
+                    removeService: service.name,
+                  }),
+                });
+                if (res.ok) {
+                  const data = await res.json();
+                  setUserData((prev) => ({
+                    ...prev,
+                    services: data.services,
+                  }));
+                }
+              }}
+              className="ml-3 text-white text-xl font-bold hover:text-red-300 transition"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p className="text-gray-400 italic">Kein Service ausgewählt</p>
+    )}
   </div>
 
-  {/* List other services to choose from */}
-  <div className="space-y-4">
-    {[
-      "Haushaltshilfe und Wohnpflege",
-      "Freizeit und Soziale Aktivitäten",
-      "Gesundheitsführsorge",
-      "Alltagsbegleitung und Besorgungen",
-    ]
-      .filter((service) => service !== userData.services[0]?.name)
-      .map((service, i) => (
-        <button
-          key={i}
-          onClick={() => {
-            localStorage.setItem("selectedService", service);
-            // optionally reload or update state here
-            window.location.reload();
-          }}
-          className="w-full py-3 border border-[#B99B5F] rounded-2xl text-[#B99B5F] font-semibold hover:bg-[#B99B5F] hover:text-white transition"
-        >
-          {service}
-        </button>
-      ))}
+  {/* Weitere Services hinzufügen */}
+  <div>
+    <h4 className="text-lg font-semibold text-gray-800 mb-4">
+      Weitere Services hinzufügen
+    </h4>
+    <div className="space-y-3">
+      {[
+        "Haushaltshilfe und Wohnpflege",
+        "Freizeit und Soziale Aktivitäten",
+        "Gesundheitsführsorge",
+        "Alltagsbegleitung und Besorgungen",
+      ]
+        .filter((service) => !userData.services.some((s) => s.name === service))
+        .map((service, i) => (
+          <button
+            key={i}
+            onClick={async () => {
+              const res = await fetch("/api/updateUserData", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  id: userData.id,
+                  addService: service,
+                }),
+              });
+              if (res.ok) {
+                const data = await res.json();
+                setUserData((prev) => ({
+                  ...prev,
+                  services: data.services,
+                }));
+              }
+            }}
+            className="w-full py-3 border border-[#B99B5F] rounded-xl text-[#B99B5F] font-semibold hover:bg-[#B99B5F] hover:text-white transition"
+          >
+            {service}
+          </button>
+        ))}
+    </div>
   </div>
-   
-<div className="mt-8">
-  {userData?.id && <ClientDashboard2 userId={userData.id} />}
-</div>
 
+  {/* Optional Dashboard2 */}
+  <div className="mt-8">
+    {userData?.id && <ClientDashboard2 userId={userData.id} />}
+  </div>
 </article>
+
 
           </section>
 
@@ -513,27 +573,34 @@ function VacationForm({ userId, refreshVacations }) {
 
        <div className="max-w-7xl mx-auto px-6 mt-16">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-    {/* Service History */}
-    <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-      <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 select-none">
-        Serviceverlauf
-      </h3>
-      <ul className="space-y-3 text-gray-700 text-sm flex-grow overflow-auto">
-        {[
-          "15. Mai 2025 · Haushaltshilfe für 4 Stunden",
-          "10. Mai 2025 · Freizeitaktivitäten - Theaterbesuch",
-          "03. Mai 2025 · Begleitung zum Arzttermin",
-        ].map((item, i) => (
+   
+{/* --- SERVICE HISTORY --- */}
+<section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+  <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 select-none">
+    Serviceverlauf
+  </h3>
+  <ul className="space-y-3 text-gray-700 text-sm flex-grow overflow-auto">
+    {appointments.filter((a) => a.status === "cancelled").length > 0 ? (
+      appointments
+        .filter((a) => a.status === "cancelled")
+        .map((item) => (
           <li
-            key={i}
+            key={item.id}
             className="bg-gray-50 border border-gray-300 p-3 rounded-lg shadow-sm hover:shadow-md cursor-default select-none transition"
           >
-            {item}
+            {new Date(item.date).toLocaleDateString("de-DE", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+            })}{" "}
+            · {item.day} · {item.hours} Std
           </li>
-        ))}
-      </ul>
-    </section>
+        ))
+    ) : (
+      <p className="italic text-gray-400">Noch keine Historie</p>
+    )}
+  </ul>
+</section>
 
     {/* New Booking */}
     <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">

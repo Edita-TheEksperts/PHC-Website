@@ -7,13 +7,60 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { id, ...incomingData } = req.body;
+    const { id, addService, removeService, ...incomingData } = req.body;
 
     if (!id) {
       return res.status(400).json({ message: "Missing user ID" });
     }
 
-    // Optional: define allowed fields to avoid unwanted updates
+    // ➤ Shto shërbim
+    if (addService) {
+      console.log("📌 [updateUserData] Duke shtuar shërbimin:", addService, "për user:", id);
+
+      const updatedUser = await prisma.user.update({
+        where: { id },
+        data: {
+          services: {
+            connectOrCreate: {
+              where: { name: addService },
+              create: { name: addService },
+            },
+          },
+        },
+        include: { services: true },
+      });
+
+      console.log("✅ [updateUserData] Shërbimet aktuale pas shtimit:", updatedUser.services);
+
+      return res.status(200).json({
+        message: "Service added",
+        services: updatedUser.services,
+      });
+    }
+
+    // ➤ Largo shërbim
+    if (removeService) {
+      console.log("📌 [updateUserData] Duke larguar shërbimin:", removeService, "për user:", id);
+
+      const updatedUser = await prisma.user.update({
+        where: { id },
+        data: {
+          services: {
+            disconnect: { name: removeService },
+          },
+        },
+        include: { services: true },
+      });
+
+      console.log("❌ [updateUserData] Shërbimet aktuale pas heqjes:", updatedUser.services);
+
+      return res.status(200).json({
+        message: "Service removed",
+        services: updatedUser.services,
+      });
+    }
+
+    // ➤ Update normal i të dhënave tjera
     const allowedFields = [
       "fullName", "email", "phone", "address",
       "emergencyContactName", "emergencyContactPhone",
@@ -22,10 +69,9 @@ export default async function handler(req, res) {
       "mobility", "transport", "appointments",
       "appointmentsOther", "shoppingAssist", "shoppingType",
       "briefkasten", "postfach", "sonstige",
-      "form4Completed"
+      "form4Completed",
     ];
 
-    // Create filtered update object
     const safeData = {};
     for (const key of allowedFields) {
       if (key in incomingData) {
@@ -33,24 +79,15 @@ export default async function handler(req, res) {
       }
     }
 
-    // Update the user
     const updatedUser = await prisma.user.update({
       where: { id },
       data: safeData,
+      include: { services: true },
     });
 
-    // Mask sensitive fields in the response
-    const sanitizedUser = {
-      ...updatedUser,
-      passwordHash: undefined,
-      cardNumber: updatedUser.cardNumber
-        ? "************" + updatedUser.cardNumber.slice(-4)
-        : undefined,
-      expiryDate: updatedUser.expiryDate ? "**/**" : undefined,
-      cvc: updatedUser.cvc ? "***" : undefined,
-    };
+    console.log("🔄 [updateUserData] User updated, services:", updatedUser.services);
 
-    return res.status(200).json(sanitizedUser);
+    return res.status(200).json(updatedUser);
   } catch (err) {
     console.error("❌ Prisma update error:", err);
     res.status(500).json({
