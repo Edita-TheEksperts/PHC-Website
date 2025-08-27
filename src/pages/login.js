@@ -130,7 +130,7 @@ Willkommen bei PHC          </h1>
               type="submit"
               className="bg-[#04436F] text-white text-[18px] font-[500] h-[48px] rounded-[10px] mt-4"
             >
-              Absenden
+              Log in 
             </button>
             <div className="text-right mt-2">
   <a href="/forgot-password" className="text-[#04436F] text-sm underline">

@@ -41,7 +41,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto mt-20">
-      <h1 className="text-2xl font-bold mb-4 text-center text-[#04436F]">Reset Your Password</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center text-[#04436F]">Setzen Sie Ihr Passwort zurück</h1>
       <form onSubmit={handleReset} className="flex flex-col gap-4">
         <input
           type="password"
@@ -52,8 +52,7 @@ export default function ResetPasswordPage() {
           required
         />
         <button type="submit" className="bg-[#04436F] text-white py-3 rounded">
-          Reset Password
-        </button>
+Passwort zurücksetzen        </button>
       </form>
     </div>
   );

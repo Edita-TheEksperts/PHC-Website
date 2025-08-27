@@ -2,42 +2,46 @@ import { useState } from "react";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
+  const [message, setMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
 
- async function handleSubmit(e) {
-  e.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-  const res = await fetch("/api/forgot-password", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }), // email must be a non-empty string
-  });
+    const res = await fetch("/api/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
 
-  if (res.ok) {
-    const data = await res.json(); // Parse JSON response
-    console.log(data); // See if resetToken is coming
-    window.location.href = `/reset-password?resetToken=${data.resetToken}`;
-  } else {
-    alert("Email not found or error.");
+    if (res.ok) {
+      const data = await res.json();
+      setIsError(false);
+      setMessage("E-Mail gschickt! Lueg i dinere Inbox.");
+      setTimeout(() => {
+        window.location.href = `/reset-password?resetToken=${data.resetToken}`;
+      }, 2000);
+    } else {
+      setIsError(true);
+      setMessage("Die E-Mail het mir nöd gfunde oder es isch öppis schief gloffe.");
+    }
   }
-}
 
-    return (
-      <div className="flex bg-[#FAFCFF] max-w-[1410px] w-full mx-auto  px-2 lg:px-0 py-[0px] lg:py-0">
-        
-        {/* Left Image Section */}
-        <div className="hidden lg:flex w-1/2 justify-center items-center mt-[8px]">
-          <img
-            src="/images/forgot-password-side-image.png"
-            alt="Forgot Password Visual"
-            className="w-[600px] h-[800px] object-cover rounded-[20px]"
-          />
-        </div>
-  
-        {/* Right Form Section */}
-        <div className="flex flex-col justify-center items-start w-full lg:w-1/2 px-0 lg:px-10 mt-8 lg:mt-0">
-  
-          {/* Logo */}
-          <div className="mb-20">
+  return (
+    <div className="flex bg-[#FAFCFF] max-w-[1410px] w-full mx-auto px-2 lg:px-0 py-[0px] lg:py-0">
+      {/* Linki Bild-Sektion */}
+      <div className="hidden lg:flex w-1/2 justify-center items-center mt-[8px]">
+        <img
+          src="/images/forgot-password-side-image.png"
+          alt="Passwurt vergässe Visual"
+          className="w-[600px] h-[800px] object-cover rounded-[20px]"
+        />
+      </div>
+
+      {/* Rächts Form-Sektion */}
+      <div className="flex flex-col justify-center items-start w-full lg:w-1/2 px-0 lg:px-10 mt-8 lg:mt-0">
+        {/* Logo */}
+      <div className="mb-20">
           <svg xmlns="http://www.w3.org/2000/svg" width="100" height="49" viewBox="0 0 100 49" fill="none">
   <g clip-path="url(#clip0_1799_1767)">
     <path d="M81.6188 6.59398C83.6886 5.50118 86.1174 4.95753 88.9082 4.95753C90.5941 4.95753 92.1786 5.12227 93.6781 5.45725C95.1695 5.80046 97.2474 6.53082 99.1965 7.37376V2.16239C95.9425 0.959772 92.4994 0.361206 88.8588 0.361206C85.2183 0.361206 81.8984 1.11079 79.0776 2.6072C76.2512 4.1091 74.0663 6.21781 72.5174 8.9498C70.9768 11.6735 70.1982 14.8284 70.1982 18.3951C70.1982 21.9617 70.9768 25.2456 72.5174 28.0407C74.0663 30.8359 76.243 32.9968 79.0501 34.5316C81.8546 36.061 85.0976 36.827 88.7601 36.827C91.0437 36.827 93.1162 36.6129 94.9639 36.1983C96.2715 35.899 97.6778 35.4322 99.1965 34.7897V29.4548C97.3105 30.4982 95.5834 31.2203 94.0071 31.6212C92.4226 32.0275 90.6599 32.228 88.7108 32.228C86.09 32.228 83.7571 31.6925 81.7285 30.6107C79.6944 29.5317 78.1016 27.9584 76.9585 25.8909C75.8153 23.8178 75.2451 21.3137 75.2451 18.3896C75.2451 15.6301 75.7879 13.2413 76.879 11.2397C77.97 9.2381 79.5573 7.68677 81.6188 6.59123V6.59398Z" fill="#04436F"/>
@@ -66,46 +70,56 @@ export default function ForgotPasswordPage() {
 </svg>
           </div>
   
-          {/* Heading */}
-          <h1 className="text-[#04436F] text-left font-bold text-[32px] lg:text-[40px] leading-[40px] tracking-[0.18px]">
-            Reset Password
-          </h1>
-  
-          {/* Subheading */}
-          <p className="text-[#04436F] text-left mt-2 text-[16px]">
-            Insert the email address you used
-          </p>
-  
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col w-full gap-[20px] mt-10">
-  
-            {/* Email Field */}
-            <div className="flex flex-col w-full">
-              <label className="text-[#04436F] font-bold text-[15px] leading-[25.6px] mb-2">
-                Email Address
-              </label>
-              <input
-        type="email"
-        placeholder="Enter your email"
-        className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-            </div>
-  
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="bg-[#04436F] text-white text-[18px] font-[500] h-[48px] rounded-[10px] mt-4"
+
+        {/* Titel */}
+        <h1 className="text-[#04436F] text-left font-bold text-[32px] lg:text-[40px] leading-[40px] tracking-[0.18px]">
+Passwort zurücksetzen        </h1>
+
+        {/* Untertitel */}
+        <p className="text-[#04436F] text-left mt-2 text-[16px]">
+Geben Sie Ihre E-Mail-Adresse ein        </p>
+
+        {/* Formular */}
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col w-full gap-[20px] mt-10"
+        >
+          {/* Email Feld */}
+          <div className="flex flex-col w-full">
+            <label className="text-[#04436F] font-bold text-[15px] leading-[25.6px] mb-2">
+              E-Mail 
+            </label>
+            <input
+              type="email"
+              placeholder="Gib dini E-Mail ii"
+              className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="bg-[#04436F] text-white text-[18px] font-[500] h-[48px] rounded-[10px] mt-4"
+          >
+Senden          </button>
+
+          {/* Nachricht-Box */}
+          {message && (
+            <div
+              className={`mt-3 p-2 rounded text-center ${
+                isError
+                  ? "bg-red-100 text-red-700"
+                  : "bg-green-100 text-green-700"
+              }`}
             >
-              Send Code
-            </button>
-  
-          </form>
-        </div>
-  
+              {message}
+            </div>
+          )}
+        </form>
       </div>
-    );
-  }
-  
+    </div>
+  );
+}
