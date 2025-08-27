@@ -1961,111 +1961,269 @@ Passwort bestätigen*</label>
     <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
   <h3 className="font-bold text-[20px] mb-6">Persönliche Angaben (Zusammenfassung)</h3>
 
-{/* Anfragende Person */}
-<div className="mb-8">
-  <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {/* Vorname */}
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Vorname</label>
-      <input
-        name="requestFirstName"   
-        placeholder="Vorname"
-        value={form.requestFirstName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
+  {/* Anfragende Person */}
+  <div className="mb-8">
+    <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {/* First row: Vorname and Nachname */}
+  <div className="mb-2">
+    <label className="block font-medium mb-1">Vorname</label>
+    <input
+      name="firstName"
+      placeholder="Vorname"
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
 
-    {/* Nachname */}
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Nachname</label>
-      <input
-        name="requestLastName"    // 🔑 input
-        placeholder="Nachname"
-        value={form.requestLastName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
+  <div className="mb-2">
+    <label className="block font-medium mb-1">Nachname</label>
+    <input
+      name="lastName"
+      placeholder="Nachname"
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
 
-    {/* Telefonnummer */}
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Telefonnummer</label>
-      <input
-        name="requestPhone"       // 🔑input
-        placeholder="Telefonnummer"
-        value={form.requestPhone || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
+  {/* Second row: Telefonnummer and Email */}
+  <div className="mb-2">
+    <label className="block font-medium mb-1">Telefonnummer</label>
+    <input
+      name="phone"
+      placeholder="Telefonnummer"
+      onChange={handleChange}
+      className={inputClass}
+    />
+  </div>
 
-    {/* Email */}
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Email</label>
-      <input
-        name="requestEmail"       // 🔑 input
-        placeholder="Email"
-        value={form.requestEmail || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
+  <div className="mb-2">
+    <label className="block font-medium mb-1">Email</label>
+    <input
+      name="email"
+      placeholder="Email"
+      onChange={handleChange}
+      className={inputClass}
+    />
   </div>
 </div>
 
-{/* Einsatzort */}
-<div>
-  <h4 className="font-[600] text-[16px]">Einsatzort</h4>
-  <p className="text-[14px] font-semibold mb-4">zu betreuende Person</p>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Vorname</label>
+
+  </div>
+
+  {/* Einsatzort */}
+  <div>
+<h4 className="font-[600] text-[16px] ">Einsatzort</h4>
+<p className="text-[14px] font-semibold mb-4">zu betreuende Person</p>
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+      <div className="mb-2">
+       <label className="block font-medium mb-1">
+    Vorname
+  </label>
       <input
         name="firstName"
         placeholder="Vorname"
-        value={form.firstName || ""}   
-        readOnly                       // dont change this step
+        defaultValue ={form.firstName || ""}
+        onChange={handleChange}
         className={inputClass}
       />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Nachname</label>
+      </div>
+            <div className="mb-2">
+ <label className="block font-medium mb-1">
+    Nachname
+  </label>
       <input
         name="lastName"
         placeholder="Nachname"
         value={form.lastName || ""}
-        readOnly
+        onChange={handleChange}
         className={inputClass}
       />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Telefonnummer</label>
+      </div>
+      <div className="mb-2">
+         <label className="block font-medium mb-1">
+Telefonnummer  </label>
       <input
         name="phone"
         placeholder="Telefonnummer"
         value={form.phone || ""}
-        readOnly
+        onChange={handleChange}
         className={inputClass}
       />
+      </div>
+            <div className="mb-2">
+               <label className="block font-medium mb-1">Email</label>
+    <input
+      name="email"
+      placeholder="Email"
+      value={form.email || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+</div>
     </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Email</label>
-      <input
-        name="email"
-        placeholder="Email"
-        value={form.email || ""}
-        readOnly
-        className={inputClass}
-      />
-    </div>
-  </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+ <div className="mb-2">
+  <label className="block font-medium mb-1">
+    Adresse & Hausnummer
+  </label>
+  <input
+    name="street"
+    placeholder="Adresse & Hausnummer"
+    onChange={handleChange}
+value={form.address ||''}    className={inputClass}
+  />
 </div>
 
+   <div className="mb-2">
+  <label className="block font-medium mb-1">
+    Stockwerk / Eingangscode
+  </label>
+  <input
+    name="entranceLocation"
+    placeholder="Stockwerk / Eingangscode"
+    onChange={handleChange}
+
+    className={inputClass}
+  />
+</div>
+
+     <div className="mb-2">
+  <label className="block font-medium mb-1">
+    PLZ
+  </label>
+  <input
+    type="number"
+    name="postalCode"
+    placeholder="PLZ"
+                value={form.postalCode || ""}
+
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
+
+   <div className="mb-2">
+  <label className="block font-medium mb-1">
+    Ort
+  </label>
+  <input
+    name="city"
+    placeholder="Ort"
+    value={form.city || ""}
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
+
+    </div>
+
+    {/* Ankunftsbedingungen */}
+   <div className="mb-6">
+  <p className="font-[600] text-[16px] mb-1">Ankunftsbedingungen</p>
+
+  <div className="flex flex-wrap items-center gap-6">
+    {["Schlüssel ist hinterlegt", "Es ist jemand zu Hause"].map((option) => (
+      <label
+        key={option}
+        className="inline-flex items-center gap-2 text-sm text-gray-800"
+      >
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#B99B5F]"
+          checked={form.arrivalConditions?.includes(option)}
+          onChange={() => toggleCheckbox("arrivalConditions", option)}
+        />
+        <span>{option}</span>
+      </label>
+    ))}
+  </div>
+
+  {form.arrivalConditions?.includes("Schlüssel ist hinterlegt") && (
+    <div className="mt-4">
+      <label className="block text-sm font-medium mb-1">
+        Wo ist der Schlüssel hinterlegt?
+      </label>
+      <input
+        name="keyLocation"
+        placeholder="z. B. unter der Fussmatte, beim Nachbarn..."
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  )}
+
+  {form.arrivalConditions?.length === 0 && (
+    <p className="text-red-600 text-sm mt-2">
+      Bitte wählen Sie mindestens eine Option aus: Schlüssel oder jemand ist zu Hause.
+    </p>
+  )}
+</div>
+
+
+    {/* Parkplatz vorhanden */}
+   <div className="mb-4">
+  <label className="block font-[600] mb-1">Parkplatz vorhanden?</label>
+  <select
+    name="hasParking"
+    value={form.hasParking || ""}
+    onChange={handleChange}
+    className={inputClass}
+  >
+    <option value="">Bitte auswählen</option>
+    <option value="Ja">Ja</option>
+    <option value="Nein">Nein</option>
+  </select>
+</div>
+
+{form.hasParking === "Ja" && (
+  <>
+   
+    <div className="mb-4">
+      <label className="block text-sm font-medium mb-1">
+        Ort (Parkplatz)
+      </label>
+      <input
+        name="parkingLocation"
+        placeholder="Ort (Parkplatz)"
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  </>
+)}
+
+
+    {/* Wo befindet sich der Eingang */}
+    <div>
+           <div className="mb-2">
+  <label className="block font-medium mb-1">
+    Wo befindet sich der Eingang?
+  </label>
+  <input
+    name="entranceDescription"
+    placeholder="Wo befindet sich der Eingang?"
+    onChange={handleChange}
+    className={inputClass}
+  />
+</div>
+    </div>
+
+
+      <div className="mt-3">
+  <label className="block font-medium mb-1">
+    Zusätzliche Informationen hinzufügen
+  </label>
+  <textarea
+    name="additionalNotes"
+    placeholder="Gibt es etwas, das wir wissen sollten? (z. B. besondere Wünsche, Hinweise etc.)"
+    onChange={handleChange}
+    className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+    rows={4}
+  />
+</div>
+
+  </div>
 </div>
 
 

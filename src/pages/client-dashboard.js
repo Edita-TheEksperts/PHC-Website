@@ -6,7 +6,7 @@ import RegisterForm3 from "../components/RegisterForm3"
 import RegisterForm4 from "../components/RegisterForm4"
 import { Pie, Line } from "react-chartjs-2"
 import OvertimeAlerts from "../components/OvertimeAlerts"; // Adjust import based on your file structure
-import { CalendarDays } from "lucide-react" // or any icon library you use
+import { CalendarDays,Clock, Plane, AlarmClock, Hourglass } from "lucide-react" // or any icon library you use
 import ClientDashboard2 from "../components/ClientDashboard2"
 import {
   Chart as ChartJS,
@@ -278,21 +278,11 @@ function VacationForm({ userId, refreshVacations }) {
 
   return (
     <div className="relative min-h-screen bg-gray-100 font-sans">
-      {/* Overlay */}
-      {showOverlayForm && SelectedForm && (
-        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex justify-center items-start p-6">
-          <div className="bg-white shadow-xl rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-10 scrollbar-thin scrollbar-thumb-[#B99B5F]">
-            <h2 className="text-2xl font-semibold mb-8 text-[#B99B5F]">
-              Bitte füllen Sie das Serviceformular aus
-            </h2>
-            <SelectedForm onComplete={() => setShowOverlayForm(false)} />
-          </div>
-        </div>
-      )}
+     
 
-      <div className={`flex min-h-screen transition-filter duration-300 ${showOverlayForm ? "blur-sm pointer-events-none" : ""}`}>
+<div className="flex min-h-screen">
         {/* Sidebar */}
-        <nav className="w-72 bg-[#B99B5F] text-white p-8 flex flex-col shadow-lg">
+        <nav className="w-72 bg-[#B99B5F] text-white p-4 flex flex-col shadow-lg">
           <h1 className="text-4xl font-bold text-center mb-12 select-none">PHC</h1>
           <ul className="space-y-6 flex-grow">
             <li className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition">Dashboard</li>
@@ -357,17 +347,11 @@ function VacationForm({ userId, refreshVacations }) {
         <main className="flex-1 p-12 overflow-auto">
           {/* Header */}
           <header className="flex justify-between items-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B99B5F]">Client Dashboard</h2>
-            <button
-              onClick={() => router.push("/edit-client-profile")}
-              className="py-3 px-7 bg-[#B99B5F] text-white rounded-2xl font-semibold text-lg hover:bg-[#A6884A] transition"
-            >
-              Profil bearbeiten
-            </button>
+            <h2 className="text-4xl font-bold text-[#B99B5F]">Kundenübersicht</h2>
           </header>
 
           {/* User Info + Documents + Service */}
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <article className="bg-white p-8 rounded-3xl shadow-xl">
 
               <h3 className="text-2xl font-semibold text-[#B99B5F] mb-8 select-none">Benutzerinformationen</h3>
@@ -382,108 +366,103 @@ function VacationForm({ userId, refreshVacations }) {
 
             </article>
 
-        <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
-  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">Nächste Termine</h3>
+  <article className="bg-white p-8 rounded-3xl shadow-xl max-w-3xl mx-auto space-y-12">
 
+  {/* --- NÄCHSTE TERMINE --- */}
+  <section>
+    <header className="flex items-center gap-2 mb-6">
+      <CalendarDays className="w-6 h-6 text-[#B99B5F]" />
+      <h3 className="text-xl font-bold text-gray-800">Nächste Termine</h3>
+    </header>
 
-
-{/* Geplante Termine */}
-<div className="mb-6">
-
-  {appointments.length > 0 ? (
-    <ul className="space-y-4">
-      {appointments.map(({ id, day, startTime, hours, date }) => (
-        <li
-          key={id}
-          className="flex items-center justify-between p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition"
-        >
-          {/* Appointment Info */}
-          <div className="flex flex-col text-gray-700">
-            <span className="text-lg font-semibold flex items-center gap-2">
-              📅 {day}
-            </span>
-            {date && (
-              <span className="text-sm flex items-center gap-2 text-gray-500">
-                🗓 {new Date(date).toLocaleDateString("de-DE", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-            )}
-            <span className="text-sm flex items-center gap-2">
-              ⏰ {startTime}
-            </span>
-            <span className="text-sm flex items-center gap-2">
-              ⌛ {hours} Std
-            </span>
-          </div>
-
-          {/* Cancel Button */}
-          <button
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-xl shadow transition"
-            onClick={() => cancelAppointment(id)}
+    {appointments.length > 0 ? (
+      <ul className="space-y-4">
+        {appointments.map(({ id, day, startTime, hours, date }) => (
+          <li
+            key={id}
+            className="p-5 bg-gray-50 border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition flex justify-between items-center"
           >
-            Cancel
-          </button>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p className="italic text-gray-400">Keine Termine geplant</p>
-  )}
-</div>
+            {/* Info */}
+            <div className="text-sm space-y-1 text-gray-700">
+              <p className="flex items-center gap-2 font-semibold text-gray-900">
+                <CalendarDays className="w-4 h-4 text-[#B99B5F]" /> {day}
+              </p>
+              {date && (
+                <p className="flex items-center gap-2 text-xs text-gray-500">
+                  <Clock className="w-4 h-4 text-gray-400" />
+                  {new Date(date).toLocaleDateString("de-DE", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </p>
+              )}
+              <p className="flex items-center gap-2 text-xs text-gray-600">
+                <AlarmClock className="w-4 h-4 text-gray-400" /> {startTime}
+              </p>
+              <p className="flex items-center gap-2 text-xs text-gray-600">
+                <Hourglass className="w-4 h-4 text-gray-400" /> {hours} Std
+              </p>
+            </div>
 
+            {/* Action */}
+            <button
+              onClick={() => cancelAppointment(id)}
+              className="px-4 py-2 text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 hover:border-red-300 transition"
+            >
+              Abbrechen
+            </button>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p className="italic text-gray-400">Keine Termine geplant</p>
+    )}
+  </section>
 
+  {/* --- URLAUB --- */}
+  <section>
+    <header className="flex items-center gap-2 mb-6">
+      <Plane className="w-6 h-6 text-[#B99B5F]" />
+      <h3 className="text-xl font-bold text-gray-800">Urlaub</h3>
+    </header>
 
+    {/* Form */}
+    <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 shadow-inner mb-6">
+      <VacationForm
+        userId={userData.id}
+        refreshVacations={() => fetchVacations(userData.id)}
+      />
+    </div>
 
-<section className="bg-gradient-to-b from-white to-gray-50 p-2 rounded-3xl  border border-t-gray-100 max-w-md mx-auto">
-  {/* Title */}
-  <h3 className="text-3xl font-bold text-[#B99B5F] uppercase mb-8 text-center tracking-wide">
-    Urlaub
-  </h3>
-
-  {/* Vacation Form */}
-  <div className="bg-gray-50 rounded-2xl p-5 shadow-inner mb-6">
-    <VacationForm 
-      userId={userData.id} 
-      refreshVacations={() => fetchVacations(userData.id)} 
-    />
-  </div>
-
-  {/* Vacation List */}
-  <div className="mt-4">
+    {/* List */}
     {vacations.length > 0 ? (
       <ul className="space-y-4">
         {vacations.map((v) => (
-          <li 
-            key={v.id} 
-            className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition duration-200"
+          <li
+            key={v.id}
+            className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:shadow-md transition"
           >
-            {/* Icon */}
-            <div className="flex-shrink-0 bg-[#B99B5F]/10 p-3 rounded-xl">
-              <CalendarDays className="text-[#B99B5F] w-6 h-6" />
+            <div className="bg-[#B99B5F]/10 p-3 rounded-xl">
+              <CalendarDays className="text-[#B99B5F] w-5 h-5" />
             </div>
-
-            {/* Date Info */}
             <div>
-              <p className="text-gray-800 font-semibold">
-                {new Date(v.startDate).toLocaleDateString()} – {new Date(v.endDate).toLocaleDateString()}
+              <p className="text-sm font-medium text-gray-900">
+                {new Date(v.startDate).toLocaleDateString()} –{" "}
+                {new Date(v.endDate).toLocaleDateString()}
               </p>
-              <p className="text-gray-500 text-sm italic">Geplant</p>
+              <p className="text-xs text-gray-500">Geplant</p>
             </div>
           </li>
         ))}
       </ul>
     ) : (
-      <p className="text-gray-400 italic text-center mt-6">
-        Kein Urlaub eingetragen
-      </p>
+      <p className="italic text-gray-400 text-center">Kein Urlaub eingetragen</p>
     )}
-  </div>
-</section>
+  </section>
 </article>
+
 
 
      <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">

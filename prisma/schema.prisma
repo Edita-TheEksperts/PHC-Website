@@ -73,11 +73,6 @@ model User {
   languages             String?
   pets                  String?
 
-  requestFirstName String?
-  requestLastName  String?
-  requestPhone     String?
-  requestEmail     String?
- 
   // Emergency
   emergencyContactName  String?
   emergencyContactPhone String?
