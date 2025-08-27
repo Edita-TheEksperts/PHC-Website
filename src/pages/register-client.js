@@ -361,32 +361,39 @@ if (!hasAnySubService) {
 
   }
 
-  if (step === 2) {
-    if (!form.firstName) {
-      setFormError("Bitte geben Sie den Vornamen ein.");
-      return false;
-    }
-    if (!form.lastName) {
-      setFormError("Bitte geben Sie den Nachnamen ein.");
-      return false;
-    }
-    if (!form.email) {
-      setFormError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
-      return false;
-    }
-    if (!form.phone) {
-      setFormError("Bitte geben Sie eine gültige Telefonnummer ein.");
-      return false;
-    }
-    if (!form.password) {
-      setFormError("Bitte geben Sie ein Passwort ein.");
-      return false;
-    }
-    if (!form.address) {
-      setFormError("Bitte geben Sie die Adresse ein.");
-      return false;
-    }
+if (step === 2) {
+  if (!form.firstName) {
+    setFormError("Bitte geben Sie den Vornamen ein.");
+    scrollToTop();
+    return false;
   }
+  if (!form.lastName) {
+    setFormError("Bitte geben Sie den Nachnamen ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.email) {
+    setFormError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.phone) {
+    setFormError("Bitte geben Sie eine gültige Telefonnummer ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.password) {
+    setFormError("Bitte geben Sie ein Passwort ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.address) {
+    setFormError("Bitte geben Sie die Adresse ein.");
+    scrollToTop();
+    return false;
+  }
+}
+
 
 if (step === 3 && !testMode) {
 if (!testMode) {
@@ -420,10 +427,17 @@ const handleNext = async () => {
     return;
   }
 
-  if (step === 3 && !testMode) {
-    await handleSubmit({ preventDefault: () => {} }); 
+if (step === 3 && !testMode) {
+  if (!agbAccepted) {
+    setFormError("Bitte akzeptieren Sie die AGB, um fortzufahren.");
+    scrollToTop();
     return;
   }
+
+  await handleSubmit({ preventDefault: () => {} });
+  return;
+}
+
 
   if (step === 3 && testMode) {
     setStep(4);
@@ -764,20 +778,28 @@ useEffect(() => {
     if (!form.services || form.services.length === 0) return;
 
     try {
-      const allFetched = await Promise.all(
-        form.services.map((srv) =>
-          fetch(`/api/subservices?serviceName=${encodeURIComponent(srv)}`).then((res) =>
-            res.ok ? res.json() : []
-          )
-        )
-      );
+    const allFetched = await Promise.all(
+  form.services.map((srv) =>
+    fetch(`/api/subservices?serviceName=${encodeURIComponent(srv)}`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((subs) =>
+        subs.map((sub) => ({
+          ...sub,
+          parentService: srv,   // 🔥 add parent service here
+        }))
+      )
+  )
+);
 
-      const allSubservices = allFetched.flat();
-      const unique = Array.from(
-        new Map(allSubservices.map((s) => [s.name, s])).values()
-      );
+const allSubservices = allFetched.flat();
 
-      setSubServices(unique);
+// remove duplicates by name but keep parent info
+const unique = Array.from(
+  new Map(allSubservices.map((s) => [s.name, s])).values()
+);
+
+setSubServices(unique);
+
 
       // Only update form if it's empty
       setForm((prev) => ({
@@ -1102,6 +1124,19 @@ useEffect(() => {
   scrollToTop();
 }, [step]);
 
+  const [agbAccepted, setAgbAccepted] = useState(false);
+const [agbError, setAgbError] = useState("");
+
+function onSubmit(e) {
+  e.preventDefault();
+  if (!agbAccepted) {
+    setAgbError("Bitte akzeptieren Sie die AGB, um fortzufahren.");
+    return;
+  }
+  setAgbError(""); // clear when accepted
+  handleSubmit(e); // continue with payment
+}
+
 
 return (
     <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
@@ -1263,8 +1298,35 @@ return (
 )}
 
 
+              <div className='mt-8 mb-8 w-[300px] max-w-full'>
+  <label className="block mb-2 font-medium">Beginndatum auswählen</label>
+<DatePicker
+  selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
+onChange={(date) => {
+  if (!date) {
+    setForm({ ...form, firstDate: "" }); // Clear the date in the form
+  } else {
+    const formatted = format(date, "dd.MM.yyyy");
+    setForm({ ...form, firstDate: formatted });
+  }
+}}
+
+  dateFormat="dd.MM.yyyy"
+  locale={de}
+  placeholderText="TT.MM.JJJJ"
+  minDate={tenDaysFromToday} 
+  className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+  calendarClassName="rounded-xl shadow-lg border border-gray-300"
+  wrapperClassName="w-full"
+    disabled={form.frequency === "monatlich" && form.monthlyMode === "date"} // 👈 disables only when auto-date set
+
+/>
+
+</div>
+
+
                 {form.frequency !== "Einmal" && (
-  <div className="space-y-4">
+  <div className="space-y-6">
     <p className="font-medium">Wann genau wünschen Sie Unterstützung?</p>
 
     {/* Allow adjusting number of days */}
@@ -1348,26 +1410,26 @@ return (
 
 
 
-        {/* Duration */}
+    {/* Duration */}
+{/* Duration */}
 <div className="flex items-center gap-2">
-  {/* Minus Button – always rendered, just disabled when needed */}
+  {/* Minus Button */}
   <button
     type="button"
     onClick={() => {
-      const subServiceCount = form.subServices.length;
-      const minHours = Math.min(Math.max(subServiceCount, 2), 24);
-      const currentHours = form.schedules[i].hours;
-
-      if (currentHours <= minHours) return;
-
       const updated = [...form.schedules];
-      const newValue = parseFloat((currentHours - 0.5).toFixed(1));
-      updated[i].hours = newValue;
-      setForm({ ...form, schedules: updated });
+      const subServiceCount = updated[i].subServices?.length ?? 0;
+      const minHours = Math.max(subServiceCount, 2); // min based on subservices
+      const current = updated[i].hours ?? 2;
+
+      if (current > minHours) {
+        updated[i].hours = parseFloat((current - 0.5).toFixed(1));
+        setForm({ ...form, schedules: updated });
+      }
     }}
-    disabled={form.schedules[i].hours <= Math.min(Math.max(form.subServices.length, 2), 24)}
+    disabled={form.schedules[i].hours <= Math.max(form.schedules[i].subServices?.length ?? 0, 2)}
     className={`w-8 h-8 border rounded-full text-xl flex items-center justify-center ${
-      form.schedules[i].hours <= Math.min(Math.max(form.subServices.length, 2), 24)
+      form.schedules[i].hours <= Math.max(form.schedules[i].subServices?.length ?? 0, 2)
         ? "opacity-50 cursor-not-allowed"
         : ""
     }`}
@@ -1385,13 +1447,22 @@ return (
     type="button"
     onClick={() => {
       const updated = [...form.schedules];
-      const current = updated[i].hours;
-      const newValue = parseFloat((current + 0.5).toFixed(1));
+      const current = updated[i].hours ?? 2;
 
-      if (newValue <= 24) {
-        updated[i].hours = newValue;
-        setForm({ ...form, schedules: updated });
+      if (current >= 8) {
+        // ⬅️ Already at 8 → Add new day automatically
+        updated.push({
+          day: "",
+          startTime: "08:00",
+          hours: 2,
+          subServices: [],
+        });
+      } else {
+        // ⬅️ Increase by 0.5, but max 8
+        updated[i].hours = Math.min(parseFloat((current + 0.5).toFixed(1)), 8);
       }
+
+      setForm({ ...form, schedules: updated });
     }}
     className="w-8 h-8 border rounded-full text-xl flex items-center justify-center"
   >
@@ -1399,60 +1470,86 @@ return (
   </button>
 </div>
 
+ 
+ 
 {/* Subservices for this day */}
 <div className="col-span-4 mt-2 mb-4">
-  <label className="block mb-2 font-medium">
-    Zusatzleistungen für {entry.day || `Tag ${i + 1}`}
-  </label>
+<label className="block mb-2 font-medium">
+  Welche Leistungen möchten Sie beanspruchen?   
 
+</label>
+
+ 
   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
     {form.schedules[i]?.subServices?.includes("Ausflüge und Reisebegleitung") && (
-  <div className="mt-4 col-span-full p-4 border-l-4 border-[#B99B5F] bg-[#FFF8EA] rounded">
-    <p className="text-gray-800 mb-2 font-semibold">
+<div className="mt-4 col-span-full p-4 border-l-4 border-[#B99B5F] bg-[#FFF8EA] rounded">
+<p className="text-gray-800 mb-2 font-semibold">
       Für <span className="text-[#B99B5F]">„Ausflüge und Reisebegleitung“</span> bitten wir Sie, uns direkt zu kontaktieren.
-    </p>
-    <a
+</p>
+<a
       href="/contact"
       className="text-[#04436F] underline font-medium hover:text-[#033552]"
-    >
+>
       Zum Kontaktformular
-    </a>
-  </div>
+</a>
+</div>
 )}
+ 
+{subServices.map((sub) => {
+  const isSelected = entry.subServices?.includes(sub.name);
+ 
+  return (
+    <button
+      key={sub.id}
+      type="button"
+      onClick={() => {
+        const updated = [...form.schedules];
+        const currentList = updated[i].subServices || [];
+ 
+        const nextSubServices = isSelected
+          ? currentList.filter((s) => s !== sub.name)
+          : [...currentList, sub.name];
+ 
+        updated[i].subServices = nextSubServices;
+ 
+        // ✅ Compute dynamic minimum, cap at 8h, but NEVER decrease existing hours
+        const count = nextSubServices.length;
+        const minHours = Math.min(Math.max(count, 2), 8);  // cap to 8 hrs/day
+        const currentHours = Number(updated[i].hours ?? 2);
+        updated[i].hours = Math.max(currentHours, minHours); // don't lower
+ 
+        setForm({ ...form, schedules: updated });
+      }}
+      className={`w-full flex flex-col items-start justify-between p-5 rounded-2xl border transition-all duration-300 cursor-pointer
+        ${isSelected
+          ? "border-[#B99B5F] bg-gradient-to-br from-[#FFF8EA] to-[#FFF2D5] shadow-lg scale-[1.02]"
+          : "border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[#B99B5F]/60 hover:scale-[1.01]"
+        }`}
+    >
+      {/* Parent service header */}
+      <span className="text-[11px] font-bold uppercase tracking-wide text-[#B99B5F] opacity-80">
+        {sub.parentService}
+      </span>
+ 
+      {/* Subservice name */}
+      <span className="text-[15px] font-semibold text-gray-900 mt-1">
+        {sub.name}
+      </span>
+ 
+      {/* Status as badge */}
+      <span
+        className={`inline-block px-3 py-1 mt-3 text-xs font-medium rounded-full
+          ${isSelected ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}
+      >
+        {isSelected ? "✓ Ausgewählt" : "+ Hinzufügen"}
+      </span>
+    </button>
+  );
+})}
+ 
+ 
 
-    {subServices.map((sub) => {
-      
-      const isSelected = entry.subServices?.includes(sub.name);
 
-      return (
-        <button
-          key={sub.id}
-          type="button"
-          onClick={() => {
-            const updated = [...form.schedules];
-            const current = updated[i].subServices || [];
-
-            updated[i].subServices = isSelected
-              ? current.filter((s) => s !== sub.name)
-              : [...current, sub.name];
-
-            // Optional: auto-update hours based on subservices
-            const count = updated[i].subServices.length;
-            updated[i].hours = count <= 2 ? 2 : Math.min(count, 24);
-
-            setForm({ ...form, schedules: updated });
-          }}
-          className={`flex flex-col items-center justify-center p-4 border rounded-xl text-center space-y-2 ${
-            isSelected ? "border-[#B99B5F] bg-[#f0f9ff]" : "border-gray-300"
-          }`}
-        >
-          <span className="font-medium">{sub.name}</span>
-          <span className="text-sm text-gray-500">
-            {isSelected ? "Ausgewählt" : "Hinzufügen"}
-          </span>
-        </button>
-      );
-    })}
   </div>
 </div>
 
@@ -1463,33 +1560,6 @@ return (
 )}
 
 
-
-
-              <div>
-  <label className="block mb-2 font-medium">Beginndatum auswählen</label>
-<DatePicker
-  selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
-onChange={(date) => {
-  if (!date) {
-    setForm({ ...form, firstDate: "" }); // Clear the date in the form
-  } else {
-    const formatted = format(date, "dd.MM.yyyy");
-    setForm({ ...form, firstDate: formatted });
-  }
-}}
-
-  dateFormat="dd.MM.yyyy"
-  locale={de}
-  placeholderText="TT.MM.JJJJ"
-  minDate={tenDaysFromToday} 
-  className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-  calendarClassName="rounded-xl shadow-lg border border-gray-300"
-  wrapperClassName="w-full"
-    disabled={form.frequency === "monatlich" && form.monthlyMode === "date"} // 👈 disables only when auto-date set
-
-/>
-
-</div>
 
               </div>
             </>
@@ -1820,57 +1890,69 @@ Passwort bestätigen*</label>
 
 {step === 3 && !testMode && (
   <>
-    <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
+    <h2 className="text-2xl font-bold text-gray-900 mb-6">Zahlungsdetails</h2>
 
-  <div className="p-4 border border-gray-300 rounded-md shadow-sm bg-white">
+    {/* Kreditkartenfeld */}
+    <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
       <CardElement
         options={{
           style: {
             base: {
-              fontSize: '16px',
-              color: '#32325d',
-              '::placeholder': { color: '#a0aec0' },
+              fontSize: "16px",
+              color: "#1f2937",
+              fontFamily: "system-ui, sans-serif",
+              "::placeholder": { color: "#9ca3af" },
             },
-            invalid: { color: '#fa755a' },
+            invalid: { color: "#ef4444" },
           },
         }}
       />
     </div>
-<p className="mt-2 text-sm text-gray-500">
-    Alle Zahlungen werden sicher verarbeitet.
-  </p>
 
-  <div className=" flex items-center">
-    <input
-      type="checkbox"
-      id="agb"
-      className="mr-2 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-    />
-<label htmlFor="agb" className="text-sm text-gray-700">
-  Ich akzeptiere die{" "}
-  <a
-    href="/AGB"
-    className="text-blue-600 underline"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    AGB
-  </a>.
-</label>
+    {/* Hinweise */}
+    <div className="mt-4 space-y-1">
+      <p className="text-sm text-gray-600 flex items-center">
+        Alle Zahlungen werden sicher verarbeitet.
+      </p>
+      <p className="text-sm text-gray-600 flex items-center">
+        Ihre Karte wird erst{" "}
+        <span className="font-medium text-gray-800">
+          24 Stunden nach erfolgter Dienstleistung
+        </span>{" "}
+        belastet.
+      </p>
+    </div>
 
-  </div>
-  <button
-  className=" hidden bg-[#B99B5F] text-white px-4 py-2 rounded"
-  onClick={handleSubmit}
-  disabled={!form.paymentIntentId} // ← This prevents early submission
->
-  Jetzt bezahlen
-</button>
+    {/* AGB-Checkbox */}
+    <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
+      <input
+        type="checkbox"
+        id="agb"
+        checked={agbAccepted}
+        onChange={(e) => {
+          setAgbAccepted(e.target.checked);
+          if (e.target.checked) setAgbError("");
+        }}
+        className="mt-1 mr-3 w-4 h-4 text-[#B99B5F] border-gray-300 rounded focus:ring-[#B99B5F]"
+      />
+      <label htmlFor="agb" className="text-sm text-gray-700 leading-relaxed">
+        Ich akzeptiere die{" "}
+        <a
+          href="/AGB"
+          className="text-[#B99B5F] underline font-medium"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          AGB
+        </a>.
+      </label>
+    </div>
+
+    {agbError && (
+      <p className="text-red-600 text-sm mt-2">{agbError}</p>
+    )}
   </>
 )}
-
-
-
 
 {(testMode ? step === 3 : step === 4) && (
   <>
@@ -2310,7 +2392,6 @@ value={form.address ||''}    className={inputClass}
       ["Gemeinsames Kochen", "cookingTogether"],
       ["Allergien?", "hasAllergies"],
       ["Biografiearbeit", "biographyWork"],
-      ["Technische Mittel vorhanden?", "hasTech"],
       ["Vorlesen", "reading"],
       ["Kartenspiele", "cardGames"]
     ].map(([label, name]) => (
