@@ -2,13 +2,18 @@ import { prisma } from "../../lib/prisma";
 
 export default async function handler(req, res) {
 // ---------------- GET ----------------
+// ---------------- GET ----------------
 if (req.method === "GET") {
   try {
-    const { userId } = req.query;
-    console.log("➡️ GET /appointments called with userId:", userId);
+    const { userId, employeeId } = req.query;
+    console.log("➡️ GET /appointments called with:", { userId, employeeId });
 
     const schedules = await prisma.schedule.findMany({
-      where: userId ? { userId: String(userId) } : {}, // force string
+      where: userId
+        ? { userId }
+        : employeeId
+        ? { employeeId }
+        : {}, // fallback all if nothing passed
       orderBy: { date: "asc" },
       take: 10,
       select: {
@@ -30,6 +35,7 @@ if (req.method === "GET") {
     return res.status(500).json({ error: "Failed to fetch schedules" });
   }
 }
+
 
 
   // ---------------- POST ----------------

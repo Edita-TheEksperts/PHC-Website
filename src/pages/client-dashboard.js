@@ -5,17 +5,21 @@ import RegisterForm2 from "../components/RegisterForm2";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import RegisterForm3 from "../components/RegisterForm3";
 import RegisterForm4 from "../components/RegisterForm4";
-import { addDays, format } from "date-fns";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { de } from "date-fns/locale";
+
 import {
   CalendarDays,
   Clock,
   Plane,
   AlarmClock,
   Hourglass,
-} from "lucide-react"; // or any icon library you use
+} from "lucide-react";
+
+import { addDays, format } from "date-fns";
+
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import ClientDashboard2 from "../components/ClientDashboard2";
 import {
   Chart as ChartJS,
@@ -38,62 +42,68 @@ ChartJS.register(
   LineElement
 );
 
+registerLocale("de", de);
+
 export default function ClientDashboard() {
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+
   const [userData, setUserData] = useState(null);
   const [employees, setEmployees] = useState([]); // State to store employee data
   const [targetHours, setTargetHours] = useState([]); // Default target hours for overtime alerts
   const [loading, setLoading] = useState(true);
+  const [appointments, setAppointments] = useState([]);
+
   const [updatedData, setUpdatedData] = useState({});
   const [showAppointments, setShowAppointments] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showOverlayForm, setShowOverlayForm] = useState(true);
   const [services, setServices] = useState("");
   const [isNotifVisible, setIsNotifVisible] = useState(false);
+  const [notifShownOnce, setNotifShownOnce] = useState(false);
   const [filter, setFilter] = useState("cancelled"); // ose "done"
 
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
-  const [appointments, setAppointments] = useState([]);
-  const [allServices, setAllServices] = useState([])
+
+  const [allServices, setAllServices] = useState([]);
 
   const [form, setForm] = useState({
     date: null,
     time: "",
-      hours: 2,   // default to 2 hours
+    hours: 2, // default to 2 hours
 
     service: "",
     subService: "",
-  })
+  });
 
-  
-  const minSelectableDate = addDays(new Date(), 14)
+  const minSelectableDate = addDays(new Date(), 14);
 
   // ✅ Always defined (or null)
   const selectedService =
-    allServices.find((srv) => String(srv.id) === String(form.service)) || null
+    allServices.find((srv) => String(srv.id) === String(form.service)) || null;
 
   // --- DEBUG: Track form + services state
   useEffect(() => {
-    console.log("🔹 allServices:", allServices)
-  }, [allServices])
+    console.log("🔹 allServices:", allServices);
+  }, [allServices]);
 
   useEffect(() => {
-    console.log("🔹 Current form state:", form)
-    console.log("🔹 Selected service (object):", selectedService)
-  }, [form, selectedService])
+    console.log("🔹 Current form state:", form);
+    console.log("🔹 Selected service (object):", selectedService);
+  }, [form, selectedService]);
 
   useEffect(() => {
-    console.log("🔹 Appointments loaded:", appointments)
-  }, [appointments])
+    console.log("🔹 Appointments loaded:", appointments);
+  }, [appointments]);
 
   useEffect(() => {
-    console.log("🔹 Vacations loaded:", vacations)
-  }, [vacations])
-  
+    console.log("🔹 Vacations loaded:", vacations);
+  }, [vacations]);
+
   useEffect(() => {
     if (!userData?.id) return;
 
-    fetch(`/api/appointments?userId=${userData.id}`) 
+    fetch(`/api/appointments?userId=${userData.id}`)
       .then((res) => res.json())
       .then((data) => setAppointments(data));
   }, [userData]);
@@ -113,8 +123,9 @@ export default function ClientDashboard() {
     await fetch("/api/appointments", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ id, cancel: true }),
     });
+
     setAppointments((prev) =>
       prev.map((appt) =>
         appt.id === id ? { ...appt, status: "cancelled" } : appt
@@ -196,90 +207,101 @@ export default function ClientDashboard() {
     };
     fetchUserData();
   }, [router]);
-    // --- Fetch available services
+  // --- Fetch available services
   useEffect(() => {
     fetch("/api/services")
       .then((res) => res.json())
       .then((data) => {
-        console.log("✅ Services API response:", data)
-        setAllServices(data)
+        console.log("✅ Services API response:", data);
+        setAllServices(data);
       })
-      .catch((err) => console.error("❌ Service fetch error:", err))
-  }, [])
+      .catch((err) => console.error("❌ Service fetch error:", err));
+  }, []);
 
-const [step, setStep] = useState("booking"); // "booking" | "payment" | "done"
-const [pendingBooking, setPendingBooking] = useState(null);
+  const [step, setStep] = useState("booking"); // "booking" | "payment" | "done"
+  const [pendingBooking, setPendingBooking] = useState(null);
 
-const handleBookingSubmit = async (e) => {
-  e.preventDefault();
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
 
-  const service = allServices.find((s) => String(s.id) === String(form.service));
-  const subService = service?.subServices.find((s) => String(s.id) === String(form.subService)) || null;
+    const service = allServices.find(
+      (s) => String(s.id) === String(form.service)
+    );
+    const subService =
+      service?.subServices.find(
+        (s) => String(s.id) === String(form.subService)
+      ) || null;
 
-  const payload = {
-    userId: userData.id,
-    date: form.date?.toISOString(),
-    time: form.time,
-    hours: form.hours,
-    service: service?.name || null,
-    subService: subService?.name || null,
-    serviceId: service?.id || null,
-    subServiceId: subService?.id || null,
+    const payload = {
+      userId: userData.id,
+      date: form.date?.toISOString(),
+      time: form.time,
+      hours: form.hours,
+      service: service?.name || null,
+      subService: subService?.name || null,
+      serviceId: service?.id || null,
+      subServiceId: subService?.id || null,
+    };
+
+    setPendingBooking(payload);
+    setStep("payment"); // 👉 go to payment screen
   };
 
-  setPendingBooking(payload); 
-  setStep("payment"); // 👉 go to payment screen
-};
+  const stripe = useStripe();
+  const elements = useElements();
+  const [agbAccepted, setAgbAccepted] = useState(false);
+  const [agbError, setAgbError] = useState("");
 
-const stripe = useStripe();
-const elements = useElements();
-const [agbAccepted, setAgbAccepted] = useState(false);
-const [agbError, setAgbError] = useState("");
-
-const handleStripePayment = async () => {
-  if (!agbAccepted) {
-    setAgbError("Bitte AGB akzeptieren.");
-    return;
-  }
-
-  try {
-    // 1. Create PaymentIntent on backend
-    const res = await fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: pendingBooking.hours * 5000 }), // 💰 e.g. 50 CHF per hour
-    });
-    const { clientSecret } = await res.json();
-
-    // 2. Confirm payment
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: { card: elements.getElement(CardElement) },
-    });
-
-    if (error) {
-      alert(error.message);
+  const handleStripePayment = async () => {
+    if (!agbAccepted) {
+      setAgbError("Bitte AGB akzeptieren.");
       return;
     }
 
-    // 3. Save appointment after successful payment
-    const saveRes = await fetch("/api/appointments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...pendingBooking, paymentIntentId: paymentIntent.id }),
-    });
+    try {
+      // 1. Create PaymentIntent on backend
+      const res = await fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: pendingBooking.hours * 5000 }), // 💰 e.g. 50 CHF per hour
+      });
+      const { clientSecret } = await res.json();
 
-    if (saveRes.ok) {
-      alert("✅ Termin gebucht & Zahlung erfolgreich!");
-      setStep("done");
-      setForm({ date: "", time: "", hours: 2, service: "", subService: "" });
-    } else {
-      alert("❌ Fehler beim Speichern des Termins");
+      // 2. Confirm payment
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: { card: elements.getElement(CardElement) },
+        }
+      );
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      // 3. Save appointment after successful payment
+      const saveRes = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...pendingBooking,
+          paymentIntentId: paymentIntent.id,
+        }),
+      });
+
+      if (saveRes.ok) {
+        alert("✅ Termin gebucht & Zahlung erfolgreich!");
+        setStep("done");
+        setForm({ date: "", time: "", hours: 2, service: "", subService: "" });
+      } else {
+        alert("❌ Fehler beim Speichern des Termins");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Fehler bei der Zahlung.");
     }
-  } catch (err) {
-    console.error(err);
-    alert("Fehler bei der Zahlung.");
-  }
-};
+  };
   const normalize = (str) =>
     str
       ?.toLowerCase()
@@ -325,35 +347,66 @@ const handleStripePayment = async () => {
 
   const SelectedForm = formMap[services];
   function VacationForm({ userId, refreshVacations }) {
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       await fetch("/api/vacation/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, startDate, endDate }),
+        body: JSON.stringify({
+          userId,
+          startDate: startDate?.toISOString().split("T")[0], // yyyy-mm-dd
+          endDate: endDate?.toISOString().split("T")[0],
+        }),
       });
-      setStartDate("");
-      setEndDate("");
+      setStartDate(null);
+      setEndDate(null);
       refreshVacations();
     };
+    function isUserDataIncomplete(data) {
+      if (!data) return true;
+      return (
+        !data.firstName ||
+        !data.lastName ||
+        !data.email ||
+        !data.phone ||
+        !data.address
+      );
+    }
 
+    useEffect(() => {
+      if (!notifShownOnce && isUserDataIncomplete(userData)) {
+        setIsNotifVisible(true);
+        setNotifShownOnce(true);
+      }
+    }, [userData, notifShownOnce]);
     return (
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          required
+        <DatePicker
+          selected={startDate}
+          onChange={(date) => {
+            setStartDate(date);
+            setEndDate(null); // reset enddate when start changes 
+          }}
+          dateFormat="dd.MM.yyyy"
+          locale="de"
+          placeholderText="dd.mm.yyyy"
+          minDate={new Date()} // don t approve before today date 
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
         />
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          required
+
+        <DatePicker
+          selected={endDate}
+          onChange={(date) => setEndDate(date)}
+          dateFormat="dd.MM.yyyy"
+          locale="de"
+          placeholderText="dd.mm.yyyy"
+          minDate={startDate || new Date()} // mos lejo përpara startDate
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
         />
+
         <button
           type="submit"
           className="bg-[#04436F] text-white py-2 px-4 rounded-lg"
@@ -417,6 +470,7 @@ const handleStripePayment = async () => {
                 </div>
               )}
             </li>
+
             <li
               onClick={() => router.push("/dashboard/formular")}
               className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
@@ -488,13 +542,13 @@ const handleStripePayment = async () => {
 
             <article className="bg-white p-8 rounded-3xl shadow-xl max-w-3xl mx-auto space-y-12">
               {/* --- NÄCHSTE TERMINE --- */}
-              <section className="bg-white rounded-2xl shadow-lg border border-gray-200">
+              <section className="bg-white rounded-2xl shadow-xl border border-gray-200">
                 {/* Header */}
                 <header
                   onClick={() => setShowAppointments((prev) => !prev)}
-                  className="flex items-center justify-between p-5 cursor-pointer select-none"
+                  className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <CalendarDays className="w-6 h-6 text-[#B99B5F]" />
                     <h3 className="text-xl font-bold text-gray-800">
                       Nächste Termine
@@ -517,7 +571,7 @@ const handleStripePayment = async () => {
                   </svg>
                 </header>
 
-                {/* Content with smooth toggle */}
+                {/* Content */}
                 <div
                   className={`transition-all duration-500 overflow-hidden ${
                     showAppointments
@@ -525,27 +579,44 @@ const handleStripePayment = async () => {
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="p-5">
+                  <div className="p-6 space-y-4">
                     {appointments.filter((a) => a.status !== "cancelled")
                       .length > 0 ? (
-                      <ul className="space-y-4">
+                      <ul
+                        className="space-y-4 max-h-96 overflow-y-auto pr-2 
+                   scrollbar-thin scrollbar-thumb-[#B99B5F]/40 
+                   scrollbar-track-transparent"
+                      >
                         {appointments
                           .filter((a) => a.status !== "cancelled")
-                          .map(({ id, day, startTime, hours, date }) => (
+                          .map((appt) => (
                             <li
-                              key={id}
-                              className="p-5 bg-gray-50 border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition flex justify-between items-center"
+                              key={appt.id}
+                              className="p-5 rounded-2xl shadow-md hover:shadow-lg transition 
+                         bg-[#B99B5F]/10 border border-[#B99B5F]/20"
                             >
                               {/* Info */}
-                              <div className="text-sm space-y-1 text-gray-700">
-                                <p className="flex items-center gap-2 font-semibold text-gray-900">
-                                  <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                  {day}
-                                </p>
-                                {date && (
-                                  <p className="flex items-center gap-2 text-xs text-gray-500">
-                                    <Clock className="w-4 h-4 text-gray-400" />
-                                    {new Date(date).toLocaleDateString(
+                              <div className="space-y-2 text-sm text-gray-800">
+                                <div className="flex items-center justify-between">
+                                  <p className="flex items-center gap-2 font-semibold">
+                                    <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
+                                    {appt.day}
+                                  </p>
+                                  <span
+                                    className={`px-3 py-1 text-xs font-medium rounded-full ${
+                                      appt.status === "active"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-gray-100 text-gray-600"
+                                    }`}
+                                  >
+                                    {appt.status}
+                                  </span>
+                                </div>
+
+                                {appt.date && (
+                                  <p className="flex items-center gap-2 text-xs text-gray-600">
+                                    <Clock className="w-4 h-4 text-[#B99B5F]" />
+                                    {new Date(appt.date).toLocaleDateString(
                                       "de-DE",
                                       {
                                         weekday: "long",
@@ -556,34 +627,121 @@ const handleStripePayment = async () => {
                                     )}
                                   </p>
                                 )}
-                                <p className="flex items-center gap-2 text-xs text-gray-600">
-                                  <AlarmClock className="w-4 h-4 text-gray-400" />{" "}
-                                  {startTime}
-                                </p>
-                                <p className="flex items-center gap-2 text-xs text-gray-600">
-                                  <Hourglass className="w-4 h-4 text-gray-400" />{" "}
-                                  {hours} Std
-                                </p>
+
+                                <div className="flex items-center gap-4 text-xs text-gray-600">
+                                  <span className="flex items-center gap-2">
+                                    <AlarmClock className="w-4 h-4 text-[#B99B5F]" />{" "}
+                                    {appt.startTime}
+                                  </span>
+                                  <span className="flex items-center gap-2">
+                                    <Hourglass className="w-4 h-4 text-[#B99B5F]" />{" "}
+                                    {appt.hours} Std
+                                  </span>
+                                </div>
                               </div>
 
-                              {/* Action */}
-                              <button
-                                onClick={() => cancelAppointment(id)}
-                                className="px-4 py-2 text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 hover:border-red-300 transition"
-                              >
-                                Abbrechen
-                              </button>
+                              {/* Actions */}
+                              <div className="flex gap-2 mt-4">
+                                <button
+                                  onClick={() => cancelAppointment(appt.id)}
+                                  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+                             bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
+                                >
+                                  Abbrechen
+                                </button>
+                                <button
+                                  onClick={() => setSelectedAppointment(appt)}
+                                  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+                             bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
+                                >
+                                  Details
+                                </button>
+                              </div>
                             </li>
                           ))}
                       </ul>
                     ) : (
-                      <p className="italic text-gray-400">
+                      <p className="italic text-gray-400 text-center py-6">
                         Keine Termine geplant
                       </p>
                     )}
                   </div>
                 </div>
               </section>
+
+              {/* --- Modal für Details --- */}
+              {selectedAppointment && (
+                <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                  <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
+                    {/* Close btn */}
+                    <button
+                      onClick={() => setSelectedAppointment(null)}
+                      className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-lg"
+                    >
+                      ×
+                    </button>
+
+                    <h3 className="text-xl font-bold text-[#B99B5F] mb-4">
+                      Termin Details
+                    </h3>
+
+                    <div className="space-y-2 text-sm text-gray-700">
+                      <p>
+                        <strong>Tag:</strong> {selectedAppointment.day}
+                      </p>
+                      <p>
+                        <strong>Datum:</strong>{" "}
+                        {new Date(selectedAppointment.date).toLocaleDateString(
+                          "de-DE",
+                          {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )}
+                      </p>
+                      <p>
+                        <strong>Startzeit:</strong>{" "}
+                        {selectedAppointment.startTime}
+                      </p>
+                      <p>
+                        <strong>Dauer:</strong> {selectedAppointment.hours} Std
+                      </p>
+                      {selectedAppointment.serviceName && (
+                        <p>
+                          <strong>Service:</strong>{" "}
+                          {selectedAppointment.serviceName}
+                        </p>
+                      )}
+                      {selectedAppointment.subServiceName && (
+                        <p>
+                          <strong>Sub-Service:</strong>{" "}
+                          {selectedAppointment.subServiceName}
+                        </p>
+                      )}
+                      {selectedAppointment.kilometers && (
+                        <p>
+                          <strong>Kilometer:</strong>{" "}
+                          {selectedAppointment.kilometers}
+                        </p>
+                      )}
+                      <p>
+                        <strong>Status:</strong> {selectedAppointment.status}
+                      </p>
+                    </div>
+
+                    <div className="mt-6 text-right">
+                      <button
+                        onClick={() => setSelectedAppointment(null)}
+                        className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
+                      >
+                        Schließen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* --- URLAUB --- */}
               <section>
@@ -613,9 +771,10 @@ const handleStripePayment = async () => {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-gray-900">
-                            {new Date(v.startDate).toLocaleDateString()} –{" "}
-                            {new Date(v.endDate).toLocaleDateString()}
+                            {new Date(v.startDate).toLocaleDateString("de-CH")}{" "}
+                            – {new Date(v.endDate).toLocaleDateString("de-CH")}
                           </p>
+
                           <p className="text-xs text-gray-500">Geplant</p>
                         </div>
                       </li>
@@ -630,100 +789,6 @@ const handleStripePayment = async () => {
             </article>
 
             <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
-              <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6 select-none">
-                Services Übersicht
-              </h3>
-
-              {/* Deine Services */}
-              <div className="mb-8">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">
-                  Deine Services
-                </h4>
-                {userData.services && userData.services.length > 0 ? (
-                  <div className="space-y-3">
-                    {userData.services.map((service) => (
-                      <div
-                        key={service.id}
-                        className="flex items-center justify-between p-4 bg-[#B99B5F] text-white rounded-xl shadow-md font-semibold text-lg select-none"
-                      >
-                        <span>{service.name}</span>
-                        {/* X button */}
-                        <button
-                          onClick={async () => {
-                            const res = await fetch("/api/updateUserData", {
-                              method: "PUT",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({
-                                id: userData.id,
-                                removeService: service.name,
-                              }),
-                            });
-                            if (res.ok) {
-                              const data = await res.json();
-                              setUserData((prev) => ({
-                                ...prev,
-                                services: data.services,
-                              }));
-                            }
-                          }}
-                          className="ml-3 text-white text-xl font-bold hover:text-red-300 transition"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-400 italic">
-                    Kein Service ausgewählt
-                  </p>
-                )}
-              </div>
-
-              {/* Weitere Services hinzufügen */}
-              <div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">
-                  Weitere Services hinzufügen
-                </h4>
-                <div className="space-y-3">
-                  {[
-                    "Haushaltshilfe und Wohnpflege",
-                    "Freizeit und Soziale Aktivitäten",
-                    "Gesundheitsführsorge",
-                    "Alltagsbegleitung und Besorgungen",
-                  ]
-                    .filter(
-                      (service) =>
-                        !userData.services.some((s) => s.name === service)
-                    )
-                    .map((service, i) => (
-                      <button
-                        key={i}
-                        onClick={async () => {
-                          const res = await fetch("/api/updateUserData", {
-                            method: "PUT",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                              id: userData.id,
-                              addService: service,
-                            }),
-                          });
-                          if (res.ok) {
-                            const data = await res.json();
-                            setUserData((prev) => ({
-                              ...prev,
-                              services: data.services,
-                            }));
-                          }
-                        }}
-                        className="w-full py-3 border border-[#B99B5F] rounded-xl text-[#B99B5F] font-semibold hover:bg-[#B99B5F] hover:text-white transition"
-                      >
-                        {service}
-                      </button>
-                    ))}
-                </div>
-              </div>
-
               {/* Optional Dashboard2 */}
               <div className="mt-8">
                 {userData?.id && <ClientDashboard2 userId={userData.id} />}
@@ -805,7 +870,10 @@ const handleStripePayment = async () => {
 
                 {/* List */}
                 {showHistory && (
-                  <ul className="space-y-3 text-gray-700 text-sm flex-grow max-h-80 overflow-y-auto pr-2">
+                  <ul
+                    className="space-y-4 max-h-96 overflow-y-auto pr-2 
+                   scrollbar-thin scrollbar-thumb-[#B99B5F]/40 scrollbar-track-transparent"
+                  >
                     {appointments.filter((a) => a.status === filter).length >
                     0 ? (
                       appointments
@@ -813,27 +881,80 @@ const handleStripePayment = async () => {
                         .map((item) => (
                           <li
                             key={item.id}
-                            className={`flex items-center gap-3 border p-3 rounded-lg shadow-sm ${
-                              item.status === "cancelled"
-                                ? "bg-red-50 border-red-200"
-                                : "bg-green-50 border-green-200"
-                            }`}
+                            className={`p-5 rounded-2xl shadow-md hover:shadow-lg transition 
+                ${
+                  item.status === "cancelled"
+                    ? "bg-red-50 border border-red-200"
+                    : "bg-green-50 border border-green-200"
+                }`}
                           >
-                            <span
-                              className={`w-3 h-3 rounded-full ${
-                                item.status === "cancelled"
-                                  ? "bg-red-500"
-                                  : "bg-green-500"
-                              }`}
-                            ></span>
-                            <span>
-                              {new Date(item.date).toLocaleDateString("de-DE", {
-                                day: "2-digit",
-                                month: "long",
-                                year: "numeric",
-                              })}{" "}
-                              · {item.day} · {item.hours} Std
-                            </span>
+                            {/* Info */}
+                            <div className="space-y-2 text-sm text-gray-800">
+                              <div className="flex items-center justify-between">
+                                <p className="flex items-center gap-2 font-semibold">
+                                  <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
+                                  {item.day}
+                                </p>
+                                <span
+                                  className={`px-3 py-1 text-xs font-medium rounded-full ${
+                                    item.status === "done"
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-red-100 text-red-700"
+                                  }`}
+                                >
+                                  {item.status}
+                                </span>
+                              </div>
+
+                              {item.date && (
+                                <p className="flex items-center gap-2 text-xs text-gray-600">
+                                  <Clock className="w-4 h-4 text-[#B99B5F]" />
+                                  {new Date(item.date).toLocaleDateString(
+                                    "de-DE",
+                                    {
+                                      weekday: "long",
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                    }
+                                  )}
+                                </p>
+                              )}
+
+                              <div className="flex items-center gap-4 text-xs text-gray-600">
+                                <span className="flex items-center gap-2">
+                                  <AlarmClock className="w-4 h-4 text-[#B99B5F]" />{" "}
+                                  {item.startTime}
+                                </span>
+                                <span className="flex items-center gap-2">
+                                  <Hourglass className="w-4 h-4 text-[#B99B5F]" />{" "}
+                                  {item.hours} Std
+                                </span>
+                              </div>
+
+                              {item.serviceName && (
+                                <p className="text-xs text-gray-600">
+                                  <strong>Service:</strong> {item.serviceName}
+                                </p>
+                              )}
+                              {item.subServiceName && (
+                                <p className="text-xs text-gray-600">
+                                  <strong>Sub-Service:</strong>{" "}
+                                  {item.subServiceName}
+                                </p>
+                              )}
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex justify-end gap-2 mt-4">
+                              <button
+                                onClick={() => setSelectedAppointment(item)}
+                                className="px-4 py-2 text-xs font-medium text-[#04436F] 
+                             bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
+                              >
+                                Details
+                              </button>
+                            </div>
                           </li>
                         ))
                     ) : (
@@ -846,176 +967,205 @@ const handleStripePayment = async () => {
               </section>
 
               {/* New Booking */}
-             <section className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-  <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
-    Neue Buchung planen
-  </h3>
-  {step === "booking" && (
+              {/* New Booking */}
+              <section className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+                <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
+                  Neue Buchung planen
+                </h3>
 
-  <form onSubmit={handleBookingSubmit} className="space-y-4 flex flex-col flex-grow">
-    {/* Date Picker (14 days ahead only) */}
-    <DatePicker
-      selected={form.date}
-      onChange={(date) => setForm({ ...form, date })}
-      dateFormat="dd.MM.yyyy"
-      placeholderText="Datum auswählen"
-      minDate={minSelectableDate}
-      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition bg-white"
-    />
+                {step === "booking" && (
+                  <form
+                    onSubmit={handleBookingSubmit}
+                    className="space-y-4 flex flex-col flex-grow"
+                  >
+                    {/* Date Picker (14 days ahead only) */}
+                    <DatePicker
+                      selected={form.date}
+                      onChange={(date) => setForm({ ...form, date })}
+                      dateFormat="dd.MM.yyyy"
+                      locale="de"
+                      placeholderText="TT.MM.JJJJ"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+                      minDate={minSelectableDate}
+                    />
 
-<div className="grid grid-cols-4 gap-2">
-  {Array.from({ length: ((20 - 7) * 2) + 2 }, (_, i) => {
-    const hour = 7 + Math.floor(i / 2)
-    const minutes = i % 2 === 0 ? "00" : "30"
-    const time = `${String(hour).padStart(2, "0")}:${minutes}`
-    return (
-      <button
-        key={time}
-        type="button"
-        onClick={() => setForm({ ...form, time })}
-        className={`px-3 py-2 rounded-lg text-sm border 
-          ${form.time === time ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
-      >
-        {time}
-      </button>
-    )
-  })}
-</div>
+                    {/* Time Slots */}
+                    <div className="grid grid-cols-4 gap-2">
+                      {Array.from({ length: (20 - 7) * 2 + 2 }, (_, i) => {
+                        const hour = 7 + Math.floor(i / 2);
+                        const minutes = i % 2 === 0 ? "00" : "30";
+                        const time = `${String(hour).padStart(
+                          2,
+                          "0"
+                        )}:${minutes}`;
+                        return (
+                          <button
+                            key={time}
+                            type="button"
+                            onClick={() => setForm({ ...form, time })}
+                            className={`px-3 py-2 rounded-lg text-sm border 
+                ${
+                  form.time === time
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+                          >
+                            {time}
+                          </button>
+                        );
+                      })}
+                    </div>
 
-{/* Hours Selection */}
-<div className="flex items-center gap-4 mt-4">
-  <label className="text-sm font-medium text-gray-700">Dauer (Std):</label>
+                    {/* Hours Selection */}
+                    <div className="flex items-center gap-4 mt-4">
+                      <label className="text-sm font-medium text-gray-700">
+                        Dauer (Std):
+                      </label>
 
-  <div className="flex items-center border rounded-lg px-3 py-2 bg-white">
-    {/* Minus Button */}
-    <button
-      type="button"
-      onClick={() =>
-        setForm((prev) => ({
-          ...prev,
-          hours: Math.max(2, (prev.hours || 2) - 0.5), // ✅ decrease by 0.5
-        }))
-      }
-      className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
-    >
-      –
-    </button>
+                      <div className="flex items-center border rounded-lg px-3 py-2 bg-white">
+                        {/* Minus Button */}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setForm((prev) => ({
+                              ...prev,
+                              hours: Math.max(2, (prev.hours || 2) - 0.5),
+                            }))
+                          }
+                          className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
+                        >
+                          –
+                        </button>
 
-    {/* Hours Display */}
-    <span className="px-4 text-lg font-semibold text-gray-800 select-none">
-      {form.hours || 2}
-    </span>
+                        {/* Hours Display */}
+                        <span className="px-4 text-lg font-semibold text-gray-800 select-none">
+                          {form.hours || 2}
+                        </span>
 
-    {/* Plus Button */}
-    <button
-      type="button"
-      onClick={() =>
-        setForm((prev) => ({
-          ...prev,
-          hours: Math.min(8, (prev.hours || 2) + 0.5), // ✅ increase by 0.5
-        }))
-      }
-      className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
-    >
-      +
-    </button>
-  </div>
-</div>
+                        {/* Plus Button */}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setForm((prev) => ({
+                              ...prev,
+                              hours: Math.min(8, (prev.hours || 2) + 0.5),
+                            }))
+                          }
+                          className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
 
+                    {/* Service Dropdown */}
+                    <select
+                      value={form.service}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          service: e.target.value,
+                          subService: "",
+                        })
+                      }
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+                    >
+                      <option value="">Service auswählen</option>
+                      {allServices.map((srv) => (
+                        <option key={srv.id} value={String(srv.id)}>
+                          {srv.name}
+                        </option>
+                      ))}
+                    </select>
 
+                    {/* Subservice Dropdown */}
+                    {selectedService?.subServices?.length > 0 && (
+                      <select
+                        value={form.subService}
+                        onChange={(e) =>
+                          setForm({ ...form, subService: e.target.value })
+                        }
+                        className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+                      >
+                        <option value="">Subservice auswählen</option>
+                        {selectedService.subServices.map((sub) => (
+                          <option key={sub.id} value={String(sub.id)}>
+                            {sub.name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
 
-{/* Service Dropdown */}
-<select
-  value={form.service}
-  onChange={(e) =>
-    setForm({ ...form, service: e.target.value, subService: "" })
-  }
-  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
->
-  <option value="">Service auswählen</option>
-  {allServices.map((srv) => (
-    <option key={srv.id} value={String(srv.id)}>
-      {srv.name}
-    </option>
-  ))}
-</select>
+                    <button
+                      type="submit"
+                      className="mt-12 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
+             hover:bg-[#033553] transition"
+                    >
+                      Termin buchen
+                    </button>
+                  </form>
+                )}
 
-{/* Subservice Dropdown */}
-{selectedService?.subServices?.length > 0 && (
-  <select
-    value={form.subService}
-    onChange={(e) => setForm({ ...form, subService: e.target.value })}
-    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
-  >
-    <option value="">Subservice auswählen</option>
-    {selectedService.subServices.map((sub) => (
-      <option key={sub.id} value={String(sub.id)}>
-        {sub.name}
-      </option>
-    ))}
-  </select>
-)}
+                {/* Step 2: Payment */}
+                {step === "payment" && (
+                  <div className="p-2 bg-white rounded-2xl shadow-md">
+                    <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
 
+                    <CardElement className="border p-3 rounded-lg" />
 
+                    {/* AGB checkbox */}
+                    <div className="flex items-start mt-4">
+                      <input
+                        type="checkbox"
+                        checked={agbAccepted}
+                        onChange={(e) => setAgbAccepted(e.target.checked)}
+                        className="mr-2 mt-[5px]"
+                      />
+                      <span>
+                        Ich akzeptiere die{" "}
+                        <a
+                          href="/AGB"
+                          target="_blank"
+                          className="text-[#B99B5F] underline"
+                        >
+                          AGB
+                        </a>
+                      </span>
+                    </div>
+                    {agbError && (
+                      <p className="text-red-500 text-sm">{agbError}</p>
+                    )}
 
-    <button
-      type="submit"
-      className="mt-auto bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm hover:bg-[#033553] transition"
-    >
-      Termin buchen
-    </button>
-  </form>
-  )}
-   {/* Step 2: Payment */}
-  {step === "payment" && (
-    <div className="p-2 bg-white rounded-2xl shadow-md">
-      <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
+                    <button
+                      onClick={handleStripePayment}
+                      className="mt-6 bg-[#04436F] text-white py-3 px-6 rounded-lg"
+                    >
+                      Zahlung bestätigen
+                    </button>
+                  </div>
+                )}
 
-      <CardElement className="border p-3 rounded-lg" />
+                {/* Step 3: Done */}
+                {step === "done" && (
+                  <div className="p-6 bg-white rounded-2xl shadow-md text-center">
+                    <h2 className="text-2xl font-bold text-green-600 mb-4">
+                      🎉 Termin erfolgreich gebucht!
+                    </h2>
+                    <p className="text-gray-700 mb-6">
+                      Ihre Zahlung wurde bestätigt und Ihr Termin ist
+                      gespeichert.
+                    </p>
+                    <button
+                      onClick={() => setStep("booking")}
+                      className="bg-[#04436F] text-white py-3 px-6 rounded-lg hover:bg-[#033553] transition"
+                    >
+                      Neuen Termin buchen
+                    </button>
+                  </div>
+                )}
+              </section>
 
-      {/* AGB checkbox */}
-      <div className="flex items-start mt-4">
-        <input
-          type="checkbox"
-          checked={agbAccepted}
-          onChange={(e) => setAgbAccepted(e.target.checked)}
-          className="mr-2 mt-[5px]"
-        />
-        <span>
-          Ich akzeptiere die{" "}
-          <a href="/AGB" target="_blank" className="text-[#B99B5F] underline">
-            AGB
-          </a>
-        </span>
-      </div>
-      {agbError && <p className="text-red-500 text-sm">{agbError}</p>}
-
-      <button
-        onClick={handleStripePayment}
-        className="mt-6 bg-[#04436F] text-white py-3 px-6 rounded-lg"
-      >
-        Zahlung bestätigen
-      </button>
-    </div>
-  )}
-  {step === "done" && (
-  <div className="p-6 bg-white rounded-2xl shadow-md text-center">
-    <h2 className="text-2xl font-bold text-green-600 mb-4">🎉 Termin erfolgreich gebucht!</h2>
-    <p className="text-gray-700 mb-6">
-      Ihre Zahlung wurde bestätigt und Ihr Termin ist gespeichert.
-    </p>
-    <button
-      onClick={() => setStep("booking")} // go back to booking form
-      className="bg-[#04436F] text-white py-3 px-6 rounded-lg hover:bg-[#033553] transition"
-    >
-      Neuen Termin buchen
-    </button>
-  </div>
-)}
-
-</section>
-
-
+              {/* Update Information Form */}
               {/* Update Information Form */}
               <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                 <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
@@ -1023,45 +1173,49 @@ const handleStripePayment = async () => {
                 </h3>
                 <form
                   onSubmit={handleSubmit}
-                  className="space-y-4 flex flex-col flex-grow"
+                  className="space-y-4 flex flex-col"
                 >
                   {[
-                    { name: "firstName", placeholder: "Vorname", type: "text" },
-                    { name: "lastName", placeholder: "Nachname", type: "text" },
-                    {
-                      name: "email",
-                      placeholder: "E-Mail Adresse",
-                      type: "email",
-                    },
-                    {
-                      name: "phone",
-                      placeholder: "Telefonnummer",
-                      type: "tel",
-                    },
+                    { name: "firstName", label: "Vorname", type: "text" },
+                    { name: "lastName", label: "Nachname", type: "text" },
+                    { name: "email", label: "E-Mail Adresse", type: "email" },
+                    { name: "phone", label: "Telefonnummer", type: "tel" },
                     {
                       name: "emergencyContactName",
-                      placeholder: "Notfallkontakt Name",
+                      label: "Notfallkontakt Name",
                       type: "text",
                     },
                     {
                       name: "emergencyContactPhone",
-                      placeholder: "Notfallkontakt Telefon",
+                      label: "Notfallkontakt Telefon",
                       type: "tel",
                     },
-                  ].map(({ name, placeholder, type }) => (
-                    <input
-                      key={name}
-                      type={type}
-                      name={name}
-                      value={updatedData[name] || ""}
-                      onChange={handleChange}
-                      placeholder={placeholder}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
-                    />
+                  ].map(({ name, label, type }) => (
+                    <div key={name} className="flex flex-col gap-1">
+                      <label
+                        htmlFor={name}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        {label}
+                      </label>
+                      <input
+                        id={name}
+                        type={type}
+                        name={name}
+                        value={updatedData[name] || ""}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm 
+                     placeholder-gray-400 focus:ring-2 focus:ring-[#04436F] 
+                     focus:outline-none transition"
+                      />
+                    </div>
                   ))}
+
+                  {/* Buton si “Termin buchen” */}
                   <button
                     type="submit"
-                    className="mt-auto py-3 bg-[#B99B5F] text-white rounded-lg font-semibold text-sm hover:bg-[#A6884A] transition"
+                    className="mt-4 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
+                 hover:bg-[#033553] transition"
                   >
                     Änderungen speichern
                   </button>

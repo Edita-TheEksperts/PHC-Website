@@ -23,21 +23,21 @@ model SubService {
 }
 
 model Schedule {
-  id           Int           @id @default(autoincrement())
-  day          String
-  startTime    String
-  hours        Int
-  userId       String
-  kilometers   Int?
-  employeeId   String?
-  date         DateTime?
-  captured     Boolean       @default(false)
-  status     String   @default("active") 
-  employee     Employee?     @relation(fields: [employeeId], references: [id])
-  user         User          @relation(fields: [userId], references: [id])
-  transactions Transaction[]
-    serviceName    String?
+  id             Int           @id @default(autoincrement())
+  day            String
+  startTime      String
+  hours          Int
+  userId         String
+  kilometers     Int?
+  employeeId     String?
+  date           DateTime?
+  captured       Boolean       @default(false)
+  status         String        @default("active")
+  serviceName    String?
   subServiceName String?
+  employee       Employee?     @relation(fields: [employeeId], references: [id])
+  user           User          @relation(fields: [userId], references: [id])
+  transactions   Transaction[]
 }
 
 model Vacation {
