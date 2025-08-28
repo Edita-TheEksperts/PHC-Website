@@ -30,27 +30,6 @@ export default function ClientDashboard2({ userId }) {
 
   return (
     <div className="max-w-3xl mx-auto space-y-10">
-      {/* ✅ Invoice Summary */}
-      <Card className="bg-white border border-gray-200 rounded-2xl">
-        <CardContent className="p-8">
-          <div className="flex justify-between items-center border-b pb-4 mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">🧾 Invoice Summary</h2>
-            <span className="text-sm text-gray-500">
-              #{userId?.slice(0, 6).toUpperCase()}
-            </span>
-          </div>
-
-          <div className="text-center mb-6">
-            <p className="text-gray-500 uppercase tracking-wider text-sm">
-              Total Payment
-            </p>
-            <p className="text-5xl font-extrabold text-emerald-600">
-              CHF {data.totalPayment?.toFixed(2) || "0.00"}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* ✅ Monthly Overview */}
       <Card className="bg-white border border-gray-200 rounded-2xl">
         <CardContent className="p-8">

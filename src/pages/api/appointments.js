@@ -19,15 +19,15 @@ if (req.method === "GET") {
     return res.status(200).json(updated);
   }
 
-  if (req.method === "DELETE") {
-    const { id } = req.body;
-    // ✅ Instead of deleting, mark as cancelled
-    const cancelled = await prisma.schedule.update({
-      where: { id },
-      data: { status: "cancelled" },
-    });
-    return res.status(200).json({ success: true, cancelled });
-  }
+ if (req.method === "DELETE") {
+  const { id } = req.body;
+  const cancelled = await prisma.schedule.update({
+    where: { id },
+    data: { status: "cancelled" },
+  });
+  return res.status(200).json({ success: true, cancelled });
+}
+
 
   res.status(405).json({ error: "Method not allowed" });
 }

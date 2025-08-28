@@ -32,7 +32,7 @@ model Schedule {
   employeeId   String?
   date         DateTime?
   captured     Boolean       @default(false)
-    status       String        @default("active") 
+  status     String   @default("active") 
   employee     Employee?     @relation(fields: [employeeId], references: [id])
   user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
