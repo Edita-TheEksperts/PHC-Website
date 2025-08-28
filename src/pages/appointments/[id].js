@@ -42,10 +42,12 @@ export default function AppointmentDetailPage() {
   const clientName =
     user ? `${user.firstName || ""} ${user.lastName || ""}`.trim() : "—";
 
-  const languages =
-    Array.isArray(employee?.languages) && employee.languages.length
-      ? employee.languages.join(", ")
-      : (employee?.languages || "–");
+const languages = Array.isArray(employee?.languages)
+  ? employee.languages.join(", ")
+  : typeof employee?.languages === "object"
+  ? Object.keys(employee.languages).join(", ")
+  : "–";
+
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10 bg-white border rounded-2xl shadow-md mt-6">
@@ -76,14 +78,15 @@ export default function AppointmentDetailPage() {
             <span className="font-medium text-gray-600">⏱️ Dauer:</span>{" "}
             {hours} Stunden
           </li>
-          {notes && (
-            <li>
-              <span className="font-medium text-gray-600">📝 Notizen:</span>
-              <p className="mt-1 bg-gray-50 border border-gray-200 p-3 rounded-md text-gray-700 whitespace-pre-line">
-                {notes}
-              </p>
-            </li>
-          )}
+    {typeof notes === "string" && notes.trim() && (
+  <li>
+    <span className="font-medium text-gray-600">📝 Notizen:</span>
+    <p className="mt-1 bg-gray-50 border border-gray-200 p-3 rounded-md text-gray-700 whitespace-pre-line">
+      {notes}
+    </p>
+  </li>
+)}
+
         </ul>
       </section>
 
