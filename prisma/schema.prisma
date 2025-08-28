@@ -36,6 +36,8 @@ model Schedule {
   employee     Employee?     @relation(fields: [employeeId], references: [id])
   user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
+    serviceName    String?
+  subServiceName String?
 }
 
 model Vacation {

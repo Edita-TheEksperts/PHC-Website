@@ -5,7 +5,10 @@ import RegisterForm2 from "../components/RegisterForm2";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import RegisterForm3 from "../components/RegisterForm3";
 import RegisterForm4 from "../components/RegisterForm4";
-import OvertimeAlerts from "../components/OvertimeAlerts"; 
+import { addDays, format } from "date-fns";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {
   CalendarDays,
   Clock,
@@ -51,6 +54,42 @@ export default function ClientDashboard() {
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [allServices, setAllServices] = useState([])
+
+  const [form, setForm] = useState({
+    date: null,
+    time: "",
+      hours: 2,   // default to 2 hours
+
+    service: "",
+    subService: "",
+  })
+
+  
+  const minSelectableDate = addDays(new Date(), 14)
+
+  // ✅ Always defined (or null)
+  const selectedService =
+    allServices.find((srv) => String(srv.id) === String(form.service)) || null
+
+  // --- DEBUG: Track form + services state
+  useEffect(() => {
+    console.log("🔹 allServices:", allServices)
+  }, [allServices])
+
+  useEffect(() => {
+    console.log("🔹 Current form state:", form)
+    console.log("🔹 Selected service (object):", selectedService)
+  }, [form, selectedService])
+
+  useEffect(() => {
+    console.log("🔹 Appointments loaded:", appointments)
+  }, [appointments])
+
+  useEffect(() => {
+    console.log("🔹 Vacations loaded:", vacations)
+  }, [vacations])
+  
   useEffect(() => {
     if (!userData?.id) return;
 
@@ -157,7 +196,90 @@ export default function ClientDashboard() {
     };
     fetchUserData();
   }, [router]);
+    // --- Fetch available services
+  useEffect(() => {
+    fetch("/api/services")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("✅ Services API response:", data)
+        setAllServices(data)
+      })
+      .catch((err) => console.error("❌ Service fetch error:", err))
+  }, [])
 
+const [step, setStep] = useState("booking"); // "booking" | "payment" | "done"
+const [pendingBooking, setPendingBooking] = useState(null);
+
+const handleBookingSubmit = async (e) => {
+  e.preventDefault();
+
+  const service = allServices.find((s) => String(s.id) === String(form.service));
+  const subService = service?.subServices.find((s) => String(s.id) === String(form.subService)) || null;
+
+  const payload = {
+    userId: userData.id,
+    date: form.date?.toISOString(),
+    time: form.time,
+    hours: form.hours,
+    service: service?.name || null,
+    subService: subService?.name || null,
+    serviceId: service?.id || null,
+    subServiceId: subService?.id || null,
+  };
+
+  setPendingBooking(payload); 
+  setStep("payment"); // 👉 go to payment screen
+};
+
+const stripe = useStripe();
+const elements = useElements();
+const [agbAccepted, setAgbAccepted] = useState(false);
+const [agbError, setAgbError] = useState("");
+
+const handleStripePayment = async () => {
+  if (!agbAccepted) {
+    setAgbError("Bitte AGB akzeptieren.");
+    return;
+  }
+
+  try {
+    // 1. Create PaymentIntent on backend
+    const res = await fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: pendingBooking.hours * 5000 }), // 💰 e.g. 50 CHF per hour
+    });
+    const { clientSecret } = await res.json();
+
+    // 2. Confirm payment
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: { card: elements.getElement(CardElement) },
+    });
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    // 3. Save appointment after successful payment
+    const saveRes = await fetch("/api/appointments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...pendingBooking, paymentIntentId: paymentIntent.id }),
+    });
+
+    if (saveRes.ok) {
+      alert("✅ Termin gebucht & Zahlung erfolgreich!");
+      setStep("done");
+      setForm({ date: "", time: "", hours: 2, service: "", subService: "" });
+    } else {
+      alert("❌ Fehler beim Speichern des Termins");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Fehler bei der Zahlung.");
+  }
+};
   const normalize = (str) =>
     str
       ?.toLowerCase()
@@ -349,7 +471,6 @@ export default function ClientDashboard() {
               <h3 className="text-2xl font-semibold text-[#B99B5F] mb-8 select-none">
                 Benutzerinformationen
               </h3>
-              <OvertimeAlerts employees={employees} targetHours={targetHours} />
 
               <p className="text-lg mb-3">
                 <strong>Name:</strong> {userData.firstName} {userData.lastName}
@@ -725,41 +846,175 @@ export default function ClientDashboard() {
               </section>
 
               {/* New Booking */}
-              <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-                <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
-                  Neue Buchung planen
-                </h3>
-                <form className="space-y-4 flex flex-col flex-grow">
-                  <input
-                    type="date"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
-                    placeholder="Datum auswählen"
-                  />
-                  <input
-                    type="time"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
-                    placeholder="Uhrzeit auswählen"
-                  />
-                  <select
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>
-                      Service auswählen
-                    </option>
-                    <option>Haushaltshilfe</option>
-                    <option>Gesundheitsführung</option>
-                    <option>Freizeit</option>
-                    <option>Begleitung</option>
-                  </select>
-                  <button
-                    type="submit"
-                    className="mt-auto bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm hover:bg-[#033553] transition"
-                  >
-                    Termin buchen
-                  </button>
-                </form>
-              </section>
+             <section className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+  <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
+    Neue Buchung planen
+  </h3>
+  {step === "booking" && (
+
+  <form onSubmit={handleBookingSubmit} className="space-y-4 flex flex-col flex-grow">
+    {/* Date Picker (14 days ahead only) */}
+    <DatePicker
+      selected={form.date}
+      onChange={(date) => setForm({ ...form, date })}
+      dateFormat="dd.MM.yyyy"
+      placeholderText="Datum auswählen"
+      minDate={minSelectableDate}
+      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:ring-2 focus:ring-[#B99B5F] focus:outline-none transition bg-white"
+    />
+
+<div className="grid grid-cols-4 gap-2">
+  {Array.from({ length: ((20 - 7) * 2) + 2 }, (_, i) => {
+    const hour = 7 + Math.floor(i / 2)
+    const minutes = i % 2 === 0 ? "00" : "30"
+    const time = `${String(hour).padStart(2, "0")}:${minutes}`
+    return (
+      <button
+        key={time}
+        type="button"
+        onClick={() => setForm({ ...form, time })}
+        className={`px-3 py-2 rounded-lg text-sm border 
+          ${form.time === time ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+      >
+        {time}
+      </button>
+    )
+  })}
+</div>
+
+{/* Hours Selection */}
+<div className="flex items-center gap-4 mt-4">
+  <label className="text-sm font-medium text-gray-700">Dauer (Std):</label>
+
+  <div className="flex items-center border rounded-lg px-3 py-2 bg-white">
+    {/* Minus Button */}
+    <button
+      type="button"
+      onClick={() =>
+        setForm((prev) => ({
+          ...prev,
+          hours: Math.max(2, (prev.hours || 2) - 0.5), // ✅ decrease by 0.5
+        }))
+      }
+      className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
+    >
+      –
+    </button>
+
+    {/* Hours Display */}
+    <span className="px-4 text-lg font-semibold text-gray-800 select-none">
+      {form.hours || 2}
+    </span>
+
+    {/* Plus Button */}
+    <button
+      type="button"
+      onClick={() =>
+        setForm((prev) => ({
+          ...prev,
+          hours: Math.min(8, (prev.hours || 2) + 0.5), // ✅ increase by 0.5
+        }))
+      }
+      className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
+    >
+      +
+    </button>
+  </div>
+</div>
+
+
+
+{/* Service Dropdown */}
+<select
+  value={form.service}
+  onChange={(e) =>
+    setForm({ ...form, service: e.target.value, subService: "" })
+  }
+  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+>
+  <option value="">Service auswählen</option>
+  {allServices.map((srv) => (
+    <option key={srv.id} value={String(srv.id)}>
+      {srv.name}
+    </option>
+  ))}
+</select>
+
+{/* Subservice Dropdown */}
+{selectedService?.subServices?.length > 0 && (
+  <select
+    value={form.subService}
+    onChange={(e) => setForm({ ...form, subService: e.target.value })}
+    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+  >
+    <option value="">Subservice auswählen</option>
+    {selectedService.subServices.map((sub) => (
+      <option key={sub.id} value={String(sub.id)}>
+        {sub.name}
+      </option>
+    ))}
+  </select>
+)}
+
+
+
+    <button
+      type="submit"
+      className="mt-auto bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm hover:bg-[#033553] transition"
+    >
+      Termin buchen
+    </button>
+  </form>
+  )}
+   {/* Step 2: Payment */}
+  {step === "payment" && (
+    <div className="p-2 bg-white rounded-2xl shadow-md">
+      <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
+
+      <CardElement className="border p-3 rounded-lg" />
+
+      {/* AGB checkbox */}
+      <div className="flex items-start mt-4">
+        <input
+          type="checkbox"
+          checked={agbAccepted}
+          onChange={(e) => setAgbAccepted(e.target.checked)}
+          className="mr-2 mt-[5px]"
+        />
+        <span>
+          Ich akzeptiere die{" "}
+          <a href="/AGB" target="_blank" className="text-[#B99B5F] underline">
+            AGB
+          </a>
+        </span>
+      </div>
+      {agbError && <p className="text-red-500 text-sm">{agbError}</p>}
+
+      <button
+        onClick={handleStripePayment}
+        className="mt-6 bg-[#04436F] text-white py-3 px-6 rounded-lg"
+      >
+        Zahlung bestätigen
+      </button>
+    </div>
+  )}
+  {step === "done" && (
+  <div className="p-6 bg-white rounded-2xl shadow-md text-center">
+    <h2 className="text-2xl font-bold text-green-600 mb-4">🎉 Termin erfolgreich gebucht!</h2>
+    <p className="text-gray-700 mb-6">
+      Ihre Zahlung wurde bestätigt und Ihr Termin ist gespeichert.
+    </p>
+    <button
+      onClick={() => setStep("booking")} // go back to booking form
+      className="bg-[#04436F] text-white py-3 px-6 rounded-lg hover:bg-[#033553] transition"
+    >
+      Neuen Termin buchen
+    </button>
+  </div>
+)}
+
+</section>
+
 
               {/* Update Information Form */}
               <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
