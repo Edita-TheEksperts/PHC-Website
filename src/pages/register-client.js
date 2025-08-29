@@ -1915,7 +1915,7 @@ Passwort bestätigen*</label>
         Alle Zahlungen werden sicher verarbeitet.
       </p>
       <p className="text-sm text-gray-600 flex items-center">
-        Ihre Karte wird erst{" "}
+        Ihre Karte wird erst {" "}
         <span className="font-medium text-gray-800">
           24 Stunden nach erfolgter Dienstleistung
         </span>{" "}
