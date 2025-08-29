@@ -2,35 +2,109 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // gjej user
-  const user = await prisma.user.findUnique({
-    where: { email: "anduelatestagain@hotmail.com" },
+  console.log("🌱 Starting seed...");
+
+  // 1. Gjej ose krijo user
+  let user = await prisma.user.findUnique({
+    where: { email: "editalatifi@gmail.com" },
   });
 
   if (!user) {
-    throw new Error("❌ User not found!");
+    user = await prisma.user.create({
+      data: {
+        email: "editalatifi@gmail.com",
+        firstName: "Edita",
+        lastName: "Latifi",
+      },
+    });
+    console.log("✅ User created:", user.email);
+  } else {
+    console.log("👉 User already exists:", user.email);
   }
 
-  // krijo një termin (Schedule)
-  await prisma.schedule.create({
+  // 2. Gjej ose krijo employee
+  let employee = await prisma.employee.findUnique({
+    where: { email: "editalatifi@gmail.com" },
+  });
+
+  if (!employee) {
+    employee = await prisma.employee.create({
+      data: {
+        email: "editalatifi@gmail.com",
+        firstName: "Edita",
+        lastName: "Latifi",
+        status: "approved",
+      },
+    });
+    console.log("✅ Employee created:", employee.email);
+  } else {
+    console.log("👉 Employee already exists:", employee.email);
+  }
+
+  // 3. Krijo assignments
+  const today = new Date();
+  const nextMonth = new Date();
+  nextMonth.setMonth(today.getMonth() + 1);
+
+  // Assignment i parë
+  const assignment1 = await prisma.assignment.create({
     data: {
-      day: "Montag", // ose automatikisht new Date().toLocaleDateString("de-DE", { weekday: "long" })
-      startTime: "10:00",
-      hours: 2,
-      date: new Date("2025-09-01T10:00:00.000Z"),
+      employeeId: employee.id,
       userId: user.id,
+      confirmationStatus: "confirmed",
       status: "active",
-      serviceName: "Haushaltshilfe und Wohnpflege",
-      subServiceName: "Wohnung reinigen",
+      serviceName: "Haushaltshilfe",
     },
   });
 
-  console.log("✅ Appointment created for user anduelatestagain@hotmail.com");
+  await prisma.schedule.create({
+    data: {
+      userId: user.id,
+      employeeId: employee.id,
+      date: today,
+      day: today.toLocaleDateString("de-DE", { weekday: "long" }),
+      startTime: "09:00",
+      hours: 2,
+      status: "active",
+      serviceName: "Haushaltshilfe",
+      subServiceName: "Küche putzen",
+    },
+  });
+
+  // Assignment i dytë
+  const assignment2 = await prisma.assignment.create({
+    data: {
+      employeeId: employee.id,
+      userId: user.id,
+      confirmationStatus: "confirmed",
+      status: "active",
+      serviceName: "Pflege",
+    },
+  });
+
+  await prisma.schedule.create({
+    data: {
+      userId: user.id,
+      employeeId: employee.id,
+      date: nextMonth,
+      day: nextMonth.toLocaleDateString("de-DE", { weekday: "long" }),
+      startTime: "11:00",
+      hours: 3,
+      status: "active",
+      serviceName: "Pflege",
+      subServiceName: "Begleitung",
+    },
+  });
+
+  console.log("✅ Created assignments and schedules for this and next month");
 }
 
 main()
-  .then(() => process.exit(0))
+  .then(() => {
+    console.log("🌱 Seed finished successfully!");
+    process.exit(0);
+  })
   .catch((e) => {
-    console.error(e);
+    console.error("❌ Error in seed:", e);
     process.exit(1);
   });

@@ -16,13 +16,15 @@ export default async function handler(req, res) {
     const employee = await prisma.employee.findUnique({ where: { email } });
     if (!employee) return res.status(404).json({ message: "Employee not found" });
 
-    const vacation = await prisma.vacation.create({
-      data: {
-        employeeId: employee.id,
-        startDate: new Date(start),
-        endDate: new Date(end),
-      },
-    });
+const vacation = await prisma.vacation.create({
+  data: {
+    employeeId: employee.id,
+    startDate: new Date(start),
+    endDate: new Date(end),
+    status: "pending",   // 👈 default
+  },
+});
+
 
     res.status(200).json(vacation);
   } catch (err) {

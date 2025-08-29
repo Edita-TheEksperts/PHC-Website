@@ -49,7 +49,22 @@ model Vacation {
   employeeId String?
   employee   Employee? @relation(fields: [employeeId], references: [id])
   user       User?     @relation(fields: [userId], references: [id])
+  status     VacationStatus @default(pending)
+  
 }
+
+enum Role {
+  admin
+  client
+  employee
+}
+
+enum VacationStatus {
+  pending
+  approved
+  declined
+}
+
 
 model User {
   id                      String        @id @default(uuid())
@@ -301,10 +316,4 @@ model EmailTemplate {
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum Role {
-  admin
-  client
-  employee
 }

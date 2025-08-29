@@ -31,9 +31,10 @@ export default async function handler(req, res) {
   try {
     const { assignmentId, action } = req.body;
 
-    if (!assignmentId || !["accepted", "rejected"].includes(action)) {
-      return res.status(400).json({ message: "Invalid input" });
-    }
+if (!assignmentId || !["confirmed", "rejected"].includes(action)) {
+  return res.status(400).json({ message: "Invalid input" });
+}
+
 
     // Update confirmation status
     const updated = await prisma.assignment.update({

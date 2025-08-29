@@ -435,105 +435,184 @@ function ReassignModal({ vacation }) {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-<DashboardCard title="🌴 Vacations">
-  <div className="bg-white rounded-xl shadow-md p-4">
-    {Array.isArray(vacations) && vacations.length > 0 ? (
-      <ul className="space-y-3">
-        {vacations.map((v) => (
-          <li key={v.id} className="p-3 border rounded-lg">
-            <div>
-              <p className="font-medium text-gray-800">
-                {v.employee ? `👷 Employee: ${v.employee.firstName} ${v.employee.lastName}` : ""}
-                {v.user ? ` 🙋 Client: ${v.user.firstName} ${v.user.lastName}` : ""}
-              </p>
-              <p className="text-sm text-gray-600">
-                {new Date(v.startDate).toLocaleDateString()} →{" "}
-                {new Date(v.endDate).toLocaleDateString()}
-              </p>
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex gap-2 mt-2">
-              {/* Call button for employee */}
-              {v.employee?.phone && (
-                <button
-                  onClick={() => window.open(`tel:${v.employee.phone}`)}
-                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
-                >
-                  📞 Call
-                </button>
-              )}
-
-              {/* Call button for client */}
-              {v.user?.phone && (
-                <button
-                  onClick={() => window.open(`tel:${v.user.phone}`)}
-                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
-                >
-                  📞 Call Client
-                </button>
-              )}
-
-              {/* Suggestions button (only for employees) */}
-              {v.employee && (
-                <button
-                  onClick={async () => {
-                    const res = await fetch(`/api/admin/vacations/suggestions?vacationId=${v.id}`);
-                    const data = await res.json();
-                    v.suggestions = data;
-                    setVacations([...vacations]); // trigger re-render
-                  }}
-                  className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
-                >
-                  💡 Suggestions
-                </button>
-              )}
-            </div>
-
-            {/* Suggestions list (only for employees) */}
-            {v.employee && v.suggestions && v.suggestions.length > 0 && (
-              <div className="mt-3 bg-gray-50 p-2 rounded-lg border text-sm">
-                <p className="font-semibold text-gray-700">💡 Suggested Alternatives:</p>
-                <ul className="mt-2 space-y-2 text-sm text-gray-700">
-                  {v.suggestions.map((s, i) => (
-                    <li
-                      key={i}
-                      className="flex justify-between items-center p-2 border rounded-lg bg-gray-50"
-                    >
-                      <div>
-                        <p>
-                          {new Date(s.startDate).toLocaleDateString()} →{" "}
-                          {new Date(s.endDate).toLocaleDateString()}
-                        </p>
-                        <p className="font-medium">
-                          👷 {s.employee.firstName} {s.employee.lastName}
-                        </p>
-                      </div>
-                      {s.employee.phone && (
-                        <button
-                          onClick={() => window.open(`tel:${s.employee.phone}`)}
-                          className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
-                        >
-                          📞 Call
-                        </button>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+  <DashboardCard title="🌴 Vacations">
+    <div className="bg-white rounded-xl shadow-md p-4">
+      {Array.isArray(vacations) && vacations.length > 0 ? (
+        <ul className="space-y-3">
+          {vacations.map((v) => (
+            <li key={v.id} className="p-3 border rounded-lg">
+              <div>
+                <p className="font-medium text-gray-800">
+                  {v.employee
+                    ? `👷 Employee: ${v.employee.firstName} ${v.employee.lastName}`
+                    : ""}
+                  {v.user
+                    ? ` 🙋 Client: ${v.user.firstName} ${v.user.lastName}`
+                    : ""}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {new Date(v.startDate).toLocaleDateString()} →{" "}
+                  {new Date(v.endDate).toLocaleDateString()}
+                </p>
               </div>
-            )}
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p className="text-gray-500 italic">No vacations found</p>
-    )}
-  </div>
-</DashboardCard>
 
+              {/* Action buttons */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                {/* Call employee */}
+                {v.employee?.phone && (
+                  <button
+                    onClick={() => window.open(`tel:${v.employee.phone}`)}
+                    className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
+                  >
+                    📞 Call
+                  </button>
+                )}
 
+                {/* Call client */}
+                {v.user?.phone && (
+                  <button
+                    onClick={() => window.open(`tel:${v.user.phone}`)}
+                    className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
+                  >
+                    📞 Call Client
+                  </button>
+                )}
 
-  </Tab.Panel>
+                {/* Suggestions */}
+                {v.employee && (
+                  <button
+                    onClick={async () => {
+                      const res = await fetch(
+                        `/api/admin/vacations/suggestions?vacationId=${v.id}`
+                      );
+                      const data = await res.json();
+                      v.suggestions = data;
+                      setVacations([...vacations]); // trigger re-render
+                    }}
+                    className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
+                  >
+                    💡 Suggestions
+                  </button>
+                )}
+
+                {/* Approve */}
+                {v.status === "pending" && (
+                  <button
+                    onClick={async () => {
+                      const res = await fetch(
+                        "/api/employee/update-vacation",
+                        {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            vacationId: v.id,
+                            action: "approve",
+                          }),
+                        }
+                      );
+                      if (res.ok) {
+                        setVacations((prev) =>
+                          prev.map((x) =>
+                            x.id === v.id ? { ...x, status: "approved" } : x
+                          )
+                        );
+                      }
+                    }}
+                    className="px-3 py-1 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
+                  >
+                    ✅ Approve
+                  </button>
+                )}
+
+                {/* Decline */}
+                {v.status === "pending" && (
+                  <button
+                    onClick={async () => {
+                      const res = await fetch(
+                        "/api/employee/update-vacation",
+                        {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            vacationId: v.id,
+                            action: "decline",
+                          }),
+                        }
+                      );
+                      if (res.ok) {
+                        setVacations((prev) =>
+                          prev.map((x) =>
+                            x.id === v.id ? { ...x, status: "declined" } : x
+                          )
+                        );
+                      }
+                    }}
+                    className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600"
+                  >
+                    ❌ Decline
+                  </button>
+                )}
+              </div>
+
+              {/* Suggestions list */}
+              {v.employee && v.suggestions && v.suggestions.length > 0 && (
+                <div className="mt-3 bg-gray-50 p-2 rounded-lg border text-sm">
+                  <p className="font-semibold text-gray-700">
+                    💡 Suggested Alternatives:
+                  </p>
+                  <ul className="mt-2 space-y-2 text-sm text-gray-700">
+                    {v.suggestions.map((s, i) => (
+                      <li
+                        key={i}
+                        className="flex justify-between items-center p-2 border rounded-lg bg-gray-50"
+                      >
+                        <div>
+                          <p>
+                            {new Date(s.startDate).toLocaleDateString()} →{" "}
+                            {new Date(s.endDate).toLocaleDateString()}
+                          </p>
+                          <p className="font-medium">
+                            👷 {s.employee.firstName} {s.employee.lastName}
+                          </p>
+                        </div>
+                        {s.employee.phone && (
+                          <button
+                            onClick={() => window.open(`tel:${s.employee.phone}`)}
+                            className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
+                          >
+                            📞 Call
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Status at the end */}
+              <div className="mt-3">
+                <span
+                  className={`px-2 py-1 text-xs rounded ${
+                    v.status === "approved"
+                      ? "bg-green-100 text-green-700"
+                      : v.status === "declined"
+                      ? "bg-red-100 text-red-700"
+                      : "bg-yellow-100 text-yellow-700"
+                  }`}
+                >
+                  Status: {v.status}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500 italic">No vacations found</p>
+      )}
+    </div>
+  </DashboardCard>
+</Tab.Panel>
+
 
           <Tab.Panel>
             <DashboardCard title="Rejection Warnings">
