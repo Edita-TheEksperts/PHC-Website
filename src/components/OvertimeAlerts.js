@@ -46,7 +46,7 @@ export default function OvertimeAlerts({ employees, targetHours = 40 }) {
             <li key={e.id} className="border p-4 rounded-md bg-red-50">
               <p className="font-semibold text-lg">{e.firstName} {e.lastName}</p>
               <p className="text-sm text-gray-700">
-                🕒 {e.totalHours} Stunden (Ziel: {targetHours})<br />
+                🕒 {e.totalHours} Stunden<br />
                 🚗 {e.totalKm} km gefahren
               </p>
 
