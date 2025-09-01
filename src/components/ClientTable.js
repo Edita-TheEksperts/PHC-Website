@@ -272,57 +272,59 @@ useEffect(() => {
     : "-"}
 </td>
                <td className="p-3">
-{recommended[client.id] && recommended[client.id].length > 0 ? (
-  <div className="space-y-1">
-    {recommended[client.id].slice(0, 3).map((rec) => (
-      <div key={rec.employeeId} className="flex items-center gap-2">
-        <span className="px-2 py-0.5 rounded bg-green-100 text-green-800 text-xs font-medium">
-          ⭐ {rec.firstName} {rec.lastName} (Score: {rec.score})
-        </span>
-        <button
-          className="text-blue-600 text-xs underline"
-          onClick={() => {
-            setModalRecs(recommended[client.id]);
-            setShowModal(true);
-          }}
-        >
-          Why?
-        </button>
-      </div>
-    ))}
-  </div>
-) : (
-  <div className="space-y-1">
-    <span className="text-gray-500 text-sm">No strong match</span>
-    {employees.slice(0, 2).map((emp) => (
-      <div key={emp.id} className="flex items-center gap-2">
-        <span className="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-xs font-medium">
-          ⚠️ {emp.firstName} {emp.lastName}
-        </span>
-      </div>
-    ))}
-  </div>
-)}
-
-
-  {/* fallback dropdown */}
-  <select
-    value={selectedEmployee[client.id] || ""}
-    onChange={(e) =>
-      setSelectedEmployee({
-        ...selectedEmployee,
-        [client.id]: e.target.value,
-      })
-    }
-    className="border px-2 py-1 rounded mt-2"
+<td className="p-3">
+  {/* Strong Match Recommendations */}
+{/* ✅ Show Strong Matches only (>=70% and no allergy) */}
+{recommended[client.id]
+  ?.filter(rec => rec.score >= 70 && !rec.hasAllergy)
+  .slice(0, 2)
+  .map((rec) => (
+  <div
+  key={rec.employeeId}
+  className="flex items-center justify-between mb-2 p-2 rounded-lg border border-green-300 bg-green-50"
+>
+  <span className="text-green-800 text-sm font-semibold flex items-center gap-1">
+    ⭐ {rec.firstName} {rec.lastName}
+    <span className="ml-1 text-xs font-medium text-green-600">
+      ({rec.score}% match)
+    </span>
+  </span>
+  <button
+    className="text-blue-600 text-xs underline"
+    onClick={() => {
+      setModalRecs(recommended[client.id]);
+      setShowModal(true);
+    }}
   >
+    Why?
+  </button>
+</div>
+
+  ))}
+
+  
+  {/* ✅ Single Dropdown only */}
+<select
+  value={selectedEmployee[client.id] || ""}
+  onChange={(e) =>
+    setSelectedEmployee({
+      ...selectedEmployee,
+      [client.id]: e.target.value,
+    })
+  }
+  className="border px-2 py-1 rounded min-w-[160px]"
+>
+
     <option value="">Select Employee</option>
     {employees.map((emp) => (
       <option key={emp.id} value={emp.id}>
-        {emp.firstName} {emp.lastName} ({emp.status})
+        👤 {emp.firstName} {emp.lastName} ({emp.status})
       </option>
     ))}
   </select>
+</td>
+
+
 </td>
 
            <td className="p-3">

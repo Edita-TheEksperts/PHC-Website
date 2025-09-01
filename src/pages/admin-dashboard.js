@@ -110,21 +110,32 @@ useEffect(() => {
     setClients(data.clients || []);
     setSchedules(data.schedules || []);
 
-    const sourceStats = {};
-    const andereItems = [];
-    allEmployees.forEach(emp => {
-      const raw = emp.howDidYouHearAboutUs || "Unbekannt";
-      if (raw.startsWith("Andere:")) {
-        sourceStats["Andere"] = (sourceStats["Andere"] || 0) + 1;
-        andereItems.push(raw.replace("Andere:", "").trim());
-      } else {
-        const key = raw || "Unbekannt";
-        sourceStats[key] = (sourceStats[key] || 0) + 1;
-      }
-    });
-    const chartData = Object.entries(sourceStats).map(([name, value]) => ({ name, value }));
-    setSourceData(chartData);
-    setAndereDetails(andereItems);
+   const sourceStats = {};
+const andereItems = [];
+
+allEmployees.forEach(emp => {
+  let raw = emp.howDidYouHearAboutUs || "Unbekannt";
+
+  // 🚫 Skip "no strong match"
+  if (raw.toLowerCase().includes("no strong match")) {
+    return;
+  }
+
+  if (raw.startsWith("Andere:")) {
+    sourceStats["Andere"] = (sourceStats["Andere"] || 0) + 1;
+    andereItems.push(raw.replace("Andere:", "").trim());
+  } else {
+    const key = raw || "Unbekannt";
+    sourceStats[key] = (sourceStats[key] || 0) + 1;
+  }
+});
+
+const chartData = Object.entries(sourceStats).map(([name, value]) => ({
+  name,
+  value,
+}));
+setSourceData(chartData);
+setAndereDetails(andereItems);
   }
 
   async function fetchStats() {
