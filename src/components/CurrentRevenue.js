@@ -70,7 +70,7 @@ export default function CurrentRevenue({ clients }) {
 
       {/* 🔥 NEW Revenue Summary Div */}
       <div className="bg-purple-50 border border-purple-300 rounded-xl p-6 mb-6 text-center">
-        <h3 className="text-purple-700 font-bold text-lg mb-2">Revenueeee (Highlight)</h3>
+        <h3 className="text-purple-700 font-bold text-lg mb-2">Revenue (Highlight)</h3>
         <p className="text-4xl font-extrabold text-gray-900">
           CHF {revenueAllTime.toLocaleString("de-CH", { minimumFractionDigits: 2 })}
         </p>
