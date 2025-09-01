@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 export default function AppointmentCalendar({ schedules }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   const selectedDateISO = selectedDate.toISOString().slice(0, 10);
@@ -47,18 +47,20 @@ export default function AppointmentCalendar({ schedules }) {
         onClick={() => setIsOpen(!isOpen)}
         className="mt-4 px-4 py-2 bg-[#04436F] text-white text-sm font-semibold rounded-xl hover:bg-[#033252] transition-all"
       >
-        {isOpen ? "🔽 Hide Appointments" : "📂 Show Appointments"}
+        {isOpen
+          ? `🔽 Hide appointments `
+          : `📂 Appointments (${
+              appointments.length
+            })`}
       </button>
 
       {/* Appointment List */}
       {isOpen && (
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
-            Appointments on {selectedDate.toLocaleDateString()}
-          </h3>
-
           {appointments.length === 0 ? (
-            <p className="text-sm text-gray-500">No appointments scheduled.</p>
+            <p className="text-sm text-gray-500">
+              No appointments scheduled.
+            </p>
           ) : (
             <ul className="mt-2 space-y-2">
               {appointments.map((a) => (
@@ -71,7 +73,24 @@ export default function AppointmentCalendar({ schedules }) {
                     {a.user?.firstName} {a.user?.lastName}
                   </p>
                   <p className="text-sm text-gray-500">
-                    Start: {a.startTime} | Dauer: {a.hours}h
+                    Start: {a.startTime} | Duration: {a.hours}h
+                  </p>
+                  {a.serviceName && (
+                    <p className="text-xs text-gray-400">
+                      Service: {a.serviceName}
+                      {a.subServiceName ? ` → ${a.subServiceName}` : ""}
+                    </p>
+                  )}
+                  <p
+                    className={`mt-1 text-xs inline-block px-2 py-1 rounded ${
+                      a.status === "completed"
+                        ? "bg-green-100 text-green-700"
+                        : a.status === "cancelled"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-blue-100 text-blue-700"
+                    }`}
+                  >
+                    {a.status}
                   </p>
                 </li>
               ))}

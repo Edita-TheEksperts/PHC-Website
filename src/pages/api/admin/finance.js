@@ -20,47 +20,46 @@ export default async function handler(req, res) {
       },
     });
 
-const incomePerService = await Promise.all(
-  services.map(async (s) => {
-    const allTime = s.users.reduce(
-      (sum, u) => sum + (u.totalPayment || 0),
-      0
+    const incomePerService = await Promise.all(
+      services.map(async (s) => {
+        const allTime = s.users.reduce(
+          (sum, u) => sum + (u.totalPayment || 0),
+          0
+        );
+
+        const thisMonthTx = await prisma.transaction.findMany({
+          where: {
+            status: "completed",
+            createdAt: { gte: startOfMonth, lte: endOfMonth },
+            schedule: { user: { services: { some: { id: s.id } } } },
+          },
+        });
+
+        const thisMonth = thisMonthTx.reduce(
+          (sum, t) => sum + (t.amountClient || 0),
+          0
+        );
+
+        // ✅ subservice split
+        const subserviceSplit = s.subServices.map((sub) => {
+          const allTime = sub.users.reduce(
+            (sum, u) => sum + (u.totalPayment || 0),
+            0
+          );
+          return {
+            subServiceName: sub.name,
+            allTime,
+          };
+        });
+
+        return {
+          serviceName: s.name,
+          allTime,
+          thisMonth,
+          subserviceSplit,
+        };
+      })
     );
-
-    const thisMonthTx = await prisma.transaction.findMany({
-      where: {
-        status: "completed",
-        createdAt: { gte: startOfMonth, lte: endOfMonth },
-        schedule: { user: { services: { some: { id: s.id } } } },
-      },
-    });
-
-    const thisMonth = thisMonthTx.reduce(
-      (sum, t) => sum + (t.amountClient || 0),
-      0
-    );
-
-    // ✅ shtojmë subservice split
-    const subserviceSplit = s.subServices.map((sub) => {
-      const allTime = sub.users.reduce(
-        (sum, u) => sum + (u.totalPayment || 0),
-        0
-      );
-      return {
-        subServiceName: sub.name,
-        allTime,
-      };
-    });
-
-    return {
-      serviceName: s.name,
-      allTime,
-      thisMonth,
-      subserviceSplit,
-    };
-  })
-);
-
 
     const totalIncomeAllTime = incomePerService.reduce(
       (sum, s) => sum + s.allTime,
@@ -90,6 +89,7 @@ const incomePerService = await Promise.all(
 
     const serviceCostMap = {};
     const subserviceCostMap = {};
+    let totalCostThisMonth = 0;
 
     schedules.forEach((s) => {
       const cost = s.hours * 30 + (s.kilometers || 0) * 0.5;
@@ -117,6 +117,7 @@ const incomePerService = await Promise.all(
         s.user.services.forEach((service) => {
           serviceCostMap[service.name].thisMonth += cost;
         });
+        totalCostThisMonth += cost;
       }
     });
 
@@ -136,10 +137,7 @@ const incomePerService = await Promise.all(
       })
     );
 
-    const totalCost = costPerService.reduce(
-      (sum, s) => sum + s.allTime,
-      0
-    );
+    const totalCost = costPerService.reduce((sum, s) => sum + s.allTime, 0);
 
     // -------------------------------------------------------
     // 📤 Response
@@ -149,10 +147,22 @@ const incomePerService = await Promise.all(
       costPerService,
       totalIncomeAllTime,
       totalIncomeThisMonth,
-      totalCost,
+      totalCost,           // all time
+      totalCostThisMonth,  // ✅ new
     });
   } catch (err) {
     console.error("Finance API error:", err);
     res.status(500).json({ error: "Something went wrong" });
   }
 }
+// inside your try block after computing totalCost
+const monthlySchedules = schedules.filter(
+  (s) => s.date && s.date >= startOfMonth && s.date <= endOfMonth
+);
+
+const totalCostThisMonth = monthlySchedules.reduce((sum, s) => {
+  const cost = s.hours * 30 + (s.kilometers || 0) * 0.5;
+  return sum + cost;
+}, 0);
+
+

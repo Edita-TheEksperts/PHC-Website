@@ -453,8 +453,8 @@ function isThisYear(date) {
     "Clients",
     "Analytics",
     "Warnings",
+    "Appointment Cancelation",
     "Application Overview",
-    "OvertimeAlerts",
     "Working Time Tracking",
        "Application Status",   // NEW
     "Bookings",            // NEW
@@ -769,26 +769,58 @@ function isThisYear(date) {
 
 
           <Tab.Panel>
-            <DashboardCard title="Rejection Warnings">
-              {warnings.length === 0 ? (
-                <p className="text-gray-600 text-sm">Keine Warnungen wurden gesendet.</p>
-              ) : (
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {warnings.map(w => (
-                    <li key={w.id} className="bg-red-50 border border-red-200 rounded-xl p-4 shadow-sm">
-                      <div className="text-sm space-y-1 text-gray-700">
-                        <p><strong>👤 Name:</strong> {w.employee.firstName} {w.employee.lastName}</p>
-                        <p><strong>✉️ Email:</strong> {w.employee.email}</p>
-                        <p><strong>📅 Gesendet am:</strong> {new Date(w.sentAt).toLocaleDateString("de-DE")} um {new Date(w.sentAt).toLocaleTimeString("de-DE")} </p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </DashboardCard>
+    <DashboardCard title="📅 Appointment Cancelation">
+  {warnings.length === 0 ? (
+    <p className="text-gray-600 text-sm">
+      Keine abgesagten Termine.
+    </p>
+  ) : (
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {warnings.map((w) => (
+        <li
+          key={w.id}
+          className="bg-red-50 border border-red-200 rounded-xl p-4 shadow-sm"
+        >
+          <div className="text-sm space-y-1 text-gray-700">
+            <p>
+              <strong>👤 Employee:</strong> {w.employee.firstName}{" "}
+              {w.employee.lastName}
+            </p>
+            <p>
+              <strong>✉️ Email:</strong> {w.employee.email}
+            </p>
+            {/* Appointment details */}
+            {w.schedule && (
+              <>
+                <p>
+                  <strong>📅 Appointment Date:</strong>{" "}
+                  {new Date(w.schedule.date).toLocaleDateString("de-DE")}
+                </p>
+                <p>
+                  <strong>⏰ Start:</strong> {w.schedule.startTime} |{" "}
+                  <strong>Dauer:</strong> {w.schedule.hours}h
+                </p>
+                <p>
+                  <strong>🧑 Client:</strong>{" "}
+                  {w.schedule.user?.firstName} {w.schedule.user?.lastName}
+                </p>
+              </>
+            )}
+            <p>
+              <strong>📌 Canceled at:</strong>{" "}
+              {new Date(w.sentAt).toLocaleDateString("de-DE")}{" "}
+              {new Date(w.sentAt).toLocaleTimeString("de-DE")}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
+</DashboardCard>
+
           </Tab.Panel>
           <Tab.Panel>
-  <DashboardCard title="Application Overview">
+  <DashboardCard title="Appointment Overview">
                 <ApplicationOverview employees={employees} />
                    <DashboardCard title="Revenue">
               <CurrentRevenue clients={clients} />
@@ -796,7 +828,7 @@ function isThisYear(date) {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="Overtime Alerts">
+  <DashboardCard title="Application Overview">
                 <OvertimeAlerts employees={employees} />
   </DashboardCard>
 </Tab.Panel>

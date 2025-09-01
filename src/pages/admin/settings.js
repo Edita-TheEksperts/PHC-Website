@@ -41,25 +41,8 @@ export default function SettingsPage() {
           </form>
         </div>
 
-        {/* Appearance */}
-        <div className="bg-white p-6 rounded-xl shadow space-y-4">
-          <h2 className="text-xl font-semibold text-[#04436F]">Appearance</h2>
-          <label className="flex items-center gap-3">
-            <input type="checkbox" />
-            <span>Enable Dark Mode</span>
-          </label>
-        </div>
 
-        {/* Notifications */}
-        <div className="bg-white p-6 rounded-xl shadow space-y-4">
-          <h2 className="text-xl font-semibold text-[#04436F]">Notifications</h2>
-          <label className="block">
-            <input type="checkbox" className="mr-2" /> Email Notifications
-          </label>
-          <label className="block">
-            <input type="checkbox" className="mr-2" /> SMS Notifications
-          </label>
-        </div>
+
 
       </div>
     </AdminLayout>
