@@ -520,7 +520,7 @@ function isThisYear(date) {
 
     <Tab.Panel>
       
-  <DashboardCard title="🔍 Breakdown by Source">
+  <DashboardCard title="Analytics">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
       {/* Donut Chart Section */}
