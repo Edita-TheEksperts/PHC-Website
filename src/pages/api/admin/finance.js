@@ -2,46 +2,157 @@ import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req, res) {
   try {
-    // Income per Service
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    // -------------------------------------------------------
+    // 💰 Income per Service + SubServices
+    // -------------------------------------------------------
     const services = await prisma.service.findMany({
       include: {
-        users: {
-          select: { totalPayment: true }
-        }
-      }
+        users: { select: { totalPayment: true, createdAt: true } },
+        subServices: {
+          include: {
+            users: { select: { totalPayment: true, createdAt: true } },
+          },
+        },
+      },
     });
 
-    const incomePerService = services.map(s => ({
+const incomePerService = await Promise.all(
+  services.map(async (s) => {
+    const allTime = s.users.reduce(
+      (sum, u) => sum + (u.totalPayment || 0),
+      0
+    );
+
+    const thisMonthTx = await prisma.transaction.findMany({
+      where: {
+        status: "completed",
+        createdAt: { gte: startOfMonth, lte: endOfMonth },
+        schedule: { user: { services: { some: { id: s.id } } } },
+      },
+    });
+
+    const thisMonth = thisMonthTx.reduce(
+      (sum, t) => sum + (t.amountClient || 0),
+      0
+    );
+
+    // ✅ shtojmë subservice split
+    const subserviceSplit = s.subServices.map((sub) => {
+      const allTime = sub.users.reduce(
+        (sum, u) => sum + (u.totalPayment || 0),
+        0
+      );
+      return {
+        subServiceName: sub.name,
+        allTime,
+      };
+    });
+
+    return {
       serviceName: s.name,
-      amount: s.users.reduce((sum, u) => sum + (u.totalPayment || 0), 0)
-    }));
+      allTime,
+      thisMonth,
+      subserviceSplit,
+    };
+  })
+);
 
-    const totalIncome = incomePerService.reduce((sum, s) => sum + s.amount, 0);
 
-    // Cost per Service (basic example: hours * 30, km * 0.5)
+    const totalIncomeAllTime = incomePerService.reduce(
+      (sum, s) => sum + s.allTime,
+      0
+    );
+
+    const monthlyTransactions = await prisma.transaction.findMany({
+      where: {
+        status: "completed",
+        createdAt: { gte: startOfMonth, lte: endOfMonth },
+      },
+    });
+
+    const totalIncomeThisMonth = monthlyTransactions.reduce(
+      (sum, t) => sum + (t.amountClient || 0),
+      0
+    );
+
+    // -------------------------------------------------------
+    // 💸 Cost per Service + Subservices
+    // -------------------------------------------------------
     const schedules = await prisma.schedule.findMany({
-      include: { user: { include: { services: true } } }
+      include: {
+        user: { include: { services: true, subServices: true } },
+      },
     });
 
     const serviceCostMap = {};
+    const subserviceCostMap = {};
 
-    schedules.forEach(s => {
-      const cost = (s.hours * 30) + ((s.kilometers || 0) * 0.5);
-      s.user.services.forEach(service => {
-        serviceCostMap[service.name] = (serviceCostMap[service.name] || 0) + cost;
+    schedules.forEach((s) => {
+      const cost = s.hours * 30 + (s.kilometers || 0) * 0.5;
+
+      // all time
+      s.user.services.forEach((service) => {
+        serviceCostMap[service.name] = serviceCostMap[service.name] || {
+          allTime: 0,
+          thisMonth: 0,
+        };
+        serviceCostMap[service.name].allTime += cost;
+
+        // subservices
+        s.user.subServices.forEach((sub) => {
+          if (!subserviceCostMap[service.name]) {
+            subserviceCostMap[service.name] = {};
+          }
+          subserviceCostMap[service.name][sub.name] =
+            (subserviceCostMap[service.name][sub.name] || 0) + cost;
+        });
       });
+
+      // only this month
+      if (s.date && s.date >= startOfMonth && s.date <= endOfMonth) {
+        s.user.services.forEach((service) => {
+          serviceCostMap[service.name].thisMonth += cost;
+        });
+      }
     });
 
-    const costPerService = Object.entries(serviceCostMap).map(([serviceName, amount]) => ({
-      serviceName,
-      amount
-    }));
+    const costPerService = Object.entries(serviceCostMap).map(
+      ([serviceName, amounts]) => ({
+        serviceName,
+        allTime: amounts.allTime,
+        thisMonth: amounts.thisMonth,
+        subserviceSplit: subserviceCostMap[serviceName]
+          ? Object.entries(subserviceCostMap[serviceName]).map(
+              ([sub, amt]) => ({
+                subServiceName: sub,
+                allTime: amt,
+              })
+            )
+          : [],
+      })
+    );
 
-    const totalCost = costPerService.reduce((sum, s) => sum + s.amount, 0);
+    const totalCost = costPerService.reduce(
+      (sum, s) => sum + s.allTime,
+      0
+    );
 
-    res.json({ incomePerService, totalIncome, costPerService, totalCost });
+    // -------------------------------------------------------
+    // 📤 Response
+    // -------------------------------------------------------
+    res.json({
+      incomePerService,
+      costPerService,
+      totalIncomeAllTime,
+      totalIncomeThisMonth,
+      totalCost,
+    });
   } catch (err) {
-    console.error(err);
+    console.error("Finance API error:", err);
     res.status(500).json({ error: "Something went wrong" });
   }
 }

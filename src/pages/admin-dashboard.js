@@ -22,6 +22,7 @@ import {
   CartesianGrid,
   BarChart,
   Bar,
+    Legend, 
 } from "recharts";
 
 export default function DashboardPage() {
@@ -81,20 +82,20 @@ async function fetchVacations() {
     setVacations([]);
   }
 }
+const [data, setData] = useState({
+  totalIncomeAllTime: 0,
+  totalIncomeThisMonth: 0,
+  totalCost: 0,
+  incomePerService: [],
+  costPerService: [],
+});
 
-
-  const [data, setData] = useState({
-    totalIncome: 0,
-    totalCost: 0,
-    incomePerService: [],
-    costPerService: [],
+useEffect(() => {
+  axios.get("/api/admin/finance").then((res) => {
+    setData(res.data);
   });
+}, []);
 
-  useEffect(() => {
-    axios.get("/api/admin/finance").then((res) => {
-      setData(res.data);
-    });
-  }, []);
 
   async function fetchData() {
     const res = await fetch("/api/admin/dashboard");
@@ -176,6 +177,16 @@ useEffect(() => {
   fetchConflicts();
 }, []);
 
+async function fetchData() {
+  const res = await fetch("/api/admin/dashboard");
+  const data = await res.json();
+
+  setEmployees(data.employees || []);
+  setClients(data.clients || []);
+  setSchedules(data.schedules || []); // 👈 këtu vjen schedulesWithService
+}
+
+
 function ReassignModal({ vacation }) {
   const [suggestions, setSuggestions] = useState([]);
 
@@ -200,6 +211,52 @@ function ReassignModal({ vacation }) {
   );
 }
 
+function isThisWeek(date) {
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay() + 1); // e hënë
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+
+  return date >= startOfWeek && date <= endOfWeek;
+}
+
+function isThisMonth(date) {
+  const now = new Date();
+  return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+}
+
+function isNextMonth(date) {
+  const now = new Date();
+  const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  return date.getMonth() === nextMonth.getMonth() && date.getFullYear() === nextMonth.getFullYear();
+}
+
+function isThisYear(date) {
+  const now = new Date();
+  return date.getFullYear() === now.getFullYear();
+}
+
+  const appointmentsThisWeek = schedules.filter(
+    (s) => s.date && isThisWeek(new Date(s.date))
+  ).length;
+
+  const appointmentsThisMonth = schedules.filter(
+    (s) => s.date && isThisMonth(new Date(s.date))
+  ).length;
+
+  const appointmentsNextMonth = schedules.filter(
+    (s) => s.date && isNextMonth(new Date(s.date))
+  ).length;
+
+  const appointmentsThisYear = schedules.filter(
+    (s) => s.date && isThisYear(new Date(s.date))
+  ).length;
+
+
   return (
     <AdminLayout>
       {message && (
@@ -218,12 +275,29 @@ function ReassignModal({ vacation }) {
   </DashboardCard>
 
 
+{/* 📅 Appointments Overview */}
+<DashboardCard title="📅 Appointments">
+  <div className="grid grid-cols-2 gap-4">
+    <div className="p-3 bg-blue-50 rounded-lg shadow-sm text-center">
+      <p className="text-2xl font-bold text-blue-700">{appointmentsThisWeek}</p>
+      <p className="text-xs text-gray-500 mt-1">Diese Woche</p>
+    </div>
+    <div className="p-3 bg-green-50 rounded-lg shadow-sm text-center">
+      <p className="text-2xl font-bold text-green-700">{appointmentsThisMonth}</p>
+      <p className="text-xs text-gray-500 mt-1">Diesen Monat</p>
+    </div>
+    <div className="p-3 bg-yellow-50 rounded-lg shadow-sm text-center">
+      <p className="text-2xl font-bold text-yellow-700">{appointmentsNextMonth}</p>
+      <p className="text-xs text-gray-500 mt-1">Nächsten Monat</p>
+    </div>
+    <div className="p-3 bg-purple-50 rounded-lg shadow-sm text-center">
+      <p className="text-2xl font-bold text-purple-700">{appointmentsThisYear}</p>
+      <p className="text-xs text-gray-500 mt-1">Dieses Jahr</p>
+    </div>
+  </div>
+</DashboardCard>
 
-  {/* 📅 Appointments */}
-  <DashboardCard title="📅 Appointments">
-    <div className="text-2xl font-bold text-[#04436F]">{schedules.length}</div>
-    <p className="text-sm text-gray-500 mt-1">Geplante Termine</p>
-  </DashboardCard>
+
 
   {/* 📝 Activity Log */}
   <DashboardCard title="📝 Activity Log">
@@ -258,39 +332,115 @@ function ReassignModal({ vacation }) {
     </div>
   </DashboardCard>
 
- <DashboardCard title="💰 Total Income">
-        <p className="text-2xl font-bold text-green-600">
-          CHF {data.totalIncome.toFixed(2)}
-        </p>
-      </DashboardCard>
 
- 
+<DashboardCard title="💰 Financial Overview">
+  <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+    {/* Total Income This Month */}
+    <div className="p-4 bg-green-50 rounded-lg text-center shadow-sm">
+      <p className="text-2xl font-bold text-green-700">
+        CHF {data.totalIncomeThisMonth.toFixed(2)}
+      </p>
+      <p className="text-sm text-gray-600 mt-1">Income this month</p>
+    </div>
 
-      {/* Income per Service */}
-      <DashboardCard title="💰 Income per Service">
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data.incomePerService}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="serviceName" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="amount" fill="#22C55E" />
-          </BarChart>
-        </ResponsiveContainer>
-      </DashboardCard>
+    {/* Total Income All Time */}
+    <div className="p-4 bg-blue-50 rounded-lg text-center shadow-sm">
+      <p className="text-2xl font-bold text-blue-700">
+        CHF {data.totalIncomeAllTime.toFixed(2)}
+      </p>
+      <p className="text-sm text-gray-600 mt-1">Income all time</p>
+    </div>
 
-      {/* Cost per Service */}
-      <DashboardCard title="💸 Cost per Service">
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data.costPerService}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="serviceName" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="amount" fill="#EF4444" />
-          </BarChart>
-        </ResponsiveContainer>
-      </DashboardCard>
+
+  </div>
+</DashboardCard>
+<DashboardCard title="💰 Income per Service">
+  <ResponsiveContainer width="100%" height={300}>
+    <BarChart data={data.incomePerService}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="serviceName" />
+      <YAxis />
+      <Tooltip
+        content={({ active, payload, label }) => {
+          if (active && payload && payload.length) {
+            const service = data.incomePerService.find(
+              (s) => s.serviceName === label
+            );
+            return (
+              <div className="bg-white p-3 border rounded shadow text-sm">
+                <p className="font-bold">{label}</p>
+                <p>💰 This Month: CHF {service.thisMonth.toFixed(2)}</p>
+                <p>💰 All Time: CHF {service.allTime.toFixed(2)}</p>
+                {service?.subserviceSplit?.length > 0 && (
+                  <div className="mt-2">
+                    <p className="font-semibold">Subservices:</p>
+                    <ul className="list-disc ml-4">
+                      {service.subserviceSplit.map((sub, i) => (
+                        <li key={i}>
+                          {sub.subServiceName}: CHF {sub.allTime.toFixed(2)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            );
+          }
+          return null;
+        }}
+      />
+      <Legend />
+      <Bar dataKey="thisMonth" fill="#22C55E" name="This Month" />
+      <Bar dataKey="allTime" fill="#3B82F6" name="All Time" />
+    </BarChart>
+  </ResponsiveContainer>
+</DashboardCard>
+
+
+{/* Cost per Service */}
+<DashboardCard title="💸 Cost per Service">
+  <ResponsiveContainer width="100%" height={300}>
+    <BarChart data={data.costPerService}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="serviceName" />
+      <YAxis />
+      <Tooltip
+        content={({ active, payload, label }) => {
+          if (active && payload && payload.length) {
+            const service = data.costPerService.find(
+              (s) => s.serviceName === label
+            );
+            return (
+              <div className="bg-white p-3 border rounded shadow text-sm">
+                <p className="font-bold">{label}</p>
+                <p>💸 This Month: CHF {service.thisMonth.toFixed(2)}</p>
+                <p>💸 All Time: CHF {service.allTime.toFixed(2)}</p>
+                {service?.subserviceSplit?.length > 0 && (
+                  <div className="mt-2">
+                    <p className="font-semibold">Subservices:</p>
+                    <ul className="list-disc ml-4">
+                      {service.subserviceSplit.map((sub, i) => (
+                        <li key={i}>
+                          {sub.subServiceName}: CHF {sub.allTime.toFixed(2)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            );
+          }
+          return null;
+        }}
+      />
+      {/* 2 bars: thisMonth vs allTime */}
+      <Bar dataKey="thisMonth" fill="#FBBF24" name="This Month" />
+      <Bar dataKey="allTime" fill="#EF4444" name="All Time" />
+      <Legend />
+    </BarChart>
+  </ResponsiveContainer>
+</DashboardCard>
+
 
 </div>
 
@@ -306,6 +456,9 @@ function ReassignModal({ vacation }) {
     "Application Overview",
     "OvertimeAlerts",
     "Working Time Tracking",
+       "Application Status",   // NEW
+    "Bookings",            // NEW
+    "Booking Status",
 
   ].map((tab) => (
     <Tab
@@ -350,6 +503,7 @@ function ReassignModal({ vacation }) {
           </Tab.Panel>
 
     <Tab.Panel>
+      
   <DashboardCard title="🔍 Breakdown by Source">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
@@ -652,7 +806,135 @@ function ReassignModal({ vacation }) {
 
   </DashboardCard>
 </Tab.Panel>
-              
+{/* Application Status */}
+<Tab.Panel>
+  <DashboardCard title="📊 Application Status">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="p-4 bg-yellow-50 rounded-lg text-center">
+        <p className="text-2xl font-bold text-yellow-700">
+          {employees.filter(e => e.status === "pending").length}
+        </p>
+        <p className="text-xs text-gray-600 mt-1">Pending</p>
+      </div>
+      <div className="p-4 bg-green-50 rounded-lg text-center">
+        <p className="text-2xl font-bold text-green-700">
+          {employees.filter(e => e.status === "approved").length}
+        </p>
+        <p className="text-xs text-gray-600 mt-1">Approved</p>
+      </div>
+      <div className="p-4 bg-red-50 rounded-lg text-center">
+        <p className="text-2xl font-bold text-red-700">
+          {employees.filter(e => e.status === "declined").length}
+        </p>
+        <p className="text-xs text-gray-600 mt-1">Declined</p>
+      </div>
+      <div className="p-4 bg-blue-50 rounded-lg text-center">
+        <p className="text-2xl font-bold text-blue-700">{employees.length}</p>
+        <p className="text-xs text-gray-600 mt-1">Total</p>
+      </div>
+    </div>
+  </DashboardCard>
+</Tab.Panel>
+<Tab.Panel>
+  <DashboardCard title="📅 Bookings">
+    <div className="p-4">
+      {schedules.length > 0 ? (
+        <ul className="divide-y divide-gray-200">
+   { schedules.slice(0, 10).map((s) => (
+<li key={s.id} className="py-2 flex justify-between text-sm">
+  <span>
+    {s.serviceName || s.subServiceName || s.user?.services?.[0]?.name || "Service"} –{" "}
+    {s.date
+      ? new Date(s.date).toLocaleDateString("de-DE")
+      : `${s.day || ""} ${s.startTime || ""}`}
+  </span>
+  <span
+    className={`px-2 py-1 text-xs rounded ${
+      s.status === "active"
+        ? "bg-blue-100 text-blue-700"
+        : s.status === "completed"
+        ? "bg-green-100 text-green-700"
+        : s.status === "cancelled"
+        ? "bg-red-100 text-red-700"
+        : "bg-yellow-100 text-yellow-700"
+    }`}
+  >
+    {s.status || "pending"}
+  </span>
+</li>
+
+))}
+
+        </ul>
+      ) : (
+        <p className="text-gray-500 italic">No bookings available</p>
+      )}
+    </div>
+  </DashboardCard>
+</Tab.Panel>
+<Tab.Panel>
+  <DashboardCard title="📌 Booking Status">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ 
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+        <div className="p-3 bg-blue-50 rounded-lg text-center">
+          <p className="text-2xl font-bold text-blue-700">
+            {schedules.filter(s => s.status === "active").length}
+          </p>
+          <p className="text-xs text-gray-600 mt-1">Active</p>
+        </div>
+        <div className="p-3 bg-green-50 rounded-lg text-center">
+          <p className="text-2xl font-bold text-green-700">
+            {schedules.filter(s => s.status === "completed").length}
+          </p>
+          <p className="text-xs text-gray-600 mt-1">Completed</p>
+        </div>
+        <div className="p-3 bg-yellow-50 rounded-lg text-center">
+          <p className="text-2xl font-bold text-yellow-700">
+            {schedules.filter(s => s.status === "pending").length}
+          </p>
+          <p className="text-xs text-gray-600 mt-1">Pending</p>
+        </div>
+        <div className="p-3 bg-red-50 rounded-lg text-center">
+          <p className="text-2xl font-bold text-red-700">
+            {schedules.filter(s => s.status === "cancelled").length}
+          </p>
+          <p className="text-xs text-gray-600 mt-1">Cancelled</p>
+        </div>
+      </div>
+
+      {/* Pie Chart */}
+      <div className="w-full h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={[
+                { name: "Active", value: schedules.filter(s => s.status === "active").length },
+                { name: "Completed", value: schedules.filter(s => s.status === "completed").length },
+                { name: "Pending", value: schedules.filter(s => s.status === "pending").length },
+                { name: "Cancelled", value: schedules.filter(s => s.status === "cancelled").length },
+              ]}
+              cx="50%"
+              cy="50%"
+              outerRadius={90}
+              fill="#8884d8"
+              dataKey="value"
+              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+            >
+              <Cell fill="#3B82F6" />
+              <Cell fill="#22C55E" />
+              <Cell fill="#FACC15" />
+              <Cell fill="#EF4444" />
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  </DashboardCard>
+</Tab.Panel>
+
+
 
         </Tab.Panels>
       </Tab.Group>
