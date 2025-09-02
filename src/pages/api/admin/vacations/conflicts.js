@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
     let conflicts = [];
 
-    // 🔹 Case 1: Employee pushim
+    // 🔹 Case 1: Employee ka pushim → kontrollo a ka punë të planifikuara në ato data
     if (vacation.employeeId) {
       conflicts = await prisma.schedule.findMany({
         where: {
@@ -34,18 +34,29 @@ export default async function handler(req, res) {
           },
           status: { not: "cancelled" },
         },
-        include: { user: true, employee: true },
+        include: { user: true, employee: true }, // Employee case i nevojitet edhe user-i
       });
     }
 
-    // 🔹 Case 2: Client anulohet
+    // 🔹 Case 2: Client ka pushim → kontrollo a janë anuluar automatikisht terminet e tij
     if (vacation.userId) {
       conflicts = await prisma.schedule.findMany({
         where: {
           userId: vacation.userId,
           status: "cancelled",
         },
-        include: { user: true, employee: true },
+        select: {
+          id: true,
+          date: true,
+          employee: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              phone: true,
+            },
+          },
+        },
       });
     }
 

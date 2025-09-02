@@ -429,7 +429,10 @@ function ClientVacationItem({ vacation: v, vacations, setVacations }) {
           <p className="font-semibold text-yellow-700">⚠️ Client Cancelled Appointments:</p>
           <ul className="mt-2 space-y-2">
             {v.conflicts.map(c => (
-              <li key={c.id} className="p-2 border rounded-lg bg-white flex justify-between items-center">
+              <li
+                key={c.id}
+                className="p-2 border rounded-lg bg-white flex justify-between items-center"
+              >
                 <div>
                   <p>📅 {formatDate(c.date)}</p>
                   <p>👷 Employee: {c.employee?.firstName} {c.employee?.lastName}</p>
@@ -451,6 +454,7 @@ function ClientVacationItem({ vacation: v, vacations, setVacations }) {
     </li>
   );
 }
+
 
 function formatDate(date) {
   if (!date) return "–";
@@ -664,7 +668,6 @@ function formatDateTime(date) {
     "Overview",
     "Employees",
     "Clients",
-    "Analytics",
     "Urlaub",
     "Appointment Cancelation",
     "Application Overview",
@@ -717,89 +720,6 @@ function formatDateTime(date) {
 
     <Tab.Panel>
       
-  <DashboardCard title="Analytics">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-
-      {/* Donut Chart Section */}
-      <div className="w-full">
-     
-        <div className="bg-white rounded-xl p-6 border shadow-sm">
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                dataKey="value"
-                data={sourceData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={90}
-                label={({ name, percent }) =>
-                  `${name} ${(percent * 100).toFixed(0)}%`
-                }
-              >
-                {sourceData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={[
-                      "#4F46E5",
-                      "#22C55E",
-                      "#F59E0B",
-                      "#EF4444",
-                      "#8B5CF6",
-                      "#06B6D4",
-                    ][index % 6]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-
-          {/* Custom Legend */}
-          <ul className="mt-4 space-y-2 text-sm text-gray-700">
-            {sourceData.map((entry, index) => (
-              <li key={index} className="flex items-center gap-2">
-                <span
-                  className="inline-block w-3 h-3 rounded-full"
-                  style={{
-                    backgroundColor: [
-                      "#4F46E5",
-                      "#22C55E",
-                      "#F59E0B",
-                      "#EF4444",
-                      "#8B5CF6",
-                      "#06B6D4",
-                    ][index % 6],
-                  }}
-                ></span>
-                <span className="capitalize">{entry.name}</span>
-                <span className="ml-auto font-medium">{entry.value}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* "Andere" Details Section */}
-      {andereDetails.length > 0 && (
-        <div className="w-full bg-gray-50 rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
-            🧾 Custom “Andere” Entries ({andereDetails.length})
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {andereDetails.map((entry, i) => (
-              <span
-                key={i}
-                className="bg-[#04436F] text-white text-xs font-medium px-3 py-1 rounded-full shadow"
-              >
-                {entry}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
 <DashboardCard title="🌴 Urlaub">
@@ -982,7 +902,9 @@ function formatDateTime(date) {
   <DashboardCard title="📅 Bookings">
     <div className="p-4">
       {schedules.length > 0 ? (
-        <ul className="divide-y divide-gray-200">
+        <div className="overflow-x-auto">
+  <ul className="divide-y divide-gray-200 min-w-[300px]">
+
    { schedules.slice(0, 10).map((s) => (
 <li key={s.id} className="py-2 flex justify-between text-sm">
   <span>
@@ -1007,6 +929,8 @@ function formatDateTime(date) {
 ))}
 
         </ul>
+        </
+        div>
       ) : (
         <p className="text-gray-500 italic">No bookings available</p>
       )}
