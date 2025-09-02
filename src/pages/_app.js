@@ -32,13 +32,7 @@ function MyApp({ Component, pageProps }) {
         <title>PHC</title>
       </Head>
 
-      <FormProvider>
-        <Elements stripe={stripePromise}>
-          {!shouldExcludeLayout && <Header />}
-          <Component {...pageProps} />
-          {!shouldExcludeLayout && <Footer />}
-        </Elements>
-      </FormProvider>
+     
       <FormProvider>
   <Elements stripe={stripePromise}>
     {!shouldExcludeLayout && <Header />}
