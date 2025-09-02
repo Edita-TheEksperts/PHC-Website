@@ -184,7 +184,7 @@ export default function RegisterPage() {
       const date = buildDate(entry, form.firstDate);
       const hours = parseFloat(entry.hours) || 0;
       const surcharge = getSurcharge(date);
-      const hourlyRate = 60 * (1 + surcharge); // once = 60 CHF/h
+      const hourlyRate = 75 * (1 + surcharge); // once = 75 CHF/h
       return sum + hours * hourlyRate;
     }, 0);
   } else if (isRecurring) {
@@ -192,7 +192,7 @@ export default function RegisterPage() {
       const date = buildDate(entry, form.firstDate);
       const hours = parseFloat(entry.hours) || 0;
       const surcharge = getSurcharge(date);
-      const hourlyRate = 49 * (1 + surcharge); // recurring = 49 CHF/h
+      const hourlyRate = 59 * (1 + surcharge); // recurring = 59 CHF/h
       return sum + hours * hourlyRate;
     }, 0);
   }
