@@ -9,7 +9,6 @@ export default function SaveCardForm({ userId, customerId, form }) {
   const handleSaveCard = async () => {
     setLoading(true);
 
-    // Step 1: Create SetupIntent on backend
     const res = await fetch('/api/create-setup-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -18,7 +17,6 @@ export default function SaveCardForm({ userId, customerId, form }) {
 
     const { clientSecret } = await res.json();
 
-    // Step 2: Confirm card on frontend
     const result = await stripe.confirmCardSetup(clientSecret, {
       payment_method: {
         card: elements.getElement(CardElement),
@@ -34,9 +32,7 @@ export default function SaveCardForm({ userId, customerId, form }) {
       alert("Card could not be saved. " + result.error.message);
     } else {
       const paymentMethodId = result.setupIntent.payment_method;
-      console.log("✅ Saved payment method:", paymentMethodId);
 
-      // Step 3: Save paymentMethodId to your DB
       await fetch("/api/save-payment-method", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

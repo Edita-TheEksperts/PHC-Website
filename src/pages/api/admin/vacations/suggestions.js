@@ -4,7 +4,6 @@ import { prisma } from "../../../../lib/prisma";
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const { vacationId } = req.query;
-    console.log("➡️ Suggestions API called with vacationId:", vacationId);
 
     try {
       const vacation = await prisma.vacation.findUnique({
@@ -15,8 +14,6 @@ export default async function handler(req, res) {
       if (!vacation) {
         return res.status(404).json({ error: "Vacation not found" });
       }
-
-      console.log("✅ Vacation found, calculating suggestions...");
 
       // Example: just return alternative dates + employee who can cover
       const availableEmployees = await prisma.employee.findMany({
@@ -30,7 +27,6 @@ export default async function handler(req, res) {
         employee: emp
       }));
 
-      console.log("💡 Suggestions generated:", suggestions);
       return res.json(suggestions);
     } catch (err) {
       console.error("💥 Error in suggestions:", err);

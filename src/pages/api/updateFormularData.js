@@ -100,9 +100,6 @@ export default async function handler(req, res) {
       }
     })
 
-    console.log("👉 Update user id:", id)
-    console.log("👉 Final payload for Prisma:", finalData)
-
     const updatedUser = await prisma.user.update({
       where: { id: String(id) },
       data: finalData,

@@ -273,17 +273,14 @@ form.hasLicense === "ja" && form.drivingLicenceFile
           : null,
       profilePhoto: await uploadToFirebase(form.profilePhoto, userId, "photo"),
     };
-
-    // Combine URLs into the payload
-    const payload = {
-      ...form,
-      ...fileUploads,
-      hasLicense: form.hasLicense === "ja",
-      availabilityFrom: form.availabilityFrom || new Date().toISOString().split("T")[0],
-      specialTrainings: Array.isArray(form.specialTrainings) ? form.specialTrainings : [],
-    };
-
-    console.log("📦 Final Payload:", payload);
+// Combine URLs into the payload
+const payload = {
+  ...form,
+  ...fileUploads,
+  hasLicense: form.hasLicense === "ja",
+  availabilityFrom: form.availabilityFrom || new Date().toISOString().split("T")[0],
+  specialTrainings: Array.isArray(form.specialTrainings) ? form.specialTrainings : [],
+};
 
     // Send form data to your API
     const res = await fetch("/api/employee-register", {

@@ -9,7 +9,6 @@ export default function EmployeeScheduleList({ email }) {
     async function fetchEmployee() {
       const res = await fetch(`/api/auth/getEmployeeId?email=${email}`);
       const data = await res.json();
-      console.log("👤 Employee record:", data);
       setEmployeeId(data.id);
     }
     if (email) fetchEmployee();
@@ -21,7 +20,6 @@ export default function EmployeeScheduleList({ email }) {
       if (!employeeId) return;
       const res = await fetch(`/api/employee/schedules?employeeId=${employeeId}`);
       const data = await res.json();
-      console.log("📅 Frontend got schedules:", data);
       setSchedules(data);
     }
     fetchSchedules();

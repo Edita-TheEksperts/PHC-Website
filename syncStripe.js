@@ -28,7 +28,6 @@ async function syncPayments() {
     }
   }
 
-  console.log("✅ Stripe payments synced into DB");
 }
 
 syncPayments().catch(console.error);

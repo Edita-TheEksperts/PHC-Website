@@ -42,7 +42,6 @@ export async function sendPendingReminders() {
         where: { id: reminder.id },
         data: { sent: true },
       });
-      console.log(`Sent reminder ${reminder.type} to ${user.email}`);
     } catch (error) {
       console.error(`Failed to send reminder to ${user.email}:`, error);
     }

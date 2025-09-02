@@ -31,8 +31,6 @@ export default async function handler(req, res) {
       data: { paymentIntentId },
     });
 
-    console.log("✅ User payment updated:", userId);
-
     // ✅ Return userId for frontend to fetch user data
     res.status(200).json({ success: true, userId });
   } catch (err) {

@@ -6,9 +6,6 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  // Log the raw body to debug
-  console.log("req.body:", req.body);
-
   if (!req.body) {
     return res.status(400).json({ message: "Request body is missing" });
   }
@@ -33,11 +30,11 @@ export default async function handler(req, res) {
       where: { email },
       data: {
         resetToken,
-        resetTokenExpiry: new Date(Date.now() + 3600000),
+        resetTokenExpiry: new Date(Date.now() + 3600000), // expires in 1h
       },
     });
   } catch (error) {
-    console.error("Prisma update error:", error);
+    console.error("❌ Prisma update error:", error);
     return res.status(500).json({ message: "Failed to update user with reset token" });
   }
 

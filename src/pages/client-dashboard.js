@@ -82,23 +82,14 @@ export default function ClientDashboard() {
   const selectedService =
     allServices.find((srv) => String(srv.id) === String(form.service)) || null;
 
-  // --- DEBUG: Track form + services state
-  useEffect(() => {
-    console.log("🔹 allServices:", allServices);
-  }, [allServices]);
+// --- DEBUG: Track form + services state
+useEffect(() => {}, [allServices]);
 
-  useEffect(() => {
-    console.log("🔹 Current form state:", form);
-    console.log("🔹 Selected service (object):", selectedService);
-  }, [form, selectedService]);
+useEffect(() => {}, [form, selectedService]);
 
-  useEffect(() => {
-    console.log("🔹 Appointments loaded:", appointments);
-  }, [appointments]);
+useEffect(() => {}, [appointments]);
 
-  useEffect(() => {
-    console.log("🔹 Vacations loaded:", vacations);
-  }, [vacations]);
+useEffect(() => {}, [vacations]);
 
   useEffect(() => {
     if (!userData?.id) return;
@@ -207,16 +198,16 @@ export default function ClientDashboard() {
     };
     fetchUserData();
   }, [router]);
-  // --- Fetch available services
-  useEffect(() => {
-    fetch("/api/services")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("✅ Services API response:", data);
-        setAllServices(data);
-      })
-      .catch((err) => console.error("❌ Service fetch error:", err));
-  }, []);
+// --- Fetch available services
+useEffect(() => {
+  fetch("/api/services")
+    .then((res) => res.json())
+    .then((data) => {
+      setAllServices(data);
+    })
+    .catch((err) => console.error("❌ Service fetch error:", err));
+}, []);
+
 
   const [step, setStep] = useState("booking"); // "booking" | "payment" | "done"
   const [pendingBooking, setPendingBooking] = useState(null);

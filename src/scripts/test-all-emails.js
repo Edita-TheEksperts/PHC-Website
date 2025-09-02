@@ -87,13 +87,11 @@ async function runAllEmails() {
       html: '<p>Ein neuer Nutzer hat sich registriert.</p>',
     });
 
-    // --- 9. Send real reminders from DB if available ---
-    await sendPendingReminders();
-
-    console.log('\n✅ ALL TEST EMAILS SENT to:', TEST_EMAIL);
-  } catch (err) {
-    console.error('❌ ERROR SENDING EMAILS:', err);
-  }
+ // --- 9. Send real reminders from DB if available ---
+await sendPendingReminders();
+} catch (err) {
+  console.error('❌ ERROR SENDING EMAILS:', err);
+}
 }
 
 runAllEmails();

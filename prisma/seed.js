@@ -59,7 +59,6 @@ async function main() {
 
 main()
   .then(() => {
-    console.log("✅ Seed successful");
     return prisma.$disconnect();
   })
   .catch((e) => {

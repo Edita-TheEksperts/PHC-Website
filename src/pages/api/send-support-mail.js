@@ -17,7 +17,6 @@ export default async function handler(req, res) {
 
   form.parse(req, async (err, fields) => {
     if (err) {
-      console.error('Error parsing form:', err);
       return res.status(500).json({ error: 'Error parsing form data' });
     }
 
@@ -64,7 +63,7 @@ export default async function handler(req, res) {
         </div>
       `;
 
-      const info = await transporter.sendMail({
+      await transporter.sendMail({
         from: '"Website Kontakt" <landingpage@phc.ch>',
         to: 'landingpage@phc.ch',
         cc: ['info@phc.ch'],
@@ -72,10 +71,8 @@ export default async function handler(req, res) {
         html,
       });
 
-      console.log('Email sent:', info.messageId);
       res.status(200).json({ message: 'Email sent successfully!' });
     } catch (error) {
-      console.error('Send error:', error);
       res.status(500).json({ error: `Email send failed: ${error.message}` });
     }
   });

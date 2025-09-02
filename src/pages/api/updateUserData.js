@@ -15,8 +15,6 @@ export default async function handler(req, res) {
 
     // ➤ Shto shërbim
     if (addService) {
-      console.log("📌 [updateUserData] Duke shtuar shërbimin:", addService, "për user:", id);
-
       const updatedUser = await prisma.user.update({
         where: { id },
         data: {
@@ -30,8 +28,6 @@ export default async function handler(req, res) {
         include: { services: true },
       });
 
-      console.log("✅ [updateUserData] Shërbimet aktuale pas shtimit:", updatedUser.services);
-
       return res.status(200).json({
         message: "Service added",
         services: updatedUser.services,
@@ -40,8 +36,6 @@ export default async function handler(req, res) {
 
     // ➤ Largo shërbim
     if (removeService) {
-      console.log("📌 [updateUserData] Duke larguar shërbimin:", removeService, "për user:", id);
-
       const updatedUser = await prisma.user.update({
         where: { id },
         data: {
@@ -51,8 +45,6 @@ export default async function handler(req, res) {
         },
         include: { services: true },
       });
-
-      console.log("❌ [updateUserData] Shërbimet aktuale pas heqjes:", updatedUser.services);
 
       return res.status(200).json({
         message: "Service removed",
@@ -84,8 +76,6 @@ export default async function handler(req, res) {
       data: safeData,
       include: { services: true },
     });
-
-    console.log("🔄 [updateUserData] User updated, services:", updatedUser.services);
 
     return res.status(200).json(updatedUser);
   } catch (err) {

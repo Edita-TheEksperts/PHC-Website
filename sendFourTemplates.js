@@ -84,13 +84,12 @@ async function sendTestEmails() {
   for (const email of emails) {
     for (const recipient of recipients) {
       try {
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
           from: '"Prime Home Care AG" <landingpage@phc.ch>',
           to: recipient,
           subject: email.subject,
           text: email.text,
         });
-        console.log(`✅ Sent: "${email.subject}" to ${recipient}`);
       } catch (err) {
         console.error(`❌ Failed to send to ${recipient}:`, err.message);
       }

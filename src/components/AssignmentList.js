@@ -5,30 +5,22 @@ export default function AssignmentsList({ confirmedAssignments = [] }) {
   const startOfCurrentMonth = moment().startOf("month");
   const endOfNextMonth = moment().add(1, "month").endOf("month");
 
-  console.log("📌 Confirmed Assignments:", confirmedAssignments);
-  console.log("📌 Interval kontrolli:", startOfCurrentMonth.format("DD.MM.YYYY"), "→", endOfNextMonth.format("DD.MM.YYYY"));
-
   // Mbledhim të gjitha oraret
   const schedules = confirmedAssignments
     .flatMap((assignment) => {
       const client = assignment.user;
-      console.log("➡️ Assignment:", assignment);
 
       return (client?.schedules || []).map((schedule) => {
         // Parse datën nga API ("DD.MM.YYYY" ose "YYYY-MM-DD")
         const date = moment(schedule.day, ["DD.MM.YYYY", "YYYY-MM-DD"], true);
 
-        console.log("   🔎 Kontroll Schedule:", schedule, "→ parsed:", date.isValid() ? date.format("DD.MM.YYYY") : "❌ INVALID");
-
         if (
           !date.isValid() ||
           !date.isBetween(startOfCurrentMonth, endOfNextMonth, null, "[]")
         ) {
-          console.log("   ⛔ Jashtë intervalit ose datë e pavlefshme");
           return null;
         }
 
-        console.log("   ✅ U pranua për listë");
         return {
           id: `${assignment.id}-${schedule.id}`,
           clientName: `${client.firstName} ${client.lastName}`,
@@ -39,8 +31,6 @@ export default function AssignmentsList({ confirmedAssignments = [] }) {
       });
     })
     .filter(Boolean);
-
-  console.log("📌 Schedules që do shfaqen:", schedules);
 
   // Grupimi sipas muajit
   const grouped = schedules.reduce((acc, s) => {

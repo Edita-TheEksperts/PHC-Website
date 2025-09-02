@@ -19,20 +19,19 @@ export async function chargeUnpaidUsers() {
     include: { user: true }
   });
 
-  for (const schedule of schedules) {
-    try {
-      const intentId = schedule.user.paymentIntentId;
+for (const schedule of schedules) {
+  try {
+    const intentId = schedule.user.paymentIntentId;
 
-      const capture = await stripe.paymentIntents.capture(intentId);
-      console.log(`✅ Captured ${intentId} for schedule ID ${schedule.id}`);
+    const capture = await stripe.paymentIntents.capture(intentId);
 
-      await prisma.schedule.update({
-        where: { id: schedule.id },
-        data: { captured: true }
-      });
+    await prisma.schedule.update({
+      where: { id: schedule.id },
+      data: { captured: true }
+    });
 
-    } catch (err) {
-      console.error(`❌ Error capturing for schedule ${schedule.id}:`, err.message);
-    }
+  } catch (err) {
+    console.error(`❌ Error capturing for schedule ${schedule.id}:`, err.message);
   }
+}
 }

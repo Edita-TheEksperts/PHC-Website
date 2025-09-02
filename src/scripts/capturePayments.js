@@ -53,8 +53,6 @@ export async function capturePendingPayments() {
       },
     });
 
-    console.log(`Found ${usersToCharge.length} users to capture payment for.`);
-
     for (const user of usersToCharge) {
       try {
         const paymentIntent = await stripe.paymentIntents.capture(user.paymentIntentId);
@@ -65,15 +63,11 @@ export async function capturePendingPayments() {
             data: { paymentCaptured: true },
           });
 
-          console.log(`✅ Payment captured for user ${user.id} (${user.email})`);
-
           await sendPaymentConfirmationEmail(
             user,
             paymentIntent.amount / 100,  // Stripe uses cents
             user.id                      // Used as booking reference
           );
-        } else {
-          console.warn(`⚠️ Payment not captured for user ${user.id}, status: ${paymentIntent.status}`);
         }
       } catch (stripeError) {
         console.error(`❌ Stripe error for user ${user.id}:`, stripeError.message);

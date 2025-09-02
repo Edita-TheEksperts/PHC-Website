@@ -18,9 +18,6 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: "Error parsing form" });
       }
 
-      console.log("Fields:", fields);
-      console.log("Files:", files);
-
       const { name, vorname, email, region, selectedTopics, additionalQuestion } = fields;
 
       // Validate required fields
@@ -82,16 +79,13 @@ export default async function handler(req, res) {
         }
 
         // Send the email with the form data and attachment (if available)
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
           from: `"Kunden Landing Page" <landingpage@phc.ch>`,
           to: 'info@phc.ch',
           subject: `Formular: Kunden Landing Page ${name}`,
           html: htmlContent,
           attachments: attachments, // Attach the CV if present
         });
-
-        console.log("Message sent: %s", info.messageId);
-        console.log("Message sent details: ", info);  // Log the details of the sent email
 
         res.status(200).json({ message: 'Email sent successfully!' });
 

@@ -9,8 +9,7 @@ async function main() {
   });
 
   if (!employee) {
-    console.log("❌ Employee not found");
-    return;
+    return; // ❌ Employee not found
   }
 
   // find any test client (User with role client)
@@ -19,12 +18,11 @@ async function main() {
   });
 
   if (!client) {
-    console.log("❌ No client found in database. Please create one first.");
-    return;
+    return; // ❌ No client found in database. Please create one first.
   }
 
   // create a schedule for this employee + client
-  const schedule = await prisma.schedule.create({
+  await prisma.schedule.create({
     data: {
       day: "Montag",
       startTime: "09:00",
@@ -34,13 +32,11 @@ async function main() {
       employeeId: employee.id,
     },
   });
-
-  console.log("✅ Schedule created:", schedule);
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
+  .catch(async (e) => {
+    // error is still caught, but no console.log
   })
   .finally(async () => {
     await prisma.$disconnect();

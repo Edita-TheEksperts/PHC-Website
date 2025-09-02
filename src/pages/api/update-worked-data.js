@@ -12,12 +12,13 @@ export default async function handler(req, res) {
     typeof kilometers !== "number" ||
     typeof employeeId !== "string"
   ) {
-    console.error("❌ Invalid input types", { scheduleId, workedHours, kilometers, employeeId });
-    return res.status(400).json({ error: "Invalid input. Must be correct types." });
+    return res
+      .status(400)
+      .json({ error: "Invalid input. Must be correct types." });
   }
 
   try {
-    const updated = await prisma.schedule.update({
+    await prisma.schedule.update({
       where: { id: scheduleId },
       data: {
         hours: workedHours,
@@ -26,7 +27,6 @@ export default async function handler(req, res) {
       },
     });
 
-    console.log("✅ Updated schedule:", updated);
     res.status(200).json({ success: true });
   } catch (error) {
     console.error("❌ DB update failed", error);

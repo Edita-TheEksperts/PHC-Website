@@ -179,14 +179,7 @@ async function getSuggestions(id) {
   const data = await res.json();
   alert("Suggested dates: " + JSON.stringify(data));
 }
-useEffect(() => {
-  async function fetchConflicts() {
-    const res = await fetch("/api/admin/vacations/conflicts");
-    const data = await res.json();
-    console.log("⚠ Conflicts:", data);
-  }
-  fetchConflicts();
-}, []);
+
 
 async function fetchData() {
   const res = await fetch("/api/admin/dashboard");
@@ -676,6 +669,25 @@ function isThisYear(date) {
                   </button>
                 )}
 
+                {/* ⚠️ Check Conflicts */}
+                <button
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(
+                        `/api/admin/vacations/conflicts?vacationId=${v.id}`
+                      );
+                      const data = await res.json();
+                      v.conflicts = data.conflicts || [];
+                      setVacations([...vacations]); // trigger re-render
+                    } catch (err) {
+                      console.error("❌ Error fetching conflicts:", err);
+                    }
+                  }}
+                  className="px-3 py-1 bg-orange-500 text-white text-sm rounded-lg hover:bg-orange-600"
+                >
+                  ⚠️ Check Conflicts
+                </button>
+
                 {/* Approve */}
                 {v.status === "pending" && (
                   <button
@@ -758,41 +770,92 @@ function isThisYear(date) {
                         </div>
                         {s.employee.phone && (
                           <button
-                            onClick={() => window.open(`tel:${s.employee.phone}`)}
+                            onClick={() =>
+                              window.open(`tel:${s.employee.phone}`)
+                            }
                             className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
                           >
                             📞 Call
                           </button>
                         )}
-                         {/* ✅ Assign button (👉 ADD IT HERE) */}
-            <button
-              onClick={async () => {
-                const res = await fetch("/api/admin/vacation/assign", {
-                  method: "PATCH",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    vacationId: v.id,
-                    newEmployeeId: s.employee.id,
-                  }),
-                });
+                        <button
+                          onClick={async () => {
+                            const res = await fetch(
+                              "/api/admin/vacation/assign",
+                              {
+                                method: "PATCH",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  vacationId: v.id,
+                                  newEmployeeId: s.employee.id,
+                                }),
+                              }
+                            );
 
-                const result = await res.json();
-                alert(result.message || "Reassigned successfully");
+                            const result = await res.json();
+                            alert(result.message || "Reassigned successfully");
 
-                // Refresh vacations state
-                setVacations((prev) =>
-                  prev.map((x) =>
-                    x.id === v.id ? { ...x, employee: s.employee } : x
-                  )
-                );
-              }}
-              className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700"
-            >
-              ✅ Assign
-            </button>
+                            setVacations((prev) =>
+                              prev.map((x) =>
+                                x.id === v.id
+                                  ? { ...x, employee: s.employee }
+                                  : x
+                              )
+                            );
+                          }}
+                          className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700"
+                        >
+                          ✅ Assign
+                        </button>
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* Conflicts list */}
+              {v.conflicts && (
+                <div className="mt-3 bg-red-50 p-2 rounded-lg border text-sm">
+                  <p className="font-semibold text-red-700">⚠️ Conflicts:</p>
+                  {v.conflicts.length > 0 ? (
+                    <ul className="mt-2 space-y-2">
+                      {v.conflicts.map((c, i) => (
+                        <li
+                          key={i}
+                          className="p-2 border rounded-lg bg-white shadow-sm flex justify-between items-center"
+                        >
+                          <div>
+                            <p>
+                              📅{" "}
+                              {c.date
+                                ? new Date(c.date).toLocaleDateString()
+                                : "Unknown date"}
+                            </p>
+                            <p>
+                              👤 Client: {c.user?.firstName}{" "}
+                              {c.user?.lastName}
+                            </p>
+                            <p>
+                              👷 Employee: {c.employee?.firstName}{" "}
+                              {c.employee?.lastName}
+                            </p>
+                          </div>
+                          {c.user?.phone && (
+                            <button
+                              onClick={() => window.open(`tel:${c.user.phone}`)}
+                              className="px-2 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
+                            >
+                              📞 Call Client
+                            </button>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500 italic mt-2">No conflicts 🎉</p>
+                  )}
                 </div>
               )}
 

@@ -6,8 +6,6 @@ export default async function handler(req, res) {
 
   const { email, iban, accountHolder, bankName, bic } = req.body;
 
-  // Log incoming request for visibility
-  console.log("🛬 Incoming payment data:", req.body);
 
   // Collect missing fields
   const missingFields = [];

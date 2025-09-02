@@ -14,8 +14,6 @@ async function deleteTestUsers() {
     });
 
     for (const user of users) {
-      console.log(`Deleting assignments for ${user.email}...`);
-
       // Step 2: Delete assignments linked to the user
       await prisma.assignment.deleteMany({
         where: { userId: user.id },
@@ -25,8 +23,6 @@ async function deleteTestUsers() {
       await prisma.user.delete({
         where: { id: user.id },
       });
-
-      console.log(`Deleted user: ${user.email}`);
     }
   } catch (error) {
     console.error('❌ Error deleting users:', error);

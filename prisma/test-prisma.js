@@ -6,7 +6,7 @@ async function main() {
   const schedules = await prisma.schedule.findMany({
     include: { user: true, employee: true },
   });
-  console.log(schedules);
+  // Rezultati merret, por nuk shfaqet më në console
 }
 
 main()

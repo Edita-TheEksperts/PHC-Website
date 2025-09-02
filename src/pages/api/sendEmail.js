@@ -18,13 +18,10 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: "Error parsing form" });
       }
 
-      console.log("Fields:", fields);
-      console.log("Files:", files);
-
       const { name, vorname, email, region, questions } = fields;
 
       // Validate required fields
-      if (!name ||!vorname || !email || !region || !questions) {
+      if (!name || !vorname || !email || !region || !questions) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
@@ -53,7 +50,7 @@ export default async function handler(req, res) {
                 <td style="padding: 10px; border: 1px solid #ddd;"><strong>Name:</strong></td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${name}</td>
               </tr>
-                 <tr>
+              <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;"><strong>Vorname:</strong></td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${vorname}</td>
               </tr>
@@ -64,6 +61,10 @@ export default async function handler(req, res) {
               <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;"><strong>Region:</strong></td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${region}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>Fragen:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${questions}</td>
               </tr>
             </table>
             <p style="margin-top: 20px; color: #34495e; text-align: center;">Vielen Dank!</p>
@@ -83,7 +84,7 @@ export default async function handler(req, res) {
         }
 
         // Send the email with the form data and attachment (if available)
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
           from: `"Jobs Landing Page" <landingpage@phc.ch>`,
           to: 'landingpage@phc.ch',
           cc: ['edita.latifi@the-eksperts.com','jobs@phc.ch'],
@@ -91,9 +92,6 @@ export default async function handler(req, res) {
           html: htmlContent,
           attachments: attachments,
         });
-
-        console.log("Message sent: %s", info.messageId);
-        console.log("Message sent details: ", info);  // Log the details of the sent email
 
         res.status(200).json({ message: 'Email sent successfully!' });
 
@@ -107,4 +105,3 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' });
   }
 }
-

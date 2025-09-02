@@ -25,8 +25,6 @@ export default async function handler(req, res) {
       paymentIntentId,
     } = req.body;
 
-    console.log("📨 Incoming request body:", req.body);
-
     // ✅ Required field check
     if (!firstName || !lastName || !email || !password || !firstDate || !services?.length) {
       return res.status(400).json({ message: "❌ Missing required fields" });
@@ -37,15 +35,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "❌ paymentIntentId is missing!" });
     }
 
-    console.log("💳 Received paymentIntentId:", paymentIntentId);
-
     // ✅ Date parsing
     const parsedDate =
       typeof firstDate === "string" && firstDate.includes(".")
         ? new Date(firstDate.split(".").reverse().join("-"))
         : new Date(firstDate);
-
-    console.log("📆 Parsed first date:", parsedDate.toISOString());
 
     // ✅ Hash password
     const passwordHash = await hash(password, 10);
@@ -62,30 +56,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "❌ Service or Subservice not found" });
     }
 
-    console.log("🔗 Matched services:", serviceRecords.map((s) => s.name));
-    console.log("🔗 Matched subservices:", subServiceRecords.map((s) => s.name));
-
     // ✅ Build individual schedule entries
     const schedulesCreate = schedules.map((entry) => ({
       day: entry.day,
       startTime: entry.startTime,
       hours: parseFloat(entry.hours),
-      date: new Date(entry.date), // ✅ Use entry's date
+      date: new Date(entry.date),
     }));
-
-    console.log("📋 Final schedules to insert:", schedulesCreate);
 
     // ✅ Payment calculation
     const totalHours = schedulesCreate.reduce((sum, s) => sum + s.hours, 0);
     const HOURLY_RATE = 1;
     const totalPayment = totalHours * HOURLY_RATE;
-    console.log("🧮 Total hours:", totalHours, "→ Payment:", totalPayment);
 
     // ✅ Create or update user
     let user = await prisma.user.findUnique({ where: { email } });
 
     if (user) {
-      console.log("⚠️ User already exists, updating:", email);
       user = await prisma.user.update({
         where: { email },
         data: {
@@ -123,29 +110,23 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log("✅ User created/updated with ID:", user.id);
-    console.log("💾 Stored paymentIntentId:", user.paymentIntentId);
+    // ✅ Email confirmation (template just for this handler)
+    const template = await prisma.emailTemplate.findUnique({
+      where: { name: "welcomeEmail" },
+    });
 
-// ✅ Email confirmation (template just for this handler)
-const template = await prisma.emailTemplate.findUnique({
-  where: { name: "welcomeEmail" },
-});
+    if (template) {
+      let body = template.body;
+      body = body.replace(/{{firstName}}/g, firstName || "");
+      body = body.replace(/{{lastName}}/g, lastName || "");
+      body = body.replace(/{{email}}/g, email || "");
 
-if (!template) {
-  console.warn("⚠️ No welcomeEmail template found, skipping email");
-} else {
-  let body = template.body;
-  body = body.replace(/{{firstName}}/g, firstName || "");
-  body = body.replace(/{{lastName}}/g, lastName || "");
-  body = body.replace(/{{email}}/g, email || "");
-
-  await sendEmail({
-    to: email,
-    subject: template.subject,
-    html: body,
-  });
-}
-
+      await sendEmail({
+        to: email,
+        subject: template.subject,
+        html: body,
+      });
+    }
 
     // ✅ Create reminders
     await prisma.reminder.createMany({
@@ -165,9 +146,7 @@ if (!template) {
       ],
     });
 
-    console.log("⏰ Reminders scheduled");
     return res.status(201).json({ message: "✅ Registration complete", userId: user.id });
-
   } catch (error) {
     console.error("❌ Error during registration:", error);
 

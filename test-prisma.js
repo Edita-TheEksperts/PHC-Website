@@ -6,6 +6,3 @@ const schedules = await prisma.schedule.findMany({
   where: { employeeId },
   select: { id: true, day: true, startTime: true, employeeId: true },
 });
-
-console.log(`📅 Schedules for employee ${employeeId}:`, schedules);
-

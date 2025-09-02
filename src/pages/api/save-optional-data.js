@@ -38,10 +38,6 @@ function serializeArrays(data) {
   return result;
 }
 
-
-
-
-
 const allowedUserFields = new Set([
   "frequency", "duration", "firstDate", "email", "address",
   "mobilityAids", "transportOption", "careFirstName", "careLastName", "carePhone",
@@ -147,24 +143,12 @@ export default async function handler(req, res) {
 
   const { userId, optionalData } = req.body;
 
-  console.log("📥 Incoming data:", JSON.stringify(req.body, null, 2));
-
   if (!userId || !optionalData) {
-    console.error("❌ Missing userId or optionalData");
     return res.status(400).json({ error: 'Missing userId or optionalData' });
   }
 
   if (typeof optionalData !== 'object' || optionalData === null) {
-    console.error("❌ optionalData is not a valid object:", optionalData);
     return res.status(400).json({ error: 'Invalid optionalData structure' });
-  }
-
-  const nullFields = Object.entries(optionalData)
-    .filter(([_, value]) => value === null)
-    .map(([key]) => key);
-
-  if (nullFields.length > 0) {
-    console.warn("⚠️ These fields are null in optionalData:", nullFields);
   }
 
   const {
@@ -175,9 +159,8 @@ export default async function handler(req, res) {
   } = optionalData;
 
   // 🧼 Clean + map + serialize
-const mappedData = mapFrontendToBackend(restData);
-const cleanedData = filterValidFields(serializeArrays(cleanData(mappedData)));
-  console.log("🧼 Cleaned flat data to save:", cleanedData);
+  const mappedData = mapFrontendToBackend(restData);
+  const cleanedData = filterValidFields(serializeArrays(cleanData(mappedData)));
 
   try {
     // 🔄 Update flat fields
@@ -185,15 +168,12 @@ const cleanedData = filterValidFields(serializeArrays(cleanData(mappedData)));
       where: { id: userId },
       data: cleanedData,
     });
-    console.log("✅ Flat user fields updated");
   } catch (error) {
-    console.error("❌ Failed to update flat fields:", error.message);
     return res.status(500).json({ error: 'Failed to update user data' });
   }
 
   // 🔗 Update services
   if (services?.length) {
-    console.log("🔗 Connecting services:", services);
     try {
       await prisma.user.update({
         where: { id: userId },
@@ -205,15 +185,12 @@ const cleanedData = filterValidFields(serializeArrays(cleanData(mappedData)));
         },
       });
     } catch (error) {
-      console.error("❌ Failed to update services:", error.message);
+      // still continue
     }
-  } else {
-    console.warn("⚠️ No services provided");
   }
 
   // 🔗 Update subServices
   if (subServices?.length) {
-    console.log("🔗 Connecting subServices:", subServices);
     try {
       await prisma.user.update({
         where: { id: userId },
@@ -225,15 +202,12 @@ const cleanedData = filterValidFields(serializeArrays(cleanData(mappedData)));
         },
       });
     } catch (error) {
-      console.error("❌ Failed to update subServices:", error.message);
+      // still continue
     }
-  } else {
-    console.warn("⚠️ No subServices provided");
   }
 
   // 🕓 Update schedules
   if (schedules?.length) {
-    console.log("🕓 Replacing schedules:", schedules);
     try {
       await prisma.schedule.deleteMany({ where: { userId } });
       await prisma.schedule.createMany({
@@ -245,10 +219,8 @@ const cleanedData = filterValidFields(serializeArrays(cleanData(mappedData)));
         })),
       });
     } catch (error) {
-      console.error("❌ Failed to update schedules:", error.message);
+      // still continue
     }
-  } else {
-    console.warn("⚠️ No schedules provided");
   }
 
   return res.status(200).json({ success: true });

@@ -1,9 +1,7 @@
 import { prisma } from "../../../lib/prisma";
-
 export default async function handler(req, res) {
   const { employeeId } = req.query;
 
-  console.log("👉 API called with employeeId:", employeeId);
 
   if (!employeeId) {
     return res.status(400).json({ error: "Missing employeeId" });
@@ -33,7 +31,6 @@ export default async function handler(req, res) {
       employee: s.employee,
     }));
 
-    console.log("✅ Prisma returned schedules:", formatted);
     res.status(200).json(formatted);
   } catch (error) {
     console.error("❌ Error fetching schedules:", error);

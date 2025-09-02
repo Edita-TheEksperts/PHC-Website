@@ -14,15 +14,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: "Email is required and must be a string" });
   }
 
-  console.log("📧 API: Fetching employee with email:", email);
-
   try {
     const employee = await prisma.employee.findUnique({
       where: { email },
     });
 
     if (!employee) {
-      console.warn("⚠️ No employee found with this email:", email);
       return res.status(404).json({ message: "Employee not found" });
     }
 

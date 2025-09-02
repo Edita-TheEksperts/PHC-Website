@@ -58,7 +58,6 @@ export default async function handler(req, res) {
     }
 
     const finalNeeds = normalizeNeeds(clientNeeds);
-    console.log("Client needs used for matching:", finalNeeds);
 
     // --- Location info ---
     const clientCity = client.careCity || client.city || null;

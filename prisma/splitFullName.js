@@ -10,7 +10,6 @@ async function run() {
       "lastName" = split_part("fullName", ' ', 2)
     WHERE "fullName" IS NOT NULL;
   `);
-  console.log("✅ Full name split successfully!");
   await prisma.$disconnect();
 }
 

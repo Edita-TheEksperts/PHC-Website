@@ -1,42 +1,37 @@
 import { prisma } from "../../lib/prisma";
 
 export default async function handler(req, res) {
-// ---------------- GET ----------------
-// ---------------- GET ----------------
-if (req.method === "GET") {
-  try {
-    const { userId, employeeId } = req.query;
-    console.log("➡️ GET /appointments called with:", { userId, employeeId });
+  // ---------------- GET ----------------
+  if (req.method === "GET") {
+    try {
+      const { userId, employeeId } = req.query;
 
-    const schedules = await prisma.schedule.findMany({
-      where: userId
-        ? { userId }
-        : employeeId
-        ? { employeeId }
-        : {}, // fallback all if nothing passed
-      orderBy: { date: "asc" },
-      take: 10,
-      select: {
-        id: true,
-        day: true,
-        startTime: true,
-        hours: true,
-        date: true,
-        serviceName: true,
-        subServiceName: true,
-        status: true,
-      },
-    });
+      const schedules = await prisma.schedule.findMany({
+        where: userId
+          ? { userId }
+          : employeeId
+          ? { employeeId }
+          : {}, // fallback all if nothing passed
+        orderBy: { date: "asc" },
+        take: 10,
+        select: {
+          id: true,
+          day: true,
+          startTime: true,
+          hours: true,
+          date: true,
+          serviceName: true,
+          subServiceName: true,
+          status: true,
+        },
+      });
 
-    console.log("✅ Found schedules:", schedules);
-    return res.status(200).json(schedules);
-  } catch (err) {
-    console.error("❌ Error fetching schedules:", JSON.stringify(err, null, 2));
-    return res.status(500).json({ error: "Failed to fetch schedules" });
+      return res.status(200).json(schedules);
+    } catch (err) {
+      console.error("❌ Error fetching schedules:", JSON.stringify(err, null, 2));
+      return res.status(500).json({ error: "Failed to fetch schedules" });
+    }
   }
-}
-
-
 
   // ---------------- POST ----------------
   if (req.method === "POST") {
@@ -56,20 +51,18 @@ if (req.method === "GET") {
         return res.status(400).json({ error: "Invalid date format" });
       }
 
-
-const newAppt = await prisma.schedule.create({
-  data: {
-    day: parsedDate.toLocaleDateString("de-DE", { weekday: "long" }),
-    date: parsedDate,
-    startTime: time,
-    hours: hours || 2,
-    user: { connect: { id: userId } },
-    serviceName: service || null,
-    subServiceName: subService || null,
-    status: "active",
-  },
-});
-
+      const newAppt = await prisma.schedule.create({
+        data: {
+          day: parsedDate.toLocaleDateString("de-DE", { weekday: "long" }),
+          date: parsedDate,
+          startTime: time,
+          hours: hours || 2,
+          user: { connect: { id: userId } },
+          serviceName: service || null,
+          subServiceName: subService || null,
+          status: "active",
+        },
+      });
 
       return res.status(201).json(newAppt);
     } catch (err) {

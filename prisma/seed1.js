@@ -2,8 +2,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Starting seed...");
-
   // 1. Gjej ose krijo user
   let user = await prisma.user.findUnique({
     where: { email: "editalatifi@gmail.com" },
@@ -17,9 +15,6 @@ async function main() {
         lastName: "Latifi",
       },
     });
-    console.log("✅ User created:", user.email);
-  } else {
-    console.log("👉 User already exists:", user.email);
   }
 
   // 2. Gjej ose krijo employee
@@ -36,9 +31,6 @@ async function main() {
         status: "approved",
       },
     });
-    console.log("✅ Employee created:", employee.email);
-  } else {
-    console.log("👉 Employee already exists:", employee.email);
   }
 
   // 3. Krijo assignments
@@ -47,7 +39,7 @@ async function main() {
   nextMonth.setMonth(today.getMonth() + 1);
 
   // Assignment i parë
-  const assignment1 = await prisma.assignment.create({
+  await prisma.assignment.create({
     data: {
       employeeId: employee.id,
       userId: user.id,
@@ -72,7 +64,7 @@ async function main() {
   });
 
   // Assignment i dytë
-  const assignment2 = await prisma.assignment.create({
+  await prisma.assignment.create({
     data: {
       employeeId: employee.id,
       userId: user.id,
@@ -95,13 +87,10 @@ async function main() {
       subServiceName: "Begleitung",
     },
   });
-
-  console.log("✅ Created assignments and schedules for this and next month");
 }
 
 main()
   .then(() => {
-    console.log("🌱 Seed finished successfully!");
     process.exit(0);
   })
   .catch((e) => {

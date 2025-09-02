@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  console.log("🛬 Incoming request body:", req.body);
 
   if (!req.body || typeof req.body !== "object") {
     return res.status(400).json({ message: "Invalid JSON payload" });
@@ -121,29 +120,19 @@ if (existing) {
     message: "Diese E-Mail-Adresse ist bereits registriert.",
   });
 }
+try {
+  const saved = await prisma.employee.create({
+    data: employeeData,
+  });
 
-
-  // Log before insert
-  console.log("🗃️ Final employeeData:", employeeData);
-
-  try {
-    const saved = await prisma.employee.create({
-      data: employeeData,
-    });
-
-    console.log("✅ Saved to DB:", saved?.id || "No ID returned");
-
-    return res.status(201).json({
-      message: "Registered successfully.",
-    });
-  } catch (error) {
-console.error("❌ Prisma insert failed:");
-console.dir(error, { depth: null });
-    return res.status(500).json({
-  message: "Database error",
-  error: error.message
-});
-
-
-  }
+  return res.status(201).json({
+    message: "Registered successfully.",
+  });
+} catch (error) {
+  console.error("❌ Prisma insert failed:", error);
+  return res.status(500).json({
+    message: "Database error",
+    error: error.message,
+  });
+}
 }

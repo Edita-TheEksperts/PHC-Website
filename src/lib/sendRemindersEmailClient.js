@@ -61,13 +61,10 @@ async function notifySchedulesInTwoDays() {
       },
     });
 
-    console.log(`📅 Found ${schedules.length} schedules for ${targetDate}`);
-
     for (const schedule of schedules) {
       const user = schedule.user;
       if (user && user.email) {
         await sendReminderEmail(user, schedule.day);
-        console.log(`📧 Reminder sent to ${user.email}`);
       }
     }
   } catch (err) {

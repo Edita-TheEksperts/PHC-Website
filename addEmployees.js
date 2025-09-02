@@ -63,9 +63,6 @@ async function main() {
       status: 'pending', // This employee is in 'pending' status
     },
   });
-
-  console.log('Employees added:');
-  console.log(employee1, employee2, employee3);
 }
 
 main()

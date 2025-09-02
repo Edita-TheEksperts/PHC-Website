@@ -4,11 +4,9 @@ import { prisma } from "../../../../lib/prisma";
 export default async function handler(req, res) {
   try {
     const { vacationId } = req.query;
-    console.log("➡️ Incoming GET /api/admin/vacations", { vacationId });
 
     if (vacationId) {
       // ✅ fetch single vacation
-      console.log("📋 Fetching vacation by ID...");
       const vacation = await prisma.vacation.findUnique({
         where: { id: vacationId },
         include: {
@@ -20,7 +18,6 @@ export default async function handler(req, res) {
       return res.status(200).json(vacation);
     } else {
       // ✅ fetch all vacations
-      console.log("📋 Fetching ALL vacations...");
       const vacations = await prisma.vacation.findMany({
         include: {
           employee: true,
@@ -35,4 +32,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Failed to fetch vacations" });
   }
 }
-
