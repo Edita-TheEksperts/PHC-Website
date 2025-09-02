@@ -452,7 +452,6 @@ function ClientVacationItem({ vacation: v, vacations, setVacations }) {
   );
 }
 
-
 function formatDate(date) {
   if (!date) return "–";
   const d = new Date(date);
@@ -462,6 +461,16 @@ function formatDate(date) {
   return `${day}.${month}.${year}`;
 }
 
+function formatDateTime(date) {
+  if (!date) return "–";
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, "0");
+  const minutes = String(d.getMinutes()).padStart(2, "0");
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
 
   return (
     <AdminLayout>
@@ -526,10 +535,8 @@ function formatDate(date) {
                 <span className="text-gray-600">{log.action}</span>
               </p>
               <p className="text-xs text-gray-400 mt-1">
-                {new Date(log.timestamp).toLocaleString("de-DE", {
-                  dateStyle: "short",
-                  timeStyle: "short",
-                })}
+           {formatDateTime(log.timestamp)}
+
               </p>
             </div>
           </li>
@@ -886,15 +893,13 @@ function formatDate(date) {
             <p><strong>✉️ Email:</strong> {w.employee.email}</p>
             {w.schedule && (
               <>
-                <p><strong>📅 Appointment Date:</strong> {new Date(w.schedule.date).toLocaleDateString("de-DE")}</p>
+<p><strong>📅 Appointment Date:</strong> {formatDate(w.schedule.date)}</p>
                 <p><strong>⏰ Start:</strong> {w.schedule.startTime} | <strong>Dauer:</strong> {w.schedule.hours}h</p>
                 <p><strong>🧑 Client:</strong> {w.schedule.user?.firstName} {w.schedule.user?.lastName}</p>
               </>
             )}
             <p>
-              <strong>📌 Canceled at:</strong>{" "}
-              {new Date(w.sentAt).toLocaleDateString("de-DE")}{" "}
-              {new Date(w.sentAt).toLocaleTimeString("de-DE")}
+            <p><strong>📌 Canceled at:</strong> {formatDateTime(w.sentAt)}</p>
             </p>
           </div>
         </li>
@@ -909,7 +914,7 @@ function formatDate(date) {
           <div className="text-sm space-y-1 text-gray-700">
             <p><strong>👤 Employee:</strong> {a.employee?.firstName} {a.employee?.lastName}</p>
             <p><strong>✉️ Email:</strong> {a.employee?.email}</p>
-            <p><strong>📅 Appointment Date:</strong> {a.date ? new Date(a.date).toLocaleDateString("de-DE") : "–"}</p>
+ <p><strong>📅 Appointment Date:</strong> {formatDate(a.date)}</p>
             <p><strong>⏰ Start:</strong> {a.startTime} | <strong>Dauer:</strong> {a.hours}h</p>
             <p><strong>🧑 Client:</strong> {a.user?.firstName} {a.user?.lastName}</p>
             <p>
@@ -982,9 +987,7 @@ function formatDate(date) {
 <li key={s.id} className="py-2 flex justify-between text-sm">
   <span>
     {s.serviceName || s.subServiceName || s.user?.services?.[0]?.name || "Service"} –{" "}
-    {s.date
-      ? new Date(s.date).toLocaleDateString("de-DE")
-      : `${s.day || ""} ${s.startTime || ""}`}
+  {s.date ? formatDate(s.date) : `${s.day || ""} ${s.startTime || ""}`}
   </span>
   <span
     className={`px-2 py-1 text-xs rounded ${
