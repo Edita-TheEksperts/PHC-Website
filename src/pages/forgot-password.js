@@ -91,7 +91,7 @@ Geben Sie Ihre E-Mail-Adresse ein        </p>
             </label>
             <input
               type="email"
-              placeholder="Gib dini E-Mail ii"
+              placeholder="Ihre E-Mail Adresse eingeben"
               className="h-[48px] w-full rounded-[10px] border border-[#C8D4E7] bg-[#FAFCFF] px-4"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
