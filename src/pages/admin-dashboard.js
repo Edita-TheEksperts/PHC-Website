@@ -276,6 +276,185 @@ function isThisYear(date) {
     (s) => s.date && isThisYear(new Date(s.date))
   ).length;
 
+function EmployeeVacationItem({ vacation: v, vacations, setVacations }) {
+  const hasConflicts = v.conflicts && v.conflicts.length > 0;
+
+  return (
+    <li key={v.id} className="p-3 border rounded-lg">
+      <div>
+        <p className="font-medium text-gray-800">
+          👷 Employee: {v.employee.firstName} {v.employee.lastName}
+        </p>
+        <p className="text-sm text-gray-600">
+          {new Date(v.startDate).toLocaleDateString()} →{" "}
+          {new Date(v.endDate).toLocaleDateString()}
+        </p>
+      </div>
+
+      {/* Butonat */}
+      <div className="flex flex-wrap gap-2 mt-2">
+        {/* 📞 Call */}
+        {v.employee?.phone && (
+          <button
+            onClick={() => window.open(`tel:${v.employee.phone}`)}
+            className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
+          >
+            📞 Call
+          </button>
+        )}
+
+        {/* 💡 Suggestions */}
+        <button
+          onClick={async () => {
+            const res = await fetch(`/api/admin/vacations/suggestions?vacationId=${v.id}`);
+            const data = await res.json();
+            v.suggestions = data;
+            setVacations([...vacations]);
+          }}
+          className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
+        >
+          💡 Suggestions
+        </button>
+
+        {/* ⚠️ Conflicts (vetëm kur ka) */}
+        {hasConflicts && (
+          <button
+            onClick={async () => {
+              const res = await fetch(`/api/admin/vacations/conflicts?vacationId=${v.id}`);
+              const data = await res.json();
+              v.conflicts = data.conflicts || [];
+              setVacations([...vacations]);
+            }}
+            className="px-3 py-1 bg-orange-500 text-white text-sm rounded-lg hover:bg-orange-600"
+          >
+            ⚠️ Conflicts
+          </button>
+        )}
+
+        {/* ✅ Approve */}
+        {v.status === "pending" && (
+          <button
+            onClick={async () => {
+              const res = await fetch("/api/employee/update-vacation", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ vacationId: v.id, action: "approve" }),
+              });
+              if (res.ok) {
+                setVacations(prev =>
+                  prev.map(x => (x.id === v.id ? { ...x, status: "approved" } : x))
+                );
+              }
+            }}
+            className="px-3 py-1 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
+          >
+            ✅ Approve
+          </button>
+        )}
+
+        {/* ❌ Decline */}
+        {v.status === "pending" && (
+          <button
+            onClick={async () => {
+              const res = await fetch("/api/employee/update-vacation", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ vacationId: v.id, action: "decline" }),
+              });
+              if (res.ok) {
+                setVacations(prev =>
+                  prev.map(x => (x.id === v.id ? { ...x, status: "declined" } : x))
+                );
+              }
+            }}
+            className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600"
+          >
+            ❌ Decline
+          </button>
+        )}
+      </div>
+
+      {/* Lista e konflikteve */}
+      {hasConflicts && (
+        <div className="mt-3 bg-red-50 p-2 rounded-lg border text-sm">
+          <p className="font-semibold text-red-700">⚠️ Conflicting Assignments:</p>
+          <ul className="mt-2 space-y-2">
+            {v.conflicts.map(c => (
+              <li key={c.id} className="p-2 border rounded-lg bg-white shadow-sm">
+                <p>📅 {c.date ? new Date(c.date).toLocaleDateString() : "–"}</p>
+                <p>👤 Client: {c.user?.firstName} {c.user?.lastName}</p>
+                <p>🛠 Service: {c.serviceName || c.subServiceName || "N/A"}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </li>
+  );
+}
+
+function ClientVacationItem({ vacation: v, vacations, setVacations }) {
+  const hasConflicts = v.conflicts && v.conflicts.length > 0;
+
+  return (
+    <li key={v.id} className="p-3 border rounded-lg">
+      <div>
+        <p className="font-medium text-gray-800">
+          🙋 Client: {v.user.firstName} {v.user.lastName}
+        </p>
+        <p className="text-sm text-gray-600">
+          {new Date(v.startDate).toLocaleDateString()} →{" "}
+          {new Date(v.endDate).toLocaleDateString()}
+        </p>
+      </div>
+
+      {/* ⚠️ Conflicts button vetëm nëse ka */}
+      {hasConflicts && (
+        <div className="flex flex-wrap gap-2 mt-2">
+          <button
+            onClick={async () => {
+              const res = await fetch(`/api/admin/vacations/conflicts?vacationId=${v.id}`);
+              const data = await res.json();
+              v.conflicts = data.conflicts || [];
+              setVacations([...vacations]);
+            }}
+            className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600"
+          >
+            ⚠️ Check Conflicts
+          </button>
+        </div>
+      )}
+
+      {/* Lista e konflikteve */}
+      {hasConflicts && (
+        <div className="mt-3 bg-yellow-50 p-2 rounded-lg border text-sm">
+          <p className="font-semibold text-yellow-700">⚠️ Client Cancelled Appointments:</p>
+          <ul className="mt-2 space-y-2">
+            {v.conflicts.map(c => (
+              <li key={c.id} className="p-2 border rounded-lg bg-white flex justify-between items-center">
+                <div>
+                  <p>📅 {c.date ? new Date(c.date).toLocaleDateString() : "–"}</p>
+                  <p>👷 Employee: {c.employee?.firstName} {c.employee?.lastName}</p>
+                  <p className="text-red-600 font-medium">❌ Cancelled</p>
+                </div>
+                {c.employee?.phone && (
+                  <button
+                    onClick={() => window.open(`tel:${c.employee.phone}`)}
+                    className="px-2 py-1 bg-green-500 text-white text-xs rounded-lg hover:bg-green-600"
+                  >
+                    📞 Lajmëro Punëtorin
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </li>
+  );
+}
+
+
 
   return (
     <AdminLayout>
@@ -609,279 +788,75 @@ function isThisYear(date) {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="🌴 Urlaub">
-    <div className="bg-white rounded-xl shadow-md p-4">
-      {Array.isArray(vacations) && vacations.length > 0 ? (
-        <ul className="space-y-3">
-          {vacations.map((v) => (
-            <li key={v.id} className="p-3 border rounded-lg">
-              <div>
-                <p className="font-medium text-gray-800">
-                  {v.employee
-                    ? `👷 Employee: ${v.employee.firstName} ${v.employee.lastName}`
-                    : ""}
-                  {v.user
-                    ? ` 🙋 Client: ${v.user.firstName} ${v.user.lastName}`
-                    : ""}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {new Date(v.startDate).toLocaleDateString()} →{" "}
-                  {new Date(v.endDate).toLocaleDateString()}
-                </p>
-              </div>
+<DashboardCard title="🌴 Urlaub">
+  <Tab.Group>
+    <Tab.List className="flex gap-2 mb-4">
+      <Tab
+        className={({ selected }) =>
+          `px-4 py-2 rounded-lg text-sm ${
+            selected ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"
+          }`
+        }
+      >
+        Employees
+      </Tab>
+      <Tab
+        className={({ selected }) =>
+          `px-4 py-2 rounded-lg text-sm ${
+            selected ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"
+          }`
+        }
+      >
+        Clients
+      </Tab>
+    </Tab.List>
 
-              {/* Action buttons */}
-              <div className="flex flex-wrap gap-2 mt-2">
-                {/* Call employee */}
-                {v.employee?.phone && (
-                  <button
-                    onClick={() => window.open(`tel:${v.employee.phone}`)}
-                    className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
-                  >
-                    📞 Call
-                  </button>
-                )}
+    <Tab.Panels>
+      {/* Employee Vacations */}
+      <Tab.Panel>
+        <div className="bg-white rounded-xl shadow-md p-4">
+          {vacations.filter(v => v.employee).length > 0 ? (
+            <ul className="space-y-3">
+              {vacations.filter(v => v.employee).map((v) => (
+                <EmployeeVacationItem
+                  key={v.id}
+                  vacation={v}
+                  vacations={vacations}
+                  setVacations={setVacations}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 italic">No employee vacations found</p>
+          )}
+        </div>
+      </Tab.Panel>
 
-                {/* Call client */}
-                {v.user?.phone && (
-                  <button
-                    onClick={() => window.open(`tel:${v.user.phone}`)}
-                    className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
-                  >
-                    📞 Call Client
-                  </button>
-                )}
+      {/* Client Vacations */}
+      <Tab.Panel>
+        <div className="bg-white rounded-xl shadow-md p-4">
+          {vacations.filter(v => v.user).length > 0 ? (
+            <ul className="space-y-3">
+              {vacations.filter(v => v.user).map((v) => (
+                <ClientVacationItem
+                  key={v.id}
+                  vacation={v}
+                  vacations={vacations}
+                  setVacations={setVacations}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 italic">No client vacations found</p>
+          )}
+        </div>
+      </Tab.Panel>
+    </Tab.Panels>
+  </Tab.Group>
+</DashboardCard>
 
-                {/* Suggestions */}
-                {v.employee && (
-                  <button
-                    onClick={async () => {
-                      const res = await fetch(
-                        `/api/admin/vacations/suggestions?vacationId=${v.id}`
-                      );
-                      const data = await res.json();
-                      v.suggestions = data;
-                      setVacations([...vacations]); // trigger re-render
-                    }}
-                    className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
-                  >
-                    💡 Suggestions
-                  </button>
-                )}
-
-                {/* ⚠️ Check Conflicts */}
-                <button
-                  onClick={async () => {
-                    try {
-                      const res = await fetch(
-                        `/api/admin/vacations/conflicts?vacationId=${v.id}`
-                      );
-                      const data = await res.json();
-                      v.conflicts = data.conflicts || [];
-                      setVacations([...vacations]); // trigger re-render
-                    } catch (err) {
-                      console.error("❌ Error fetching conflicts:", err);
-                    }
-                  }}
-                  className="px-3 py-1 bg-orange-500 text-white text-sm rounded-lg hover:bg-orange-600"
-                >
-                  ⚠️ Check Conflicts
-                </button>
-
-                {/* Approve */}
-                {v.status === "pending" && (
-                  <button
-                    onClick={async () => {
-                      const res = await fetch(
-                        "/api/employee/update-vacation",
-                        {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({
-                            vacationId: v.id,
-                            action: "approve",
-                          }),
-                        }
-                      );
-                      if (res.ok) {
-                        setVacations((prev) =>
-                          prev.map((x) =>
-                            x.id === v.id ? { ...x, status: "approved" } : x
-                          )
-                        );
-                      }
-                    }}
-                    className="px-3 py-1 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
-                  >
-                    ✅ Approve
-                  </button>
-                )}
-
-                {/* Decline */}
-                {v.status === "pending" && (
-                  <button
-                    onClick={async () => {
-                      const res = await fetch(
-                        "/api/employee/update-vacation",
-                        {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({
-                            vacationId: v.id,
-                            action: "decline",
-                          }),
-                        }
-                      );
-                      if (res.ok) {
-                        setVacations((prev) =>
-                          prev.map((x) =>
-                            x.id === v.id ? { ...x, status: "declined" } : x
-                          )
-                        );
-                      }
-                    }}
-                    className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600"
-                  >
-                    ❌ Decline
-                  </button>
-                )}
-              </div>
-
-              {/* Suggestions list */}
-              {v.employee && v.suggestions && v.suggestions.length > 0 && (
-                <div className="mt-3 bg-gray-50 p-2 rounded-lg border text-sm">
-                  <p className="font-semibold text-gray-700">
-                    💡 Suggested Alternatives:
-                  </p>
-                  <ul className="mt-2 space-y-2 text-sm text-gray-700">
-                    {v.suggestions.map((s, i) => (
-                      <li
-                        key={i}
-                        className="flex justify-between items-center p-2 border rounded-lg bg-gray-50"
-                      >
-                        <div>
-                          <p>
-                            {new Date(s.startDate).toLocaleDateString()} →{" "}
-                            {new Date(s.endDate).toLocaleDateString()}
-                          </p>
-                          <p className="font-medium">
-                            👷 {s.employee.firstName} {s.employee.lastName}
-                          </p>
-                        </div>
-                        {s.employee.phone && (
-                          <button
-                            onClick={() =>
-                              window.open(`tel:${s.employee.phone}`)
-                            }
-                            className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
-                          >
-                            📞 Call
-                          </button>
-                        )}
-                        <button
-                          onClick={async () => {
-                            const res = await fetch(
-                              "/api/admin/vacation/assign",
-                              {
-                                method: "PATCH",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                  vacationId: v.id,
-                                  newEmployeeId: s.employee.id,
-                                }),
-                              }
-                            );
-
-                            const result = await res.json();
-                            alert(result.message || "Reassigned successfully");
-
-                            setVacations((prev) =>
-                              prev.map((x) =>
-                                x.id === v.id
-                                  ? { ...x, employee: s.employee }
-                                  : x
-                              )
-                            );
-                          }}
-                          className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700"
-                        >
-                          ✅ Assign
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Conflicts list */}
-              {v.conflicts && (
-                <div className="mt-3 bg-red-50 p-2 rounded-lg border text-sm">
-                  <p className="font-semibold text-red-700">⚠️ Conflicts:</p>
-                  {v.conflicts.length > 0 ? (
-                    <ul className="mt-2 space-y-2">
-                      {v.conflicts.map((c, i) => (
-                        <li
-                          key={i}
-                          className="p-2 border rounded-lg bg-white shadow-sm flex justify-between items-center"
-                        >
-                          <div>
-                            <p>
-                              📅{" "}
-                              {c.date
-                                ? new Date(c.date).toLocaleDateString()
-                                : "Unknown date"}
-                            </p>
-                            <p>
-                              👤 Client: {c.user?.firstName}{" "}
-                              {c.user?.lastName}
-                            </p>
-                            <p>
-                              👷 Employee: {c.employee?.firstName}{" "}
-                              {c.employee?.lastName}
-                            </p>
-                          </div>
-                          {c.user?.phone && (
-                            <button
-                              onClick={() => window.open(`tel:${c.user.phone}`)}
-                              className="px-2 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
-                            >
-                              📞 Call Client
-                            </button>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-gray-500 italic mt-2">No conflicts 🎉</p>
-                  )}
-                </div>
-              )}
-
-              {/* Status at the end */}
-              <div className="mt-3">
-                <span
-                  className={`px-2 py-1 text-xs rounded ${
-                    v.status === "approved"
-                      ? "bg-green-100 text-green-700"
-                      : v.status === "declined"
-                      ? "bg-red-100 text-red-700"
-                      : "bg-yellow-100 text-yellow-700"
-                  }`}
-                >
-                  Status: {v.status}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-500 italic">No vacations found</p>
-      )}
-    </div>
-  </DashboardCard>
 </Tab.Panel>
+
 
 
           <Tab.Panel>

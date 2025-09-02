@@ -140,6 +140,18 @@ export default async function handler(req, res) {
     const totalCost = costPerService.reduce((sum, s) => sum + s.allTime, 0);
 
     // -------------------------------------------------------
+    // 🔄 Moved the code you had outside into here
+    // -------------------------------------------------------
+    const monthlySchedules = schedules.filter(
+      (s) => s.date && s.date >= startOfMonth && s.date <= endOfMonth
+    );
+
+    const altTotalCostThisMonth = monthlySchedules.reduce((sum, s) => {
+      const cost = s.hours * 30 + (s.kilometers || 0) * 0.5;
+      return sum + cost;
+    }, 0);
+
+    // -------------------------------------------------------
     // 📤 Response
     // -------------------------------------------------------
     res.json({
@@ -147,22 +159,12 @@ export default async function handler(req, res) {
       costPerService,
       totalIncomeAllTime,
       totalIncomeThisMonth,
-      totalCost,           // all time
-      totalCostThisMonth,  // ✅ new
+      totalCost,              // all time
+      totalCostThisMonth,     // nga llogaritja e parë
+      altTotalCostThisMonth,  // nga llogaritja e fundit që e kishe jashtë
     });
   } catch (err) {
     console.error("Finance API error:", err);
     res.status(500).json({ error: "Something went wrong" });
   }
 }
-// inside your try block after computing totalCost
-const monthlySchedules = schedules.filter(
-  (s) => s.date && s.date >= startOfMonth && s.date <= endOfMonth
-);
-
-const totalCostThisMonth = monthlySchedules.reduce((sum, s) => {
-  const cost = s.hours * 30 + (s.kilometers || 0) * 0.5;
-  return sum + cost;
-}, 0);
-
-

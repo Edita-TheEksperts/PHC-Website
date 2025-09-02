@@ -39,8 +39,6 @@ Prime Home Care AG
         subject,
         text: body,
       });
-
-      console.log(`📨 Erinnerung gesendet an ${emp.email}`);
     } catch (error) {
       console.error(`❌ Fehler beim Senden an ${emp.email}:`, error);
     }
