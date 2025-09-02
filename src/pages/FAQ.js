@@ -1,4 +1,6 @@
 import { useState } from "react";
+import faqData from "../data/faqData";
+
 
 export default function FAQ() {
   // FAQ Data with Questions & Answers

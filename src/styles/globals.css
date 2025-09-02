@@ -30,6 +30,14 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+.react-chatbot-kit-chat-input-container {
+  display: none !important;
+}
+.react-chatbot-kit-chat-input-container,
+.react-chatbot-kit-chat-input-form {
+  display: none !important;
+}
+
 
 @font-face {
   font-family: 'Metropolis';

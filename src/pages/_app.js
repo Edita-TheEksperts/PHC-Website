@@ -1,4 +1,6 @@
 import "../styles/globals.css";
+import ChatbotWidget from "../components/chatbot/ChatbotWidget";
+
 import { FormProvider } from "../context/FormContext";
 import Head from "next/head";
 import Header from "../components/Header";
@@ -37,6 +39,15 @@ function MyApp({ Component, pageProps }) {
           {!shouldExcludeLayout && <Footer />}
         </Elements>
       </FormProvider>
+      <FormProvider>
+  <Elements stripe={stripePromise}>
+    {!shouldExcludeLayout && <Header />}
+    <Component {...pageProps} />
+    {!shouldExcludeLayout && <Footer />}
+    {!shouldExcludeLayout && <ChatbotWidget />}  {/* 👈 Chatbot bubble */}
+  </Elements>
+</FormProvider>
+
     </>
   );
 }
