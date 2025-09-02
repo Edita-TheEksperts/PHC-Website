@@ -196,6 +196,22 @@ async function fetchData() {
   setClients(data.clients || []);
   setSchedules(data.schedules || []); // 👈 këtu vjen schedulesWithService
 }
+const [cancelledAppointments, setCancelledAppointments] = useState([]);
+useEffect(() => {
+  async function fetchCancelledAppointments() {
+    try {
+      const res = await fetch("/api/admin/dashboard");
+      const data = await res.json();
+      const cancelled = (data.schedules || []).filter(
+        (s) => s.status === "cancelled"
+      );
+      setCancelledAppointments(cancelled);
+    } catch (err) {
+      console.error("❌ Error fetching cancelled appointments:", err);
+    }
+  }
+  fetchCancelledAppointments();
+}, []);
 
 
 function ReassignModal({ vacation }) {
@@ -463,7 +479,7 @@ function isThisYear(date) {
     "Employees",
     "Clients",
     "Analytics",
-    "Warnings",
+    "Urlaub",
     "Appointment Cancelation",
     "Application Overview",
     "Working Time Tracking",
@@ -515,7 +531,7 @@ function isThisYear(date) {
 
     <Tab.Panel>
       
-  <DashboardCard title="🔍 Breakdown by Source">
+  <DashboardCard title="Analytics">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
       {/* Donut Chart Section */}
@@ -600,7 +616,7 @@ function isThisYear(date) {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="🌴 Vacations">
+  <DashboardCard title="🌴 Urlaub">
     <div className="bg-white rounded-xl shadow-md p-4">
       {Array.isArray(vacations) && vacations.length > 0 ? (
         <ul className="space-y-3">
@@ -748,6 +764,32 @@ function isThisYear(date) {
                             📞 Call
                           </button>
                         )}
+                         {/* ✅ Assign button (👉 ADD IT HERE) */}
+            <button
+              onClick={async () => {
+                const res = await fetch("/api/admin/vacation/assign", {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    vacationId: v.id,
+                    newEmployeeId: s.employee.id,
+                  }),
+                });
+
+                const result = await res.json();
+                alert(result.message || "Reassigned successfully");
+
+                // Refresh vacations state
+                setVacations((prev) =>
+                  prev.map((x) =>
+                    x.id === v.id ? { ...x, employee: s.employee } : x
+                  )
+                );
+              }}
+              className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700"
+            >
+              ✅ Assign
+            </button>
                       </li>
                     ))}
                   </ul>
@@ -780,41 +822,28 @@ function isThisYear(date) {
 
 
           <Tab.Panel>
-    <DashboardCard title="📅 Appointment Cancelation">
-  {warnings.length === 0 ? (
+  <DashboardCard title="📅 Appointment Cancelation">
+  {warnings.length === 0 && cancelledAppointments.length === 0 ? (
     <p className="text-gray-600 text-sm">
       Keine abgesagten Termine.
     </p>
   ) : (
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Rejection warnings */}
       {warnings.map((w) => (
         <li
-          key={w.id}
-          className="bg-red-50 border border-red-200 rounded-xl p-4 shadow-sm"
+          key={`warning-${w.id}`}
+          className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 shadow-sm"
         >
           <div className="text-sm space-y-1 text-gray-700">
-            <p>
-              <strong>👤 Employee:</strong> {w.employee.firstName}{" "}
-              {w.employee.lastName}
-            </p>
-            <p>
-              <strong>✉️ Email:</strong> {w.employee.email}
-            </p>
-            {/* Appointment details */}
+            <p><strong>⚠️ Warning:</strong> Employee rejection warning</p>
+            <p><strong>👤 Employee:</strong> {w.employee.firstName} {w.employee.lastName}</p>
+            <p><strong>✉️ Email:</strong> {w.employee.email}</p>
             {w.schedule && (
               <>
-                <p>
-                  <strong>📅 Appointment Date:</strong>{" "}
-                  {new Date(w.schedule.date).toLocaleDateString("de-DE")}
-                </p>
-                <p>
-                  <strong>⏰ Start:</strong> {w.schedule.startTime} |{" "}
-                  <strong>Dauer:</strong> {w.schedule.hours}h
-                </p>
-                <p>
-                  <strong>🧑 Client:</strong>{" "}
-                  {w.schedule.user?.firstName} {w.schedule.user?.lastName}
-                </p>
+                <p><strong>📅 Appointment Date:</strong> {new Date(w.schedule.date).toLocaleDateString("de-DE")}</p>
+                <p><strong>⏰ Start:</strong> {w.schedule.startTime} | <strong>Dauer:</strong> {w.schedule.hours}h</p>
+                <p><strong>🧑 Client:</strong> {w.schedule.user?.firstName} {w.schedule.user?.lastName}</p>
               </>
             )}
             <p>
@@ -825,9 +854,30 @@ function isThisYear(date) {
           </div>
         </li>
       ))}
+
+      {/* Cancelled appointments */}
+      {cancelledAppointments.map((a) => (
+        <li
+          key={`cancelled-${a.id}`}
+          className="bg-red-50 border border-red-200 rounded-xl p-4 shadow-sm"
+        >
+          <div className="text-sm space-y-1 text-gray-700">
+            <p><strong>👤 Employee:</strong> {a.employee?.firstName} {a.employee?.lastName}</p>
+            <p><strong>✉️ Email:</strong> {a.employee?.email}</p>
+            <p><strong>📅 Appointment Date:</strong> {a.date ? new Date(a.date).toLocaleDateString("de-DE") : "–"}</p>
+            <p><strong>⏰ Start:</strong> {a.startTime} | <strong>Dauer:</strong> {a.hours}h</p>
+            <p><strong>🧑 Client:</strong> {a.user?.firstName} {a.user?.lastName}</p>
+            <p>
+              <strong>📌 Status:</strong>{" "}
+              <span className="text-red-600 font-semibold">Cancelled</span>
+            </p>
+          </div>
+        </li>
+      ))}
     </ul>
   )}
 </DashboardCard>
+
 
           </Tab.Panel>
           <Tab.Panel>
