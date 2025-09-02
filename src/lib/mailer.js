@@ -44,7 +44,7 @@ Herzliche Grüsse
 Prime Home Care AG
       `,
       html: `
-        <p>Liebe ${firstName},</p>
+        <p>Liebe ${firstName}</p>
         <p>Vielen Dank für Ihre Registrierung bei <strong>Prime Home Care AG</strong>.</p>
         <p>Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.</p>
         <p><strong>Login-Link:</strong> <br/> <a href="${portalUrl}">${portalUrl}</a><br/>
