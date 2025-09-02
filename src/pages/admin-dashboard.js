@@ -286,8 +286,7 @@ function EmployeeVacationItem({ vacation: v, vacations, setVacations }) {
           👷 Employee: {v.employee.firstName} {v.employee.lastName}
         </p>
         <p className="text-sm text-gray-600">
-          {new Date(v.startDate).toLocaleDateString()} →{" "}
-          {new Date(v.endDate).toLocaleDateString()}
+          {formatDate(v.startDate)} → {formatDate(v.endDate)}
         </p>
       </div>
 
@@ -381,7 +380,7 @@ function EmployeeVacationItem({ vacation: v, vacations, setVacations }) {
           <ul className="mt-2 space-y-2">
             {v.conflicts.map(c => (
               <li key={c.id} className="p-2 border rounded-lg bg-white shadow-sm">
-                <p>📅 {c.date ? new Date(c.date).toLocaleDateString() : "–"}</p>
+                <p>📅 {formatDate(c.date)}</p>
                 <p>👤 Client: {c.user?.firstName} {c.user?.lastName}</p>
                 <p>🛠 Service: {c.serviceName || c.subServiceName || "N/A"}</p>
               </li>
@@ -403,8 +402,7 @@ function ClientVacationItem({ vacation: v, vacations, setVacations }) {
           🙋 Client: {v.user.firstName} {v.user.lastName}
         </p>
         <p className="text-sm text-gray-600">
-          {new Date(v.startDate).toLocaleDateString()} →{" "}
-          {new Date(v.endDate).toLocaleDateString()}
+          {formatDate(v.startDate)} → {formatDate(v.endDate)}
         </p>
       </div>
 
@@ -433,7 +431,7 @@ function ClientVacationItem({ vacation: v, vacations, setVacations }) {
             {v.conflicts.map(c => (
               <li key={c.id} className="p-2 border rounded-lg bg-white flex justify-between items-center">
                 <div>
-                  <p>📅 {c.date ? new Date(c.date).toLocaleDateString() : "–"}</p>
+                  <p>📅 {formatDate(c.date)}</p>
                   <p>👷 Employee: {c.employee?.firstName} {c.employee?.lastName}</p>
                   <p className="text-red-600 font-medium">❌ Cancelled</p>
                 </div>
@@ -454,6 +452,15 @@ function ClientVacationItem({ vacation: v, vacations, setVacations }) {
   );
 }
 
+
+function formatDate(date) {
+  if (!date) return "–";
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}.${month}.${year}`;
+}
 
 
   return (
