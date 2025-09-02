@@ -1115,11 +1115,11 @@ useEffect(() => {
                       <span>
                         Ich akzeptiere die{" "}
                         <a
-                          href="/AGB"
+                          href="/AVB"
                           target="_blank"
                           className="text-[#B99B5F] underline"
                         >
-                          AGB
+                          AVB
                         </a>
                       </span>
                     </div>

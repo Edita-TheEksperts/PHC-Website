@@ -165,7 +165,7 @@ const subscribe = async (e) => {
 
 
 {/* Bottom bar */}
-<div className="border-t border-[#E5EDF7] mt-8"> <div className="max-w-[1400px] mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between text-[#033559] text-[15px]"> <span> © {new Date().getFullYear()} | Development by <span className="font-semibold">the eksperts</span> </span> <div className="flex items-center gap-5 mt-2 md:mt-0"> <a href="/AGB" className="hover:underline">AGB</a> <a href="/impressum" className="hover:underline">Impressum</a> <a href="/datenschutz" className="hover:underline">Datenschutz</a> </div> </div> </div>
+<div className="border-t border-[#E5EDF7] mt-8"> <div className="max-w-[1400px] mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between text-[#033559] text-[15px]"> <span> © {new Date().getFullYear()} | Development by <span className="font-semibold">the eksperts</span> </span> <div className="flex items-center gap-5 mt-2 md:mt-0"> <a href="/AVB" className="hover:underline">AVB</a> <a href="/impressum" className="hover:underline">Impressum</a> <a href="/datenschutz" className="hover:underline">Datenschutz</a> </div> </div> </div>
 
       </footer>
     );

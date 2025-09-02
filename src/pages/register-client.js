@@ -2130,12 +2130,12 @@ export default function RegisterPage() {
                 >
                   Ich akzeptiere die{" "}
                   <a
-                    href="/AGB"
+                    href="/AVB"
                     className="text-[#B99B5F] underline font-medium"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    AGB
+                    AVB
                   </a>
                   .
                 </label>
