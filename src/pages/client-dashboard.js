@@ -14,7 +14,7 @@ import {
   Clock,
   Plane,
   AlarmClock,
-  Hourglass,
+  Hourglass, Menu, X
 } from "lucide-react";
 
 import { addDays, format } from "date-fns";
@@ -61,7 +61,7 @@ export default function ClientDashboard() {
   const [isNotifVisible, setIsNotifVisible] = useState(false);
   const [notifShownOnce, setNotifShownOnce] = useState(false);
   const [filter, setFilter] = useState("cancelled"); // ose "done"
-
+ const [isOpen, setIsOpen] = useState(false); // Mobile menu state
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
 
@@ -411,71 +411,116 @@ useEffect(() => {
   return (
     <div className="relative min-h-screen bg-gray-100 font-sans">
       <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <nav className="w-72 bg-[#B99B5F] text-white p-4 flex flex-col shadow-lg">
-          <h1 className="text-4xl font-bold text-center mb-12 select-none">
-            PHC
-          </h1>
-          <ul className="space-y-6 flex-grow">
-            <li className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition">
-              Dashboard
-            </li>
-            <li
-              onClick={() => router.push("/dashboard/personal-info")}
-              className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
-            >
-              Persönliche Informationen
-              {isNotifVisible && (
-                <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
-              )}
-              {isNotifVisible && (
-                <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-6 w-72 bg-white text-black rounded-2xl shadow-lg p-5 z-50">
-                  <div className="flex items-start gap-4">
-                    <svg
-                      className="w-7 h-7 text-[#04436F] flex-shrink-0"
-                      fill="#04436F"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="M12 2a6 6 0 00-6 6v4H5a1 1 0 000 2h14a1 1 0 000-2h-1V8a6 6 0 00-6-6zM6 18a6 6 0 0012 0H6z" />
-                    </svg>
-                    <div>
-                      <p className="font-semibold text-base mb-1">
-                        Bitte persönliche Daten ausfüllen
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Diese Daten sind für uns wichtig.
-                      </p>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsNotifVisible(false);
-                      }}
-                      aria-label="Close notification"
-                      className="text-2xl font-bold text-gray-400 hover:text-gray-700"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                </div>
-              )}
-            </li>
 
-            <li
-              onClick={() => router.push("/dashboard/formular")}
-              className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
-            >
-              Formular
-            </li>
-          </ul>
-        </nav>
+<>
+  {/* --- MOBILE TOP NAVBAR --- */}
+  <div className="lg:hidden bg-[#B99B5F] text-white shadow-lg w-full fixed top-0 left-0 z-50">
+    {/* Top bar */}
+    <div className="flex items-center justify-between p-4">
+      <h1
+        className="text-xl font-bold cursor-pointer"
+        onClick={() => router.push("/client-dashboard")}
+      >
+        PHC
+      </h1>
+      <button onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
+    </div>
+  </div>
+
+  {/* Fullscreen Mobile Menu Overlay */}
+  {isOpen && (
+    <div className="lg:hidden fixed inset-0 bg-[#B99B5F] text-white z-40 flex flex-col">
+      {/* Top bar inside overlay */}
+      <div className="flex items-center justify-between p-4 border-b border-white/20">
+        <h1
+          className="text-xl font-bold cursor-pointer"
+          onClick={() => {
+            router.push("/client-dashboard");
+            setIsOpen(false);
+          }}
+        >
+          PHC
+        </h1>
+        <button onClick={() => setIsOpen(false)}>
+          <X className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Menu items */}
+      <ul className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
+        <li
+          onClick={() => {
+            router.push("/client-dashboard");
+            setIsOpen(false);
+          }}
+          className="cursor-pointer hover:text-[#A6884A]"
+        >
+          Dashboard
+        </li>
+        <li
+          onClick={() => {
+            router.push("/dashboard/personal-info");
+            setIsOpen(false);
+          }}
+          className="cursor-pointer hover:text-[#A6884A]"
+        >
+          Persönliche Informationen
+        </li>
+        <li
+          onClick={() => {
+            router.push("/dashboard/formular");
+            setIsOpen(false);
+          }}
+          className="cursor-pointer hover:text-[#A6884A]"
+        >
+          Formular
+        </li>
+      </ul>
+    </div>
+  )}
+
+  {/* --- DESKTOP SIDEBAR --- */}
+  <nav className="hidden lg:flex bg-[#B99B5F] text-white p-4 flex-col shadow-lg lg:w-72">
+    <h1
+      className="text-4xl font-bold text-center mb-12 select-none cursor-pointer"
+      onClick={() => router.push("/client-dashboard")}
+    >
+      PHC
+    </h1>
+
+    <ul className="space-y-6 flex-grow">
+      <li
+        onClick={() => router.push("/client-dashboard")}
+        className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+      >
+        Dashboard
+      </li>
+      <li
+        onClick={() => router.push("/dashboard/personal-info")}
+        className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
+      >
+        Persönliche Informationen
+        {isNotifVisible && (
+          <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
+        )}
+      </li>
+      <li
+        onClick={() => router.push("/dashboard/formular")}
+        className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+      >
+        Formular
+      </li>
+    </ul>
+  </nav>
+</>
 
         {/* Main Content */}
-        <main className="flex-1 p-12 overflow-auto">
+        <main className="flex-1 p-2 mt-[100px] lg:mt-0 lg:p-12 overflow-auto">
           {/* Header */}
           <header className="flex justify-between items-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B99B5F]">
+            <h2 className="text-2xl lg:text-4xl font-bold text-[#B99B5F]">
               Kundenübersicht{" "}
             </h2>
 
@@ -787,8 +832,8 @@ useEffect(() => {
             </article>
           </section>
 
-          <div className="max-w-7xl mx-auto px-6 mt-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="max-w-7xl mx-auto lg:px-6 mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* --- SERVICE HISTORY --- */}
               <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                 {/* Header */}
