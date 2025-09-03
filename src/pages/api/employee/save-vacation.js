@@ -1,5 +1,6 @@
 // pages/api/employee/save-vacation.js
 import { prisma } from "../../../lib/prisma";
+import { logActivity } from "../../../lib/logActivity"; // 👈 import your helper
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -16,19 +17,26 @@ export default async function handler(req, res) {
     const employee = await prisma.employee.findUnique({ where: { email } });
     if (!employee) return res.status(404).json({ message: "Employee not found" });
 
-const vacation = await prisma.vacation.create({
-  data: {
-    employeeId: employee.id,
-    startDate: new Date(start),
-    endDate: new Date(end),
-    status: "pending",   // 👈 default
-  },
-});
+    const vacation = await prisma.vacation.create({
+      data: {
+        employeeId: employee.id,
+        startDate: new Date(start),
+        endDate: new Date(end),
+        status: "pending",
+      },
+    });
 
+    // ✅ Log activity
+    await logActivity({
+      actorEmployeeId: employee.id,   // 👈 who did the action
+      action: "requested vacation",   // 👈 description
+      targetType: "Vacation",         // 👈 entity type
+      targetId: vacation.id,          // 👈 entity ID
+    });
 
     res.status(200).json(vacation);
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error saving vacation:", err);
     res.status(500).json({ message: "Error saving vacation" });
   }
 }

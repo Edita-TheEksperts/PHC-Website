@@ -188,6 +188,8 @@ model User {
   vacations               Vacation[]
   services                Service[]     @relation("UserServices")
   subServices             SubService[]  @relation("UserSubServices")
+    activityLogs ActivityLog[] @relation("UserActivityLogs")
+
 }
 
 model Reminder {
@@ -293,6 +295,8 @@ model Employee {
   schedules            Schedule[]
   transactions         Transaction[]
   vacations            Vacation[]
+    activityLogs ActivityLog[] @relation("EmployeeActivityLogs")
+
 }
 
 model Transaction {
@@ -317,3 +321,20 @@ model EmailTemplate {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+model ActivityLog {
+  id              String    @id @default(uuid())
+  actorUserId     String?
+  actorEmployeeId String?
+  action          String
+  targetId        String?
+  targetType      String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+
+  actorUser       User?     @relation("UserActivityLogs", fields: [actorUserId], references: [id], map: "ActivityLog_actorUserId_fkey")
+  actorEmployee   Employee? @relation("EmployeeActivityLogs", fields: [actorEmployeeId], references: [id], map: "ActivityLog_actorEmployeeId_fkey")
+}
+
+

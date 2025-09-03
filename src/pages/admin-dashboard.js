@@ -286,6 +286,16 @@ function isThisYear(date) {
 
     fetchApproved();
   }, []);
+  
+const [activityLogs, setActivityLogs] = useState([]);
+useEffect(() => {
+  fetch("/api/admin/activity?limit=20")
+    .then((res) => res.json())
+    .then((data) => {
+      setActivityLogs(data);
+    })
+    .catch((err) => console.error("❌ Error loading activity logs:", err));
+}, []);
 
   return (
     <AdminLayout>
@@ -330,38 +340,47 @@ function isThisYear(date) {
 
 
 
-  {/* 📝 Activity Log */}
-  <DashboardCard title="Activity Log">
-    <div className="overflow-y-auto max-h-72 pr-1">
-      <ul className="space-y-4 text-sm text-gray-700">
-        {activity.map((log, i) => (
-          <li
-            key={i}
-            className="flex items-start gap-3 border-b pb-3 last:border-none"
-          >
-            {/* Avatar with initials */}
-            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs uppercase shadow-inner">
-              {log.actor?.[0] || "?"}
-            </div>
+<DashboardCard title="Activity Log">
+  <div className="overflow-y-auto max-h-72 pr-1">
+    <ul className="space-y-4 text-sm text-gray-700">
+      {activityLogs.map((log) => (
+        <li
+          key={log.id}
+          className="flex items-start gap-3 border-b pb-3 last:border-none"
+        >
+          {/* Avatar with initials */}
+          <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs uppercase shadow-inner">
+            {log.actorUser
+              ? log.actorUser.firstName?.[0]
+              : log.actorEmployee
+              ? log.actorEmployee.firstName?.[0]
+              : "?"}
+          </div>
 
-            {/* Log content */}
-            <div className="flex-1">
-              <p className="text-sm leading-tight">
-                <span className="font-medium text-[#04436F]">{log.actor}</span>{" "}
-                <span className="text-gray-600">{log.action}</span>
-              </p>
-              <p className="text-xs text-gray-400 mt-1">
-                {new Date(log.timestamp).toLocaleString("de-DE", {
-                  dateStyle: "short",
-                  timeStyle: "short",
-                })}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </DashboardCard>
+          {/* Log content */}
+          <div className="flex-1">
+            <p className="text-sm leading-tight">
+              <span className="font-medium text-[#04436F]">
+                {log.actorUser
+                  ? `${log.actorUser.firstName} ${log.actorUser.lastName}`
+                  : log.actorEmployee
+                  ? `${log.actorEmployee.firstName} ${log.actorEmployee.lastName}`
+                  : "System"}
+              </span>{" "}
+              <span className="text-gray-600">{log.action}</span>
+            </p>
+            <p className="text-xs text-gray-400 mt-1">
+              {new Date(log.createdAt).toLocaleString("de-DE", {
+                dateStyle: "short",
+                timeStyle: "short",
+              })}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</DashboardCard>
 
 
 <DashboardCard title="Financial Overview">

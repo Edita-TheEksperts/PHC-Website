@@ -2,8 +2,12 @@
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*", "createTestUser.js", "syncStripe.js"]
+  "include": ["src/**/*", "createTestUser.js", "syncStripe.js"],
+  "exclude": ["node_modules", "**/node_modules/*"]
 }
-
