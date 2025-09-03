@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 import AssignmentsList from "../components/AssignmentList";
 import EmployeeScheduleList from "../components/EmployeeScheduleList";
+import { Menu, X } from "lucide-react";
 
 export default function EmployeeDashboard() {
   const [vacations, setVacations] = useState([]);
@@ -18,8 +19,9 @@ export default function EmployeeDashboard() {
   const [paymentMsg, setPaymentMsg] = useState("");
   const [paymentSaved, setPaymentSaved] = useState(false);
   const [paymentTotals, setPaymentTotals] = useState(null);
-  const router = useRouter();
+   const [isOpen, setIsOpen] = useState(false);
 
+  const router = useRouter();
   useEffect(() => {
     const email = localStorage.getItem("email");
     if (!email) {
@@ -167,10 +169,68 @@ export default function EmployeeDashboard() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800">
-      <aside className="w-64 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex flex-col">
-        <h2 className="text-3xl font-extrabold text-center tracking-wide">PHC</h2>
+      <>
+      {/* --- MOBILE TOP NAVBAR --- */}
+      <div className="lg:hidden bg-[#04436F] text-white shadow-lg w-full fixed top-0 left-0 z-50">
+        <div className="flex items-center justify-between p-4">
+          <h1
+            className="text-xl font-bold cursor-pointer"
+            onClick={() => router.push("/dashboard")}
+          >
+            PHC
+          </h1>
+          <button onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Fullscreen Overlay Menu (Mobile) */}
+      {isOpen && (
+        <div className="lg:hidden fixed inset-0 bg-[#04436F] text-white z-40 flex flex-col">
+          {/* Close button inside overlay */}
+          <div className="flex items-center justify-between p-4 border-b border-white/20">
+            <h1
+              className="text-xl font-bold cursor-pointer"
+              onClick={() => {
+                router.push("/dashboard");
+                setIsOpen(false);
+              }}
+            >
+              PHC
+            </h1>
+            <button onClick={() => setIsOpen(false)}>
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <nav className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
+            <SidebarLink
+              label="Dashboard"
+              onClick={() => {
+                router.push("/employee-dashboard");
+                setIsOpen(false);
+              }}
+            />
+            <SidebarLink
+              label="Logout"
+              onClick={() => {
+                localStorage.removeItem("email");
+                router.push("/login");
+                setIsOpen(false);
+              }}
+            />
+          </nav>
+        </div>
+      )}
+
+      {/* --- DESKTOP SIDEBAR --- */}
+      <aside className="hidden lg:flex w-64 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
+        <h2 className="text-3xl font-extrabold text-center tracking-wide">
+          PHC
+        </h2>
         <nav className="space-y-2">
-          <SidebarLink label="Dashboard" />
+          <SidebarLink label="Dashboard" onClick={() => router.push("/employee-dashboard")} />
           <SidebarLink
             label="Logout"
             onClick={() => {
@@ -180,7 +240,8 @@ export default function EmployeeDashboard() {
           />
         </nav>
       </aside>
-      <main className="flex-1 px-8 py-10 space-y-10">
+    </>
+      <main className="flex-1 mt-[60px] lg:mt-0 px-4 lg:px-8 py-4 lg:py-10 space-y-10">
         <h1 className="text-2xl font-bold text-[#04436F] border-b pb-4">Mitarbeiter-Dashboard</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           <Card title="👤 Persönliche Informationen">
