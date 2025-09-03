@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Chatbot from "react-chatbot-kit";
-import "react-chatbot-kit/build/main.css";
 import config from "./config";
 import MessageParser from "./MessageParser";
 import ActionProvider from "./ActionProvider";
@@ -33,13 +32,13 @@ export default function ChatbotWidget() {
           </div>
         </div>
       ) : (
-        
         <button
-          onClick={() => setIsOpen(true)}
-          className="w-14 h-14 rounded-full bg-[#B99B5F] text-white flex items-center justify-center shadow-xl hover:bg-[#8C7545] transition-all duration-300"
-        >
-          💬
-        </button>
+  onClick={() => setIsOpen(true)}
+  className="chatbot-toggle-btn"
+>
+  💬
+</button>
+
       )}
     </div>
   );
