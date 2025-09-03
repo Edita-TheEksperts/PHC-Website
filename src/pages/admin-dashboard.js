@@ -272,6 +272,20 @@ function isThisYear(date) {
     (s) => s.date && isThisYear(new Date(s.date))
   ).length;
 
+ useEffect(() => {
+    async function fetchApproved() {
+      try {
+        const res = await fetch("/api/employees/approved");
+        if (!res.ok) throw new Error("Failed to fetch approved employees");
+        const data = await res.json();
+        setApprovedEmployees(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchApproved();
+  }, []);
 
   return (
     <AdminLayout>
@@ -285,11 +299,12 @@ function isThisYear(date) {
   {/* 👥 Employees */}
 
   {/* ✅ Approved */}
-  <DashboardCard title="Approved">
-    <div className="text-2xl font-bold text-green-600">{approvedEmployees.length}</div>
-    <p className="text-sm text-gray-500 mt-1">Bestätigte Mitarbeiter</p>
-  </DashboardCard>
-
+<DashboardCard title="✅ Approved">
+      <div className="text-2xl font-bold text-green-600">
+        {approvedEmployees.length}
+      </div>
+      <p className="text-sm text-gray-500 mt-1">Bestätigte Mitarbeiter</p>
+    </DashboardCard>
 
 {/* 📅 Appointments Overview */}
 <DashboardCard title="Appointments">
