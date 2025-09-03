@@ -785,7 +785,7 @@ function isThisYear(date) {
 
           </Tab.Panel>
           <Tab.Panel>
-  <DashboardCard title="Appointment Overview">
+  <DashboardCard title="Application Overview">
                 <ApplicationOverview employees={employees} />
                    <DashboardCard title="Revenue">
               <CurrentRevenue clients={clients} />
@@ -793,7 +793,7 @@ function isThisYear(date) {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="Application Overview">
+  <DashboardCard title="Application Status">
                 <OvertimeAlerts employees={employees} />
   </DashboardCard>
 </Tab.Panel>
