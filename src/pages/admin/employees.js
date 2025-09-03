@@ -80,7 +80,7 @@ export default function EmployeesPage() {
   return (
     <AdminLayout>
       <h1 className="text-2xl sm:text-3xl font-bold text-[#04436F] mb-6">
-        All Employees
+       Alle Mitarbeiter
       </h1>
 
       {/* Add Employee Form */}
@@ -90,7 +90,7 @@ export default function EmployeesPage() {
       >
         <input
           type="text"
-          placeholder="First Name"
+          placeholder="Vorname"
           value={newEmployee.firstName}
           onChange={(e) =>
             setNewEmployee({ ...newEmployee, firstName: e.target.value })
@@ -100,7 +100,7 @@ export default function EmployeesPage() {
         />
         <input
           type="text"
-          placeholder="Last Name"
+          placeholder="Nachname"
           value={newEmployee.lastName}
           onChange={(e) =>
             setNewEmployee({ ...newEmployee, lastName: e.target.value })
@@ -110,7 +110,7 @@ export default function EmployeesPage() {
         />
         <input
           type="email"
-          placeholder="Email"
+          placeholder="E-Mail"
           value={newEmployee.email}
           onChange={(e) =>
             setNewEmployee({ ...newEmployee, email: e.target.value })
@@ -122,8 +122,7 @@ export default function EmployeesPage() {
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
         >
-          Add Employee
-        </button>
+Mitarbeiter hinzufügen        </button>
       </form>
 
       {/* Employee Table */}

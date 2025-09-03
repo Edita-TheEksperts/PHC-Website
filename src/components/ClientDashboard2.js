@@ -35,7 +35,7 @@ export default function ClientDashboard2({ userId }) {
         <CardContent className="p-8">
           {/* Header */}
           <div className="flex justify-between items-center border-b pb-4 mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">📅 Monthly Overview</h2>
+            <h2 className="text-2xl font-bold text-gray-800">📅 Monatsübersicht </h2>
           </div>
 
           {/* Monthly list */}

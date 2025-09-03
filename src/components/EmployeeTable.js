@@ -34,7 +34,7 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
       {/* 🔍 Filters */}
       <div className="flex flex-wrap gap-4 mb-4 items-end">
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">Filter by Name</label>
+          <label className="text-sm text-gray-600 mb-1">Nach Name filtern</label>
           <input
             type="text"
             placeholder="e.g. John"
@@ -45,29 +45,29 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">Filter by Status</label>
+          <label className="text-sm text-gray-600 mb-1">Nach Status filtern</label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="border px-3 py-2 rounded-md text-sm w-44"
           >
-            <option value="">All Statuses</option>
-            <option value="approved">Approved</option>
-            <option value="pending">Pending</option>
-            <option value="rejected">Rejected</option>
+            <option value="">Alle Status</option>
+            <option value="approved">Genehmigt</option>
+            <option value="pending">Ausstehend</option>
+            <option value="rejected">Abgelehnt</option>
           </select>
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1">Filter by Invite Status</label>
+          <label className="text-sm text-gray-600 mb-1">Nach Einladungsstatus filtern</label>
           <select
             value={inviteFilter}
             onChange={(e) => setInviteFilter(e.target.value)}
             className="border px-3 py-2 rounded-md text-sm w-44"
           >
-            <option value="">All</option>
-            <option value="invited">Invited</option>
-            <option value="not_invited">Not Invited</option>
+            <option value="">Alle</option>
+            <option value="invited">Eingeladen</option>
+            <option value="not_invited">Nicht eingeladen</option>
           </select>
         </div>
 
@@ -79,7 +79,7 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
           }}
           className="bg-gray-200 text-sm px-4 py-2 rounded-md hover:bg-gray-300"
         >
-          Clear Filters
+          Filter löschen
         </button>
       </div>
 
@@ -89,10 +89,10 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
           <thead className="bg-gray-100">
             <tr className="bg-gray-100 text-sm text-gray-700 uppercase tracking-wide">
               <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left">Phone</th>
+              <th className="p-3 text-left">E-Mail</th>
+              <th className="p-3 text-left">Telefon</th>
               <th className="p-3 text-left">Status</th>
-              <th className="p-3 text-left">Actions</th>
+              <th className="p-3 text-left">Aktionen</th>
             </tr>
           </thead>
           <tbody className="text-sm text-gray-700">
@@ -110,20 +110,20 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                           onClick={() => onApprove(emp)}
                           className="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-full text-[16px] font-semibold shadow-sm transition"
                         >
-                          ✓ Approve
+                          ✓ Genehmigen
                         </button>
                         <button
                           onClick={() => onReject(emp)}
                           className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-[16px] font-semibold shadow-sm transition"
                         >
-                          ✕ Reject
+                          ✕ Ablehnen
                         </button>
                         {!emp.invited && (
                           <button
                             onClick={() => onInvite(emp)}
                             className="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-full text-[16px] font-semibold shadow-sm transition"
                           >
-                            ✉ Invite
+                            ✉ Einladen
                           </button>
                         )}
                       </>
@@ -152,8 +152,8 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
             <p className="font-semibold text-[#04436F] text-lg">
               {emp.firstName} {emp.lastName}
             </p>
-            <p><span className="font-semibold">Email:</span> {emp.email}</p>
-            <p><span className="font-semibold">Phone:</span> {emp.phone || "—"}</p>
+            <p><span className="font-semibold">E-Mail:</span> {emp.email}</p>
+            <p><span className="font-semibold">Telefon:</span> {emp.phone || "—"}</p>
             <p>
               <span className="font-semibold">Status:</span>{" "}
               <span className="capitalize font-semibold">{emp.status}</span>
@@ -166,20 +166,20 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                     onClick={() => onApprove(emp)}
                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
                   >
-                    Approve
+                    Genehmigen
                   </button>
                   <button
                     onClick={() => onReject(emp)}
                     className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
                   >
-                    Reject
+                    Ablehnen
                   </button>
                   {!emp.invited && (
                     <button
                       onClick={() => onInvite(emp)}
                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
                     >
-                      Invite
+                      Einladen
                     </button>
                   )}
                 </>
@@ -202,7 +202,7 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
             onClick={() => setVisibleCount((prev) => prev + 10)}
             className="px-5 py-2 bg-[#04436F] text-white font-semibold rounded-lg shadow hover:bg-[#033252] transition"
           >
-            Load More
+            Mehr laden
           </button>
         </div>
       )}

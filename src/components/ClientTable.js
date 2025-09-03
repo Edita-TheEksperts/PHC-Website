@@ -169,14 +169,14 @@ useEffect(() => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-[#04436F] mb-4">Clients</h2>
+      <h2 className="text-2xl font-bold text-[#04436F] mb-4">Kunden</h2>
 
       {/* Filter Labels and Controls */}
   <div className="flex flex-wrap gap-4 mb-4">
     
     {/* 🔍 Search by Name */}
     <div className="flex flex-col text-sm">
-      <label className="mb-1 text-gray-600 font-medium">Search by Name</label>
+      <label className="mb-1 text-gray-600 font-medium">Suche nach Name</label>
       <input
         type="text"
         placeholder="e.g. John"
@@ -188,7 +188,7 @@ useEffect(() => {
 
     {/* 🧾 Filter by Service */}
     <div className="flex flex-col text-sm">
-      <label className="mb-1 text-gray-600 font-medium">Filter by Service</label>
+      <label className="mb-1 text-gray-600 font-medium">Nach Dienstleistung filtern</label>
       <select
         value={selectedService}
         onChange={(e) => setSelectedService(e.target.value)}
@@ -203,7 +203,7 @@ useEffect(() => {
 
     {/* 📅 Filter by Date */}
     <div className="flex flex-col text-sm">
-      <label className="mb-1 text-gray-600 font-medium">Filter by Date of Service</label>
+      <label className="mb-1 text-gray-600 font-medium">Nach Leistungsdatum filtern</label>
       <input
         type="date"
         value={selectedDate}
@@ -214,7 +214,7 @@ useEffect(() => {
 
     {/* 🔄 Sort Options */}
     <div className="flex flex-col text-sm">
-      <label className="mb-1 text-gray-600 font-medium">Sort Clients</label>
+      <label className="mb-1 text-gray-600 font-medium">Kunden sortieren</label>
       <select
         value={sortBy}
         onChange={(e) => setSortBy(e.target.value)}
@@ -235,7 +235,7 @@ useEffect(() => {
         }}
         className="bg-gray-200 px-3 py-2 rounded text-sm hover:bg-gray-300"
       >
-        Clear Filters
+        Filter löschen
       </button>
     </div>
   </div>
@@ -246,11 +246,11 @@ useEffect(() => {
           <thead className="bg-gray-100 text-left">
         <tr className="bg-gray-100 text-sm text-gray-700 uppercase tracking-wide">
   <th className="px-4 py-2 text-left">Name</th>
-  <th className="px-4 py-2 text-left">Email</th>
+  <th className="px-4 py-2 text-left">E-Mail</th>
   <th className="px-4 py-2 text-left">Service</th>
-  <th className="px-4 py-2 text-left">Date</th>
-  <th className="px-4 py-2 text-left">Assign Employee</th>
-  <th className="px-4 py-2 text-left">Action</th>
+  <th className="px-4 py-2 text-left">Datum</th>
+  <th className="px-4 py-2 text-left">Mitarbeiter zuweisen</th>
+  <th className="px-4 py-2 text-left">Aktion</th>
   <th className="px-4 py-2 text-left">Status</th>
 </tr>
 
@@ -296,7 +296,7 @@ useEffect(() => {
       setShowModal(true);
     }}
   >
-    Why?
+    Warum?
   </button>
 </div>
 
@@ -315,7 +315,7 @@ useEffect(() => {
   className="border px-2 py-1 rounded min-w-[160px]"
 >
 
-    <option value="">Select Employee</option>
+    <option value="">Mitarbeiter auswählen</option>
     {employees.map((emp) => (
       <option key={emp.id} value={emp.id}>
         👤 {emp.firstName} {emp.lastName} ({emp.status})
@@ -339,7 +339,7 @@ useEffect(() => {
           : "bg-gray-200 text-gray-400 cursor-not-allowed"
       }`}
     >
-      Assign
+      Zuordnen
     </button>
 
     {/* View Details Button */}
@@ -347,7 +347,7 @@ useEffect(() => {
       onClick={() => router.push(`/admin/clients/${client.id}`)}
       className="px-3 py-1 rounded text-sm font-medium shadow-sm bg-blue-600 text-white hover:bg-blue-700 transition"
     >
-      View Details
+      Details anzeigen
     </button>
 
     {/* Assigned info */}
@@ -355,7 +355,7 @@ useEffect(() => {
       const latest = client.assignments[0];
       return (
         <p className="text-xs text-blue-600">
-          Assigned to <span className="font-semibold">{latest.employee?.firstName || "—"}{" "}
+         Zugewiesen an <span className="font-semibold">{latest.employee?.firstName || "—"}{" "}
           ({latest.confirmationStatus || "Pending"})</span>
         </p>
       );
@@ -372,7 +372,7 @@ useEffect(() => {
             : "bg-gray-200 text-gray-400 cursor-not-allowed"
         }`}
       >
-        Cancel
+        Stornieren
       </button>
     )}
   </div>
@@ -383,17 +383,17 @@ useEffect(() => {
            <td className="p-3">
   {getStatus(client) === "Open" && (
     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-      <span className="w-2 h-2 bg-green-500 rounded-full"></span> Open
+      <span className="w-2 h-2 bg-green-500 rounded-full"></span> Offen
     </span>
   )}
   {getStatus(client) === "Done" && (
     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-700">
-      <span className="w-2 h-2 bg-gray-500 rounded-full"></span> Done
+      <span className="w-2 h-2 bg-gray-500 rounded-full"></span> Erledigt
     </span>
   )}
   {getStatus(client) === "Canceled" && (
     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
-      <span className="w-2 h-2 bg-red-500 rounded-full"></span> Canceled
+      <span className="w-2 h-2 bg-red-500 rounded-full"></span> Abgesagt
     </span>
   )}
 </td>
@@ -405,7 +405,7 @@ useEffect(() => {
         </table>
 
         {filteredClients.length === 0 && (
-          <p className="text-center text-gray-500 mt-4">No clients found.</p>
+          <p className="text-center text-gray-500 mt-4">Keine Kunden gefunden.</p>
         )}
       </div>
 {/* 📱 Mobile Card View (only visible on small screens) */}
@@ -417,17 +417,17 @@ useEffect(() => {
     <div>
       {getStatus(client) === "Open" && (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
-          <span className="w-2 h-2 bg-green-500 rounded-full"></span> Open
+          <span className="w-2 h-2 bg-green-500 rounded-full"></span> Offen
         </span>
       )}
       {getStatus(client) === "Done" && (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-700">
-          <span className="w-2 h-2 bg-gray-500 rounded-full"></span> Done
+          <span className="w-2 h-2 bg-gray-500 rounded-full"></span> Erledigt
         </span>
       )}
       {getStatus(client) === "Canceled" && (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
-          <span className="w-2 h-2 bg-red-500 rounded-full"></span> Canceled
+          <span className="w-2 h-2 bg-red-500 rounded-full"></span> Abgesagt
         </span>
       )}
     </div>
@@ -446,7 +446,7 @@ useEffect(() => {
       }
       className="border w-full px-3 py-2 rounded"
     >
-      <option value="">Select Employee</option>
+      <option value="">Mitarbeiter auswählen</option>
       {employees.map((emp) => (
         <option key={emp.id} value={emp.id}>
           {emp.firstName} {emp.lastName} ({emp.status})
@@ -463,7 +463,7 @@ useEffect(() => {
           : "bg-gray-200 text-gray-400 cursor-not-allowed"
       }`}
     >
-      Assign
+      Zuordnen
     </button>
 <div className="flex flex-col gap-2">
   {/* Existing Assign and Cancel buttons */}
@@ -473,7 +473,7 @@ useEffect(() => {
     onClick={() => router.push(`/admin/clients/${client.id}`)}
     className="w-full px-3 py-1 rounded-md text-sm font-medium shadow-sm bg-blue-600 text-white hover:bg-blue-700 transition"
   >
-    View Details
+   Details anzeigen
   </button>
 </div>
 
@@ -487,7 +487,7 @@ useEffect(() => {
             : "bg-gray-200 text-gray-400 cursor-not-allowed"
         }`}
       >
-        Cancel
+        Stornieren
       </button>
     )}
 
@@ -495,7 +495,7 @@ useEffect(() => {
       const latest = client.assignments[0];
       return (
         <p className="text-xs text-blue-600">
-          Assigned to {latest.employee?.firstName || "—"} (
+          Zugewiesen an {latest.employee?.firstName || "—"} (
           {latest.confirmationStatus === "pending"
             ? "Pending"
             : latest.confirmationStatus === "confirmed"
@@ -519,12 +519,12 @@ useEffect(() => {
       {showModal && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
     <div className="bg-white p-6 rounded-xl shadow-lg w-[400px]">
-      <h3 className="text-lg font-bold mb-4">Why Recommended?</h3>
+      <h3 className="text-lg font-bold mb-4">Warum empfohlen?</h3>
       <ul className="space-y-3">
         {modalRecs.map((rec) => (
           <li key={rec.employeeId} className="p-3 border rounded">
             <p className="font-medium">
-              ⭐ {rec.firstName} {rec.lastName} (Score: {rec.score})
+              ⭐ {rec.firstName} {rec.lastName} (Punktzahl: {rec.score})
             </p>
             <ul className="list-disc ml-5 text-sm text-gray-600">
               {rec.reasons.map((reason, i) => (
@@ -539,7 +539,7 @@ useEffect(() => {
           onClick={() => setShowModal(false)}
           className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          Close
+          Schliessen
         </button>
       </div>
     </div>

@@ -26,22 +26,20 @@ export default function AdminLayout({ children }) {
             Dashboard
           </Link>
           <Link href="/admin/employees" className="hover:text-blue-400">
-            Employees
+            Mitarbeiter
           </Link>
           <Link href="/admin/clients" className="hover:text-blue-400">
-            Clients
+            Kunden
           </Link>
           <Link href="/admin/settings" className="hover:text-blue-400">
-            Settings
-          </Link>
+Einstellungen          </Link>
           <Link href="/admin/system-email" className="hover:text-blue-400">
-            System Maintenance
-          </Link>
+Systemwartung          </Link>
           <Link href="/admin/feedback-email" className="hover:text-blue-400">
-            Feedback Email
+            Feedback E-Mail
           </Link>
           <Link href="/admin/email-templates" className="hover:text-blue-400">
-  Email Templates
+ E-Mail-Vorlagen
 </Link>
 
         </nav>

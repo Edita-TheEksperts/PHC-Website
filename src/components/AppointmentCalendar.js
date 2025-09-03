@@ -22,7 +22,7 @@ export default function AppointmentCalendar({ schedules }) {
 
   return (
     <div className="my-10 bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-      <h2 className="text-2xl font-bold text-[#04436F] mb-4">Appointments</h2>
+      <h2 className="text-2xl font-bold text-[#04436F] mb-4">Termine</h2>
 
       {/* Calendar with dots */}
       <Calendar
@@ -48,8 +48,8 @@ export default function AppointmentCalendar({ schedules }) {
         className="mt-4 px-4 py-2 bg-[#04436F] text-white text-sm font-semibold rounded-xl hover:bg-[#033252] transition-all"
       >
         {isOpen
-          ? `🔽 Hide appointments `
-          : `📂 Appointments (${
+          ? `🔽 Termine ausblenden `
+          : `📂 Termine(${
               appointments.length
             })`}
       </button>
@@ -59,7 +59,7 @@ export default function AppointmentCalendar({ schedules }) {
         <div className="mt-6">
           {appointments.length === 0 ? (
             <p className="text-sm text-gray-500">
-              No appointments scheduled.
+              Keine Termine geplant.
             </p>
           ) : (
             <ul className="mt-2 space-y-2">
@@ -73,7 +73,7 @@ export default function AppointmentCalendar({ schedules }) {
                     {a.user?.firstName} {a.user?.lastName}
                   </p>
                   <p className="text-sm text-gray-500">
-                    Start: {a.startTime} | Duration: {a.hours}h
+                    Start: {a.startTime} | Dauer: {a.hours}h
                   </p>
                   {a.serviceName && (
                     <p className="text-xs text-gray-400">

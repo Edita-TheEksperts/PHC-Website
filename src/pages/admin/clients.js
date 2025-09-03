@@ -16,7 +16,7 @@ export default function ClientsPage() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold text-[#04436F] mb-6">All Clients</h1>
+      <h1 className="text-3xl font-bold text-[#04436F] mb-6">Alle Kunden</h1>
       <ClientTable clients={clients} />
     </AdminLayout>
   );

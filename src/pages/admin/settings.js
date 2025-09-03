@@ -16,12 +16,12 @@ export default function SettingsPage() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold text-[#04436F]">Settings</h1>
+      <h1 className="text-3xl font-bold text-[#04436F]">Einstellungen</h1>
       <div className="space-y-8">
 
         {/* Profile Info */}
         <div className="bg-white p-6 rounded-xl shadow space-y-4">
-          <h2 className="text-xl font-semibold text-[#04436F]">Profile Info</h2>
+          <h2 className="text-xl font-semibold text-[#04436F]">Profilinformationen</h2>
           <form className="space-y-3">
             <input className="w-full border p-2 rounded" placeholder="First Name" value={admin.firstName || ""} readOnly />
             <input className="w-full border p-2 rounded" placeholder="Last Name" value={admin.lastName || ""} readOnly />
@@ -32,12 +32,12 @@ export default function SettingsPage() {
 
         {/* Password */}
         <div className="bg-white p-6 rounded-xl shadow space-y-4">
-          <h2 className="text-xl font-semibold text-[#04436F]">Change Password</h2>
+          <h2 className="text-xl font-semibold text-[#04436F]">Passwort ändern</h2>
           <form className="space-y-3">
-            <input type="password" className="w-full border p-2 rounded" placeholder="Current Password" />
-            <input type="password" className="w-full border p-2 rounded" placeholder="New Password" />
-            <input type="password" className="w-full border p-2 rounded" placeholder="Confirm New Password" />
-            <button className="bg-green-600 text-white px-4 py-2 rounded">Update Password</button>
+            <input type="password" className="w-full border p-2 rounded" placeholder="Aktuelles Passwort" />
+            <input type="password" className="w-full border p-2 rounded" placeholder="Neues Passwort" />
+            <input type="password" className="w-full border p-2 rounded" placeholder="Neues Passwort bestätigen" />
+            <button className="bg-green-600 text-white px-4 py-2 rounded">Passwort aktualisieren</button>
           </form>
         </div>
 

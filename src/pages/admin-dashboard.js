@@ -309,7 +309,7 @@ useEffect(() => {
   {/* 👥 Employees */}
 
   {/* ✅ Approved */}
-<DashboardCard title="Approved">
+<DashboardCard title="Genehmigt">
       <div className="text-2xl font-bold text-green-600">
         {approvedEmployees.length}
       </div>
@@ -317,7 +317,7 @@ useEffect(() => {
     </DashboardCard>
 
 {/* 📅 Appointments Overview */}
-<DashboardCard title="Appointments">
+<DashboardCard title="Termine">
   <div className="grid grid-cols-2 gap-4">
     <div className="p-3 bg-blue-50 rounded-lg shadow-sm text-center">
       <p className="text-2xl font-bold text-blue-700">{appointmentsThisWeek}</p>
@@ -340,7 +340,7 @@ useEffect(() => {
 
 
 
-<DashboardCard title="Activity Log">
+<DashboardCard title="Aktivitätsprotokoll">
   <div className="overflow-y-auto max-h-72 pr-1">
     <ul className="space-y-4 text-sm text-gray-700">
       {activityLogs.map((log) => (
@@ -383,14 +383,14 @@ useEffect(() => {
 </DashboardCard>
 
 
-<DashboardCard title="Financial Overview">
+<DashboardCard title="Finanzübersicht">
   <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
     {/* Total Income This Month */}
     <div className="p-4 bg-green-50 rounded-lg text-center shadow-sm">
       <p className="text-2xl font-bold text-green-700">
         CHF {data.totalIncomeThisMonth.toFixed(2)}
       </p>
-      <p className="text-sm text-gray-600 mt-1">Income this month</p>
+      <p className="text-sm text-gray-600 mt-1">Einnahmen diesen Monat</p>
     </div>
 
     {/* Total Income All Time */}
@@ -398,13 +398,13 @@ useEffect(() => {
       <p className="text-2xl font-bold text-blue-700">
         CHF {data.totalIncomeAllTime.toFixed(2)}
       </p>
-      <p className="text-sm text-gray-600 mt-1">Income all time</p>
+      <p className="text-sm text-gray-600 mt-1">Einkommen aller Zeiten</p>
     </div>
 
 
   </div>
 </DashboardCard>
-<DashboardCard title="Income per Service">
+<DashboardCard title="Einnahmen pro Dienstleistung">
   <ResponsiveContainer width="100%" height={300}>
     <BarChart data={data.incomePerService}>
       <CartesianGrid strokeDasharray="3 3" />
@@ -419,8 +419,8 @@ useEffect(() => {
             return (
               <div className="bg-white p-3 border rounded shadow text-sm">
                 <p className="font-bold">{label}</p>
-                <p>💰 This Month: CHF {service.thisMonth.toFixed(2)}</p>
-                <p>💰 All Time: CHF {service.allTime.toFixed(2)}</p>
+                <p>💰 Diesen Monat: CHF {service.thisMonth.toFixed(2)}</p>
+                <p>💰 Gesamte Zeit: CHF {service.allTime.toFixed(2)}</p>
                 {service?.subserviceSplit?.length > 0 && (
                   <div className="mt-2">
                     <p className="font-semibold">Subservices:</p>
@@ -440,15 +440,15 @@ useEffect(() => {
         }}
       />
       <Legend />
-      <Bar dataKey="thisMonth" fill="#22C55E" name="This Month" />
-      <Bar dataKey="allTime" fill="#3B82F6" name="All Time" />
+      <Bar dataKey="thisMonth" fill="#22C55E" name="Diesen Monat" />
+      <Bar dataKey="allTime" fill="#3B82F6" name="Gesamte Zeit" />
     </BarChart>
   </ResponsiveContainer>
 </DashboardCard>
 
 
 {/* Cost per Service */}
-<DashboardCard title="Cost per Service">
+<DashboardCard title="Kosten pro Dienstleistung">
   <ResponsiveContainer width="100%" height={300}>
     <BarChart data={data.costPerService}>
       <CartesianGrid strokeDasharray="3 3" />
@@ -463,8 +463,8 @@ useEffect(() => {
             return (
               <div className="bg-white p-3 border rounded shadow text-sm">
                 <p className="font-bold">{label}</p>
-                <p>💸 This Month: CHF {service.thisMonth.toFixed(2)}</p>
-                <p>💸 All Time: CHF {service.allTime.toFixed(2)}</p>
+                <p>💸 Diesen Monat: CHF {service.thisMonth.toFixed(2)}</p>
+                <p>💸 Gesamte Zeit: CHF {service.allTime.toFixed(2)}</p>
                 {service?.subserviceSplit?.length > 0 && (
                   <div className="mt-2">
                     <p className="font-semibold">Subservices:</p>
@@ -484,8 +484,8 @@ useEffect(() => {
         }}
       />
       {/* 2 bars: thisMonth vs allTime */}
-      <Bar dataKey="thisMonth" fill="#FBBF24" name="This Month" />
-      <Bar dataKey="allTime" fill="#EF4444" name="All Time" />
+      <Bar dataKey="thisMonth" fill="#FBBF24" name="Diesen Monat" />
+      <Bar dataKey="allTime" fill="#EF4444" name="Gesamte Zeit" />
       <Legend />
     </BarChart>
   </ResponsiveContainer>
@@ -498,17 +498,16 @@ useEffect(() => {
       <Tab.Group>
     <Tab.List className="flex flex-wrap gap-2 mb-4">
   {[
-    "Overview",
-    "Employees",
-    "Clients",
+    "Überblick",
+    "Mitarbeiter",
+    "Kunden",
     "Urlaub",
-    "Appointment Cancelation",
-    "Application Overview",
-       "Application Status", 
-           "Working Time Tracking",
-  // NEW
-    "Bookings",            // NEW
-    "Booking Status",
+    "Terminabsage",
+    "Terminübersicht",
+    "Bewerbungsstatus", 
+    "Arbeitszeiterfassung",
+    "Buchungen",            
+    "Buchungsstatus",
 
   ].map((tab) => (
     <Tab
@@ -529,13 +528,13 @@ useEffect(() => {
         <Tab.Panels>
           <Tab.Panel>
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              <DashboardCard title="Active Clients">
+              <DashboardCard title="Aktive Kunden">
                 <ActiveClients clients={clients} />
               </DashboardCard>
-              <DashboardCard title="Assignments">
+              <DashboardCard title="Zuweisungen">
                 <EmployeesOnAssignment employees={employees} />
               </DashboardCard>
-              <DashboardCard title="Appointments">
+              <DashboardCard title="Termine">
                 <AppointmentCalendar schedules={schedules} />
               </DashboardCard>
     
@@ -563,10 +562,10 @@ useEffect(() => {
               <div>
                 <p className="font-medium text-gray-800">
                   {v.employee
-                    ? `👷 Employee: ${v.employee.firstName} ${v.employee.lastName}`
+                    ? `👷 Mitarbeiter: ${v.employee.firstName} ${v.employee.lastName}`
                     : ""}
                   {v.user
-                    ? ` 🙋 Client: ${v.user.firstName} ${v.user.lastName}`
+                    ? ` 🙋 Kunde: ${v.user.firstName} ${v.user.lastName}`
                     : ""}
                 </p>
                 <p className="text-sm text-gray-600">
@@ -583,7 +582,7 @@ useEffect(() => {
                     onClick={() => window.open(`tel:${v.employee.phone}`)}
                     className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
                   >
-                    📞 Call
+                    📞 Anruf
                   </button>
                 )}
 
@@ -593,7 +592,7 @@ useEffect(() => {
                     onClick={() => window.open(`tel:${v.user.phone}`)}
                     className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
                   >
-                    📞 Call Client
+                    📞 Client anrufen
                   </button>
                 )}
 
@@ -610,7 +609,7 @@ useEffect(() => {
                     }}
                     className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
                   >
-                    💡 Suggestions
+                    💡 Vorschläge
                   </button>
                 )}
 
@@ -639,7 +638,7 @@ useEffect(() => {
                     }}
                     className="px-3 py-1 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
                   >
-                    ✅ Approve
+                    ✅ Genehmigen
                   </button>
                 )}
 
@@ -668,7 +667,7 @@ useEffect(() => {
                     }}
                     className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600"
                   >
-                    ❌ Decline
+                    ❌ Abfall
                   </button>
                 )}
               </div>
@@ -677,7 +676,7 @@ useEffect(() => {
               {v.employee && v.suggestions && v.suggestions.length > 0 && (
                 <div className="mt-3 bg-gray-50 p-2 rounded-lg border text-sm">
                   <p className="font-semibold text-gray-700">
-                    💡 Suggested Alternatives:
+                    💡 Vorgeschlagene Alternativen:
                   </p>
                   <ul className="mt-2 space-y-2 text-sm text-gray-700">
                     {v.suggestions.map((s, i) => (
@@ -699,7 +698,7 @@ useEffect(() => {
                             onClick={() => window.open(`tel:${s.employee.phone}`)}
                             className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
                           >
-                            📞 Call
+                            📞 Anruf
                           </button>
                         )}
                          {/* ✅ Assign button (👉 ADD IT HERE) */}
@@ -726,7 +725,7 @@ useEffect(() => {
               }}
               className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700"
             >
-              ✅ Assign
+              ✅ Zuordnen
             </button>
                       </li>
                     ))}
@@ -752,7 +751,7 @@ useEffect(() => {
           ))}
         </ul>
       ) : (
-        <p className="text-gray-500 italic">No vacations found</p>
+        <p className="text-gray-500 italic">Keine Urlaube gefunden</p>
       )}
     </div>
   </DashboardCard>
@@ -760,7 +759,7 @@ useEffect(() => {
 
 
           <Tab.Panel>
-  <DashboardCard title="📅 Appointment Cancelation">
+  <DashboardCard title="📅 Terminabsage">
   {warnings.length === 0 && cancelledAppointments.length === 0 ? (
     <p className="text-gray-600 text-sm">
       Keine abgesagten Termine.
@@ -774,18 +773,18 @@ useEffect(() => {
           className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 shadow-sm"
         >
           <div className="text-sm space-y-1 text-gray-700">
-            <p><strong>⚠️ Warning:</strong> Employee rejection warning</p>
-            <p><strong>👤 Employee:</strong> {w.employee.firstName} {w.employee.lastName}</p>
-            <p><strong>✉️ Email:</strong> {w.employee.email}</p>
+            <p><strong>⚠️ Warnung:</strong> Mitarbeiter-Ablehnungswarnung</p>
+            <p><strong>👤 Mitarbeiter:</strong> {w.employee.firstName} {w.employee.lastName}</p>
+            <p><strong>✉️ E-Mail:</strong> {w.employee.email}</p>
             {w.schedule && (
               <>
-                <p><strong>📅 Appointment Date:</strong> {new Date(w.schedule.date).toLocaleDateString("de-DE")}</p>
+                <p><strong>📅 Termin:</strong> {new Date(w.schedule.date).toLocaleDateString("de-DE")}</p>
                 <p><strong>⏰ Start:</strong> {w.schedule.startTime} | <strong>Dauer:</strong> {w.schedule.hours}h</p>
-                <p><strong>🧑 Client:</strong> {w.schedule.user?.firstName} {w.schedule.user?.lastName}</p>
+                <p><strong>🧑 Kunden:</strong> {w.schedule.user?.firstName} {w.schedule.user?.lastName}</p>
               </>
             )}
             <p>
-              <strong>📌 Canceled at:</strong>{" "}
+              <strong>📌 Abgesagt am:</strong>{" "}
               {new Date(w.sentAt).toLocaleDateString("de-DE")}{" "}
               {new Date(w.sentAt).toLocaleTimeString("de-DE")}
             </p>
@@ -800,11 +799,11 @@ useEffect(() => {
           className="bg-red-50 border border-red-200 rounded-xl p-4 shadow-sm"
         >
           <div className="text-sm space-y-1 text-gray-700">
-            <p><strong>👤 Employee:</strong> {a.employee?.firstName} {a.employee?.lastName}</p>
-            <p><strong>✉️ Email:</strong> {a.employee?.email}</p>
-            <p><strong>📅 Appointment Date:</strong> {a.date ? new Date(a.date).toLocaleDateString("de-DE") : "–"}</p>
+            <p><strong>👤 Mitarbeiter:</strong> {a.employee?.firstName} {a.employee?.lastName}</p>
+            <p><strong>✉️ E-Mail:</strong> {a.employee?.email}</p>
+            <p><strong>📅 Termin:</strong> {a.date ? new Date(a.date).toLocaleDateString("de-DE") : "–"}</p>
             <p><strong>⏰ Start:</strong> {a.startTime} | <strong>Dauer:</strong> {a.hours}h</p>
-            <p><strong>🧑 Client:</strong> {a.user?.firstName} {a.user?.lastName}</p>
+            <p><strong>🧑 Kunden:</strong> {a.user?.firstName} {a.user?.lastName}</p>
             <p>
               <strong>📌 Status:</strong>{" "}
               <span className="text-red-600 font-semibold">Cancelled</span>
@@ -819,7 +818,7 @@ useEffect(() => {
 
           </Tab.Panel>
           <Tab.Panel>
-  <DashboardCard title="Application Overview">
+  <DashboardCard title="Terminübersicht">
                 <ApplicationOverview employees={employees} />
                    <DashboardCard title="Revenue">
               <CurrentRevenue clients={clients} />
@@ -827,37 +826,37 @@ useEffect(() => {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="Application Status">
+  <DashboardCard title="Bewerbungsstatus">
                 <OvertimeAlerts employees={employees} />
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="Working Time Tracking">
+  <DashboardCard title="Arbeitszeiterfassung">
                 <WorkingTimeTracking employees={employees} />
 
   </DashboardCard>
 </Tab.Panel>
 {/* Application Status */}
 <Tab.Panel>
-  <DashboardCard title="📊 Application Status">
+  <DashboardCard title="📊 Bewerbungsstatus">
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div className="p-4 bg-yellow-50 rounded-lg text-center">
         <p className="text-2xl font-bold text-yellow-700">
           {employees.filter(e => e.status === "pending").length}
         </p>
-        <p className="text-xs text-gray-600 mt-1">Pending</p>
+        <p className="text-xs text-gray-600 mt-1">Ausstehend</p>
       </div>
       <div className="p-4 bg-green-50 rounded-lg text-center">
         <p className="text-2xl font-bold text-green-700">
           {employees.filter(e => e.status === "approved").length}
         </p>
-        <p className="text-xs text-gray-600 mt-1">Approved</p>
+        <p className="text-xs text-gray-600 mt-1">Genehmigt</p>
       </div>
       <div className="p-4 bg-red-50 rounded-lg text-center">
         <p className="text-2xl font-bold text-red-700">
           {employees.filter(e => e.status === "declined").length}
         </p>
-        <p className="text-xs text-gray-600 mt-1">Declined</p>
+        <p className="text-xs text-gray-600 mt-1">Abgelehnt</p>
       </div>
       <div className="p-4 bg-blue-50 rounded-lg text-center">
         <p className="text-2xl font-bold text-blue-700">{employees.length}</p>
@@ -867,7 +866,7 @@ useEffect(() => {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="📅 Bookings">
+  <DashboardCard title="📅 Buchungen">
     <div className="p-4">
       {schedules.length > 0 ? (
         <ul className="divide-y divide-gray-200">
@@ -904,7 +903,7 @@ useEffect(() => {
   </DashboardCard>
 </Tab.Panel>
 <Tab.Panel>
-  <DashboardCard title="📌 Booking Status">
+  <DashboardCard title="📌 Buchungsstatus">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
  
       <div className="grid grid-cols-2 md:grid-cols-2 gap-4">

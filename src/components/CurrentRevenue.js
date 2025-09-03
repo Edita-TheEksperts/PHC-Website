@@ -66,17 +66,16 @@ export default function CurrentRevenue({ clients }) {
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md border my-6 max-w-7xl">
-      <h2 className="text-xl font-bold text-green-700 mb-4">📊 Revenue</h2>
+      <h2 className="text-xl font-bold text-green-700 mb-4">📊 Umsatz</h2>
 
       {/* 🔥 NEW Revenue Summary Div */}
       <div className="bg-purple-50 border border-purple-300 rounded-xl p-6 mb-6 text-center">
-        <h3 className="text-purple-700 font-bold text-lg mb-2">Revenue (Highlight)</h3>
+        <h3 className="text-purple-700 font-bold text-lg mb-2">Umsatz (Hervorhebung)</h3>
         <p className="text-4xl font-extrabold text-gray-900">
           CHF {revenueAllTime.toLocaleString("de-CH", { minimumFractionDigits: 2 })}
         </p>
         <p className="text-sm text-gray-500">
-          Total net revenue (Income – Costs) since the system started
-        </p>
+Gesamter Nettoumsatz (Einnahmen – Kosten) seit Systemstart        </p>
       </div>
 
       {/* Detailed Breakdown */}
@@ -84,28 +83,28 @@ export default function CurrentRevenue({ clients }) {
         {/* Revenue This Month */}
         <div className="bg-green-50 border border-green-200 rounded-xl p-5">
           <h3 className="text-green-700 font-semibold text-lg mb-1">
-            💰 Revenue This Month
+            💰 Umsatz diesen Monat
           </h3>
           <p className="text-3xl font-bold text-gray-800">
             CHF {revenueThisMonth.toLocaleString("de-CH", { minimumFractionDigits: 2 })}
           </p>
           <p className="text-sm text-gray-500 mt-1">
-            Income: CHF {totalIncomeThisMonth.toLocaleString("de-CH", { minimumFractionDigits: 2 })} – 
-            Costs: CHF {totalCostThisMonth.toLocaleString("de-CH", { minimumFractionDigits: 2 })} = Revenue
+            Einnahmen: CHF {totalIncomeThisMonth.toLocaleString("de-CH", { minimumFractionDigits: 2 })} – 
+            Ausgaben: CHF {totalCostThisMonth.toLocaleString("de-CH", { minimumFractionDigits: 2 })} = Gewinn
           </p>
         </div>
 
         {/* Revenue All Time */}
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
           <h3 className="text-blue-700 font-semibold text-lg mb-1">
-            💰 Revenue All Time
+            💰 Umsatz aller Zeiten
           </h3>
           <p className="text-3xl font-bold text-gray-800">
             CHF {revenueAllTime.toLocaleString("de-CH", { minimumFractionDigits: 2 })}
           </p>
           <p className="text-sm text-gray-500 mt-1">
-            Income: CHF {totalIncomeAllTime.toLocaleString("de-CH", { minimumFractionDigits: 2 })} – 
-            Costs: CHF {totalCostAllTime.toLocaleString("de-CH", { minimumFractionDigits: 2 })} = Revenue
+           Einnahmen: CHF {totalIncomeAllTime.toLocaleString("de-CH", { minimumFractionDigits: 2 })} – 
+           Ausgaben: CHF {totalCostAllTime.toLocaleString("de-CH", { minimumFractionDigits: 2 })} = Gewinn
           </p>
         </div>
       </div>

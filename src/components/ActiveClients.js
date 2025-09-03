@@ -27,7 +27,7 @@ export default function ActiveClients({ clients }) {
         className="w-full flex items-center justify-between p-4 text-[#04436F] font-bold text-lg border-b hover:bg-gray-50 rounded-t-2xl"
       >
         <div className="flex items-center gap-2">
-          Active Clients
+          Aktive Kunden
           <span className="text-sm font-medium text-gray-500">
             ({activeClients.length})
           </span>

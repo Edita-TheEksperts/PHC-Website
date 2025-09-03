@@ -74,9 +74,9 @@ export default function ApplicationOverview({ employees }) {
 
           {/* Status Count */}
           <div className="mt-6 space-y-2 text-base text-gray-700 text-center">
-            <p><strong className="text-green-600">🟢 Approved:</strong> {counts.approved}</p>
-            <p><strong className="text-yellow-500">🟡 Pending:</strong> {counts.pending}</p>
-            <p><strong className="text-red-500">🔴 Rejected:</strong> {counts.rejected}</p>
+            <p><strong className="text-green-600">🟢 Genehmigt:</strong> {counts.approved}</p>
+            <p><strong className="text-yellow-500">🟡 Ausstehend:</strong> {counts.pending}</p>
+            <p><strong className="text-red-500">🔴 Abgelehnt:</strong> {counts.rejected}</p>
           </div>
         </div>
 
@@ -95,7 +95,7 @@ export default function ApplicationOverview({ employees }) {
                 }`}
               >
                 {status === "all"
-                  ? "Show All"
+                  ? "Alle anzeigen"
                   : status.charAt(0).toUpperCase() + status.slice(1)}
               </button>
             ))}

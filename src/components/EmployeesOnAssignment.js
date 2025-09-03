@@ -28,7 +28,7 @@ export default function EmployeesOnAssignment({ employees }) {
         className="flex items-center justify-between w-full text-left bg-white p-4 rounded-2xl shadow-md border hover:bg-gray-50 transition"
       >
         <div className="flex items-center gap-2 text-xl font-bold text-[#04436F]">
-          Employees on Assignment
+          Mitarbeiter auf Zuweisung
           <span className="text-sm text-gray-500">({onAssignment.length})</span>
         </div>
         {open ? (
