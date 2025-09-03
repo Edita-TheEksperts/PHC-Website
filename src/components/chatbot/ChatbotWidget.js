@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Chatbot from "react-chatbot-kit";
 import config from "./config";
 import MessageParser from "./MessageParser";
@@ -6,24 +6,50 @@ import ActionProvider from "./ActionProvider";
 
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const chatContainerRef = useRef(null);
+
+  // Auto scroll sa herë që hapet chat
+  useEffect(() => {
+    if (isOpen && chatContainerRef.current) {
+      const container = chatContainerRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [isOpen]);
+
+  // Auto scroll kur ka mesazhe të reja
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const container = document.querySelector(
+      ".react-chatbot-kit-chat-message-container"
+    );
+    if (!container) return;
+
+    chatContainerRef.current = container;
+
+    const observer = new MutationObserver(() => {
+      container.scrollTop = container.scrollHeight;
+    });
+
+    observer.observe(container, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [isOpen]);
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="chatbot-container">
       {isOpen ? (
-        <div className="relative w-[380px] h-[520px] bg-white shadow-2xl rounded-xl overflow-hidden flex flex-col">
+        <div className="chatbot-box">
           {/* Header */}
-          <div className="bg-[#04436F] text-white px-4 py-2 flex justify-between items-center">
-            <span className="font-semibold">💬 PHC Bot</span>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-white hover:text-red-400 text-lg font-bold"
-            >
+          <div className="chatbot-header">
+            <span className="chatbot-title">💬 PHC Bot</span>
+            <button onClick={() => setIsOpen(false)} className="chatbot-close">
               ✕
             </button>
           </div>
 
-          {/* Chatbot container */}
-          <div className="flex-1 overflow-hidden">
+          {/* Chat content */}
+          <div className="chatbot-content">
             <Chatbot
               config={config}
               messageParser={MessageParser}
@@ -32,13 +58,9 @@ export default function ChatbotWidget() {
           </div>
         </div>
       ) : (
-        <button
-  onClick={() => setIsOpen(true)}
-  className="chatbot-toggle-btn"
->
-  💬
-</button>
-
+        <button onClick={() => setIsOpen(true)} className="chatbot-toggle">
+          💬
+        </button>
       )}
     </div>
   );

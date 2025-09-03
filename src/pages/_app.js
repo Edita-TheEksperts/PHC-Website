@@ -31,11 +31,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="shortcut icon" href="/PHCIcon.svg" type="image/svg+xml" />
         <title>PHC</title>
       </Head>
-<<<<<<< Updated upstream
 
-=======
- 
->>>>>>> Stashed changes
      
       <FormProvider>
   <Elements stripe={stripePromise}>
