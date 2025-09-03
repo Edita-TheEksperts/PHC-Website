@@ -309,7 +309,7 @@ useEffect(() => {
   {/* 👥 Employees */}
 
   {/* ✅ Approved */}
-<DashboardCard title="✅ Approved">
+<DashboardCard title="Approved">
       <div className="text-2xl font-bold text-green-600">
         {approvedEmployees.length}
       </div>
