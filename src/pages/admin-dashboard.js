@@ -285,14 +285,14 @@ function isThisYear(date) {
   {/* 👥 Employees */}
 
   {/* ✅ Approved */}
-  <DashboardCard title="✅ Approved">
+  <DashboardCard title="Approved">
     <div className="text-2xl font-bold text-green-600">{approvedEmployees.length}</div>
     <p className="text-sm text-gray-500 mt-1">Bestätigte Mitarbeiter</p>
   </DashboardCard>
 
 
 {/* 📅 Appointments Overview */}
-<DashboardCard title="📅 Appointments">
+<DashboardCard title="Appointments">
   <div className="grid grid-cols-2 gap-4">
     <div className="p-3 bg-blue-50 rounded-lg shadow-sm text-center">
       <p className="text-2xl font-bold text-blue-700">{appointmentsThisWeek}</p>
@@ -316,7 +316,7 @@ function isThisYear(date) {
 
 
   {/* 📝 Activity Log */}
-  <DashboardCard title="📝 Activity Log">
+  <DashboardCard title="Activity Log">
     <div className="overflow-y-auto max-h-72 pr-1">
       <ul className="space-y-4 text-sm text-gray-700">
         {activity.map((log, i) => (
@@ -349,7 +349,7 @@ function isThisYear(date) {
   </DashboardCard>
 
 
-<DashboardCard title="💰 Financial Overview">
+<DashboardCard title="Financial Overview">
   <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
     {/* Total Income This Month */}
     <div className="p-4 bg-green-50 rounded-lg text-center shadow-sm">
@@ -370,7 +370,7 @@ function isThisYear(date) {
 
   </div>
 </DashboardCard>
-<DashboardCard title="💰 Income per Service">
+<DashboardCard title="Income per Service">
   <ResponsiveContainer width="100%" height={300}>
     <BarChart data={data.incomePerService}>
       <CartesianGrid strokeDasharray="3 3" />
@@ -414,7 +414,7 @@ function isThisYear(date) {
 
 
 {/* Cost per Service */}
-<DashboardCard title="💸 Cost per Service">
+<DashboardCard title="Cost per Service">
   <ResponsiveContainer width="100%" height={300}>
     <BarChart data={data.costPerService}>
       <CartesianGrid strokeDasharray="3 3" />
