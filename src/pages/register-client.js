@@ -1162,7 +1162,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-6 md:p-12 flex flex-col md:flex-row gap-8">
+    <div className="min-h-screen bg-white p-2 lg:p-12 flex flex-col lg:flex-row gap-4">
       <div className="flex-1 space-y-8">
         <div className="flex flex-wrap gap-y-4 justify-center md:justify-between text-sm md:text-base font-medium text-[#B99B5F]">
           {steps.map((label, i) => (
@@ -1585,7 +1585,7 @@ export default function RegisterPage() {
                             Welche Leistungen möchten Sie beanspruchen?
                           </label>
 
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                             {form.schedules[i]?.subServices?.includes(
                               "Ausflüge und Reisebegleitung"
                             ) && (
@@ -1652,7 +1652,7 @@ export default function RegisterPage() {
         }`}
                                 >
                                   {/* Parent service header */}
-                                  <span className="text-[11px] font-bold uppercase tracking-wide text-[#B99B5F] opacity-80">
+                                  <span className="text-[10px] font-bold uppercase  text-[#B99B5F] opacity-80">
                                     {sub.parentService}
                                   </span>
 
@@ -2099,18 +2099,19 @@ export default function RegisterPage() {
               </div>
 
               {/* Hinweise */}
-              <div className="mt-4 space-y-1">
-                <p className="text-sm text-gray-600 flex items-center">
-                  Alle Zahlungen werden sicher verarbeitet.
-                </p>
-                <p className="text-sm text-gray-600 flex items-center">
-                  Ihre Karte wird erst{" "}
-                  <span className="font-medium text-gray-800">
-                    24 Stunden nach erfolgter Dienstleistung
-                  </span>{" "}
-                  belastet.
-                </p>
-              </div>
+         <div className="mt-4 space-y-2">
+  <p className="text-sm sm:text-base text-gray-600">
+    Alle Zahlungen werden sicher verarbeitet.
+  </p>
+  <p className="text-sm sm:text-base text-gray-600">
+    Ihre Karte wird erst{" "}
+    <span className="font-medium text-gray-800 block sm:inline">
+      24 Stunden nach erfolgter Dienstleistung
+    </span>{" "}
+    belastet.
+  </p>
+</div>
+
 
               {/* AGB-Checkbox */}
               <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">

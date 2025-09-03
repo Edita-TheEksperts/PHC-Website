@@ -1,11 +1,13 @@
 // pages/dashboard/formular.js
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-
+import { Menu, X } from "lucide-react"
 export default function FormularPage() {
   const [userData, setUserData] = useState(null)
   const [editData, setEditData] = useState({})
   const [loading, setLoading] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
+  const [isNotifVisible, setIsNotifVisible] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -84,17 +86,112 @@ export default function FormularPage() {
 
   return (
     <div className="flex min-h-screen">
-      <nav className="w-72 bg-[#B99B5F] text-white p-8 flex flex-col shadow-lg">
-        <h1 className="text-4xl font-bold text-center mb-12 select-none">PHC</h1>
-        <ul className="space-y-6 flex-grow">
-          <li onClick={() => router.push("/client-dashboard")} className="cursor-pointer">Dashboard</li>
-          <li onClick={() => router.push("/dashboard/personal-info")} className="cursor-pointer">Persönliche Daten</li>
-          <li onClick={() => router.push("/dashboard/formular")} className="cursor-pointer">Formular</li>
-        </ul>
-      </nav>
+      <>
+  {/* --- MOBILE TOP NAVBAR --- */}
+  <div className="lg:hidden bg-[#B99B5F] text-white shadow-lg w-full fixed top-0 left-0 z-50">
+    {/* Top bar */}
+    <div className="flex items-center justify-between p-4">
+      <h1
+        className="text-xl font-bold cursor-pointer"
+        onClick={() => router.push("/client-dashboard")}
+      >
+        PHC
+      </h1>
+      <button onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
+    </div>
+  </div>
 
-      <main className="flex-1 p-10 max-w-5xl mx-auto">
-        <div className="bg-white rounded-3xl shadow-lg p-12">
+  {/* Fullscreen Mobile Menu Overlay */}
+  {isOpen && (
+    <div className="lg:hidden fixed inset-0 bg-[#B99B5F] text-white z-40 flex flex-col">
+      {/* Top bar inside overlay */}
+      <div className="flex items-center justify-between p-4 border-b border-white/20">
+        <h1
+          className="text-xl font-bold cursor-pointer"
+          onClick={() => {
+            router.push("/client-dashboard");
+            setIsOpen(false);
+          }}
+        >
+          PHC
+        </h1>
+        <button onClick={() => setIsOpen(false)}>
+          <X className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Menu items */}
+      <ul className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
+        <li
+          onClick={() => {
+            router.push("/client-dashboard");
+            setIsOpen(false);
+          }}
+          className="cursor-pointer hover:text-[#A6884A]"
+        >
+          Dashboard
+        </li>
+        <li
+          onClick={() => {
+            router.push("/dashboard/personal-info");
+            setIsOpen(false);
+          }}
+          className="cursor-pointer hover:text-[#A6884A]"
+        >
+          Persönliche Informationen
+        </li>
+        <li
+          onClick={() => {
+            router.push("/dashboard/formular");
+            setIsOpen(false);
+          }}
+          className="cursor-pointer hover:text-[#A6884A]"
+        >
+          Formular
+        </li>
+      </ul>
+    </div>
+  )}
+
+  {/* --- DESKTOP SIDEBAR --- */}
+  <nav className="hidden lg:flex bg-[#B99B5F] text-white p-4 flex-col shadow-lg lg:w-72">
+    <h1
+      className="text-4xl font-bold text-center mb-12 select-none cursor-pointer"
+      onClick={() => router.push("/client-dashboard")}
+    >
+      PHC
+    </h1>
+
+    <ul className="space-y-6 flex-grow">
+      <li
+        onClick={() => router.push("/client-dashboard")}
+        className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+      >
+        Dashboard
+      </li>
+      <li
+        onClick={() => router.push("/dashboard/personal-info")}
+        className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
+      >
+        Persönliche Informationen
+        {isNotifVisible && (
+          <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
+        )}
+      </li>
+      <li
+        onClick={() => router.push("/dashboard/formular")}
+        className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+      >
+        Formular
+      </li>
+    </ul>
+  </nav>
+</>
+
+      <main className="flex-1 p-2 mt-[50px] lg:mt-0 lg:p-10 max-w-5xl mx-auto">
+        <div className="bg-white rounded-3xl shadow-lg p-6 lg:p-12">
           <h2 className="text-4xl font-bold mb-12 text-gray-900 border-b pb-4">Formulardaten</h2>
 
    <section className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 text-gray-800">

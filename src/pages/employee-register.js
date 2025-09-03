@@ -322,11 +322,11 @@ useEffect(() => {
 
   return (
     
-    <div className="min-h-screen bg-gray-50 p-6 md:p-10 flex flex-col md:flex-row gap-8">
+    <div className="min-h-screen bg-gray-50 p-4 lg:p-6 md:p-10 flex flex-col md:flex-row gap-8">
       {/* Form Section */}
       <div className="flex-1 ">
         {/* Stepper */}
-        <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 text-base font-medium text-[#04436F]">
+        <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 text-base font-medium text-[#04436F] mb-[16px] lg:mb-0">
           {steps.map((label, i) => (
             <div key={i} className="flex-1 flex items-center gap-2">
               <div
@@ -360,7 +360,7 @@ useEffect(() => {
 )}
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-xl shadow  text-base text-gray-800"
+          className="bg-white p-4 lg:p-8 rounded-xl shadow  text-base text-gray-800"
         >
 
 

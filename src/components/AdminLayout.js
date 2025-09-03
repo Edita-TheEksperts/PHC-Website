@@ -48,7 +48,7 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 sm:p-6 bg-gray-50">{children}</main>
+      <main className="flex-1 p-2 lg:p-4 bg-gray-50">{children}</main>
     </div>
   );
 }
