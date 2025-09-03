@@ -470,8 +470,9 @@ function isThisYear(date) {
     "Urlaub",
     "Appointment Cancelation",
     "Application Overview",
-    "Working Time Tracking",
-       "Application Status",   // NEW
+       "Application Status", 
+           "Working Time Tracking",
+  // NEW
     "Bookings",            // NEW
     "Booking Status",
 
