@@ -186,7 +186,7 @@ const [searchText, setSearchText] = useState("");
     <section className="max-w-[1430px] bg-[#EDF2FB] rounded-[20px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-2 px-4 lg:px-[20px] py-12 lg:py-[70px]">
   {/* Left Content */}
   <div className="flex-1 w-full max-w-[830px]">
-    <h1 className="text-[#04436F] text-[34px] lg:text-[60px] font-semibold leading-tight">
+    <h1 className="text-[#04436F] text-[32px] lg:text-[60px] font-semibold leading-tight">
       Individuelle<br /> Betreuungslösungen<br /> für Sie in Ihrem Zuhause
 
     </h1>
@@ -361,7 +361,7 @@ Jetzt Ihre Betreuung buchen!</p>
 
       {/* Services Section */}
       <section className="max-w-[1430px] mx-auto px-6 mt-[120px] ">
-      <h2 className="text-[#04436F] text-center text-[30px] leading-[37px] lg:text-[55px] font-semibold lg:leading-[71.5px] pt-4">
+      <h2 className="text-[#04436F] text-center text-[28px] leading-[37px] lg:text-[55px] font-semibold lg:leading-[71.5px] pt-4">
       Entdecken Sie unser umfassendes<br></br> Dienstleistungsangebot
 </h2>
 
@@ -580,7 +580,7 @@ Jetzt Ihre Betreuung buchen!</p>
       </div>
     </section>
 
-    <section className="max-w-[1400] mt-[120px] mx-auto p-4 lg:px-4 flex flex-col lg:flex-row items-center gap-12 lg:gap-[80px]">
+    <section className="max-w-[1400] mt-[120px] mx-auto p-2 lg:px-4 flex flex-col lg:flex-row items-center gap-12 lg:gap-[80px]">
       
       {/* Left: Image with Custom Cropped Shape */}
     <div className="relative w-full max-w-[610px] rounded-[20px] overflow-hidden">
@@ -643,8 +643,9 @@ Jetzt Ihre Betreuung buchen!</p>
             <div key={index} className="flex items-start gap-2 lg:gap-4">
               {/* Step Number */}
               <div
-                className={`lg:w-[70px] lg:h-[70px] h-[35px] w-[40px] text-[22px] lg:text-[36px] flex items-center justify-center  font-[500] rounded-full ${step.bgColor} ${step.textColor}`}
-              >
+className={`w-[40px] h-[40px] lg:w-[70px] lg:h-[70px] aspect-square 
+  flex items-center justify-center text-[16px] lg:text-[32px] 
+  font-[500] rounded-full ${step.bgColor} ${step.textColor}`}              >
                 {step.number}
               </div>
 
@@ -888,7 +889,7 @@ Jetzt Ihre Betreuung buchen!</p>
   {/* === Mobile layout === */}
   <div className="lg:hidden block lg:flex gap-6 mt-[32px] md:w-[730px] lg:max-w-[1280px] mb-[160px]">
     {/* Card 1 */}
-    <div className="flex flex-row justify-center items-center bg-white rounded-[20px] bg-no-repeat px-6 gap-6 mt-[16px]">
+    <div className="flex flex-row justify-center items-center bg-white rounded-[20px] bg-no-repeat px-2 gap-2 mt-[16px]">
       <div className="flex justify-center items-center mt-[40px] mb-[40px] w-[80px] h-[80px] bg-[#04436F] rounded-full">
         {/* SVG (1) */}
        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
@@ -907,7 +908,7 @@ Jetzt Ihre Betreuung buchen!</p>
     </div>
  
     {/* Card 2 */}
-    <div className="flex flex-row justify-center items-center bg-[#E7F5FF] rounded-[20px] bg-no-repeat px-6 gap-6 mt-[16px]">
+    <div className="flex flex-row justify-center items-center bg-[#E7F5FF] rounded-[20px] bg-no-repeat px-2 gap-2 mt-[16px]">
       <div className="flex justify-center items-center mt-[40px] mb-[40px] w-[80px] h-[80px] bg-[#04436F] rounded-full">
         {/* SVG (2) */}
     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
@@ -924,7 +925,7 @@ Jetzt Ihre Betreuung buchen!</p>
     </div>
  
     {/* Card 3 */}
-    <div className="flex flex-row justify-center items-center bg-[#F6F6F6] rounded-[20px] bg-no-repeat px-6 gap-6 mt-[16px]">
+    <div className="flex flex-row justify-center items-center bg-[#F6F6F6] rounded-[20px] bg-no-repeat px-2 gap-2 mt-[16px]">
       <div className="flex justify-center items-center mt-[40px] mb-[40px] w-[80px] h-[80px] bg-[#04436F] rounded-full">
         {/* SVG (3) */}
     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
