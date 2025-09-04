@@ -220,8 +220,9 @@ useEffect(() => {
         onChange={(e) => setSortBy(e.target.value)}
         className="border px-3 py-2 rounded"
       >
-        <option value="name">Sort by Name</option>
-        <option value="date">Sort by Date</option>
+        <option value="name">Nach Name sortieren</option>
+<option value="date">Nach Datum sortieren</option>
+
       </select>
     </div>
 

@@ -34,32 +34,34 @@ export default function EmployeeDetails() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-[#04436F] mb-4">
-        Employee Profile: {employee.firstName} {employee.lastName}
+        Mitarbeiterprofil: {employee.firstName} {employee.lastName}
       </h1>
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* === LEFT COLUMN === */}
         <div className="space-y-5">
-          <Section title="👤 Basic Info">
-            <Item label="Email" value={employee.email} />
-            <Item label="Phone" value={employee.phone} />
+          <Section title="👤 Grundlegende Informationen">
+            <Item label="E-Mail" value={employee.email} />
+            <Item label="Telefon" value={employee.phone} />
             <Item label="Status" value={employee.status} />
             <Item label="Created At" value={formatDate(employee.createdAt)} />
           </Section>
 
-          <Section title="📍 Address">
-            <Item label="Street" value={`${employee.address || "—"} ${employee.houseNumber || ""}`} />
-            <Item label="City/ZIP" value={`${employee.city || "—"}, ${employee.zipCode || "—"}`} />
-            <Item label="Country" value={`${employee.country || "—"} (${employee.canton || "—"})`} />
-            <Item label="Nationality" value={employee.nationality} />
+          <Section title="📍 Adresse">
+          <Item label="Strasse" value={`${employee.address || "—"} ${employee.houseNumber || ""}`} />
+          <Item label="Stadt/PLZ" value={`${employee.city || "—"}, ${employee.zipCode || "—"}`} />
+          <Item label="Land" value={`${employee.country || "—"} (${employee.canton || "—"})`} />
+          <Item label="Nationalität" value={employee.nationality} />
+
           </Section>
 
-          <Section title="📅 Availability">
-            <Item label="From" value={formatDate(employee.availabilityFrom)} />
-            <Item label="Days" value={(employee.availabilityDays || []).join(", ")} />
-          </Section>
+        <Section title="📅 Verfügbarkeit">
+          <Item label="Ab" value={formatDate(employee.availabilityFrom)} />
+          <Item label="Tage" value={(employee.availabilityDays || []).join(", ")} />
+        </Section>
 
-          <Section title="🗂 Uploaded Files">
+
+          <Section title="🗂 Hochgeladene Dateien">
             {fileLinks.map((f) => (
               <Item key={f.key} label={f.label} value={formatUrl(employee[f.key], f.label)} />
             ))}
@@ -68,39 +70,41 @@ export default function EmployeeDetails() {
 
         {/* === RIGHT COLUMN === */}
         <div className="space-y-5">
-          <Section title="💼 Experience">
-            <Item label="Years" value={employee.experienceYears} />
-            <Item label="Where" value={employee.experienceWhere} />
-            <Item label="Company" value={employee.experienceCompany} />
+          <Section title="💼 Erfahrung">
+            <Item label="Jahre" value={employee.experienceYears} />
+            <Item label="Wo" value={employee.experienceWhere} />
+            <Item label="Unternehmen" value={employee.experienceCompany} />
           </Section>
 
-          <Section title="🚘 License & Vehicle">
-            <Item label="Has License" value={employee.hasLicense ? "Yes" : "No"} />
-            <Item label="Type" value={employee.licenseType} />
-            <Item label="Has Car" value={employee.hasCar} />
-            <Item label="Car for Work" value={employee.carAvailableForWork} />
-          </Section>
+          <Section title="🚘 Führerschein & Fahrzeug">
+            <Item label="Hat Lizenz" value={employee.hasLicense ? "Yes" : "No"} />
+            <Item label="Typ" value={employee.licenseType} />
+            <Item label="Hat Auto" value={employee.hasCar} />
+            <Item label="Auto für die Arbeit" value={employee.carAvailableForWork} />
+          </Section>    
+          
+<Section title="⚙️ Eigenschaften & Unterstützung">
+  <Item label="Schulungen" value={(employee.specialTrainings || []).join(", ")} />
+  <Item label="Sprachen" value={(employee.languages || []).join(", ")} />
+  <Item label="Kommunikation" value={(employee.communicationTraits || []).join(", ")} />
+  <Item label="Ernährungserfahrung" value={(employee.dietaryExperience || []).join(", ")} />
+</Section>
 
-          <Section title="⚙️ Traits & Support">
-            <Item label="Trainings" value={(employee.specialTrainings || []).join(", ")} />
-            <Item label="Languages" value={(employee.languages || []).join(", ")} />
-            <Item label="Communication" value={(employee.communicationTraits || []).join(", ")} />
-            <Item label="Dietary Exp" value={(employee.dietaryExperience || []).join(", ")} />
-          </Section>
 
-          <Section title="📊 Assignments & Schedules">
-            <Item label="Total Assignments" value={employee.assignments?.length || 0} />
-            <Item label="Total Schedules" value={employee.schedules?.length || 0} />
-            {employee.schedules?.length > 0 && (
-              <ul className="list-disc ml-6 text-sm text-gray-700">
-                {employee.schedules.map((s) => (
-                  <li key={s.id}>
-                    {s.day} - {s.hours}h @ {s.startTime} ({formatDate(s.date)})
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Section>
+<Section title="📊 Einsätze & Einsatzpläne">
+  <Item label="Gesamte Einsätze" value={employee.assignments?.length || 0} />
+  <Item label="Gesamte Einsatzpläne" value={employee.schedules?.length || 0} />
+  {employee.schedules?.length > 0 && (
+    <ul className="list-disc ml-6 text-sm text-gray-700">
+      {employee.schedules.map((s) => (
+        <li key={s.id}>
+          {s.day} – {s.hours}h @ {s.startTime} ({formatDate(s.date)})
+        </li>
+      ))}
+    </ul>
+  )}
+</Section>
+
         </div>
       </div>
 
@@ -109,7 +113,7 @@ export default function EmployeeDetails() {
           onClick={() => router.push("/admin/employees")}
           className="px-6 py-2 bg-[#04436F] text-white rounded hover:bg-[#033350]"
         >
-          ← Back to Employees
+          ← Zurück zu Mitarbeiter
         </button>
       </div>
     </div>

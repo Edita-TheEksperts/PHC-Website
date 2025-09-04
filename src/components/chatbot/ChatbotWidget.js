@@ -35,33 +35,53 @@ export default function ChatbotWidget() {
 
     return () => observer.disconnect();
   }, [isOpen]);
+const [showWelcome, setShowWelcome] = useState(false);
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    if (!isOpen) {
+      setShowWelcome(true);
+    }
+  }, 5000); // 30 sec
+
+  return () => clearTimeout(timer);
+}, [isOpen]);
 
   return (
-    <div className="chatbot-container">
-      {isOpen ? (
-        <div className="chatbot-box">
-          {/* Header */}
-          <div className="chatbot-header">
-            <span className="chatbot-title">💬 PHC Bot</span>
-            <button onClick={() => setIsOpen(false)} className="chatbot-close">
-              ✕
-            </button>
-          </div>
-
-          {/* Chat content */}
-          <div className="chatbot-content">
-            <Chatbot
-              config={config}
-              messageParser={MessageParser}
-              actionProvider={ActionProvider}
-            />
-          </div>
-        </div>
-      ) : (
-        <button onClick={() => setIsOpen(true)} className="chatbot-toggle">
-          💬
+<div className="chatbot-container">
+  {isOpen ? (
+    <div className="chatbot-box">
+      {/* Header */}
+      <div className="chatbot-header">
+        <span className="chatbot-title">💬 PHC Bot</span>
+        <button onClick={() => setIsOpen(false)} className="chatbot-close">
+          ✕
         </button>
-      )}
+      </div>
+
+      {/* Chat content */}
+    <div className="chatbot-content">
+  <div className="chatbot-inner">
+    <Chatbot
+      config={config}
+      messageParser={MessageParser}
+      actionProvider={ActionProvider}
+    />
+  </div>
+</div>
+
     </div>
+  ) : (
+    <>
+      {showWelcome && (
+        <div className="chatbot-welcome">Haben Sie Fragen?</div>
+      )}
+      <button onClick={() => setIsOpen(true)} className="chatbot-toggle">
+        💬
+      </button>
+    </>
+  )}
+</div>
+
   );
 }

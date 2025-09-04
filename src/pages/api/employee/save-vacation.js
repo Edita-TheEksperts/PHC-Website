@@ -29,14 +29,14 @@ export default async function handler(req, res) {
     // ✅ Log activity
     await logActivity({
       actorEmployeeId: employee.id,   // 👈 who did the action
-      action: "requested vacation",   // 👈 description
-      targetType: "Vacation",         // 👈 entity type
+      action: "beantragten Urlaub",   // 👈 description
+      targetType: "Urlaub",         // 👈 entity type
       targetId: vacation.id,          // 👈 entity ID
     });
 
     res.status(200).json(vacation);
   } catch (err) {
-    console.error("❌ Error saving vacation:", err);
-    res.status(500).json({ message: "Error saving vacation" });
+    console.error("❌ Fehler beim Speichern des Urlaubs", err);
+    res.status(500).json({ message: "Fehler beim Speichern des Urlaubs" });
   }
 }

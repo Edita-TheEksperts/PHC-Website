@@ -75,7 +75,7 @@ export default function ActiveClients({ clients }) {
                       {client.firstName || "—"} {client.lastName || ""}
                     </p>
                     <p className="text-sm text-gray-500">
-                      Assignments: {client.assignments?.length}
+                      Aufgaben: {client.assignments?.length}
                     </p>
                   </div>
                 </div>
