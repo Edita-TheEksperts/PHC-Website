@@ -59,14 +59,14 @@ export default function ClientDashboard2({ userId }) {
               ))
             ) : (
               <p className="text-gray-500 text-center py-6">
-                No monthly payments available
+          Keine monatlichen Zahlungen verfügbar
               </p>
             )}
           </div>
 
           {/* ✅ Total in footer */}
           <div className="border-t mt-6 pt-4 text-center">
-            <p className="uppercase text-sm text-gray-500">Monthly Total</p>
+            <p className="uppercase text-sm text-gray-500">Monatstotal</p>
             <p className="text-3xl font-extrabold text-emerald-600">
               CHF {monthlyTotal?.toFixed(2) || "0.00"}
             </p>

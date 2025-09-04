@@ -638,15 +638,16 @@ useEffect(() => {
                                     <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
                                     {appt.day}
                                   </p>
-                                  <span
-                                    className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                      appt.status === "active"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-gray-100 text-gray-600"
-                                    }`}
-                                  >
-                                    {appt.status}
-                                  </span>
+                        <span
+  className={`px-3 py-1 text-xs font-medium rounded-full ${
+    appt.status === "active"
+      ? "bg-green-100 text-green-700"
+      : "bg-gray-100 text-gray-600"
+  }`}
+>
+  {appt.status === "active" ? "Aktiv" : appt.status}
+</span>
+
                                 </div>
 
                                 {appt.date && (
@@ -875,7 +876,7 @@ useEffect(() => {
                             : "text-gray-600"
                         }`}
                       >
-                        Cancelled
+                      Abgebrochen
                       </span>
                     </button>
 
@@ -898,7 +899,7 @@ useEffect(() => {
                           filter === "done" ? "text-green-600" : "text-gray-600"
                         }`}
                       >
-                        Done
+                       Erledigt
                       </span>
                     </button>
                   </div>
