@@ -86,7 +86,7 @@ export default function EmployeesPage() {
       {/* Add Employee Form */}
       <form
         onSubmit={handleAddEmployee}
-        className="mb-6 p-4 border rounded-lg bg-gray-50 flex flex-col sm:flex-row gap-4"
+        className="mb-6 p-4 border rounded-lg bg-gray-50 flex flex-col lg:flex-row gap-4"
       >
         <input
           type="text"
