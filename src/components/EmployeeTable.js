@@ -8,6 +8,13 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
   const [inviteFilter, setInviteFilter] = useState("");
   const [visibleCount, setVisibleCount] = useState(10); // default 10
 
+  // 🌍 Përkthim statusi EN → DE
+  const statusLabels = {
+    approved: "Genehmigt",
+    pending: "Ausstehend",
+    rejected: "Abgelehnt",
+  };
+
   // 🔍 Filtering
   const filteredEmployees = employees.filter((emp) => {
     const matchesName = `${emp.firstName} ${emp.lastName}`
@@ -101,7 +108,9 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                 <td className="p-3">{emp.firstName} {emp.lastName}</td>
                 <td className="p-3">{emp.email}</td>
                 <td className="p-3">{emp.phone || "—"}</td>
-                <td className="p-3 capitalize font-semibold">{emp.status}</td>
+                <td className="p-3 capitalize font-semibold">
+                  {statusLabels[emp.status] || emp.status}
+                </td>
                 <td className="p-3">
                   <div className="flex flex-wrap gap-2 items-center">
                     {emp.status === "pending" && (
@@ -156,7 +165,9 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
             <p><span className="font-semibold">Telefon:</span> {emp.phone || "—"}</p>
             <p>
               <span className="font-semibold">Status:</span>{" "}
-              <span className="capitalize font-semibold">{emp.status}</span>
+              <span className="capitalize font-semibold">
+                {statusLabels[emp.status] || emp.status}
+              </span>
             </p>
 
             <div className="flex flex-wrap gap-2 pt-2">
