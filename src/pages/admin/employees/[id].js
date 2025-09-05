@@ -18,17 +18,46 @@ export default function EmployeeDetails() {
 
   if (!employee) return <p className="p-6 text-gray-600">Loading...</p>;
 
-  const formatDate = (d) => d ? new Date(d).toLocaleDateString() : "—";
-  const formatUrl = (file, label) => file ? <a className="text-blue-600 underline" href={file} target="_blank" rel="noreferrer">{label}</a> : "—";
+  // 📅 Format date as dd.mm.yyyy
+  const formatDate = (d) => {
+    if (!d) return "—";
+    const date = new Date(d);
+    return date.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  const formatUrl = (file, label) =>
+    file ? (
+      <a
+        className="text-blue-600 underline"
+        href={file}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {label}
+      </a>
+    ) : (
+      "—"
+    );
+
+  // 🌍 Status përkthyer EN → DE
+  const STATUS_LABELS = {
+    approved: "Genehmigt",
+    pending: "Ausstehend",
+    rejected: "Abgelehnt",
+  };
 
   const fileLinks = [
-    { key: "passportFile", label: "Passport" },
-    { key: "visaFile", label: "Visa" },
-    { key: "policeLetterFile", label: "Police Letter" },
-    { key: "cvFile", label: "CV" },
-    { key: "certificateFile", label: "Certificate" },
-    { key: "drivingLicenceFile", label: "Driving Licence" },
-    { key: "profilePhoto", label: "Profile Photo" },
+    { key: "passportFile", label: "Reisepass" },
+    { key: "visaFile", label: "Visum" },
+    { key: "policeLetterFile", label: "Polizeiliches Führungszeugnis" },
+    { key: "cvFile", label: "Lebenslauf" },
+    { key: "certificateFile", label: "Zertifikat" },
+    { key: "drivingLicenceFile", label: "Führerschein" },
+    { key: "profilePhoto", label: "Profilfoto" },
   ];
 
   return (
@@ -43,27 +72,44 @@ export default function EmployeeDetails() {
           <Section title="👤 Grundlegende Informationen">
             <Item label="E-Mail" value={employee.email} />
             <Item label="Telefon" value={employee.phone} />
-            <Item label="Status" value={employee.status} />
+            <Item
+              label="Status"
+              value={STATUS_LABELS[employee.status] || employee.status}
+            />
             <Item label="Created At" value={formatDate(employee.createdAt)} />
           </Section>
 
           <Section title="📍 Adresse">
-          <Item label="Strasse" value={`${employee.address || "—"} ${employee.houseNumber || ""}`} />
-          <Item label="Stadt/PLZ" value={`${employee.city || "—"}, ${employee.zipCode || "—"}`} />
-          <Item label="Land" value={`${employee.country || "—"} (${employee.canton || "—"})`} />
-          <Item label="Nationalität" value={employee.nationality} />
-
+            <Item
+              label="Strasse"
+              value={`${employee.address || "—"} ${employee.houseNumber || ""}`}
+            />
+            <Item
+              label="Stadt/PLZ"
+              value={`${employee.city || "—"}, ${employee.zipCode || "—"}`}
+            />
+            <Item
+              label="Land"
+              value={`${employee.country || "—"} (${employee.canton || "—"})`}
+            />
+            <Item label="Nationalität" value={employee.nationality} />
           </Section>
 
-        <Section title="📅 Verfügbarkeit">
-          <Item label="Ab" value={formatDate(employee.availabilityFrom)} />
-          <Item label="Tage" value={(employee.availabilityDays || []).join(", ")} />
-        </Section>
-
+          <Section title="📅 Verfügbarkeit">
+            <Item label="Ab" value={formatDate(employee.availabilityFrom)} />
+            <Item
+              label="Tage"
+              value={(employee.availabilityDays || []).join(", ")}
+            />
+          </Section>
 
           <Section title="🗂 Hochgeladene Dateien">
             {fileLinks.map((f) => (
-              <Item key={f.key} label={f.label} value={formatUrl(employee[f.key], f.label)} />
+              <Item
+                key={f.key}
+                label={f.label}
+                value={formatUrl(employee[f.key], f.label)}
+              />
             ))}
           </Section>
         </div>
@@ -81,37 +127,53 @@ export default function EmployeeDetails() {
             <Item label="Typ" value={employee.licenseType} />
             <Item label="Hat Auto" value={employee.hasCar} />
             <Item label="Auto für die Arbeit" value={employee.carAvailableForWork} />
-          </Section>    
-          
-<Section title="⚙️ Eigenschaften & Unterstützung">
-  <Item label="Schulungen" value={(employee.specialTrainings || []).join(", ")} />
-  <Item label="Sprachen" value={(employee.languages || []).join(", ")} />
-  <Item label="Kommunikation" value={(employee.communicationTraits || []).join(", ")} />
-  <Item label="Ernährungserfahrung" value={(employee.dietaryExperience || []).join(", ")} />
-</Section>
+          </Section>
 
+          <Section title="⚙️ Eigenschaften & Unterstützung">
+            <Item
+              label="Schulungen"
+              value={(employee.specialTrainings || []).join(", ")}
+            />
+            <Item
+              label="Sprachen"
+              value={(employee.languages || []).join(", ")}
+            />
+            <Item
+              label="Kommunikation"
+              value={(employee.communicationTraits || []).join(", ")}
+            />
+            <Item
+              label="Ernährungserfahrung"
+              value={(employee.dietaryExperience || []).join(", ")}
+            />
+          </Section>
 
-<Section title="📊 Einsätze & Einsatzpläne">
-  <Item label="Gesamte Einsätze" value={employee.assignments?.length || 0} />
-  <Item label="Gesamte Einsatzpläne" value={employee.schedules?.length || 0} />
-  {employee.schedules?.length > 0 && (
-    <ul className="list-disc ml-6 text-sm text-gray-700">
-      {employee.schedules.map((s) => (
-        <li key={s.id}>
-          {s.day} – {s.hours}h @ {s.startTime} ({formatDate(s.date)})
-        </li>
-      ))}
-    </ul>
-  )}
-</Section>
-
+          <Section title="📊 Einsätze & Einsatzpläne">
+            <Item
+              label="Gesamte Einsätze"
+              value={employee.assignments?.length || 0}
+            />
+            <Item
+              label="Gesamte Einsatzpläne"
+              value={employee.schedules?.length || 0}
+            />
+            {employee.schedules?.length > 0 && (
+              <ul className="list-disc ml-6 text-sm text-gray-700">
+                {employee.schedules.map((s) => (
+                  <li key={s.id}>
+                    {s.day} – {s.hours}h @ {s.startTime} ({formatDate(s.date)})
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Section>
         </div>
       </div>
 
       <div className="mt-10 text-center">
         <button
           onClick={() => router.push("/admin/employees")}
-          className="px-6 py-2 bg-[#04436F] text-white rounded hover:bg-[#033350]"
+          className="px-6 py-2 bg-[#04436F] text-white rounded hover:bg-[#033350] transition"
         >
           ← Zurück zu Mitarbeiter
         </button>

@@ -14,6 +14,13 @@ const STATUS_COLORS = {
   rejected: "#EF4444", // red
 };
 
+// 🌍 Përkthim EN → DE
+const STATUS_LABELS = {
+  approved: "Genehmigt",
+  pending: "Ausstehend",
+  rejected: "Abgelehnt",
+};
+
 export default function ApplicationOverview({ employees }) {
   const [filter, setFilter] = useState("all");
 
@@ -39,7 +46,7 @@ export default function ApplicationOverview({ employees }) {
   });
 
   const data = Object.entries(counts).map(([status, value]) => ({
-    name: status.charAt(0).toUpperCase() + status.slice(1),
+    name: STATUS_LABELS[status] || status, // 🔑 përdor gjermanisht
     value,
     fill: STATUS_COLORS[status],
   }));
@@ -83,32 +90,30 @@ export default function ApplicationOverview({ employees }) {
         {/* List + Filters */}
         <div className="w-full lg:w-1/2 flex flex-col">
           {/* Filters */}
-        <div className="flex justify-center gap-3 mb-4 flex-wrap">
-  {["all", "approved", "pending", "rejected"].map((status) => {
-    // translate to German
-    const labels = {
-      all: "Alle anzeigen",
-      approved: "Genehmigt",
-      pending: "Ausstehend",
-      rejected: "Abgelehnt",
-    };
+          <div className="flex justify-center gap-3 mb-4 flex-wrap">
+            {["all", "approved", "pending", "rejected"].map((status) => {
+              const labels = {
+                all: "Alle anzeigen",
+                approved: "Genehmigt",
+                pending: "Ausstehend",
+                rejected: "Abgelehnt",
+              };
 
-    return (
-      <button
-        key={status}
-        onClick={() => setFilter(status)}
-        className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
-          filter === status
-            ? "bg-[#04436F] text-white"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-        }`}
-      >
-        {labels[status]}
-      </button>
-    );
-  })}
-</div>
-
+              return (
+                <button
+                  key={status}
+                  onClick={() => setFilter(status)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+                    filter === status
+                      ? "bg-[#04436F] text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  {labels[status]}
+                </button>
+              );
+            })}
+          </div>
 
           {/* Employee list */}
           <div className="overflow-y-auto max-h-[320px] pr-1">
@@ -133,7 +138,7 @@ export default function ApplicationOverview({ employees }) {
                           : "bg-red-100 text-red-700"
                       }`}
                     >
-                      {e.status || "pending"}
+                      {STATUS_LABELS[e.status] || STATUS_LABELS["pending"]}
                     </span>
                   </li>
                 ))}

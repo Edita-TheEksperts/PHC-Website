@@ -292,10 +292,17 @@ useEffect(() => {
   fetch("/api/admin/activity?limit=20")
     .then((res) => res.json())
     .then((data) => {
-      setActivityLogs(data);
+      if (Array.isArray(data)) {
+        setActivityLogs(data);
+      } else if (Array.isArray(data.activity)) {
+        setActivityLogs(data.activity);
+      } else {
+        setActivityLogs([]); // fallback bosh
+      }
     })
     .catch((err) => console.error("❌ Error loading activity logs:", err));
 }, []);
+
 
   return (
     <AdminLayout>
