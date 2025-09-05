@@ -78,7 +78,7 @@ state: {
     // Preise
     {
       keywords: ["preise", "kosten", "tarif", "gebühren"],
-      answer: "Unsere Preise beginnen ab 25€/Stunde. Details finden Sie im Bereich 'Meine Zahlungen'."
+      answer: "Unsere Preise beginnen ab 59€/Stunde. Details finden Sie im Bereich 'Meine Zahlungen'."
     },
 
     // Konto löschen
