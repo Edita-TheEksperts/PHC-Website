@@ -100,10 +100,11 @@ state: {
     },
 
     // Kontakt
-    {
-      keywords: ["kontakt", "telefon", "email", "support"],
-      answer: "Sie erreichen uns unter: +49 123 456 789 oder per E-Mail an support@phc.de"
-    },
+ {
+  keywords: ["kontakt", "telefon", "email", "support"],
+  answer: "Sie erreichen uns unter: +49 123 456 789 oder per E-Mail an info@phc.ch"
+}
+,
 
     // --- FAQ Erweiterungen ---
     {
