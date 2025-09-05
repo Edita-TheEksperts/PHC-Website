@@ -81,17 +81,20 @@ export default function AppointmentCalendar({ schedules }) {
                       {a.subServiceName ? ` → ${a.subServiceName}` : ""}
                     </p>
                   )}
-                  <p
-                    className={`mt-1 text-xs inline-block px-2 py-1 rounded ${
-                      a.status === "completed"
-                        ? "bg-green-100 text-green-700"
-                        : a.status === "cancelled"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-blue-100 text-blue-700"
-                    }`}
-                  >
-                    {a.status}
-                  </p>
+      <p
+  className={`mt-1 text-xs inline-block px-2 py-1 rounded ${
+    a.status === "completed"
+      ? "bg-green-100 text-green-700"
+      : a.status === "cancelled"
+      ? "bg-red-100 text-red-700"
+      : a.status === "active"
+      ? "bg-yellow-100 text-yellow-700"
+      : "bg-blue-100 text-blue-700"
+  }`}
+>
+  {a.status === "active" ? "Aktive" : a.status}
+</p>
+
                 </li>
               ))}
             </ul>

@@ -83,23 +83,32 @@ export default function ApplicationOverview({ employees }) {
         {/* List + Filters */}
         <div className="w-full lg:w-1/2 flex flex-col">
           {/* Filters */}
-          <div className="flex justify-center gap-3 mb-4 flex-wrap">
-            {["all", "approved", "pending", "rejected"].map((status) => (
-              <button
-                key={status}
-                onClick={() => setFilter(status)}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
-                  filter === status
-                    ? "bg-[#04436F] text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {status === "all"
-                  ? "Alle anzeigen"
-                  : status.charAt(0).toUpperCase() + status.slice(1)}
-              </button>
-            ))}
-          </div>
+        <div className="flex justify-center gap-3 mb-4 flex-wrap">
+  {["all", "approved", "pending", "rejected"].map((status) => {
+    // translate to German
+    const labels = {
+      all: "Alle anzeigen",
+      approved: "Genehmigt",
+      pending: "Ausstehend",
+      rejected: "Abgelehnt",
+    };
+
+    return (
+      <button
+        key={status}
+        onClick={() => setFilter(status)}
+        className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+          filter === status
+            ? "bg-[#04436F] text-white"
+            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+        }`}
+      >
+        {labels[status]}
+      </button>
+    );
+  })}
+</div>
+
 
           {/* Employee list */}
           <div className="overflow-y-auto max-h-[320px] pr-1">

@@ -33,7 +33,7 @@ export default function WorkingTimeTracking({ employees }) {
       {/* Header */}
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-[#04436F]">⏱ Working Time Tracking</h2>
+          <h2 className="text-2xl font-bold text-[#04436F]">⏱ Arbeitszeiterfassung</h2>
           <p className="text-sm text-gray-500">
             Arbeitsstunden erfassen, nach Zeitplan filtern und schnelle Einblicke erhalten.
           </p>

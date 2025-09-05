@@ -194,7 +194,7 @@ useEffect(() => {
         onChange={(e) => setSelectedService(e.target.value)}
         className="border px-3 py-2 rounded"
       >
-        <option value="">All Services</option>
+        <option value="">Alle Dienstleistungen</option>
         {uniqueServices.map((service) => (
           <option key={service} value={service}>{service}</option>
         ))}

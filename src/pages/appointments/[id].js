@@ -51,7 +51,7 @@ const languages = Array.isArray(employee?.languages)
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10 bg-white border rounded-2xl shadow-md mt-6">
-      <h1 className="text-2xl font-bold text-[#04436F] mb-6">📅 Termin Details</h1>
+      <h1 className="text-2xl font-bold text-[#04436F] mb-6">📅 Termindetails</h1>
 
       {/* Quick mapping: Employee → Client */}
       <div className="mb-6 text-sm">

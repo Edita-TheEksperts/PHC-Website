@@ -719,8 +719,7 @@ useEffect(() => {
                     </button>
 
                     <h3 className="text-xl font-bold text-[#B99B5F] mb-4">
-                      Termin Details
-                    </h3>
+Termindetails                    </h3>
 
                     <div className="space-y-2 text-sm text-gray-700">
                       <p>
@@ -773,7 +772,7 @@ useEffect(() => {
                         onClick={() => setSelectedAppointment(null)}
                         className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
                       >
-                        Schließen
+                        Schliessen
                       </button>
                     </div>
                   </div>

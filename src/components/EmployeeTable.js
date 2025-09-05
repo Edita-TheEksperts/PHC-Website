@@ -29,7 +29,7 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-[#04436F] mb-4">Employees</h2>
+      <h2 className="text-2xl font-bold text-[#04436F] mb-4">Mitarbeiter</h2>
 
       {/* 🔍 Filters */}
       <div className="flex flex-wrap gap-4 mb-4 items-end">
