@@ -8956,40 +8956,106 @@ slug: "pflege-und-betreuung-zu-hause-kosten-leistungen-und-finanzierung-in-der-s
     image: "/images/phc-author.png",
     description: "Das Prime Home Care Team informiert zu Kosten, Leistungen und Finanzierungsmodellen in der Schweiz."
   },
+    content: [
+    "Pflege und Betreuung zu Hause: Kosten, Leistungen und Finanzierung in der Schweiz",
+    "Der Wunsch, auch im Alter oder bei eingeschränkter Selbstständigkeit zu Hause wohnen zu bleiben, ist weit verbreitet. Das vertraute Umfeld bietet Sicherheit, Geborgenheit und Lebensqualität.",
+    "Doch neben der Organisation stellen sich viele Angehörige die Frage: Was kostet Pflege und Betreuung zu Hause in der Schweiz – und welche Unterstützungsmöglichkeiten gibt es?",
+    "In diesem Artikel erhalten Sie einen klaren Überblick über Leistungen, Preise und Finanzierungshilfen, damit Sie besser planen können.",
+    "Was umfasst Pflege und Betreuung zu Hause?",
+    "Unter Pflege und Betreuung zu Hause versteht man verschiedene Dienstleistungen, die Seniorinnen, Senioren oder Menschen mit gesundheitlichen Einschränkungen im Alltag unterstützen – direkt in den eigenen vier Wänden.",
+    "Diese Leistungen lassen sich grob in drei Kategorien einteilen:",
+    "Pflegerische Unterstützung: Hilfe beim Waschen, Ankleiden oder bei der Medikamenteneinnahme. Meist durch diplomiertes Pflegepersonal. Teilweise von der Grundversicherung übernommen.",
+    "Hauswirtschaftliche Hilfe: Reinigung, Wäschepflege, Kochen, Einkaufen. Entlastet zeitlich und körperlich, besonders bei eingeschränkter Mobilität.",
+    "Soziale Betreuung und Begleitung: Gemeinsame Aktivitäten, Spaziergänge, Gespräche. Förderung einer Tagesstruktur. Wichtiger Beitrag gegen Einsamkeit und für das psychische Wohlbefinden.",
+    "Kosten für Pflege und Betreuung zu Hause",
+    "Die Preise können je nach Kanton, Anbieter und Leistungsumfang stark variieren.",
+    "Folgende Richtwerte dienen zur Orientierung:",
+    "Beispiel: Wer wöchentlich sechs Stunden hauswirtschaftliche und betreuende Unterstützung benötigt, zahlt monatlich etwa CHF 900.– bis 1’100.–.",
+    "Möglichkeiten zur Kostenreduktion",
+    "Viele Familien wissen nicht, dass es in der Schweiz mehrere Wege gibt, um die Kosten für Betreuung und Pflege zu Hause zu senken."
+  ],
   sections: [
     {
       id: "section-1",
-      title: "Was umfasst Pflege und Betreuung zu Hause?",
-      paragraphs: [
-        { id: "para-1-1", text: "Unter Pflege und Betreuung zu Hause versteht man verschiedene Dienstleistungen, die Seniorinnen, Senioren oder Menschen mit gesundheitlichen Einschränkungen im Alltag unterstützen – direkt in den eigenen vier Wänden." },
-        { id: "para-1-2", text: "Pflegerische Unterstützung: Hilfe beim Waschen, Ankleiden oder bei der Medikamenteneinnahme. Meist durch diplomiertes Pflegepersonal. Teilweise von der Grundversicherung übernommen." },
-        { id: "para-1-3", text: "Hauswirtschaftliche Hilfe: Reinigung, Wäschepflege, Kochen, Einkaufen. Entlastet zeitlich und körperlich, besonders bei eingeschränkter Mobilität." },
-        { id: "para-1-4", text: "Soziale Betreuung und Begleitung: Gemeinsame Aktivitäten, Spaziergänge, Gespräche. Förderung einer Tagesstruktur. Wichtiger Beitrag gegen Einsamkeit und für das psychische Wohlbefinden." }
-      ]
+      title: "Hilflosenentschädigung (HE) ",
+     paragraphs: [
+  { id: "para-1-1", text: "Für Personen mit regelmässigem Unterstützungsbedarf im Alltag." },
+  { id: "para-1-2", text: "Unabhängig von Einkommen und Vermögen." },
+  { id: "para-1-3", text: "Antrag über den Hausarzt bei der Sozialversicherungsanstalt (SVA)." },
+  { id: "para-1-4", text: "Je nach Schweregrad: CHF 235.– bis 940.– pro Monat." },
+  { id: "para-1-5", text: "Wartefrist meist 6 Monate." },
+  { id: "para-1-6", text: "Beispiel: SVA Schwyz – Hilflosenentschädigung." }
+]
+
     },
     {
       id: "section-2",
-      title: "Kosten für Pflege und Betreuung zu Hause",
-      paragraphs: [
-        { id: "para-2-1", text: "Die Preise können je nach Kanton, Anbieter und Leistungsumfang stark variieren. Beispiel: Wer wöchentlich sechs Stunden hauswirtschaftliche und betreuende Unterstützung benötigt, zahlt monatlich etwa CHF 900.– bis 1’100.–." }
-      ]
+      title: "Ergänzungsleistungen (EL) ",
+  paragraphs: [
+  { 
+    id: "para-2-1", 
+    text: "Wenn die AHV-/IV-Rente nicht für den Lebensunterhalt ausreicht." 
+  },
+  { 
+    id: "para-2-2", 
+    text: "Können auch Betreuungskosten enthalten." 
+  },
+  { 
+    id: "para-2-3", 
+    text: "Einkommen und Vermögen werden geprüft." 
+  }
+]
+
     },
     {
       id: "section-3",
-      title: "Möglichkeiten zur Kostenreduktion",
-      paragraphs: [
-        { id: "para-3-1", text: "Hilflosenentschädigung (HE): Für Personen mit regelmässigem Unterstützungsbedarf. Antrag über den Hausarzt bei der SVA. Je nach Schweregrad CHF 235.– bis 940.– pro Monat." },
-        { id: "para-3-2", text: "Ergänzungsleistungen (EL): Wenn die AHV-/IV-Rente nicht reicht. Einkommen und Vermögen werden geprüft." },
-        { id: "para-3-3", text: "Steuerliche Abzüge: In vielen Kantonen können Betreuungskosten steuerlich geltend gemacht werden." },
-        { id: "para-3-4", text: "Zusatzversicherungen: Manche übernehmen anteilig hauswirtschaftliche oder betreuende Leistungen." }
-      ]
+      title: "Steuerliche Abzüge ",
+     paragraphs: [
+  { 
+    id: "para-3-1", 
+    text: "In vielen Kantonen können Betreuungskosten steuerlich geltend gemacht werden." 
+  },
+  { 
+    id: "para-3-2", 
+    text: "Gilt für nachweisbare Leistungen mit Rechnung." 
+  }
+]
+
     },
     {
       id: "section-4",
-      title: "Fazit: Gut informiert, besser geplant",
-      paragraphs: [
-        { id: "para-4-1", text: "Pflege und Betreuung zu Hause erhalten Lebensqualität und Selbstständigkeit. Die Kosten hängen vom Umfang ab, können aber mit den richtigen Finanzierungsmodellen deutlich reduziert werden. Wer frühzeitig plant, kann eine tragfähige Lösung finden." }
-      ]
+      title: "Zusatzversicherungen der Krankenkasse ",
+paragraphs: [
+  { 
+    id: "para-4-1", 
+    text: "Manche Zusatzversicherungen übernehmen anteilig hauswirtschaftliche oder betreuende Leistungen." 
+  },
+  { 
+    id: "para-4-2", 
+    text: "Beispielrechnung mit Hilflosenentschädigung." 
+  },
+  { 
+    id: "para-4-3", 
+    text: "Je nach Kanton und individueller Situation kann der Eigenanteil noch niedriger ausfallen." 
+  },
+  { 
+    id: "para-4-4", 
+    text: "Fazit: Gut informiert, besser geplant." 
+  },
+  { 
+    id: "para-4-5", 
+    text: "Pflege und Betreuung zu Hause erhalten Lebensqualität und Selbstständigkeit – für die Betroffenen ebenso wie für Angehörige." 
+  },
+  { 
+    id: "para-4-6", 
+    text: "Die Kosten hängen von Art und Umfang der Leistungen ab, können aber mit den richtigen Finanzierungsmodellen deutlich reduziert werden." 
+  },
+  { 
+    id: "para-4-7", 
+    text: "Wer frühzeitig plant und sich umfassend informiert, kann eine tragfähige Lösung finden, die finanziell und organisatorisch machbar ist." 
+  }
+]
+
     }
   ]
 }

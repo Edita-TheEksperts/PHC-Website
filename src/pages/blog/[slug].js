@@ -58,7 +58,7 @@ const filteredBlogs = blogsData.filter((b) => b.slug !== slug); // ✅
       <div className="grid grid-cols-1 mt-[50px] lg:grid-cols-2 gap-8 items-center">
         {/* Left: Title & Main Text */}
         <div>
-        <h1 className="text-[#003588] font-['Instrument Sans'] text-[60px] font-semibold leading-[65px] ">
+        <h1 className="text-[#003588] font-['Instrument Sans'] text-[40px] leading-[50px] lg:text-[60px] font-semibold lg:leading-[65px] ">
   {blog.title}
 </h1>
           <p className="text-black mt-2">{blog.date} | {blog.category}</p>
@@ -162,106 +162,144 @@ Unten weiterlesen
 </div>
 
 
-      {/* Blog Content */}
-      <div className="max-w-[1410px] mx-auto px-4">
- {/* Ensure `blog` and `blog.sections` exist before mapping */}
-{blog && blog.sections && blog.sections.length > 0 && (
-  <div className="max-w-[1410px] mx-auto px-4">
-    {blog.sections.map((section, sectionIndex) => (
-      <div key={section.id} ref={(el) => (sectionsRef.current[sectionIndex] = el)} className="space-y-[24px] mt-12 lg:mt-[80px]">
-        
-        {/* Section Title */}
-        <h2 className="text-[#003588] font-['Metropolis'] text-[40px] font-semibold leading-[48px]">
-          {sectionIndex + 1}. {section.title}
-        </h2>
+{/* Blog Content */}
+<div className="max-w-[1410px] mx-auto px-4">
 
-        {/* Render `title2` only if it exists */}
-        {section.title2 && (
-          <h2 className="text-[#003588] font-['Metropolis'] text-[24px] font-[400] leading-[25.6px]">
-            {section.title2}
+  {/* ✅ Render Content nur wenn vorhanden */}
+  {blog.content && blog.content.length > 0 && (
+    <div className="mb-12">
+      {blog.content.map((paragraph, index) => (
+        index === 0 ? (
+          <h2
+            key={index}
+            className="mb-2 text-[#04436F] font-['Metropolis'] text-[18px] lg:text-[20px] font-normal leading-[24px] mt-[60px]"
+          >
+            {paragraph}
           </h2>
-        )}
-
-        {/* Section Paragraphs */}
-        {section.paragraphs && Array.isArray(section.paragraphs) && section.paragraphs.length > 0 ? (
-          section.paragraphs.map((paragraph, paragraphIndex) =>
-            paragraph.tip ? (
-              <div key={paragraph.id} className="p-4 flex flex-col justify-start items-start bg-[#F1F1F1] text-[#04436F] lg:py-[30px] lg:px-[80px] font-['Inter'] text-[16px] font-normal leading-[25.6px] mt-2 rounded-[20px]">
-                <strong className="text-[#04436F] text-center font-['Instrument Sans'] text-[44px] font-semibold leading-[52.8px]">
-                  TIP:
-                </strong>
-                {paragraph.tip}
-              </div>
-            ) : (
-              <p key={paragraph.id} className="mt-2 text-[#04436F] font-['Metropolis'] text-[20px] font-normal leading-[24px]">
-                <span className="font-semibold">{sectionIndex + 1}.{paragraphIndex + 1}</span> {paragraph.text}
-              </p>
-            )
-          )
         ) : (
-          <p className="text-gray-500"></p>
-        )}
+          <p
+            key={index}
+            className="mb-2 text-[#04436F] font-['Metropolis'] text-[18px] lg:text-[20px] font-normal leading-[24px]"
+          >
+            {paragraph}
+          </p>
+        )
+      ))}
+    </div>
+  )}
 
-        {/* FAQ Section - Only if `faqs` exist in the section */}
-        {section.faqs && Array.isArray(section.faqs) && section.faqs.length > 0 && (
-          <div className="mt-10 space-y-4">
-            {section.faqs.map((faq, faqIndex) => (
-              <div key={faq.id} className="bg-[#EDF2FB] p-4 rounded-[12px]">
-                <button
-                  className="w-full flex justify-between items-center text-[#04436F] font-['Metropolis'] text-[20px] font-semibold leading-[28px] underline"
-                  onClick={() => setFaqOpen(faqOpen === faqIndex ? null : faqIndex)}
+  {/* ✅ Render Sections nur wenn vorhanden */}
+  {blog && blog.sections && blog.sections.length > 0 && (
+    <div className="max-w-[1410px] mx-auto lg:px-4">
+      {blog.sections.map((section, sectionIndex) => (
+        <div
+          key={section.id}
+          ref={(el) => (sectionsRef.current[sectionIndex] = el)}
+          className="space-y-[24px] mt-12 lg:mt-[80px]"
+        >
+          {/* Section Title */}
+          <h2 className="text-[#003588] font-['Metropolis'] text-[24px] lg:text-[40px] font-semibold lg:leading-[48px]">
+            {sectionIndex + 1}. {section.title}
+          </h2>
+
+          {/* Optional title2 */}
+          {section.title2 && (
+            <h3 className="text-[#003588] font-['Metropolis'] text-[24px] font-[400] leading-[25.6px]">
+              {section.title2}
+            </h3>
+          )}
+
+          {/* Section Paragraphs */}
+          {section.paragraphs?.length > 0 ? (
+            section.paragraphs.map((paragraph, paragraphIndex) =>
+              paragraph.tip ? (
+                <div
+                  key={paragraph.id}
+                  className="p-4 flex flex-col justify-start items-start bg-[#F1F1F1] text-[#04436F] 
+                             lg:py-[30px] lg:px-[80px] font-['Inter'] text-[16px] font-normal leading-[25.6px] 
+                             mt-2 rounded-[20px]"
                 >
-                  {faq.question}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="26"
-                    viewBox="0 0 24 26"
-                    fill="none"
-                    className={`transform transition-transform ${faqOpen === faqIndex ? "rotate-180" : ""}`}
+                  <strong className="text-[#04436F] text-center font-['Instrument Sans'] text-[44px] font-semibold leading-[52.8px]">
+                    TIP:
+                  </strong>
+                  {paragraph.tip}
+                </div>
+              ) : (
+                <p
+                  key={paragraph.id}
+                  className="mt-2 text-[#04436F] font-['Metropolis'] text-[18px] lg:text-[20px] font-normal leading-[24px]"
+                >
+                  <span className="font-semibold">
+                    {sectionIndex + 1}.{paragraphIndex + 1}
+                  </span>{" "}
+                  {paragraph.text}
+                </p>
+              )
+            )
+          ) : (
+            <p className="text-gray-500"></p>
+          )}
+
+          {/* Section FAQs */}
+          {section.faqs && section.faqs.length > 0 && (
+            <div className="mt-10 space-y-4">
+              {section.faqs.map((faq, faqIndex) => (
+                <div key={faq.id} className="bg-[#EDF2FB] p-4 rounded-[12px]">
+                  <button
+                    className="w-full flex justify-between items-center text-[#04436F] font-['Metropolis'] text-[20px] font-semibold leading-[28px] underline"
+                    onClick={() => setFaqOpen(faqOpen === faqIndex ? null : faqIndex)}
                   >
-                    <g clipPath="url(#clip0_1352_2701)">
-                      <path
-                        d="M12 0.669922C5.37258 0.669922 0 6.04251 0 12.6699C0 19.2973 5.37258 24.6699 12 24.6699C18.6274 24.6699 24 19.2973 24 12.6699C24 6.04251 18.6274 0.669922 12 0.669922Z"
-                        fill="#04436F"
-                      />
-                      <path
-                        d="M16.4443 10.4481L11.9999 14.8926L7.5554 10.4481"
-                        stroke="white"
-                        strokeWidth="1.33333"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_1352_2701">
-                        <rect
-                          width="24"
-                          height="25"
-                          fill="white"
-                          transform="matrix(-1 0 0 -1 24 25.1699)"
+                    {faq.question}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="26"
+                      viewBox="0 0 24 26"
+                      fill="none"
+                      className={`transform transition-transform ${faqOpen === faqIndex ? "rotate-180" : ""}`}
+                    >
+                      <g clipPath="url(#clip0_1352_2701)">
+                        <path
+                          d="M12 0.669922C5.37258 0.669922 0 6.04251 0 12.6699C0 19.2973 5.37258 24.6699 12 24.6699C18.6274 24.6699 24 19.2973 24 12.6699C24 6.04251 18.6274 0.669922 12 0.669922Z"
+                          fill="#04436F"
                         />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </button>
+                        <path
+                          d="M16.4443 10.4481L11.9999 14.8926L7.5554 10.4481"
+                          stroke="white"
+                          strokeWidth="1.33333"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1352_2701">
+                          <rect
+                            width="24"
+                            height="25"
+                            fill="white"
+                            transform="matrix(-1 0 0 -1 24 25.1699)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </button>
 
-                {/* FAQ Answer - Only show when clicked */}
-                {faqOpen === faqIndex && (
-                  <p className="mt-3 text-[#04436F] font-['Metropolis'] text-[16px] font-normal leading-[24px]">
-                    {faq.answer}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
-)}
-
+                  {/* FAQ Answer */}
+                  {faqOpen === faqIndex && (
+                    <p className="mt-3 text-[#04436F] font-['Metropolis'] text-[16px] font-normal leading-[24px]">
+                      {faq.answer}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
 </div>
+
 
 
 
@@ -299,7 +337,7 @@ Unten weiterlesen
         </div>
       </div>
 
-      <section className="bg-[#EDF2FB] rounded-[20px] py-[40px] px-[40px] mt-[120px] mb-[120px] max-w-[1430px] mx-auto flex flex-col lg:flex-row items-center gap-6">
+      <section className="bg-[#EDF2FB] rounded-[20px] py-[20px] px-[10px] lg:py-[40px] lg:px-[40px] mt-[120px] mb-[120px] max-w-[1430px] mx-auto flex flex-col lg:flex-row items-center gap-6">
       {/* Left Content */}
       <div className="lg:w-1/2 gap-[40px]">
       <h2 className="text-[#003588] font-['Metropolis'] text-[45px] font-semibold leading-[52px]">
