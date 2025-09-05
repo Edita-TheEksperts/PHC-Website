@@ -8,6 +8,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "createTestUser.js", "syncStripe.js"],
+  "include": ["src/**/*", "createTestUser.js", "syncStripe.js", "test-email.js"],
   "exclude": ["node_modules", "**/node_modules/*"]
 }
