@@ -9,7 +9,7 @@ class ActionProvider {
       `Sie haben die Kategorie **${category}** gewählt. Bitte wählen Sie eine Frage:`,
       {
         widget: "questionOptions",
-        payload: { category }, 
+        payload: { category },
       }
     );
 
@@ -18,6 +18,7 @@ class ActionProvider {
       messages: [...prev.messages, message],
     }));
   };
+
   handleCategorySelection = () => {
     const message = this.createChatBotMessage(
       "Bitte wählen Sie eine Kategorie:",
@@ -34,6 +35,16 @@ class ActionProvider {
     const message = this.createChatBotMessage(
       `❓ ${question}\n\n${answer}`
     );
+
+    this.setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, message],
+    }));
+  };
+
+  // ✅ New method for free-text answers
+  giveAnswer = (answer) => {
+    const message = this.createChatBotMessage(answer);
 
     this.setState((prev) => ({
       ...prev,

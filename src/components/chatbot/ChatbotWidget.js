@@ -7,6 +7,17 @@ import ActionProvider from "./ActionProvider";
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const chatContainerRef = useRef(null);
+useEffect(() => {
+  const interval = setInterval(() => {
+    const input = document.querySelector(".react-chatbot-kit-chat-input");
+    if (input) {
+      input.placeholder = "Ihre Nachricht eingeben..."; // ✅ German
+      clearInterval(interval);
+    }
+  }, 100);
+
+  return () => clearInterval(interval);
+}, []);
 
   // Auto scroll sa herë që hapet chat
   useEffect(() => {
@@ -53,7 +64,7 @@ useEffect(() => {
     <div className="chatbot-box">
       {/* Header */}
       <div className="chatbot-header">
-        <span className="chatbot-title">💬 PHC Bot</span>
+        <span className="chatbot-title">💬 PHC Support Agent</span>
         <button onClick={() => setIsOpen(false)} className="chatbot-close">
           ✕
         </button>
