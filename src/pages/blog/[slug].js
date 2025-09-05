@@ -33,7 +33,7 @@ const scrollToSection = (index) => {
     if (blog) {
 const filteredBlogs = blogsData.filter((b) => b.slug !== slug); // ✅
       const shuffledBlogs = filteredBlogs.sort(() => 0.5 - Math.random()); // Shuffle list
-      setRecommendedBlogs(shuffledBlogs.slice(0, 3)); // Select 3 random blogs
+      setRecommendedBlogs(shuffledBlogs.slice(0, 4)); // Select 3 random blogs
     }
   }, [blog, slug]);
 
@@ -58,14 +58,14 @@ const filteredBlogs = blogsData.filter((b) => b.slug !== slug); // ✅
       <div className="grid grid-cols-1 mt-[50px] lg:grid-cols-2 gap-8 items-center">
         {/* Left: Title & Main Text */}
         <div>
-        <h1 className="text-[#003588] font-['Instrument Sans'] text-[64px] font-semibold leading-[72px] mt-10">
+        <h1 className="text-[#003588] font-['Instrument Sans'] text-[60px] font-semibold leading-[65px] ">
   {blog.title}
 </h1>
           <p className="text-black mt-2">{blog.date} | {blog.category}</p>
 
           {/* Main Text */}
           {blog.maintext && (
-            <p className="text-[#04436F] font-['Metropolis'] text-[16px] font-light leading-[24px] mt-6">
+            <p className="text-[#04436F] font-['Metropolis'] text-[18px] font-light leading-[24px] mt-6">
   {blog.maintext}
 </p>
           )}
@@ -105,30 +105,29 @@ Unten weiterlesen
         </div>
 
         {/* Right: Blog Image */}
-        <img src={blog.image} alt={blog.title} className="w-full rounded-[20px] lg:h-[580px] mt-2" />
+        <img src={blog.image} alt={blog.title} className="w-full rounded-[20px] lg:h-[620px] mt-2" />
       </div>
 
   {/* Author & Table of Contents */}
 <div className="mt-[120px] flex flex-col lg:flex-row items-start gap-6">
   
   {/* Left: Author Info */}
-  <div className="lg:w-1/3 bg-white p-2">
+{/* Left: Author Info */}
+  <div className="lg:w-1/3 bg-[#F9FAFB] shadow-md rounded-[16px] p-6 flex flex-col items-center text-center">
     <img
       src={blog.author.image}
       alt={blog.author.name}
-      className="w-[393px] h-[388px] mx-auto mt-6"
+      className="w-40 h-40 rounded-full object-cover shadow-md"
     />
-    <div className="flex flex-col p-[30px]">
-<h3 className="text-left font-['Instrument Sans'] text-[#04436F] text-[22px] font-medium leading-[26.4px]">
-  {blog.author.name}
-</h3>
-<p className="text-left font-['Inter'] text-[#04436F] text-[16px] font-normal leading-[25.6px]">
-  {blog.author.position}
-</p>
-<p className="mt-4 lg:mt-[40px] text-left font-['Inter'] text-[#04436F] text-[16px] font-normal leading-[25.6px]">
-  {blog.author.description}
-</p>
-    </div>
+    <h3 className="mt-6 font-['Instrument Sans'] text-[#04436F] text-[22px] font-semibold">
+      {blog.author.name}
+    </h3>
+    <p className="text-[#6B7280] text-[16px] font-medium">
+      {blog.author.position}
+    </p>
+    <p className="mt-4 text-[#374151] text-[15px] leading-[24px]">
+      {blog.author.description}
+    </p>
   </div>
 
   {/* Right: Table of Contents */}
@@ -169,7 +168,7 @@ Unten weiterlesen
 {blog && blog.sections && blog.sections.length > 0 && (
   <div className="max-w-[1410px] mx-auto px-4">
     {blog.sections.map((section, sectionIndex) => (
-      <div key={section.id} ref={(el) => (sectionsRef.current[sectionIndex] = el)} className="space-y-[24px] mt-12 lg:mt-[120px]">
+      <div key={section.id} ref={(el) => (sectionsRef.current[sectionIndex] = el)} className="space-y-[24px] mt-12 lg:mt-[80px]">
         
         {/* Section Title */}
         <h2 className="text-[#003588] font-['Metropolis'] text-[40px] font-semibold leading-[48px]">
@@ -194,7 +193,7 @@ Unten weiterlesen
                 {paragraph.tip}
               </div>
             ) : (
-              <p key={paragraph.id} className="mt-2 text-[#04436F] font-['Metropolis'] text-[16px] font-normal leading-[24px]">
+              <p key={paragraph.id} className="mt-2 text-[#04436F] font-['Metropolis'] text-[20px] font-normal leading-[24px]">
                 <span className="font-semibold">{sectionIndex + 1}.{paragraphIndex + 1}</span> {paragraph.text}
               </p>
             )
@@ -269,25 +268,27 @@ Unten weiterlesen
       {/* Recommended Blogs Section */}
       <div className="max-w-[1410px] mx-auto mt-[120px]">
         <h2 className="text-[40px] leading-[48px] font-[600] text-[#04436F] text-left">Passende Themen</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <p className="text-[#555] text-[18px] leading-[28px] mt-2 max-w-[900px]">
+    Entdecken Sie weitere spannende Artikel rund um Pflege, Gesundheit 
+    und Betreuung zuhause. <br></br>Diese Empfehlungen passen thematisch zu Ihrem 
+    aktuellen Beitrag und geben Ihnen zusätzliche Einblicke.
+  </p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
           {recommendedBlogs.map((blog) => (
            <Link key={blog.slug} href={`/blog/${blog.slug}`} passHref>
 
-              <div className="cursor-pointer">
+              <div className="cursor-pointer bg-[#f1f1f1f1] p-4 rounded-[20px] hover:shadow-lg transition-shadow h-full flex flex-col">
           {/* Blog Image */}
-          <img src={blog.image} alt={blog.title} className="w-full h-[300px]" />
+          <img src={blog.image} alt={blog.title} className="w-full h-[200px] rounded-[20px]" />
           <div className="flex flex-row justify-between mt-4">
-                <span
-                className="bg-[#04436F] text-[14px] text-center justify-center flex font-[400] leading-[25px] px-4 py-2 rounded-l-[20px] relative"
-                style={{
-                    background: "linear-gradient(94deg, #04436F 0%, rgba(0, 0, 0, 0.00) 100%)",
-                    padding: "4px 12px", // px-3 → 12px, py-1 → 4px
-                }}
-                >
-                {blog.category}
-                </span>
+     <span
+  className="bg-[#E6F0FA] text-[#04436F] text-[14px] font-medium leading-[22px] px-4 py-1 rounded-full"
+>
+  {blog.category}
+</span>
 
-              <p className="text-[#04436F] text-[14px] font-[400] leading-[25px]">{blog.date}</p>
+
+              <p className="text-[#04436F] text-[14px] font-[400] leading-[25px] ml-2">{blog.date}</p>
 
               </div>
               <h3 className="text-[#04436F] text-[26px] leading-[33px] font-[600] mt-2">
@@ -298,15 +299,15 @@ Unten weiterlesen
         </div>
       </div>
 
-      <section className="bg-[#EDF2FB] rounded-[20px] py-[100px] px-[20px] mt-[120px] mb-[120px] max-w-[1430px] mx-auto flex flex-col lg:flex-row items-center gap-6">
+      <section className="bg-[#EDF2FB] rounded-[20px] py-[40px] px-[40px] mt-[120px] mb-[120px] max-w-[1430px] mx-auto flex flex-col lg:flex-row items-center gap-6">
       {/* Left Content */}
-      <div className="lg:w-1/2 gap-[60px]">
-      <h2 className="text-[#003588] font-['Metropolis'] text-[40px] font-semibold leading-[48px]">
+      <div className="lg:w-1/2 gap-[40px]">
+      <h2 className="text-[#003588] font-['Metropolis'] text-[45px] font-semibold leading-[52px]">
   Geld sparen bei Betreuung<br></br> zuhause: Beteiligen Sie Ihre <br></br> Krankenkasse an den Kosten!
 </h2>
 
         
-<p className="text-[#003588] font-['Metropolis'] text-[24px] font-normal leading-[32px] mt-2">
+<p className="text-[#003588] font-['Metropolis'] text-[24px] font-normal leading-[30px] mt-6 lg:mt-[30px]">
   Mit unserer Hilfe können Sie bei der Betreuung zuhause viel Geld einsparen.
   Übernimmt anstelle der regulären Spitex eine zertifizierte Live-In-Betreuungskraft 
   die Aufgaben bei der Grundpflege, können diese Leistungen in vielen Kantonen mit der 
@@ -320,7 +321,7 @@ Unten weiterlesen
         {/* Button */}
         <Link href="/contact">
 
-        <button className="mt-6 lg:mt-[60px] px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
+        <button className="mt-6 lg:mt-[30px] px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
                    font-['Inter'] text-[18px] font-medium leading-[21.6px] 
                    rounded-[50px] flex items-center justify-center 
                    hover:bg-[#033559] transition 
@@ -335,7 +336,7 @@ Unten weiterlesen
         <img 
           src="/images/hero-image-phc.png" 
           alt="Happy Elderly Woman" 
-          className="w-full max-w-[600px] rounded-[12px]"
+          className="w-full max-w-[680px] rounded-[12px]"
         />
       </div>
     </section>

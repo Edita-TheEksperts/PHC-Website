@@ -8935,7 +8935,65 @@ const blogsData = [
 
 
   ]
+  
+  
 }, 
+
+{
+  id: "32",
+slug: "pflege-und-betreuung-zu-hause-kosten-leistungen-und-finanzierung-in-der-schweiz",
+  image: "/images/blog13.png",
+  category: "Finanzierung & Pflegekosten",
+  title: "Pflege und Betreuung zu Hause: Kosten, Leistungen und Finanzierung in der Schweiz",
+  metaTitle: "Pflege und Betreuung Zuhause: Was kostet sie wirklich in der Schweiz? | Prime Home Care",
+  metaDescription: "Pflege und Betreuung zu Hause kosten Geld – aber wie viel genau? Erfahren Sie, mit welchen Beträgen Sie rechnen sollten und welche Finanzierungshilfen es in der Schweiz gibt.",
+  date: "09 Juli 2025",
+  maintext: "Der Wunsch, auch im Alter oder bei eingeschränkter Selbstständigkeit zu Hause wohnen zu bleiben, ist weit verbreitet. Das vertraute Umfeld bietet Sicherheit, Geborgenheit und Lebensqualität. Doch neben der Organisation stellen sich viele Angehörige die Frage: Was kostet Pflege und Betreuung zu Hause in der Schweiz – und welche Unterstützungsmöglichkeiten gibt es?",
+  author: {
+    id: "author-NEW",
+    name: "Prime Home Care Team",
+    position: "Pflegeexperten",
+    image: "/images/phc-author.png",
+    description: "Das Prime Home Care Team informiert zu Kosten, Leistungen und Finanzierungsmodellen in der Schweiz."
+  },
+  sections: [
+    {
+      id: "section-1",
+      title: "Was umfasst Pflege und Betreuung zu Hause?",
+      paragraphs: [
+        { id: "para-1-1", text: "Unter Pflege und Betreuung zu Hause versteht man verschiedene Dienstleistungen, die Seniorinnen, Senioren oder Menschen mit gesundheitlichen Einschränkungen im Alltag unterstützen – direkt in den eigenen vier Wänden." },
+        { id: "para-1-2", text: "Pflegerische Unterstützung: Hilfe beim Waschen, Ankleiden oder bei der Medikamenteneinnahme. Meist durch diplomiertes Pflegepersonal. Teilweise von der Grundversicherung übernommen." },
+        { id: "para-1-3", text: "Hauswirtschaftliche Hilfe: Reinigung, Wäschepflege, Kochen, Einkaufen. Entlastet zeitlich und körperlich, besonders bei eingeschränkter Mobilität." },
+        { id: "para-1-4", text: "Soziale Betreuung und Begleitung: Gemeinsame Aktivitäten, Spaziergänge, Gespräche. Förderung einer Tagesstruktur. Wichtiger Beitrag gegen Einsamkeit und für das psychische Wohlbefinden." }
+      ]
+    },
+    {
+      id: "section-2",
+      title: "Kosten für Pflege und Betreuung zu Hause",
+      paragraphs: [
+        { id: "para-2-1", text: "Die Preise können je nach Kanton, Anbieter und Leistungsumfang stark variieren. Beispiel: Wer wöchentlich sechs Stunden hauswirtschaftliche und betreuende Unterstützung benötigt, zahlt monatlich etwa CHF 900.– bis 1’100.–." }
+      ]
+    },
+    {
+      id: "section-3",
+      title: "Möglichkeiten zur Kostenreduktion",
+      paragraphs: [
+        { id: "para-3-1", text: "Hilflosenentschädigung (HE): Für Personen mit regelmässigem Unterstützungsbedarf. Antrag über den Hausarzt bei der SVA. Je nach Schweregrad CHF 235.– bis 940.– pro Monat." },
+        { id: "para-3-2", text: "Ergänzungsleistungen (EL): Wenn die AHV-/IV-Rente nicht reicht. Einkommen und Vermögen werden geprüft." },
+        { id: "para-3-3", text: "Steuerliche Abzüge: In vielen Kantonen können Betreuungskosten steuerlich geltend gemacht werden." },
+        { id: "para-3-4", text: "Zusatzversicherungen: Manche übernehmen anteilig hauswirtschaftliche oder betreuende Leistungen." }
+      ]
+    },
+    {
+      id: "section-4",
+      title: "Fazit: Gut informiert, besser geplant",
+      paragraphs: [
+        { id: "para-4-1", text: "Pflege und Betreuung zu Hause erhalten Lebensqualität und Selbstständigkeit. Die Kosten hängen vom Umfang ab, können aber mit den richtigen Finanzierungsmodellen deutlich reduziert werden. Wer frühzeitig plant, kann eine tragfähige Lösung finden." }
+      ]
+    }
+  ]
+}
+,
   ];
   
   export default blogsData;
