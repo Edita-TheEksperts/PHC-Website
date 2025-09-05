@@ -268,108 +268,120 @@ export default function FAQ() {
     },
   ];
 
-  // State to manage open FAQ
-  const [openIndex, setOpenIndex] = useState(null);
+   const [openIndex, setOpenIndex] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Toggle FAQ Answer
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  // --- Filtered Data based on search ---
+  const filteredData = faqData.map((section) => ({
+    ...section,
+    questions: section.questions.filter(
+      (q) =>
+        q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        q.answer.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+  }));
+
+  // Check if there are any results
+  const hasResults = filteredData.some(
+    (section) => section.questions.length > 0
+  );
+
   return (
-    <div className="p-4 lg:p-2 max-w-[1430px] bg-[#FAFCFF] mx-auto" >
-      
+    <div className="p-4 lg:p-2 max-w-[1430px] bg-[#FAFCFF] mx-auto">
       {/* Header Section */}
-      <div className="bg-[#B99B5F] text-center  rounded-[20px] py-[90px] max-w-[1390px] mx-auto">
-      <h2 className="text-[#FAFCFF] text-center text-[55px] font-semibold leading-[66px] font-['Instrument Sans']">
- Häufige Fragen
-
-</h2>
-
-        <p className="text-white text-[20px] font-normal leading-[25.6px] font-['Inter'] mt-2">
-        Finden Sie Antworten auf die am häufigsten gestellten Fragen zu unseren Dienstleistungen, Richtlinien und mehr.
-                </p>
+      <div className="bg-[#B99B5F] text-center rounded-[20px] py-[90px] max-w-[1390px] mx-auto">
+        <h2 className="text-[#FAFCFF] text-[55px] font-semibold leading-[66px]">
+          Häufige Fragen
+        </h2>
+        <p className="text-white text-[20px] mt-2">
+          Finden Sie Antworten auf die am häufigsten gestellten Fragen zu unseren Dienstleistungen, Richtlinien und mehr.
+        </p>
       </div>
+{/* 🔍 Search Bar */}
+<div className="max-w-[1110px] mx-auto mt-12 relative">   {/* mt-12 = bigger margin top */}
+  <input
+    type="text"
+    placeholder="Suchen Sie nach Stichworten (z. B. Preis, Konto, Stornierung)..."
+    className="w-full rounded-[20px] p-4 pl-12 text-gray-700 shadow-md focus:outline-none focus:ring-2 focus:ring-[#04436F]"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+    🔍
+  </span>
+</div>
+
 
       {/* FAQ Content */}
-      <div className="max-w-[1150px] mx-auto mt-20 lg:mt-[120px] lg:px-6 mb-[80px]">
-        {faqData.map((section, sectionIndex) => (
-          <div key={sectionIndex} className="mt-8 lg:mt-[60px]">
-            
-            {/* Section Title */}
-            <h3 className="text-[#04436F] text-[36px] font-[700] leading-[43px] font-['Metropolis'] mb-4 lg:mb-[40px]">
-              {section.category}
-            </h3>
+      <div className="max-w-[1150px] mx-auto mt-20 lg:mt-12 lg:px-6 mb-[80px]">
+        {!hasResults && (
+          <p className="text-center text-gray-500 text-lg">
+            Keine Ergebnisse gefunden für „{searchTerm}“.
+          </p>
+        )}
 
-            {/* FAQ List */}
-            <div className="space-y-4 lg:space-y-[30px]">
-              {section.questions.map((item, index) => {
-                const isOpen = openIndex === `${sectionIndex}-${index}`;
-                return (
-                  <div key={index} className="bg-[#ECF2FF] rounded-[20px]">
-                    {/* Question */}
-                    <div
-                      onClick={() => toggleFAQ(`${sectionIndex}-${index}`)}
-                      className="lg:p-6 p-3 flex justify-between items-center cursor-pointer transition duration-300  hover:bg-[#E1E8F0] rounded-[20px]"
-                    >
-                      <h4 className="text-[#04436F] text-[14px] lg:text-[20px] font-[600] lg:font-[700] leading-[26px]">{item.question}</h4>
+        {filteredData.map(
+          (section, sectionIndex) =>
+            section.questions.length > 0 && (
+              <div key={sectionIndex} className="mt-8 lg:mt-[60px]">
+                {/* Section Title */}
+                <h3 className="text-[#04436F] text-[36px] font-[700] mb-4 lg:mb-[40px]">
+                  {section.category}
+                </h3>
 
-                      {/* Dropdown Icon */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="26"
-                        viewBox="0 0 24 26"
-                        fill="none"
-                        className={`transition-transform duration-300 ${
-                          isOpen ? "rotate-180" : ""
-                        }`}
-                      >
-                        <g clipPath="url(#clip0_1352_2251)">
-                          <path
-                            d="M12 0.630859C5.37258 0.630859 0 6.00344 0 12.6309C0 19.2583 5.37258 24.6309 12 24.6309C18.6274 24.6309 24 19.2583 24 12.6309C24 6.00344 18.6274 0.630859 12 0.630859Z"
-                            fill="#04436F"
-                          />
-                          <path
-                            d="M16.4443 10.409L11.9999 14.8535L7.5554 10.409"
-                            stroke="white"
-                            strokeWidth="1.33333"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_1352_2251">
-                            <rect
-                              width="24"
-                              height="25"
-                              fill="white"
-                              transform="matrix(-1 0 0 -1 24 25.1309)"
-                            />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </div>
+                {/* FAQ List */}
+                <div className="space-y-4 lg:space-y-[30px]">
+                  {section.questions.map((item, index) => {
+                    const isOpen = openIndex === `${sectionIndex}-${index}`;
+                    return (
+                      <div key={index} className="bg-[#ECF2FF] rounded-[20px]">
+                        {/* Question */}
+                        <div
+                          onClick={() => toggleFAQ(`${sectionIndex}-${index}`)}
+                          className="lg:p-6 p-3 flex justify-between items-center cursor-pointer hover:bg-[#E1E8F0] rounded-[20px]"
+                        >
+                          <h4 className="text-[#04436F] text-[14px] lg:text-[20px] font-[600]">
+                            {item.question}
+                          </h4>
+                          <span
+                            className={`transition-transform ${
+                              isOpen ? "rotate-180" : ""
+                            }`}
+                          >
+                            ▼
+                          </span>
+                        </div>
 
-                    {/* Answer Section (Only shown if open) */}
-                    {isOpen && (
-                      <div className="p-4 text-[#04436F] text-[14px] lg:text-[18px] font-normal leading-[26px] font-['Metropolis'] bg-[#F1F1F1] rounded-b-[10px]">
-                        {item.answer}
+                        {/* Answer */}
+                        {isOpen && (
+                          <div className="p-4 text-[#04436F] text-[14px] lg:text-[18px] bg-[#F1F1F1] rounded-b-[10px]">
+                            {item.answer}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-        ))}
+                    );
+                  })}
+                </div>
+              </div>
+            )
+        )}
       </div>
-  
-<p className="text-[#04436F] text-[18px] font-medium leading-[28px] text-center mt-16">
-  Falls Sie die Antwort auf Ihre Frage nicht finden, kontaktieren Sie uns gerne über das <a href="/contact" className="underline hover:text-[#B99B5F] transition-colors">Kontaktformular</a>.
-</p>
 
+      {/* Contact Hint */}
+      <p className="text-[#04436F] text-[18px] text-center mt-16">
+        Falls Sie die Antwort auf Ihre Frage nicht finden, kontaktieren Sie uns gerne über das{" "}
+        <a
+          href="/contact"
+          className="underline hover:text-[#B99B5F] transition-colors"
+        >
+          Kontaktformular
+        </a>.
+      </p>
     </div>
   );
 }
