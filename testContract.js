@@ -8,18 +8,21 @@ dotenv.config();
 // Dummy test employee
 const testEmployee = {
   id: "123e4567-e89b-12d3-a456-426614174000",
-  email: "edita.latifi@the-eksperts.com",
-  firstName: "Edita",
-  lastName: "Latifi",
+  email: "anduela.nurshaba@the-eksperts.com",
+  firstName: "Anduela",
+  lastName: "Nurshaba",
   phone: "+38344111222",
   address: "Rruga e Dëshmorëve",
   houseNumber: "15",
   zipCode: "61000",
-  city: "Podujevë",
+  city: "Rahovec",
   country: "Kosovo",
   desiredWeeklyHours: "20",
   servicesOffered: ["Körperpflege", "Haushaltshilfe", "Begleitung"],
+  startDate: "01.10.2025",
+  endDate: "31.12.2025",
 };
+
 
 // Generate PDF and email it
 (async () => {
@@ -44,7 +47,7 @@ const transporter = nodemailer.createTransport({
     // Mail options
     const mailOptions = {
       from: `"Prime Home Care" <${process.env.MAIL_USER}>`,
-      to: "edita.latifi@the-eksperts.com",
+      to: "anduela.nurshaba@the-eksperts.com",
       subject: "Arbeitsvertrag – Edita Latifi",
       text: "Liebe Edita,\n\nanbei finden Sie Ihren Arbeitsvertrag als PDF.\n\nFreundliche Grüsse\nPrime Home Care",
       attachments: [
@@ -57,7 +60,7 @@ const transporter = nodemailer.createTransport({
 
     // Send email
     await transporter.sendMail(mailOptions);
-    console.log("📧 Email sent to edita.latifi@the-eksperts.com");
+    console.log("📧 Email sent to anduela.nurshaba@the-eksperts.com");
   } catch (err) {
     console.error("❌ Error:", err);
   }
