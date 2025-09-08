@@ -1,8 +1,8 @@
-// testContract.js
 import fs from "fs";
 import nodemailer from "nodemailer";
-import { createContractPdf } from "./src/lib/mailer.js";
 import dotenv from "dotenv";
+import { createNdaPdf, createContractPdf } from "./src/lib/mailer.js";
+
 dotenv.config();
 
 // Dummy test employee
@@ -23,44 +23,70 @@ const testEmployee = {
   endDate: "31.12.2025",
 };
 
-
-// Generate PDF and email it
 (async () => {
   try {
-    const pdfBuffer = await createContractPdf(testEmployee);
+    // Generate PDFs
+    const ndaBuffer = await createNdaPdf(testEmployee.firstName, testEmployee.lastName);
+    const contractBuffer = await createContractPdf(testEmployee);
 
-    // Save locally (optional)
-    fs.writeFileSync("Arbeitsvertrag_Edita_Latifi.pdf", pdfBuffer);
-    console.log("✅ PDF generated: Arbeitsvertrag_Edita_Latifi.pdf");
-// Setup mail transporter with Hostpoint SMTP
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  secure: process.env.SMTP_SECURE === "true", // convert string to boolean
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+    // Save locally (optional for checking)
+    fs.writeFileSync("NDA_Test.pdf", ndaBuffer);
+    fs.writeFileSync("Arbeitsvertrag_Test.pdf", contractBuffer);
+    console.log("✅ PDFs generated: NDA_Test.pdf & Arbeitsvertrag_Test.pdf");
 
+    // Portal URL
+    const portalUrl = process.env.NEXT_PUBLIC_BASE_URL + "/login";
 
-    // Mail options
+    // Setup mail transporter
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    // Mail options with text + html
     const mailOptions = {
-      from: `"Prime Home Care" <${process.env.MAIL_USER}>`,
-      to: "anduela.nurshaba@the-eksperts.com",
-      subject: "Arbeitsvertrag – Edita Latifi",
-      text: "Liebe Edita,\n\nanbei finden Sie Ihren Arbeitsvertrag als PDF.\n\nFreundliche Grüsse\nPrime Home Care",
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: testEmployee.email,
+      subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
+      text: `
+Liebe ${testEmployee.firstName},
+
+Vielen Dank für Ihre Registrierung bei Prime Home Care AG.
+
+Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.
+
+Login-Link: ${portalUrl}
+Benutzername: ${testEmployee.email}
+
+Bei Fragen stehen wir Ihnen jederzeit zur Verfügung. Willkommen im Team!
+
+Herzliche Grüsse  
+Prime Home Care AG
+      `,
+      html: `
+        <p>Liebe ${testEmployee.firstName}</p>
+        <p>Vielen Dank für Ihre Registrierung bei <strong>Prime Home Care AG</strong>.</p>
+        <p>Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.</p>
+        <p><strong>Login-Link:</strong> <br/> <a href="${portalUrl}">${portalUrl}</a><br/>
+        <strong>Benutzername:</strong> ${testEmployee.email}</p>
+        <p>Bei Fragen stehen wir Ihnen jederzeit zur Verfügung. Willkommen im Team!</p>
+        <p>Herzliche Grüsse<br/>
+        Prime Home Care AG</p>
+      `,
       attachments: [
-        {
-          filename: "Arbeitsvertrag_Edita_Latifi.pdf",
-          content: pdfBuffer,
-        },
+        { filename: `NDA_${testEmployee.firstName}_${testEmployee.lastName}.pdf`, content: ndaBuffer },
+        { filename: `Arbeitsvertrag_${testEmployee.firstName}_${testEmployee.lastName}.pdf`, content: contractBuffer },
       ],
     };
 
     // Send email
     await transporter.sendMail(mailOptions);
-    console.log("📧 Email sent to anduela.nurshaba@the-eksperts.com");
+    console.log(`📧 Test email sent to ${testEmployee.email}`);
   } catch (err) {
     console.error("❌ Error:", err);
   }

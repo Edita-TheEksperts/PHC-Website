@@ -298,7 +298,7 @@ export async function sendApprovalEmail(employee) {
     to: email,
     subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
     text: `
-Liebe ${firstName},
+Liebe ${firstName}
 
 Vielen Dank für Ihre Registrierung bei Prime Home Care AG.
 
