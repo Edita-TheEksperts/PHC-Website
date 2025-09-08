@@ -114,7 +114,7 @@ export default async function handler(req, res) {
     // ✅ Push new client into Salesforce
 if (!user.salesforceId) {
   try {
-    const sfId = await createSalesforceAccount(user);
+    const sfId = await createOrUpdateSalesforceAccount(user);
 
     // Save Salesforce ID in your DB (optional but recommended)
     await prisma.user.update({
