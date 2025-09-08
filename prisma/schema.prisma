@@ -298,6 +298,7 @@ model Employee {
   transactions         Transaction[]
   vacations            Vacation[]
     activityLogs ActivityLog[] @relation("EmployeeActivityLogs")
+      salesforceId String? 
 
 }
 
