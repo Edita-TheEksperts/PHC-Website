@@ -52,6 +52,7 @@ export function createNdaPdf(firstName, lastName) {
     doc.end();
   });
 }
+
 /**
  * Create Arbeitsvertrag PDF
  */
@@ -64,12 +65,12 @@ export function createContractPdf(employee) {
     doc.on("end", () => resolve(Buffer.concat(buffers)));
 
     // Prepare employee data
-    const fullName = `${employee.firstName} ${employee.lastName}`;
+    const fullName = `${employee.firstName || ""} ${employee.lastName || ""}`.trim();
     const fullAddress = `${employee.address || ""} ${employee.houseNumber || ""}, ${employee.zipCode || ""} ${employee.city || ""}`.trim();
     const contractDate = new Date().toLocaleDateString("de-CH");
-    const einsatzort = employee.city || "(Angabe des Einsatzortes)";
-    const taetigkeiten = employee.servicesOffered?.join(", ") || "(Angabe der Aufgabenbereiche)";
-    const arbeitsstunden = employee.desiredWeeklyHours || "(...)";
+    const einsatzort = employee.city || "";
+    const taetigkeiten = employee.servicesOffered?.join(", ") || "";
+    const arbeitsstunden = employee.desiredWeeklyHours || "";
 
     // Title
     doc.fontSize(14).font("Helvetica-Bold").text("Einsatz - Arbeitsvertrag", { align: "left" });
@@ -100,7 +101,7 @@ export function createContractPdf(employee) {
     // Beginn der Anstellung
     doc.font("Helvetica-Bold").text("Beginn der Anstellung");
     doc.font("Helvetica").text("Am ", { continued: true });
-    doc.fillColor("red").text(`(Datum des Versandes dieses Arbeitsvertrages: ${contractDate})`, { continued: true });
+    doc.fillColor("red").text(`Datum des Versandes dieses Arbeitsvertrages: ${contractDate}`, { continued: true });
     doc.fillColor("black").text(" schliessen die Vertragsparteien gestützt auf die Rahmenvereinbarung einen Arbeitsvertrag als gelegentliche Arbeitsleistung über einen einzelnen Arbeitseinsatz ab. Eine Probezeit ist nicht vorgesehen.");
     doc.moveDown(2);
 
