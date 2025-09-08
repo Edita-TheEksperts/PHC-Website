@@ -1,6 +1,8 @@
 import { hash } from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { sendEmail } from "../../lib/emails";
+import { createSalesforceAccount } from "../../lib/salesforce";
+
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
@@ -109,6 +111,21 @@ export default async function handler(req, res) {
         },
       });
     }
+    // ✅ Push new client into Salesforce
+if (!user.salesforceId) {
+  try {
+    const sfId = await createSalesforceAccount(user);
+
+    // Save Salesforce ID in your DB (optional but recommended)
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { salesforceId: sfId },
+    });
+  } catch (error) {
+    console.error("❌ Salesforce sync failed:", error);
+  }
+}
+
 
     // ✅ Email confirmation (template just for this handler)
     const template = await prisma.emailTemplate.findUnique({

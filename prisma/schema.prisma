@@ -189,6 +189,8 @@ model User {
   services                Service[]     @relation("UserServices")
   subServices             SubService[]  @relation("UserSubServices")
     activityLogs ActivityLog[] @relation("UserActivityLogs")
+      salesforceId   String?   
+
 
 }
 
