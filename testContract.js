@@ -8,18 +8,18 @@ dotenv.config();
 // Dummy test employee
 const testEmployee = {
   id: "123e4567-e89b-12d3-a456-426614174000",
-  email: "edita.latifi@the-eksperts.com",
-  firstName: "Anduela",
-  lastName: "Nurshaba",
+  email: "ermal.bislimi@the-eksperts.com",
+  firstName: "Ermal",
+  lastName: "Bislimi",
   phone: "+38344111222",
   address: "Rruga e Dëshmorëve",
   houseNumber: "15",
   zipCode: "61000",
   city: "Rahovec",
   country: "Kosovo",
-  desiredWeeklyHours: "20",
-  servicesOffered: ["Körperpflege", "Haushaltshilfe", "Begleitung"],
-  startDate: "01.10.2025",
+  desiredWeeklyHours: "40",
+  servicesOffered: ["Körperpflege", "Haushaltshilfe"],
+  startDate: "09.09.2025",
   endDate: "31.12.2025",
 };
 

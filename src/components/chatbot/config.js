@@ -78,7 +78,7 @@ state: {
     // Preise
     {
       keywords: ["preise", "kosten", "tarif", "gebühren"],
-      answer: "Unsere Preise beginnen ab 59€/Stunde. Details finden Sie im Bereich 'Meine Zahlungen'."
+      answer: "Unsere Preise: Einmalige Einsätze ab CHF 75.–/Stunde, regelmässige Betreuung ab CHF 59.–/Stunde. Details finden Sie im Bereich 'Preise' oder 'Meine Zahlungen'."
     },
 
     // Konto löschen
@@ -96,17 +96,62 @@ state: {
     // AGB / AVB
     {
       keywords: ["agb", "avb", "bedingungen", "vertrag"],
-      answer: "Unsere Allgemeinen Vertragsbedingungen (AGB) können Sie hier einsehen: [Link zu AGB-Seite]"
+      answer: "Unsere Allgemeinen Vertragsbedingungen (AVB) können Sie hier einsehen: [Link zu AVB-Seite]"
     },
 
     // Kontakt
- {
-  keywords: ["kontakt", "telefon", "email", "support"],
-  answer: "Sie erreichen uns unter: +49 123 456 789 oder per E-Mail an info@phc.ch"
-}
-,
+    {
+      keywords: ["kontakt", "telefon", "email", "support"],
+      answer: "Sie erreichen uns unter: +41 44 123 45 67 oder per E-Mail an info@phc.ch"
+    },
 
-    // --- FAQ Erweiterungen ---
+    // Über uns
+    {
+      keywords: ["über uns", "unternehmen", "prime home care ag", "wer sind wir"],
+      answer: "Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause. Seit unserer Gründung verfolgen wir das Ziel, Menschen in ihrem vertrauten Umfeld bestmögliche Betreuung und Unterstützung zu bieten."
+    },
+    {
+      keywords: ["philosophie", "werte", "grundsätze"],
+      answer: "Unsere Philosophie basiert auf Empathie, Respekt und Kompetenz. Jede Person hat einzigartige Bedürfnisse, deshalb legen wir Wert auf eine persönliche und flexible Betreuung – von Gesellschaft bis hin zu hauswirtschaftlichen Dienstleistungen."
+    },
+    {
+      keywords: ["vision", "ziel", "strategie"],
+      answer: "Als digitales Unternehmen verbinden wir Betreuung mit modernster Technologie. Über unsere Plattform finden und buchen Sie flexibel und unkompliziert die passende Betreuung – individuell abgestimmt und genau dann, wenn sie gebraucht wird."
+    },
+    {
+      keywords: ["qualität", "vertrauen", "standards"],
+      answer: "Qualität und Vertrauen sind die Grundlage unseres Handelns. Wir setzen auf kontinuierliche Weiterbildung, hohe Standards und eine transparente, digitale Plattform – von der Buchung bis zur Abrechnung."
+    },
+    {
+      keywords: ["zufriedenheit", "lebensqualität"],
+      answer: "Ihre Zufriedenheit ist unser Antrieb. Wir sind stolz darauf, Ihnen Lebensqualität und Selbstständigkeit zurückzugeben – in Ihrem Zuhause, wo Sie sich am wohlsten fühlen."
+    },
+
+    // Dienstleistungen
+    {
+      keywords: ["alltagsbegleitung", "besorgungen", "arzttermin", "einkauf", "postgang"],
+      answer: "Unsere Alltagsbegleitung & Besorgungen umfasst: Begleitung zu Terminen, Einkäufe erledigen, Postgänge und weitere Erledigungen."
+    },
+    {
+      keywords: ["freizeit", "soziale aktivitäten", "ausflüge", "reisebegleitung", "kochen"],
+      answer: "Unsere Freizeit- & Sozialangebote beinhalten: Gesellschaft leisten, gemeinsames Kochen, Vorlesen, Kartenspiele sowie Ausflüge und Reisebegleitung."
+    },
+    {
+      keywords: ["gesundheitsfürsorge", "pflege", "körperpflege", "nahrungsaufnahme"],
+      answer: "Unsere Gesundheitsfürsorge & Grundpflege umfasst: körperliche Unterstützung, Hilfe bei Nahrungsaufnahme, grundpflegerische Tätigkeiten, gesundheitsfördernde Aktivitäten und geistige Unterstützung."
+    },
+    {
+      keywords: ["haushaltshilfe", "wohnpflege", "putzen", "wäsche", "staubsaugen"],
+      answer: "Unsere Haushaltshilfe & Wohnpflege beinhaltet: Kochen, Waschen, Bügeln, Fenster putzen, Bettwäsche wechseln, Aufräumen, Abfall entsorgen, Abstauben, Staubsaugen, Boden wischen und Vorhänge reinigen sowie Balkon- und Blumenpflege."
+    },
+
+    // Vorteile
+    {
+      keywords: ["vorteile", "warum prime home care", "warum phc", "gründe"],
+      answer: "Warum Prime Home Care? Weil Vertrauen, Herzlichkeit und Verlässlichkeit im Mittelpunkt stehen. Unsere Vorteile: individuell & flexibel, vertraute Gesichter, mehr Lebensfreude zu Hause und einfach & zuverlässig organisiert."
+    },
+
+    // FAQ Erweiterungen
     {
       keywords: ["stornierung", "stornieren", "kündigen", "absagen"],
       answer: "Stornierungen bis 14 Tage vorher sind kostenlos. Zwischen 14 und 7 Tagen fallen 50% Gebühren an, weniger als 7 Tage vorher 100%."
@@ -117,7 +162,7 @@ state: {
     },
     {
       keywords: ["buchung vornehmen", "betreuung buchen"],
-      answer: "Besuchen Sie unsere Webseite phc.ch, geben Sie Ihre Postleitzahl ein, wählen Sie Leistungen und Häufigkeit und bestätigen Sie Ihre Buchung online."
+      answer: "Besuchen Sie unsere Webseite phc.ch, geben Sie Ihre Postleitzahl ein, wählen Sie die gewünschte Dienstleistung und Häufigkeit und bestätigen Sie Ihre Buchung online."
     },
     {
       keywords: ["buchung stornieren", "betreuung absagen"],
@@ -170,7 +215,12 @@ state: {
     {
       keywords: ["unzufrieden", "beschwerde"],
       answer: "Falls Sie unzufrieden sind, kontaktieren Sie uns bitte direkt über Ihr Kundenprofil. Wir finden gemeinsam eine Lösung."
+    },
+    {
+      keywords: ["dienstleistung", "dienstleistungen", "diensliestung", "dienleistung", "dienstleistng"],
+      answer: "Sie finden unser Dienstleistungsangebot auf der Webseite: Alltagsbegleitung, Freizeit & soziale Aktivitäten, Gesundheitsfürsorge und Haushaltshilfe."
     }
+
   ]
 }
 

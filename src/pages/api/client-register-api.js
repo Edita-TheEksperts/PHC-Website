@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { sendEmail } from "../../lib/emails";
-import { createSalesforceAccount } from "../../lib/salesforce";
+import { createOrUpdateSalesforceAccount } from "../../lib/salesforce";
 
 
 export default async function handler(req, res) {
