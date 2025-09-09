@@ -75,39 +75,39 @@ const config = {
 
 state: {
   knowledgeBase: [
-    // Preise
-    {
-      keywords: ["preise", "kosten", "tarif", "gebühren"],
-      answer: "Unsere Preise: Einmalige Einsätze ab CHF 75.–/Stunde, regelmässige Betreuung ab CHF 59.–/Stunde. Details finden Sie im Bereich 'Preise' oder 'Meine Zahlungen'."
+    // --- Preise ---
+     {
+      keywords: ["preise", "kosten", "tarif", "gebühren", "kosten stunde", "preis berechnung", "preisinfo"],
+  answer: "Unsere Preise: Einmalige Einsätze ab CHF 75.–/Stunde, regelmässige Betreuung ab CHF 59.–/Stunde. Preise ansehen: https://phc.ch/preise"
     },
 
     // Konto löschen
     {
-      keywords: ["konto löschen", "account löschen", "profil entfernen"],
+      keywords: ["konto löschen", "account löschen", "profil entfernen", "benutzerkonto", "account entfernen"],
       answer: "Um Ihr Konto zu löschen, gehen Sie bitte in die Kontoeinstellungen."
     },
 
-    // FAQ (Allgemein)
+    // FAQ
     {
-      keywords: ["faq", "häufige fragen", "hilfe"],
+      keywords: ["faq", "häufige fragen", "hilfe", "support fragen", "informationen"],
       answer: "In unseren FAQ finden Sie Antworten auf die häufigsten Fragen: [Link zur FAQ-Seite]"
     },
 
     // AGB / AVB
     {
-      keywords: ["agb", "avb", "bedingungen", "vertrag"],
+      keywords: ["agb", "avb", "bedingungen", "vertrag", "vertragsbedingungen", "avb seite"],
       answer: "Unsere Allgemeinen Vertragsbedingungen (AVB) können Sie hier einsehen: [Link zu AVB-Seite]"
     },
 
     // Kontakt
     {
-      keywords: ["kontakt", "telefon", "email", "support"],
+      keywords: ["kontakt", "telefon", "email", "support", "hotline", "kundendienst"],
       answer: "Sie erreichen uns unter: +41 44 123 45 67 oder per E-Mail an info@phc.ch"
     },
 
     // Über uns
     {
-      keywords: ["über uns", "unternehmen", "prime home care ag", "wer sind wir"],
+      keywords: ["über uns", "unternehmen", "prime home care ag", "wer sind wir", "phc firma"],
       answer: "Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause. Seit unserer Gründung verfolgen wir das Ziel, Menschen in ihrem vertrauten Umfeld bestmögliche Betreuung und Unterstützung zu bieten."
     },
     {
@@ -129,6 +129,10 @@ state: {
 
     // Dienstleistungen
     {
+      keywords: ["dienstleistung", "dienstleistungen", "angebot", "services", "diensliestung", "dienleistung", "dienstleistng", "hilfe zuhause"],
+      answer: "Unser Dienstleistungsangebot: Alltagsbegleitung & Besorgungen, Freizeit & soziale Aktivitäten, Gesundheitsfürsorge & Grundpflege sowie Haushaltshilfe & Wohnpflege."
+    },
+    {
       keywords: ["alltagsbegleitung", "besorgungen", "arzttermin", "einkauf", "postgang"],
       answer: "Unsere Alltagsbegleitung & Besorgungen umfasst: Begleitung zu Terminen, Einkäufe erledigen, Postgänge und weitere Erledigungen."
     },
@@ -141,13 +145,13 @@ state: {
       answer: "Unsere Gesundheitsfürsorge & Grundpflege umfasst: körperliche Unterstützung, Hilfe bei Nahrungsaufnahme, grundpflegerische Tätigkeiten, gesundheitsfördernde Aktivitäten und geistige Unterstützung."
     },
     {
-      keywords: ["haushaltshilfe", "wohnpflege", "putzen", "wäsche", "staubsaugen"],
+      keywords: ["haushaltshilfe", "wohnpflege", "putzen", "wäsche", "staubsaugen", "haushalt"],
       answer: "Unsere Haushaltshilfe & Wohnpflege beinhaltet: Kochen, Waschen, Bügeln, Fenster putzen, Bettwäsche wechseln, Aufräumen, Abfall entsorgen, Abstauben, Staubsaugen, Boden wischen und Vorhänge reinigen sowie Balkon- und Blumenpflege."
     },
 
     // Vorteile
     {
-      keywords: ["vorteile", "warum prime home care", "warum phc", "gründe"],
+      keywords: ["vorteile", "warum prime home care", "warum phc", "gründe", "warum uns"],
       answer: "Warum Prime Home Care? Weil Vertrauen, Herzlichkeit und Verlässlichkeit im Mittelpunkt stehen. Unsere Vorteile: individuell & flexibel, vertraute Gesichter, mehr Lebensfreude zu Hause und einfach & zuverlässig organisiert."
     },
 
@@ -177,7 +181,7 @@ state: {
       answer: "Ihre Adresse können Sie jederzeit im Kundenprofil unter 'Adressänderung' anpassen."
     },
     {
-      keywords: ["kurzfristig buchen", "sofort betreuung"],
+      keywords: ["kurzfristig buchen", "sofort betreuung", "dringend"],
       answer: "Wir benötigen normalerweise 14 Tage Vorlaufzeit. Kontaktieren Sie uns bei dringendem Bedarf, wir versuchen eine Lösung zu finden."
     },
     {
@@ -201,8 +205,8 @@ state: {
       answer: "Die Schlüsselübergabe können Sie direkt mit der Betreuungskraft vereinbaren oder eine sichere PHC-Lösung nutzen."
     },
     {
-      keywords: ["bewertung", "feedback"],
-      answer: "Nach jedem Einsatz können Sie Ihre Betreuungskraft in Ihrem Kundenprofil bewerten."
+      keywords: ["bewertung", "feedback", "erfahrungen"],
+      answer: "Nach jedem Einsatz können Sie Ihre Betreuungskraft in Ihrem Kundenprofil bewerten. Kunden sagen: 'Die Unterstützung gibt mir Sicherheit und Freiheit' (Markus S., Zürich), 'Sehr herzlich und professionell' (Claudia H., Bern), 'Stundenweise Betreuung bringt viel Entlastung' (Peter K., Luzern)."
     },
     {
       keywords: ["nach buchung", "buchung bestätigt"],
@@ -215,12 +219,7 @@ state: {
     {
       keywords: ["unzufrieden", "beschwerde"],
       answer: "Falls Sie unzufrieden sind, kontaktieren Sie uns bitte direkt über Ihr Kundenprofil. Wir finden gemeinsam eine Lösung."
-    },
-    {
-      keywords: ["dienstleistung", "dienstleistungen", "diensliestung", "dienleistung", "dienstleistng"],
-      answer: "Sie finden unser Dienstleistungsangebot auf der Webseite: Alltagsbegleitung, Freizeit & soziale Aktivitäten, Gesundheitsfürsorge und Haushaltshilfe."
     }
-
   ]
 }
 
