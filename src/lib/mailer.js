@@ -67,7 +67,11 @@ export function createContractPdf(employee) {
     // Prepare employee data
     const fullName = `${employee.firstName || ""} ${employee.lastName || ""}`.trim();
     const fullAddress = `${employee.address || ""} ${employee.houseNumber || ""}, ${employee.zipCode || ""} ${employee.city || ""}`.trim();
-    const contractDate = new Date().toLocaleDateString("de-CH");
+const contractDate = new Date().toLocaleDateString("de-CH", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric"
+});
     const einsatzort = employee.city || "";
     const taetigkeiten = employee.servicesOffered?.join(", ") || "";
     const arbeitsstunden = employee.desiredWeeklyHours || "";

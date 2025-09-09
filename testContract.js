@@ -8,7 +8,7 @@ dotenv.config();
 // Dummy test employee
 const testEmployee = {
   id: "123e4567-e89b-12d3-a456-426614174000",
-  email: "anduela.nurshaba@the-eksperts.com",
+  email: "edita.latifi@the-eksperts.com",
   firstName: "Anduela",
   lastName: "Nurshaba",
   phone: "+38344111222",
