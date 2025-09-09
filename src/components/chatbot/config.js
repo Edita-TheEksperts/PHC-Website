@@ -119,6 +119,14 @@ state: {
       keywords: ["kontakt", "telefon", "email", "support", "hotline", "kundendienst", "kontaktformular"],
       answer: "Sie erreichen uns unter: +41 44 123 45 67 oder per E-Mail an info@phc.ch. Adresse: Prime Home Care AG, Schulhausstrasse 1, 8834 Schindellegi. Öffnungszeiten: 8:30 – 11:00 und 13:30 – 16:00 Uhr."
     },
+    {
+      keywords: ["öffnungszeiten", "zeiten", "wann erreichbar", "arbeitszeiten"],
+      answer: "Unsere Öffnungszeiten: 8:30 – 11:00 und 13:30 – 16:00 Uhr."
+    },
+    {
+      keywords: ["adresse", "standort", "büro", "wo sind sie", "anschrift"],
+      answer: "Unsere Adresse: Prime Home Care AG, Schulhausstrasse 1, 8834 Schindellegi."
+    },
 
     // --- Über uns ---
     {
@@ -163,6 +171,10 @@ state: {
       keywords: ["haushaltshilfe", "wohnpflege", "putzen", "wäsche", "staubsaugen", "haushalt", "hauswirtschaft"],
       answer: "Unsere Haushaltshilfe & Wohnpflege beinhaltet: Kochen, Waschen, Bügeln, Fenster putzen, Bettwäsche wechseln, Aufräumen, Abfall entsorgen, Abstauben, Staubsaugen, Boden wischen und Vorhänge reinigen sowie Balkon- und Blumenpflege."
     },
+    {
+      keywords: ["individuelle dienstleistung", "spezielle betreuung", "extra service", "besondere wünsche"],
+      answer: "Neben den Standardangeboten bieten wir auch individuelle Dienstleistungen an – zum Beispiel Ferienbegleitung, Beratungen oder Biografiearbeit. Kontaktieren Sie uns gerne für ein persönliches Angebot."
+    },
 
     // --- Vorteile ---
     {
@@ -195,6 +207,10 @@ state: {
       keywords: ["kurzfristig buchen", "sofort betreuung", "dringend"],
       answer: "Wir benötigen normalerweise 14 Tage Vorlaufzeit. Kontaktieren Sie uns bei dringendem Bedarf, wir versuchen eine Lösung zu finden."
     },
+    {
+      keywords: ["wie funktioniert", "ablauf", "so läuft es", "prozess", "schritte"],
+      answer: "So einfach geht’s in drei Schritten: 1. Profil erstellen und Wünsche angeben. 2. Passende Betreuungsperson wird gefunden. 3. Betreuung zuhause geniessen."
+    },
 
     // --- Zusatzinfos ---
     {
@@ -216,6 +232,30 @@ state: {
     {
       keywords: ["unzufrieden", "beschwerde", "reklamation"],
       answer: "Falls Sie unzufrieden sind, kontaktieren Sie uns bitte direkt über Ihr Kundenprofil. Wir finden gemeinsam eine Lösung."
+    },
+    {
+      keywords: ["zahlung", "bezahlen", "rechnung", "zahlungsmethoden", "kosten abrechnung"],
+      answer: "Die Abrechnung erfolgt transparent und digital über unsere Plattform. Alle Preise sind inkl. MwSt. und ohne versteckte Gebühren."
+    },
+    {
+      keywords: ["notfall", "dringend hilfe", "schnelle hilfe", "sofort hilfe", "notdienst"],
+      answer: "In Notfällen kontaktieren Sie uns bitte sofort telefonisch. Wir versuchen schnellstmöglich eine Betreuungslösung zu organisieren."
+    },
+    {
+      keywords: ["spitex", "pflegeheim", "unterschied", "warum nicht spitex"],
+      answer: "Im Unterschied zur Spitex oder einem Pflegeheim bieten wir flexible stundenweise Betreuung in Ihrem Zuhause – individuell, digital organisiert und mit vertrauten Betreuungspersonen."
+    },
+    {
+      keywords: ["sprache", "deutsch", "englisch", "mehrsprachig", "andere sprachen"],
+      answer: "Unsere Betreuungspersonen sprechen in der Regel Deutsch. Auf Anfrage sind auch weitere Sprachen möglich."
+    },
+    {
+      keywords: ["plattform", "digital", "app", "online", "wie buchen"],
+      answer: "Unsere volldigitale Plattform macht die Betreuung einfach: Sie können online buchen, Änderungen vornehmen und alles transparent einsehen."
+    },
+    {
+      keywords: ["gutschein", "geschenk", "betreuung verschenken"],
+      answer: "Ja, Sie können Betreuung auch als Gutschein verschenken. Kontaktieren Sie uns für Details."
     },
 
     // --- Bewertungen ---
