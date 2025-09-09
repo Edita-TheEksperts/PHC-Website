@@ -75,37 +75,52 @@ const config = {
 
 state: {
   knowledgeBase: [
+
     // --- Preise ---
-     {
-      keywords: ["preise", "kosten", "tarif", "gebühren", "kosten stunde", "preis berechnung", "preisinfo"],
-  answer: "Unsere Preise: Einmalige Einsätze ab CHF 75.–/Stunde, regelmässige Betreuung ab CHF 59.–/Stunde. Preise ansehen: https://phc.ch/preise"
+    {
+      keywords: ["preise", "kosten", "tarif", "gebühren", "kosten stunde", "preis berechnung", "preisinfo", "preise liste", "preise details"],
+      answer: "Unsere Preise: Einmalige Einsätze ab CHF 75.–/Stunde, regelmässige Betreuung ab CHF 59.–/Stunde. Preise ansehen: https://phc.ch/preise"
+    },
+    {
+      keywords: ["preis zusammensetzung", "kosten berechnung", "preisdetails", "mindestbuchung"],
+      answer: "Der Preis richtet sich nach Anzahl der Stunden und dem Stundensatz. Mindestbuchung sind 2 Stunden. Alle Preise sind inkl. MwSt. und ohne versteckte Gebühren."
     },
 
-    // Konto löschen
+    // --- Konto & Profil ---
     {
       keywords: ["konto löschen", "account löschen", "profil entfernen", "benutzerkonto", "account entfernen"],
       answer: "Um Ihr Konto zu löschen, gehen Sie bitte in die Kontoeinstellungen."
     },
+    {
+      keywords: ["adresse ändern", "adressänderung"],
+      answer: "Ihre Adresse können Sie jederzeit im Kundenprofil unter 'Adressänderung' anpassen."
+    },
+    {
+      keywords: ["mehrere adressen", "adressen buchen"],
+      answer: "Sie können Betreuungseinsätze für mehrere Adressen buchen. Bitte geben Sie bei der Buchung alle relevanten Daten an."
+    },
 
-    // FAQ
+    // --- FAQ & Infos ---
     {
       keywords: ["faq", "häufige fragen", "hilfe", "support fragen", "informationen"],
       answer: "In unseren FAQ finden Sie Antworten auf die häufigsten Fragen: [Link zur FAQ-Seite]"
     },
-
-    // AGB / AVB
     {
-      keywords: ["agb", "avb", "bedingungen", "vertrag", "vertragsbedingungen", "avb seite"],
+      keywords: ["agb", "avb", "bedingungen", "vertrag", "vertragsbedingungen", "avb seite", "nutzungsbedingungen"],
       answer: "Unsere Allgemeinen Vertragsbedingungen (AVB) können Sie hier einsehen: [Link zu AVB-Seite]"
     },
-
-    // Kontakt
     {
-      keywords: ["kontakt", "telefon", "email", "support", "hotline", "kundendienst"],
-      answer: "Sie erreichen uns unter: +41 44 123 45 67 oder per E-Mail an info@phc.ch"
+      keywords: ["unterschied stundenweise betreuung", "24 stunden betreuung"],
+      answer: "Bei stundenweiser Betreuung entscheiden Sie flexibel, wann und wie lange Unterstützung benötigt wird. Die 24-Stunden-Betreuung bedeutet eine dauerhafte Anwesenheit einer Betreuungskraft im Haushalt."
     },
 
-    // Über uns
+    // --- Kontakt ---
+    {
+      keywords: ["kontakt", "telefon", "email", "support", "hotline", "kundendienst", "kontaktformular"],
+      answer: "Sie erreichen uns unter: +41 44 123 45 67 oder per E-Mail an info@phc.ch. Adresse: Prime Home Care AG, Schulhausstrasse 1, 8834 Schindellegi. Öffnungszeiten: 8:30 – 11:00 und 13:30 – 16:00 Uhr."
+    },
+
+    // --- Über uns ---
     {
       keywords: ["über uns", "unternehmen", "prime home care ag", "wer sind wir", "phc firma"],
       answer: "Willkommen bei der Prime Home Care AG – Ihrem zuverlässigen Partner für individuelle und professionelle stundenweise Betreuung zu Hause. Seit unserer Gründung verfolgen wir das Ziel, Menschen in ihrem vertrauten Umfeld bestmögliche Betreuung und Unterstützung zu bieten."
@@ -127,67 +142,61 @@ state: {
       answer: "Ihre Zufriedenheit ist unser Antrieb. Wir sind stolz darauf, Ihnen Lebensqualität und Selbstständigkeit zurückzugeben – in Ihrem Zuhause, wo Sie sich am wohlsten fühlen."
     },
 
-    // Dienstleistungen
+    // --- Dienstleistungen ---
     {
-      keywords: ["dienstleistung", "dienstleistungen", "angebot", "services", "diensliestung", "dienleistung", "dienstleistng", "hilfe zuhause"],
+      keywords: ["dienstleistung", "dienstleistungen", "angebot", "services", "hilfe zuhause"],
       answer: "Unser Dienstleistungsangebot: Alltagsbegleitung & Besorgungen, Freizeit & soziale Aktivitäten, Gesundheitsfürsorge & Grundpflege sowie Haushaltshilfe & Wohnpflege."
     },
     {
-      keywords: ["alltagsbegleitung", "besorgungen", "arzttermin", "einkauf", "postgang"],
+      keywords: ["alltagsbegleitung", "besorgungen", "arzttermin", "einkauf", "postgang", "begleitung"],
       answer: "Unsere Alltagsbegleitung & Besorgungen umfasst: Begleitung zu Terminen, Einkäufe erledigen, Postgänge und weitere Erledigungen."
     },
     {
-      keywords: ["freizeit", "soziale aktivitäten", "ausflüge", "reisebegleitung", "kochen"],
+      keywords: ["freizeit", "soziale aktivitäten", "ausflüge", "reisebegleitung", "kochen", "gesellschaft"],
       answer: "Unsere Freizeit- & Sozialangebote beinhalten: Gesellschaft leisten, gemeinsames Kochen, Vorlesen, Kartenspiele sowie Ausflüge und Reisebegleitung."
     },
     {
-      keywords: ["gesundheitsfürsorge", "pflege", "körperpflege", "nahrungsaufnahme"],
+      keywords: ["gesundheitsfürsorge", "pflege", "körperpflege", "nahrungsaufnahme", "grundpflege"],
       answer: "Unsere Gesundheitsfürsorge & Grundpflege umfasst: körperliche Unterstützung, Hilfe bei Nahrungsaufnahme, grundpflegerische Tätigkeiten, gesundheitsfördernde Aktivitäten und geistige Unterstützung."
     },
     {
-      keywords: ["haushaltshilfe", "wohnpflege", "putzen", "wäsche", "staubsaugen", "haushalt"],
+      keywords: ["haushaltshilfe", "wohnpflege", "putzen", "wäsche", "staubsaugen", "haushalt", "hauswirtschaft"],
       answer: "Unsere Haushaltshilfe & Wohnpflege beinhaltet: Kochen, Waschen, Bügeln, Fenster putzen, Bettwäsche wechseln, Aufräumen, Abfall entsorgen, Abstauben, Staubsaugen, Boden wischen und Vorhänge reinigen sowie Balkon- und Blumenpflege."
     },
 
-    // Vorteile
+    // --- Vorteile ---
     {
       keywords: ["vorteile", "warum prime home care", "warum phc", "gründe", "warum uns"],
       answer: "Warum Prime Home Care? Weil Vertrauen, Herzlichkeit und Verlässlichkeit im Mittelpunkt stehen. Unsere Vorteile: individuell & flexibel, vertraute Gesichter, mehr Lebensfreude zu Hause und einfach & zuverlässig organisiert."
     },
 
-    // FAQ Erweiterungen
+    // --- Buchungen ---
     {
-      keywords: ["stornierung", "stornieren", "kündigen", "absagen"],
-      answer: "Stornierungen bis 14 Tage vorher sind kostenlos. Zwischen 14 und 7 Tagen fallen 50% Gebühren an, weniger als 7 Tage vorher 100%."
+      keywords: ["buchung vornehmen", "betreuung buchen", "betreuung reservieren"],
+      answer: "Besuchen Sie unsere Webseite phc.ch, geben Sie Ihre Postleitzahl ein, wählen Sie die gewünschte Dienstleistung und Häufigkeit und bestätigen Sie Ihre Buchung online."
     },
     {
       keywords: ["buchung bearbeiten", "buchung ändern"],
       answer: "Melden Sie sich in Ihrem Kundenprofil an, gehen Sie zu 'Meine Buchungen' → 'Bevorstehende Buchungen' und klicken Sie auf 'Buchung ändern'."
     },
     {
-      keywords: ["buchung vornehmen", "betreuung buchen"],
-      answer: "Besuchen Sie unsere Webseite phc.ch, geben Sie Ihre Postleitzahl ein, wählen Sie die gewünschte Dienstleistung und Häufigkeit und bestätigen Sie Ihre Buchung online."
-    },
-    {
-      keywords: ["buchung stornieren", "betreuung absagen"],
-      answer: "Melden Sie sich in Ihrem Profil an, gehen Sie zu 'Meine Buchungen' → 'Bevorstehende Settings' → 'Buchung stornieren'."
-    },
-    {
       keywords: ["umbuchen", "betreuung verschieben"],
       answer: "Loggen Sie sich in Ihr PHC-Konto ein, gehen Sie zu 'Meine Betreuungen' → 'Bevorstehende' und wählen Sie 'Betreuung bearbeiten'."
     },
     {
-      keywords: ["adresse ändern", "adressänderung"],
-      answer: "Ihre Adresse können Sie jederzeit im Kundenprofil unter 'Adressänderung' anpassen."
+      keywords: ["buchung stornieren", "betreuung absagen", "stornieren"],
+      answer: "Melden Sie sich in Ihrem Profil an, gehen Sie zu 'Meine Buchungen' → 'Bevorstehende Settings' → 'Buchung stornieren'."
+    },
+    {
+      keywords: ["nach buchung", "buchung bestätigt"],
+      answer: "Nach der Buchung erhalten Sie eine Bestätigung per E-Mail mit allen Details und der Uhrzeit der Betreuung."
     },
     {
       keywords: ["kurzfristig buchen", "sofort betreuung", "dringend"],
       answer: "Wir benötigen normalerweise 14 Tage Vorlaufzeit. Kontaktieren Sie uns bei dringendem Bedarf, wir versuchen eine Lösung zu finden."
     },
-    {
-      keywords: ["preis zusammensetzung", "kosten berechnung"],
-      answer: "Der Preis richtet sich nach Anzahl der Stunden und dem Stundensatz. Mindestbuchung sind 2 Stunden. Alle Preise sind inkl. MwSt. und ohne versteckte Gebühren."
-    },
+
+    // --- Zusatzinfos ---
     {
       keywords: ["schaden", "versicherung", "versicherungspolice"],
       answer: "Unsere Schadenversicherung deckt bis zu 1000 CHF pro Jahr. Reichen Sie bei einem Schaden ein Foto und den Kaufbeleg ein."
@@ -205,24 +214,29 @@ state: {
       answer: "Die Schlüsselübergabe können Sie direkt mit der Betreuungskraft vereinbaren oder eine sichere PHC-Lösung nutzen."
     },
     {
-      keywords: ["bewertung", "feedback", "erfahrungen"],
-      answer: "Nach jedem Einsatz können Sie Ihre Betreuungskraft in Ihrem Kundenprofil bewerten. Kunden sagen: 'Die Unterstützung gibt mir Sicherheit und Freiheit' (Markus S., Zürich), 'Sehr herzlich und professionell' (Claudia H., Bern), 'Stundenweise Betreuung bringt viel Entlastung' (Peter K., Luzern)."
-    },
-    {
-      keywords: ["nach buchung", "buchung bestätigt"],
-      answer: "Nach der Buchung erhalten Sie eine Bestätigung per E-Mail mit allen Details und der Uhrzeit der Betreuung."
-    },
-    {
-      keywords: ["mehrere adressen", "adressen buchen"],
-      answer: "Sie können Betreuungseinsätze für mehrere Adressen buchen. Bitte geben Sie bei der Buchung alle relevanten Daten an."
-    },
-    {
-      keywords: ["unzufrieden", "beschwerde"],
+      keywords: ["unzufrieden", "beschwerde", "reklamation"],
       answer: "Falls Sie unzufrieden sind, kontaktieren Sie uns bitte direkt über Ihr Kundenprofil. Wir finden gemeinsam eine Lösung."
+    },
+
+    // --- Bewertungen ---
+    {
+      keywords: ["kundenmeinungen", "kundenstimmen", "bewertungen", "feedback"],
+      answer: "Unsere Kunden sagen: 'Die Unterstützung durch Prime Home Care gibt mir Sicherheit und Freiheit' (Markus S., Zürich). 'Sehr herzlich und professionell' (Claudia H., Bern). 'Stundenweise Betreuung bringt viel Entlastung' (Peter K., Luzern)."
+    },
+
+    // --- Jobs / Karriere ---
+    {
+      keywords: ["jobs", "karriere", "bewerbung", "mitarbeiter registrierung", "stellenangebote"],
+      answer: "Prime Home Care AG ist die erste volldigitale Plattform in der Schweiz, die Betreuung und Technologie verbindet. Wir suchen empathische und zuverlässige Menschen. Bewerben Sie sich direkt online über unsere Mitarbeiter-Registrierung: [Link zur Bewerbung]"
+    },
+
+    // --- Newsletter ---
+    {
+      keywords: ["newsletter", "news", "aktuelle informationen"],
+      answer: "Bleiben Sie auf dem Laufenden: Geben Sie Ihre E-Mail-Adresse auf unserer Website ein und abonnieren Sie unseren Newsletter."
     }
   ]
 }
-
 
 };
 
