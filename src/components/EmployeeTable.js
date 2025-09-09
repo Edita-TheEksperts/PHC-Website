@@ -8,7 +8,6 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
   const [inviteFilter, setInviteFilter] = useState("");
   const [visibleCount, setVisibleCount] = useState(10); // default 10
 
-  // 🌍 Përkthim statusi EN → DE
   const statusLabels = {
     approved: "Genehmigt",
     pending: "Ausstehend",

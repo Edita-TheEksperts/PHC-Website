@@ -302,6 +302,44 @@ useEffect(() => {
     })
     .catch((err) => console.error("❌ Error loading activity logs:", err));
 }, []);
+// Approve employee
+async function handleApproval(emp) {
+  await fetch("/api/approve-employee", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: emp.email }),
+  });
+  setEmployees((prev) =>
+    prev.map((e) => (e.id === emp.id ? { ...e, status: "approved" } : e))
+  );
+}
+
+// Reject employee
+async function handleRejection(emp) {
+  await fetch("/api/reject-employee", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: emp.email }),
+  });
+  setEmployees((prev) =>
+    prev.map((e) => (e.id === emp.id ? { ...e, status: "rejected" } : e))
+  );
+}
+
+// Invite employee
+async function handleInvite(emp) {
+  await fetch("/api/invite-employee", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: emp.email, firstName: emp.firstName }),
+  });
+
+  setEmployees((prev) =>
+    prev.map((e) =>
+      e.id === emp.id ? { ...e, invited: true } : e
+    )
+  );
+}
 
 
   return (
@@ -549,9 +587,15 @@ useEffect(() => {
             </div>
           </Tab.Panel>
 
-          <Tab.Panel>
-            <EmployeeTable employees={employees} />
-          </Tab.Panel>
+        <Tab.Panel>
+  <EmployeeTable
+    employees={employees}
+    onApprove={handleApproval}
+    onReject={handleRejection}
+    onInvite={handleInvite}
+  />
+</Tab.Panel>
+
 
           <Tab.Panel>
             <ClientTable clients={clients} />
