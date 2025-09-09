@@ -27,7 +27,7 @@ class MessageParser {
       this.actionProvider.giveAnswer(found.answer);
     } else {
       this.actionProvider.giveAnswer(
-        "Entschuldigung, ich habe dazu keine Information. Bitte schauen Sie in die FAQ oder AGB."
+        "Entschuldigung, ich habe dazu keine Information. Bitte schauen Sie in die FAQ oder AVB."
       );
     }
   }
