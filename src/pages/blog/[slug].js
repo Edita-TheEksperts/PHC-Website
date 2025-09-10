@@ -188,57 +188,35 @@ Unten weiterlesen
     </div>
   )}
 
-  {/* ✅ Render Sections nur wenn vorhanden */}
-  {blog && blog.sections && blog.sections.length > 0 && (
-    <div className="max-w-[1410px] mx-auto lg:px-4">
-      {blog.sections.map((section, sectionIndex) => (
-        <div
-          key={section.id}
-          ref={(el) => (sectionsRef.current[sectionIndex] = el)}
-          className="space-y-[24px] mt-12 lg:mt-[80px]"
-        >
-          {/* Section Title */}
-          <h2 className="text-[#003588] font-['Metropolis'] text-[24px] lg:text-[40px] font-semibold lg:leading-[48px]">
-            {sectionIndex + 1}. {section.title}
-          </h2>
+{/* ✅ Render Sections nur wenn vorhanden */}
+{blog && blog.sections && blog.sections.length > 0 && (
+  <div className="max-w-[1410px] mx-auto lg:px-4">
+    {blog.sections.map((section, sectionIndex) => (
+      <div
+        key={section.id}
+        ref={(el) => (sectionsRef.current[sectionIndex] = el)}
+        className="space-y-[24px] mt-12 lg:mt-[80px]"
+      >
+        {/* Section Title */}
+        <h2 className="text-[#003588] font-['Metropolis'] text-[24px] lg:text-[40px] font-semibold lg:leading-[48px]">
+          {sectionIndex + 1}. {section.title}
+        </h2>
 
-          {/* Optional title2 */}
-          {section.title2 && (
-            <h3 className="text-[#003588] font-['Metropolis'] text-[24px] font-[400] leading-[25.6px]">
-              {section.title2}
-            </h3>
-          )}
+        {/* Optional title2 */}
+        {section.title2 && (
+          <h3 className="text-[#003588] font-['Metropolis'] text-[24px] font-[400] leading-[25.6px]">
+            {section.title2}
+          </h3>
+        )}
 
-          {/* Section Paragraphs */}
-          {section.paragraphs?.length > 0 ? (
-            section.paragraphs.map((paragraph, paragraphIndex) =>
-              paragraph.tip ? (
-                <div
-                  key={paragraph.id}
-                  className="p-4 flex flex-col justify-start items-start bg-[#F1F1F1] text-[#04436F] 
-                             lg:py-[30px] lg:px-[80px] font-['Inter'] text-[16px] font-normal leading-[25.6px] 
-                             mt-2 rounded-[20px]"
-                >
-                  <strong className="text-[#04436F] text-center font-['Instrument Sans'] text-[44px] font-semibold leading-[52.8px]">
-                    TIP:
-                  </strong>
-                  {paragraph.tip}
-                </div>
-              ) : (
-                <p
-                  key={paragraph.id}
-                  className="mt-2 text-[#04436F] font-['Metropolis'] text-[18px] lg:text-[20px] font-normal leading-[24px]"
-                >
-                  <span className="font-semibold">
-                    {sectionIndex + 1}.{paragraphIndex + 1}
-                  </span>{" "}
-                  {paragraph.text}
-                </p>
-              )
-            )
-          ) : (
-            <p className="text-gray-500"></p>
-          )}
+        {/* Section Paragraphs */}
+        {section.paragraphs?.length > 0 ? (
+          <p className="mt-2 text-[#04436F] font-['Metropolis'] text-[18px] lg:text-[20px] font-normal leading-[24px]">
+            {section.paragraphs.map(p => p.text).join(" ")}
+          </p>
+        ) : (
+          <p className="text-gray-500"></p>
+        )}
 
           {/* Section FAQs */}
           {section.faqs && section.faqs.length > 0 && (
@@ -304,7 +282,7 @@ Unten weiterlesen
 
 
       {/* Recommended Blogs Section */}
-      <div className="max-w-[1410px] mx-auto mt-[120px]">
+      <div className="max-w-[1410px] mx-auto mt-[120px] mb-[150px]">
         <h2 className="text-[40px] leading-[48px] font-[600] text-[#04436F] text-left">Passende Themen</h2>
           <p className="text-[#555] text-[18px] leading-[28px] mt-2 max-w-[900px]">
     Entdecken Sie weitere spannende Artikel rund um Pflege, Gesundheit 
