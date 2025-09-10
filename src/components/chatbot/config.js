@@ -77,14 +77,21 @@ state: {
   knowledgeBase: [
 
     // --- Preise ---
-    {
-      keywords: ["preise", "kosten", "tarif", "gebühren", "kosten stunde", "preis berechnung", "preisinfo", "preise liste", "preise details"],
-      answer: "Unsere Preise: Einmalige Einsätze ab CHF 75.–/Stunde, regelmässige Betreuung ab CHF 59.–/Stunde. Preise ansehen: https://phc.ch/preise"
-    },
-    {
-      keywords: ["preis zusammensetzung", "kosten berechnung", "preisdetails", "mindestbuchung"],
-      answer: "Der Preis richtet sich nach Anzahl der Stunden und dem Stundensatz. Mindestbuchung sind 2 Stunden. Alle Preise sind inkl. MwSt. und ohne versteckte Gebühren."
-    },
+ {
+  keywords: ["preise", "kosten", "tarif", "gebühren", "kosten stunde", "preis berechnung", "preisinfo", "preise liste", "preise details"],
+  answer: "Our prices: One-time assignments from CHF 75.–/hour, regular care from CHF 59.–/hour."
+},
+{
+  keywords: ["preis zusammensetzung", "kosten berechnung", "preisdetails", "mindestbuchung"],
+  answer: "The price depends on the number of hours and the hourly rate. The minimum booking is 2 hours. All prices include VAT and have no hidden fees."
+},
+
+// --- Vorteile (Warum PHC) ---
+{
+  keywords: ["vorteile", "warum prime home care", "warum phc", "gründe", "warum uns"],
+  answer: "Warum die Prime Home Care AG? Weil Vertrauen, Herzlichkeit und Verlässlichkeit im Mittelpunkt stehen. Unsere stundenweise Betreuung stellt Ihre individuellen Bedürfnisse in den Fokus und bietet die perfekte Balance zwischen Selbstständigkeit und gezielter Unterstützung. Ihre Vorteile auf einen Blick: Individuell & flexibel – wir passen uns Ihrem Alltag an. Vertraute Gesichter – lokal verankert und schnell zur Stelle. Mehr Lebensfreude zu Hause – Wohlbefinden für Sie und Ihre Angehörigen. Einfach & zuverlässig organisiert – direkte Ansprechpartner und unkomplizierte Abläufe."
+},
+
 
     // --- Konto & Profil ---
     {
@@ -175,12 +182,19 @@ state: {
       keywords: ["individuelle dienstleistung", "spezielle betreuung", "extra service", "besondere wünsche"],
       answer: "Neben den Standardangeboten bieten wir auch individuelle Dienstleistungen an – zum Beispiel Ferienbegleitung, Beratungen oder Biografiearbeit. Kontaktieren Sie uns gerne für ein persönliches Angebot."
     },
+// --- Seniorenbetreuung (About Us Intro) ---
+{
+  keywords: ["seniorenbetreuung", "fürsorglich", "eigene vier wände", "betreuung zuhause"],
+  answer: "Seit unserer Gründung verfolgen wir das Ziel, Menschen in ihrem vertrauten Umfeld die bestmögliche Betreuung und Unterstützung zu bieten. Mit einem engagierten Team aus erfahrenen Mitarbeitenden und einem breiten Spektrum an Dienstleistungen setzen wir uns täglich dafür ein, die Lebensqualität unserer Kundinnen und Kunden zu verbessern."
+},
 
-    // --- Vorteile ---
-    {
-      keywords: ["vorteile", "warum prime home care", "warum phc", "gründe", "warum uns"],
-      answer: "Warum Prime Home Care? Weil Vertrauen, Herzlichkeit und Verlässlichkeit im Mittelpunkt stehen. Unsere Vorteile: individuell & flexibel, vertraute Gesichter, mehr Lebensfreude zu Hause und einfach & zuverlässig organisiert."
-    },
+// --- Mehr Zeit & Entlastung ---
+{
+  keywords: ["mehr zeit", "entlastung", "zeit gewinnen", "zeit sparen", "entlastung familie"],
+  answer: "Bei Prime Home Care bieten wir einfühlsame und individuelle Betreuung – für Sie oder Ihre Liebsten. Dadurch gewinnen Sie mehr Zeit und Entlastung im Alltag."
+},
+
+
 
     // --- Buchungen ---
     {
@@ -264,11 +278,41 @@ state: {
       answer: "Unsere Kunden sagen: 'Die Unterstützung durch Prime Home Care gibt mir Sicherheit und Freiheit' (Markus S., Zürich). 'Sehr herzlich und professionell' (Claudia H., Bern). 'Stundenweise Betreuung bringt viel Entlastung' (Peter K., Luzern)."
     },
 
-    // --- Jobs / Karriere ---
-    {
-      keywords: ["jobs", "karriere", "bewerbung", "mitarbeiter registrierung", "stellenangebote"],
-      answer: "Prime Home Care AG ist die erste volldigitale Plattform in der Schweiz, die Betreuung und Technologie verbindet. Wir suchen empathische und zuverlässige Menschen. Bewerben Sie sich direkt online über unsere Mitarbeiter-Registrierung: [Link zur Bewerbung]"
-    },
+   // --- Jobs / Karriere ---
+{
+  keywords: ["jobs", "karriere", "stellenangebote", "arbeit", "mitarbeiten"],
+  answer: "Alle offenen Stellen findest du auf unserer Jobs-Seite. Dort sind aktuelle Stellenbeschreibungen, Anforderungen und Bewerbungsdetails aufgeführt."
+},
+{
+  keywords: ["bewerbung", "jetzt bewerben", "bewerben", "bewerbungsdetails"],
+  answer: "Bewirb dich ganz einfach online über unsere Jobs-Seite. Dort findest du alle Infos zur Bewerbung und kannst dich direkt registrieren."
+},
+{
+  keywords: ["anforderungen", "qualifikationen", "wer kann arbeiten", "wen suchen wir"],
+  answer: "Wir suchen empathische und zuverlässige Menschen mit Freude am Umgang mit Seniorinnen und Senioren. Wichtige Eigenschaften sind: Empathie, Zuverlässigkeit, Eigenständigkeit, Motivation, Mobilität und Flexibilität."
+},
+{
+  keywords: ["vorteile arbeiten", "arbeit bei phc", "warum hier arbeiten"],
+  answer: "Deine Vorteile bei uns: Flexible Arbeitszeiten, faire Bezahlung und transparente Abrechnung, einfache Organisation über unsere Plattform und wertvolle Erfahrung in einem sinnvollen Beruf."
+},
+{
+  keywords: ["start", "wie starte ich", "einstieg", "arbeiten beginnen"],
+  answer: "So einfach startest du: 1. Registrieren über unser Online-Formular. 2. Profil erstellen und Bewerbungsunterlagen hochladen. 3. Nach erfolgreicher Prüfung kannst du direkt mit ersten Einsätzen starten."
+}
+,
+// --- Hilfe / Support ---
+{
+  keywords: ["hilfe", "help", "unterstützung", "support", "problem", "frage"],
+  answer: "Kein Problem – ich bin für Sie da! 😊 Sie können mir Ihre Frage direkt hier stellen. Falls Sie persönliche Unterstützung benötigen, erreichen Sie unser Team auch telefonisch unter +41 44 123 45 67 oder per E-Mail an info@phc.ch."
+},
+// --- Sprache wechseln ---
+
+{
+  keywords: ["english", "englisch", "in english", "can we speak english", "speak english", "english please"],
+  answer: "Unsere Antworten sind nur auf Deutsch verfügbar. 😊 Bitte stellen Sie Ihre Frage auf Deutsch."
+},
+
+
 
     // --- Newsletter ---
     {
