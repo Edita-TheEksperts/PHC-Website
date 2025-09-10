@@ -8951,10 +8951,10 @@ slug: "pflege-und-betreuung-zu-hause-kosten-leistungen-und-finanzierung-in-der-s
   maintext: "Der Wunsch, auch im Alter oder bei eingeschränkter Selbstständigkeit zu Hause wohnen zu bleiben, ist weit verbreitet. Das vertraute Umfeld bietet Sicherheit, Geborgenheit und Lebensqualität. Doch neben der Organisation stellen sich viele Angehörige die Frage: Was kostet Pflege und Betreuung zu Hause in der Schweiz – und welche Unterstützungsmöglichkeiten gibt es?",
   author: {
     id: "author-NEW",
-    name: "Prime Home Care Team",
-    position: "Pflegeexperten",
+    name: "Martin Kälin",
+    position: "Redakteur für Prime Home Care",
     image: "/images/phc-author.png",
-    description: "Das Prime Home Care Team informiert zu Kosten, Leistungen und Finanzierungsmodellen in der Schweiz."
+    description: "Martin Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Betreuungs-, Pflege- und Wohnformen im Alter."
   },
     content: [
     "Pflege und Betreuung zu Hause: Kosten, Leistungen und Finanzierung in der Schweiz",
