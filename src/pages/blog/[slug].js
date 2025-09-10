@@ -337,47 +337,7 @@ Unten weiterlesen
         </div>
       </div>
 
-      <section className="bg-[#EDF2FB] rounded-[20px] py-[20px] px-[10px] lg:py-[40px] lg:px-[40px] mt-[120px] mb-[120px] max-w-[1430px] mx-auto flex flex-col lg:flex-row items-center gap-6">
-      {/* Left Content */}
-      <div className="lg:w-1/2 gap-[40px]">
-      <h2 className="text-[#003588] font-['Metropolis'] text-[45px] font-semibold leading-[52px]">
-  Geld sparen bei Betreuung<br></br> zuhause: Beteiligen Sie Ihre <br></br> Krankenkasse an den Kosten!
-</h2>
 
-        
-<p className="text-[#003588] font-['Metropolis'] text-[24px] font-normal leading-[30px] mt-6 lg:mt-[30px]">
-  Mit unserer Hilfe können Sie bei der Betreuung zuhause viel Geld einsparen.
-  Übernimmt anstelle der regulären Spitex eine zertifizierte Live-In-Betreuungskraft 
-  die Aufgaben bei der Grundpflege, können diese Leistungen in vielen Kantonen mit der 
-  Krankenkasse abgerechnet werden. Die Aufsicht über die Pflegetätigkeit sowie die Abrechnung 
-  der geleisteten Stunden mit den Krankenkassen übernehmen spezialisierte und bewilligte Partner. 
-  Gegenüber den üblichen Verleih-Lösungen bei der Betreuung zuhause können Sie Monat für Monat oft 
-  mehrere Tausend Franken einsparen.
-</p>
-
-
-        {/* Button */}
-        <Link href="/contact">
-
-        <button className="mt-6 lg:mt-[30px] px-[20px] py-[12px] bg-[#04436F] text-[#FAFCFF] 
-                   font-['Inter'] text-[18px] font-medium leading-[21.6px] 
-                   rounded-[50px] flex items-center justify-center 
-                   hover:bg-[#033559] transition 
-                   underline decoration-solid decoration-auto underline-offset-auto">
-  Kostenlose Pflegeberatung sichern
-</button>
-</Link>
-      </div>
-
-      {/* Right Image */}
-      <div className="lg:w-1/2 flex justify-end">
-        <img 
-          src="/images/hero-image-phc.png" 
-          alt="Happy Elderly Woman" 
-          className="w-full max-w-[680px] rounded-[12px]"
-        />
-      </div>
-    </section>
     </div>
   );
 }

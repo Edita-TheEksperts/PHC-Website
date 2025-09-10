@@ -11,11 +11,11 @@ const blogsData = [
       maintext:"In diesem Wiki dreht sich alles um barrierefreie Küchen, Ein- und Zugänge sowie entsprechende Rampen in der häuslichen Pflege und Betreuung in der Schweiz. Es ist wichtig, auf die Bedürfnisse von Senioren und Menschen mit eingeschränkter Mobilität einzugehen, um ihnen einen optimalen Lebensraum zu bieten. Melden Sie sich bei Prime Home Care an und erhalten Sie Informationen und Anregungen für die sichere Gestaltung Ihrer Küche, den problemlosen Zutritt zu Ihrem Zuhause und die Nutzung von Rampen und Zugangssystemen. Erfahren Sie, wie Sie finanzielle Unterstützung in Anspruch nehmen können und erhalten Sie Antworten auf die häufigsten Fragen zur Barrierefreiheit in Küchen und Zugangsbereichen.",
       author: {
         id: "author-1",
-        name: "John Doe",
-        position: "Senior Care Specialist",
+        name: "Martin Kälin",
+        position: "Redakteur für Prime Home Care",
         image: "/images/phc-author.png",
         description:
-          "John Doe has 15+ years of experience in home care services. He specializes in elderly care, ensuring comfort and health at home.",
+          "Martin Kälin ist spezialisiert auf Altersfragen in der Schweiz und schreibt regelmässig über Betreuungs-, Pflege- und Wohnformen im Alter.",
       },
       sections: [
         {
