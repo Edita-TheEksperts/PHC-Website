@@ -1,6 +1,7 @@
 import React, { useState } from "react"; // ✅ Import React and useState
 import Link from 'next/link';
 import blogsData from "../data/blogsData"; // Import blog data
+import { slugify } from "../utils/slugify";
 
 export default function BlogPage() {
     const blogsPerPage = 12;
@@ -23,6 +24,8 @@ export default function BlogPage() {
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+const formatCategory = (cat) => cat.toLowerCase().replace(/\s+/g, "-");
+
 
   return (
     <div className="bg-[#FAFCFF] max-w-[1430px] mx-auto lg:px-6 p-4">
@@ -44,16 +47,16 @@ export default function BlogPage() {
         </h1>
         
         {/* Render categories dynamically */}
-<div className="mt-4 flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
-          {categories.map((category, index) => (
-            <span
-              key={index}
-              className="category-item hover:bg-[#04436F] text-[#FAFCFF] bg-[#B7B6BA] text-[16px] font-medium p-[12px] rounded-[10px] cursor-pointer"
-            >
-              {category}
-            </span>
-          ))}
-        </div>
+<div className="mt-4 flex flex-wrap justify-center md:justify-start space-y-2 gap-3 sm:gap-4">
+  {categories.map((category, index) => (
+    <Link key={index} href={`/blog/category/${slugify(category)}`}>
+      <span className="category-item hover:bg-[#04436F] text-[#FAFCFF] bg-[#B7B6BA] text-[16px] font-medium p-[12px] rounded-[10px] cursor-pointer">
+        {category}
+      </span>
+    </Link>
+  ))}
+</div>
+
       </div>
 
       {/* Blog Grid */}
