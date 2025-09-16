@@ -96,7 +96,7 @@ const contractDate = new Date().toLocaleDateString("de-CH", {
         " ist befristet im Umfange der im Vertrag festgelegten Stunden/Woche vom ",
         { continued: true }
       );
-      doc.fillColor("red").text(`${employee.startDate} bis ${employee.endDate}`, { continued: true });
+      doc.fillColor("red").text(`${employee.startDate}`, { continued: true });
     }
     doc.fillColor("black").text(") vorgesehen. Anpassungen als Reduktion oder Erweiterung/Verlängerung sind möglich, wobei beide Parteien damit einverstanden sein müssen. Bei solchen Änderungen des Arbeitspensums fallen irgendwelche Ansprüche der Arbeitnehmer ausser Betracht (Ausnahme Ziff. 4 lit. b Rahmenvereinbarung).");
     doc.moveDown(2);
@@ -243,17 +243,41 @@ export async function sendApprovalEmail(employee) {
     },
   });
 
-  await transporter.sendMail({
-    from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
-    text: `Liebe ${firstName}, willkommen im Prime Home Care Team!`,
-    html: `<p>Liebe ${firstName},</p><p>Willkommen im Prime Home Care Team!</p>`,
-    attachments: [
-      {
-        filename: `Arbeitsvertrag_${firstName}_${lastName}.pdf`,
-        content: contractBuffer,
-      },
-    ],
-  });
+ await transporter.sendMail({
+  from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+  to: email,
+  subject: `Ihre Einsatzbestätigung – Arbeitsvertrag im Anhang`,
+  text: `Liebe ${firstName}
+
+wir freuen uns, Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde. 
+Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail.
+
+Vielen Dank für Ihr Engagement und willkommen im Team von Prime Home Care AG!
+
+Freundliche Grüsse  
+Prime Home Care AG`,
+  html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <h2 style="color:#04436F;">Liebe ${firstName},</h2>
+      <p>
+        wir freuen uns, Ihnen mitzuteilen, dass Ihr <strong>Einsatz offiziell bestätigt</strong> wurde.  
+        Den dazugehörigen <strong>Arbeitsvertrag</strong> finden Sie im Anhang dieser E-Mail.
+      </p>
+      <p>
+        Vielen Dank für Ihr Engagement und willkommen im Team von <strong>Prime Home Care AG</strong>!
+      </p>
+      <p style="margin-top:30px;">
+        Freundliche Grüsse<br/>
+        <strong>Prime Home Care AG</strong>
+      </p>
+    </div>
+  `,
+  attachments: [
+    {
+      filename: `Arbeitsvertrag_${firstName}_${lastName}.pdf`,
+      content: contractBuffer,
+    },
+  ],
+});
+
 }
