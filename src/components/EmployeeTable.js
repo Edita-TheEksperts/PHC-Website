@@ -14,6 +14,22 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
     rejected: "Abgelehnt",
   };
 
+  // send email/document handler
+  const handleSendDocument = (emp, type) => {
+    console.log(`Send ${type} to`, emp.email);
+
+    fetch("/api/send-documents", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ employee: emp, documentType: type }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        alert(`📧 ${type} wurde an ${emp.email} gesendet.`);
+      })
+      .catch((err) => console.error(err));
+  };
+
   // 🔍 Filtering
   const filteredEmployees = employees.filter((emp) => {
     const matchesName = `${emp.firstName} ${emp.lastName}`
@@ -136,11 +152,31 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                         )}
                       </>
                     )}
+
+                    {/* Always visible buttons */}
                     <button
                       onClick={() => router.push(`/admin/employees/${emp.id}`)}
                       className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-[16px] font-semibold shadow-sm transition"
                     >
                       ℹ Details
+                    </button>
+                    <button
+                      onClick={() => handleSendDocument(emp, "Auflösungschreiben")}
+                      className="flex items-center gap-1 bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded-full text-[16px] font-semibold shadow-sm transition"
+                    >
+                      📄 Auflösung
+                    </button>
+                    <button
+                      onClick={() => handleSendDocument(emp, "KündigungMA")}
+                      className="flex items-center gap-1 bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded-full text-[16px] font-semibold shadow-sm transition"
+                    >
+                      📄 Kündigung MA
+                    </button>
+                    <button
+                      onClick={() => handleSendDocument(emp, "KündigungMAFristlos")}
+                      className="flex items-center gap-1 bg-red-800 hover:bg-red-900 text-white px-3 py-1 rounded-full text-[16px] font-semibold shadow-sm transition"
+                    >
+                      📄 Kündigung fristlos
                     </button>
                   </div>
                 </td>
@@ -194,11 +230,31 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                   )}
                 </>
               )}
+
+              {/* Always visible buttons */}
               <button
                 onClick={() => router.push(`/admin/employees/${emp.id}`)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
               >
                 Details
+              </button>
+              <button
+                onClick={() => handleSendDocument(emp, "Auflösungschreiben")}
+                className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
+              >
+                Auflösung
+              </button>
+              <button
+                onClick={() => handleSendDocument(emp, "KündigungMA")}
+                className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
+              >
+                Kündigung MA
+              </button>
+              <button
+                onClick={() => handleSendDocument(emp, "KündigungMAFristlos")}
+                className="bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
+              >
+                Kündigung fristlos
               </button>
             </div>
           </div>
