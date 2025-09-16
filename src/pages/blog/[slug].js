@@ -283,12 +283,12 @@ Unten weiterlesen
 
       {/* Recommended Blogs Section */}
       <div className="max-w-[1410px] mx-auto mt-[120px] mb-[150px]">
-        <h2 className="text-[40px] leading-[48px] font-[600] text-[#04436F] text-left">Passende Themen</h2>
-          <p className="text-[#555] text-[18px] leading-[28px] mt-2 max-w-[900px]">
-    Entdecken Sie weitere spannende Artikel rund um Pflege, Gesundheit 
-    und Betreuung zuhause. <br></br>Diese Empfehlungen passen thematisch zu Ihrem 
-    aktuellen Beitrag und geben Ihnen zusätzliche Einblicke.
-  </p>
+        <h2 className="text-[40px] leading-[48px] font-[600] text-[#04436F] text-left">Auch lesenswert</h2>
+<p className="text-[#555] text-[18px] leading-[28px] mt-2 max-w-[900px]">
+  Entdecken Sie weitere spannende Beiträge, die Sie bisher noch nicht gelesen haben. <br></br>
+  Diese Empfehlungen eröffnen Ihnen neue Perspektiven und zusätzliche Informationen.
+</p>
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
           {recommendedBlogs.map((blog) => (
            <Link key={blog.slug} href={`/blog/${blog.slug}`} passHref>

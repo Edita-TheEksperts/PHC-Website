@@ -100,7 +100,22 @@ export default function EmployeeDashboard() {
       }
     }
   }, [employeeData]);
+async function handleAssignmentAction1(id, action) {
+  if (action === "confirmed") {
+    // Find the employee (or assignment.user) info
+    const assignment = pendingAssignments.find(a => a.id === id);
+    const employee = assignment.user;
 
+    // Call backend to generate & send Arbeitsvertrag
+    await fetch("/api/send-approval-PDF", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ employee }),
+    });
+  }
+
+  // Optional: update state or refresh assignments list
+}
   const handleVacationSave = async () => {
     if (!vacationStart || !vacationEnd) return;
     const res = await fetch("/api/employee/save-vacation", {
@@ -304,7 +319,11 @@ export default function EmployeeDashboard() {
                 <p><strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}</p>
                 <p><strong>Email:</strong> {a.user.email}</p>
                 <div className="mt-2 flex space-x-2">
-                  <button onClick={() => handleAssignmentAction(a.id, "confirmed")} className="bg-green-600 text-white px-3 py-1 rounded">Annehmen</button>
+<button 
+  onClick={() => handleAssignmentAction1(a.id, "confirmed")} 
+  className="bg-green-600 text-white px-3 py-1 rounded">
+  Annehmen
+</button>
                   <button onClick={() => handleAssignmentAction(a.id, "rejected")} className="bg-red-600 text-white px-3 py-1 rounded">Ablehnen</button>
                 </div>
               </div>
