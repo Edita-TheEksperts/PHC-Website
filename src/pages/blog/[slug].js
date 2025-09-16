@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function BlogPost() {
   const router = useRouter();
-  const [faqOpen, setFaqOpen] = useState(null); // Add FAQ open state
+  const [faqOpen, setFaqOpen] = useState(null);
 
 const { slug } = router.query;
 const blog = blogsData.find((blog) => blog.slug === slug);
@@ -15,11 +15,11 @@ const blog = blogsData.find((blog) => blog.slug === slug);
 
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Ensure page loads at the top
+    window.scrollTo(0, 0); 
   }, []);
 
 const scrollToSection = (index) => {
-  const offset = 120; // adjust this to your header height
+  const offset = 120; 
   const element = sectionsRef.current[index];
   if (element) {
     const top = element.getBoundingClientRect().top + window.scrollY - offset;
@@ -28,16 +28,14 @@ const scrollToSection = (index) => {
 };
 
 
-  // Generate Recommended Blogs
   useEffect(() => {
     if (blog) {
 const filteredBlogs = blogsData.filter((b) => b.slug !== slug); // ✅
-      const shuffledBlogs = filteredBlogs.sort(() => 0.5 - Math.random()); // Shuffle list
-      setRecommendedBlogs(shuffledBlogs.slice(0, 4)); // Select 3 random blogs
+      const shuffledBlogs = filteredBlogs.sort(() => 0.5 - Math.random()); 
+      setRecommendedBlogs(shuffledBlogs.slice(0, 4)); 
     }
   }, [blog, slug]);
 
-  // If blog not found, show a 404 message
   if (!blog) {
     return (
       <div className="text-center mt-20">
