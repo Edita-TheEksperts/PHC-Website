@@ -100,22 +100,21 @@ export default function EmployeeDashboard() {
       }
     }
   }, [employeeData]);
-async function handleAssignmentAction1(id, action) {
-  if (action === "confirmed") {
-    // Find the employee (or assignment.user) info
-    const assignment = pendingAssignments.find(a => a.id === id);
-    const employee = assignment.user;
+async function sendDocument(employee, documentType) {
+  const res = await fetch("/api/send-documents", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ employee, documentType }),
+  });
 
-    // Call backend to generate & send Arbeitsvertrag
-    await fetch("/api/send-approval-PDF", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ employee }),
-    });
+  if (res.ok) {
+    alert(`${documentType} wurde erfolgreich gesendet an ${employee.email}`);
+  } else {
+    alert("Fehler beim Senden des Dokuments.");
   }
-
-  // Optional: update state or refresh assignments list
 }
+
+
   const handleVacationSave = async () => {
     if (!vacationStart || !vacationEnd) return;
     const res = await fetch("/api/employee/save-vacation", {
@@ -319,11 +318,27 @@ async function handleAssignmentAction1(id, action) {
                 <p><strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}</p>
                 <p><strong>Email:</strong> {a.user.email}</p>
                 <div className="mt-2 flex space-x-2">
-<button 
-  onClick={() => handleAssignmentAction1(a.id, "confirmed")} 
-  className="bg-green-600 text-white px-3 py-1 rounded">
-  Annehmen
-</button>
+<div className="flex space-x-2 mt-4">
+  <button
+    onClick={() => sendDocument(employee, "Auflösungschreiben")}
+    className="bg-blue-600 text-white px-4 py-2 rounded"
+  >
+    Auflösungsschreiben
+  </button>
+  <button
+    onClick={() => sendDocument(employee, "KündigungMA")}
+    className="bg-yellow-600 text-white px-4 py-2 rounded"
+  >
+    Kündigung (fristgerecht)
+  </button>
+  <button
+    onClick={() => sendDocument(employee, "KündigungMAFristlos")}
+    className="bg-red-600 text-white px-4 py-2 rounded"
+  >
+    Kündigung (fristlos)
+  </button>
+</div>
+
                   <button onClick={() => handleAssignmentAction(a.id, "rejected")} className="bg-red-600 text-white px-3 py-1 rounded">Ablehnen</button>
                 </div>
               </div>

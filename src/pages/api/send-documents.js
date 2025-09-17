@@ -1,16 +1,19 @@
 // pages/api/send-document.js
 import PDFDocument from "pdfkit";
 import nodemailer from "nodemailer";
-import { PassThrough } from "stream";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { employee, documentType } = req.body;
 
-  // Text templates (simple but customizable)
+  if (!employee?.email || !documentType) {
+    return res.status(400).json({ success: false, error: "Missing employee or documentType" });
+  }
+
+  // Templates
   const contentMap = {
-    "Auflösungschreiben": `
+    Auflösungschreiben: (employee) => `
       Sehr geehrte/r ${employee.firstName} ${employee.lastName},
 
       hiermit bestätigen wir die einvernehmliche Auflösung Ihres Arbeitsvertrags.
@@ -20,7 +23,7 @@ export default async function handler(req, res) {
       Mit freundlichen Grüßen
       Personalabteilung PHC
     `,
-    "KündigungMA": `
+    KündigungMA: (employee) => `
       Sehr geehrte/r ${employee.firstName} ${employee.lastName},
 
       hiermit kündigen wir Ihr Arbeitsverhältnis fristgerecht zum nächstmöglichen Zeitpunkt.
@@ -30,7 +33,7 @@ export default async function handler(req, res) {
       Mit freundlichen Grüßen
       Personalabteilung PHC
     `,
-    "KündigungMAFristlos": `
+    KündigungMAFristlos: (employee) => `
       Sehr geehrte/r ${employee.firstName} ${employee.lastName},
 
       hiermit kündigen wir Ihr Arbeitsverhältnis fristlos mit sofortiger Wirkung.
@@ -43,50 +46,45 @@ export default async function handler(req, res) {
   };
 
   const subjectMap = {
-    "Auflösungschreiben": "Ihr Auflösungsschreiben",
-    "KündigungMA": "Ihre Kündigung",
-    "KündigungMAFristlos": "Ihre fristlose Kündigung",
+    Auflösungschreiben: "Ihr Auflösungsschreiben",
+    KündigungMA: "Ihre Kündigung",
+    KündigungMAFristlos: "Ihre fristlose Kündigung",
   };
 
-  const textContent = contentMap[documentType] || "Dokument";
-  const subject = subjectMap[documentType] || "Dokument";
+  if (!contentMap[documentType]) {
+    return res.status(400).json({ success: false, error: "Invalid documentType" });
+  }
 
-  // Generate PDF in memory
+  const textContent = contentMap[documentType](employee);
+  const subject = subjectMap[documentType];
+
+  // Generate PDF
   const pdfBuffer = await new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument();
       const chunks = [];
-      const stream = new PassThrough();
 
-      doc.pipe(stream);
+      doc.on("data", (chunk) => chunks.push(chunk));
+      doc.on("end", () => resolve(Buffer.concat(chunks)));
+      doc.on("error", (err) => reject(err));
 
-      // simple header
       doc.fontSize(18).text("PHC – Personalabteilung", { align: "center" });
       doc.moveDown();
-
-      // main text
       doc.fontSize(12).text(textContent, { align: "left" });
-
-      // footer
       doc.moveDown(2);
-      doc.fontSize(10).text("PHC AG • Musterstrasse 1 • 8000 Zürich", {
-        align: "center",
-      });
+      doc.fontSize(10).text("PHC AG • Musterstrasse 1 • 8000 Zürich", { align: "center" });
 
       doc.end();
-
-      stream.on("data", (chunk) => chunks.push(chunk));
-      stream.on("end", () => resolve(Buffer.concat(chunks)));
     } catch (err) {
       reject(err);
     }
   });
 
-  // Setup SMTP transport using env values
+  // Mail setup
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT, 10),
-    secure: process.env.SMTP_SECURE === "true", // true for 465, false for 587
+    secure: process.env.SMTP_SECURE === "true",
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -96,9 +94,9 @@ export default async function handler(req, res) {
   try {
     await transporter.sendMail({
       from: `"PHC Personalabteilung" <${process.env.SMTP_USER}>`,
-  to: "landingpage@phc.ch", // <-- replace with a real email
-      subject: subject,
-      text: textContent, // plain text
+      to: employee.email, // ✅ send directly to employee
+      subject,
+      text: textContent,
       attachments: [
         {
           filename: `${documentType}.pdf`,
