@@ -116,8 +116,11 @@ const markAsDone = async (id) => {
 };
 useEffect(() => {
   if (selectedAppointment) {
+    const d = new Date(selectedAppointment.date);
+    const formatted = d.toISOString().split("T")[0]; // YYYY-MM-DD for <input type="date">
+
     setEditData({
-      date: selectedAppointment.date,
+      date: formatted,
       startTime: selectedAppointment.startTime,
       hours: selectedAppointment.hours,
       serviceName: selectedAppointment.serviceName,
@@ -125,6 +128,7 @@ useEffect(() => {
     });
   }
 }, [selectedAppointment]);
+
 
 const today = new Date();
 today.setHours(0,0,0,0);
@@ -785,117 +789,85 @@ useEffect(() => {
 
       <h3 className="text-xl font-bold text-[#B99B5F] mb-4">Termindetails</h3>
 
-      {isEditing ? (
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            try {
-       const res = await fetch("/api/appointments", {
-  method: appointmentId ? "PUT" : "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    id: appointmentId,
-    date: form.date,
-    time: form.time,
-    duration: form.duration,
-    serviceId: form.service,
-    subServiceId: form.subService,
-  }),
-});
+    {isEditing ? (
+<form
+  onSubmit={async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/appointments", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: selectedAppointment.id,
+          update: {
+            date: editData.date,
+            startTime: editData.startTime,
+            hours: editData.hours,          // optional
+            serviceName: editData.service,  // optional
+            subServiceName: editData.subService, // optional
+          },
+        }),
+      });
+
+      const updated = await res.json();
 
 
-              if (!res.ok) throw new Error("Update failed");
 
-              const updated = await res.json();
+        // Update frontend state everywhere
+        setAppointments((prev) =>
+          prev.map((appt) => (appt.id === updated.id ? updated : appt))
+        );
 
-              setAppointments((prev) =>
-                prev.map((appt) => (appt.id === updated.id ? updated : appt))
-              );
+        setSelectedAppointment(updated); // refresh modal
+        alert("✅ Termin aktualisiert!");
+        setIsEditing(false);
+      } catch (err) {
+        console.error(err);
+        alert("❌ Fehler beim Aktualisieren.");
+      }
+    }}
+    className="space-y-4"
+  >
+    {/* Date */}
+<input
+  type="date"
+  value={editData.date || ""}
+  onChange={(e) =>
+    setEditData((prev) => ({ ...prev, date: e.target.value }))
+  }
+  className="w-full border p-2 rounded"
+/>
 
-              alert("✅ Termin aktualisiert!");
-              setIsEditing(false);
-              setSelectedAppointment(null);
-            } catch (err) {
-              console.error(err);
-              alert("❌ Fehler beim Aktualisieren.");
-            }
-          }}
-          className="space-y-4"
-        >
-          {/* Date */}
-          <input
-            type="date"
-            value={editData.date ? editData.date.split("T")[0] : ""}
-            onChange={(e) =>
-              setEditData((prev) => ({ ...prev, date: e.target.value }))
-            }
-            className="w-full border p-2 rounded"
-          />
 
-          {/* Time */}
-          <input
-            type="time"
-            value={editData.startTime || ""}
-            onChange={(e) =>
-              setEditData((prev) => ({ ...prev, startTime: e.target.value }))
-            }
-            className="w-full border p-2 rounded"
-          />
+    {/* Time */}
+    <input
+      type="time"
+      value={editData.startTime || ""}
+      onChange={(e) =>
+        setEditData((prev) => ({ ...prev, startTime: e.target.value }))
+      }
+      className="w-full border p-2 rounded"
+    />
 
-          {/* Hours */}
-          <input
-            type="number"
-            step="0.5"
-            value={editData.hours || ""}
-            onChange={(e) =>
-              setEditData((prev) => ({ ...prev, hours: e.target.value }))
-            }
-            className="w-full border p-2 rounded"
-          />
+    {/* Buttons */}
+    <div className="flex gap-2">
+      <button
+        type="submit"
+        className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700"
+      >
+        Speichern
+      </button>
+      <button
+        type="button"
+        onClick={() => setIsEditing(false)}
+        className="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400"
+      >
+        Abbrechen
+      </button>
+    </div>
+  </form>
+) : (
 
-          {/* Service */}
-          <input
-            type="text"
-            value={editData.serviceName || ""}
-            onChange={(e) =>
-              setEditData((prev) => ({ ...prev, serviceName: e.target.value }))
-            }
-            className="w-full border p-2 rounded"
-            placeholder="Service"
-          />
-
-          {/* SubService */}
-          <input
-            type="text"
-            value={editData.subServiceName || ""}
-            onChange={(e) =>
-              setEditData((prev) => ({
-                ...prev,
-                subServiceName: e.target.value,
-              }))
-            }
-            className="w-full border p-2 rounded"
-            placeholder="Subservice"
-          />
-
-          {/* Buttons */}
-          <div className="flex gap-2">
-            <button
-              type="submit"
-              className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700"
-            >
-              Speichern
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400"
-            >
-              Abbrechen
-            </button>
-          </div>
-        </form>
-      ) : (
         <>
           <div className="space-y-2 text-sm text-gray-700">
             <p>
