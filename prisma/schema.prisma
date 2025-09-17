@@ -307,6 +307,7 @@ model Transaction {
   scheduleId     Int
   userId         String
   employeeId     String
+    paymentIntentId String  @unique
   amountClient   Float
   amountEmployee Float
   status         String   @default("pending")
