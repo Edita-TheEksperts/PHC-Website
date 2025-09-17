@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
+
+
 import { useForm } from "react-hook-form";
+
 import {
   parse,
   addMonths,
@@ -76,6 +79,7 @@ export default function RegisterPage() {
   }, []);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+const [loadingStep4, setLoadingStep4] = useState(false);
 
   const today = new Date();
   const minDate = new Date();
@@ -224,34 +228,64 @@ export default function RegisterPage() {
     }
   }, [step, clientSecret, totalPayment]);
 
-  // Load user data from Stripe session
-  useEffect(() => {
-    if (step === 4 && session_id) {
-      fetch(`/api/complete-registration?session_id=${session_id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.userId)
-            throw new Error(
-              "❌ No userId returned from /complete-registration"
-            );
+useEffect(() => {
+  if (step === 4 && session_id) {
+    fetch(`/api/complete-registration?session_id=${session_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.userId) throw new Error("❌ No userId returned");
 
-          return fetch(`/api/get-user-by-id?id=${data.userId}`);
-        })
-        .then((res) => res.json())
-        .then((userData) => {
-          setUser(userData);
-          setForm((prev) => ({
-            ...prev,
-            ...userData,
-            service: userData.services?.[0]?.name || "",
-            postalCode: userData.carePostalCode || userData.postalCode || "",
-          }));
-        })
-        .catch((err) => {
-          console.error("❌ Error loading user for Step 4:", err);
-        });
-    }
-  }, [step, session_id]);
+        return fetch(`/api/get-user-by-id?id=${data.userId}`);
+      })
+      .then((res) => res.json())
+      .then((userData) => {
+        setUser(userData);
+        setForm((prev) => ({
+          ...prev,
+          ...userData,
+          service: userData.services?.[0]?.name || "",
+          postalCode: userData.carePostalCode || userData.postalCode || "",
+        }));
+      })
+      .catch((err) => console.error("❌ Error loading user for Step 4:", err));
+  }
+}, [step, session_id]);
+
+  // Load user data from Stripe session
+useEffect(() => {
+  if (step === 4 && session_id) {
+    setLoadingStep4(true);
+
+    fetch(`/api/complete-registration?session_id=${session_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.userId)
+          throw new Error("❌ No userId returned from /complete-registration");
+
+        return fetch(`/api/get-user-by-id?id=${data.userId}`);
+      })
+      .then((res) => res.json())
+      .then((userData) => {
+        setUser(userData);
+        setForm((prev) => ({
+          ...prev,
+          ...userData,
+          service: userData.services?.[0]?.name || "",
+          postalCode: userData.carePostalCode || userData.postalCode || "",
+        }));
+
+        // ✅ vetëm pasi mbaron, kalon te Step 5
+        setStep(5);
+      })
+      .catch((err) => {
+        console.error("❌ Error loading user for Step 4:", err);
+      })
+      .finally(() => {
+        setLoadingStep4(false);
+      });
+  }
+}, [step, session_id]);
+
 
   useEffect(() => {
     if (user && user.services?.[0]?.name) {
@@ -1160,6 +1194,30 @@ export default function RegisterPage() {
     setAgbError(""); // clear when accepted
     handleSubmit(e); // continue with payment
   }
+
+  useEffect(() => {
+  if (step === 4 && session_id) {
+    fetch(`/api/complete-registration?session_id=${session_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.userId) throw new Error("❌ No userId returned");
+
+        return fetch(`/api/get-user-by-id?id=${data.userId}`);
+      })
+      .then((res) => res.json())
+      .then((userData) => {
+        setUser(userData);
+        setForm((prev) => ({
+          ...prev,
+          ...userData,
+          service: userData.services?.[0]?.name || "",
+          postalCode: userData.carePostalCode || userData.postalCode || "",
+        }));
+      })
+      .catch((err) => console.error("❌ Error loading user for Step 4:", err));
+  }
+}, [step, session_id]);
+
 
   return (
     <div className="min-h-screen bg-white p-2 lg:p-12 flex flex-col lg:flex-row gap-4">
@@ -2156,61 +2214,56 @@ export default function RegisterPage() {
                     Persönliche Angaben (Zusammenfassung)
                   </h3>
 
-                  {/* Anfragende Person */}
-                  <div className="mb-8">
-                    <h4 className="font-[600] text-[16px] mb-4">
-                      Anfragende Person
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* First row: Vorname and Nachname */}
-                      <div className="mb-2">
-                        <label className="block font-medium mb-1">
-                          Vorname
-                        </label>
-                        <input
-                          name="firstName"
-                          placeholder="Vorname"
-                          onChange={handleChange}
-                          className={inputClass}
-                        />
-                      </div>
+                {/* Anfragende Person */}
+<div className="mb-8">
+  <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Vorname</label>
+      <input
+        name="requestFirstName"
+        placeholder="Vorname"
+        value={form.requestFirstName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
 
-                      <div className="mb-2">
-                        <label className="block font-medium mb-1">
-                          Nachname
-                        </label>
-                        <input
-                          name="lastName"
-                          placeholder="Nachname"
-                          onChange={handleChange}
-                          className={inputClass}
-                        />
-                      </div>
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Nachname</label>
+      <input
+        name="requestLastName"
+        placeholder="Nachname"
+        value={form.requestLastName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
 
-                      {/* Second row: Telefonnummer and Email */}
-                      <div className="mb-2">
-                        <label className="block font-medium mb-1">
-                          Telefonnummer
-                        </label>
-                        <input
-                          name="phone"
-                          placeholder="Telefonnummer"
-                          onChange={handleChange}
-                          className={inputClass}
-                        />
-                      </div>
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Telefonnummer</label>
+      <input
+        name="requestPhone"
+        placeholder="Telefonnummer"
+        value={form.requestPhone || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
 
-                      <div className="mb-2">
-                        <label className="block font-medium mb-1">Email</label>
-                        <input
-                          name="email"
-                          placeholder="Email"
-                          onChange={handleChange}
-                          className={inputClass}
-                        />
-                      </div>
-                    </div>
-                  </div>
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Email</label>
+      <input
+        name="requestEmail"
+        placeholder="Email"
+        value={form.requestEmail || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  </div>
+</div>
+
 
                   {/* Einsatzort */}
                   <div>
@@ -3269,6 +3322,35 @@ export default function RegisterPage() {
               </div>
             </>
           )}
+          {step === 5 && (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
+    <div className="bg-white shadow-lg rounded-xl p-10 max-w-lg w-full text-center">
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        Vielen Dank! 🎉
+      </h1>
+      <p className="text-gray-600 mb-6">
+        Der Registrierungsprozess wurde erfolgreich abgeschlossen. <br />
+        Ihre Daten wurden angenommen ✅.
+      </p>
+
+      <div className="flex justify-center gap-4 mt-6">
+      <button
+        onClick={() => router.push("/")} // Home
+        className="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+      >
+        Zur Startseite
+      </button>
+      <button
+        onClick={() => router.push("/login")} // Login page
+        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg hover:bg-[#a18750]"
+      >
+        Zum Dashboard
+      </button>
+    </div>
+    </div>
+  </div>
+)}
+
 
           <div className="pt-6 flex justify-end gap-4">
             {step > 1 && (
@@ -3280,15 +3362,15 @@ export default function RegisterPage() {
                 Zurück
               </button>
             )}
-
-            {step === 4 ? (
-              <button
-                type="button"
-                onClick={handleOptionalSubmit}
-                className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
-              >
-                Weiter
-              </button>
+{step === 4 ? (
+  <button
+    type="button"
+   onClick={() => setStep(5)}
+    className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
+    disabled={loadingStep4} 
+  >
+    {loadingStep4 ? "Bitte warten..." : "Weiter"}
+  </button>
             ) : step === 3 ? (
               <button
                 type="button"
