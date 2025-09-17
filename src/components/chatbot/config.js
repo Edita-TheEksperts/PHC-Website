@@ -2,6 +2,7 @@ import { createChatBotMessage } from "react-chatbot-kit";
 import CategoryOptions from "./widgets/CategoryOptions";
 import QuestionOptions from "./widgets/QuestionOptions";
 import React from "react";
+import YesNoOptions from "./YesNoOptions";   // 👉 hier hinzufügen
 
 // --- Custom Avatars ---
 const BotAvatar = () => (
@@ -70,6 +71,10 @@ const config = {
       widgetName: "questionOptions",
       widgetFunc: (props) => <QuestionOptions {...props} />,
       mapStateToProps: ["faqData"],
+    },
+      {
+      widgetName: "yesNoOptions",
+      widgetFunc: (props) => <YesNoOptions {...props} />,
     },
   ],
 
@@ -251,6 +256,22 @@ state: {
       keywords: ["zahlung", "bezahlen", "rechnung", "zahlungsmethoden", "kosten abrechnung"],
       answer: "Die Abrechnung erfolgt transparent und digital über unsere Plattform. Alle Preise sind inkl. MwSt. und ohne versteckte Gebühren."
     },
+    {
+  keywords: [
+    "meine rechnung",
+    "meine zahlung",
+    "ihre rechnung",
+    "ihre zahlung",
+    "seine rechnung",
+    "seine zahlung",
+    "ihre kosten",
+    "mein rechnung",
+    "mein zahlung",
+    "mein kosten"
+  ],
+  answer: "Bitte gehen Sie in Ihr Dashboard, dort finden Sie die Informationen."
+},
+
     {
       keywords: ["notfall", "dringend hilfe", "schnelle hilfe", "sofort hilfe", "notdienst"],
       answer: "In Notfällen kontaktieren Sie uns bitte sofort telefonisch. Wir versuchen schnellstmöglich eine Betreuungslösung zu organisieren."

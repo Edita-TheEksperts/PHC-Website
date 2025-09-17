@@ -441,3 +441,27 @@ body {
   height: 32px;
   background-color: #f0f0f0; /* fallback background */
 }
+/* Container for the yes/no buttons */
+.yesno-container {
+  display: flex;
+  justify-content: left;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Button style */
+.yesno-button {
+  background-color: #04436F;   /* dark blue like bot bubbles */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Hover effect */
+.yesno-button:hover {
+  background-color: #066199;
+}
