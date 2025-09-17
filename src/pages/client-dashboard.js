@@ -1147,14 +1147,6 @@ useEffect(() => {
 Stornieren
 </button>
 
-{/* Kündigen */}
-<button
-  onClick={() => terminateAppointment(item.id, false)} // false = normale Kündigung
-  className="flex-1 px-4 py-2 text-xs font-medium text-yellow-600 
-     bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100"
->
-  Kündigen
-</button>
 
 {/* Details */}
 <button
