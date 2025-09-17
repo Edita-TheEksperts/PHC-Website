@@ -3,10 +3,12 @@ import { useRouter } from "next/router";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import Kundigung from "./kundigung";
 import RegisterForm3 from "../components/RegisterForm3";
 import RegisterForm4 from "../components/RegisterForm4";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker, { registerLocale } from "react-datepicker";
+import { parseISO } from "date-fns";
 import { de } from "date-fns/locale";
 
 import {
@@ -52,12 +54,16 @@ export default function ClientDashboard() {
   const [targetHours, setTargetHours] = useState([]); // Default target hours for overtime alerts
   const [loading, setLoading] = useState(true);
   const [appointments, setAppointments] = useState([]);
+const [isEditing, setIsEditing] = useState(false);
+const [editData, setEditData] = useState({});
 
   const [updatedData, setUpdatedData] = useState({});
   const [showAppointments, setShowAppointments] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showOverlayForm, setShowOverlayForm] = useState(true);
   const [services, setServices] = useState("");
+  const [allServices, setAllServices] = useState([]);
+
   const [isNotifVisible, setIsNotifVisible] = useState(false);
   const [notifShownOnce, setNotifShownOnce] = useState(false);
   const [filter, setFilter] = useState("cancelled"); // ose "done"
@@ -65,7 +71,6 @@ export default function ClientDashboard() {
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
 
-  const [allServices, setAllServices] = useState([]);
 
   const [form, setForm] = useState({
     date: null,
@@ -99,30 +104,78 @@ useEffect(() => {}, [vacations]);
       .then((data) => setAppointments(data));
   }, [userData]);
 
-  const markAsDone = async (id) => {
-    await fetch("/api/appointments", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, update: { captured: true } }),
+const markAsDone = async (id) => {
+  await fetch("/api/appointments", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, update: { captured: true } }),
+  });
+  setAppointments((prev) =>
+    prev.map((appt) => (appt.id === id ? { ...appt, captured: true } : appt))
+  );
+};
+useEffect(() => {
+  if (selectedAppointment) {
+    setEditData({
+      date: selectedAppointment.date,
+      startTime: selectedAppointment.startTime,
+      hours: selectedAppointment.hours,
+      serviceName: selectedAppointment.serviceName,
+      subServiceName: selectedAppointment.subServiceName,
     });
-    setAppointments((prev) =>
-      prev.map((appt) => (appt.id === id ? { ...appt, captured: true } : appt))
-    );
-  };
+  }
+}, [selectedAppointment]);
 
-  const cancelAppointment = async (id) => {
-    await fetch("/api/appointments", {
+const today = new Date();
+today.setHours(0,0,0,0);
+
+const upcoming = appointments.filter(a => {
+  const d = a.date ? new Date(a.date) : null;
+  const isFuture = d ? d >= today : true;
+  return isFuture && !["cancelled", "terminated", "done"].includes(a.status);
+});
+
+const history = appointments.filter(a => {
+  const d = a.date ? new Date(a.date) : null;
+  const isPast = d ? d < today : false;
+  return ["cancelled", "terminated", "done"].includes(a.status) || isPast;
+});
+
+
+const cancelAppointment = async (id) => {
+  try {
+    const res = await fetch(`/api/appointments?id=${id}&cancel=true`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, cancel: true }),
     });
 
+    if (!res.ok) throw new Error("Fehler beim Stornieren");
+
+    // Përditëso state lokalisht
     setAppointments((prev) =>
       prev.map((appt) =>
         appt.id === id ? { ...appt, status: "cancelled" } : appt
       )
     );
-  };
+  } catch (err) {
+    console.error(err);
+    alert("❌ Termin konnte nicht storniert werden.");
+  }
+};
+
+
+const terminateAppointment = async (id, immediate = false) => {
+  await fetch(`/api/appointments?id=${id}&terminate=true&immediate=${immediate}`, {
+    method: "DELETE",
+  });
+
+  setAppointments((prev) =>
+    prev.map((appt) =>
+      appt.id === id ? { ...appt, status: "terminated" } : appt
+    )
+  );
+};
+
+  
 
   const fetchVacations = async (userId) => {
     const res = await fetch(`/api/vacation/get?userId=${userId}`);
@@ -227,6 +280,7 @@ useEffect(() => {
       userId: userData.id,
       date: form.date?.toISOString(),
       time: form.time,
+        email: userData.email,
       hours: form.hours,
       service: service?.name || null,
       subService: subService?.name || null,
@@ -277,6 +331,7 @@ useEffect(() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...pendingBooking,
+            email: userData.email,
           paymentIntentId: paymentIntent.id,
         }),
       });
@@ -373,6 +428,11 @@ useEffect(() => {
         setNotifShownOnce(true);
       }
     }, [userData, notifShownOnce]);
+
+
+
+
+
     return (
       <form onSubmit={handleSubmit} className="space-y-4">
         <DatePicker
@@ -512,6 +572,16 @@ useEffect(() => {
       >
         Formular
       </li>
+      <li
+  onClick={() => {
+    router.push("/dashboard/kundigung");
+    setIsOpen(false);
+  }}
+  className="cursor-pointer hover:text-red-400"
+>
+  Kündigung
+</li>
+
     </ul>
   </nav>
 </>
@@ -650,20 +720,13 @@ useEffect(() => {
 
                                 </div>
 
-                                {appt.date && (
-                                  <p className="flex items-center gap-2 text-xs text-gray-600">
-                                    <Clock className="w-4 h-4 text-[#B99B5F]" />
-                                    {new Date(appt.date).toLocaleDateString(
-                                      "de-DE",
-                                      {
-                                        weekday: "long",
-                                        year: "numeric",
-                                        month: "short",
-                                        day: "numeric",
-                                      }
-                                    )}
-                                  </p>
-                                )}
+                         {appt.date && (
+<p className="flex items-center gap-2 text-xs text-gray-600">
+  <Clock className="w-4 h-4 text-[#B99B5F]" />
+  {format(parseISO(appt.date), "EEEE, d. MMM yyyy", { locale: de })}
+</p>
+)}
+
 
                                 <div className="flex items-center gap-4 text-xs text-gray-600">
                                   <span className="flex items-center gap-2">
@@ -677,23 +740,26 @@ useEffect(() => {
                                 </div>
                               </div>
 
-                              {/* Actions */}
-                              <div className="flex gap-2 mt-4">
-                                <button
-                                  onClick={() => cancelAppointment(appt.id)}
-                                  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
-                             bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
-                                >
-                                  Abbrechen
-                                </button>
-                                <button
-                                  onClick={() => setSelectedAppointment(appt)}
-                                  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
-                             bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
-                                >
-                                  Details
-                                </button>
-                              </div>
+                         <div className="flex gap-2 mt-4">
+  {/* Cancel */}
+  <button
+    onClick={() => cancelAppointment(appt.id)}
+    className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+       bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
+  >
+  Stornieren
+  </button>
+
+  {/* Details */}
+  <button
+    onClick={() => setSelectedAppointment(appt)}
+    className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+       bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
+  >
+    Details
+  </button>
+</div>
+
                             </li>
                           ))}
                       </ul>
@@ -706,78 +772,186 @@ useEffect(() => {
                 </div>
               </section>
 
-              {/* --- Modal für Details --- */}
-              {selectedAppointment && (
-                <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-                  <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
-                    {/* Close btn */}
-                    <button
-                      onClick={() => setSelectedAppointment(null)}
-                      className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-lg"
-                    >
-                      ×
-                    </button>
+{selectedAppointment && (
+  <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
+      {/* Close btn */}
+      <button
+        onClick={() => setSelectedAppointment(null)}
+        className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-lg"
+      >
+        ×
+      </button>
 
-                    <h3 className="text-xl font-bold text-[#B99B5F] mb-4">
-Termindetails                    </h3>
+      <h3 className="text-xl font-bold text-[#B99B5F] mb-4">Termindetails</h3>
 
-                    <div className="space-y-2 text-sm text-gray-700">
-                      <p>
-                        <strong>Tag:</strong> {selectedAppointment.day}
-                      </p>
-                      <p>
-                        <strong>Datum:</strong>{" "}
-                        {new Date(selectedAppointment.date).toLocaleDateString(
-                          "de-DE",
-                          {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          }
-                        )}
-                      </p>
-                      <p>
-                        <strong>Startzeit:</strong>{" "}
-                        {selectedAppointment.startTime}
-                      </p>
-                      <p>
-                        <strong>Dauer:</strong> {selectedAppointment.hours} Std
-                      </p>
-                      {selectedAppointment.serviceName && (
-                        <p>
-                          <strong>Service:</strong>{" "}
-                          {selectedAppointment.serviceName}
-                        </p>
-                      )}
-                      {selectedAppointment.subServiceName && (
-                        <p>
-                          <strong>Sub-Service:</strong>{" "}
-                          {selectedAppointment.subServiceName}
-                        </p>
-                      )}
-                      {selectedAppointment.kilometers && (
-                        <p>
-                          <strong>Kilometer:</strong>{" "}
-                          {selectedAppointment.kilometers}
-                        </p>
-                      )}
-                      <p>
-                        <strong>Status:</strong> {selectedAppointment.status}
-                      </p>
-                    </div>
+      {isEditing ? (
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            try {
+       const res = await fetch("/api/appointments", {
+  method: appointmentId ? "PUT" : "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    id: appointmentId,
+    date: form.date,
+    time: form.time,
+    duration: form.duration,
+    serviceId: form.service,
+    subServiceId: form.subService,
+  }),
+});
 
-                    <div className="mt-6 text-right">
-                      <button
-                        onClick={() => setSelectedAppointment(null)}
-                        className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
-                      >
-                        Schliessen
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+
+              if (!res.ok) throw new Error("Update failed");
+
+              const updated = await res.json();
+
+              setAppointments((prev) =>
+                prev.map((appt) => (appt.id === updated.id ? updated : appt))
+              );
+
+              alert("✅ Termin aktualisiert!");
+              setIsEditing(false);
+              setSelectedAppointment(null);
+            } catch (err) {
+              console.error(err);
+              alert("❌ Fehler beim Aktualisieren.");
+            }
+          }}
+          className="space-y-4"
+        >
+          {/* Date */}
+          <input
+            type="date"
+            value={editData.date ? editData.date.split("T")[0] : ""}
+            onChange={(e) =>
+              setEditData((prev) => ({ ...prev, date: e.target.value }))
+            }
+            className="w-full border p-2 rounded"
+          />
+
+          {/* Time */}
+          <input
+            type="time"
+            value={editData.startTime || ""}
+            onChange={(e) =>
+              setEditData((prev) => ({ ...prev, startTime: e.target.value }))
+            }
+            className="w-full border p-2 rounded"
+          />
+
+          {/* Hours */}
+          <input
+            type="number"
+            step="0.5"
+            value={editData.hours || ""}
+            onChange={(e) =>
+              setEditData((prev) => ({ ...prev, hours: e.target.value }))
+            }
+            className="w-full border p-2 rounded"
+          />
+
+          {/* Service */}
+          <input
+            type="text"
+            value={editData.serviceName || ""}
+            onChange={(e) =>
+              setEditData((prev) => ({ ...prev, serviceName: e.target.value }))
+            }
+            className="w-full border p-2 rounded"
+            placeholder="Service"
+          />
+
+          {/* SubService */}
+          <input
+            type="text"
+            value={editData.subServiceName || ""}
+            onChange={(e) =>
+              setEditData((prev) => ({
+                ...prev,
+                subServiceName: e.target.value,
+              }))
+            }
+            className="w-full border p-2 rounded"
+            placeholder="Subservice"
+          />
+
+          {/* Buttons */}
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700"
+            >
+              Speichern
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400"
+            >
+              Abbrechen
+            </button>
+          </div>
+        </form>
+      ) : (
+        <>
+          <div className="space-y-2 text-sm text-gray-700">
+            <p>
+              <strong>Tag:</strong> {selectedAppointment.day}
+            </p>
+            <p>
+              <strong>Datum:</strong>{" "}
+              {new Date(selectedAppointment.date).toLocaleDateString("de-DE", {
+                weekday: "long",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </p>
+            <p>
+              <strong>Startzeit:</strong> {selectedAppointment.startTime}
+            </p>
+            <p>
+              <strong>Dauer:</strong> {selectedAppointment.hours} Std
+            </p>
+            {selectedAppointment.serviceName && (
+              <p>
+                <strong>Service:</strong> {selectedAppointment.serviceName}
+              </p>
+            )}
+            {selectedAppointment.subServiceName && (
+              <p>
+                <strong>Sub-Service:</strong> {selectedAppointment.subServiceName}
+              </p>
+            )}
+          </div>
+
+          {/* Edit button */}
+          <div className="mt-4">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+            >
+              Editieren
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* Always visible Close */}
+      <div className="mt-6 text-right">
+        <button
+          onClick={() => setSelectedAppointment(null)}
+          className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
+        >
+          Schliessen
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
               {/* --- URLAUB --- */}
               <section>
@@ -851,58 +1025,52 @@ Termindetails                    </h3>
                   )}
                 </div>
 
-                {/* Filter buttons */}
-                {showHistory && (
-                  <div className="flex items-center gap-6 mb-6">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFilter("cancelled");
-                      }}
-                      className="flex items-center gap-2 text-sm font-medium"
-                    >
-                      <span
-                        className={`w-4 h-4 rounded-full border-2 ${
-                          filter === "cancelled"
-                            ? "bg-red-500 border-red-600 scale-110"
-                            : "bg-red-300 border-red-400"
-                        }`}
-                      ></span>
-                      <span
-                        className={`${
-                          filter === "cancelled"
-                            ? "text-red-600"
-                            : "text-gray-600"
-                        }`}
-                      >
-                      Abgebrochen
-                      </span>
-                    </button>
 
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFilter("done");
-                      }}
-                      className="flex items-center gap-2 text-sm font-medium"
-                    >
-                      <span
-                        className={`w-4 h-4 rounded-full border-2 ${
-                          filter === "done"
-                            ? "bg-green-500 border-green-600 scale-110"
-                            : "bg-green-300 border-green-400"
-                        }`}
-                      ></span>
-                      <span
-                        className={`${
-                          filter === "done" ? "text-green-600" : "text-gray-600"
-                        }`}
-                      >
-                       Erledigt
-                      </span>
-                    </button>
-                  </div>
-                )}
+                    {/* Filter buttons */}
+{showHistory && (
+  <div className="flex items-center gap-6 mb-6">
+    {/* Cancelled */}
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setFilter("cancelled");
+      }}
+      className="flex items-center gap-2 text-sm font-medium"
+    >
+      <span
+        className={`w-4 h-4 rounded-full border-2 ${
+          filter === "cancelled"
+            ? "bg-red-500 border-red-600 scale-110"
+            : "bg-red-300 border-red-400"
+        }`}
+      ></span>
+      <span className={filter === "cancelled" ? "text-red-600" : "text-gray-600"}>
+        Abgebrochen
+      </span>
+    </button>
+
+    {/* Done */}
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setFilter("done");
+      }}
+      className="flex items-center gap-2 text-sm font-medium"
+    >
+      <span
+        className={`w-4 h-4 rounded-full border-2 ${
+          filter === "done"
+            ? "bg-green-500 border-green-600 scale-110"
+            : "bg-green-300 border-green-400"
+        }`}
+      ></span>
+      <span className={filter === "done" ? "text-green-600" : "text-gray-600"}>
+        Erledigt
+      </span>
+    </button>
+
+  </div>
+)}
 
                 {/* List */}
                 {showHistory && (
@@ -915,32 +1083,47 @@ Termindetails                    </h3>
                       appointments
                         .filter((a) => a.status === filter)
                         .map((item) => (
-                          <li
-                            key={item.id}
-                            className={`p-5 rounded-2xl shadow-md hover:shadow-lg transition 
-                ${
-                  item.status === "cancelled"
-                    ? "bg-red-50 border border-red-200"
-                    : "bg-green-50 border border-green-200"
-                }`}
-                          >
-                            {/* Info */}
-                            <div className="space-y-2 text-sm text-gray-800">
-                              <div className="flex items-center justify-between">
-                                <p className="flex items-center gap-2 font-semibold">
-                                  <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                  {item.day}
-                                </p>
-                                <span
-                                  className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                    item.status === "done"
-                                      ? "bg-green-100 text-green-700"
-                                      : "bg-red-100 text-red-700"
-                                  }`}
-                                >
-                                  {item.status}
-                                </span>
-                              </div>
+             <li
+  key={item.id}
+  className={`p-5 rounded-2xl shadow-md hover:shadow-lg transition 
+    ${
+      item.status === "cancelled"
+        ? "bg-red-50 border border-red-200"
+        : item.status === "done"
+        ? "bg-green-50 border border-green-200"
+        : item.status === "terminated"
+        ? "bg-yellow-50 border border-yellow-200"
+        : "bg-white border"
+    }`}
+>
+  {/* Info */}
+  <div className="space-y-2 text-sm text-gray-800">
+    <div className="flex items-center justify-between">
+      <p className="flex items-center gap-2 font-semibold">
+        <CalendarDays className="w-4 h-4 text-[#B99B5F]" /> {item.day}
+      </p>
+      <span
+        className={`px-3 py-1 text-xs font-medium rounded-full
+          ${
+            item.status === "done"
+              ? "bg-green-100 text-green-700"
+              : item.status === "cancelled"
+              ? "bg-red-100 text-red-700"
+              : item.status === "terminated"
+              ? "bg-yellow-100 text-yellow-700"
+              : "bg-gray-100 text-gray-600"
+          }`}
+      >
+        {item.status === "done"
+          ? "Erledigt"
+          : item.status === "cancelled"
+          ? "Storniert"
+          : item.status === "terminated"
+          ? "Gekündigt"
+          : item.status}
+      </span>
+    </div>
+
 
                               {item.date && (
                                 <p className="flex items-center gap-2 text-xs text-gray-600">
@@ -981,16 +1164,37 @@ Termindetails                    </h3>
                               )}
                             </div>
 
-                            {/* Actions */}
-                            <div className="flex justify-end gap-2 mt-4">
-                              <button
-                                onClick={() => setSelectedAppointment(item)}
-                                className="px-4 py-2 text-xs font-medium text-[#04436F] 
-                             bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
-                              >
-                                Details
-                              </button>
-                            </div>
+                       {/* Actions */}
+<div className="flex gap-2 mt-4">
+{/* Abbrechen */}
+<button
+  onClick={() => cancelAppointment(item.id)}
+  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+     bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
+>
+Stornieren
+</button>
+
+{/* Kündigen */}
+<button
+  onClick={() => terminateAppointment(item.id, false)} // false = normale Kündigung
+  className="flex-1 px-4 py-2 text-xs font-medium text-yellow-600 
+     bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100"
+>
+  Kündigen
+</button>
+
+{/* Details */}
+<button
+  onClick={() => setSelectedAppointment(item)}
+  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+     bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
+>
+  Details
+</button>
+
+</div>
+
                           </li>
                         ))
                     ) : (

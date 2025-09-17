@@ -91,7 +91,7 @@ export default async function handler(req, res) {
 const schedules = await prisma.schedule.findMany({
   include: {
     user: {
-      include: { services: true }, // 👉 merr shërbimet e user-it
+      include: { services: true }, 
     },
   },
 });

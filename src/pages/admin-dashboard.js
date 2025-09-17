@@ -443,7 +443,7 @@ async function handleInvite(emp) {
       <p className="text-2xl font-bold text-blue-700">
         CHF {data.totalIncomeAllTime.toFixed(2)}
       </p>
-      <p className="text-sm text-gray-600 mt-1">Einkommen aller Zeiten</p>
+      <p className="text-sm text-gray-600 mt-1">Einkommen Total</p>
     </div>
 
 
