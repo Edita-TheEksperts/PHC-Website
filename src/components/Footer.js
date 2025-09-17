@@ -129,7 +129,7 @@ const subscribe = async (e) => {
         <li><a href="/BlogPage" className="hover:underline">Blog</a></li>
         <li><a href="/services" className="hover:underline">Dienstleistungen</a></li>
         <li><a href="/Registrierung-Jobs" className="hover:underline">Jobs</a></li>
-        <li><a href="/contact" className="hover:underline">Support</a></li>
+        <li><a href="/contact" className="hover:underline">Kontakt</a></li>
         <li><a href="/FAQ" className="hover:underline">FAQ</a></li>
       </ul>
     </div>

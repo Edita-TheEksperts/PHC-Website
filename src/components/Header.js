@@ -22,12 +22,9 @@ const navLinks = [
     path: '/services', // <-- make parent clickable
   },
   { name: 'Jobs', path: '/Registrierung-Jobs' },
-  { name: 'Kontakt', 
-    path: '/contact',
-     subLinks: [
-      { name: 'FAQ', path: '/FAQ' },
-    ],
-   },
+   { name: 'FAQ', path: '/FAQ' },
+
+
 ];
 
 useEffect(() => {
