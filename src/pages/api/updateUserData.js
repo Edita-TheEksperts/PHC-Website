@@ -61,7 +61,7 @@ export default async function handler(req, res) {
       "mobility", "transport", "appointments",
       "appointmentsOther", "shoppingAssist", "shoppingType",
       "briefkasten", "postfach", "sonstige",
-      "form4Completed",
+      "form4Completed", "requestFirstName", "requestLastName", "requestPhone", "requestEmail",
     ];
 
     const safeData = {};
