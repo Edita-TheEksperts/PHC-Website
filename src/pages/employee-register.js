@@ -331,10 +331,15 @@ if (step === 3) {
   return true;
 };
 
-const handleNext = () => {
-  if (validateStep()) {
-    setStep((s) => s + 1);
+ const handleNext = () => {
+  if (!validateStep()) {
+    setStepError("Bitte alle Pflichtfelder ausfüllen.");
+    scrollToTop(); // optional to move up
+    return;
   }
+
+  setStepError(""); // clear error
+  setStep((s) => s + 1);
 };
 const specialTrainingsRef = useRef(null);
 
