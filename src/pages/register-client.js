@@ -55,6 +55,8 @@ export default function RegisterPage() {
 
     return surcharge;
   }
+  const [loading, setLoading] = useState(false);
+
 
   const { watch } = useForm();
   const [formError, setFormError] = useState("");
@@ -2193,7 +2195,24 @@ const handlePayment = async () => {
           )}
 
 
-{step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails </h2> {/* Kreditkartenfeld */} <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white"> <CardElement options={{ style: { base: { fontSize: "16px", color: "#1f2937", fontFamily: "system-ui, sans-serif", "::placeholder": { color: "#9ca3af" }, }, invalid: { color: "#ef4444" }, }, }} /> </div> {/* Hinweise */} <div className="mt-4 space-y-2"> <p className="text-sm sm:text-base text-gray-600"> Alle Zahlungen werden sicher verarbeitet. </p> <p className="text-sm sm:text-base text-gray-600"> Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 24 Stunden nach erfolgter Dienstleistung </span>{" "} belastet. </p> </div> {/* AGB-Checkbox */} <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200"> <input type="checkbox" id="agb" checked={agbAccepted} onChange={(e) => { setAgbAccepted(e.target.checked); if (e.target.checked) setAgbError(""); }} className="mt-1 mr-3 w-4 h-4 text-[#B99B5F] border-gray-300 rounded focus:ring-[#B99B5F]" /> <label htmlFor="agb" className="text-sm text-gray-700 leading-relaxed" > Ich akzeptiere die{" "} <a href="/AVB" className="text-[#B99B5F] underline font-medium" target="_blank" rel="noopener noreferrer" > AVB </a> . </label> </div> {agbError && ( <p className="text-red-600 text-sm mt-2">{agbError}</p> )} </> )}
+{step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails </h2>
+ {/* Kreditkartenfeld */} <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
+   <CardElement options={{ style:
+     { base: { fontSize: "16px", color: "#1f2937", fontFamily: "system-ui, sans-serif", 
+     "::placeholder": { color: "#9ca3af" }, }, invalid: { color: "#ef4444" }, }, 
+     }} /> </div> {/* Hinweise */} <div className="mt-4 space-y-2"> <p className="text-sm sm:text-base text-gray-600">
+       Alle Zahlungen werden sicher verarbeitet. </p> <p className="text-sm sm:text-base text-gray-600">
+         Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 
+          24 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
+           </p> </div> {/* AGB-Checkbox */} <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border
+            border-gray-200"> <input type="checkbox" id="agb"
+             checked={agbAccepted} onChange={(e) => { setAgbAccepted(e.target.checked); 
+             if (e.target.checked) setAgbError(""); }} className="mt-1 mr-3 w-4 h-4 text-[#B99B5F]
+              border-gray-300 rounded focus:ring-[#B99B5F]" /> 
+              <label htmlFor="agb" className="text-sm text-gray-700 leading-relaxed" > 
+                Ich akzeptiere die{" "} <a href="/AVB" className="text-[#B99B5F] underline font-medium" 
+                target="_blank" rel="noopener noreferrer" > AVB </a> . </label> </div> {agbError && 
+                ( <p className="text-red-600 text-sm mt-2">{agbError}</p> )} </> )}
           {(testMode ? step === 3 : step === 4) && (
             <>
               <div className="space-y-8 mt-6">
@@ -3349,15 +3368,33 @@ const handlePayment = async () => {
       >
         {loadingStep4 ? "Bitte warten..." : "Weiter"}
       </button>
-    ) : step === 3 ? (
-      <button
-        type="button"
-        onClick={handleNext}
-        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
-      >
-        Jetzt bezahlen & weiter
-      </button>
-    ) : (
+
+) : step === 3 ? (
+  <>
+    <button
+      type="button"
+      onClick={() => {
+        setLoading(true);
+        handleNext().finally(() => setLoading(false)); 
+        // falls handleNext async ist
+      }}
+      className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+    >
+      Jetzt bezahlen & weiter
+    </button>
+
+    {/* Overlay */}
+    {loading && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+        <div className="bg-white px-6 py-4 rounded-lg shadow-lg text-center">
+          <p className="text-lg font-medium text-gray-700 animate-pulse">
+            ⏳ Wir verarbeiten Ihre Daten…
+          </p>
+        </div>
+      </div>
+    )}
+  </>
+) : (
       <button
         type="button"
         onClick={handleNext}
