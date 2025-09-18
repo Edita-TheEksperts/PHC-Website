@@ -70,6 +70,16 @@ const [editData, setEditData] = useState({});
  const [isOpen, setIsOpen] = useState(false); // Mobile menu state
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
+// Calculate total hours & km
+const totalHours = appointments.reduce((sum, a) => sum + (a.hours || 0), 0);
+const totalKm = appointments.reduce((sum, a) => sum + (a.kilometers || 0), 0);
+
+// Define a baseline (contracted) hours/km, for example:
+const contractedHours = 20; // adjust based on your rules
+const contractedKm = 50;
+
+const extraHours = Math.max(0, totalHours - contractedHours);
+const extraKm = Math.max(0, totalKm - contractedKm);
 
 
   const [form, setForm] = useState({
@@ -1168,6 +1178,27 @@ Stornieren
                     )}
                   </ul>
                 )}
+<article className="bg-white p-8 rounded-3xl shadow-xl">
+  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6">
+    Zusammenfassung
+  </h3>
+
+  <p className="text-lg mb-3">
+    <strong>Gesamtstunden:</strong> {totalHours} Std
+  </p>
+  <p className="text-lg mb-3">
+    <strong>Gesamtkilometer:</strong> {totalKm} km
+  </p>
+
+  <p className="text-lg mt-6 text-red-600">
+    <strong>Extra Stunden:</strong> {extraHours} Std
+  </p>
+  <p className="text-lg text-red-600">
+    <strong>Extra Kilometer:</strong> {extraKm} km
+  </p>
+</article>
+
+                
               </section>
 
               {/* New Booking */}
