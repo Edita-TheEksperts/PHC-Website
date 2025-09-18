@@ -3340,41 +3340,46 @@ useEffect(() => {
 
 
           <div className="pt-6 flex justify-end gap-4">
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={() => setStep((s) => s - 1)}
-                className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg"
-              >
-                Zurück
-              </button>
-            )}
-{step === 4 ? (
-  <button
-    type="button"
-   onClick={() => setStep(5)}
-    className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
-    disabled={loadingStep4} 
-  >
-    {loadingStep4 ? "Bitte warten..." : "Weiter"}
-  </button>
-            ) : step === 3 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
-              >
-                Jetzt bezahlen & weiter
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
-              >
-                Weiter
-              </button>
-            )}
+            {step !== 5 && (
+  <div className="pt-6 flex justify-end gap-4">
+    {step > 1 && (
+      <button
+        type="button"
+        onClick={() => setStep((s) => s - 1)}
+        className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg"
+      >
+        Zurück
+      </button>
+    )}
+
+    {step === 4 ? (
+      <button
+        type="button"
+        onClick={() => setStep(5)}
+        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
+        disabled={loadingStep4}
+      >
+        {loadingStep4 ? "Bitte warten..." : "Weiter"}
+      </button>
+    ) : step === 3 ? (
+      <button
+        type="button"
+        onClick={handleNext}
+        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+      >
+        Jetzt bezahlen & weiter
+      </button>
+    ) : (
+      <button
+        type="button"
+        onClick={handleNext}
+        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+      >
+        Weiter
+      </button>
+    )}
+  </div>
+)}
           </div>
         </form>
       </div>
