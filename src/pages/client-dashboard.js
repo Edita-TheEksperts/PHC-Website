@@ -1386,22 +1386,22 @@ Stornieren
                     { name: "phone", label: "Telefonnummer", type: "tel" },
   {
     name: "requestFirstName",
-    label: "Vorname",
+    label: "Notfall Kontakt Name",
     type: "text",
   },
   {
     name: "requestLastName",
-    label: "Nachname",
+    label: "Notfall Kontakt Nachname",
     type: "text",
   },
   {
     name: "requestPhone",
-    label: "Telefonnummer",
+    label: "Notfall Kontakt Telefonnummer",
     type: "tel",
   },
   {
     name: "requestEmail",
-    label: "Email",
+    label: "Notfall Kontakt Email",
     type: "email",
   },
                   ].map(({ name, label, type }) => (
