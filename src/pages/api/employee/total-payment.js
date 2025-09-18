@@ -1,56 +1,47 @@
+// /api/employee/total-payment.js
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
-
   const { email } = req.body;
+
   try {
     const employee = await prisma.employee.findUnique({
       where: { email },
-      include: { assignments: true },
+      include: { schedules: true },
     });
-    if (!employee) return res.status(404).json({ error: "Employee not found" });
 
-    const rate = 28.15; // fixed hourly rate
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
     const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
-    const reduceAssignments = (assignments) =>
-      assignments.reduce(
-        (sum, a) => {
-          const hours = a.workedHours ?? 0;
-          const km = a.kilometers ?? 0;
-          const serviceCost = hours * rate;
+    const schedules = employee.schedules.filter(
+      (s) =>
+        s.date &&
+        new Date(s.date) >= firstDay &&
+        new Date(s.date) <= lastDay
+    );
 
-          return {
-            serviceHours: sum.serviceHours + hours,
-            kilometers: sum.kilometers + km,
-            serviceCost: sum.serviceCost + serviceCost,
-            travelCost: sum.travelCost + km,
-            total: sum.total + serviceCost + km,
-          };
-        },
-        {
-          serviceHours: 0,
-          kilometers: 0,
-          serviceCost: 0,
-          travelCost: 0,
-          total: 0,
-        }
-      );
+    const serviceHours = schedules.reduce((sum, s) => sum + (s.hours || 0), 0);
+    const kilometers = schedules.reduce((sum, s) => sum + (s.kilometers || 0), 0);
 
-    const thisMonthAssignments = employee.assignments.filter((a) => {
-      const d = new Date(a.day);
-      return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+    // business rules
+    const hourlyRate = 30; // CHF per hour
+    const kmRate = 0.7;    // CHF per km
+
+    const serviceCost = serviceHours * hourlyRate;
+    const travelCost = kilometers * kmRate;
+    const total = serviceCost + travelCost;
+
+    res.json({
+      thisMonth: { serviceHours, kilometers, serviceCost, travelCost, total },
     });
-
-    const thisMonth = reduceAssignments(thisMonthAssignments);
-    const allTime = reduceAssignments(employee.assignments);
-
-    res.json({ thisMonth, allTime, rate });
-  } catch (error) {
-    console.error("❌ Prisma error:", error);
-    res.status(500).json({ error: "Internal server error" });
+  } catch (err) {
+    console.error("❌ Fehler beim Berechnen:", err);
+    res.status(500).json({ message: "Serverfehler" });
   }
 }

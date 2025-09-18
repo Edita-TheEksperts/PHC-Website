@@ -141,7 +141,7 @@ const handleAssignmentAction = async (assignmentId, action) => {
 
   if (res.ok) {
     const data = await res.json();
-    const updated = data.assignment; // ✅ the full assignment from Prisma
+    const updated = data.assignment; // ✅ full assignment with user + employee
 
     // remove from pending
     setPendingAssignments((prev) =>
@@ -149,14 +149,18 @@ const handleAssignmentAction = async (assignmentId, action) => {
     );
 
     // add to correct state
-    if (action === "confirmed") {
-      setConfirmedAssignments((prev) => [...prev, updated]);
-    }
+if (action === "confirmed") {
+  setConfirmedAssignments((prev) => [...prev, updated]);
+  // ✅ No fetch here anymore, backend handles sending Arbeitsvertrag
+}
+
+
     if (action === "rejected") {
       setRejectedAssignments((prev) => [...prev, updated]);
     }
   }
 };
+
 
 
   const handlePaymentChange = (e) => {
@@ -304,7 +308,7 @@ const handleAssignmentAction = async (assignmentId, action) => {
         <Card title="💰 Gesamtzahlung">
   {paymentTotals ? (
     <div className="space-y-4">
-      <Info label="Service-Stunden" value={`${paymentTotals.thisMonth?.serviceHours ?? 0} Std`} />
+<Info label="Service-Stunden" value={`${paymentTotals.thisMonth?.serviceHours ?? 0} Std`} />
       <Info label="Kilometer" value={`${paymentTotals.thisMonth?.kilometers ?? 0} km`} />
       <Info label="Einkommen Service" value={`${paymentTotals.thisMonth?.serviceCost ?? 0} CHF`} />
       <Info label="Einkommen Fahrt" value={`${paymentTotals.thisMonth?.travelCost ?? 0} CHF`} />
@@ -317,30 +321,7 @@ const handleAssignmentAction = async (assignmentId, action) => {
     <p className="text-sm text-gray-500">Keine Zahlungen berechnet.</p>
   )}
 </Card>
-<Card title="📅 Meine Einsätze">
-  <EmployeeScheduleList
-    email={employeeData.email}
-    onUpdate={() => {
-      // refresh totals when hours/km change
-      fetch("/api/employee/total-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: employeeData.email }),
-      })
-        .then((res) => res.json())
-        .then((totals) => setPaymentTotals(totals));
-    }}
-  />
-</Card>
 
-
-
-          <Card title="📅 Verfügbarkeit">
-            <Info label="Ab" value={new Date(employeeData.availabilityFrom).toLocaleDateString()} />
-            <Info label="Tage" value={employeeData.availabilityDays?.join(", ") || "—"} />
-            <Info label="Stunden/Woche" value={employeeData.desiredWeeklyHours || "—"} />
-          </Card>
- 
      <Card title="📥 Neue Zuweisungen">
   {pendingAssignments.length === 0 ? (
     <p className="text-sm text-gray-500">Keine neuen Zuweisungen.</p>

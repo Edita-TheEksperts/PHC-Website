@@ -1,5 +1,6 @@
 import { prisma } from "../../../lib/prisma";
 import nodemailer from "nodemailer";
+import { sendApprovalEmail } from "../../../lib/emailHelpers";
 
 // Email transport setup
 const transporter = nodemailer.createTransport({
@@ -49,26 +50,33 @@ export default async function handler(req, res) {
       },
     });
 
-    if (action === "confirmed") {
-      const { user, employee } = updated;
+if (action === "confirmed") {
+  const { user, employee } = updated;
 
-      const { subject, body } = await getTemplate("assignmentAccepted", {
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        employeeName: `${employee.firstName} ${employee.lastName}`,
-        employeeEmail: employee.email,
-        employeePhone: employee.phone || "",
-        serviceName: user.services?.map((s) => s.name).join(", ") || "—",
-        startDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
-      });
+  // 📧 Send Arbeitsvertrag to the employee
+  if (employee?.email) {
+    await sendApprovalEmail(employee);
+  }
 
-      await transporter.sendMail({
-        from: `"PHC Team" <${process.env.SMTP_USER}>`,
-        to: user.email,
-        subject,
-        html: body,
-      });
-    }
+  // 📧 Send confirmation template to the client
+  const { subject, body } = await getTemplate("assignmentAccepted", {
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    employeeName: `${employee.firstName} ${employee.lastName}`,
+    employeeEmail: employee.email,
+    employeePhone: employee.phone || "",
+    serviceName: user.services?.map((s) => s.name).join(", ") || "—",
+    startDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
+  });
+
+  await transporter.sendMail({
+    from: `"PHC Team" <${process.env.SMTP_USER}>`,
+    to: user.email,
+    subject,
+    html: body,
+  });
+}
+
 
     if (action === "rejected") {
       const employeeId = updated.employee.id;

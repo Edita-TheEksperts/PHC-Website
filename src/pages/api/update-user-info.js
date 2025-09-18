@@ -38,19 +38,21 @@ export default async function handler(req, res) {
   } = req.body;
 
   try {
-    const result = await prisma.user.update({
-      where: { email },
-      data: {
-        languages: Array.isArray(languages)
-          ? languages.join(", ")
-          : languages || "",
-        ...(pets !== undefined && { pets }),
-        ...(allergies !== undefined && { allergies }),
-        ...(specialRequests !== undefined && { specialRequests }),
-        ...(emergencyContactName !== undefined && { emergencyContactName }),
-        ...(emergencyContactPhone !== undefined && { emergencyContactPhone }),
-      },
-    });
+const result = await prisma.user.update({
+  where: { email },
+  data: {
+    languages: Array.isArray(languages)
+      ? languages.join(", ")
+      : languages || "",
+    otherLanguage: otherLanguage || "", // ✅ now saved
+    ...(pets !== undefined && { pets }),
+    ...(allergies !== undefined && { allergies }),
+    ...(specialRequests !== undefined && { specialRequests }),
+    ...(emergencyContactName !== undefined && { emergencyContactName }),
+    ...(emergencyContactPhone !== undefined && { emergencyContactPhone }),
+  },
+});
+
 
     return res.status(200).json({ message: "User info updated" });
   } catch (error) {

@@ -194,6 +194,7 @@ requestFirstName String?
 requestLastName  String?
 requestPhone String?
 requestEmail String?
+  otherLanguage String?  
 }
 
 model Reminder {
