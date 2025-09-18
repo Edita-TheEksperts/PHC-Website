@@ -333,9 +333,10 @@ if (step === 3) {
 
  const handleNext = () => {
   if (!validateStep()) {
-    setStepError("Bitte alle Pflichtfelder ausfüllen.");
-    scrollToTop(); // optional to move up
-    return;
+     if (!validateStep()) {
+    return; // stop only
+  }
+  setStep((s) => s + 1);
   }
 
   setStepError(""); // clear error
@@ -452,10 +453,6 @@ useEffect(() => {
     <p>
       Bitte <a href="/login" className="underline text-red-800 font-bold">hier einloggen</a>, wenn Sie bereits ein Konto haben.
     </p>
-  </div>
-)}{stepError && (
-  <div className="bg-red-100 text-red-700 border border-red-300 p-4 rounded text-sm mb-4">
-    {stepError}
   </div>
 )}
         <form
