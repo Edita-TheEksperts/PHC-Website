@@ -233,11 +233,6 @@ case 3:
   };
 
  const handleNext = () => {
-  if (!validateStep()) {
-    setStepError("Bitte alle Pflichtfelder ausfüllen.");
-    scrollToTop(); // optional to move up
-    return;
-  }
 
   setStepError(""); // clear error
   setStep((s) => s + 1);
