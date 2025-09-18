@@ -31,24 +31,26 @@ export default async function handler(req, res) {
   try {
     const { assignmentId, action } = req.body;
 
-if (!assignmentId || !["confirmed", "rejected"].includes(action)) {
-  return res.status(400).json({ message: "Invalid input" });
-}
+    if (!assignmentId || !["confirmed", "rejected"].includes(action)) {
+      return res.status(400).json({ message: "Invalid input" });
+    }
 
-
-    // Update confirmation status
     const updated = await prisma.assignment.update({
       where: { id: assignmentId },
       data: { confirmationStatus: action },
       include: {
-        user: { include: { services: true } },
+        user: { 
+          include: { 
+            services: true,
+            schedules: true   // 👈 important
+          } 
+        },
         employee: true,
       },
     });
 
-    // ✉️ If accepted: notify client
-    if (action === "accepted") {
-      const { user, employee, serviceName } = updated;
+    if (action === "confirmed") {
+      const { user, employee } = updated;
 
       const { subject, body } = await getTemplate("assignmentAccepted", {
         firstName: user.firstName || "",
@@ -56,7 +58,7 @@ if (!assignmentId || !["confirmed", "rejected"].includes(action)) {
         employeeName: `${employee.firstName} ${employee.lastName}`,
         employeeEmail: employee.email,
         employeePhone: employee.phone || "",
-        serviceName: serviceName || (user.services?.map(s => s.name).join(", ") || "—"),
+        serviceName: user.services?.map((s) => s.name).join(", ") || "—",
         startDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
       });
 
@@ -68,7 +70,6 @@ if (!assignmentId || !["confirmed", "rejected"].includes(action)) {
       });
     }
 
-    // ❗ If rejected: count how many and warn if needed
     if (action === "rejected") {
       const employeeId = updated.employee.id;
 
@@ -98,7 +99,8 @@ if (!assignmentId || !["confirmed", "rejected"].includes(action)) {
       }
     }
 
-    res.status(200).json({ status: "updated" });
+    // ✅ return the full assignment object (with schedules)
+    res.status(200).json({ status: "updated", assignment: updated });
   } catch (err) {
     console.error("❌ Fehler bei der Bestätigung:", err);
     res.status(500).json({ message: "Serverfehler" });

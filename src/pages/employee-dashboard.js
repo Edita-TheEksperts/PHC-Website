@@ -132,21 +132,32 @@ async function sendDocument(employee, documentType) {
       setVacationEnd(null);
     }
   };
+const handleAssignmentAction = async (assignmentId, action) => {
+  const res = await fetch("/api/employee/confirm-assignment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ assignmentId, action }),
+  });
 
-  const handleAssignmentAction = async (assignmentId, action) => {
-    const res = await fetch("/api/employee/confirm-assignment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ assignmentId, action }),
-    });
-    if (res.ok) {
-      setPendingAssignments((prev) => prev.filter((a) => a.id !== assignmentId));
-      if (action === "rejected") {
-        const rejected = pendingAssignments.find((a) => a.id === assignmentId);
-        setRejectedAssignments((prev) => [...prev, rejected]);
-      }
+  if (res.ok) {
+    const data = await res.json();
+    const updated = data.assignment; // ✅ the full assignment from Prisma
+
+    // remove from pending
+    setPendingAssignments((prev) =>
+      prev.filter((a) => a.id !== assignmentId)
+    );
+
+    // add to correct state
+    if (action === "confirmed") {
+      setConfirmedAssignments((prev) => [...prev, updated]);
     }
-  };
+    if (action === "rejected") {
+      setRejectedAssignments((prev) => [...prev, updated]);
+    }
+  }
+};
+
 
   const handlePaymentChange = (e) => {
     const { name, value } = e.target;
@@ -290,60 +301,83 @@ async function sendDocument(employee, documentType) {
               })}
             </div>
           </Card>
-          <Card title="💰 Gesamtzahlung">
-            {paymentTotals ? (
-              <div className="space-y-4">
-                <Info label="Service-Stunden" value={`${paymentTotals.thisMonth?.serviceHours ?? 0} Std`} />
-                <Info label="Kilometer" value={`${paymentTotals.thisMonth?.kilometers ?? 0} km`} />
-                <Info label="Einkommen Service" value={`${paymentTotals.thisMonth?.serviceCost ?? 0} CHF`} />
-                <Info label="Einkommen Fahrt" value={`${paymentTotals.thisMonth?.travelCost ?? 0} CHF`} />
-                <div className="flex justify-between bg-[#04436F] text-white px-4 py-2 rounded-lg">
-                  <span>Gesamt</span>
-                  <span>{paymentTotals.thisMonth?.total ?? 0} CHF</span>
-                </div>
-              </div>
-            ) : <p className="text-sm text-gray-500">Keine Zahlungen berechnet.</p>}
-          </Card>
+        <Card title="💰 Gesamtzahlung">
+  {paymentTotals ? (
+    <div className="space-y-4">
+      <Info label="Service-Stunden" value={`${paymentTotals.thisMonth?.serviceHours ?? 0} Std`} />
+      <Info label="Kilometer" value={`${paymentTotals.thisMonth?.kilometers ?? 0} km`} />
+      <Info label="Einkommen Service" value={`${paymentTotals.thisMonth?.serviceCost ?? 0} CHF`} />
+      <Info label="Einkommen Fahrt" value={`${paymentTotals.thisMonth?.travelCost ?? 0} CHF`} />
+      <div className="flex justify-between bg-[#04436F] text-white px-4 py-2 rounded-lg">
+        <span>Gesamt</span>
+        <span>{paymentTotals.thisMonth?.total ?? 0} CHF</span>
+      </div>
+    </div>
+  ) : (
+    <p className="text-sm text-gray-500">Keine Zahlungen berechnet.</p>
+  )}
+</Card>
+<Card title="📅 Meine Einsätze">
+  <EmployeeScheduleList
+    email={employeeData.email}
+    onUpdate={() => {
+      // refresh totals when hours/km change
+      fetch("/api/employee/total-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: employeeData.email }),
+      })
+        .then((res) => res.json())
+        .then((totals) => setPaymentTotals(totals));
+    }}
+  />
+</Card>
+
+
+
           <Card title="📅 Verfügbarkeit">
             <Info label="Ab" value={new Date(employeeData.availabilityFrom).toLocaleDateString()} />
             <Info label="Tage" value={employeeData.availabilityDays?.join(", ") || "—"} />
             <Info label="Stunden/Woche" value={employeeData.desiredWeeklyHours || "—"} />
           </Card>
-          <Card title="🧰 Services">
-            {employeeData.servicesOffered?.length ? employeeData.servicesOffered.map((s, i) => <p key={i} className="text-sm">{s}</p>) : "—"}
-          </Card>
-          <Card title="📥 Neue Zuweisungen">
-            {pendingAssignments.length === 0 ? <p className="text-sm text-gray-500">Keine neuen Zuweisungen.</p> : pendingAssignments.map((a) => (
-              <div key={a.id} className="border p-3 rounded mb-3">
-                <p><strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}</p>
-                <p><strong>Email:</strong> {a.user.email}</p>
-                <div className="mt-2 flex space-x-2">
-<div className="flex space-x-2 mt-4">
-  <button
-    onClick={() => sendDocument(employee, "Auflösungschreiben")}
-    className="bg-blue-600 text-white px-4 py-2 rounded"
-  >
-    Auflösungsschreiben
-  </button>
-  <button
-    onClick={() => sendDocument(employee, "KündigungMA")}
-    className="bg-yellow-600 text-white px-4 py-2 rounded"
-  >
-    Kündigung (fristgerecht)
-  </button>
-  <button
-    onClick={() => sendDocument(employee, "KündigungMAFristlos")}
-    className="bg-red-600 text-white px-4 py-2 rounded"
-  >
-    Kündigung (fristlos)
-  </button>
-</div>
+ 
+     <Card title="📥 Neue Zuweisungen">
+  {pendingAssignments.length === 0 ? (
+    <p className="text-sm text-gray-500">Keine neuen Zuweisungen.</p>
+  ) : (
+    pendingAssignments.map((a) => (
+      <div key={a.id} className="border p-3 rounded mb-3">
+        <p>
+          <strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}
+        </p>
+        <p>
+          <strong>Email:</strong> {a.user.email}
+        </p>
 
-                  <button onClick={() => handleAssignmentAction(a.id, "rejected")} className="bg-red-600 text-white px-3 py-1 rounded">Ablehnen</button>
-                </div>
-              </div>
-            ))}
-          </Card>
+        <div className="mt-4 flex space-x-2">
+         <button
+  onClick={() => handleAssignmentAction(a.id, "confirmed")}
+  className="bg-green-600 text-white px-3 py-1 rounded"
+>
+  Annehmen
+</button>
+
+<button
+  onClick={() => handleAssignmentAction(a.id, "rejected")}
+  className="bg-red-600 text-white px-3 py-1 rounded"
+>
+  Ablehnen
+</button>
+        </div>
+      </div>
+    ))
+  )}
+</Card>
+<Card title="✅ Bestätigte Zuweisungen">
+  <AssignmentsList confirmedAssignments={confirmedAssignments} />
+</Card>
+
+
           <Card title="🚫 Abgelehnte Zuweisungen">
             {rejectedAssignments.length === 0 ? <p className="text-sm text-gray-500">Keine abgelehnten Zuweisungen.</p> : rejectedAssignments.map((a) => (
               <div key={a.id} className="border p-3 rounded mb-2">

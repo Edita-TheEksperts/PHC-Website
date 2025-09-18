@@ -1,10 +1,11 @@
+// components/EmployeeScheduleList.jsx
 import { useEffect, useState } from "react";
 
-export default function EmployeeScheduleList({ email }) {
+export default function EmployeeScheduleList({ email, onUpdate }) {
   const [employeeId, setEmployeeId] = useState(null);
   const [schedules, setSchedules] = useState([]);
 
-  // Step 1: get employeeId by email
+  // get employeeId
   useEffect(() => {
     async function fetchEmployee() {
       const res = await fetch(`/api/auth/getEmployeeId?email=${email}`);
@@ -14,7 +15,7 @@ export default function EmployeeScheduleList({ email }) {
     if (email) fetchEmployee();
   }, [email]);
 
-  // Step 2: fetch schedules
+  // get schedules
   useEffect(() => {
     async function fetchSchedules() {
       if (!employeeId) return;
@@ -25,43 +26,48 @@ export default function EmployeeScheduleList({ email }) {
     fetchSchedules();
   }, [employeeId]);
 
-  return (
-    <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-      <h2 className="text-2xl font-semibold text-[#04436F] mb-6">
-        Meine Einsätze
-      </h2>
+  // update schedule
+  async function handleUpdate(id, data) {
+    await fetch(`/api/schedule/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    // reload schedules
+    const res = await fetch(`/api/employee/schedules?employeeId=${employeeId}`);
+    setSchedules(await res.json());
+    // notify parent to refresh totals
+    if (onUpdate) onUpdate();
+  }
 
+  return (
+    <section className="bg-whitep-2 rounded-2xl ">
       {schedules.length > 0 ? (
         <ul className="space-y-3">
           {schedules.map((s) => (
-            <li
-              key={s.id}
-              className="flex justify-between items-center border p-4 rounded-lg"
-            >
+            <li key={s.id} className="flex justify-between items-center border p-4 rounded-lg">
               <div>
                 <p className="font-medium">
-                  {s.day} – {s.startTime} – {s.hours} Std
+                  {s.day} – {s.startTime}
                 </p>
+                <p className="text-sm text-gray-500">
+                  {s.hours} Std – {s.kilometers ?? 0} km
+                </p>
+              </div>
 
-                {/* Client info */}
-                {s.user ? (
-                  <p className="text-sm text-gray-500">
-                    Kunde: {s.user.firstName} {s.user.lastName}
-                  </p>
-                ) : (
-                  <p className="text-sm text-gray-500">Kein Kunde zugeordnet</p>
-                )}
-
-                {/* Employee info */}
-                {s.employee ? (
-                  <p className="text-sm text-gray-400">
-                    Mitarbeiter: {s.employee.firstName} {s.employee.lastName}
-                  </p>
-                ) : (
-                  <p className="text-sm text-gray-400">
-                    Kein Mitarbeiter zugeordnet
-                  </p>
-                )}
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  defaultValue={s.hours}
+                  className="border px-2 py-1 rounded w-20 text-sm"
+                  onBlur={(e) => handleUpdate(s.id, { hours: parseInt(e.target.value) })}
+                />
+                <input
+                  type="number"
+                  defaultValue={s.kilometers ?? 0}
+                  className="border px-2 py-1 rounded w-20 text-sm"
+                  onBlur={(e) => handleUpdate(s.id, { kilometers: parseInt(e.target.value) })}
+                />
               </div>
             </li>
           ))}
