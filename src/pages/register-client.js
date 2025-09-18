@@ -2322,11 +2322,11 @@ useEffect(() => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                       <div className="mb-2">
                         <label className="block font-medium mb-1">
-                          Adresse & Hausnummer
+                          Adresse
                         </label>
                         <input
                           name="street"
-                          placeholder="Adresse & Hausnummer"
+                          placeholder="Adresse"
                           onChange={handleChange}
                           value={form.address || ""}
                           className={inputClass}
@@ -2483,7 +2483,13 @@ useEffect(() => {
                     </div>
                   </div>
                 </div>
-
+<div className="mb-2">
+  <h2 className="text-xl font-bold mb-2">Fragebogen</h2>
+  <p className="text-gray-700">
+    Mit Angabe folgender Informationen können wir unsere Dienstleistung noch 
+    individueller für Sie gestalten. Wir freuen uns auf Ihre Bedürfnisse einzugehen.
+  </p>
+</div>
                 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
                   {/* Main Section Title */}
                   <h2 className="font-bold text-[20px] mb-6">
@@ -2513,29 +2519,6 @@ useEffect(() => {
                         </label>
                       ))}
                     </div>
-                  </div>
-
-                  {/* Transportmittel Auswahl */}
-                  <div className="mb-6">
-                    <label className="block font-medium mb-2">
-                      Transportmittel
-                    </label>
-                    <select
-                      name="transportOption"
-                      value={form.transportOption || ""}
-                      onChange={handleChange}
-                      className="bg-white border border-gray-300 rounded-md p-3 w-full"
-                    >
-                      <option value="">Bitte wählen</option>
-                      <option value="Eigenes Auto">Eigenes Auto</option>
-                      <option value="Fahrzeug durch Mitarbeitende">
-                        Fahrzeug durch Mitarbeitende (CHF 1.--/km)
-                      </option>
-                      <option value="Öffentliche Verkehrsmittel">
-                        Öffentliche Verkehrsmittel (Kosten übernimmt Kunde)
-                      </option>
-                      <option value="Taxi">Taxi</option>
-                    </select>
                   </div>
 
                   {/* 🔹 Begleitung zu Terminen */}
@@ -2594,7 +2577,7 @@ useEffect(() => {
                   {/* Begleitung durch Kunde */}
                   <div className="mb-4">
                     <label className="block font-medium mb-1">
-                      Begleitung durch Kunde?
+                      Begleitung durch die PHC?
                     </label>
                     <select
                       name="shoppingWithClient"
@@ -2920,26 +2903,30 @@ useEffect(() => {
 
                   {/* 🔹 Kommunikation */}
                   <h3 className="block  font-medium mb-1">Kommunikation</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    {["Sehen", "Hören", "Sprechen"].map((field) => (
-                      <select
-                        key={field}
-                        name={field}
-                        value={form[field] || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      >
-                        <option value="">
-                          {field.charAt(0).toUpperCase() + field.slice(1)}...
-                        </option>
-                        <option value="Keine Probleme">Keine Probleme</option>
-                        <option value="Eingeschränkt">Eingeschränkt</option>
-                        <option value="Nahezu blind/taub">
-                          Nahezu blind/taub
-                        </option>
-                      </select>
-                    ))}
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  {["Sehen", "Hören", "Sprechen"].map((field) => (
+    <div key={field} className="flex flex-col">
+      <label htmlFor={field} className="inline-flex items-center gap-2 text-sm text-gray-800">
+        {field}
+      </label>
+      <select
+        id={field}
+        name={field}
+        value={form[field] || ""}
+        onChange={handleChange}
+        className={inputClass}
+      >
+        <option value="">
+          {field.charAt(0).toUpperCase() + field.slice(1)}...
+        </option>
+        <option value="Keine Probleme">Keine Probleme</option>
+        <option value="Eingeschränkt">Eingeschränkt</option>
+        <option value="Nahezu blind/taub">Nahezu blind/taub</option>
+      </select>
+    </div>
+  ))}
+</div>
+
 
                   {/* 🔹 Nahrungsaufnahme */}
                   <h3 className="block  font-medium mb-1">Nahrungsaufnahme</h3>
