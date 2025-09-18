@@ -1439,78 +1439,36 @@ const handlePayment = async () => {
                   </div>
                 )}
 
-<div className="mt-8 mb-8 w-[300px] max-w-full">
-  <label className="block mb-2 font-medium">
-    Beginndatum auswählen
-  </label>
+  <div className='mt-8 mb-8 w-[300px] max-w-full'>
+  <label className="block mb-2 font-medium">Beginndatum auswählen</label>
+<DatePicker
+  selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
+onChange={(date) => {
+  if (!date) {
+    setForm({ ...form, firstDate: "" }); // Clear the date in the form
+  } else {
+    const formatted = format(date, "dd.MM.yyyy");
+    setForm({ ...form, firstDate: formatted });
+  }
+}}
 
-  <DatePicker
-    selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
-    onChange={(date) => {
-      if (!date) {
-        setForm({ ...form, firstDate: "" });
-        setDateError("");
-        return;
-      }
+  dateFormat="dd.MM.yyyy"
+  locale={de}
+  placeholderText="TT.MM.JJJJ"
+  minDate={tenDaysFromToday} 
+  className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+  calendarClassName="rounded-xl shadow-lg border border-gray-300"
+  wrapperClassName="w-full"
+    disabled={form.frequency === "monatlich" && form.monthlyMode === "date"} // 👈 disables only when auto-date set
 
-      const today = new Date();
-      const minAllowed = new Date();
-      minAllowed.setDate(today.getDate() + 15); // mindestens 15 Tage später
-
-      // Abstand in Tagen berechnen
-      const diffDays = Math.floor(
-        (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-      );
-
-      // ❌ Wenn manuell ein zu frühes Datum eingegeben wird
-      if (date < minAllowed) {
-        setForm({ ...form, firstDate: "" });
-        setDateError(
-          `❌ Bitte wählen Sie ein Datum mindestens 15 Tage nach dem heutigen Tag (Sie haben nur ${diffDays} Tage gewählt).`
-        );
-        return;
-      }
-
-      // ✅ gültig → speichern
-      const formatted = format(date, "dd.MM.yyyy", { locale: de });
-      const weekday = format(date, "EEEE", { locale: de });
-
-      const updatedSchedules = [...form.schedules];
-      if (updatedSchedules.length > 0) {
-        updatedSchedules[0].day = weekday;
-      }
-
-      setForm({
-        ...form,
-        firstDate: formatted,
-        schedules: updatedSchedules,
-      });
-
-      setDateError(""); // kein Fehler wenn gültig
-    }}
-    dateFormat="dd.MM.yyyy"
-    locale={de}
-    placeholderText="TT.MM.JJJJ"
-    minDate={(() => {
-      const d = new Date();
-      d.setDate(d.getDate() + 15); // Kalender blockiert alles vor +15
-      return d;
-    })()}
-    className={`w-full px-5 py-4 border rounded-xl text-base focus:outline-none focus:ring-2 ${
-      dateError
-        ? "border-red-500 focus:ring-red-500"
-        : "border-gray-300 focus:ring-[#B99B5F]"
-    }`}
-    calendarClassName="rounded-xl shadow-lg border border-gray-300"
-    wrapperClassName="w-full"
-    disabled={form.frequency === "monatlich" && form.monthlyMode === "date"}
-  />
-
-  {/* ❌ Fehleranzeige direkt unter Input */}
-  {dateError && (
-    <p className="text-red-600 text-sm mt-2">{dateError}</p>
-  )}
+/>
+  <p className="mt-2 text-sm text-gray-500">
+    Es sind nur Termine ab 14 Tagen im Voraus möglich.
+  </p>
 </div>
+
+
+
 
 
                 {form.frequency !== "Einmal" && (
