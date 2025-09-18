@@ -1384,16 +1384,26 @@ Stornieren
                     { name: "lastName", label: "Nachname", type: "text" },
                     { name: "email", label: "E-Mail Adresse", type: "email" },
                     { name: "phone", label: "Telefonnummer", type: "tel" },
-                    {
-                      name: "emergencyContactName",
-                      label: "Notfallkontakt Name",
-                      type: "text",
-                    },
-                    {
-                      name: "emergencyContactPhone",
-                      label: "Notfallkontakt Telefon",
-                      type: "tel",
-                    },
+  {
+    name: "requestFirstName",
+    label: "Vorname",
+    type: "text",
+  },
+  {
+    name: "requestLastName",
+    label: "Nachname",
+    type: "text",
+  },
+  {
+    name: "requestPhone",
+    label: "Telefonnummer",
+    type: "tel",
+  },
+  {
+    name: "requestEmail",
+    label: "Email",
+    type: "email",
+  },
                   ].map(({ name, label, type }) => (
                     <div key={name} className="flex flex-col gap-1">
                       <label

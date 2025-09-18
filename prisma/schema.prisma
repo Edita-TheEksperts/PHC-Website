@@ -190,8 +190,10 @@ model User {
   subServices             SubService[]  @relation("UserSubServices")
     activityLogs ActivityLog[] @relation("UserActivityLogs")
       salesforceId   String?   
-
-
+requestFirstName String?
+requestLastName  String?
+requestPhone String?
+requestEmail String?
 }
 
 model Reminder {
