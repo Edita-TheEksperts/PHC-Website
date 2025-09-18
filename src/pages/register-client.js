@@ -1445,11 +1445,23 @@ const handlePayment = async () => {
   selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
 onChange={(date) => {
   if (!date) {
-    setForm({ ...form, firstDate: "" }); // Clear the date in the form
-  } else {
-    const formatted = format(date, "dd.MM.yyyy");
-    setForm({ ...form, firstDate: formatted });
+    setForm({ ...form, firstDate: "" });
+    return;
   }
+
+  const formatted = format(date, "dd.MM.yyyy", { locale: de });
+  const weekday = format(date, "EEEE", { locale: de }); // 👈 declare first
+
+  const updatedSchedules = [...form.schedules];
+  if (updatedSchedules.length > 0) {
+    updatedSchedules[0].day = weekday; // 👈 then use it
+  }
+
+  setForm({
+    ...form,
+    firstDate: formatted,
+    schedules: updatedSchedules,
+  });
 }}
 
   dateFormat="dd.MM.yyyy"
