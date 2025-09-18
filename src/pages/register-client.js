@@ -1174,7 +1174,7 @@ useEffect(() => {
       }
     }
   }, [form.fixedDayOfMonth, form.frequency, form.monthlyMode]);
-
+const [dateError, setDateError] = useState("");
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -1184,6 +1184,20 @@ useEffect(() => {
 
   const [agbAccepted, setAgbAccepted] = useState(false);
   const [agbError, setAgbError] = useState("");
+const [isPaying, setIsPaying] = useState(false);
+const handlePayment = async () => {
+  try {
+    setIsPaying(true); // ✅ Popup starten
+    // ⬇️ hier dein Stripe-Bezahl-Call
+    await confirmPayment(); 
+    // ...
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setIsPaying(false); // ❌ Popup wieder schließen
+  }
+};
+
 
   function onSubmit(e) {
     e.preventDefault();
@@ -1426,30 +1440,61 @@ useEffect(() => {
                   <label className="block mb-2 font-medium">
                     Beginndatum auswählen
                   </label>
-                  <DatePicker
-                    selected={
-                      form.firstDate ? parseSwissDate(form.firstDate) : null
-                    }
-                    onChange={(date) => {
-                      if (!date) {
-                        setForm({ ...form, firstDate: "" }); // Clear the date in the form
-                      } else {
-                        const formatted = format(date, "dd.MM.yyyy");
-                        setForm({ ...form, firstDate: formatted });
-                      }
-                    }}
-                    dateFormat="dd.MM.yyyy"
-                    locale={de}
-                    placeholderText="TT.MM.JJJJ"
-                    minDate={tenDaysFromToday}
-                    className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-                    calendarClassName="rounded-xl shadow-lg border border-gray-300"
-                    wrapperClassName="w-full"
-                    disabled={
-                      form.frequency === "monatlich" &&
-                      form.monthlyMode === "date"
-                    } // 👈 disables only when auto-date set
-                  />
+
+<DatePicker
+  selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
+  onChange={(date) => {
+    if (!date) {
+      setForm({ ...form, firstDate: "" });
+      setDateError("");
+      return;
+    }
+
+    const today = new Date();
+    const minAllowed = new Date();
+    minAllowed.setDate(today.getDate() + 14); // frühestens ab heute +14
+
+    if (date < minAllowed) {
+      setForm({ ...form, firstDate: "" });
+      setDateError("❌ Das Datum muss mindestens 14 Tage nach dem heutigen Tag liegen.");
+      return;
+    }
+
+    const formatted = format(date, "dd.MM.yyyy", { locale: de });
+    const weekday = format(date, "EEEE", { locale: de });
+
+    const updatedSchedules = [...form.schedules];
+    if (updatedSchedules.length > 0) {
+      updatedSchedules[0].day = weekday;
+    }
+
+    setForm({
+      ...form,
+      firstDate: formatted,
+      schedules: updatedSchedules,
+    });
+
+    setDateError(""); // kein Fehler wenn gültig
+  }}
+  dateFormat="dd.MM.yyyy"
+  locale={de}
+  placeholderText="TT.MM.JJJJ"
+  minDate={new Date()} // User kann alles auswählen, auch zu früh, aber Fehler wird gezeigt
+  className={`w-full px-5 py-4 border rounded-xl text-base focus:outline-none focus:ring-2 ${
+    dateError
+      ? "border-red-500 focus:ring-red-500"
+      : "border-gray-300 focus:ring-[#B99B5F]"
+  }`}
+  calendarClassName="rounded-xl shadow-lg border border-gray-300"
+  wrapperClassName="w-full"
+  disabled={form.frequency === "monatlich" && form.monthlyMode === "date"}
+/>
+
+{/* Fehlermeldung unterhalb */}
+{dateError && (
+  <p className="text-red-600 text-sm mt-1">{dateError}</p>
+)}
+
                 </div>
 
                 {form.frequency !== "Einmal" && (
@@ -2133,78 +2178,108 @@ useEffect(() => {
             </>
           )}
 
-          {step === 3 && !testMode && (
-            <>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Zahlungsdetails
-              </h2>
-
-              {/* Kreditkartenfeld */}
-              <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
-                <CardElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: "16px",
-                        color: "#1f2937",
-                        fontFamily: "system-ui, sans-serif",
-                        "::placeholder": { color: "#9ca3af" },
-                      },
-                      invalid: { color: "#ef4444" },
-                    },
-                  }}
-                />
-              </div>
-
-              {/* Hinweise */}
-         <div className="mt-4 space-y-2">
-  <p className="text-sm sm:text-base text-gray-600">
-    Alle Zahlungen werden sicher verarbeitet.
-  </p>
-  <p className="text-sm sm:text-base text-gray-600">
-    Ihre Karte wird erst{" "}
-    <span className="font-medium text-gray-800 block sm:inline">
-      24 Stunden nach erfolgter Dienstleistung
-    </span>{" "}
-    belastet.
-  </p>
-</div>
 
 
-              {/* AGB-Checkbox */}
-              <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                <input
-                  type="checkbox"
-                  id="agb"
-                  checked={agbAccepted}
-                  onChange={(e) => {
-                    setAgbAccepted(e.target.checked);
-                    if (e.target.checked) setAgbError("");
-                  }}
-                  className="mt-1 mr-3 w-4 h-4 text-[#B99B5F] border-gray-300 rounded focus:ring-[#B99B5F]"
-                />
-                <label
-                  htmlFor="agb"
-                  className="text-sm text-gray-700 leading-relaxed"
-                >
-                  Ich akzeptiere die{" "}
-                  <a
-                    href="/AVB"
-                    className="text-[#B99B5F] underline font-medium"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    AVB
-                  </a>
-                  .
-                </label>
-              </div>
+{step === 3 && !testMode && (
+  <>
+    <h2 className="text-2xl font-bold text-gray-900 mb-6">
+      Zahlungsdetails
+    </h2>
 
-              {agbError && (
-                <p className="text-red-600 text-sm mt-2">{agbError}</p>
-              )}
-            </>
-          )}
+    {/* Kreditkartenfeld */}
+    <div className="relative p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
+      {cardLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 rounded-xl z-10">
+          <div className="flex flex-col items-center">
+            <svg
+              className="animate-spin h-6 w-6 text-[#B99B5F] mb-2"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8H4z"
+              ></path>
+            </svg>
+            <p className="text-sm text-gray-600">Lade Zahlungsfeld...</p>
+          </div>
+        </div>
+      )}
+
+      <CardElement
+        options={{
+          style: {
+            base: {
+              fontSize: "16px",
+              color: "#1f2937",
+              fontFamily: "system-ui, sans-serif",
+              "::placeholder": { color: "#9ca3af" },
+            },
+            invalid: { color: "#ef4444" },
+          },
+        }}
+        onReady={() => setCardLoading(false)} // ✅ sobald geladen
+      />
+    </div>
+
+    {/* Hinweise */}
+    <div className="mt-4 space-y-2">
+      <p className="text-sm sm:text-base text-gray-600">
+        Alle Zahlungen werden sicher verarbeitet.
+      </p>
+      <p className="text-sm sm:text-base text-gray-600">
+        Ihre Karte wird erst{" "}
+        <span className="font-medium text-gray-800 block sm:inline">
+          24 Stunden nach erfolgter Dienstleistung
+        </span>{" "}
+        belastet.
+      </p>
+    </div>
+
+    {/* AGB-Checkbox */}
+    <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
+      <input
+        type="checkbox"
+        id="agb"
+        checked={agbAccepted}
+        onChange={(e) => {
+          setAgbAccepted(e.target.checked);
+          if (e.target.checked) setAgbError("");
+        }}
+        className="mt-1 mr-3 w-4 h-4 text-[#B99B5F] border-gray-300 rounded focus:ring-[#B99B5F]"
+      />
+      <label
+        htmlFor="agb"
+        className="text-sm text-gray-700 leading-relaxed"
+      >
+        Ich akzeptiere die{" "}
+        <a
+          href="/AVB"
+          className="text-[#B99B5F] underline font-medium"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          AVB
+        </a>
+        .
+      </label>
+    </div>
+
+    {agbError && (
+      <p className="text-red-600 text-sm mt-2">{agbError}</p>
+    )}
+  </>
+)}
 
           {(testMode ? step === 3 : step === 4) && (
             <>
