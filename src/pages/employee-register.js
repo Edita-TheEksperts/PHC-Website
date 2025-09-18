@@ -1,7 +1,8 @@
 
 import { useState } from "react";               // React hook to use component state
 import { useRouter } from "next/router"; 
-import { useEffect } from "react";              // React hook to handle side effects
+import { useEffect } from "react";  
+import { useRef } from "react";            // React hook to handle side effects
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase"; // adjust path based on your structure
 import DateEmployee from "../components/DateEmployee.js"; // Adjust path if needed
@@ -29,6 +30,7 @@ const uploadToFirebase = async (file, userId, label) => {
   const downloadURL = await getDownloadURL(snapshot.ref);
   return downloadURL;
 };
+const [errors, setErrors] = useState({});
 
   // When step changes to 3, show the modal
   useEffect(() => {
@@ -115,6 +117,19 @@ const services = {
     "Vorhänge reinigen",
   ],
 };
+const refs = {
+  availabilityFrom: useRef(null),
+  availabilityDays: useRef(null),
+  servicesOffered: useRef(null),
+  passportFile: useRef(null),
+  cvFile: useRef(null),
+  certificateFile: useRef(null),
+  workPermitFile: useRef(null),
+  drivingLicenceFile: useRef(null),
+  profilePhoto: useRef(null),
+  nightShifts: useRef(null),
+  nightShiftFrequency: useRef(null),   // ✅ add this
+};
 
   const [agbAccepted, setAgbAccepted] = useState(false); // Tracks if user accepted terms
 
@@ -181,62 +196,147 @@ const handleChange = (e) => {
   }));
 };
 
+const validateStep = () => {
+  let newErrors = {};
 
-  const validateStep = () => {
-   switch (step) {
-  case 1: // now Persönliche Informationen
-  return form.email && form.firstName && form.lastName && form.phone && form.address;
-  case 2:
-    return (
-      form.residencePermit &&
-      form.experienceYears &&
-      form.experienceWhere &&
-      form.howFarCanYouTravel
-    );
-case 3:
-  const days = [
-    "Montag", "Dienstag", "Mittwoch", "Donnerstag",
-    "Freitag", "Samstag", "Sonntag"
-  ];
-
-  const hasAvailability = days.some(
-    (day) => form[`available_${day}`] && parseFloat(form[`availabilityHours_${day}`]) > 0
-  );
-
-  // Required documents
-  const requiredFiles = ["passportFile", "cvFile", "certificateFile"];
-
-  // Only add workPermitFile if NOT "CH Pass"
-  if (form.residencePermit !== "CH Pass") {
-    requiredFiles.push("workPermitFile");
+if (step === 1) {
+  if (!form.email) newErrors.email = "E-Mail ist erforderlich.";
+  if (!form.firstName) newErrors.firstName = "Vorname ist erforderlich.";
+  if (!form.lastName) newErrors.lastName = "Nachname ist erforderlich.";
+  if (!form.phone) newErrors.phone = "Telefonnummer ist erforderlich.";
+  if (!form.address) newErrors.address = "Strasse ist erforderlich.";
+  if (!form.houseNumber) newErrors.houseNumber = "Hausnummer ist erforderlich.";
+  if (!form.zipCode) newErrors.zipCode = "PLZ ist erforderlich.";
+  if (!form.city) newErrors.city = "Ort ist erforderlich.";
+  if (!form.canton) newErrors.canton = "Kanton ist erforderlich.";
+  if (!form.country) newErrors.country = "Land ist erforderlich.";
+}
+if (step === 2) {
+  if (!form.residencePermit) {
+    newErrors.residencePermit = "Bitte Aufenthaltsbewilligung wählen.";
+  }
+  if (!form.experienceYears) {
+    newErrors.experienceYears = "Bitte Erfahrung auswählen.";
+  }
+  if (!form.experienceWhere) {
+    newErrors.experienceWhere = "Bitte letzte Anstellung angeben.";
+  }
+  if (!form.hasLicense) {
+    newErrors.hasLicense = "Bitte Führerschein angeben.";
+  }
+  if (form.hasLicense === "ja" && !form.licenseType) {
+    newErrors.licenseType = "Bitte Führerscheintyp auswählen.";
+  }
+  if (!form.hasCar) {
+    newErrors.hasCar = "Bitte Auto-Verfügbarkeit angeben.";
+  }
+  if (form.hasCar === "ja" && !form.carAvailableForWork) {
+    newErrors.carAvailableForWork = "Bitte wählen, ob Auto für Arbeit verfügbar ist.";
+  }
+  if (!form.howFarCanYouTravel) {
+    newErrors.howFarCanYouTravel = "Bitte Umkreis auswählen.";
+  }
+  if (!form.desiredWeeklyHours) {
+    newErrors.desiredWeeklyHours = "Bitte gewünschte Wochenstunden angeben.";
+  }
+  if (!form.smoker) {
+    newErrors.smoker = "Bitte auswählen, ob Sie Raucher sind.";
+  }
+  if (!form.onCallAvailable) {
+    newErrors.onCallAvailable = "Bitte angeben, ob Sie auf Abruf verfügbar sind.";
+  }
+  if (!form.travelSupport) {
+    newErrors.travelSupport = "Bitte angeben, ob Sie Reise- und Ferienbegleitung leisten können.";
+  }
+  if (!form.bodyCareSupport) {
+    newErrors.bodyCareSupport = "Bitte angeben, ob Sie Unterstützung in der Körperpflege leisten.";
   }
 
-  // Only add drivingLicenceFile if hasLicense is "ja"
-  if (form.hasLicense === "ja") {
-    requiredFiles.push("drivingLicenceFile");
+  // ✅ Checkbox groups
+  if (!form.specialTrainings || form.specialTrainings.length === 0) {
+    newErrors.specialTrainings = "Bitte mindestens eine Fortbildung auswählen.";
   }
-
-  // Validate: file must exist and have length > 0
-  const allFilesValid = requiredFiles.every(
-    (key) => form[key] && form[key].length > 0
-  );
-
-  return (
-    form.availabilityDays?.length > 0 &&
-    form.servicesOffered.length > 0 &&
-    form.availabilityFrom &&
-    allFilesValid
-  );
+  if (!form.communicationTraits || form.communicationTraits.length === 0) {
+    newErrors.communicationTraits = "Bitte mindestens eine Eigenschaft auswählen.";
+  }
+  if (!form.languages || form.languages.length === 0) {
+    newErrors.languages = "Bitte mindestens eine Sprache auswählen.";
+  }
+  
+if (!form.worksWithAnimals) {
+  newErrors.worksWithAnimals = "Bitte angeben, ob Sie in einem Haushalt mit Tieren arbeiten können.";
+}
 
 }
 
-  };
+if (step === 3) {
+  if (!form.availabilityFrom) {
+    newErrors.availabilityFrom = "Bitte Startdatum wählen.";
+  }
 
- const handleNext = () => {
+  if (!form.nightShifts) {
+    newErrors.nightShifts = "Bitte auswählen, ob Nachtarbeit möglich ist.";
+  }
 
-  setStepError(""); // clear error
-  setStep((s) => s + 1);
+  if (form.nightShifts === "ja" && !form.nightShiftFrequency) {
+    newErrors.nightShiftFrequency = "Bitte Häufigkeit der Nachtschichten angeben.";
+  }
+
+  if (!form.availabilityDays || form.availabilityDays.length === 0) {
+    newErrors.availabilityDays = "Bitte mindestens einen Tag auswählen.";
+  }
+
+  if (!form.servicesOffered || form.servicesOffered.length === 0) {
+    newErrors.servicesOffered = "Bitte mindestens eine Tätigkeit auswählen.";
+  }
+
+  // File Uploads
+  if (!form.passportFile || form.passportFile.length === 0) {
+    newErrors.passportFile = "Bitte Pass/ID hochladen.";
+  }
+  if (!form.cvFile || form.cvFile.length === 0) {
+    newErrors.cvFile = "Bitte Lebenslauf hochladen.";
+  }
+  if (!form.certificateFile || form.certificateFile.length === 0) {
+    newErrors.certificateFile = "Bitte Zertifikate hochladen.";
+  }
+
+  if (form.residencePermit !== "CH Pass" && (!form.workPermitFile || form.workPermitFile.length === 0)) {
+    newErrors.workPermitFile = "Bitte Arbeitsbewilligung hochladen.";
+  }
+
+  if (form.hasLicense === "ja" && (!form.drivingLicenceFile || form.drivingLicenceFile.length === 0)) {
+    newErrors.drivingLicenceFile = "Bitte Führerschein hochladen.";
+  }
+
+  if (!form.profilePhoto || form.profilePhoto.length === 0) {
+    newErrors.profilePhoto = "Bitte Foto hochladen.";
+  }
+}
+
+
+   setErrors(newErrors);
+
+  if (Object.keys(newErrors).length > 0) {
+    // 👇 Scroll to first error field
+    const firstErrorField = Object.keys(newErrors)[0];
+    const el = document.querySelector(`[name="${firstErrorField}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.focus();
+    }
+    return false;
+  }
+
+  return true;
 };
+
+const handleNext = () => {
+  if (validateStep()) {
+    setStep((s) => s + 1);
+  }
+};
+const specialTrainingsRef = useRef(null);
 
  const [submissionMessage, setSubmissionMessage] = useState("");
 
@@ -395,114 +495,139 @@ useEffect(() => {
             disabled={emailExists}
 
         />
+          {errors.firstName && (
+    <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+  )}
       </div>
-      <div>
-        <label className="block font-medium mb-1">Nachname</label>
-        <input
-          name="lastName"
-          placeholder="Nachname"
-          value={form.lastName}
-          onChange={handleChange}
-          className={inputClass}
-            disabled={emailExists}
+  <div>
+  <label className="block font-medium mb-1">Nachname</label>
+  <input
+    name="lastName"
+    placeholder="Nachname"
+    value={form.lastName}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  />
+  {errors.lastName && (
+    <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+  )}
+</div>
 
-        />
-      </div>
     </div>
 
-    {/* Telefonnummer */}
-    <div className="mt-4">
-      <label className="block font-medium mb-1">Telefonnummer</label>
-      <input
-        name="phone"
-        placeholder="Telefonnummer"
-        value={form.phone}
-        onChange={handleChange}
-        className={inputClass}
-          disabled={emailExists}
+ {/* Telefonnummer */}
+<div className="mt-4">
+  <label className="block font-medium mb-1">Telefonnummer</label>
+  <input
+    name="phone"
+    placeholder="Telefonnummer"
+    value={form.phone}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  />
+  {errors.phone && (
+    <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+  )}
+</div>
 
-      />
-    </div>
 
     {/* Strasse & Hausnummer */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-      <div className="md:col-span-2">
-        <label className="block font-medium mb-1">Strasse</label>
-        <input
-          name="address"
-          placeholder="Strasse"
-          value={form.address}
-          onChange={handleChange}
-          className={inputClass}
-            disabled={emailExists}
+<div className="md:col-span-2">
+  <label className="block font-medium mb-1">Strasse</label>
+  <input
+    name="address"
+    placeholder="Strasse"
+    value={form.address}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  />
+  {errors.address && (
+    <p className="text-red-600 text-sm mt-1">{errors.address}</p>
+  )}
+</div>
+<div>
+  <label className="block font-medium mb-1">Hausnummer</label>
+  <input
+    name="houseNumber"
+    placeholder="Hausnummer"
+    value={form.houseNumber || ""}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  />
+  {errors.houseNumber && (
+    <p className="text-red-600 text-sm mt-1">{errors.houseNumber}</p>
+  )}
+</div>
 
-        />
-      </div>
-      <div>
-        <label className="block font-medium mb-1">Hausnummer</label>
-        <input
-          name="houseNumber"
-          placeholder="Hausnummer"
-          value={form.houseNumber || ""}
-          onChange={handleChange}
-          className={inputClass}
-            disabled={emailExists}
-
-        />
-      </div>
     </div>
 
-    {/* PLZ & Ort */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-      <div>
-        <label className="block font-medium mb-1">PLZ</label>
-        <input
-          name="zipCode"
-          placeholder="PLZ"
-          value={form.zipCode || ""}
-          onChange={handleChange}
-          className={inputClass}
-            disabled={emailExists}
+{/* PLZ & Ort */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  <div>
+    <label className="block font-medium mb-1">PLZ</label>
+    <input
+      name="zipCode"
+      placeholder="PLZ"
+      value={form.zipCode || ""}
+      onChange={handleChange}
+      className={inputClass}
+      disabled={emailExists}
+    />
+    {errors.zipCode && (
+      <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>
+    )}
+  </div>
 
-        />
-      </div>
-      <div>
-        <label className="block font-medium mb-1">Ort</label>
-        <input
-          name="city"
-          placeholder="Ort"
-          value={form.city || ""}
-          onChange={handleChange}
-          className={inputClass}
-            disabled={emailExists}
+<div>
+  <label className="block font-medium mb-1">Ort</label>
+  <input
+    name="city"
+    placeholder="Ort"
+    value={form.city || ""}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  />
+  {errors.city && (
+    <p className="text-red-600 text-sm mt-1">{errors.city}</p>
+  )}
+</div>
 
-        />
-      </div>
     </div>
 {/* Kanton & Nationalität in the same row */}
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
   {/* Kanton */}
-  <div>
-    <label className="block font-medium mb-1">Kanton</label>
-    <select
-      name="canton"
-      value={form.canton || ""}
-      onChange={handleChange}
-      className={inputClass}
-      disabled={emailExists}
-    >
-      <option value="">Kanton wählen</option>
-      {[
-        "AG", "AI", "AR", "BE", "BL", "BS", "FR", "GE", "GL",
-        "GR", "JU", "LU", "NE", "NW", "OW", "SG", "SH", "SO",
-        "SZ", "TG", "TI", "UR", "VD", "VS", "ZG", "ZH"
-      ].map((canton) => (
-        <option key={canton} value={canton}>
-          {canton}
-        </option>
-      ))}
-    </select>
-  </div>
+<div>
+  <label className="block font-medium mb-1">Kanton</label>
+  <select
+    name="canton"
+    value={form.canton || ""}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  >
+    <option value="">Kanton wählen</option>
+    {[
+      "AG", "AI", "AR", "BE", "BL", "BS", "FR", "GE", "GL",
+      "GR", "JU", "LU", "NE", "NW", "OW", "SG", "SH", "SO",
+      "SZ", "TG", "TI", "UR", "VD", "VS", "ZG", "ZH"
+    ].map((canton) => (
+      <option key={canton} value={canton}>
+        {canton}
+      </option>
+    ))}
+  </select>
+  {errors.canton && (
+    <p className="text-red-600 text-sm mt-1">{errors.canton}</p>
+  )}
+</div>
+
+
 
   {/* Nationalität */}
   <div>
@@ -544,37 +669,43 @@ useEffect(() => {
 
 
     <h2 className="text-2xl font-bold text-[#04436F] mb-8">Weitere Informationen</h2>
-        <label className="block font-medium mb-1">Aufenthaltsbewilligung</label>
-
-   <select
-  name="residencePermit"
-  value={form.residencePermit}
-  onChange={handleChange}
-  className={inputClass}
->
-  <option value="">Bitte wählen</option>
-  <option value="G">G</option>
-  <option value="L">L</option>
-  <option value="B">B</option>
-  <option value="C">C</option>
-  <option value="CH Pass">CH Pass</option>
-</select>
-
-    <label className="block font-medium mb-1">Wie viele Jahre Erfahrung in der Pflege, Betreuung oder Hauswirtschaft?</label>
-
-    <select
-  name="experienceYears"
-  value={form.experienceYears}
-  onChange={handleChange}
-  className={inputClass}
->
-  <option value="">Bitte wählen</option>
-  <option value="1-2 Jahre">1–2 Jahre</option>
-  <option value="2-5 Jahre">2–5 Jahre</option>
-  <option value="5+ Jahre">Mehr als 5 Jahre</option>
-</select>
-
-   {/* Erfahrung auswählen */}
+         <label className="block font-medium mb-1">Aufenthaltsbewilligung</label>
+  <select
+    name="residencePermit"
+    value={form.residencePermit}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  >
+    <option value="">Bitte wählen</option>
+    <option value="G">G</option>
+    <option value="L">L</option>
+    <option value="B">B</option>
+    <option value="C">C</option>
+    <option value="CH Pass">CH Pass</option>
+  </select>
+  {errors.residencePermit && (
+    <p className="text-red-600 text-sm mt-1">{errors.residencePermit}</p>
+  )}
+    <label className="block font-medium mb-1">
+    Wie viele Jahre Erfahrung in der Pflege, Betreuung oder Hauswirtschaft?
+  </label>
+  <select
+    name="experienceYears"
+    value={form.experienceYears}
+    onChange={handleChange}
+    className={inputClass}
+    disabled={emailExists}
+  >
+    <option value="">Bitte wählen</option>
+    <option value="1-2 Jahre">1–2 Jahre</option>
+    <option value="2-5 Jahre">2–5 Jahre</option>
+    <option value="5+ Jahre">Mehr als 5 Jahre</option>
+  </select>
+  {errors.experienceYears && (
+    <p className="text-red-600 text-sm mt-1">{errors.experienceYears}</p>
+  )}
+  {/* Erfahrung auswählen */}
 <label className="block font-medium mb-1">Letzte Anstellung (Firma)?</label>
 <input
   type="text"
@@ -584,71 +715,94 @@ useEffect(() => {
   onChange={handleChange}
   className={inputClass}
 />
-
+{errors.experienceWhere && (
+  <p className="text-red-600 text-sm mt-1">{errors.experienceWhere}</p>
+)}
 
 {/* Zeige Textfeld nur wenn "Firma" gewählt wurde */}
 {form.experienceWhere === "Firma" && (
-  <input
-    name="experienceCompany"
-    placeholder="Name der Firma"
-    value={form.experienceCompany || ""}
-    onChange={handleChange}
-    className={inputClass}
-  />
+  <>
+    <input
+      name="experienceCompany"
+      placeholder="Name der Firma"
+      value={form.experienceCompany || ""}
+      onChange={handleChange}
+      className={inputClass}
+    />
+    {errors.experienceCompany && (
+      <p className="text-red-600 text-sm mt-1">{errors.experienceCompany}</p>
+    )}
+  </>
+)}
+
+   <label className="block font-medium mb-1">PKW Führerschein vorhanden?</label>
+<select
+  name="hasLicense"
+  value={form.hasLicense}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte auswählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+{errors.hasLicense && (
+  <p className="text-red-600 text-sm mt-1">{errors.hasLicense}</p>
 )}
 
 
-    <label className="block font-medium mb-1">PKW Führerschein vorhanden?</label>
-    <select
-      name="hasLicense"
-      value={form.hasLicense}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte auswählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
-
     {form.hasLicense === "ja" && (
       <>
-        <label className="block font-medium mb-1">Fahrzeugtyp</label>
-        <select
-          name="licenseType"
-          value={form.licenseType || ""}
-          onChange={handleChange}
-          className={inputClass}
-        >
-          <option value="">Bitte wählen</option>
-          <option value="Automat">Automat</option>
-          <option value="Manuell">Manuell</option>
-        </select>
+<label className="block font-medium mb-1">Fahrzeugtyp</label>
+<select
+  name="licenseType"
+  value={form.licenseType || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="Automat">Automat</option>
+  <option value="Manuell">Manuell</option>
+</select>
+{errors.licenseType && (
+  <p className="text-red-600 text-sm mt-1">{errors.licenseType}</p>
+)}
 
         <label className="block font-medium mb-1">Eigenes Auto vorhanden?</label>
-        <select
-          name="hasCar"
-          value={form.hasCar || ""}
-          onChange={handleChange}
-          className={inputClass}
-        >
-          <option value="">Bitte wählen</option>
-          <option value="ja">Ja</option>
-          <option value="nein">Nein</option>
-        </select>
+      <select
+  name="hasCar"
+  value={form.hasCar || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+{errors.hasCar && (
+  <p className="text-red-600 text-sm mt-1">{errors.hasCar}</p>
+)}
+
 
         {form.hasCar === "ja" && (
           <>
-            <label className="block font-medium mb-1">Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung), exklusiv Arbeitsweg</label>
-            <select
-              name="carAvailableForWork"
-              value={form.carAvailableForWork || ""}
-              onChange={handleChange}
-              className={inputClass}
-            >
-              <option value="">Bitte wählen</option>
-              <option value="ja">Ja</option>
-              <option value="nein">Nein</option>
-            </select>
+          <label className="block font-medium mb-1">
+  Fahrzeug für Einsätze bereitstellen? (CHF 1.00/km Vergütung), exklusiv Arbeitsweg
+</label>
+<select
+  name="carAvailableForWork"
+  value={form.carAvailableForWork || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+{errors.carAvailableForWork && (
+  <p className="text-red-600 text-sm mt-1">{errors.carAvailableForWork}</p>
+)}
+
           </>
         )}
       </>
@@ -666,40 +820,48 @@ useEffect(() => {
   <option value="15-30km">15–30km</option>
   <option value="30km+">30km+</option>
 </select>
+{errors.howFarCanYouTravel && (
+  <p className="text-red-600 text-sm mt-1">{errors.howFarCanYouTravel}</p>
+)}
 
+<label className="block font-medium mb-1">Wie viele Stunden pro Woche möchten Sie arbeiten?</label>
+<select
+  name="desiredWeeklyHours"
+  value={form.desiredWeeklyHours || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="42">42 Std / 5 Tage / 100%</option>
+  <option value="33.6">33.6 Std / 4 Tage / 80%</option>
+  <option value="25.2">25.2 Std / 3 Tage / 60%</option>
+  <option value="16.8">16.8 Std / 2 Tage / 40%</option>
+  <option value="8.4">8.4 Std / 1 Tag / 20%</option>
+  <option value="4.2">4.2 Std / 0.5 Tage / 10%</option>
+</select>
+{errors.desiredWeeklyHours && (
+  <p className="text-red-600 text-sm mt-1">{errors.desiredWeeklyHours}</p>
+)}
 
-    <label className="block font-medium mb-1">Wie viele Stunden pro Woche möchten Sie arbeiten?</label>
-    <select
-      name="desiredWeeklyHours"
-      value={form.desiredWeeklyHours || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="42">42 Std / 5 Tage / 100%</option>
-      <option value="33.6">33.6 Std / 4 Tage / 80%</option>
-      <option value="25.2">25.2 Std / 3 Tage / 60%</option>
-      <option value="16.8">16.8 Std / 2 Tage / 40%</option>
-      <option value="8.4">8.4 Std / 1 Tag / 20%</option>
-      <option value="4.2">4.2 Std / 0.5 Tage / 10%</option>
-    </select>
-
-    <label className="block font-medium mb-1">Rauchen Sie?</label>
-    <select
-      name="smoker"
-      value={form.smoker || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
+<label className="block font-medium mb-1">Rauchen Sie?</label>
+<select
+  name="smoker"
+  value={form.smoker || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+{errors.smoker && (
+  <p className="text-red-600 text-sm mt-1">{errors.smoker}</p>
+)}
 
 <label className="block font-medium mb-1">
   Kurzfristige Einsätze möglich? <br />
   <span className="text-sm font-normal text-gray-600">
-    (z. B. spontane Einsätze, Springerfunktion, Bereitschafts- oder Pikettdienst)
+    (z. B. spontane Einsätze, Springerfunktion, Bereitschafts- oder Pikettdienst)
   </span>
 </label>
 <select
@@ -712,13 +874,20 @@ useEffect(() => {
   <option value="ja">Ja</option>
   <option value="nein">Nein</option>
 </select>
+{errors.onCallAvailable && (
+  <p className="text-red-600 text-sm mt-1">{errors.onCallAvailable}</p>
+)}
 
-
-    <label className="block font-medium mb-1">Fortbildungen</label>
+<label className="block font-medium mb-1">Fortbildungen</label>
 <div className="flex flex-wrap gap-4 mb-6">
-  {["Demenzbetreuung", "Palliativbetreuung","Haushälterische Funktionen",
+  {[
+    "Demenzbetreuung",
+    "Palliativbetreuung",
+    "Haushälterische Funktionen",
     "Kochkurs",
-    "Nothelferkurs", "Andere"].map((option) => (
+    "Nothelferkurs",
+    "Andere"
+  ].map((option) => (
     <label key={option} className="flex items-center space-x-2">
       <input
         type="checkbox"
@@ -735,7 +904,6 @@ useEffect(() => {
             let updated = prev.specialTrainings || [];
 
             if (option === "Andere") {
-              // Remove existing "Andere" value
               updated = updated.filter((v) => !v.startsWith("Andere:"));
               if (isChecked) {
                 updated.push("Andere:");
@@ -753,7 +921,7 @@ useEffect(() => {
       />
       <span>{option}</span>
 
-      {/* 🟡 Render free-text input only if "Andere" is selected */}
+      {/* 🟡 Show text input only if "Andere" is selected */}
       {option === "Andere" &&
         form.specialTrainings?.some((v) => v.startsWith("Andere:")) && (
           <input
@@ -781,18 +949,28 @@ useEffect(() => {
   ))}
 </div>
 
+{errors.specialTrainings && (
+  <p className="text-red-600 text-sm mt-1">{errors.specialTrainings}</p>
+)}
 
 
-    <label className="block font-medium mb-1">Kommunikationsfähigkeit & Empathie</label>
+
+  <label className="block font-medium mb-1">Kommunikationsfähigkeit & Empathie</label>
 <div className="flex flex-wrap gap-4 mb-6">
-  {["Kommunikativ", "Ruhig", "Fröhlich", "Geduldig" ,   "Humorvoll",
+  {[
+    "Kommunikativ",
+    "Ruhig",
+    "Fröhlich",
+    "Geduldig",
+    "Humorvoll",
     "Energisch",
     "Freundlich",
     "Unkompliziert",
     "Durchsetzungsfähig",
     "Naturverbunden",
     "Zurückhaltend",
-    "Eigenverantwortlich"].map((trait) => (
+    "Eigenverantwortlich"
+  ].map((trait) => (
     <label key={trait} className="flex items-center space-x-2">
       <input
         type="checkbox"
@@ -817,7 +995,12 @@ useEffect(() => {
   ))}
 </div>
 
-    <label className="block font-medium mb-1">Sprachen</label>
+{errors.communicationTraits && (
+  <p className="text-red-600 text-sm mt-1">{errors.communicationTraits}</p>
+)}
+
+
+<label className="block font-medium mb-1">Sprachen</label>
 <div className="flex flex-wrap gap-4 mb-6">
   {["CH-Deutsch", "Deutsch", "Englisch", "Französisch", "Italienisch"].map((lang) => (
     <label key={lang} className="flex items-center space-x-2">
@@ -849,49 +1032,72 @@ useEffect(() => {
   placeholder="Weitere Sprachen:"
   value={form.languageOther || ""}
   onChange={handleChange}
-  className={inputClass + "mt-[-4px]"}
+  className={inputClass + " mt-[-4px]"}
 />
 
+{errors.languages && (
+  <p className="text-red-600 text-sm mt-1">{errors.languages}</p>
+)}
+
+<label className="block font-medium mb-1">
+  Reisen- und Ferienbegleitung möglich?
+</label>
+<select
+  name="travelSupport"
+  value={form.travelSupport || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+
+{errors.travelSupport && (
+  <p className="text-red-600 text-sm mt-1">{errors.travelSupport}</p>
+)}
 
 
-    <label className="block font-medium mb-1">Reisen- und Ferienbegleitung möglich?</label>
-    <select
-      name="travelSupport"
-      value={form.travelSupport || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
 
-    <label className="block font-medium mb-1">Sind Sie bereit dazu Unterstützung in der Körperpflege zu leisten? (Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)</label>
-    <select
-      name="bodyCareSupport"
-      value={form.bodyCareSupport || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
+  <label className="block font-medium mb-1">
+  Sind Sie bereit dazu Unterstützung in der Körperpflege zu leisten? (Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)
+</label>
+<select
+  name="bodyCareSupport"
+  value={form.bodyCareSupport || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+
+{errors.bodyCareSupport && (
+  <p className="text-red-600 text-sm mt-1">{errors.bodyCareSupport}</p>
+)}
+
 
   
 
-    <label className="block font-medium mb-1">Können Sie in einem Haushalt mit Tieren arbeiten?
+<label className="block font-medium mb-1">
+  Können Sie in einem Haushalt mit Tieren arbeiten?
 </label>
-    <select
-      name="worksWithAnimals"
-      value={form.worksWithAnimals || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
+<select
+  name="worksWithAnimals"
+  value={form.worksWithAnimals || ""}
+  onChange={handleChange}
+  className={inputClass}
+>
+  <option value="">Bitte wählen</option>
+  <option value="ja">Ja</option>
+  <option value="nein">Nein</option>
+</select>
+
+{errors.worksWithAnimals && (
+  <p className="text-red-600 text-sm mt-1">{errors.worksWithAnimals}</p>
+)}
+
   </>
 )}
 
@@ -910,41 +1116,59 @@ useEffect(() => {
     onChange={handleChange}
     className={inputClass}
   />
+  {errors.availabilityFrom && (
+    <p className="text-red-600 text-sm mt-1">{errors.availabilityFrom}</p>
+  )}
 </div>
-<label className="block font-medium mb-1">Nachtarbeit möglich? (23.00 Uhr bis 06.00 Uhr)</label>
-<select
-  name="nightShifts"
-  value={form.nightShifts || ""}
-  onChange={handleChange}
-  className={inputClass + " mb-2"}
->
-  <option value="">Bitte wählen</option>
-  <option value="ja">Ja</option>
-  <option value="nein">Nein</option>
-</select>
-<label className="block font-medium mb-1">Häufigkeit der Nachtschichten (z. B. 1x/Woche)</label>
-<select
-  name="nightShiftFrequency"
-  value={form.nightShiftFrequency || ""}
-  onChange={handleChange}
-  className={inputClass}
->
-  <option value="">Bitte wählen</option>
-  <option value="1x/Woche">1x/Woche</option>
-  <option value="2x/Woche">2x/Woche</option>
-  <option value="3x/Woche">3x/Woche</option>
-  <option value="4x/Woche">4x/Woche</option>
-  <option value="5x/Woche">5x/Woche</option>
-  <option value="6x/Woche">6x/Woche</option>
-  <option value="7x/Woche">7x/Woche</option>
-</select>
 
+<div className="mb-2">
+  <label className="block font-medium mb-1">
+    Nachtarbeit möglich? (23.00 Uhr bis 06.00 Uhr)
+  </label>
+  <select
+    name="nightShifts"
+    value={form.nightShifts || ""}
+    onChange={handleChange}
+    className={inputClass}
+  >
+    <option value="">Bitte wählen</option>
+    <option value="ja">Ja</option>
+    <option value="nein">Nein</option>
+  </select>
+  {errors.nightShifts && (
+    <p className="text-red-600 text-sm mt-1">{errors.nightShifts}</p>
+  )}
+</div>
+
+<div className="mb-2">
+  <label className="block font-medium mb-1">
+    Häufigkeit der Nachtschichten (z. B. 1x/Woche)
+  </label>
+  <select
+    name="nightShiftFrequency"
+    value={form.nightShiftFrequency || ""}
+    onChange={handleChange}
+    className={inputClass}
+  >
+    <option value="">Bitte wählen</option>
+    <option value="1x/Woche">1x/Woche</option>
+    <option value="2x/Woche">2x/Woche</option>
+    <option value="3x/Woche">3x/Woche</option>
+    <option value="4x/Woche">4x/Woche</option>
+    <option value="5x/Woche">5x/Woche</option>
+    <option value="6x/Woche">6x/Woche</option>
+    <option value="7x/Woche">7x/Woche</option>
+  </select>
+  {errors.nightShiftFrequency && (
+    <p className="text-red-600 text-sm mt-1">{errors.nightShiftFrequency}</p>
+  )}
+</div>
 
 
     <DateEmployee form={form} setForm={setForm} handleChange={handleChange} />
 
 
-   <div className="space-y-2 mt-6">
+ <div className="space-y-2 mt-6">
   <label className="font-medium mb-1">Welche Tätigkeiten bieten Sie an?</label>
   <div className="flex flex-col gap-4">
     {Object.entries(services).map(([category, subservices]) => (
@@ -979,131 +1203,145 @@ useEffect(() => {
       </div>
     ))}
   </div>
+
+  {/* 🔴 Error message */}
+  {errors.servicesOffered && (
+    <p className="text-red-600 text-sm mt-1">{errors.servicesOffered}</p>
+  )}
 </div>
+
 
 {/* Document Uploads */}
 <div className="mt-6">
-  <h3 className="text-xl font-semibold ">Dokumente hochladen</h3>
+  <h3 className="text-xl font-semibold">Dokumente hochladen</h3>
 
   {/* Upload Field Template */}
-{[
-  { label: "ID oder Reisepass", key: "passportFile", required: true },
-  { label: "Arbeitsbewilligung", key: "workPermitFile", required: true ,hideIfCHPass: true,},
-{ label: "Strafregisterauszug", key: "policeLetterFile", required: false,  hideOptional: true },
-  { label: "Lebenslauf", key: "cvFile", required: true },
-  { label: "Zertifakte/Arbeitszeugnisse", key: "certificateFile", required: true },
-].map((field) => {
-  if (field.hideIfCHPass && form.residencePermit === "CH Pass") return null;
+  {[
+    { label: "ID oder Reisepass", key: "passportFile", required: true },
+    { label: "Arbeitsbewilligung", key: "workPermitFile", required: true, hideIfCHPass: true },
+    { label: "Strafregisterauszug", key: "policeLetterFile", required: false, hideOptional: true },
+    { label: "Lebenslauf", key: "cvFile", required: true },
+    { label: "Zertifakte/Arbeitszeugnisse", key: "certificateFile", required: true },
+  ].map((field) => {
+    if (field.hideIfCHPass && form.residencePermit === "CH Pass") return null;
 
-  return (
-    <div key={field.key}>
-      <label className="block font-medium mb-1 mt-4">
-        {field.label}{" "}
-       {field.required ? (
-  <span className="text-red-500 font-bold">*</span>
-) : field.hideOptional !== true ? (
-  <span className="text-gray-500 text-sm">(optional)</span>
-) : null}
+    return (
+      <div key={field.key}>
+        <label className="block font-medium mb-1 mt-4">
+          {field.label}{" "}
+          {field.required ? (
+            <span className="text-red-500 font-bold">*</span>
+          ) : field.hideOptional !== true ? (
+            <span className="text-gray-500 text-sm">(optional)</span>
+          ) : null}
+        </label>
 
-      </label>
-     {/* Hidden file input */}
-  <input
-    type="file"
-    id={field.key}
-    multiple
-    style={{ display: "none" }}
-    onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
-    required={field.required}
-  />
+        {/* Hidden file input */}
+        <input
+          type="file"
+          id={field.key}
+          multiple
+          style={{ display: "none" }}
+          onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
+          required={field.required}
+        />
 
-  {/* Custom button label */}
-  <label
-    htmlFor={field.key}
-    className=" inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
-  >
-    Dokumente hochladen
-  </label>
+        {/* Custom button label */}
+        <label
+          htmlFor={field.key}
+          className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+        >
+          Dokumente hochladen
+        </label>
 
-  {/* File name display (optional) */}
-  <p className="text-sm text-gray-600 mt-1">
-    {form[field.key]?.length > 0 ? `${form[field.key].length} Datei(en) ausgewählt` : "Keine Datei ausgewählt"}
-  </p>
-    </div>
-  );
-})}
+        {/* File name display */}
+        <p className="text-sm text-gray-600 mt-1">
+          {form[field.key]?.length > 0
+            ? `${form[field.key].length} Datei(en) ausgewählt`
+            : "Keine Datei ausgewählt"}
+        </p>
 
+        {/* 🔴 Error message */}
+        {errors[field.key] && (
+          <p className="text-red-600 text-sm mt-1">{errors[field.key]}</p>
+        )}
+      </div>
+    );
+  })}
 
   {/* Driving Licence – Conditionally Shown */}
-{form.hasLicense === "ja" && (
+  {form.hasLicense === "ja" && (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        Führerschein <span className="text-red-500 font-bold">*</span>
+      </label>
+
+      <input
+        type="file"
+        id="drivingLicenceFile"
+        multiple
+        style={{ display: "none" }}
+        onChange={(e) =>
+          setForm({ ...form, drivingLicenceFile: e.target.files })
+        }
+        required
+      />
+
+      <label
+        htmlFor="drivingLicenceFile"
+        className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+      >
+        Dokumente hochladen
+      </label>
+
+      <p className="text-sm text-gray-600 mt-1">
+        {form.drivingLicenceFile?.length > 0
+          ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
+          : "Keine Datei ausgewählt"}
+      </p>
+
+      {/* 🔴 Error message */}
+      {errors.drivingLicenceFile && (
+        <p className="text-red-600 text-sm mt-1">{errors.drivingLicenceFile}</p>
+      )}
+    </div>
+  )}
+
+  {/* Photo Upload */}
   <div>
     <label className="block text-sm font-medium text-gray-700 mb-1">
-      Führerschein <span className="text-red-500 font-bold">*</span>
+      Foto <span className="text-red-500 font-bold">*</span>
     </label>
 
-    {/* Hidden input */}
     <input
       type="file"
-      id="drivingLicenceFile"
+      id="profilePhoto"
       multiple
       style={{ display: "none" }}
-      onChange={(e) =>
-        setForm({ ...form, drivingLicenceFile: e.target.files })
-      }
+      onChange={(e) => setForm({ ...form, profilePhoto: e.target.files })}
       required
     />
 
-    {/* Custom upload button */}
     <label
-      htmlFor="drivingLicenceFile"
+      htmlFor="profilePhoto"
       className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
     >
       Dokumente hochladen
     </label>
 
-    {/* File status */}
     <p className="text-sm text-gray-600 mt-1">
-      {form.drivingLicenceFile?.length > 0
-        ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
+      {form.profilePhoto?.length > 0
+        ? `${form.profilePhoto.length} Datei(en) ausgewählt`
         : "Keine Datei ausgewählt"}
     </p>
+
+    {/* 🔴 Error message */}
+    {errors.profilePhoto && (
+      <p className="text-red-600 text-sm mt-1">{errors.profilePhoto}</p>
+    )}
   </div>
-)}
-
-{/* Photo Upload */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Foto <span className="text-red-500 font-bold">*</span>
-  </label>
-
-  {/* Hidden input */}
-  <input
-    type="file"
-    id="profilePhoto"
-    multiple
-    style={{ display: "none" }}
-    onChange={(e) =>
-      setForm({ ...form, profilePhoto: e.target.files })
-    }
-    required
-  />
-
-  {/* Custom upload button */}
-  <label
-    htmlFor="profilePhoto"
-    className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
-  >
-    Dokumente hochladen
-  </label>
-
-  {/* File status */}
-  <p className="text-sm text-gray-600 mt-1">
-    {form.profilePhoto?.length > 0
-      ? `${form.profilePhoto.length} Datei(en) ausgewählt`
-      : "Keine Datei ausgewählt"}
-  </p>
 </div>
 
-</div>
 
   <div className="space-y-4 mt-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
   <label   className="text-xl font-semibold mb-1">

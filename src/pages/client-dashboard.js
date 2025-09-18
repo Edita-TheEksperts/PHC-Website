@@ -16,7 +16,9 @@ import {
   Clock,
   Plane,
   AlarmClock,
-  Hourglass, Menu, X
+  Hourglass,
+  Menu,
+  X,
 } from "lucide-react";
 
 import { addDays, format } from "date-fns";
@@ -54,8 +56,8 @@ export default function ClientDashboard() {
   const [targetHours, setTargetHours] = useState([]); // Default target hours for overtime alerts
   const [loading, setLoading] = useState(true);
   const [appointments, setAppointments] = useState([]);
-const [isEditing, setIsEditing] = useState(false);
-const [editData, setEditData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState({});
 
   const [updatedData, setUpdatedData] = useState({});
   const [showAppointments, setShowAppointments] = useState(false);
@@ -67,10 +69,9 @@ const [editData, setEditData] = useState({});
   const [isNotifVisible, setIsNotifVisible] = useState(false);
   const [notifShownOnce, setNotifShownOnce] = useState(false);
   const [filter, setFilter] = useState("cancelled"); // ose "done"
- const [isOpen, setIsOpen] = useState(false); // Mobile menu state
+  const [isOpen, setIsOpen] = useState(false); // Mobile menu state
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
-
 
   const [form, setForm] = useState({
     date: null,
@@ -87,14 +88,14 @@ const [editData, setEditData] = useState({});
   const selectedService =
     allServices.find((srv) => String(srv.id) === String(form.service)) || null;
 
-// --- DEBUG: Track form + services state
-useEffect(() => {}, [allServices]);
+  // --- DEBUG: Track form + services state
+  useEffect(() => {}, [allServices]);
 
-useEffect(() => {}, [form, selectedService]);
+  useEffect(() => {}, [form, selectedService]);
 
-useEffect(() => {}, [appointments]);
+  useEffect(() => {}, [appointments]);
 
-useEffect(() => {}, [vacations]);
+  useEffect(() => {}, [vacations]);
 
   useEffect(() => {
     if (!userData?.id) return;
@@ -104,82 +105,80 @@ useEffect(() => {}, [vacations]);
       .then((data) => setAppointments(data));
   }, [userData]);
 
-const markAsDone = async (id) => {
-  await fetch("/api/appointments", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, update: { captured: true } }),
+  const markAsDone = async (id) => {
+    await fetch("/api/appointments", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, update: { captured: true } }),
+    });
+    setAppointments((prev) =>
+      prev.map((appt) => (appt.id === id ? { ...appt, captured: true } : appt))
+    );
+  };
+  useEffect(() => {
+    if (selectedAppointment) {
+      const d = new Date(selectedAppointment.date);
+      const formatted = d.toISOString().split("T")[0]; // YYYY-MM-DD for <input type="date">
+
+      setEditData({
+        date: formatted,
+        startTime: selectedAppointment.startTime,
+        hours: selectedAppointment.hours,
+        serviceName: selectedAppointment.serviceName,
+        subServiceName: selectedAppointment.subServiceName,
+      });
+    }
+  }, [selectedAppointment]);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming = appointments.filter((a) => {
+    const d = a.date ? new Date(a.date) : null;
+    const isFuture = d ? d >= today : true;
+    return isFuture && !["cancelled", "terminated", "done"].includes(a.status);
   });
-  setAppointments((prev) =>
-    prev.map((appt) => (appt.id === id ? { ...appt, captured: true } : appt))
-  );
-};
-useEffect(() => {
-  if (selectedAppointment) {
-    const d = new Date(selectedAppointment.date);
-    const formatted = d.toISOString().split("T")[0]; // YYYY-MM-DD for <input type="date">
 
-    setEditData({
-      date: formatted,
-      startTime: selectedAppointment.startTime,
-      hours: selectedAppointment.hours,
-      serviceName: selectedAppointment.serviceName,
-      subServiceName: selectedAppointment.subServiceName,
-    });
-  }
-}, [selectedAppointment]);
+  const history = appointments.filter((a) => {
+    const d = a.date ? new Date(a.date) : null;
+    const isPast = d ? d < today : false;
+    return ["cancelled", "terminated", "done"].includes(a.status) || isPast;
+  });
 
+  const cancelAppointment = async (id) => {
+    try {
+      const res = await fetch(`/api/appointments?id=${id}&cancel=true`, {
+        method: "DELETE",
+      });
 
-const today = new Date();
-today.setHours(0,0,0,0);
+      if (!res.ok) throw new Error("Fehler beim Stornieren");
 
-const upcoming = appointments.filter(a => {
-  const d = a.date ? new Date(a.date) : null;
-  const isFuture = d ? d >= today : true;
-  return isFuture && !["cancelled", "terminated", "done"].includes(a.status);
-});
+      // Përditëso state lokalisht
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt.id === id ? { ...appt, status: "cancelled" } : appt
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      alert("❌ Termin konnte nicht storniert werden.");
+    }
+  };
 
-const history = appointments.filter(a => {
-  const d = a.date ? new Date(a.date) : null;
-  const isPast = d ? d < today : false;
-  return ["cancelled", "terminated", "done"].includes(a.status) || isPast;
-});
+  const terminateAppointment = async (id, immediate = false) => {
+    await fetch(
+      `/api/appointments?id=${id}&terminate=true&immediate=${immediate}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-
-const cancelAppointment = async (id) => {
-  try {
-    const res = await fetch(`/api/appointments?id=${id}&cancel=true`, {
-      method: "DELETE",
-    });
-
-    if (!res.ok) throw new Error("Fehler beim Stornieren");
-
-    // Përditëso state lokalisht
     setAppointments((prev) =>
       prev.map((appt) =>
-        appt.id === id ? { ...appt, status: "cancelled" } : appt
+        appt.id === id ? { ...appt, status: "terminated" } : appt
       )
     );
-  } catch (err) {
-    console.error(err);
-    alert("❌ Termin konnte nicht storniert werden.");
-  }
-};
-
-
-const terminateAppointment = async (id, immediate = false) => {
-  await fetch(`/api/appointments?id=${id}&terminate=true&immediate=${immediate}`, {
-    method: "DELETE",
-  });
-
-  setAppointments((prev) =>
-    prev.map((appt) =>
-      appt.id === id ? { ...appt, status: "terminated" } : appt
-    )
-  );
-};
-
-  
+  };
 
   const fetchVacations = async (userId) => {
     const res = await fetch(`/api/vacation/get?userId=${userId}`);
@@ -255,16 +254,15 @@ const terminateAppointment = async (id, immediate = false) => {
     };
     fetchUserData();
   }, [router]);
-// --- Fetch available services
-useEffect(() => {
-  fetch("/api/services")
-    .then((res) => res.json())
-    .then((data) => {
-      setAllServices(data);
-    })
-    .catch((err) => console.error("❌ Service fetch error:", err));
-}, []);
-
+  // --- Fetch available services
+  useEffect(() => {
+    fetch("/api/services")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllServices(data);
+      })
+      .catch((err) => console.error("❌ Service fetch error:", err));
+  }, []);
 
   const [step, setStep] = useState("booking"); // "booking" | "payment" | "done"
   const [pendingBooking, setPendingBooking] = useState(null);
@@ -284,7 +282,7 @@ useEffect(() => {
       userId: userData.id,
       date: form.date?.toISOString(),
       time: form.time,
-        email: userData.email,
+      email: userData.email,
       hours: form.hours,
       service: service?.name || null,
       subService: subService?.name || null,
@@ -335,7 +333,7 @@ useEffect(() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...pendingBooking,
-            email: userData.email,
+          email: userData.email,
           paymentIntentId: paymentIntent.id,
         }),
       });
@@ -433,22 +431,18 @@ useEffect(() => {
       }
     }, [userData, notifShownOnce]);
 
-
-
-
-
     return (
       <form onSubmit={handleSubmit} className="space-y-4">
         <DatePicker
           selected={startDate}
           onChange={(date) => {
             setStartDate(date);
-            setEndDate(null); // reset enddate when start changes 
+            setEndDate(null); // reset enddate when start changes
           }}
           dateFormat="dd.MM.yyyy"
           locale="de"
           placeholderText="dd.mm.yyyy"
-          minDate={new Date()} // don t approve before today date 
+          minDate={new Date()} // don t approve before today date
           className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
         />
 
@@ -475,120 +469,122 @@ useEffect(() => {
   return (
     <div className="relative min-h-screen bg-gray-100 font-sans">
       <div className="flex min-h-screen">
+        <>
+          {/* --- MOBILE TOP NAVBAR --- */}
+          <div className="lg:hidden bg-[#B99B5F] text-white shadow-lg w-full fixed top-0 left-0 z-50">
+            {/* Top bar */}
+            <div className="flex items-center justify-between p-4">
+              <h1
+                className="text-xl font-bold cursor-pointer"
+                onClick={() => router.push("/client-dashboard")}
+              >
+                PHC
+              </h1>
+              <button onClick={() => setIsOpen(!isOpen)}>
+                {isOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
 
-<>
-  {/* --- MOBILE TOP NAVBAR --- */}
-  <div className="lg:hidden bg-[#B99B5F] text-white shadow-lg w-full fixed top-0 left-0 z-50">
-    {/* Top bar */}
-    <div className="flex items-center justify-between p-4">
-      <h1
-        className="text-xl font-bold cursor-pointer"
-        onClick={() => router.push("/client-dashboard")}
-      >
-        PHC
-      </h1>
-      <button onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
-    </div>
-  </div>
+          {/* Fullscreen Mobile Menu Overlay */}
+          {isOpen && (
+            <div className="lg:hidden fixed inset-0 bg-[#B99B5F] text-white z-40 flex flex-col">
+              {/* Top bar inside overlay */}
+              <div className="flex items-center justify-between p-4 border-b border-white/20">
+                <h1
+                  className="text-xl font-bold cursor-pointer"
+                  onClick={() => {
+                    router.push("/client-dashboard");
+                    setIsOpen(false);
+                  }}
+                >
+                  PHC
+                </h1>
+                <button onClick={() => setIsOpen(false)}>
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
 
-  {/* Fullscreen Mobile Menu Overlay */}
-  {isOpen && (
-    <div className="lg:hidden fixed inset-0 bg-[#B99B5F] text-white z-40 flex flex-col">
-      {/* Top bar inside overlay */}
-      <div className="flex items-center justify-between p-4 border-b border-white/20">
-        <h1
-          className="text-xl font-bold cursor-pointer"
-          onClick={() => {
-            router.push("/client-dashboard");
-            setIsOpen(false);
-          }}
-        >
-          PHC
-        </h1>
-        <button onClick={() => setIsOpen(false)}>
-          <X className="w-6 h-6" />
-        </button>
-      </div>
+              {/* Menu items */}
+              <ul className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
+                <li
+                  onClick={() => {
+                    router.push("/client-dashboard");
+                    setIsOpen(false);
+                  }}
+                  className="cursor-pointer hover:text-[#A6884A]"
+                >
+                  Dashboard
+                </li>
+                <li
+                  onClick={() => {
+                    router.push("/dashboard/personal-info");
+                    setIsOpen(false);
+                  }}
+                  className="cursor-pointer hover:text-[#A6884A]"
+                >
+                  Persönliche Informationen
+                </li>
+                <li
+                  onClick={() => {
+                    router.push("/dashboard/formular");
+                    setIsOpen(false);
+                  }}
+                  className="cursor-pointer hover:text-[#A6884A]"
+                >
+                  Formular
+                </li>
+              </ul>
+            </div>
+          )}
 
-      {/* Menu items */}
-      <ul className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
-        <li
-          onClick={() => {
-            router.push("/client-dashboard");
-            setIsOpen(false);
-          }}
-          className="cursor-pointer hover:text-[#A6884A]"
-        >
-          Dashboard
-        </li>
-        <li
-          onClick={() => {
-            router.push("/dashboard/personal-info");
-            setIsOpen(false);
-          }}
-          className="cursor-pointer hover:text-[#A6884A]"
-        >
-          Persönliche Informationen
-        </li>
-        <li
-          onClick={() => {
-            router.push("/dashboard/formular");
-            setIsOpen(false);
-          }}
-          className="cursor-pointer hover:text-[#A6884A]"
-        >
-          Formular
-        </li>
-      </ul>
-    </div>
-  )}
+          {/* --- DESKTOP SIDEBAR --- */}
+          <nav className="hidden lg:flex bg-[#B99B5F] text-white p-4 flex-col shadow-lg lg:w-72">
+            <h1
+              className="text-4xl font-bold text-center mb-12 select-none cursor-pointer"
+              onClick={() => router.push("/client-dashboard")}
+            >
+              PHC
+            </h1>
 
-  {/* --- DESKTOP SIDEBAR --- */}
-  <nav className="hidden lg:flex bg-[#B99B5F] text-white p-4 flex-col shadow-lg lg:w-72">
-    <h1
-      className="text-4xl font-bold text-center mb-12 select-none cursor-pointer"
-      onClick={() => router.push("/client-dashboard")}
-    >
-      PHC
-    </h1>
-
-    <ul className="space-y-6 flex-grow">
-      <li
-        onClick={() => router.push("/client-dashboard")}
-        className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
-      >
-        Dashboard
-      </li>
-      <li
-        onClick={() => router.push("/dashboard/personal-info")}
-        className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
-      >
-        Persönliche Informationen
-        {isNotifVisible && (
-          <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
-        )}
-      </li>
-      <li
-        onClick={() => router.push("/dashboard/formular")}
-        className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
-      >
-        Formular
-      </li>
-      <li
-  onClick={() => {
-    router.push("/dashboard/kundigung");
-    setIsOpen(false);
-  }}
-  className="cursor-pointer hover:text-red-400"
->
-  Kündigung
-</li>
-
-    </ul>
-  </nav>
-</>
+            <ul className="space-y-6 flex-grow">
+              <li
+                onClick={() => router.push("/client-dashboard")}
+                className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+              >
+                Dashboard
+              </li>
+              <li
+                onClick={() => router.push("/dashboard/personal-info")}
+                className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
+              >
+                Persönliche Informationen
+                {isNotifVisible && (
+                  <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
+                )}
+              </li>
+              <li
+                onClick={() => router.push("/dashboard/formular")}
+                className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+              >
+                Formular
+              </li>
+              <li
+                onClick={() => {
+                  router.push("/dashboard/kundigung");
+                  setIsOpen(false);
+                }}
+                className="cursor-pointer hover:text-red-400"
+              >
+                Kündigung
+              </li>
+            </ul>
+          </nav>
+        </>
 
         {/* Main Content */}
         <main className="flex-1 p-2 mt-[100px] lg:mt-0 lg:p-12 overflow-auto">
@@ -712,25 +708,29 @@ useEffect(() => {
                                     <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
                                     {appt.day}
                                   </p>
-                        <span
-  className={`px-3 py-1 text-xs font-medium rounded-full ${
-    appt.status === "active"
-      ? "bg-green-100 text-green-700"
-      : "bg-gray-100 text-gray-600"
-  }`}
->
-  {appt.status === "active" ? "Aktiv" : appt.status}
-</span>
-
+                                  <span
+                                    className={`px-3 py-1 text-xs font-medium rounded-full ${
+                                      appt.status === "active"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-gray-100 text-gray-600"
+                                    }`}
+                                  >
+                                    {appt.status === "active"
+                                      ? "Aktiv"
+                                      : appt.status}
+                                  </span>
                                 </div>
 
-                         {appt.date && (
-<p className="flex items-center gap-2 text-xs text-gray-600">
-  <Clock className="w-4 h-4 text-[#B99B5F]" />
-  {format(parseISO(appt.date), "EEEE, d. MMM yyyy", { locale: de })}
-</p>
-)}
-
+                                {appt.date && (
+                                  <p className="flex items-center gap-2 text-xs text-gray-600">
+                                    <Clock className="w-4 h-4 text-[#B99B5F]" />
+                                    {format(
+                                      parseISO(appt.date),
+                                      "EEEE, d. MMM yyyy",
+                                      { locale: de }
+                                    )}
+                                  </p>
+                                )}
 
                                 <div className="flex items-center gap-4 text-xs text-gray-600">
                                   <span className="flex items-center gap-2">
@@ -744,26 +744,25 @@ useEffect(() => {
                                 </div>
                               </div>
 
-                         <div className="flex gap-2 mt-4">
-  {/* Cancel */}
-  <button
-    onClick={() => cancelAppointment(appt.id)}
-    className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+                              <div className="flex gap-2 mt-4">
+                                {/* Cancel */}
+                                <button
+                                  onClick={() => cancelAppointment(appt.id)}
+                                  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
        bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
-  >
-  Stornieren
-  </button>
+                                >
+                                  Stornieren
+                                </button>
 
-  {/* Details */}
-  <button
-    onClick={() => setSelectedAppointment(appt)}
-    className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+                                {/* Details */}
+                                <button
+                                  onClick={() => setSelectedAppointment(appt)}
+                                  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
        bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
-  >
-    Details
-  </button>
-</div>
-
+                                >
+                                  Details
+                                </button>
+                              </div>
                             </li>
                           ))}
                       </ul>
@@ -776,154 +775,166 @@ useEffect(() => {
                 </div>
               </section>
 
-{selectedAppointment && (
-  <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-    <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
-      {/* Close btn */}
-      <button
-        onClick={() => setSelectedAppointment(null)}
-        className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-lg"
-      >
-        ×
-      </button>
+              {selectedAppointment && (
+                <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                  <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
+                    {/* Close btn */}
+                    <button
+                      onClick={() => setSelectedAppointment(null)}
+                      className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-lg"
+                    >
+                      ×
+                    </button>
 
-      <h3 className="text-xl font-bold text-[#B99B5F] mb-4">Termindetails</h3>
+                    <h3 className="text-xl font-bold text-[#B99B5F] mb-4">
+                      Termindetails
+                    </h3>
 
-    {isEditing ? (
-<form
-  onSubmit={async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/appointments", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: selectedAppointment.id,
-          update: {
-            date: editData.date,
-            startTime: editData.startTime,
-            hours: editData.hours,          // optional
-            serviceName: editData.service,  // optional
-            subServiceName: editData.subService, // optional
-          },
-        }),
-      });
+                    {isEditing ? (
+                      <form
+                        onSubmit={async (e) => {
+                          e.preventDefault();
+                          try {
+                            const res = await fetch("/api/appointments", {
+                              method: "PUT",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                id: selectedAppointment.id,
+                                update: {
+                                  date: editData.date,
+                                  startTime: editData.startTime,
+                                  hours: editData.hours, // optional
+                                  serviceName: editData.service, // optional
+                                  subServiceName: editData.subService, // optional
+                                },
+                              }),
+                            });
 
-      const updated = await res.json();
+                            const updated = await res.json();
 
+                            // Update frontend state everywhere
+                            setAppointments((prev) =>
+                              prev.map((appt) =>
+                                appt.id === updated.id ? updated : appt
+                              )
+                            );
 
+                            setSelectedAppointment(updated); // refresh modal
+                            alert("✅ Termin aktualisiert!");
+                            setIsEditing(false);
+                          } catch (err) {
+                            console.error(err);
+                            alert("❌ Fehler beim Aktualisieren.");
+                          }
+                        }}
+                        className="space-y-4"
+                      >
+                        {/* Date */}
+                        <input
+                          type="date"
+                          value={editData.date || ""}
+                          onChange={(e) =>
+                            setEditData((prev) => ({
+                              ...prev,
+                              date: e.target.value,
+                            }))
+                          }
+                          className="w-full border p-2 rounded"
+                        />
 
-        // Update frontend state everywhere
-        setAppointments((prev) =>
-          prev.map((appt) => (appt.id === updated.id ? updated : appt))
-        );
+                        {/* Time */}
+                        <input
+                          type="time"
+                          value={editData.startTime || ""}
+                          onChange={(e) =>
+                            setEditData((prev) => ({
+                              ...prev,
+                              startTime: e.target.value,
+                            }))
+                          }
+                          className="w-full border p-2 rounded"
+                        />
 
-        setSelectedAppointment(updated); // refresh modal
-        alert("✅ Termin aktualisiert!");
-        setIsEditing(false);
-      } catch (err) {
-        console.error(err);
-        alert("❌ Fehler beim Aktualisieren.");
-      }
-    }}
-    className="space-y-4"
-  >
-    {/* Date */}
-<input
-  type="date"
-  value={editData.date || ""}
-  onChange={(e) =>
-    setEditData((prev) => ({ ...prev, date: e.target.value }))
-  }
-  className="w-full border p-2 rounded"
-/>
+                        {/* Buttons */}
+                        <div className="flex gap-2">
+                          <button
+                            type="submit"
+                            className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700"
+                          >
+                            Speichern
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setIsEditing(false)}
+                            className="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400"
+                          >
+                            Abbrechen
+                          </button>
+                        </div>
+                      </form>
+                    ) : (
+                      <>
+                        <div className="space-y-2 text-sm text-gray-700">
+                          <p>
+                            <strong>Tag:</strong> {selectedAppointment.day}
+                          </p>
+                          <p>
+                            <strong>Datum:</strong>{" "}
+                            {new Date(
+                              selectedAppointment.date
+                            ).toLocaleDateString("de-DE", {
+                              weekday: "long",
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </p>
+                          <p>
+                            <strong>Startzeit:</strong>{" "}
+                            {selectedAppointment.startTime}
+                          </p>
+                          <p>
+                            <strong>Dauer:</strong> {selectedAppointment.hours}{" "}
+                            Std
+                          </p>
+                          {selectedAppointment.serviceName && (
+                            <p>
+                              <strong>Service:</strong>{" "}
+                              {selectedAppointment.serviceName}
+                            </p>
+                          )}
+                          {selectedAppointment.subServiceName && (
+                            <p>
+                              <strong>Sub-Service:</strong>{" "}
+                              {selectedAppointment.subServiceName}
+                            </p>
+                          )}
+                        </div>
 
+                        {/* Edit button */}
+                        <div className="mt-4">
+                          <button
+                            onClick={() => setIsEditing(true)}
+                            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                          >
+                            Editieren
+                          </button>
+                        </div>
+                      </>
+                    )}
 
-    {/* Time */}
-    <input
-      type="time"
-      value={editData.startTime || ""}
-      onChange={(e) =>
-        setEditData((prev) => ({ ...prev, startTime: e.target.value }))
-      }
-      className="w-full border p-2 rounded"
-    />
-
-    {/* Buttons */}
-    <div className="flex gap-2">
-      <button
-        type="submit"
-        className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700"
-      >
-        Speichern
-      </button>
-      <button
-        type="button"
-        onClick={() => setIsEditing(false)}
-        className="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400"
-      >
-        Abbrechen
-      </button>
-    </div>
-  </form>
-) : (
-
-        <>
-          <div className="space-y-2 text-sm text-gray-700">
-            <p>
-              <strong>Tag:</strong> {selectedAppointment.day}
-            </p>
-            <p>
-              <strong>Datum:</strong>{" "}
-              {new Date(selectedAppointment.date).toLocaleDateString("de-DE", {
-                weekday: "long",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </p>
-            <p>
-              <strong>Startzeit:</strong> {selectedAppointment.startTime}
-            </p>
-            <p>
-              <strong>Dauer:</strong> {selectedAppointment.hours} Std
-            </p>
-            {selectedAppointment.serviceName && (
-              <p>
-                <strong>Service:</strong> {selectedAppointment.serviceName}
-              </p>
-            )}
-            {selectedAppointment.subServiceName && (
-              <p>
-                <strong>Sub-Service:</strong> {selectedAppointment.subServiceName}
-              </p>
-            )}
-          </div>
-
-          {/* Edit button */}
-          <div className="mt-4">
-            <button
-              onClick={() => setIsEditing(true)}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
-            >
-              Editieren
-            </button>
-          </div>
-        </>
-      )}
-
-      {/* Always visible Close */}
-      <div className="mt-6 text-right">
-        <button
-          onClick={() => setSelectedAppointment(null)}
-          className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
-        >
-          Schliessen
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+                    {/* Always visible Close */}
+                    <div className="mt-6 text-right">
+                      <button
+                        onClick={() => setSelectedAppointment(null)}
+                        className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
+                      >
+                        Schliessen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* --- URLAUB --- */}
               <section>
@@ -997,52 +1008,60 @@ useEffect(() => {
                   )}
                 </div>
 
+                {/* Filter buttons */}
+                {showHistory && (
+                  <div className="flex items-center gap-6 mb-6">
+                    {/* Cancelled */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setFilter("cancelled");
+                      }}
+                      className="flex items-center gap-2 text-sm font-medium"
+                    >
+                      <span
+                        className={`w-4 h-4 rounded-full border-2 ${
+                          filter === "cancelled"
+                            ? "bg-red-500 border-red-600 scale-110"
+                            : "bg-red-300 border-red-400"
+                        }`}
+                      ></span>
+                      <span
+                        className={
+                          filter === "cancelled"
+                            ? "text-red-600"
+                            : "text-gray-600"
+                        }
+                      >
+                        Abgebrochen
+                      </span>
+                    </button>
 
-                    {/* Filter buttons */}
-{showHistory && (
-  <div className="flex items-center gap-6 mb-6">
-    {/* Cancelled */}
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        setFilter("cancelled");
-      }}
-      className="flex items-center gap-2 text-sm font-medium"
-    >
-      <span
-        className={`w-4 h-4 rounded-full border-2 ${
-          filter === "cancelled"
-            ? "bg-red-500 border-red-600 scale-110"
-            : "bg-red-300 border-red-400"
-        }`}
-      ></span>
-      <span className={filter === "cancelled" ? "text-red-600" : "text-gray-600"}>
-        Abgebrochen
-      </span>
-    </button>
-
-    {/* Done */}
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        setFilter("done");
-      }}
-      className="flex items-center gap-2 text-sm font-medium"
-    >
-      <span
-        className={`w-4 h-4 rounded-full border-2 ${
-          filter === "done"
-            ? "bg-green-500 border-green-600 scale-110"
-            : "bg-green-300 border-green-400"
-        }`}
-      ></span>
-      <span className={filter === "done" ? "text-green-600" : "text-gray-600"}>
-        Erledigt
-      </span>
-    </button>
-
-  </div>
-)}
+                    {/* Done */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setFilter("done");
+                      }}
+                      className="flex items-center gap-2 text-sm font-medium"
+                    >
+                      <span
+                        className={`w-4 h-4 rounded-full border-2 ${
+                          filter === "done"
+                            ? "bg-green-500 border-green-600 scale-110"
+                            : "bg-green-300 border-green-400"
+                        }`}
+                      ></span>
+                      <span
+                        className={
+                          filter === "done" ? "text-green-600" : "text-gray-600"
+                        }
+                      >
+                        Erledigt
+                      </span>
+                    </button>
+                  </div>
+                )}
 
                 {/* List */}
                 {showHistory && (
@@ -1055,9 +1074,9 @@ useEffect(() => {
                       appointments
                         .filter((a) => a.status === filter)
                         .map((item) => (
-             <li
-  key={item.id}
-  className={`p-5 rounded-2xl shadow-md hover:shadow-lg transition 
+                          <li
+                            key={item.id}
+                            className={`p-5 rounded-2xl shadow-md hover:shadow-lg transition 
     ${
       item.status === "cancelled"
         ? "bg-red-50 border border-red-200"
@@ -1067,15 +1086,16 @@ useEffect(() => {
         ? "bg-yellow-50 border border-yellow-200"
         : "bg-white border"
     }`}
->
-  {/* Info */}
-  <div className="space-y-2 text-sm text-gray-800">
-    <div className="flex items-center justify-between">
-      <p className="flex items-center gap-2 font-semibold">
-        <CalendarDays className="w-4 h-4 text-[#B99B5F]" /> {item.day}
-      </p>
-      <span
-        className={`px-3 py-1 text-xs font-medium rounded-full
+                          >
+                            {/* Info */}
+                            <div className="space-y-2 text-sm text-gray-800">
+                              <div className="flex items-center justify-between">
+                                <p className="flex items-center gap-2 font-semibold">
+                                  <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
+                                  {item.day}
+                                </p>
+                                <span
+                                  className={`px-3 py-1 text-xs font-medium rounded-full
           ${
             item.status === "done"
               ? "bg-green-100 text-green-700"
@@ -1085,17 +1105,16 @@ useEffect(() => {
               ? "bg-yellow-100 text-yellow-700"
               : "bg-gray-100 text-gray-600"
           }`}
-      >
-        {item.status === "done"
-          ? "Erledigt"
-          : item.status === "cancelled"
-          ? "Storniert"
-          : item.status === "terminated"
-          ? "Gekündigt"
-          : item.status}
-      </span>
-    </div>
-
+                                >
+                                  {item.status === "done"
+                                    ? "Erledigt"
+                                    : item.status === "cancelled"
+                                    ? "Storniert"
+                                    : item.status === "terminated"
+                                    ? "Gekündigt"
+                                    : item.status}
+                                </span>
+                              </div>
 
                               {item.date && (
                                 <p className="flex items-center gap-2 text-xs text-gray-600">
@@ -1136,29 +1155,26 @@ useEffect(() => {
                               )}
                             </div>
 
-                       {/* Actions */}
-<div className="flex gap-2 mt-4">
-{/* Abbrechen */}
-<button
-  onClick={() => cancelAppointment(item.id)}
-  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+                            {/* Actions */}
+                            <div className="flex gap-2 mt-4">
+                              {/* Abbrechen */}
+                              <button
+                                onClick={() => cancelAppointment(item.id)}
+                                className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
      bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
->
-Stornieren
-</button>
+                              >
+                                Stornieren
+                              </button>
 
-
-{/* Details */}
-<button
-  onClick={() => setSelectedAppointment(item)}
-  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+                              {/* Details */}
+                              <button
+                                onClick={() => setSelectedAppointment(item)}
+                                className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
      bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
->
-  Details
-</button>
-
-</div>
-
+                              >
+                                Details
+                              </button>
+                            </div>
                           </li>
                         ))
                     ) : (
@@ -1384,26 +1400,26 @@ Stornieren
                     { name: "lastName", label: "Nachname", type: "text" },
                     { name: "email", label: "E-Mail Adresse", type: "email" },
                     { name: "phone", label: "Telefonnummer", type: "tel" },
-  {
-    name: "requestFirstName",
-    label: "Notfall Kontakt Name",
-    type: "text",
-  },
-  {
-    name: "requestLastName",
-    label: "Notfall Kontakt Nachname",
-    type: "text",
-  },
-  {
-    name: "requestPhone",
-    label: "Notfall Kontakt Telefonnummer",
-    type: "tel",
-  },
-  {
-    name: "requestEmail",
-    label: "Notfall Kontakt Email",
-    type: "email",
-  },
+                    {
+                      name: "requestFirstName",
+                      label: "Notfall Kontakt Name",
+                      type: "text",
+                    },
+                    {
+                      name: "requestLastName",
+                      label: "Notfall Kontakt Nachname",
+                      type: "text",
+                    },
+                    {
+                      name: "requestPhone",
+                      label: "Notfall Kontakt Telefonnummer",
+                      type: "tel",
+                    },
+                    {
+                      name: "requestEmail",
+                      label: "Notfall Kontakt Email",
+                      type: "email",
+                    },
                   ].map(({ name, label, type }) => (
                     <div key={name} className="flex flex-col gap-1">
                       <label
