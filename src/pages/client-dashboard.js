@@ -197,6 +197,7 @@ const extraKm = Math.max(0, totalKm - contractedKm);
       setVacations(data);
     }
   };
+  
   useEffect(() => {
     if (userData?.id) {
       fetchVacations(userData.id);
