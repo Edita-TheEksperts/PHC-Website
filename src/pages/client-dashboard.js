@@ -197,74 +197,41 @@ const extraKm = Math.max(0, totalKm - contractedKm);
       setVacations(data);
     }
   };
-  
+
   useEffect(() => {
     if (userData?.id) {
       fetchVacations(userData.id);
     }
   }, [userData]);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem("userToken");
-        if (!token) {
-          router.push("/");
-          return;
-        }
-        const res = await fetch("/api/user/getUserData", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) throw new Error("Fehler beim Laden der Benutzerdaten");
-        const user = await res.json();
-        setUserData(user);
-        setUpdatedData(user);
+useEffect(() => {
+  if (typeof window === "undefined") return; // prevent server-side execution
 
-        const selectedService = localStorage.getItem("selectedService");
-        const userService =
-          Array.isArray(user.services) && user.services.length
-            ? user.services[0].name.trim()
-            : "";
+  const token = window.localStorage.getItem("userToken");
+  if (!token) {
+    router.push("/");
+    return;
+  }
 
-        const serviceKey = normalize(userService || selectedService || "");
-        setServices(serviceKey);
+  const fetchUserData = async () => {
+    try {
+      const res = await fetch("/api/user/getUserData", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Fehler beim Laden der Benutzerdaten");
+      const user = await res.json();
+      setUserData(user);
+      setUpdatedData(user);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
+  };
 
-        const formCompletionMap = {
-          haushaltshilfeundwohnpflege: "form1Completed",
-          freizeitundsozialeaktivitaeten: "form2Completed",
-          gesundheitsfuersorge: "form3Completed",
-          alltagsbegleitungundbesorgungen: "form4Completed",
-        };
+  fetchUserData();
+}, [router]);
 
-        const formKey = formCompletionMap[serviceKey];
-        const isCompleted = user[formKey] === true;
-        setShowOverlayForm(formKey && !isCompleted);
-
-        const needsPersonalData =
-          !user.languages ||
-          !user.languages.trim() ||
-          !user.otherLanguage ||
-          !user.otherLanguage.trim() ||
-          !user.pets ||
-          !user.pets.trim() ||
-          !user.allergies ||
-          !user.allergies.trim() ||
-          !user.specialRequests ||
-          !user.specialRequests.trim() ||
-          !user.emergencyContactName ||
-          !user.emergencyContactName.trim() ||
-          !user.emergencyContactPhone ||
-          !user.emergencyContactPhone.trim();
-
-        setIsNotifVisible(needsPersonalData);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setLoading(false);
-      }
-    };
-    fetchUserData();
-  }, [router]);
   // --- Fetch available services
   useEffect(() => {
     fetch("/api/services")
