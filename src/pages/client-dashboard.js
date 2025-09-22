@@ -209,7 +209,7 @@ useEffect(() => {
 
   const token = window.localStorage.getItem("userToken");
   if (!token) {
-    router.push("/");
+    router.push("/login");
     return;
   }
 
