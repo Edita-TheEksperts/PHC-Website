@@ -125,12 +125,6 @@ const [loadingStep4, setLoadingStep4] = useState(false);
     mobilityAids: [],
     transportOption: "",
     careFirstName: "",
-  careLastName: "",
-  carePhone: "",
-  careStreet: "",
-  carePostalCode: "",
-  careCity: "",
-    
   });
   // ✅ Helper to check if date is Swiss holiday
   function isSwissHoliday(date) {
@@ -451,16 +445,6 @@ useEffect(() => {
         scrollToTop();
         return false;
       }
-        if (!form.careFirstName) {
-    setFormError("Bitte geben Sie den Vornamen der betreuten Person ein.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.careLastName) {
-    setFormError("Bitte geben Sie den Nachnamen der betreuten Person ein.");
-    scrollToTop();
-    return false;
-  }
     }
 
     if (step === 3 && !testMode) {
@@ -1796,7 +1780,7 @@ onChange={(date) => {
           {step === 2 && (
             <>
               <h2 className="text-2xl font-bold text-black">
-                Persönliche Angaben
+                Persönliche Angaben (zu betreuende Person)
               </h2>
 
               <div className="text-sm text-left mt-6">
@@ -1818,19 +1802,23 @@ onChange={(date) => {
                     Vollständiger Name
                   </label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                    <div className="mb-2">
-                      <label className="block font-medium mb-1">Vorname</label>
-                      <input
-                        name="firstName"
-                        placeholder="Vorname"
-                        value={form.firstName || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      />
-                    </div>
+                 <div className="mb-2">
+  <label className="block font-medium mb-1">
+    Vorname <span className="text-red-500">*</span>
+  </label>
+  <input
+    name="firstName"
+    placeholder="Vorname"
+    value={form.firstName || ""}
+    onChange={handleChange}
+    className={inputClass}
+    required
+  />
+</div>
+
 
                     <div className="mb-2">
-                      <label className="block font-medium mb-1">Nachname</label>
+                      <label className="block font-medium mb-1">Nachname<span className="text-red-500">*</span></label>
                       <input
                         name="lastName"
                         placeholder="Nachname"
@@ -1844,7 +1832,7 @@ onChange={(date) => {
                 {/* Telefon */}
                 <div>
                   <label className="block  font-medium mb-1">
-                    Telefonnummer
+                    Telefonnummer<span className="text-red-500">*</span>
                   </label>
                   <input
                     name="phone"
@@ -1874,7 +1862,7 @@ onChange={(date) => {
 
                 {/* E-Mail */}
                 <div>
-                  <label className="block font-medium mb-1">E-Mail</label>
+                  <label className="block font-medium mb-1">E-Mail<span className="text-red-500">*</span></label>
                   <input
                     type="email"
                     name="email"
@@ -2119,7 +2107,7 @@ onChange={(date) => {
                   {/* Strasse & Hausnummer */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-medium mb-1">Strasse</label>
+                      <label className="block font-medium mb-1">Strasse<span className="text-red-500">*</span></label>
                       <input
                         name="street"
                         placeholder="z. B. Bahnhofstrasse"
@@ -2130,7 +2118,7 @@ onChange={(date) => {
                     </div>
                     <div>
                       <label className="block font-medium mb-1">
-                        Hausnummer
+                        Hausnummer<span className="text-red-500">*</span>
                       </label>
                       <input
                         name="houseNumber"
@@ -2145,7 +2133,7 @@ onChange={(date) => {
                   {/* PLZ & Ort */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div>
-                      <label className="block font-medium mb-1">PLZ</label>
+                      <label className="block font-medium mb-1">PLZ<span className="text-red-500">*</span></label>
                       <input
                         name="postalCode"
                         placeholder="z. B. 8000"
@@ -2155,7 +2143,7 @@ onChange={(date) => {
                       />
                     </div>
                     <div>
-                      <label className="block font-medium mb-1">Ort</label>
+                      <label className="block font-medium mb-1">Ort<span className="text-red-500">*</span></label>
                       <input
                         name="city"
                         placeholder="z. B. Zürich"
@@ -2168,7 +2156,7 @@ onChange={(date) => {
 
                   {/* Land */}
                   <div className="mt-4">
-                    <label className="block font-medium mb-1">Land</label>
+                    <label className="block font-medium mb-1">Land<span className="text-red-500">*</span></label>
                     <input
                       name="address"
                       placeholder="z. B. Schweiz"
@@ -2177,45 +2165,14 @@ onChange={(date) => {
                       className={inputClass}
                     />
                   </div>
-                  {/* Zusatz: zu betreuende Person */}
-<div className="mt-8">
-  <h3 className="text-xl font-bold text-black mb-4">
-    Zusatz: zu betreuende Person
-  </h3>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div>
-      <label className="block font-medium mb-1">
-        Vorname der betreuten Person
-      </label>
-      <input
-        name="careFirstName"
-        placeholder="Vorname"
-        value={form.careFirstName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-    <div>
-      <label className="block font-medium mb-1">
-        Nachname der betreuten Person
-      </label>
-      <input
-        name="careLastName"
-        placeholder="Nachname"
-        value={form.careLastName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-  </div>
-</div>
+
                 </div>
               </div>
             </>
           )}
 
 
-{step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails </h2>
+{step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails <span className="text-red-500">*</span></h2>
  {/* Kreditkartenfeld */} <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
    <CardElement options={{ style:
      { base: { fontSize: "16px", color: "#1f2937", fontFamily: "system-ui, sans-serif", 
@@ -3428,13 +3385,10 @@ onChange={(date) => {
           </div>
         </form>
       </div>
-
 <div className="w-full md:w-96">
   <div className="sticky top-4 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
     {/* Titulli */}
-    <h3 className="text-xl font-bold text-gray-800 mb-2">
-      Zusammenfassung
-    </h3>
+    <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
     {/* Përmbajtja */}
     <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
@@ -3467,22 +3421,44 @@ onChange={(date) => {
         </p>
       </div>
 
-      {/* Zusatz: zu betreuende Person */}
-      {form.careFirstName || form.careLastName ? (
-        <SummaryRow
-          label="Zu betreuende Person"
-          value={`${form.careFirstName || ""} ${form.careLastName || ""}`}
-        />
-      ) : null}
-    </div>
+    
+
+      {/* Kunden Info */}
+      {(form.requestFirstName || form.requestLastName || form.requestEmail) && (
+        <div className="border-t pt-2 mt-2">
+          <h4 className="font-semibold text-gray-800 mb-1">Kunden</h4>
+          <p className="text-sm text-gray-700">
+            {form.requestFirstName || ""} {form.requestLastName || ""}
+          </p>
+          <p className="text-sm text-gray-700">{form.requestEmail || ""}</p>
+        </div>
+      )}
+
+      {/* Adresse Info */}
+     {/* Adresse Info */}
+{(form.street || form.postalCode || form.city) && (
+  <div className="border-t pt-2 mt-2">
+    <h4 className="font-semibold text-gray-800 mb-1">Adresse</h4>
+    <p className="text-sm text-gray-700">
+      {form.street || ""} 
+      {form.entranceLocation ? `, ${form.entranceLocation}` : ""}
+    </p>
+    <p className="text-sm text-gray-700">
+      {form.postalCode || ""} {form.city || ""}
+    </p>
+    {form.address && (
+      <p className="text-sm text-gray-700">{form.address}</p>
+    )}
+  </div>
+)}
+  </div>
 
     {/* Info-line */}
     <div className="text-xs text-gray-500 italic">
-      Batmaid = inkl. MwSt und Versicherungs- & Sozialabgaben
+      inkl. MwSt und Versicherungs- & Sozialabgaben
     </div>
   </div>
 </div>
-
 
 
     </div>

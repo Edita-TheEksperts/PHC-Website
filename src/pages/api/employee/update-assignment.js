@@ -28,6 +28,18 @@ export default async function handler(req, res) {
         captured: true,
       },
     });
+await prisma.activityLog.create({
+  data: {
+    action: hours ? "employee_update_hours" : "employee_update_km",
+    targetId: String(scheduleId),
+    targetType: "schedule",
+    actorEmployeeId: employeeId, // merre nga session ose nga req.body
+    metadata: {
+      addedHours: hours ? Number(hours) : undefined,
+      addedKm: kilometers ? Number(kilometers) : undefined,
+    },
+  },
+});
 
     res.status(200).json({ status: "ok", schedule: updated });
   } catch (err) {
