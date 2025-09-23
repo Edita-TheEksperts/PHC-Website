@@ -11,6 +11,8 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import { parseISO } from "date-fns";
 import { de } from "date-fns/locale";
 
+
+
 import {
   CalendarDays,
   Clock,
@@ -58,6 +60,7 @@ export default function ClientDashboard() {
   const [appointments, setAppointments] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
+const [showInfoUpdate, setShowInfoUpdate] = useState(false);
 
   const [updatedData, setUpdatedData] = useState({});
   const [showAppointments, setShowAppointments] = useState(false);
@@ -65,6 +68,10 @@ export default function ClientDashboard() {
   const [showOverlayForm, setShowOverlayForm] = useState(true);
   const [services, setServices] = useState("");
   const [allServices, setAllServices] = useState([]);
+  const [showUserInfo, setShowUserInfo] = useState(false);
+const [showVacations, setShowVacations] = useState(false);
+const [showBooking, setShowBooking] = useState(false);
+
 
   const [isNotifVisible, setIsNotifVisible] = useState(false);
   const [notifShownOnce, setNotifShownOnce] = useState(false);
@@ -430,8 +437,11 @@ useEffect(() => {
           dateFormat="dd.MM.yyyy"
           locale="de"
           placeholderText="dd.mm.yyyy"
-          minDate={startDate || new Date()} // mos lejo përpara startDate
+          minDate={startDate || new Date()} 
           className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+           popperClassName="z-50"         // 👈 e bën popup sipër
+  popperPlacement="bottom-start" // 👈 hapet poshtë input-it
+  portalId="root-portal"
         />
 
         <button
@@ -604,854 +614,991 @@ useEffect(() => {
           </header>
 
           {/* User Info + Documents + Service */}
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <article className="bg-white p-8 rounded-3xl shadow-xl">
-              <h3 className="text-2xl font-semibold text-[#B99B5F] mb-8 select-none">
-                Benutzerinformationen
-              </h3>
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+<article
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  ${showUserInfo 
+? " scale-100 opacity-100 rounded-3xl shadow-2xl"
+: "scale-95 opacity-90 rounded-xl shadow-md"
+}`}
 
-              <p className="text-lg mb-3">
-                <strong>Name:</strong> {userData.firstName} {userData.lastName}
-              </p>
-              <p className="text-lg mb-3">
-                <strong>Email:</strong> {userData.email}
-              </p>
-              <p className="text-lg mb-3">
-                <strong>Telefon:</strong> {userData.phone}
-              </p>
-              <p className="text-lg mb-3">
-                <strong>Adresse:</strong> {userData.address}
-              </p>
-            </article>
+>
+  <header
+    onClick={() => setShowUserInfo((prev) => !prev)}
+    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+  >
+    <h3 className="text-2xl font-semibold text-[#B99B5F]">
+      Benutzerinformationen
+    </h3>
+    <svg
+      className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${
+        showUserInfo ? "rotate-180" : ""
+      }`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </header>
 
-            <article className="bg-white p-8 rounded-3xl shadow-xl max-w-3xl mx-auto space-y-12">
-              {/* --- NÄCHSTE TERMINE --- */}
-              <section className="bg-white rounded-2xl shadow-xl border border-gray-200">
-                {/* Header */}
-                <header
-                  onClick={() => setShowAppointments((prev) => !prev)}
-                  className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
-                >
-                  <div className="flex items-center gap-3">
-                    <CalendarDays className="w-6 h-6 text-[#B99B5F]" />
-                    <h3 className="text-xl font-bold text-gray-800">
-                      Nächste Termine
-                    </h3>
-                  </div>
-                  <svg
-                    className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${
-                      showAppointments ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </header>
+  {!showUserInfo && (
+    <div className="transition-all duration-500">
+      <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
+        Hier finden Sie die persönlichen Benutzerinformationen.
+      </p>
+    </div>
+  )}
 
-                {/* Content */}
-                <div
-                  className={`transition-all duration-500 overflow-hidden ${
-                    showAppointments
-                      ? "max-h-[1000px] opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="p-6 space-y-4">
-                    {appointments.filter((a) => a.status !== "cancelled")
-                      .length > 0 ? (
-                      <ul
-                        className="space-y-4 max-h-96 overflow-y-auto pr-2 
-                   scrollbar-thin scrollbar-thumb-[#B99B5F]/40 
-                   scrollbar-track-transparent"
-                      >
-                        {appointments
-                          .filter((a) => a.status !== "cancelled")
-                          .map((appt) => (
-                            <li
-                              key={appt.id}
-                              className="p-5 rounded-2xl shadow-md hover:shadow-lg transition 
-                         bg-[#B99B5F]/10 border border-[#B99B5F]/20"
-                            >
-                              {/* Info */}
-                              <div className="space-y-2 text-sm text-gray-800">
-                                <div className="flex items-center justify-between">
-                                  <p className="flex items-center gap-2 font-semibold">
-                                    <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                    {appt.day}
-                                  </p>
-                                  <span
-                                    className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                      appt.status === "active"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-gray-100 text-gray-600"
-                                    }`}
-                                  >
-                                    {appt.status === "active"
-                                      ? "Aktiv"
-                                      : appt.status}
-                                  </span>
-                                </div>
-
-                                {appt.date && (
-                                  <p className="flex items-center gap-2 text-xs text-gray-600">
-                                    <Clock className="w-4 h-4 text-[#B99B5F]" />
-                                    {format(
-                                      parseISO(appt.date),
-                                      "EEEE, d. MMM yyyy",
-                                      { locale: de }
-                                    )}
-                                  </p>
-                                )}
-
-                                <div className="flex items-center gap-4 text-xs text-gray-600">
-                                  <span className="flex items-center gap-2">
-                                    <AlarmClock className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                    {appt.startTime}
-                                  </span>
-                                  <span className="flex items-center gap-2">
-                                    <Hourglass className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                    {appt.hours} Std
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="flex gap-2 mt-4">
-                                {/* Cancel */}
-                                <button
-                                  onClick={() => cancelAppointment(appt.id)}
-                                  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
-       bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
-                                >
-                                  Stornieren
-                                </button>
-
-                                {/* Details */}
-                                <button
-                                  onClick={() => setSelectedAppointment(appt)}
-                                  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
-       bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
-                                >
-                                  Details
-                                </button>
-                              </div>
-                            </li>
-                          ))}
-                      </ul>
-                    ) : (
-                      <p className="italic text-gray-400 text-center py-6">
-                        Keine Termine geplant
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </section>
-
-              {selectedAppointment && (
-                <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-                  <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
-                    {/* Close btn */}
-                    <button
-                      onClick={() => setSelectedAppointment(null)}
-                      className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-lg"
-                    >
-                      ×
-                    </button>
-
-                    <h3 className="text-xl font-bold text-[#B99B5F] mb-4">
-                      Termindetails
-                    </h3>
-
-                    {isEditing ? (
-                      <form
-                        onSubmit={async (e) => {
-                          e.preventDefault();
-                          try {
-                            const res = await fetch("/api/appointments", {
-                              method: "PUT",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({
-                                id: selectedAppointment.id,
-                                update: {
-                                  date: editData.date,
-                                  startTime: editData.startTime,
-                                  hours: editData.hours, // optional
-                                  serviceName: editData.service, // optional
-                                  subServiceName: editData.subService, // optional
-                                },
-                              }),
-                            });
-
-                            const updated = await res.json();
-
-                            // Update frontend state everywhere
-                            setAppointments((prev) =>
-                              prev.map((appt) =>
-                                appt.id === updated.id ? updated : appt
-                              )
-                            );
-
-                            setSelectedAppointment(updated); // refresh modal
-                            alert("✅ Termin aktualisiert!");
-                            setIsEditing(false);
-                          } catch (err) {
-                            console.error(err);
-                            alert("❌ Fehler beim Aktualisieren.");
-                          }
-                        }}
-                        className="space-y-4"
-                      >
-                        {/* Date */}
-                        <input
-                          type="date"
-                          value={editData.date || ""}
-                          onChange={(e) =>
-                            setEditData((prev) => ({
-                              ...prev,
-                              date: e.target.value,
-                            }))
-                          }
-                          className="w-full border p-2 rounded"
-                        />
-
-                        {/* Time */}
-                        <input
-                          type="time"
-                          value={editData.startTime || ""}
-                          onChange={(e) =>
-                            setEditData((prev) => ({
-                              ...prev,
-                              startTime: e.target.value,
-                            }))
-                          }
-                          className="w-full border p-2 rounded"
-                        />
-
-                        {/* Buttons */}
-                        <div className="flex gap-2">
-                          <button
-                            type="submit"
-                            className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700"
-                          >
-                            Speichern
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setIsEditing(false)}
-                            className="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400"
-                          >
-                            Abbrechen
-                          </button>
-                        </div>
-                      </form>
-                    ) : (
-                      <>
-                        <div className="space-y-2 text-sm text-gray-700">
-                          <p>
-                            <strong>Tag:</strong> {selectedAppointment.day}
-                          </p>
-                          <p>
-                            <strong>Datum:</strong>{" "}
-                            {new Date(
-                              selectedAppointment.date
-                            ).toLocaleDateString("de-DE", {
-                              weekday: "long",
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </p>
-                          <p>
-                            <strong>Startzeit:</strong>{" "}
-                            {selectedAppointment.startTime}
-                          </p>
-                          <p>
-                            <strong>Dauer:</strong> {selectedAppointment.hours}{" "}
-                            Std
-                          </p>
-                          {selectedAppointment.serviceName && (
-                            <p>
-                              <strong>Service:</strong>{" "}
-                              {selectedAppointment.serviceName}
-                            </p>
-                          )}
-                          {selectedAppointment.subServiceName && (
-                            <p>
-                              <strong>Sub-Service:</strong>{" "}
-                              {selectedAppointment.subServiceName}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Edit button */}
-                        <div className="mt-4">
-                          <button
-                            onClick={() => setIsEditing(true)}
-                            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
-                          >
-                            Editieren
-                          </button>
-                        </div>
-                      </>
-                    )}
-
-                    {/* Always visible Close */}
-                    <div className="mt-6 text-right">
-                      <button
-                        onClick={() => setSelectedAppointment(null)}
-                        className="px-4 py-2 bg-[#04436F] text-white rounded-lg hover:bg-[#033553] transition"
-                      >
-                        Schliessen
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* --- URLAUB --- */}
-              <section>
-                <header className="flex items-center gap-2 mb-6">
-                  <Plane className="w-6 h-6 text-[#B99B5F]" />
-                  <h3 className="text-xl font-bold text-gray-800">Urlaub</h3>
-                </header>
-
-                {/* Form */}
-                <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 shadow-inner mb-6">
-                  <VacationForm
-                    userId={userData.id}
-                    refreshVacations={() => fetchVacations(userData.id)}
-                  />
-                </div>
-
-                {/* List */}
-                {vacations.length > 0 ? (
-                  <ul className="space-y-4">
-                    {vacations.map((v) => (
-                      <li
-                        key={v.id}
-                        className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:shadow-md transition"
-                      >
-                        <div className="bg-[#B99B5F]/10 p-3 rounded-xl">
-                          <CalendarDays className="text-[#B99B5F] w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            {new Date(v.startDate).toLocaleDateString("de-CH")}{" "}
-                            – {new Date(v.endDate).toLocaleDateString("de-CH")}
-                          </p>
-
-                          <p className="text-xs text-gray-500">Geplant</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="italic text-gray-400 text-center">
-                    Kein Urlaub eingetragen
-                  </p>
-                )}
-              </section>
-            </article>
-
-            <article className="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto">
-              {/* Optional Dashboard2 */}
-              <div className="mt-8">
-                {userData?.id && <ClientDashboard2 userId={userData.id} />}
-              </div>
-            </article>
-          </section>
-
-          <div className="max-w-7xl mx-auto lg:px-6 mt-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* --- SERVICE HISTORY --- */}
-              <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-                {/* Header */}
-                <div
-                  className="flex items-center justify-between mb-4 cursor-pointer select-none"
-                  onClick={() => setShowHistory(!showHistory)}
-                >
-                  <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide">
-                    Serviceverlauf
-                  </h3>
-                  {showHistory ? (
-                    <ChevronUp className="w-6 h-6 text-gray-500" />
-                  ) : (
-                    <ChevronDown className="w-6 h-6 text-gray-500" />
-                  )}
-                </div>
-
-                {/* Filter buttons */}
-                {showHistory && (
-                  <div className="flex items-center gap-6 mb-6">
-                    {/* Cancelled */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFilter("cancelled");
-                      }}
-                      className="flex items-center gap-2 text-sm font-medium"
-                    >
-                      <span
-                        className={`w-4 h-4 rounded-full border-2 ${
-                          filter === "cancelled"
-                            ? "bg-red-500 border-red-600 scale-110"
-                            : "bg-red-300 border-red-400"
-                        }`}
-                      ></span>
-                      <span
-                        className={
-                          filter === "cancelled"
-                            ? "text-red-600"
-                            : "text-gray-600"
-                        }
-                      >
-                        Abgebrochen
-                      </span>
-                    </button>
-
-                    {/* Done */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFilter("done");
-                      }}
-                      className="flex items-center gap-2 text-sm font-medium"
-                    >
-                      <span
-                        className={`w-4 h-4 rounded-full border-2 ${
-                          filter === "done"
-                            ? "bg-green-500 border-green-600 scale-110"
-                            : "bg-green-300 border-green-400"
-                        }`}
-                      ></span>
-                      <span
-                        className={
-                          filter === "done" ? "text-green-600" : "text-gray-600"
-                        }
-                      >
-                        Erledigt
-                      </span>
-                    </button>
-                  </div>
-                )}
-
-                {/* List */}
-                {showHistory && (
-                  <ul
-                    className="space-y-4 max-h-96 overflow-y-auto pr-2 
-                   scrollbar-thin scrollbar-thumb-[#B99B5F]/40 scrollbar-track-transparent"
-                  >
-                    {appointments.filter((a) => a.status === filter).length >
-                    0 ? (
-                      appointments
-                        .filter((a) => a.status === filter)
-                        .map((item) => (
-                          <li
-                            key={item.id}
-                            className={`p-5 rounded-2xl shadow-md hover:shadow-lg transition 
-    ${
-      item.status === "cancelled"
-        ? "bg-red-50 border border-red-200"
-        : item.status === "done"
-        ? "bg-green-50 border border-green-200"
-        : item.status === "terminated"
-        ? "bg-yellow-50 border border-yellow-200"
-        : "bg-white border"
+  <div
+    className={`transition-all duration-500 transform ${
+      showUserInfo
+        ? "max-h-[500px] opacity-100 scale-100"
+        : "max-h-0 opacity-0 scale-95"
     }`}
-                          >
-                            {/* Info */}
-                            <div className="space-y-2 text-sm text-gray-800">
-                              <div className="flex items-center justify-between">
-                                <p className="flex items-center gap-2 font-semibold">
-                                  <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                  {item.day}
-                                </p>
-                                <span
-                                  className={`px-3 py-1 text-xs font-medium rounded-full
-          ${
-            item.status === "done"
-              ? "bg-green-100 text-green-700"
-              : item.status === "cancelled"
-              ? "bg-red-100 text-red-700"
-              : item.status === "terminated"
-              ? "bg-yellow-100 text-yellow-700"
-              : "bg-gray-100 text-gray-600"
-          }`}
-                                >
-                                  {item.status === "done"
-                                    ? "Erledigt"
-                                    : item.status === "cancelled"
-                                    ? "Storniert"
-                                    : item.status === "terminated"
-                                    ? "Gekündigt"
-                                    : item.status}
-                                </span>
-                              </div>
-
-                              {item.date && (
-                                <p className="flex items-center gap-2 text-xs text-gray-600">
-                                  <Clock className="w-4 h-4 text-[#B99B5F]" />
-                                  {new Date(item.date).toLocaleDateString(
-                                    "de-DE",
-                                    {
-                                      weekday: "long",
-                                      year: "numeric",
-                                      month: "short",
-                                      day: "numeric",
-                                    }
-                                  )}
-                                </p>
-                              )}
-
-                              <div className="flex items-center gap-4 text-xs text-gray-600">
-                                <span className="flex items-center gap-2">
-                                  <AlarmClock className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                  {item.startTime}
-                                </span>
-                                <span className="flex items-center gap-2">
-                                  <Hourglass className="w-4 h-4 text-[#B99B5F]" />{" "}
-                                  {item.hours} Std
-                                </span>
-                              </div>
-
-                              {item.serviceName && (
-                                <p className="text-xs text-gray-600">
-                                  <strong>Service:</strong> {item.serviceName}
-                                </p>
-                              )}
-                              {item.subServiceName && (
-                                <p className="text-xs text-gray-600">
-                                  <strong>Sub-Service:</strong>{" "}
-                                  {item.subServiceName}
-                                </p>
-                              )}
-                            </div>
-
-                            {/* Actions */}
-                            <div className="flex gap-2 mt-4">
-                              {/* Abbrechen */}
-                              <button
-                                onClick={() => cancelAppointment(item.id)}
-                                className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
-     bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
-                              >
-                                Stornieren
-                              </button>
-
-                              {/* Details */}
-                              <button
-                                onClick={() => setSelectedAppointment(item)}
-                                className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
-     bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
-                              >
-                                Details
-                              </button>
-                            </div>
-                          </li>
-                        ))
-                    ) : (
-                      <p className="italic text-gray-400">
-                        Keine Einträge für diesen Status
-                      </p>
-                    )}
-                  </ul>
-                )}
-<article className="bg-white p-8 rounded-3xl shadow-xl">
-  <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6">
-    Zusammenfassung
-  </h3>
-
-  <p className="text-lg mb-3">
-    <strong>Gesamtstunden:</strong> {totalHours} Std
-  </p>
-  <p className="text-lg mb-3">
-    <strong>Gesamtkilometer:</strong> {totalKm} km
-  </p>
-
-  <p className="text-lg mt-6 text-red-600">
-    <strong>Extra Stunden:</strong> {extraHours} Std
-  </p>
-  <p className="text-lg text-red-600">
-    <strong>Extra Kilometer:</strong> {extraKm} km
-  </p>
+    
+  >
+    <div className="p-6 space-y-3 text-lg text-gray-800">
+      <p>
+        <strong>Name:</strong> {userData.firstName} {userData.lastName}
+      </p>
+      <p>
+        <strong>Email:</strong> {userData.email}
+      </p>
+      <p>
+        <strong>Telefon:</strong> {userData.phone}
+      </p>
+      <p>
+        <strong>Adresse:</strong> {userData.address}
+      </p>
+    </div>
+  </div>
 </article>
 
-                
-              </section>
+<section
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  ${showAppointments
+    ? " scale-100 opacity-100 rounded-3xl shadow-2xl"
+    : " scale-95 opacity-90 rounded-xl shadow-md"}`}
+>
+  {/* Header */}
+  <header
+    onClick={() => setShowAppointments((prev) => !prev)}
+    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+  >
+    <div className="flex items-center gap-3">
+          <h3 className="text-2xl font-semibold text-[#B99B5F]">
+    Nächste Termine
+    </h3>
+    </div>
+    <svg
+      className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${
+        showAppointments ? "rotate-180" : ""
+      }`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </header>
 
-              {/* New Booking */}
-              {/* New Booking */}
-              <section className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-                <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
-                  Neue Buchung planen
-                </h3>
+  {/* Description kur është i mbyllur */}
+  {!showAppointments && (
+    <div className="transition-all duration-500">
+      <p className="px-6 py-6 text-sm text-gray-500 italic text-left">
+        Hier finden Sie Ihre geplanten Termine.
+      </p>
+    </div>
+  )}
 
-                {step === "booking" && (
-                  <form
-                    onSubmit={handleBookingSubmit}
-                    className="space-y-4 flex flex-col flex-grow"
-                  >
-                    {/* Date Picker (14 days ahead only) */}
-                    <DatePicker
-                      selected={form.date}
-                      onChange={(date) => setForm({ ...form, date })}
-                      dateFormat="dd.MM.yyyy"
-                      locale="de"
-                      placeholderText="TT.MM.JJJJ"
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
-                      minDate={minSelectableDate}
-                    />
-
-                    {/* Time Slots */}
-                    <div className="grid grid-cols-4 gap-2">
-                      {Array.from({ length: (20 - 7) * 2 + 2 }, (_, i) => {
-                        const hour = 7 + Math.floor(i / 2);
-                        const minutes = i % 2 === 0 ? "00" : "30";
-                        const time = `${String(hour).padStart(
-                          2,
-                          "0"
-                        )}:${minutes}`;
-                        return (
-                          <button
-                            key={time}
-                            type="button"
-                            onClick={() => setForm({ ...form, time })}
-                            className={`px-3 py-2 rounded-lg text-sm border 
-                ${
-                  form.time === time
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 hover:bg-gray-200"
-                }`}
-                          >
-                            {time}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Hours Selection */}
-                    <div className="flex items-center gap-4 mt-4">
-                      <label className="text-sm font-medium text-gray-700">
-                        Dauer (Std):
-                      </label>
-
-                      <div className="flex items-center border rounded-lg px-3 py-2 bg-white">
-                        {/* Minus Button */}
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setForm((prev) => ({
-                              ...prev,
-                              hours: Math.max(2, (prev.hours || 2) - 0.5),
-                            }))
-                          }
-                          className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
-                        >
-                          –
-                        </button>
-
-                        {/* Hours Display */}
-                        <span className="px-4 text-lg font-semibold text-gray-800 select-none">
-                          {form.hours || 2}
-                        </span>
-
-                        {/* Plus Button */}
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setForm((prev) => ({
-                              ...prev,
-                              hours: Math.min(8, (prev.hours || 2) + 0.5),
-                            }))
-                          }
-                          className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Service Dropdown */}
-                    <select
-                      value={form.service}
-                      onChange={(e) =>
-                        setForm({
-                          ...form,
-                          service: e.target.value,
-                          subService: "",
-                        })
-                      }
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
-                    >
-                      <option value="">Service auswählen</option>
-                      {allServices.map((srv) => (
-                        <option key={srv.id} value={String(srv.id)}>
-                          {srv.name}
-                        </option>
-                      ))}
-                    </select>
-
-                    {/* Subservice Dropdown */}
-                    {selectedService?.subServices?.length > 0 && (
-                      <select
-                        value={form.subService}
-                        onChange={(e) =>
-                          setForm({ ...form, subService: e.target.value })
-                        }
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
-                      >
-                        <option value="">Subservice auswählen</option>
-                        {selectedService.subServices.map((sub) => (
-                          <option key={sub.id} value={String(sub.id)}>
-                            {sub.name}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-
-                    <button
-                      type="submit"
-                      className="mt-12 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
-             hover:bg-[#033553] transition"
-                    >
-                      Termin buchen
-                    </button>
-                  </form>
-                )}
-
-                {/* Step 2: Payment */}
-                {step === "payment" && (
-                  <div className="p-2 bg-white rounded-2xl shadow-md">
-                    <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
-
-                    <CardElement className="border p-3 rounded-lg" />
-
-                    {/* AGB checkbox */}
-                    <div className="flex items-start mt-4">
-                      <input
-                        type="checkbox"
-                        checked={agbAccepted}
-                        onChange={(e) => setAgbAccepted(e.target.checked)}
-                        className="mr-2 mt-[5px]"
-                      />
-                      <span>
-                        Ich akzeptiere die{" "}
-                        <a
-                          href="/AVB"
-                          target="_blank"
-                          className="text-[#B99B5F] underline"
-                        >
-                          AVB
-                        </a>
-                      </span>
-                    </div>
-                    {agbError && (
-                      <p className="text-red-500 text-sm">{agbError}</p>
-                    )}
-
-                    <button
-                      onClick={handleStripePayment}
-                      className="mt-6 bg-[#04436F] text-white py-3 px-6 rounded-lg"
-                    >
-                      Zahlung bestätigen
-                    </button>
-                  </div>
-                )}
-
-                {/* Step 3: Done */}
-                {step === "done" && (
-                  <div className="p-6 bg-white rounded-2xl shadow-md text-center">
-                    <h2 className="text-2xl font-bold text-green-600 mb-4">
-                      🎉 Termin erfolgreich gebucht!
-                    </h2>
-                    <p className="text-gray-700 mb-6">
-                      Ihre Zahlung wurde bestätigt und Ihr Termin ist
-                      gespeichert.
+  {/* Content kur hapet */}
+  <div
+    className={`transition-all duration-500 transform ${
+      showAppointments
+        ? "max-h-[800px] opacity-100 scale-100"
+        : "max-h-0 opacity-0 scale-95"
+    }`}
+        style={{
+      position: "relative", // Kjo i jep mundësinë e pozicionimit absolut brenda
+      overflow: "hidden",   // Parandalon që dropdown-i të ndikojë në layout
+    }}
+  >
+    <div className="p-6 space-y-4">
+      {appointments.filter((a) => a.status !== "cancelled").length > 0 ? (
+        <ul
+          className="space-y-4 max-h-96 overflow-y-auto pr-2 
+          scrollbar-thin scrollbar-thumb-[#B99B5F]/40 
+          scrollbar-track-transparent"
+        >
+          {appointments
+            .filter((a) => a.status !== "cancelled")
+            .map((appt) => (
+              <li
+                key={appt.id}
+                className="p-5 rounded-2xl shadow-md hover:shadow-lg transition 
+                bg-[#B99B5F]/10 border border-[#B99B5F]/20"
+              >
+                {/* Info */}
+                <div className="space-y-2 text-sm text-gray-800">
+                  <div className="flex items-center justify-between">
+                    <p className="flex items-center gap-2 font-semibold">
+                      <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
+                      {appt.day}
                     </p>
-                    <button
-                      onClick={() => setStep("booking")}
-                      className="bg-[#04436F] text-white py-3 px-6 rounded-lg hover:bg-[#033553] transition"
+                    <span
+                      className={`px-3 py-1 text-xs font-medium rounded-full ${
+                        appt.status === "active"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
                     >
-                      Neuen Termin buchen
-                    </button>
+                      {appt.status === "active" ? "Aktiv" : appt.status}
+                    </span>
                   </div>
-                )}
-              </section>
 
-              {/* Update Information Form */}
-              {/* Update Information Form */}
-              <section className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-                <h3 className="text-2xl font-semibold text-[#B99B5F] uppercase tracking-wide mb-6 text-center select-none">
-                  Informationen aktualisieren
-                </h3>
-                <form
-                  onSubmit={handleSubmit}
-                  className="space-y-4 flex flex-col"
-                >
-                  {[
-                    { name: "firstName", label: "Vorname", type: "text" },
-                    { name: "lastName", label: "Nachname", type: "text" },
-                    { name: "email", label: "E-Mail Adresse", type: "email" },
-                    { name: "phone", label: "Telefonnummer", type: "tel" },
-                    {
-                      name: "requestFirstName",
-                      label: "Notfall Kontakt Name",
-                      type: "text",
-                    },
-                    {
-                      name: "requestLastName",
-                      label: "Notfall Kontakt Nachname",
-                      type: "text",
-                    },
-                    {
-                      name: "requestPhone",
-                      label: "Notfall Kontakt Telefonnummer",
-                      type: "tel",
-                    },
-                    {
-                      name: "requestEmail",
-                      label: "Notfall Kontakt Email",
-                      type: "email",
-                    },
-                  ].map(({ name, label, type }) => (
-                    <div key={name} className="flex flex-col gap-1">
-                      <label
-                        htmlFor={name}
-                        className="text-sm font-medium text-gray-700"
-                      >
-                        {label}
-                      </label>
-                      <input
-                        id={name}
-                        type={type}
-                        name={name}
-                        value={updatedData[name] || ""}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm 
-                     placeholder-gray-400 focus:ring-2 focus:ring-[#04436F] 
-                     focus:outline-none transition"
-                      />
-                    </div>
-                  ))}
+                  {appt.date && (
+                    <p className="flex items-center gap-2 text-xs text-gray-600">
+                      <Clock className="w-4 h-4 text-[#B99B5F]" />
+                      {format(parseISO(appt.date), "EEEE, d. MMM yyyy", {
+                        locale: de,
+                      })}
+                    </p>
+                  )}
 
-                  {/* Buton si “Termin buchen” */}
+                  <div className="flex items-center gap-4 text-xs text-gray-600">
+                    <span className="flex items-center gap-2">
+                      <AlarmClock className="w-4 h-4 text-[#B99B5F]" />
+                      {appt.startTime}
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <Hourglass className="w-4 h-4 text-[#B99B5F]" />
+                      {appt.hours} Std
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 mt-4">
+                  {/* Cancel */}
                   <button
-                    type="submit"
-                    className="mt-4 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
-                 hover:bg-[#033553] transition"
+                    onClick={() => cancelAppointment(appt.id)}
+                    className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+                      bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
                   >
-                    Änderungen speichern
+                    Stornieren
                   </button>
-                </form>
-              </section>
+
+                  {/* Details */}
+                  <button
+                    onClick={() => setSelectedAppointment(appt)}
+                    className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+                      bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
+                  >
+                    Details
+                  </button>
+                </div>
+              </li>
+            ))}
+        </ul>
+      ) : (
+        <p className="italic text-gray-400 text-center py-6">
+          Keine Termine geplant
+        </p>
+      )}
+    </div>
+  </div>
+</section>
+
+{/* --- URLAUB --- */}
+<section
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  ${showVacations
+    ? " scale-100 opacity-100 rounded-3xl shadow-2xl"
+    : " scale-95 opacity-90 rounded-xl shadow-md"}`}
+>
+  {/* Header */}
+  <header
+    onClick={() => setShowVacations((prev) => !prev)}
+    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+  >
+    <div className="flex items-center gap-2">
+       <h3 className="text-2xl font-semibold text-[#B99B5F]">
+   Urlaub
+    </h3>
+    </div>
+    <svg
+      className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${
+        showVacations ? "rotate-180" : ""
+      }`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </header>
+
+  {/* Description kur është i mbyllur */}
+  {!showVacations && (
+    <div className="transition-all duration-500">
+      <p className="px-6 py-6 text-sm text-gray-500 italic text-left">
+        Hier können Sie Ihre Urlaubszeiten verwalten.
+      </p>
+    </div>
+  )}
+
+  {/* Content kur hapet */}
+  <div
+    className={`transition-all duration-500 transform ${
+      showVacations
+        ? "max-h-[800px] opacity-100 scale-100"
+        : "max-h-0 opacity-0 scale-95"
+    }`}
+  >
+    <div className="p-6 space-y-6">
+      {/* Form */}
+      <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 shadow-inner mb-6">
+        <VacationForm
+          userId={userData.id}
+          refreshVacations={() => fetchVacations(userData.id)}
+        />
+      </div>
+
+      {/* List */}
+      {vacations.length > 0 ? (
+        <ul className="space-y-4">
+          {vacations.map((v) => (
+            <li
+              key={v.id}
+              className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:shadow-md transition"
+            >
+              <div className="bg-[#B99B5F]/10 p-3 rounded-xl">
+                <CalendarDays className="text-[#B99B5F] w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-900">
+                  {new Date(v.startDate).toLocaleDateString("de-CH")} –{" "}
+                  {new Date(v.endDate).toLocaleDateString("de-CH")}
+                </p>
+                <p className="text-xs text-gray-500">Geplant</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="italic text-gray-400 text-center">
+          Kein Urlaub eingetragen
+        </p>
+      )}
+    </div>
+  </div>
+</section>
+{/* --- MONATSÜBERSICHT --- */}
+<ClientDashboard2 userId={userData?.id} />
+
+          </section>
+
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-16">
+              {/* --- SERVICE HISTORY --- */}
+      {/* Serviceverlauf Section */}
+<section
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  ${showHistory
+    ? "scale-100 opacity-100 rounded-3xl shadow-2xl"
+    : "scale-95 opacity-90 rounded-xl shadow-md"}`}
+>
+
+  {/* Header */}
+  <div
+    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+    onClick={() => setShowHistory(!showHistory)}
+  >
+           <h3 className="text-2xl font-semibold text-[#B99B5F]">
+   Serviceverlauf
+    </h3>
+
+    {showHistory ? (
+      <ChevronUp className="w-6 h-6 text-gray-500" />
+    ) : (
+      <ChevronDown className="w-6 h-6 text-gray-500" />
+    )}
+  </div>
+
+  <div
+    className={`transition-all duration-500 ${
+      showHistory
+        ? "max-h-0 opacity-0 overflow-hidden"
+        : "max-h-40 opacity-100"
+    }`}
+  >
+    <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
+      Hier sehen Sie den Verlauf Ihrer Services mit Status, Datum und
+      Details.
+    </p>
+  </div>
+
+  {/* Filter + List + Zusammenfassung */}
+  <div
+    className={`transition-all duration-500 transform ${
+      showHistory
+        ? "max-h-[900px] opacity-100 scale-100"
+        : "max-h-0 opacity-0 scale-95 overflow-hidden"
+    }`}
+  >
+    {/* Filter buttons */}
+    <div className="flex items-center gap-6 mb-6 px-6 pt-4">
+      {/* Cancelled */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setFilter("cancelled");
+        }}
+        className="flex items-center gap-2 text-sm font-medium"
+      >
+        <span
+          className={`w-4 h-4 rounded-full border-2 ${
+            filter === "cancelled"
+              ? "bg-red-500 border-red-600 scale-110"
+              : "bg-red-300 border-red-400"
+          }`}
+        ></span>
+        <span
+          className={
+            filter === "cancelled" ? "text-red-600" : "text-gray-600"
+          }
+        >
+          Abgebrochen
+        </span>
+      </button>
+
+      {/* Done */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setFilter("done");
+        }}
+        className="flex items-center gap-2 text-sm font-medium"
+      >
+        <span
+          className={`w-4 h-4 rounded-full border-2 ${
+            filter === "done"
+              ? "bg-green-500 border-green-600 scale-110"
+              : "bg-green-300 border-green-400"
+          }`}
+        ></span>
+        <span
+          className={filter === "done" ? "text-green-600" : "text-gray-600"}
+        >
+          Erledigt
+        </span>
+      </button>
+    </div>
+
+    {/* List */}
+    <ul
+      className="space-y-4 max-h-96 overflow-y-auto pr-2 px-6
+        scrollbar-thin scrollbar-thumb-[#B99B5F]/40 scrollbar-track-transparent"
+    >
+      {appointments.filter((a) => a.status === filter).length > 0 ? (
+        appointments
+          .filter((a) => a.status === filter)
+          .map((item) => (
+            <li
+              key={item.id}
+              className={`p-5 rounded-2xl shadow-md hover:shadow-lg transition 
+                ${
+                  item.status === "cancelled"
+                    ? "bg-red-50 border border-red-200"
+                    : item.status === "done"
+                    ? "bg-green-50 border border-green-200"
+                    : item.status === "terminated"
+                    ? "bg-yellow-50 border border-yellow-200"
+                    : "bg-white border"
+                }`}
+            >
+              {/* Info */}
+              <div className="space-y-2 text-sm text-gray-800">
+                <div className="flex items-center justify-between">
+                  <p className="flex items-center gap-2 font-semibold">
+                    <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
+                    {item.day}
+                  </p>
+                  <span
+                    className={`px-3 py-1 text-xs font-medium rounded-full
+                      ${
+                        item.status === "done"
+                          ? "bg-green-100 text-green-700"
+                          : item.status === "cancelled"
+                          ? "bg-red-100 text-red-700"
+                          : item.status === "terminated"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                  >
+                    {item.status === "done"
+                      ? "Erledigt"
+                      : item.status === "cancelled"
+                      ? "Storniert"
+                      : item.status === "terminated"
+                      ? "Gekündigt"
+                      : item.status}
+                  </span>
+                </div>
+
+                {item.date && (
+                  <p className="flex items-center gap-2 text-xs text-gray-600">
+                    <Clock className="w-4 h-4 text-[#B99B5F]" />
+                    {new Date(item.date).toLocaleDateString("de-DE", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </p>
+                )}
+
+                <div className="flex items-center gap-4 text-xs text-gray-600">
+                  <span className="flex items-center gap-2">
+                    <AlarmClock className="w-4 h-4 text-[#B99B5F]" />{" "}
+                    {item.startTime}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Hourglass className="w-4 h-4 text-[#B99B5F]" />{" "}
+                    {item.hours} Std
+                  </span>
+                </div>
+
+                {item.serviceName && (
+                  <p className="text-xs text-gray-600">
+                    <strong>Service:</strong> {item.serviceName}
+                  </p>
+                )}
+                {item.subServiceName && (
+                  <p className="text-xs text-gray-600">
+                    <strong>Sub-Service:</strong> {item.subServiceName}
+                  </p>
+                )}
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-2 mt-4">
+                {/* Abbrechen */}
+                <button
+                  onClick={() => cancelAppointment(item.id)}
+                  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+                    bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
+                >
+                  Stornieren
+                </button>
+
+                {/* Details */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedAppointment(item);
+                  }}
+                  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+                    bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 
+                    cursor-pointer relative z-10"
+                >
+                  Details
+                </button>
+              </div>
+            </li>
+          ))
+      ) : (
+        <p className="italic text-gray-400">
+          Keine Einträge für diesen Status
+        </p>
+      )}
+    </ul>
+
+    {/* Zusammenfassung */}
+    <article className="bg-white p-8 rounded-3xl shadow-xl m-6">
+      <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6">
+        Zusammenfassung
+      </h3>
+
+      <p className="text-lg mb-3">
+        <strong>Gesamtstunden:</strong> {totalHours} Std
+      </p>
+      <p className="text-lg mb-3">
+        <strong>Gesamtkilometer:</strong> {totalKm} km
+      </p>
+
+      <p className="text-lg mt-6 text-red-600">
+        <strong>Extra Stunden:</strong> {extraHours} Std
+      </p>
+      <p className="text-lg text-red-600">
+        <strong>Extra Kilometer:</strong> {extraKm} km
+      </p>
+    </article>
+  </div>
+</section>
+
+          {/* Neue Buchung planen Section */}
+<section
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  ${showBooking
+    ? " scale-100 opacity-100 rounded-3xl shadow-2xl"
+    : "scale-95 opacity-90 rounded-xl shadow-md"}`}
+>
+  {/* Header */}
+  <div
+    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+    onClick={() => setShowBooking(!showBooking)}
+  >
+         <h3 className="text-2xl font-semibold text-[#B99B5F]">
+    Neue Buchung planen
+    </h3>
+
+    {showBooking ? (
+      <ChevronUp className="w-6 h-6 text-gray-500" />
+    ) : (
+      <ChevronDown className="w-6 h-6 text-gray-500" />
+    )}
+  </div>
+
+  {/* Description kur është i mbyllur */}
+  <div
+    className={`transition-all duration-500 ${
+      showBooking
+        ? "max-h-0 opacity-0 overflow-hidden"
+        : "max-h-40 opacity-100"
+    }`}
+  >
+    <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
+      Hier können Sie einen neuen Termin planen, Ihre gewünschte Uhrzeit
+      auswählen und direkt bezahlen.
+    </p>
+  </div>
+
+  {/* Content kur hapet */}
+  <div
+    className={`transition-all duration-500 transform ${
+      showBooking
+        ? "max-h-[1200px] opacity-100 scale-100"
+        : "max-h-0 opacity-0 scale-95 overflow-hidden"
+    }`}
+  >
+    <div className="p-6">
+      {step === "booking" && (
+        <form
+          onSubmit={handleBookingSubmit}
+          className="space-y-4 flex flex-col flex-grow"
+        >
+          {/* Date Picker */}
+          <DatePicker
+            selected={form.date}
+            onChange={(date) => setForm({ ...form, date })}
+            dateFormat="dd.MM.yyyy"
+            locale="de"
+            placeholderText="TT.MM.JJJJ"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+            minDate={minSelectableDate}
+          />
+
+          {/* Time Slots */}
+          <div className="grid grid-cols-4 gap-2">
+            {Array.from({ length: (20 - 7) * 2 + 2 }, (_, i) => {
+              const hour = 7 + Math.floor(i / 2);
+              const minutes = i % 2 === 0 ? "00" : "30";
+              const time = `${String(hour).padStart(2, "0")}:${minutes}`;
+              return (
+                <button
+                  key={time}
+                  type="button"
+                  onClick={() => setForm({ ...form, time })}
+                  className={`px-3 py-2 rounded-lg text-sm border 
+                    ${
+                      form.time === time
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    }`}
+                >
+                  {time}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Hours Selection */}
+          <div className="flex items-center gap-4 mt-4">
+            <label className="text-sm font-medium text-gray-700">
+              Dauer (Std):
+            </label>
+            <div className="flex items-center border rounded-lg px-3 py-2 bg-white">
+              <button
+                type="button"
+                onClick={() =>
+                  setForm((prev) => ({
+                    ...prev,
+                    hours: Math.max(2, (prev.hours || 2) - 0.5),
+                  }))
+                }
+                className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
+              >
+                –
+              </button>
+              <span className="px-4 text-lg font-semibold text-gray-800 select-none">
+                {form.hours || 2}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setForm((prev) => ({
+                    ...prev,
+                    hours: Math.min(8, (prev.hours || 2) + 0.5),
+                  }))
+                }
+                className="px-3 py-1 text-lg font-bold text-gray-600 hover:text-black"
+              >
+                +
+              </button>
             </div>
           </div>
+
+          {/* Service Dropdown */}
+          <select
+            value={form.service}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                service: e.target.value,
+                subService: "",
+              })
+            }
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+          >
+            <option value="">Service auswählen</option>
+            {allServices.map((srv) => (
+              <option key={srv.id} value={String(srv.id)}>
+                {srv.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Subservice Dropdown */}
+          {selectedService?.subServices?.length > 0 && (
+            <select
+              value={form.subService}
+              onChange={(e) =>
+                setForm({ ...form, subService: e.target.value })
+              }
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+            >
+              <option value="">Subservice auswählen</option>
+              {selectedService.subServices.map((sub) => (
+                <option key={sub.id} value={String(sub.id)}>
+                  {sub.name}
+                </option>
+              ))}
+            </select>
+          )}
+
+          <button
+            type="submit"
+            className="mt-12 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
+              hover:bg-[#033553] transition"
+          >
+            Termin buchen
+          </button>
+        </form>
+      )}
+
+      {/* Step 2: Payment */}
+      {step === "payment" && (
+        <div className="p-2 bg-white rounded-2xl shadow-md">
+          <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
+          <CardElement className="border p-3 rounded-lg" />
+          <div className="flex items-start mt-4">
+            <input
+              type="checkbox"
+              checked={agbAccepted}
+              onChange={(e) => setAgbAccepted(e.target.checked)}
+              className="mr-2 mt-[5px]"
+            />
+            <span>
+              Ich akzeptiere die{" "}
+              <a
+                href="/AVB"
+                target="_blank"
+                className="text-[#B99B5F] underline"
+              >
+                AVB
+              </a>
+            </span>
+          </div>
+          {agbError && (
+            <p className="text-red-500 text-sm">{agbError}</p>
+          )}
+          <button
+            onClick={handleStripePayment}
+            className="mt-6 bg-[#04436F] text-white py-3 px-6 rounded-lg"
+          >
+            Zahlung bestätigen
+          </button>
+        </div>
+      )}
+
+      {/* Step 3: Done */}
+      {step === "done" && (
+        <div className="p-6 bg-white rounded-2xl shadow-md text-center">
+          <h2 className="text-2xl font-bold text-green-600 mb-4">
+            🎉 Termin erfolgreich gebucht!
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Ihre Zahlung wurde bestätigt und Ihr Termin ist gespeichert.
+          </p>
+          <button
+            onClick={() => setStep("booking")}
+            className="bg-[#04436F] text-white py-3 px-6 rounded-lg hover:bg-[#033553] transition"
+          >
+            Neuen Termin buchen
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+          
+              {/* Update Information Form */}
+            {/* Informationen aktualisieren Section */}
+<section
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  ${showInfoUpdate
+    ? " scale-100 opacity-100 rounded-3xl shadow-2xl"
+    : " scale-95 opacity-90 rounded-xl shadow-md"}`}
+>
+  {/* Header */}
+  <div
+    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+    onClick={() => setShowInfoUpdate(!showInfoUpdate)}
+  >
+      <h3 className="text-2xl font-semibold text-[#B99B5F]">
+     Informationen aktualisieren
+    </h3>
+    {showInfoUpdate ? (
+      <ChevronUp className="w-6 h-6 text-gray-500" />
+    ) : (
+      <ChevronDown className="w-6 h-6 text-gray-500" />
+    )}
+  </div>
+
+  {/* Description kur është i mbyllur */}
+  <div
+    className={`transition-all duration-500 ${
+      showInfoUpdate
+        ? "max-h-0 opacity-0 overflow-hidden"
+        : "max-h-40 opacity-100"
+    }`}
+  >
+    <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
+      Hier können Sie Ihre persönlichen Daten und Notfallkontakte aktualisieren.
+    </p>
+  </div>
+
+  {/* Content kur hapet */}
+  <div
+    className={`transition-all duration-500 transform ${
+      showInfoUpdate
+        ? "max-h-[1200px] opacity-100 scale-100"
+        : "max-h-0 opacity-0 scale-95 overflow-hidden"
+    }`}
+  >
+    <div className="p-6">
+      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
+        {[
+          { name: "firstName", label: "Vorname", type: "text" },
+          { name: "lastName", label: "Nachname", type: "text" },
+          { name: "email", label: "E-Mail Adresse", type: "email" },
+          { name: "phone", label: "Telefonnummer", type: "tel" },
+          {
+            name: "requestFirstName",
+            label: "Notfall Kontakt Name",
+            type: "text",
+          },
+          {
+            name: "requestLastName",
+            label: "Notfall Kontakt Nachname",
+            type: "text",
+          },
+          {
+            name: "requestPhone",
+            label: "Notfall Kontakt Telefonnummer",
+            type: "tel",
+          },
+          {
+            name: "requestEmail",
+            label: "Notfall Kontakt Email",
+            type: "email",
+          },
+        ].map(({ name, label, type }) => (
+          <div key={name} className="flex flex-col gap-1">
+            <label
+              htmlFor={name}
+              className="text-sm font-medium text-gray-700"
+            >
+              {label}
+            </label>
+            <input
+              id={name}
+              type={type}
+              name={name}
+              value={updatedData[name] || ""}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm 
+                placeholder-gray-400 focus:ring-2 focus:ring-[#04436F] 
+                focus:outline-none transition"
+            />
+          </div>
+        ))}
+
+        <button
+          type="submit"
+          className="mt-4 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
+            hover:bg-[#033553] transition"
+        >
+          Änderungen speichern
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+          </div>
+{selectedAppointment && (
+  <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div className="bg-white p-6 rounded-2xl shadow-lg max-w-lg w-full relative">
+      <button
+        onClick={() => setSelectedAppointment(null)} // Mbyll modalin kur shtypet
+        className="absolute top-2 right-2 text-gray-500 hover:text-black"
+      >
+        ✕
+      </button>
+
+      <h3 className="text-xl font-semibold text-[#B99B5F] mb-4">
+        Termin Details
+      </h3>
+
+      {!isEditing ? (
+        <>
+          {/* Shfaqja e detajeve */}
+          <p>
+            <strong>Datum:</strong>{" "}
+            {new Date(selectedAppointment.date).toLocaleDateString("de-DE")}
+          </p>
+          <p>
+            <strong>Uhrzeit:</strong> {selectedAppointment.startTime}
+          </p>
+          <p>
+            <strong>Dauer:</strong> {selectedAppointment.hours} Std
+          </p>
+          <p>
+            <strong>Service:</strong> {selectedAppointment.serviceName}
+          </p>
+          <p>
+            <strong>Sub-Service:</strong> {selectedAppointment.subServiceName}
+          </p>
+          <p>
+            <strong>Status:</strong> {selectedAppointment.status}
+          </p>
+
+          {/* Butoni për editim */}
+          <button
+            onClick={() => setIsEditing(true)} // Aktivizo redaktimin
+            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg"
+          >
+            Bearbeiten
+          </button>
+        </>
+      ) : (
+        <>
+          {/* Pjesa e formularit për editim */}
+          <label className="block text-sm font-medium">Datum</label>
+          <DatePicker
+            selected={editData.date ? new Date(editData.date) : null}
+            onChange={(date) =>
+              setEditData((prev) => ({
+                ...prev,
+                date: date.toISOString().split("T")[0],
+              }))
+            }
+            dateFormat="dd.MM.yyyy"
+            locale="de"
+            className="border px-3 py-2 rounded-lg w-full mb-3"
+          />
+
+          <label className="block text-sm font-medium">Uhrzeit</label>
+          <input
+            type="time"
+            value={editData.startTime || ""}
+            onChange={(e) =>
+              setEditData((prev) => ({ ...prev, startTime: e.target.value }))
+            }
+            className="border px-3 py-2 rounded-lg w-full mb-3"
+          />
+
+          <div className="flex justify-end gap-2 mt-4">
+            <button
+              onClick={() => setIsEditing(false)} // Kthehu në shikimin normal
+              className="px-4 py-2 rounded-lg border"
+            >
+              Abbrechen
+            </button>
+            <button
+              onClick={async () => {
+                await fetch("/api/appointments", {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    id: selectedAppointment.id,
+                    update: {
+                      date: editData.date,
+                      startTime: editData.startTime,
+                    },
+                  }),
+                });
+                // Përdorimi i detajeve të reja për të përditësuar listën
+                setAppointments((prev) =>
+                  prev.map((a) =>
+                    a.id === selectedAppointment.id
+                      ? { ...a, ...editData }
+                      : a
+                  )
+                );
+                setIsEditing(false);
+                setSelectedAppointment(null); // Mbylle modalin pas ruajtjes
+              }}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg"
+            >
+              Speichern
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+)}
+
+
         </main>
       </div>
     </div>
