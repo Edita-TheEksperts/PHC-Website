@@ -39,6 +39,7 @@ export default async function handler(req, res) {
         duration: parseInt(duration, 10),
         firstDate: parsedDate,
         totalPayment,
+          carePerson,
 
         services: services?.length
           ? {

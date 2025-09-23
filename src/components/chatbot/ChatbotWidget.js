@@ -29,7 +29,7 @@ function resetIdleTimer(addMessage) {
       widget: "yesNoOptions",
     });
     addMessage(msg);   // ✅ nur Message-Objekt
-  }, 10000);
+  }, 30000);
 }
 
 

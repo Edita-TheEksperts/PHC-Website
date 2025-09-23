@@ -124,6 +124,13 @@ const [loadingStep4, setLoadingStep4] = useState(false);
     entranceLocation: "",
     mobilityAids: [],
     transportOption: "",
+    careFirstName: "",
+  careLastName: "",
+  carePhone: "",
+  careStreet: "",
+  carePostalCode: "",
+  careCity: "",
+    
   });
   // ✅ Helper to check if date is Swiss holiday
   function isSwissHoliday(date) {
@@ -444,6 +451,16 @@ useEffect(() => {
         scrollToTop();
         return false;
       }
+        if (!form.careFirstName) {
+    setFormError("Bitte geben Sie den Vornamen der betreuten Person ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.careLastName) {
+    setFormError("Bitte geben Sie den Nachnamen der betreuten Person ein.");
+    scrollToTop();
+    return false;
+  }
     }
 
     if (step === 3 && !testMode) {
@@ -2092,6 +2109,7 @@ onChange={(date) => {
                   </div>
                 </div>
 
+
                 {/* Adresse */}
                 <div>
                   <label className="block font-semibold text-base mb-2">
@@ -2159,6 +2177,38 @@ onChange={(date) => {
                       className={inputClass}
                     />
                   </div>
+                  {/* Zusatz: zu betreuende Person */}
+<div className="mt-8">
+  <h3 className="text-xl font-bold text-black mb-4">
+    Zusatz: zu betreuende Person
+  </h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label className="block font-medium mb-1">
+        Vorname der betreuten Person
+      </label>
+      <input
+        name="careFirstName"
+        placeholder="Vorname"
+        value={form.careFirstName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+    <div>
+      <label className="block font-medium mb-1">
+        Nachname der betreuten Person
+      </label>
+      <input
+        name="careLastName"
+        placeholder="Nachname"
+        value={form.careLastName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  </div>
+</div>
                 </div>
               </div>
             </>
@@ -3379,29 +3429,62 @@ onChange={(date) => {
         </form>
       </div>
 
-      <div className="w-full md:w-96">
-        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">
-            Zusammenfassung
-          </h3>
+<div className="w-full md:w-96">
+  <div className="sticky top-4 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
+    {/* Titulli */}
+    <h3 className="text-xl font-bold text-gray-800 mb-2">
+      Zusammenfassung
+    </h3>
 
-          <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
-            <SummaryRow label="Häufigkeit" value={form.frequency} />
-            <SummaryRow
-              label="Dauer"
-              value={`${form.schedules.reduce(
-                (sum, s) => sum + (s.hours || 0),
-                0
-              )} Stunden`}
-            />
-            <SummaryRow label="Beginndatum" value={form.firstDate} />
-            <SummaryRow
-              label="Gesamtsumme"
-              value={`${totalPayment.toFixed(2)} CHF`}
-            />
-          </div>
-        </div>
+    {/* Përmbajtja */}
+    <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
+      <SummaryRow label="Häufigkeit" value={form.frequency} />
+      <SummaryRow
+        label="Dauer"
+        value={`${form.schedules.reduce(
+          (sum, s) => sum + (s.hours || 0),
+          0
+        )} Stunden`}
+      />
+      <SummaryRow label="Beginndatum" value={form.firstDate} />
+
+      {/* Breakdown i çmimit */}
+      <div className="border-t pt-2">
+        {form.schedules.map((s, i) => {
+          const hours = s.hours || 0;
+          const hourlyRate = form.frequency === "einmalig" ? 75 : 59;
+          return (
+            <p key={i} className="text-sm text-gray-600">
+              {hours} × {hourlyRate} CHF ={" "}
+              {(hours * hourlyRate).toFixed(2)} CHF
+            </p>
+          );
+        })}
+
+        {/* Totali */}
+        <p className="mt-2 font-semibold text-gray-900">
+          Gesamtsumme: {totalPayment.toFixed(2)} CHF
+        </p>
       </div>
+
+      {/* Zusatz: zu betreuende Person */}
+      {form.careFirstName || form.careLastName ? (
+        <SummaryRow
+          label="Zu betreuende Person"
+          value={`${form.careFirstName || ""} ${form.careLastName || ""}`}
+        />
+      ) : null}
+    </div>
+
+    {/* Info-line */}
+    <div className="text-xs text-gray-500 italic">
+      Batmaid = inkl. MwSt und Versicherungs- & Sozialabgaben
+    </div>
+  </div>
+</div>
+
+
+
     </div>
   );
 }
