@@ -111,7 +111,37 @@ class IdleTimerActionProvider extends ActionProvider {
       });
     };
   }
+
+  // ✅ Futem brenda klasës
+  addMessage = (message) => {
+    this.setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, message],
+    }));
+  };
+
+  createMessage = (text, options = {}) => {
+    return this.createChatBotMessage(text, options);
+  };
+   handleInvoice = () => {
+    const message = this.createChatBotMessage(
+      <span>
+        Sie können Ihre Rechnungen hier einsehen:{" "}
+        <a href="http://localhost:3000/client-dashboard" target="_blank" rel="noopener noreferrer">
+          Zum Dashboard
+        </a>. <br />
+        Falls Sie nicht eingeloggt sind, werden Sie automatisch zur{" "}
+        <a href="http://localhost:3000/login" target="_blank" rel="noopener noreferrer">
+          Login
+        </a> -Seite weitergeleitet.
+      </span>
+    );
+
+    this.setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, message],
+    }));
+  };
 }
 
-// ✅ Export the correct class
 export default IdleTimerActionProvider;

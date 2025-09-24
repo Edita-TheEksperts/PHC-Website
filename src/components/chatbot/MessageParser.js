@@ -23,13 +23,22 @@ class MessageParser {
       )
     );
 
-    if (found) {
-      this.actionProvider.giveAnswer(found.answer);
-    } else {
-      this.actionProvider.giveAnswer(
-        "Entschuldigung, ich habe dazu keine Information. Bitte schauen Sie in die FAQ oder AVB."
-      );
-    }
+if (found) {
+  if (found.widget === "dashboardLink") {
+    // ✅ thërret metodën e re në ActionProvider
+    this.actionProvider.handleInvoice();
+  } else if (found.widget) {
+    const message = this.actionProvider.createChatBotMessage(
+      "Hier finden Sie Ihre Rechnungen:",
+      { widget: found.widget }
+    );
+    this.actionProvider.addMessage(message);
+  } else if (found.answer) {
+    this.actionProvider.giveAnswer(found.answer);
+  }
+}
+
+
   }
 }
 

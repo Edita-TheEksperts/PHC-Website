@@ -2,6 +2,8 @@ import { createChatBotMessage } from "react-chatbot-kit";
 import CategoryOptions from "./widgets/CategoryOptions";
 import QuestionOptions from "./widgets/QuestionOptions";
 import React from "react";
+import DashboardLink from "./DashboardLink";
+
 import YesNoOptions from "./YesNoOptions";   // 👉 hier hinzufügen
 
 // --- Custom Avatars ---
@@ -67,6 +69,11 @@ const config = {
       widgetName: "categoryOptions",
       widgetFunc: (props) => <CategoryOptions {...props} />,
     },
+    
+  {
+    widgetName: "dashboardLink",
+    widgetFunc: (props) => <DashboardLink {...props} />,
+  },
     {
       widgetName: "questionOptions",
       widgetFunc: (props) => <QuestionOptions {...props} />,
@@ -253,10 +260,6 @@ state: {
       answer: "Falls Sie unzufrieden sind, kontaktieren Sie uns bitte direkt über Ihr Kundenprofil. Wir finden gemeinsam eine Lösung."
     },
     {
-      keywords: ["zahlung", "bezahlen", "rechnung", "zahlungsmethoden", "kosten abrechnung"],
-      answer: "Die Abrechnung erfolgt transparent und digital über unsere Plattform. Alle Preise sind inkl. MwSt. und ohne versteckte Gebühren."
-    },
-    {
   keywords: [
     "meine rechnung",
     "meine zahlung",
@@ -269,7 +272,7 @@ state: {
     "mein zahlung",
     "mein kosten"
   ],
-  answer: "Bitte gehen Sie in Ihr Dashboard, dort finden Sie die Informationen."
+  widget: "dashboardLink"
 },
 
     {

@@ -3386,7 +3386,7 @@ onChange={(date) => {
         </form>
       </div>
 <div className="w-full md:w-96">
-  <div className="sticky top-4 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
+  <div className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
     {/* Titulli */}
     <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
@@ -3421,8 +3421,6 @@ onChange={(date) => {
         </p>
       </div>
 
-    
-
       {/* Kunden Info */}
       {(form.requestFirstName || form.requestLastName || form.requestEmail) && (
         <div className="border-t pt-2 mt-2">
@@ -3435,23 +3433,22 @@ onChange={(date) => {
       )}
 
       {/* Adresse Info */}
-     {/* Adresse Info */}
-{(form.street || form.postalCode || form.city) && (
-  <div className="border-t pt-2 mt-2">
-    <h4 className="font-semibold text-gray-800 mb-1">Adresse</h4>
-    <p className="text-sm text-gray-700">
-      {form.street || ""} 
-      {form.entranceLocation ? `, ${form.entranceLocation}` : ""}
-    </p>
-    <p className="text-sm text-gray-700">
-      {form.postalCode || ""} {form.city || ""}
-    </p>
-    {form.address && (
-      <p className="text-sm text-gray-700">{form.address}</p>
-    )}
-  </div>
-)}
-  </div>
+      {(form.street || form.postalCode || form.city) && (
+        <div className="border-t pt-2 mt-2">
+          <h4 className="font-semibold text-gray-800 mb-1">Adresse</h4>
+          <p className="text-sm text-gray-700">
+            {form.street || ""}
+            {form.entranceLocation ? `, ${form.entranceLocation}` : ""}
+          </p>
+          <p className="text-sm text-gray-700">
+            {form.postalCode || ""} {form.city || ""}
+          </p>
+          {form.address && (
+            <p className="text-sm text-gray-700">{form.address}</p>
+          )}
+        </div>
+      )}
+    </div>
 
     {/* Info-line */}
     <div className="text-xs text-gray-500 italic">
