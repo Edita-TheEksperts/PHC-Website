@@ -107,9 +107,14 @@ this.setState = (updateFn) => {
     const lastMsg = newState.messages[newState.messages.length - 1];
 
     // 🚫 If session ended with Nein (Goodbye message), don't restart timer
-    if (hasEndedSession && lastMsg.message?.includes("Vielen Dank")) {
-      return newState;
-    }
+  if (
+  hasEndedSession &&
+  typeof lastMsg.message === "string" &&
+  lastMsg.message.includes("Vielen Dank")
+) {
+  return newState;
+}
+
 
     // ✅ If session was ended earlier but user interacts again → restart
     if (hasEndedSession) {
@@ -141,7 +146,6 @@ this.setState = (updateFn) => {
     return newState;
   });
 };
-
 
   }
 
