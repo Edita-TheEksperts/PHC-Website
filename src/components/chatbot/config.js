@@ -262,8 +262,11 @@ state: {
     {
   keywords: [
     "meine rechnung",
+    "kosten",
     "meine zahlung",
+    "zahlung",
     "ihre rechnung",
+    "rechnung",
     "ihre zahlung",
     "seine rechnung",
     "seine zahlung",
