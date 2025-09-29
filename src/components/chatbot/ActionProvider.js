@@ -66,6 +66,8 @@ class ActionProvider {
       "Vielen Dank, bis zum nächsten Mal! 👋"
     );
 
+    hasEndedSession = true; // ✅ block idle timer after Nein
+
     this.setState((prev) => ({
       ...prev,
       messages: [...prev.messages, message],
@@ -75,14 +77,20 @@ class ActionProvider {
 
 // --- Idle Timer logic ---
 let idleTimer;
+let hasEndedSession = false; // ✅ new flag
+
 function resetIdleTimer(addMessage, createChatBotMessage) {
   clearTimeout(idleTimer);
+
+  // ✅ don't ask again if user clicked "Nein"
+  if (hasEndedSession) return;
+
   idleTimer = setTimeout(() => {
     const msg = createChatBotMessage("Haben Sie noch Fragen?", {
       widget: "yesNoOptions",
     });
     addMessage(msg);
-  }, 10000);
+  }, 10000); // adjust delay here
 }
 
 // --- Extend ActionProvider with idle timer ---
@@ -91,12 +99,22 @@ class IdleTimerActionProvider extends ActionProvider {
     super(createChatBotMessage, setStateFunc);
 
     const originalSetState = this.setState;
+this.setState = (updateFn) => {
+  originalSetState((prev) => {
+    const newState =
+      typeof updateFn === "function" ? updateFn(prev) : updateFn;
 
-    this.setState = (updateFn) => {
-      originalSetState((prev) => {
-        const newState =
-          typeof updateFn === "function" ? updateFn(prev) : updateFn;
+    const lastMsg = newState.messages[newState.messages.length - 1];
 
+    // 🚫 If session ended with Nein (Goodbye message), don't restart timer
+    if (hasEndedSession && lastMsg.message?.includes("Vielen Dank")) {
+      return newState;
+    }
+
+    // ✅ If session was ended earlier but user interacts again → restart
+    if (hasEndedSession) {
+      if (newState.messages.length > prev.messages.length) {
+        hasEndedSession = false; // reopen session
         resetIdleTimer(
           (msg) => {
             originalSetState((p) => ({
@@ -106,13 +124,27 @@ class IdleTimerActionProvider extends ActionProvider {
           },
           this.createChatBotMessage
         );
+      }
+    } else {
+      // Normal case → always reset idle timer
+      resetIdleTimer(
+        (msg) => {
+          originalSetState((p) => ({
+            ...p,
+            messages: [...p.messages, msg],
+          }));
+        },
+        this.createChatBotMessage
+      );
+    }
 
-        return newState;
-      });
-    };
+    return newState;
+  });
+};
+
+
   }
 
-  // ✅ Futem brenda klasës
   addMessage = (message) => {
     this.setState((prev) => ({
       ...prev,
@@ -123,17 +155,27 @@ class IdleTimerActionProvider extends ActionProvider {
   createMessage = (text, options = {}) => {
     return this.createChatBotMessage(text, options);
   };
-   handleInvoice = () => {
+
+  handleInvoice = () => {
     const message = this.createChatBotMessage(
       <span>
         Sie können Ihre Rechnungen hier einsehen:{" "}
-        <a href="http://localhost:3000/client-dashboard" target="_blank" rel="noopener noreferrer">
+        <a
+          href="http://localhost:3000/client-dashboard"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Zum Dashboard
         </a>. <br />
         Falls Sie nicht eingeloggt sind, werden Sie automatisch zur{" "}
-        <a href="http://localhost:3000/login" target="_blank" rel="noopener noreferrer">
+        <a
+          href="http://localhost:3000/login"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Login
-        </a> -Seite weitergeleitet.
+        </a>{" "}
+        -Seite weitergeleitet.
       </span>
     );
 
