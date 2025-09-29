@@ -114,9 +114,6 @@ this.setState = (updateFn) => {
 ) {
   return newState;
 }
-
-
-    // ✅ If session was ended earlier but user interacts again → restart
     if (hasEndedSession) {
       if (newState.messages.length > prev.messages.length) {
         hasEndedSession = false; // reopen session
