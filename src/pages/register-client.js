@@ -106,6 +106,36 @@ const [loadingStep4, setLoadingStep4] = useState(false);
       if (storedUserId) setUserId(storedUserId);
     }
   }, []);
+
+  function getNthWeekdayOfMonth(year, month, weekdayName, nth) {
+  const weekdaysMap = {
+    Sonntag: 0,
+    Montag: 1,
+    Dienstag: 2,
+    Mittwoch: 3,
+    Donnerstag: 4,
+    Freitag: 5,
+    Samstag: 6,
+  };
+
+  const targetDay = weekdaysMap[weekdayName];
+  const firstDay = new Date(year, month, 1);
+  const dates = [];
+
+  for (let d = new Date(firstDay); d.getMonth() === month; d.setDate(d.getDate() + 1)) {
+    if (d.getDay() === targetDay) {
+      dates.push(new Date(d));
+    }
+  }
+
+  if (nth === "last") {
+    return dates[dates.length - 1];
+  } else {
+    const index = parseInt(nth, 10) - 1;
+    return dates[index] || null;
+  }
+}
+
   const [form, setForm] = useState({
     services: [], // ✅ important: default to empty array
     frequency: "",
@@ -126,6 +156,25 @@ const [loadingStep4, setLoadingStep4] = useState(false);
     transportOption: "",
     careFirstName: "",
   });
+
+  // Reset schedules & subservices kur zgjedh "einmalig"
+useEffect(() => {
+  if (form.frequency === "einmalig") {
+    setForm((prev) => ({
+      ...prev,
+      schedules: [
+        {
+          day: prev.schedules[0]?.day || "",
+          startTime: prev.schedules[0]?.startTime || "08:00",
+          hours: 2,
+          subServices: [],
+        },
+      ],
+      subServices: [], 
+    }));
+  }
+}, [form.frequency]);
+
   // ✅ Helper to check if date is Swiss holiday
   function isSwissHoliday(date) {
     return Boolean(hd.isHoliday(date));
@@ -812,6 +861,7 @@ useEffect(() => {
 
   const parseSwissDate = (str) => {
     const [day, month, year] = str.split(".");
+    
     return new Date(`${year}-${month}-${day}`);
   };
 
@@ -1239,26 +1289,31 @@ const handlePayment = async () => {
 
   return (
     <div className="min-h-screen bg-white p-2 lg:p-12 flex flex-col lg:flex-row gap-4">
-      <div className="flex-1 space-y-8">
-        <div className="flex flex-wrap gap-y-4 justify-center md:justify-between text-sm md:text-base font-medium text-[#B99B5F]">
-          {steps.map((label, i) => (
-            <div key={i} className="flex-1 flex items-center gap-2">
-              <div
-                className={`w-7 h-7 flex items-center justify-center rounded-full border-2 ${
-                  step > i
-                    ? "bg-[#B99B5F] text-white"
-                    : "border-[#B99B5F] text-[#B99B5F]"
-                } text-sm font-bold`}
-              >
-                {i + 1}
-              </div>
-              <span className={step === i + 1 ? "font-bold" : ""}>{label}</span>
-              {i < steps.length - 1 && (
-                <div className="flex-1 h-px bg-gray-300 mx-2"></div>
-              )}
-            </div>
-          ))}
-        </div>
+    <div className="flex-1 space-y-8">
+      {/* Progress bar sticky */}
+      <div className="sticky top-[90px] z-50 bg-white  
+                      py-4 flex flex-wrap gap-y-4 justify-center 
+                      md:justify-between text-sm md:text-base 
+                      font-medium text-[#B99B5F] ">
+        {steps.map((label, i) => (
+    <div key={i} className="flex-1 flex items-center gap-2">
+      <div
+        className={`w-7 h-7 flex items-center justify-center rounded-full border-2 ${
+          step > i
+            ? "bg-[#B99B5F] text-white"
+            : "border-[#B99B5F] text-[#B99B5F]"
+        } text-sm font-bold`}
+      >
+        {i + 1}
+      </div>
+      <span className={step === i + 1 ? "font-bold" : ""}>{label}</span>
+      {i < steps.length - 1 && (
+        <div className="flex-1 h-px bg-gray-300 mx-2"></div>
+      )}
+    </div>
+  ))}
+</div>
+
         {formError && (
           <div className="bg-red-100 text-red-700 border border-red-400 px-4 py-3 rounded relative">
             {formError}
@@ -1328,117 +1383,191 @@ const handlePayment = async () => {
                   </div>
                 </div>
 
-                {form.frequency === "monatlich" && (
-                  <div className="space-y-4 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      Monatlicher Termin wählen
-                    </h3>
+         {form.frequency === "monatlich" && (
+  <div className="space-y-4 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+    <h3 className="text-lg font-semibold text-gray-900">
+      Monatlicher Termin wählen
+    </h3>
 
-                    {/* Auswahlart */}
-                    <div className="flex flex-col space-y-1">
-                      <label className="text-sm font-medium text-gray-700">
-                        Art der Auswahl
-                      </label>
-                      <select
-                        value={form.monthlyMode || ""}
-                        onChange={(e) =>
-                          setForm({ ...form, monthlyMode: e.target.value })
-                        }
-                        className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-                      >
-                        <option value="">Bitte wählen</option>
-                        <option value="pattern">Woche + Wochentag</option>
-                        <option value="date">Fester Kalendertag</option>
-                      </select>
-                    </div>
+    {/* Auswahlart */}
+    <div className="flex flex-col space-y-1">
+      <label className="text-sm font-medium text-gray-700">
+        Art der Auswahl
+      </label>
+      <select
+        value={form.monthlyMode || ""}
+        onChange={(e) =>
+          setForm({ ...form, monthlyMode: e.target.value })
+        }
+        className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+      >
+        <option value="">Bitte wählen</option>
+        <option value="pattern">Woche + Wochentag</option>
+        <option value="date">Fester Kalendertag</option>
+      </select>
+    </div>
 
-                    {/* Option 1: Week + Weekday */}
-                    {form.monthlyMode === "pattern" && (
-                      <>
-                        <div className="flex flex-col space-y-1">
-                          <label className="text-sm font-medium text-gray-700">
-                            Woche im Monat
-                          </label>
-                          <select
-                            value={form.monthlyWeekIndex || ""}
-                            onChange={(e) =>
-                              setForm({
-                                ...form,
-                                monthlyWeekIndex: e.target.value,
-                              })
-                            }
-                            className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-                          >
-                            <option value="">Woche wählen</option>
-                            <option value="1">Erste</option>
-                            <option value="2">Zweite</option>
-                            <option value="3">Dritte</option>
-                            <option value="4">Vierte</option>
-                            <option value="last">Letzte</option>
-                          </select>
-                        </div>
+    {/* Option 1: Week + Weekday */}
+    {form.monthlyMode === "pattern" && (
+      <>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Woche im Monat
+          </label>
+          <select
+            value={form.monthlyWeekIndex || ""}
+            onChange={(e) =>
+              setForm({ ...form, monthlyWeekIndex: e.target.value })
+            }
+            className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+          >
+            <option value="">Woche wählen</option>
+            <option value="1">Erste</option>
+            <option value="2">Zweite</option>
+            <option value="3">Dritte</option>
+            <option value="4">Vierte</option>
+            <option value="last">Letzte</option>
+          </select>
+        </div>
 
-                        <div className="flex flex-col space-y-1">
-                          <label className="text-sm font-medium text-gray-700">
-                            Wochentag
-                          </label>
-                          <select
-                            value={form.monthlyDay || ""}
-                            onChange={(e) =>
-                              setForm({ ...form, monthlyDay: e.target.value })
-                            }
-                            className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-                          >
-                            <option value="">Wochentag wählen</option>
-                            {[
-                              "Montag",
-                              "Dienstag",
-                              "Mittwoch",
-                              "Donnerstag",
-                              "Freitag",
-                              "Samstag",
-                              "Sonntag",
-                            ].map((day) => (
-                              <option key={day} value={day}>
-                                {day}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </>
-                    )}
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Wochentag
+          </label>
+          <select
+            value={form.monthlyDay || ""}
+            onChange={(e) => {
+              const weekday = e.target.value;
+              const updatedForm = { ...form, monthlyDay: weekday };
 
-                    {/* Option 2: Fixed Calendar Date */}
-                    {form.monthlyMode === "date" && (
-                      <div className="flex flex-col space-y-1">
-                        <label className="text-sm font-medium text-gray-700">
-                          Kalendertag im Monat
-                        </label>
-                        <select
-                          value={form.fixedDayOfMonth || ""}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              fixedDayOfMonth: e.target.value,
-                            })
-                          }
-                          className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-                        >
-                          <option value="">Tag wählen</option>
-                          {Array.from({ length: 31 }, (_, i) => (
-                            <option key={i + 1} value={i + 1}>
-                              {i + 1}
-                            </option>
-                          ))}
-                        </select>
-                        <p className="text-xs text-gray-500 mt-1">
-                          Der ausgewählte Tag wird jeden Monat wiederholt (z. B.
-                          jeder 15.)
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
+              if (updatedForm.monthlyWeekIndex && weekday) {
+                const today = new Date();
+                const minDate = addDays(today, 14);
+
+                let year = today.getFullYear();
+                let month = today.getMonth();
+
+                let candidate = getNthWeekdayOfMonth(
+                  year,
+                  month,
+                  weekday,
+                  updatedForm.monthlyWeekIndex
+                );
+
+                if (!candidate || candidate < minDate) {
+                  month++;
+                  if (month > 11) {
+                    month = 0;
+                    year++;
+                  }
+                  candidate = getNthWeekdayOfMonth(
+                    year,
+                    month,
+                    weekday,
+                    updatedForm.monthlyWeekIndex
+                  );
+                }
+
+                if (candidate) {
+                  const formatted = format(candidate, "dd.MM.yyyy", { locale: de });
+                  const weekdayName = format(candidate, "EEEE", { locale: de });
+
+                  setForm({
+                    ...updatedForm,
+                    firstDate: formatted,
+                    schedules: [
+                      {
+                        ...form.schedules[0],
+                        day: weekdayName,
+                      },
+                      ...form.schedules.slice(1),
+                    ],
+                  });
+                }
+              } else {
+                setForm(updatedForm);
+              }
+            }}
+            className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+          >
+            <option value="">Wochentag wählen</option>
+            {[
+              "Montag",
+              "Dienstag",
+              "Mittwoch",
+              "Donnerstag",
+              "Freitag",
+              "Samstag",
+              "Sonntag",
+            ].map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
+        </div>
+      </>
+    )}
+
+    {/* Option 2: Fixed Calendar Date */}
+    {form.monthlyMode === "date" && (
+      <div className="flex flex-col space-y-1">
+        <label className="text-sm font-medium text-gray-700">
+          Kalendertag im Monat
+        </label>
+        <select
+          value={form.fixedDayOfMonth || ""}
+          onChange={(e) => {
+            const day = parseInt(e.target.value, 10);
+
+            const baseDate = form.firstDate
+              ? parseSwissDate(form.firstDate)
+              : new Date();
+
+            let newDate = new Date(
+              baseDate.getFullYear(),
+              baseDate.getMonth(),
+              day
+            );
+
+            const minDate = addDays(new Date(), 14);
+            if (newDate < minDate) {
+              newDate.setMonth(newDate.getMonth() + 1);
+            }
+
+            const formatted = format(newDate, "dd.MM.yyyy", { locale: de });
+            const weekday = format(newDate, "EEEE", { locale: de });
+
+            setForm({
+              ...form,
+              fixedDayOfMonth: day,
+              firstDate: formatted,
+              schedules: [
+                {
+                  ...form.schedules[0],
+                  day: weekday,
+                },
+                ...form.schedules.slice(1),
+              ],
+            });
+          }}
+          className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
+        >
+          <option value="">Tag wählen</option>
+          {Array.from({ length: 31 }, (_, i) => (
+            <option key={i + 1} value={i + 1}>
+              {i + 1}
+            </option>
+          ))}
+        </select>
+        <p className="text-xs text-gray-500 mt-1">
+          Der ausgewählte Tag wird jeden Monat wiederholt (z. B. jeder 15.)
+        </p>
+      </div>
+    )}
+  </div>
+)}
+
 
   <div className='mt-8 mb-8 w-[300px] max-w-full'>
   <label className="block mb-2 font-medium">Beginndatum auswählen</label>
@@ -1472,7 +1601,8 @@ onChange={(date) => {
   className="w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
   calendarClassName="rounded-xl shadow-lg border border-gray-300"
   wrapperClassName="w-full"
-    disabled={form.frequency === "monatlich" && form.monthlyMode === "date"} // 👈 disables only when auto-date set
+    disabled={form.frequency === "monatlich"}
+
 
 />
   <p className="mt-2 text-sm text-gray-500">
@@ -1549,6 +1679,7 @@ onChange={(date) => {
                             setForm({ ...form, schedules: updated });
                           }}
                           className="border px-4 py-2 rounded-md"
+                           disabled={i === 0 && Boolean(form.firstDate)}
                         >
                           <option value="">Wochentag wählen</option>
                           {[
