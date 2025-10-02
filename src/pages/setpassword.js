@@ -46,40 +46,40 @@ export default function SetPasswordPage() {
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const toggleShowConfirm = () => setShowConfirm(!showConfirm);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    if (form.password !== confirmPassword) {
-      setError("❌ Passwörter stimmen nicht überein");
-      setLoading(false);
-      return;
+  if (form.password !== confirmPassword) {
+    setError({ message: "❌ Passwörter stimmen nicht überein" });
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/setpassword", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, password: form.password }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setSuccess(true);
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    } else {
+      setError(data); // store full object: { message, hint, resetUrl }
     }
-
-    try {
-      const res = await fetch("/api/setpassword", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password: form.password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setSuccess(true);
-        setTimeout(() => {
-          router.push("/login");
-        }, 2000);
-      } else {
-        setError(data.message || "❌ Fehler beim Speichern des Passworts");
-      }
-    } catch (err) {
-      setError("❌ Serverfehler. Bitte versuchen Sie es später erneut.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (err) {
+    setError({ message: "❌ Serverfehler. Bitte versuchen Sie es später erneut." });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="max-w-2xl mx-auto mt-10 mb-32 p-6 border rounded shadow bg-white">
@@ -182,12 +182,24 @@ export default function SetPasswordPage() {
             </div>
           </div>
 
-          {/* Error */}
-          {error && (
-            <p className="text-red-600 text-sm mt-4 bg-red-50 p-2 rounded">
-              {error}
-            </p>
-          )}
+      {/* Error */}
+{error && (
+  <div className="text-red-600 text-sm mt-4 bg-red-50 p-2 rounded">
+    {error.message}
+
+    {error.resetUrl && (
+      <div className="mt-2">
+        {error.hint}{" "}
+        <a
+          href={error.resetUrl}
+          className="text-blue-600 underline hover:text-blue-800"
+        >
+          {error.resetText}
+        </a>
+      </div>
+    )}
+  </div>
+)}
 
           <button
             type="submit"

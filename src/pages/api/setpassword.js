@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ Gjej user sipas resetToken dhe sigurohu që nuk ka skaduar
+
     const user = await prisma.user.findFirst({
       where: {
         resetToken: token,
@@ -28,11 +28,16 @@ export default async function handler(req, res) {
       },
     });
 
-    if (!user) {
-      return res
-        .status(400)
-        .json({ message: "Ungültiger oder abgelaufener Token." });
-    }
+  if (!user) {
+return res.status(400).json({
+  message: "Sie haben bereits ein Passwort gesetzt.",
+  hint: "Passwort vergessen?",
+  resetText: "Zurücksetzen",
+  resetUrl: "/forgot-password"
+});
+
+}
+
 
     // ✅ Bëj hash të password-it
     const hashedPassword = await bcrypt.hash(password, 10);
