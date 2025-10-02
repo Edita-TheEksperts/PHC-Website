@@ -7,14 +7,15 @@ const services = {
   "Alltagsbegleitung und Besorgungen": [
     "Beleitung zu Terminen",
     "Einkäufe erledigen",
+      "Gemeinsames Kochen",
     "Postgänge",
     "Sonstige Begleitungen",
   ],
   "Freizeit und Soziale Aktivitäten": [
     "Gesellschaft leisten",
-    "Gemeinsames Kochen",
+  
     "Vorlesen",
-    "Kartenspiele",
+   "Gesellschaftspiele",
     "Ausflüge und Reisebegleitung",
   ],
   "Gesundheitsführsorge": [
