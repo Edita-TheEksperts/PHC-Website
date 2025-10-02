@@ -1,8 +1,8 @@
 import { hash } from "bcryptjs";
 import { prisma } from "../../lib/prisma";
+import crypto from "crypto";
 import { sendEmail } from "../../lib/emails";
 import { createOrUpdateSalesforceAccount } from "../../lib/salesforce";
-
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
@@ -13,7 +13,6 @@ export default async function handler(req, res) {
       lastName,
       email,
       phone,
-      password,
       address,
       street,
       postalCode,
@@ -28,7 +27,7 @@ export default async function handler(req, res) {
     } = req.body;
 
     // ✅ Required field check
-    if (!firstName || !lastName || !email || !password || !firstDate || !services?.length) {
+    if (!firstName || !lastName || !email || !firstDate || !services?.length) {
       return res.status(400).json({ message: "❌ Missing required fields" });
     }
 
@@ -43,8 +42,8 @@ export default async function handler(req, res) {
         ? new Date(firstDate.split(".").reverse().join("-"))
         : new Date(firstDate);
 
-    // ✅ Hash password
-    const passwordHash = await hash(password, 10);
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const resetTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
 
     // ✅ Validate services
     const serviceRecords = await prisma.service.findMany({
@@ -54,8 +53,13 @@ export default async function handler(req, res) {
       where: { name: { in: subServices } },
     });
 
-    if (serviceRecords.length !== services.length || subServiceRecords.length !== subServices.length) {
-      return res.status(400).json({ message: "❌ Service or Subservice not found" });
+    if (
+      serviceRecords.length !== services.length ||
+      subServiceRecords.length !== subServices.length
+    ) {
+      return res
+        .status(400)
+        .json({ message: "❌ Service or Subservice not found" });
     }
 
     // ✅ Build individual schedule entries
@@ -89,7 +93,6 @@ export default async function handler(req, res) {
           lastName,
           email,
           phone,
-          passwordHash,
           address,
           careStreet: street,
           carePostalCode: postalCode,
@@ -99,6 +102,8 @@ export default async function handler(req, res) {
           firstDate: parsedDate,
           paymentIntentId,
           totalPayment,
+          resetToken,
+          resetTokenExpiry,
           services: {
             connect: services.map((name) => ({ name })),
           },
@@ -110,39 +115,41 @@ export default async function handler(req, res) {
           },
         },
       });
-    }
-    // ✅ Push new client into Salesforce
-if (!user.salesforceId) {
-  try {
-    const sfId = await createOrUpdateSalesforceAccount(user);
 
-    // Save Salesforce ID in your DB (optional but recommended)
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { salesforceId: sfId },
-    });
-  } catch (error) {
-    console.error("❌ Salesforce sync failed:", error);
-  }
-}
-
-
-    // ✅ Email confirmation (template just for this handler)
-    const template = await prisma.emailTemplate.findUnique({
-      where: { name: "welcomeEmail" },
-    });
-
-    if (template) {
-      let body = template.body;
-      body = body.replace(/{{firstName}}/g, firstName || "");
-      body = body.replace(/{{lastName}}/g, lastName || "");
-      body = body.replace(/{{email}}/g, email || "");
-
-      await sendEmail({
-        to: email,
-        subject: template.subject,
-        html: body,
+      // ✅ Email confirmation (send only for new user)
+      const template = await prisma.emailTemplate.findUnique({
+        where: { name: "welcomeEmail" },
       });
+
+      if (template) {
+        let body = template.body;
+        body = body.replace(/{{firstName}}/g, firstName || "");
+        body = body.replace(/{{lastName}}/g, lastName || "");
+        body = body.replace(
+          /{{resetLink}}/g,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/setpassword?token=${resetToken}`
+        );
+
+        await sendEmail({
+          to: email,
+          subject: template.subject,
+          html: body,
+        });
+      }
+    }
+
+    // ✅ Push new client into Salesforce
+    if (!user.salesforceId) {
+      try {
+        const sfId = await createOrUpdateSalesforceAccount(user);
+
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { salesforceId: sfId },
+        });
+      } catch (error) {
+        console.error("❌ Salesforce sync failed:", error);
+      }
     }
 
     // ✅ Create reminders
@@ -163,7 +170,9 @@ if (!user.salesforceId) {
       ],
     });
 
-    return res.status(201).json({ message: "✅ Registration complete", userId: user.id });
+    return res
+      .status(201)
+      .json({ message: "✅ Registration complete", userId: user.id });
   } catch (error) {
     console.error("❌ Error during registration:", error);
 

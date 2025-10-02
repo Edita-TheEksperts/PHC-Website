@@ -145,7 +145,6 @@ const [loadingStep4, setLoadingStep4] = useState(false);
     lastName: "",
     email: "",
     phone: "",
-    password: "",
     address: "",
     subServices: [], // ✅ was "" — now fixed to be an array
     schedules: [{ day: "", startTime: "08:00", hours: 2, subServices: [] }], // ✅ 1 day by default
@@ -379,7 +378,6 @@ useEffect(() => {
     lastName: form.lastName,
     email: form.email,
     phone: form.phone || "",
-    password: form.password,
     address: form.address || "",
     frequency: form.frequency || "",
     duration: Number(form.duration) || null,
@@ -484,11 +482,7 @@ useEffect(() => {
         scrollToTop();
         return false;
       }
-      if (!form.password) {
-        setFormError("Bitte geben Sie ein Passwort ein.");
-        scrollToTop();
-        return false;
-      }
+
       if (!form.address) {
         setFormError("Bitte geben Sie die Adresse ein.");
         scrollToTop();
@@ -1033,20 +1027,11 @@ useEffect(() => {
     }
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const toggleShowConfirm = () => setShowConfirm(!showConfirm);
 
-  const [passwordChecks, setPasswordChecks] = useState({
-    lowercase: false,
-    uppercase: false,
-    number: false,
-    special: false,
-    minLength: false,
-  });
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
@@ -1326,34 +1311,8 @@ const handlePayment = async () => {
         >
           {step === 1 && (
             <>
-              <h2 className="text-2xl font-bold text-black">
-                Ausgewählte Dienstleistungen
-              </h2>
-
-              <div className="flex flex-wrap gap-3">
-                {allServices.map((srv) => {
-                  const isSelected = (form.services || []).includes(srv.name);
-                  return (
-                    <button
-                      key={srv.id}
-                      type="button"
-                      onClick={() => {
-                        const updated = isSelected
-                          ? form.services.filter((s) => s !== srv.name)
-                          : [...form.services, srv.name];
-                        setForm((prev) => ({ ...prev, services: updated }));
-                      }}
-                      className={`px-4 py-2 border rounded-lg ${
-                        isSelected
-                          ? "bg-[#B99B5F] text-white"
-                          : "bg-white text-gray-800"
-                      }`}
-                    >
-                      {srv.name}
-                    </button>
-                  );
-                })}
-              </div>
+           
+              
               <h2 className="text-2xl font-bold text-black">Wie oft & wann?</h2>
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -2007,227 +1966,6 @@ onChange={(date) => {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                  {/* Password */}
-                  <div className="relative">
-                    <label className="block font-medium mb-1">Passwort*</label>
-                    <div className="relative">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        placeholder="Passwort"
-                        value={form.password}
-                        onChange={handlePasswordChange}
-                        className="w-full rounded-md border border-gray-300 p-3 pr-10"
-                      />
-                      <button
-                        type="button"
-                        onClick={toggleShowPassword}
-                        className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-                        aria-label="Passwort anzeigen/verstecken"
-                      >
-                        {showPassword ? EyeOffIcon : EyeIcon}
-                      </button>
-                    </div>
-
-                    {/* Password Validation List */}
-                    <ul className="mt-3 space-y-1 text-sm">
-                      <li className="flex items-center gap-2">
-                        <span
-                          className={
-                            passwordChecks.lowercase
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9 12l2 2 4-4" />
-                          </svg>
-                        </span>
-                        <span
-                          className={
-                            passwordChecks.lowercase
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          ein Kleinbuchstabe
-                        </span>
-                      </li>
-
-                      <li className="flex items-center gap-2">
-                        <span
-                          className={
-                            passwordChecks.uppercase
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9 12l2 2 4-4" />
-                          </svg>
-                        </span>
-                        <span
-                          className={
-                            passwordChecks.uppercase
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          ein Grossbuchstabe
-                        </span>
-                      </li>
-
-                      <li className="flex items-center gap-2">
-                        <span
-                          className={
-                            passwordChecks.number
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9 12l2 2 4-4" />
-                          </svg>
-                        </span>
-                        <span
-                          className={
-                            passwordChecks.number
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          eine Zahl
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  {/* Confirm Password */}
-                  <div className="relative">
-                    <label className="block font-medium mb-1">
-                      Passwort bestätigen*
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showConfirm ? "text" : "password"}
-                        name="confirmPassword"
-                        placeholder="Passwort bestätigen"
-                        value={confirmPassword}
-                        onChange={handleConfirmChange}
-                        className="w-full rounded-md border border-gray-300 p-3 pr-10"
-                      />
-                      <button
-                        type="button"
-                        onClick={toggleShowConfirm}
-                        className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-                        aria-label="Passwort bestätigen anzeigen/verstecken"
-                      >
-                        {showConfirm ? EyeOffIcon : EyeIcon}
-                      </button>
-                    </div>
-
-                    {/* Confirm Password Validation */}
-                    <ul className="mt-3 space-y-1 text-sm">
-                      <li
-                        className={`flex items-center gap-2 ${
-                          passwordChecks.special
-                            ? "text-[#2F2F2F]"
-                            : "text-gray-300"
-                        }`}
-                      >
-                        <span
-                          className={
-                            passwordChecks.number
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9 12l2 2 4-4" />
-                          </svg>
-                        </span>{" "}
-                        Sonderzeichen
-                      </li>
-                      <li
-                        className={`flex items-center gap-2 ${
-                          passwordChecks.minLength
-                            ? "text-[#2F2F2F]"
-                            : "text-gray-300"
-                        }`}
-                      >
-                        <span
-                          className={
-                            passwordChecks.number
-                              ? "text-[#2F2F2F]"
-                              : "text-gray-300"
-                          }
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9 12l2 2 4-4" />
-                          </svg>
-                        </span>{" "}
-                        Mindestens 8 Zeichen
-                      </li>
-                    </ul>
-
-                    {/* Error Message */}
-                    {error && (
-                      <p className="text-red-600 text-sm mt-2">{error}</p>
-                    )}
-                  </div>
-                </div>
-
 
                 {/* Adresse */}
                 <div>
@@ -2792,7 +2530,7 @@ onChange={(date) => {
                       ["Allergien?", "hasAllergies"],
                       ["Biografiearbeit", "biographyWork"],
                       ["Vorlesen", "reading"],
-                      ["Kartenspiele", "cardGames"],
+                      ["Gesellschaftspiele", "cardGames"],
                     ].map(([label, name]) => (
                       <div key={name}>
                         <label className="block font-medium mb-1">

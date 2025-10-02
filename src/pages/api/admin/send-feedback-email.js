@@ -30,7 +30,7 @@ export default async function handler(req, res) {
         .replace(/{{firstName}}/g, client.firstName || "")
         .replace(/{{lastName}}/g, client.lastName || "")
         .replace(/{{caregiverName}}/g, caregiverName)
-        .replace(/{{feedbackLink}}/g, feedbackLink);
+         .replace(/{{resetLink}}/g, `https://primehomecare.ch/create-password?token=${token}`);
 
       return sendEmail({
         to: client.email,

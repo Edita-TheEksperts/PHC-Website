@@ -41,35 +41,21 @@ model Schedule {
 }
 
 model Vacation {
-  id         String    @id @default(uuid())
+  id         String         @id @default(uuid())
   userId     String?
   startDate  DateTime
   endDate    DateTime
-  createdAt  DateTime  @default(now())
+  createdAt  DateTime       @default(now())
   employeeId String?
-  employee   Employee? @relation(fields: [employeeId], references: [id])
-  user       User?     @relation(fields: [userId], references: [id])
   status     VacationStatus @default(pending)
-  
+  employee   Employee?      @relation(fields: [employeeId], references: [id])
+  user       User?          @relation(fields: [userId], references: [id])
 }
-
-enum Role {
-  admin
-  client
-  employee
-}
-
-enum VacationStatus {
-  pending
-  approved
-  declined
-}
-
 
 model User {
   id                      String        @id @default(uuid())
   email                   String        @unique
-  passwordHash            String
+  passwordHash            String?
   role                    Role          @default(client)
   createdAt               DateTime      @default(now())
   updatedAt               DateTime      @updatedAt
@@ -181,6 +167,13 @@ model User {
   status                  String?       @default("open")
   resetToken              String?
   resetTokenExpiry        DateTime?
+  salesforceId            String?
+  requestFirstName        String?
+  requestLastName         String?
+  requestEmail            String?
+  requestPhone            String?
+  otherLanguage           String?
+  activityLogs            ActivityLog[] @relation("UserActivityLogs")
   assignments             Assignment[]
   reminders               Reminder[]
   schedules               Schedule[]
@@ -188,13 +181,6 @@ model User {
   vacations               Vacation[]
   services                Service[]     @relation("UserServices")
   subServices             SubService[]  @relation("UserSubServices")
-    activityLogs ActivityLog[] @relation("UserActivityLogs")
-      salesforceId   String?   
-requestFirstName String?
-requestLastName  String?
-requestPhone String?
-requestEmail String?
-  otherLanguage String?  
 }
 
 model Reminder {
@@ -295,29 +281,28 @@ model Employee {
   iban                 String?
   invited              Boolean            @default(false)
   inviteSentAt         DateTime?
+  salesforceId         String?
+  activityLogs         ActivityLog[]      @relation("EmployeeActivityLogs")
   assignments          Assignment[]
   rejectionWarnings    RejectionWarning[]
   schedules            Schedule[]
   transactions         Transaction[]
   vacations            Vacation[]
-    activityLogs ActivityLog[] @relation("EmployeeActivityLogs")
-      salesforceId String? 
-
 }
 
 model Transaction {
-  id             String   @id @default(uuid())
-  scheduleId     Int
-  userId         String
-  employeeId     String
-    paymentIntentId String  @unique
-  amountClient   Float
-  amountEmployee Float
-  status         String   @default("pending")
-  createdAt      DateTime @default(now())
-  employee       Employee @relation(fields: [employeeId], references: [id])
-  schedule       Schedule @relation(fields: [scheduleId], references: [id])
-  user           User     @relation(fields: [userId], references: [id])
+  id              String   @id @default(uuid())
+  scheduleId      Int
+  userId          String
+  employeeId      String
+  amountClient    Float
+  amountEmployee  Float
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  paymentIntentId String   @unique
+  employee        Employee @relation(fields: [employeeId], references: [id])
+  schedule        Schedule @relation(fields: [scheduleId], references: [id])
+  user            User     @relation(fields: [userId], references: [id])
 }
 
 model EmailTemplate {
@@ -329,7 +314,6 @@ model EmailTemplate {
   updatedAt DateTime @updatedAt
 }
 
-
 model ActivityLog {
   id              String    @id @default(uuid())
   actorUserId     String?
@@ -339,9 +323,18 @@ model ActivityLog {
   targetType      String?
   metadata        Json?
   createdAt       DateTime  @default(now())
-
-  actorUser       User?     @relation("UserActivityLogs", fields: [actorUserId], references: [id], map: "ActivityLog_actorUserId_fkey")
   actorEmployee   Employee? @relation("EmployeeActivityLogs", fields: [actorEmployeeId], references: [id], map: "ActivityLog_actorEmployeeId_fkey")
+  actorUser       User?     @relation("UserActivityLogs", fields: [actorUserId], references: [id], map: "ActivityLog_actorUserId_fkey")
 }
 
+enum Role {
+  admin
+  client
+  employee
+}
 
+enum VacationStatus {
+  pending
+  approved
+  declined
+}
