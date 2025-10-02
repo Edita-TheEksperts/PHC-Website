@@ -3516,7 +3516,8 @@ onChange={(date) => {
           </div>
         </form>
       </div>
-<div className="w-full md:w-96">
+<div className="w-full md:w-96 space-y-6">
+  {/* Zusammenfassung */}
   <div className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
     {/* Titulli */}
     <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
@@ -3562,23 +3563,6 @@ onChange={(date) => {
           <p className="text-sm text-gray-700">{form.requestEmail || ""}</p>
         </div>
       )}
-
-      {/* Adresse Info */}
-      {(form.street || form.postalCode || form.city) && (
-        <div className="border-t pt-2 mt-2">
-          <h4 className="font-semibold text-gray-800 mb-1">Adresse</h4>
-          <p className="text-sm text-gray-700">
-            {form.street || ""}
-            {form.entranceLocation ? `, ${form.entranceLocation}` : ""}
-          </p>
-          <p className="text-sm text-gray-700">
-            {form.postalCode || ""} {form.city || ""}
-          </p>
-          {form.address && (
-            <p className="text-sm text-gray-700">{form.address}</p>
-          )}
-        </div>
-      )}
     </div>
 
     {/* Info-line */}
@@ -3586,7 +3570,40 @@ onChange={(date) => {
       inkl. MwSt und Versicherungs- & Sozialabgaben
     </div>
   </div>
+
+  {/* Ausgewählte Dienstleistungen */}
+  <div className="sticky top-[420px] bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
+    <h3 className="text-xl font-bold text-gray-800 mb-2">
+      Ausgewählte Dienstleistungen
+    </h3>
+
+    <div className="flex flex-wrap gap-3">
+      {allServices.map((srv) => {
+        const isSelected = (form.services || []).includes(srv.name);
+        return (
+          <button
+            key={srv.id}
+            type="button"
+            onClick={() => {
+              const updated = isSelected
+                ? form.services.filter((s) => s !== srv.name)
+                : [...form.services, srv.name];
+              setForm((prev) => ({ ...prev, services: updated }));
+            }}
+            className={`px-4 py-2 border rounded-lg ${
+              isSelected
+                ? "bg-[#B99B5F] text-white"
+                : "bg-white text-gray-800"
+            }`}
+          >
+            {srv.name}
+          </button>
+        );
+      })}
+    </div>
+  </div>
 </div>
+
 
 
     </div>
