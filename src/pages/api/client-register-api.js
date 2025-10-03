@@ -21,6 +21,8 @@ export default async function handler(req, res) {
       duration,
       firstDate,
       services,
+       anrede, 
+  kanton,
       subServices,
       schedules = [],
       paymentIntentId,
@@ -104,6 +106,8 @@ export default async function handler(req, res) {
           totalPayment,
           resetToken,
           resetTokenExpiry,
+           anrede, 
+  kanton,
           services: {
             connect: services.map((name) => ({ name })),
           },

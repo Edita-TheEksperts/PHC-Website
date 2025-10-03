@@ -64,6 +64,8 @@ model User {
   frequency               String
   cardNumber              String?
   cvc                     String?
+  anrede     String?  
+  kanton     String? 
   duration                Int?
   emergencyContactName    String?
   emergencyContactPhone   String?

@@ -359,17 +359,58 @@ useEffect(() => {
     setUpdatedData((prev) => ({ ...prev, [name]: value }));
   };
 
+
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+
+  console.log("✅ handleSubmit u thirr");
+  console.log("UpdatedData: ", updatedData);
+
+  // kontroll i detyruar për Hausnummer
+  if (!updatedData.houseNumber || updatedData.houseNumber.trim() === "") {
+    alert("❌ Bitte geben Sie Ihre Hausnummer ein.");
+    return;
+  }
+
+  // kontroll i detyruar për Stadt
+  if (!updatedData.city || updatedData.city.trim() === "") {
+    alert("❌ Bitte geben Sie Ihren Wohnort ein.");
+    return;
+  }
+
+  // nëse do të mbash edhe fushat tjera si opsionale ose të kontrolluara
+  const requiredFields = ["firstName", "lastName", "email", "phone"];
+  for (let field of requiredFields) {
+    const value = updatedData[field] ? String(updatedData[field]).trim() : "";
+    if (value === "") {
+      alert(`❌ Bitte füllen Sie das Feld "${field}" aus.`);
+      return;
+    }
+  }
+
+  try {
+    console.log("➡️ Dërgoj të dhënat tek API:", { id: userData.id, ...updatedData });
+
     const res = await fetch("/api/updateUserData", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: userData.id, ...updatedData }),
     });
-    alert(
-      res.ok ? "Daten erfolgreich aktualisiert!" : "Fehler beim Aktualisieren."
-    );
-  };
+
+    console.log("📡 Response nga server:", res.status);
+
+    if (res.ok) {
+      alert("✅ Daten erfolgreich aktualisiert!");
+    } else {
+      alert("❌ Fehler beim Aktualisieren.");
+    }
+  } catch (err) {
+    console.error("🔥 Gabim serveri:", err);
+    alert("❌ Serverfehler.");
+  }
+};
+
 
   if (loading)
     return (
@@ -1424,61 +1465,45 @@ useEffect(() => {
     }`}
   >
     <div className="p-6">
-      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
-        {[
-          { name: "firstName", label: "Vorname", type: "text" },
-          { name: "lastName", label: "Nachname", type: "text" },
-          { name: "email", label: "E-Mail Adresse", type: "email" },
-          { name: "phone", label: "Telefonnummer", type: "tel" },
-          {
-            name: "requestFirstName",
-            label: "Notfall Kontakt Name",
-            type: "text",
-          },
-          {
-            name: "requestLastName",
-            label: "Notfall Kontakt Nachname",
-            type: "text",
-          },
-          {
-            name: "requestPhone",
-            label: "Notfall Kontakt Telefonnummer",
-            type: "tel",
-          },
-          {
-            name: "requestEmail",
-            label: "Notfall Kontakt Email",
-            type: "email",
-          },
-        ].map(({ name, label, type }) => (
-          <div key={name} className="flex flex-col gap-1">
-            <label
-              htmlFor={name}
-              className="text-sm font-medium text-gray-700"
-            >
-              {label}
-            </label>
-            <input
-              id={name}
-              type={type}
-              name={name}
-              value={updatedData[name] || ""}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm 
-                placeholder-gray-400 focus:ring-2 focus:ring-[#04436F] 
-                focus:outline-none transition"
-            />
-          </div>
-        ))}
-
-        <button
-          type="submit"
-          className="mt-4 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
-            hover:bg-[#033553] transition"
-        >
-          Änderungen speichern
-        </button>
-      </form>
+     
+        
+  <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
+  {[
+    { name: "firstName", label: "Vorname", type: "text" },
+    { name: "lastName", label: "Nachname ", type: "text" },
+    { name: "email", label: "E-Mail Adresse", type: "email" },
+    { name: "phone", label: "Telefonnummer", type: "tel" },
+    { name: "houseNumber", label: "Hausnummer", type: "text" },
+    { name: "city", label: "Stadt", type: "text" },
+    { name: "requestFirstName", label: "Notfall Kontakt Name", type: "text" },
+    { name: "requestLastName", label: "Notfall Kontakt Nachname", type: "text" },
+    { name: "requestPhone", label: "Notfall Kontakt Telefonnummer", type: "tel" },
+    { name: "requestEmail", label: "Notfall Kontakt Email", type: "email" },
+  ].map(({ name, label, type }) => (
+    <div key={name} className="flex flex-col gap-1">
+      <label htmlFor={name} className="text-sm font-medium text-gray-700">
+        {label}
+      </label>
+      <input
+  id={name}
+  type={type}
+  name={name}
+  value={updatedData[name] || ""}
+  onChange={handleChange}
+  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm 
+    placeholder-gray-400 focus:ring-2 focus:ring-[#04436F] 
+    focus:outline-none transition"
+/>
+    </div>
+  ))}
+  <button
+    type="submit"
+    className="mt-4 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
+      hover:bg-[#033553] transition"
+  >
+    Änderungen speichern
+  </button>
+</form>
     </div>
   </div>
 </section>

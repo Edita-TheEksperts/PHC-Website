@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Chatbot, { createChatBotMessage } from "react-chatbot-kit";
+import { usePathname } from "next/navigation";
 import config from "./config";
 import MessageParser from "./MessageParser";
 import ActionProvider from "./ActionProvider";
@@ -7,7 +8,14 @@ import ActionProvider from "./ActionProvider";
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const chatContainerRef = useRef(null);
+  // 👉 merr URL-në aktuale
+  const pathname = usePathname();
 
+  // 👉 nëse jemi te faqet që duam ta fshehim → mos shfaq asgjë
+  const hiddenPaths = ["/register-client", "/employee-register"];
+  if (hiddenPaths.includes(pathname)) {
+    return null;
+  }
   // --- German Placeholder fix ---
   useEffect(() => {
     const interval = setInterval(() => {

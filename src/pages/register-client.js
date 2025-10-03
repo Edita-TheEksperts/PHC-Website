@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
 
 
 import { useForm } from "react-hook-form";
@@ -30,6 +31,9 @@ import {  differenceInCalendarDays } from "date-fns";
 import { de } from "date-fns/locale";
 export default function RegisterPage() {
   const testMode = false;
+
+    const summaryRef = useRef(null);
+  const [offset, setOffset] = useState(0);
 
   const hd = new Holidays("CH"); // Switzerland
 
@@ -136,25 +140,31 @@ const [loadingStep4, setLoadingStep4] = useState(false);
   }
 }
 
-  const [form, setForm] = useState({
-    services: [], // ✅ important: default to empty array
-    frequency: "",
-    duration: 2,
-    firstDate: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    subServices: [], // ✅ was "" — now fixed to be an array
-    schedules: [{ day: "", startTime: "08:00", hours: 2, subServices: [] }], // ✅ 1 day by default
-    arrivalConditions: [],
-    hasParking: "",
-    entranceLocation: "",
-    mobilityAids: [],
-    transportOption: "",
-    careFirstName: "",
-  });
+const [form, setForm] = useState({
+  services: [],
+  frequency: "",
+  duration: 2,
+  firstDate: "",
+  anrede: "",       
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  address: "",
+  street: "",
+  postalCode: "",
+  city: "",
+  kanton: "",     
+  subServices: [],
+  schedules: [{ day: "", startTime: "08:00", hours: 2, subServices: [] }],
+  arrivalConditions: [],
+  hasParking: "",
+  entranceLocation: "",
+  mobilityAids: [],
+  transportOption: "",
+  careFirstName: "",
+});
+
 
   // Reset schedules & subservices kur zgjedh "einmalig"
 useEffect(() => {
@@ -360,6 +370,14 @@ useEffect(() => {
         </div>
       ));
   }
+
+   useEffect(() => {
+    if (summaryRef.current) {
+
+      setOffset(summaryRef.current.offsetHeight + 48);
+    }
+  }, []);
+
   const SummaryRow = ({ label, value }) => (
     <div className="flex flex-col">
       <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
@@ -379,6 +397,9 @@ useEffect(() => {
     email: form.email,
     phone: form.phone || "",
     address: form.address || "",
+    anrede: form.anrede || "",
+kanton: form.kanton || "",
+
     frequency: form.frequency || "",
     duration: Number(form.duration) || null,
     firstDate: form.firstDate,
@@ -460,35 +481,56 @@ useEffect(() => {
         return false;
       }
     }
+if (step === 2) {
+  if (!form.anrede) {
+    setFormError("Bitte wählen Sie eine Anrede aus.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.firstName) {
+    setFormError("Bitte geben Sie den Vornamen ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.lastName) {
 
-    if (step === 2) {
-      if (!form.firstName) {
-        setFormError("Bitte geben Sie den Vornamen ein.");
-        scrollToTop();
-        return false;
-      }
-      if (!form.lastName) {
-        setFormError("Bitte geben Sie den Nachnamen ein.");
-        scrollToTop();
-        return false;
-      }
-      if (!form.email) {
-        setFormError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
-        scrollToTop();
-        return false;
-      }
-      if (!form.phone) {
-        setFormError("Bitte geben Sie eine gültige Telefonnummer ein.");
-        scrollToTop();
-        return false;
-      }
+    setFormError("Bitte geben Sie den Nachnamen ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.email) {
+    setFormError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.phone) {
+    setFormError("Bitte geben Sie eine gültige Telefonnummer ein.");
+    scrollToTop();
+    return false;
+  }
 
-      if (!form.address) {
-        setFormError("Bitte geben Sie die Adresse ein.");
-        scrollToTop();
-        return false;
-      }
-    }
+  if (!form.houseNumber) {
+    setFormError("Bitte geben Sie die Hausnummer ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.postalCode) {
+    setFormError("Bitte geben Sie die Postleitzahl ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.city) {
+    setFormError("Bitte geben Sie den Ort ein.");
+    scrollToTop();
+    return false;
+  }
+  if (!form.kanton) {
+    setFormError("Bitte wählen Sie den Kanton aus.");
+    scrollToTop();
+    return false;
+  }
+}
+
 
     if (step === 3 && !testMode) {
       if (!testMode) {
@@ -1092,10 +1134,12 @@ useEffect(() => {
     updated.has(value) ? updated.delete(value) : updated.add(value);
     setForm((prev) => ({
       ...prev,
+
       [fieldName]: Array.from(updated),
     }));
   };
   const isEinmalig = form.frequency === "einmalig";
+  const isMonatlich = form.frequency === "monatlich";
 
   const showTravelNotice = form.subServices?.includes(
     "Ausflüge und Reisebegleitung"
@@ -1602,25 +1646,25 @@ onChange={(date) => {
                       <span className="font-semibold">
                         {form.schedules.length || 1}
                       </span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (isEinmalig) return; // 🚫 block adding if "einmalig"
-                          setForm((prev) => ({
-                            ...prev,
-                            schedules: [
-                              ...prev.schedules,
-                              { day: "", startTime: "08:00", hours: 2 },
-                            ].slice(0, 7), // max 7 days
-                          }));
-                        }}
-                        disabled={isEinmalig}
-                        className={`w-8 h-8 text-xl border rounded-full ${
-                          isEinmalig ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
-                      >
-                        +
-                      </button>
+            <button
+    type="button"
+    onClick={() => {
+      if (isEinmalig || isMonatlich) return; // 🚫 block adding if "einmalig" OR "monatlich"
+      setForm((prev) => ({
+        ...prev,
+        schedules: [
+          ...prev.schedules,
+          { day: "", startTime: "08:00", hours: 2 },
+        ].slice(0, 7), // max 7 days
+      }));
+    }}
+    disabled={isEinmalig || isMonatlich}
+    className={`w-8 h-8 text-xl border rounded-full ${
+      isEinmalig || isMonatlich ? "opacity-50 cursor-not-allowed" : ""
+    }`}
+  >
+    +
+  </button>
                     </div>
 
                     {/* Each day's schedule */}
@@ -1866,179 +1910,246 @@ onChange={(date) => {
               </div>
             </>
           )}
+{step === 2 && (
+  <>
+    <h2 className="text-2xl font-bold text-black">
+      Persönliche Angaben (zu betreuende Person)
+    </h2>
 
-          {step === 2 && (
-            <>
-              <h2 className="text-2xl font-bold text-black">
-                Persönliche Angaben (zu betreuende Person)
-              </h2>
+    <div className="text-sm text-left mt-6">
+      <p>
+        Bereits registriert?{" "}
+        <span
+          className="text-[#B99B5F] font-semibold cursor-pointer underline"
+          onClick={() => router.push("/login")}
+        >
+          Hier einloggen
+        </span>
+      </p>
+    </div>
 
-              <div className="text-sm text-left mt-6">
-                <p>
-                  Bereits registriert?{" "}
-                  <span
-                    className="text-[#B99B5F] font-semibold cursor-pointer underline"
-                    onClick={() => router.push("/login")}
-                  >
-                    Hier einloggen
-                  </span>
-                </p>
-              </div>
+    <div className="space-y-6 mt-6">
+      {/* Vollständiger Name */}
+      <div>
+        <label className="block font-semibold mb-1">
+          Vollständiger Name
+        </label>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+          {/* Anrede */}
+          <div className="mb-2">
+            <label className="block font-medium mb-1">
+              Anrede <span className="text-red-500">*</span>
+            </label>
+            <select
+              name="anrede"
+              value={form.anrede || ""}
+              onChange={handleChange}
+              className={inputClass}
+            >
+              <option value="">Bitte wählen</option>
+              <option value="Herr">Herr</option>
+              <option value="Frau">Frau</option>
+            </select>
+          </div>
 
-              <div className="space-y-6 mt-6">
-                {/* Vollständiger Name */}
-                <div>
-                  <label className="block font-semibold mb-1">
-                    Vollständiger Name
-                  </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                 <div className="mb-2">
+          <div className="mb-2">
+            <label className="block font-medium mb-1">
+              Vorname <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="firstName"
+              placeholder="Vorname"
+              value={form.firstName || ""}
+              onChange={handleChange}
+              className={inputClass}
+              required
+            />
+          </div>
+
+          <div className="mb-2">
+            <label className="block font-medium mb-1">
+              Nachname<span className="text-red-500">*</span>
+            </label>
+            <input
+              name="lastName"
+              placeholder="Nachname"
+              value={form.lastName || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Telefon */}
+      <div>
+        <label className="block  font-medium mb-1">
+          Telefonnummer<span className="text-red-500">*</span>
+        </label>
+        <input
+          name="phone"
+          value={form.phone}
+          placeholder="Telefonnummer"
+          onChange={handleChange1}
+          onKeyDown={(e) => {
+            if (
+              !/[0-9+\s]/.test(e.key) &&
+              ![
+                "Backspace",
+                "ArrowLeft",
+                "ArrowRight",
+                "Delete",
+              ].includes(e.key)
+            ) {
+              e.preventDefault();
+            }
+          }}
+          className={inputClass}
+        />
+        {errors.phone && (
+          <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+        )}
+      </div>
+
+      {/* E-Mail */}
+      <div>
+        <label className="block font-medium mb-1">
+          E-Mail<span className="text-red-500">*</span>
+        </label>
+        <input
+          type="email"
+          name="email"
+          placeholder="E-Mail"
+          value={form.email}
+          onChange={handleChange1}
+          className={inputClass}
+        />
+        {errors.email && (
+          <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+        )}
+      </div>
+
+      {/* Adresse */}
+      <div>
+        <label className="block font-semibold text-base mb-2">
+          Adresse
+        </label>
+
+        {/* Strasse & Hausnummer */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block font-medium mb-1">
+              Strasse<span className="text-red-500">*</span>
+            </label>
+            <input
+              name="street"
+              placeholder="z. B. Bahnhofstrasse"
+              value={form.street || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">
+              Hausnummer<span className="text-red-500">*</span>
+            </label>
+            <input
+              name="houseNumber"
+              placeholder="z. B. 12a"
+              value={form.houseNumber || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        {/* PLZ & Ort */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div>
+            <label className="block font-medium mb-1">
+              PLZ<span className="text-red-500">*</span>
+            </label>
+            <input
+              name="postalCode"
+              placeholder="z. B. 8000"
+              value={form.postalCode || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">
+              Ort<span className="text-red-500">*</span>
+            </label>
+            <input
+              name="city"
+              placeholder="z. B. Zürich"
+              value={form.city || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        {/* Kanton */}
+        <div className="mt-4">
+          <label className="block font-medium mb-1">
+            Kanton<span className="text-red-500">*</span>
+          </label>
+          <select
+            name="kanton"
+            value={form.kanton || ""}
+            onChange={handleChange}
+            className={inputClass}
+          >
+            <option value="">Bitte wählen</option>
+            <option value="AG">Aargau</option>
+            <option value="AI">Appenzell Innerrhoden</option>
+            <option value="AR">Appenzell Ausserrhoden</option>
+            <option value="BE">Bern</option>
+            <option value="BL">Basel-Landschaft</option>
+            <option value="BS">Basel-Stadt</option>
+            <option value="FR">Freiburg</option>
+            <option value="GE">Genf</option>
+            <option value="GL">Glarus</option>
+            <option value="GR">Graubünden</option>
+            <option value="JU">Jura</option>
+            <option value="LU">Luzern</option>
+            <option value="NE">Neuenburg</option>
+            <option value="NW">Nidwalden</option>
+            <option value="OW">Obwalden</option>
+            <option value="SG">St. Gallen</option>
+            <option value="SH">Schaffhausen</option>
+            <option value="SO">Solothurn</option>
+            <option value="SZ">Schwyz</option>
+            <option value="TG">Thurgau</option>
+            <option value="TI">Tessin</option>
+            <option value="UR">Uri</option>
+            <option value="VD">Waadt</option>
+            <option value="VS">Wallis</option>
+            <option value="ZG">Zug</option>
+            <option value="ZH">Zürich</option>
+          </select>
+        </div>
+
+        {/* Land */}
+ <div className="mt-4">
   <label className="block font-medium mb-1">
-    Vorname <span className="text-red-500">*</span>
+    Land<span className="text-red-500">*</span>
   </label>
   <input
-    name="firstName"
-    placeholder="Vorname"
-    value={form.firstName || ""}
-    onChange={handleChange}
-    className={inputClass}
-    required
+    type="text"
+    name="address"
+    value="Schweiz"
+    readOnly
+    className={`${inputClass} bg-gray-100 cursor-not-allowed`}
   />
 </div>
 
-
-                    <div className="mb-2">
-                      <label className="block font-medium mb-1">Nachname<span className="text-red-500">*</span></label>
-                      <input
-                        name="lastName"
-                        placeholder="Nachname"
-                        value={form.lastName || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-                </div>
-                {/* Telefon */}
-                <div>
-                  <label className="block  font-medium mb-1">
-                    Telefonnummer<span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    name="phone"
-                    value={form.phone}
-                    placeholder="Telefonnummer"
-                    onChange={handleChange1}
-                    onKeyDown={(e) => {
-                      // Allow digits, +, space, backspace, arrows, delete
-                      if (
-                        !/[0-9+\s]/.test(e.key) &&
-                        ![
-                          "Backspace",
-                          "ArrowLeft",
-                          "ArrowRight",
-                          "Delete",
-                        ].includes(e.key)
-                      ) {
-                        e.preventDefault();
-                      }
-                    }}
-                    className={inputClass}
-                  />
-                  {errors.phone && (
-                    <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
-                  )}
-                </div>
-
-                {/* E-Mail */}
-                <div>
-                  <label className="block font-medium mb-1">E-Mail<span className="text-red-500">*</span></label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="E-Mail"
-                    value={form.email}
-                    onChange={handleChange1}
-                    className={inputClass}
-                  />
-                  {errors.email && (
-                    <p className="text-red-600 text-sm mt-1">{errors.email}</p>
-                  )}
-                </div>
-
-
-                {/* Adresse */}
-                <div>
-                  <label className="block font-semibold text-base mb-2">
-                    Adresse
-                  </label>
-
-                  {/* Strasse & Hausnummer */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block font-medium mb-1">Strasse<span className="text-red-500">*</span></label>
-                      <input
-                        name="street"
-                        placeholder="z. B. Bahnhofstrasse"
-                        value={form.street || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-medium mb-1">
-                        Hausnummer<span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        name="houseNumber"
-                        placeholder="z. B. 12a"
-                        value={form.houseNumber || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-
-                  {/* PLZ & Ort */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <div>
-                      <label className="block font-medium mb-1">PLZ<span className="text-red-500">*</span></label>
-                      <input
-                        name="postalCode"
-                        placeholder="z. B. 8000"
-                        value={form.postalCode || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-medium mb-1">Ort<span className="text-red-500">*</span></label>
-                      <input
-                        name="city"
-                        placeholder="z. B. Zürich"
-                        value={form.city || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Land */}
-                  <div className="mt-4">
-                    <label className="block font-medium mb-1">Land<span className="text-red-500">*</span></label>
-                    <input
-                      name="address"
-                      placeholder="z. B. Schweiz"
-                      value={form.address || ""}
-                      onChange={handleChange}
-                      className={inputClass}
-                    />
-                  </div>
-
-                </div>
-              </div>
-            </>
-          )}
+      </div>
+    </div>
+  </>
+)}
 
 
 {step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails <span className="text-red-500">*</span></h2>
@@ -2067,57 +2178,7 @@ onChange={(date) => {
                     Persönliche Angaben (Zusammenfassung)
                   </h3>
 
-                {/* Anfragende Person */}
-<div className="mb-8">
-  <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Vorname</label>
-      <input
-        name="requestFirstName"
-        placeholder="Vorname"
-        value={form.requestFirstName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Nachname</label>
-      <input
-        name="requestLastName"
-        placeholder="Nachname"
-        value={form.requestLastName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Telefonnummer</label>
-      <input
-        name="requestPhone"
-        placeholder="Telefonnummer"
-        value={form.requestPhone || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Email</label>
-      <input
-        name="requestEmail"
-        placeholder="Email"
-        value={form.requestEmail || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-  </div>
-</div>
-
-
+  
                   {/* Einsatzort */}
                   <div>
                     <h4 className="font-[600] text-[16px] ">Einsatzort</h4>
@@ -2335,6 +2396,57 @@ onChange={(date) => {
                       />
                     </div>
                   </div>
+                                <div className="mb-8">
+  <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Vorname</label>
+      <input
+        name="requestFirstName"
+        placeholder="Vorname"
+        value={form.requestFirstName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Nachname</label>
+      <input
+        name="requestLastName"
+        placeholder="Nachname"
+        value={form.requestLastName || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Telefonnummer</label>
+      <input
+        name="requestPhone"
+        placeholder="Telefonnummer"
+        value={form.requestPhone || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Email</label>
+      <input
+        name="requestEmail"
+        placeholder="Email"
+        value={form.requestEmail || ""}
+        onChange={handleChange}
+        className={inputClass}
+      />
+    </div>
+  </div>
+</div>
+
+
+
                 </div>
 <div className="mb-2">
   <h2 className="text-xl font-bold mb-2">Fragebogen</h2>
@@ -3254,9 +3366,12 @@ onChange={(date) => {
           </div>
         </form>
       </div>
-<div className="w-full md:w-96 space-y-6">
+<div className="w-full md:w-96 space-y-3">
   {/* Zusammenfassung */}
-  <div className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
+  <div
+    ref={summaryRef}
+    className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6"
+  >
     {/* Titulli */}
     <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
@@ -3290,17 +3405,6 @@ onChange={(date) => {
           Gesamtsumme: {totalPayment.toFixed(2)} CHF
         </p>
       </div>
-
-      {/* Kunden Info */}
-      {(form.requestFirstName || form.requestLastName || form.requestEmail) && (
-        <div className="border-t pt-2 mt-2">
-          <h4 className="font-semibold text-gray-800 mb-1">Kunden</h4>
-          <p className="text-sm text-gray-700">
-            {form.requestFirstName || ""} {form.requestLastName || ""}
-          </p>
-          <p className="text-sm text-gray-700">{form.requestEmail || ""}</p>
-        </div>
-      )}
     </div>
 
     {/* Info-line */}
@@ -3310,7 +3414,10 @@ onChange={(date) => {
   </div>
 
   {/* Ausgewählte Dienstleistungen */}
-  <div className="sticky top-[420px] bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6">
+  <div
+    className="sticky top-28 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-9"
+    style={{ top: `${offset}px` }}
+  >
     <h3 className="text-xl font-bold text-gray-800 mb-2">
       Ausgewählte Dienstleistungen
     </h3>
