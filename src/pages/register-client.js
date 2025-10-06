@@ -523,6 +523,8 @@ kanton: form.kanton || "",
 
       if (!hasAnySubService) {
         setFormError(
+
+
           "Bitte wählen Sie mindestens eine Zusatzleistung für mindestens einen Tag."
         );
         return false;
@@ -590,6 +592,33 @@ if (step === 4 || (testMode && step === 3)) {
         typeof s === "string" ? s : s.name
       )
     : [];
+    
+
+  // ✅ Validate Anfragende Person fields (all required)
+  if (!form.requestFirstName) {
+    setFormError("Bitte geben Sie den Vornamen der anfragenden Person ein.");
+    scrollToTop();
+    return false;
+  }
+
+  if (!form.requestLastName) {
+    setFormError("Bitte geben Sie den Nachnamen der anfragenden Person ein.");
+    scrollToTop();
+    return false;
+  }
+
+  if (!form.requestPhone) {
+    setFormError("Bitte geben Sie die Telefonnummer der anfragenden Person ein.");
+    scrollToTop();
+    return false;
+  }
+
+  if (!form.requestEmail) {
+    setFormError("Bitte geben Sie die E-Mail-Adresse der anfragenden Person ein.");
+    scrollToTop();
+
+    return false;
+  }
 
   const requiresAllergyInfo = subservicesList.some((s) =>
     ["Gemeinsames Kochen", "Nahrungsaufnahme", "Kochen"].includes(s)
@@ -2312,7 +2341,7 @@ onChange={(date) => {
                           name="street"
                           placeholder="Adresse"
                           onChange={handleChange}
-                          value={form.address || ""}
+                          value={form.street || ""}
                           className={inputClass}
                         />
                       </div>
@@ -2372,56 +2401,73 @@ onChange={(date) => {
 <div className="mb-8">
   <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {/* Vorname */}
     <div className="mb-2">
-      <label className="block font-medium mb-1">Vorname</label>
+      <label className="block font-medium mb-1">
+        Vorname <span className="text-red-500">*</span>
+      </label>
       <input
         name="requestFirstName"
         placeholder="Vorname"
         value={form.requestFirstName || ""}
         onChange={handleChange}
         readOnly={sameAsEinsatzort}
+        required
         className={`${inputClass} ${
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
       />
     </div>
 
+    {/* Nachname */}
     <div className="mb-2">
-      <label className="block font-medium mb-1">Nachname</label>
+      <label className="block font-medium mb-1">
+        Nachname <span className="text-red-500">*</span>
+      </label>
       <input
         name="requestLastName"
         placeholder="Nachname"
         value={form.requestLastName || ""}
         onChange={handleChange}
         readOnly={sameAsEinsatzort}
+        required
         className={`${inputClass} ${
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
       />
     </div>
 
+    {/* Telefonnummer */}
     <div className="mb-2">
-      <label className="block font-medium mb-1">Telefonnummer</label>
+      <label className="block font-medium mb-1">
+        Telefonnummer <span className="text-red-500">*</span>
+      </label>
       <input
         name="requestPhone"
         placeholder="Telefonnummer"
         value={form.requestPhone || ""}
         onChange={handleChange}
         readOnly={sameAsEinsatzort}
+        required
         className={`${inputClass} ${
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
       />
     </div>
 
+    {/* Email */}
     <div className="mb-2">
-      <label className="block font-medium mb-1">Email</label>
+      <label className="block font-medium mb-1">
+        Email <span className="text-red-500">*</span>
+      </label>
       <input
         name="requestEmail"
         placeholder="Email"
+        type="email"
         value={form.requestEmail || ""}
         onChange={handleChange}
         readOnly={sameAsEinsatzort}
+        required
         className={`${inputClass} ${
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
@@ -2429,6 +2475,7 @@ onChange={(date) => {
     </div>
   </div>
 </div>
+
 
 
           {/* Ankunftsbedingungen */}
@@ -3442,21 +3489,22 @@ onChange={(date) => {
   <button
     type="button"
     onClick={() => {
-      if (!validateStep()) return; // 🛑 stop if validation fails
-       setFormError("");
-      setStep(5); // ✅ only go forward if validation passes
+      // 🔹 Run validation before going forward
+      if (!validateStep()) return; 
+
+      // 🔹 Clear any previous error when validation passes
+      setFormError("");
+
+      // 🔹 Go to the next step
+      setStep(5);
     }}
     className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
     disabled={loadingStep4}
   >
     {loadingStep4 ? "Bitte warten..." : "Weiter"}
   </button>
-
-
-
-
-
-) : step === 3 ? (
+) 
+: step === 3 ? (
   <>
     <button
       type="button"
