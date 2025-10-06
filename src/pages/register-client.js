@@ -165,6 +165,35 @@ const [form, setForm] = useState({
   careFirstName: "",
 });
 
+const [sameAsEinsatzort, setSameAsEinsatzort] = useState(false);
+
+useEffect(() => {
+  if (sameAsEinsatzort) {
+    // ✅ Kur bëhet check → kopjo të dhënat nga Einsatzort
+    setForm((prev) => ({
+      ...prev,
+      requestFirstName: prev.firstName || "",
+      requestLastName: prev.lastName || "",
+      requestPhone: prev.phone || "",
+      requestEmail: prev.email || "",
+    }));
+  } else {
+    setForm((prev) => ({
+      ...prev,
+      requestFirstName: "",
+      requestLastName: "",
+      requestPhone: "",
+      requestEmail: "",
+    }));
+  }
+}, [
+  sameAsEinsatzort,
+  form.firstName,
+  form.lastName,
+  form.phone,
+  form.email,
+]);
+
 
   // Reset schedules & subservices kur zgjedh "einmalig"
 useEffect(() => {
@@ -2160,7 +2189,7 @@ onChange={(date) => {
      }} /> </div> {/* Hinweise */} <div className="mt-4 space-y-2"> <p className="text-sm sm:text-base text-gray-600">
        Alle Zahlungen werden sicher verarbeitet. </p> <p className="text-sm sm:text-base text-gray-600">
          Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 
-          24 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
+          48 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
            </p> </div> {/* AGB-Checkbox */} <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border
             border-gray-200"> <input type="checkbox" id="agb"
              checked={agbAccepted} onChange={(e) => { setAgbAccepted(e.target.checked); 
@@ -2283,7 +2312,85 @@ onChange={(date) => {
                       </div>
                     </div>
 
-                    {/* Ankunftsbedingungen */}
+          
+                  </div>
+{/* ✅ Checkbox: copy Einsatzort → Anfragende Person */}
+<div className="mt-4 mb-6">
+  <label className="inline-flex items-center gap-2 text-sm text-gray-800">
+    <input
+      type="checkbox"
+      checked={sameAsEinsatzort}
+      onChange={() => setSameAsEinsatzort(!sameAsEinsatzort)}
+      className="w-5 h-5 accent-[#B99B5F]"
+    />
+    <span>Anfragende Person ist gleich wie Einsatzort (Standardwert)</span>
+  </label>
+</div>
+
+{/* Anfragende Person */}
+<div className="mb-8">
+  <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Vorname</label>
+      <input
+        name="requestFirstName"
+        placeholder="Vorname"
+        value={form.requestFirstName || ""}
+        onChange={handleChange}
+        readOnly={sameAsEinsatzort}
+        className={`${inputClass} ${
+          sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
+        }`}
+      />
+    </div>
+
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Nachname</label>
+      <input
+        name="requestLastName"
+        placeholder="Nachname"
+        value={form.requestLastName || ""}
+        onChange={handleChange}
+        readOnly={sameAsEinsatzort}
+        className={`${inputClass} ${
+          sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
+        }`}
+      />
+    </div>
+
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Telefonnummer</label>
+      <input
+        name="requestPhone"
+        placeholder="Telefonnummer"
+        value={form.requestPhone || ""}
+        onChange={handleChange}
+        readOnly={sameAsEinsatzort}
+        className={`${inputClass} ${
+          sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
+        }`}
+      />
+    </div>
+
+    <div className="mb-2">
+      <label className="block font-medium mb-1">Email</label>
+      <input
+        name="requestEmail"
+        placeholder="Email"
+        value={form.requestEmail || ""}
+        onChange={handleChange}
+        readOnly={sameAsEinsatzort}
+        className={`${inputClass} ${
+          sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
+        }`}
+      />
+    </div>
+  </div>
+</div>
+
+
+          {/* Ankunftsbedingungen */}
                     <div className="mb-6">
                       <p className="font-[600] text-[16px] mb-1">
                         Ankunftsbedingungen
@@ -2395,57 +2502,6 @@ onChange={(date) => {
                         rows={4}
                       />
                     </div>
-                  </div>
-                                <div className="mb-8">
-  <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Vorname</label>
-      <input
-        name="requestFirstName"
-        placeholder="Vorname"
-        value={form.requestFirstName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Nachname</label>
-      <input
-        name="requestLastName"
-        placeholder="Nachname"
-        value={form.requestLastName || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Telefonnummer</label>
-      <input
-        name="requestPhone"
-        placeholder="Telefonnummer"
-        value={form.requestPhone || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-
-    <div className="mb-2">
-      <label className="block font-medium mb-1">Email</label>
-      <input
-        name="requestEmail"
-        placeholder="Email"
-        value={form.requestEmail || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-    </div>
-  </div>
-</div>
-
-
 
                 </div>
 <div className="mb-2">
