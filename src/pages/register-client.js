@@ -161,6 +161,9 @@ const [form, setForm] = useState({
   hasParking: "",
   entranceLocation: "",
   mobilityAids: [],
+  hasAllergies: "",
+allergyDetails: "",
+
   transportOption: "",
   careFirstName: "",
 });
@@ -417,6 +420,21 @@ useEffect(() => {
       </span>
     </div>
   );
+  const handleNextStep = () => {
+  if (validateStep()) {
+    setStep((prev) => prev + 1);
+  }
+};
+// Determine if allergy info is required based on chosen subservices
+const requiresAllergyInfo = Array.isArray(form.subServices)
+  ? form.subServices.some((s) =>
+      ["Gemeinsames Kochen", "Nahrungsaufnahme", "Kochen"].includes(
+        typeof s === "string" ? s : s.name
+      )
+    )
+  : false;
+
+
 
   const inputClass =
     "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F] placeholder-gray-500 mt-1";
@@ -559,20 +577,40 @@ if (step === 2) {
     return false;
   }
 }
-
-
+;
     if (step === 3 && !testMode) {
       if (!testMode) {
         // remove CardElement check completely
       }
     }
+if (step === 4 || (testMode && step === 3)) {
+  // ✅ Allergy validation only
+  const subservicesList = Array.isArray(form.subServices)
+    ? form.subServices.map((s) =>
+        typeof s === "string" ? s : s.name
+      )
+    : [];
 
-    if (step === 4 || (testMode && step === 3)) {
-      if (!form.transportOption) {
-        setFormError("Bitte wählen Sie eine Transportoption.");
-        return false;
-      }
-    }
+  const requiresAllergyInfo = subservicesList.some((s) =>
+    ["Gemeinsames Kochen", "Nahrungsaufnahme", "Kochen"].includes(s)
+  );
+
+if (requiresAllergyInfo) {
+  if (!form.hasAllergies) {
+    setFormError("Bitte Allergien auswählen (Ja/Nein)");
+    scrollToTop(); // 👈 scroll to top only when this error happens
+    return false;
+  }
+  if (form.hasAllergies === "Ja" && !form.allergyDetails) {
+    setFormError("Bitte geben Sie die Allergien an");
+    scrollToTop(); // 👈 scroll to top for this error too
+    return false;
+  }
+}
+
+}
+
+
 
     return true;
   };
@@ -608,6 +646,7 @@ if (step === 2) {
 
     setStep((prev) => prev + 1);
   };
+
 
   useEffect(() => {
     const stepParam = new URLSearchParams(window.location.search).get("step");
@@ -1343,6 +1382,8 @@ const handlePayment = async () => {
       .catch((err) => console.error("❌ Error loading user for Step 4:", err));
   }
 }, [step, session_id]);
+
+
 
 
   return (
@@ -2518,29 +2559,7 @@ onChange={(date) => {
                     Alltagsbegleitung & Besorgungen
                   </h2>
 
-                  {/* 🔹 Mobilität */}
-                  <h3 className="font-[600] text-[16px] mb-4">Mobilität</h3>
-
-                  {/* Verfügbare Hilfsmittel */}
-                  <div className="mb-4">
-                    <p className="font-medium mb-2">Verfügbare Hilfsmittel</p>
-                    <div className="flex flex-wrap gap-6">
-                      {["Rollstuhl", "Rollator", "Gehstock"].map((aid) => (
-                        <label
-                          key={aid}
-                          className="inline-flex items-center gap-2 text-sm text-gray-800"
-                        >
-                          <input
-                            type="checkbox"
-                            className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
-                            checked={form.mobilityAids?.includes(aid)}
-                            onChange={() => toggleCheckbox("mobilityAids", aid)}
-                          />
-                          <span>{aid}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+               
 
                   {/* 🔹 Begleitung zu Terminen */}
                   <h3 className="font-medium mb-1">Begleitung zu Terminen</h3>
@@ -2695,7 +2714,6 @@ onChange={(date) => {
                     {[
                       ["Gesellschaft leisten", "companionship"],
                       ["Gemeinsames Kochen", "cookingTogether"],
-                      ["Allergien?", "hasAllergies"],
                       ["Biografiearbeit", "biographyWork"],
                       ["Vorlesen", "reading"],
                       ["Gesellschaftspiele", "cardGames"],
@@ -2715,17 +2733,7 @@ onChange={(date) => {
                           <option value="Nein">Nein</option>
                         </select>
 
-                        {/* Conditional input if "hasAllergies" is Ja */}
-                        {name === "hasAllergies" &&
-                          form.hasAllergies === "Ja" && (
-                            <input
-                              name="allergyDetails"
-                              placeholder="Welche?"
-                              value={form.allergyDetails || ""}
-                              onChange={handleChange}
-                              className="bg-white border border-gray-300 rounded-md p-3 w-full mt-2"
-                            />
-                          )}
+                   
                       </div>
                     ))}
                   </div>
@@ -2772,7 +2780,7 @@ onChange={(date) => {
                   {/* Main Title */}
                   <h2 className="font-bold text-[20px] mb-6">
                     {" "}
-                    Gesundheitsfürsorge
+                   Gesundheitsinformationen
                   </h2>
 
                   {/* 🔹 Körperliche Unterstützung */}
@@ -2893,6 +2901,29 @@ onChange={(date) => {
                     onChange={handleChange}
                     className={inputClass + " mb-6"}
                   />
+                     {/* 🔹 Mobilität */}
+                  <h3 className="font-[600] text-[16px] mb-4">Mobilität</h3>
+
+                  {/* Verfügbare Hilfsmittel */}
+                  <div className="mb-4">
+                    <p className="font-medium mb-2">Verfügbare Hilfsmittel</p>
+                    <div className="flex flex-wrap gap-6">
+                      {["Rollstuhl", "Rollator", "Gehstock"].map((aid) => (
+                        <label
+                          key={aid}
+                          className="inline-flex items-center gap-2 text-sm text-gray-800"
+                        >
+                          <input
+                            type="checkbox"
+                            className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+                            checked={form.mobilityAids?.includes(aid)}
+                            onChange={() => toggleCheckbox("mobilityAids", aid)}
+                          />
+                          <span>{aid}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
 
                   {/* 🔹 Inkontinenz */}
                   <h3 className="block  font-medium mb-1">Inkontinenz</h3>
@@ -3019,47 +3050,49 @@ onChange={(date) => {
                     onChange={handleChange}
                     className={inputClass + " mb-6"}
                   />
+{/*
+  🔹 Gesundheitsförderung
+  <h3 className="block font-medium mb-1">
+    Gesundheitsförderung
+  </h3>
+  <div className="mb-4 flex flex-wrap gap-6">
+    {[
+      "Gymnastik",
+      "Spaziergänge",
+      "Aktivierende Betreuung",
+    ].map((act) => (
+      <label
+        key={act}
+        className="inline-flex items-center gap-2 text-sm text-gray-800"
+      >
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+          checked={form.healthPromotion?.includes(act)}
+          onChange={() => {
+            const updated = new Set(form.healthPromotion || []);
+            updated.has(act)
+              ? updated.delete(act)
+              : updated.add(act);
+            setForm((prev) => ({
+              ...prev,
+              healthPromotion: Array.from(updated),
+            }));
+          }}
+        />
+        <span>{act}</span>
+      </label>
+    ))}
+  </div>
+  <input
+    name="healthPromotionOther"
+    placeholder="Sonstige"
+    value={form.healthPromotionOther || ""}
+    onChange={handleChange}
+    className={inputClass + " mb-6"}
+  />
+*/}
 
-                  {/* 🔹 Gesundheitsförderung */}
-                  <h3 className="block  font-medium mb-1">
-                    Gesundheitsförderung
-                  </h3>
-                  <div className="mb-4 flex flex-wrap gap-6">
-                    {[
-                      "Gymnastik",
-                      "Spaziergänge",
-                      "Aktivierende Betreuung",
-                    ].map((act) => (
-                      <label
-                        key={act}
-                        className="inline-flex items-center gap-2 text-sm text-gray-800"
-                      >
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
-                          checked={form.healthPromotion?.includes(act)}
-                          onChange={() => {
-                            const updated = new Set(form.healthPromotion || []);
-                            updated.has(act)
-                              ? updated.delete(act)
-                              : updated.add(act);
-                            setForm((prev) => ({
-                              ...prev,
-                              healthPromotion: Array.from(updated),
-                            }));
-                          }}
-                        />
-                        <span>{act}</span>
-                      </label>
-                    ))}
-                  </div>
-                  <input
-                    name="healthPromotionOther"
-                    placeholder="Sonstige"
-                    value={form.healthPromotionOther || ""}
-                    onChange={handleChange}
-                    className={inputClass + " mb-6"}
-                  />
 
                   {/* 🔹 Geistige Unterstützung */}
                   <h3 className="font-[600] text-[16px] mb-4">
@@ -3252,12 +3285,12 @@ onChange={(date) => {
                   {/* Main Title */}
                   <h2 className="font-bold text-[20px] mb-6">
                     {" "}
-                    Weitere Angaben für die Einsatzplanung
+          Sonstige Angaben          
                   </h2>
 
-                  {/* 🔹 Sprache der Betreuungsperson */}
+                  {/* Wunschsprache der Betreuungsperson */}
                   <h3 className="font-medium mb-2">
-                    Sprache der Betreuungsperson
+                 Wunschsprache der Betreuungsperson
                   </h3>
                   <div className="flex flex-wrap gap-6 mb-4">
                     {[
@@ -3326,8 +3359,40 @@ onChange={(date) => {
                       />
                     )}
                   </div>
+<div>
+  <label className="block font-medium mb-1">Allergien</label>
+  <select
+    name="hasAllergies"
+    value={form.hasAllergies || ""}
+    onChange={handleChange}
+    className={inputClass}
+    required={requiresAllergyInfo}
+  >
+    <option value="">Bitte auswählen</option>
+    <option value="Ja">Ja</option>
+    <option value="Nein">Nein</option>
+  </select>
+
+  {form.hasAllergies === "Ja" && (
+    <input
+      name="allergyDetails"
+      placeholder="Welche?"
+      value={form.allergyDetails || ""}
+      onChange={handleChange}
+      className="bg-white border border-gray-300 rounded-md p-3 w-full mt-2"
+      required={requiresAllergyInfo}
+    />
+  )}
+</div>
+
+
+
+
                 </div>
+                  
+
               </div>
+              
             </>
           )}
           {step === 5 && (
@@ -3373,15 +3438,23 @@ onChange={(date) => {
       </button>
     )}
 
-    {step === 4 ? (
-      <button
-        type="button"
-        onClick={() => setStep(5)}
-        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
-        disabled={loadingStep4}
-      >
-        {loadingStep4 ? "Bitte warten..." : "Weiter"}
-      </button>
+{step === 4 ? (
+  <button
+    type="button"
+    onClick={() => {
+      if (!validateStep()) return; // 🛑 stop if validation fails
+       setFormError("");
+      setStep(5); // ✅ only go forward if validation passes
+    }}
+    className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
+    disabled={loadingStep4}
+  >
+    {loadingStep4 ? "Bitte warten..." : "Weiter"}
+  </button>
+
+
+
+
 
 ) : step === 3 ? (
   <>
@@ -3409,13 +3482,14 @@ onChange={(date) => {
     )}
   </>
 ) : (
-      <button
-        type="button"
-        onClick={handleNext}
-        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
-      >
-        Weiter
-      </button>
+ <button
+  type="button"
+  onClick={handleNextStep}
+  className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+>
+  Weiter
+</button>
+
     )}
   </div>
 )}
