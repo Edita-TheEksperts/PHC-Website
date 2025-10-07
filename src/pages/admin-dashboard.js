@@ -12,6 +12,8 @@ import EmployeeClientConnections from "../components/EmployeeClientConnections";
 import CurrentRevenue from "../components/CurrentRevenue";
 import EmployeeTable from "../components/EmployeeTable";
 import ClientTable from "../components/ClientTable";
+import { useRouter } from "next/router";
+
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import {
@@ -64,6 +66,25 @@ useEffect(() => {
   fetchVacations();   // 👈 add this
 }, []);
 
+const [vouchers, setVouchers] = useState([]);
+
+useEffect(() => {
+  async function fetchVouchers() {
+    try {
+      const res = await fetch("/api/admin/vouchers");
+      console.log("✅ API called:", res.status);
+      const data = await res.json();
+      console.log("📦 Response data:", data);
+      if (Array.isArray(data.vouchers)) setVouchers(data.vouchers);
+    } catch (err) {
+      console.error("❌ Error fetching vouchers:", err);
+    }
+  }
+
+  fetchVouchers();
+}, []);
+
+
 async function fetchVacations() {
   try {
     const res = await fetch("/api/admin/vacations");
@@ -82,6 +103,9 @@ async function fetchVacations() {
     setVacations([]);
   }
 }
+const router = useRouter();
+const { tab, create } = router.query;
+
 const [data, setData] = useState({
   totalIncomeAllTime: 0,
   totalIncomeThisMonth: 0,
@@ -211,6 +235,81 @@ function ReassignModal({ vacation }) {
       .then(res => res.json())
       .then(setSuggestions);
   }, [vacation]);
+
+  if (tab === "gutscheine" && create === "true") {
+  return (
+    <AdminLayout>
+      <div className="p-8 max-w-2xl mx-auto bg-white shadow-lg rounded-lg mt-10">
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+          🎟 Gutschein erstellen
+        </h2>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            alert("Voucher created successfully!");
+          }}
+          className="space-y-4"
+        >
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Gutschein-Code
+            </label>
+            <input
+              type="text"
+              name="code"
+              placeholder="WELCOME10"
+              className="mt-1 p-2 border w-full rounded-lg"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Rabatt-Typ
+            </label>
+            <select
+              name="type"
+              className="mt-1 p-2 border w-full rounded-lg"
+              required
+            >
+              <option value="percent">Prozent</option>
+              <option value="fixed">Fixbetrag</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Wert
+            </label>
+            <input
+              type="number"
+              name="value"
+              placeholder="10"
+              className="mt-1 p-2 border w-full rounded-lg"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Speichern
+          </button>
+        </form>
+
+        <button
+          onClick={() => router.push("/admin-dashboard")}
+          className="mt-6 text-blue-500 underline text-sm"
+        >
+          ← Zurück zum Dashboard
+        </button>
+      </div>
+    </AdminLayout>
+  );
+}
+
 
   return (
     <div className="modal">
@@ -553,6 +652,7 @@ async function handleInvite(emp) {
     "Arbeitszeiterfassung",
     "Buchungen",            
     "Buchungsstatus",
+     "Gutscheine",
 
   ].map((tab) => (
     <Tab
@@ -1014,6 +1114,124 @@ async function handleInvite(emp) {
     </div>
   </DashboardCard>
 </Tab.Panel>
+
+{/* 🎟 Gutscheine Übersicht */}
+<Tab.Panel>
+  <DashboardCard title="🎟 Gutscheine Übersicht">
+    <div className="p-4">
+      {vouchers.length > 0 ? (
+        <div className="overflow-x-auto">
+          <table className="min-w-full border text-sm">
+            <thead className="bg-gray-100 text-gray-700">
+              <tr>
+                <th className="border px-3 py-2 text-left">Code</th>
+                <th className="border px-3 py-2 text-left">Typ</th>
+                <th className="border px-3 py-2 text-left">Wert</th>
+                <th className="border px-3 py-2 text-left">Erstellt am</th>
+                <th className="border px-3 py-2 text-left">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vouchers.map((v) => (
+                <tr key={v.id} className="hover:bg-gray-50">
+                  <td className="border px-3 py-2 font-mono">{v.code}</td>
+                  <td className="border px-3 py-2 capitalize">{v.type}</td>
+                  <td className="border px-3 py-2">
+                    {v.type === "percent" ? `${v.value}%` : `CHF ${v.value}`}
+                  </td>
+                  <td className="border px-3 py-2">
+                    {new Date(v.createdAt).toLocaleDateString("de-DE")}
+                  </td>
+                  <td className="border px-3 py-2">
+                    {v.isActive ? (
+                      <span className="text-green-600 font-semibold">Aktiv</span>
+                    ) : (
+                      <span className="text-red-500 font-semibold">Deaktiviert</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="text-gray-500 italic">Keine Gutscheine gefunden</p>
+      )}
+    </div>
+  </DashboardCard>
+</Tab.Panel>
+<Tab.Panel>
+  <DashboardCard title="🎟 Gutschein-Nutzung (nach Kunden)">
+    <div className="p-6 space-y-8">
+      {/* Statistika */}
+      {stats ? (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="bg-blue-50 p-3 rounded-lg">
+            <p className="text-2xl font-bold text-blue-700">{stats.total}</p>
+            <p className="text-sm text-gray-600">Gesamt Gutscheine</p>
+          </div>
+          <div className="bg-green-50 p-3 rounded-lg">
+            <p className="text-2xl font-bold text-green-700">
+              {stats.totalRedemptions}
+            </p>
+            <p className="text-sm text-gray-600">Verwendungen</p>
+          </div>
+          <div className="bg-yellow-50 p-3 rounded-lg">
+            <p className="text-2xl font-bold text-yellow-700">{stats.used}</p>
+            <p className="text-sm text-gray-600">Mindestens 1x benutzt</p>
+          </div>
+          <div className="bg-purple-50 p-3 rounded-lg">
+            <p className="text-2xl font-bold text-purple-700">
+        CHF {(stats.totalDiscountGiven ?? 0).toFixed(2)}
+
+            </p>
+            <p className="text-sm text-gray-600">Gesamt Rabattwert</p>
+          </div>
+        </div>
+      ) : (
+        <p className="text-gray-500 italic">Lade Statistiken...</p>
+      )}
+
+      {/* Voucher Usage Table */}
+      <div className="overflow-x-auto border rounded-lg mt-6">
+        <table className="min-w-full text-sm">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="px-3 py-2 text-left">Code</th>
+              <th className="px-3 py-2 text-left">Verwendungen</th>
+              <th className="px-3 py-2 text-left">Letzter Kunde</th>
+              <th className="px-3 py-2 text-left">Letzte Nutzung</th>
+            </tr>
+          </thead>
+          <tbody>
+            {vouchers.map((v) => (
+              <tr key={v.id} className="border-t hover:bg-gray-50">
+                <td className="px-3 py-2 font-mono">{v.code}</td>
+
+                <td className="px-3 py-2">{v.bookings?.length ?? 0}</td>
+
+                <td className="px-3 py-2">
+                  {v.bookings?.[0]?.user?.firstName
+                    ? `${v.bookings[0].user.firstName} ${v.bookings[0].user.lastName}`
+                    : "—"}
+                </td>
+
+                <td className="px-3 py-2">
+                  {v.bookings?.length > 0
+                    ? new Date(
+                        v.bookings[v.bookings.length - 1].date
+                      ).toLocaleDateString("de-DE")
+                    : "—"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </DashboardCard>
+</Tab.Panel>
+
 
 
 

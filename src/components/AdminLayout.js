@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 
 export default function AdminLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
+    const router = useRouter(); 
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
@@ -41,6 +44,15 @@ Systemwartung          </Link>
           <Link href="/admin/email-templates" className="hover:text-blue-400">
  E-Mail-Vorlagen
 </Link>
+<Link
+  href="/admin/create"
+  className="hover:text-blue-400"
+>
+   Gutschein erstellen
+</Link>
+
+
+
 
         </nav>
       </aside>

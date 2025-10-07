@@ -23,7 +23,7 @@ export default function EmailTemplatesAdmin() {
 
   const saveEdit = async () => {
     const res = await fetch("/api/admin/emails", {
-      method: "PUT",
+      method: "PUT",  
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: editing, ...form }),
     });

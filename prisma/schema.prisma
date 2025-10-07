@@ -64,8 +64,6 @@ model User {
   frequency               String
   cardNumber              String?
   cvc                     String?
-  anrede     String?  
-  kanton     String? 
   duration                Int?
   emergencyContactName    String?
   emergencyContactPhone   String?
@@ -175,6 +173,8 @@ model User {
   requestEmail            String?
   requestPhone            String?
   otherLanguage           String?
+  anrede                  String?
+  kanton                  String?
   activityLogs            ActivityLog[] @relation("UserActivityLogs")
   assignments             Assignment[]
   reminders               Reminder[]
@@ -183,6 +183,7 @@ model User {
   vacations               Vacation[]
   services                Service[]     @relation("UserServices")
   subServices             SubService[]  @relation("UserSubServices")
+  vouchers                Voucher[]     @relation("UserVouchers")
 }
 
 model Reminder {
@@ -327,6 +328,21 @@ model ActivityLog {
   createdAt       DateTime  @default(now())
   actorEmployee   Employee? @relation("EmployeeActivityLogs", fields: [actorEmployeeId], references: [id], map: "ActivityLog_actorEmployeeId_fkey")
   actorUser       User?     @relation("UserActivityLogs", fields: [actorUserId], references: [id], map: "ActivityLog_actorUserId_fkey")
+}
+
+model Voucher {
+  id            String   @id @default(uuid())
+  code          String   @unique
+  discountType  String
+  discountValue Float
+  maxUses       Int
+  usedCount     Int      @default(0)
+  validFrom     DateTime
+  validUntil    DateTime
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  usedBy        User[]   @relation("UserVouchers")
 }
 
 enum Role {
