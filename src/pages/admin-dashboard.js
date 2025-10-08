@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
+import { Ticket, CheckCircle, PauseCircle, Clock } from "lucide-react"
+
 import AdminLayout from "../components/AdminLayout";
 import DashboardCard from "../components/DashboardCard";
 import ActiveClients from "../components/ActiveClients";
@@ -66,23 +68,24 @@ useEffect(() => {
   fetchVacations();   // 👈 add this
 }, []);
 
-const [vouchers, setVouchers] = useState([]);
+const [voucherStats, setVoucherStats] = useState({});
+
 
 useEffect(() => {
-  async function fetchVouchers() {
+  async function fetchVoucherStats() {
     try {
-      const res = await fetch("/api/admin/vouchers");
-      console.log("✅ API called:", res.status);
+      const res = await fetch("/api/admin/vouchers/status");
       const data = await res.json();
-      console.log("📦 Response data:", data);
-      if (Array.isArray(data.vouchers)) setVouchers(data.vouchers);
+      setVoucherStats(data);
     } catch (err) {
-      console.error("❌ Error fetching vouchers:", err);
+      console.error("❌ Error fetching voucher stats:", err);
     }
   }
 
-  fetchVouchers();
+  fetchVoucherStats();
 }, []);
+
+
 
 
 async function fetchVacations() {
@@ -103,6 +106,7 @@ async function fetchVacations() {
     setVacations([]);
   }
 }
+
 const router = useRouter();
 const { tab, create } = router.query;
 
@@ -151,11 +155,16 @@ useEffect(() => {
     setAndereDetails(andereItems);
   }
 
+
+useEffect(() => {
   async function fetchStats() {
-    const res = await fetch("/api/admin/stats");
+    const res = await fetch("/api/admin/vouchers/status");
     const data = await res.json();
     setStats(data);
   }
+  fetchStats();
+}, []);
+
 
   async function fetchWarnings() {
     try {
@@ -349,6 +358,25 @@ function isNextMonth(date) {
   const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
   return date.getMonth() === nextMonth.getMonth() && date.getFullYear() === nextMonth.getFullYear();
 }
+// ✅ Move this near your other top-level async functions
+async function fetchStats() {
+  try {
+    const res = await fetch("/api/admin/vouchers/status");
+    if (!res.ok) throw new Error("Failed to fetch voucher stats");
+    const data = await res.json();
+    setStats(data);
+  } catch (err) {
+    console.error("Error fetching voucher stats:", err);
+    setStats(null);
+  }
+}
+
+useEffect(() => {
+  fetchData();
+  fetchStats();
+  fetchWarnings();
+  fetchVacations();
+}, []);
 
 function isThisYear(date) {
   const now = new Date();
@@ -1053,184 +1081,141 @@ async function handleInvite(emp) {
     </div>
   </DashboardCard>
 </Tab.Panel>
-<Tab.Panel>
-  <DashboardCard title="📌 Buchungsstatus">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- 
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-        <div className="p-3 bg-blue-50 rounded-lg text-center">
-          <p className="text-2xl font-bold text-blue-700">
-            {schedules.filter(s => s.status === "active").length}
-          </p>
-          <p className="text-xs text-gray-600 mt-1">Active</p>
-        </div>
-        <div className="p-3 bg-green-50 rounded-lg text-center">
-          <p className="text-2xl font-bold text-green-700">
-            {schedules.filter(s => s.status === "completed").length}
-          </p>
-          <p className="text-xs text-gray-600 mt-1">Completed</p>
-        </div>
-        <div className="p-3 bg-yellow-50 rounded-lg text-center">
-          <p className="text-2xl font-bold text-yellow-700">
-            {schedules.filter(s => s.status === "pending").length}
-          </p>
-          <p className="text-xs text-gray-600 mt-1">Pending</p>
-        </div>
-        <div className="p-3 bg-red-50 rounded-lg text-center">
-          <p className="text-2xl font-bold text-red-700">
-            {schedules.filter(s => s.status === "cancelled").length}
-          </p>
-          <p className="text-xs text-gray-600 mt-1">Cancelled</p>
-        </div>
-      </div>
+{/* 🎟️ Gutscheinstatus */}
+{/* 🎟️ Gutscheinstatus */}
+<DashboardCard title="🎟️ Gutscheinstatus">
+  <div className="flex flex-col lg:flex-row justify-between items-center gap-10 px-6 py-8">
 
-      {/* Pie Chart */}
-      <div className="w-full h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={[
-                { name: "Active", value: schedules.filter(s => s.status === "active").length },
-                { name: "Completed", value: schedules.filter(s => s.status === "completed").length },
-                { name: "Pending", value: schedules.filter(s => s.status === "pending").length },
-                { name: "Cancelled", value: schedules.filter(s => s.status === "cancelled").length },
-              ]}
-              cx="50%"
-              cy="50%"
-              outerRadius={90}
-              fill="#8884d8"
-              dataKey="value"
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-            >
-              <Cell fill="#3B82F6" />
-              <Cell fill="#22C55E" />
-              <Cell fill="#FACC15" />
-              <Cell fill="#EF4444" />
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  </DashboardCard>
-</Tab.Panel>
-
-{/* 🎟 Gutscheine Übersicht */}
-<Tab.Panel>
-  <DashboardCard title="🎟 Gutscheine Übersicht">
-    <div className="p-4">
-      {vouchers.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border text-sm">
-            <thead className="bg-gray-100 text-gray-700">
-              <tr>
-                <th className="border px-3 py-2 text-left">Code</th>
-                <th className="border px-3 py-2 text-left">Typ</th>
-                <th className="border px-3 py-2 text-left">Wert</th>
-                <th className="border px-3 py-2 text-left">Erstellt am</th>
-                <th className="border px-3 py-2 text-left">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {vouchers.map((v) => (
-                <tr key={v.id} className="hover:bg-gray-50">
-                  <td className="border px-3 py-2 font-mono">{v.code}</td>
-                  <td className="border px-3 py-2 capitalize">{v.type}</td>
-                  <td className="border px-3 py-2">
-                    {v.type === "percent" ? `${v.value}%` : `CHF ${v.value}`}
-                  </td>
-                  <td className="border px-3 py-2">
-                    {new Date(v.createdAt).toLocaleDateString("de-DE")}
-                  </td>
-                  <td className="border px-3 py-2">
-                    {v.isActive ? (
-                      <span className="text-green-600 font-semibold">Aktiv</span>
-                    ) : (
-                      <span className="text-red-500 font-semibold">Deaktiviert</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <p className="text-gray-500 italic">Keine Gutscheine gefunden</p>
-      )}
-    </div>
-  </DashboardCard>
-</Tab.Panel>
-<Tab.Panel>
-  <DashboardCard title="🎟 Gutschein-Nutzung (nach Kunden)">
-    <div className="p-6 space-y-8">
-      {/* Statistika */}
-      {stats ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div className="bg-blue-50 p-3 rounded-lg">
-            <p className="text-2xl font-bold text-blue-700">{stats.total}</p>
-            <p className="text-sm text-gray-600">Gesamt Gutscheine</p>
+    {/* Left side: Stats */}
+    <div className="grid grid-cols-2 gap-6 w-full lg:w-1/2">
+      {[
+        {
+          label: "Active",
+          value: voucherStats?.active || 0,
+          color: "text-blue-600",
+          bg: "from-blue-50 to-blue-100",
+          icon: <Ticket size={24} strokeWidth={2.2} />,
+        },
+        {
+          label: "Used",
+          value: voucherStats?.used || 0,
+          color: "text-green-600",
+          bg: "from-emerald-50 to-emerald-100",
+          icon: <CheckCircle size={24} strokeWidth={2.2} />,
+        },
+        {
+          label: "Inactive",
+          value: voucherStats?.inactive || 0,
+          color: "text-amber-600",
+          bg: "from-amber-50 to-amber-100",
+          icon: <PauseCircle size={24} strokeWidth={2.2} />,
+        },
+        {
+          label: "Expired",
+          value: voucherStats?.expired || 0,
+          color: "text-rose-600",
+          bg: "from-rose-50 to-rose-100",
+          icon: <Clock size={24} strokeWidth={2.2} />,
+        },
+      ].map((stat, index) => (
+        <div
+          key={index}
+          className={`flex items-center gap-4 bg-gradient-to-br ${stat.bg} border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300`}
+        >
+          <div
+            className={`bg-white w-12 h-12 flex items-center justify-center rounded-xl shadow-inner ${stat.color} hover:scale-110 transition-transform duration-200`}
+          >
+            {stat.icon}
           </div>
-          <div className="bg-green-50 p-3 rounded-lg">
-            <p className="text-2xl font-bold text-green-700">
-              {stats.totalRedemptions}
+          <div>
+            <p className={`text-3xl font-bold ${stat.color} leading-none`}>
+              {stat.value}
             </p>
-            <p className="text-sm text-gray-600">Verwendungen</p>
-          </div>
-          <div className="bg-yellow-50 p-3 rounded-lg">
-            <p className="text-2xl font-bold text-yellow-700">{stats.used}</p>
-            <p className="text-sm text-gray-600">Mindestens 1x benutzt</p>
-          </div>
-          <div className="bg-purple-50 p-3 rounded-lg">
-            <p className="text-2xl font-bold text-purple-700">
-        CHF {(stats.totalDiscountGiven ?? 0).toFixed(2)}
-
-            </p>
-            <p className="text-sm text-gray-600">Gesamt Rabattwert</p>
+            <p className="text-sm text-gray-500 font-medium">{stat.label}</p>
           </div>
         </div>
-      ) : (
-        <p className="text-gray-500 italic">Lade Statistiken...</p>
-      )}
+      ))}
+    </div>
 
-      {/* Voucher Usage Table */}
-      <div className="overflow-x-auto border rounded-lg mt-6">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-100 text-gray-700">
-            <tr>
-              <th className="px-3 py-2 text-left">Code</th>
-              <th className="px-3 py-2 text-left">Verwendungen</th>
-              <th className="px-3 py-2 text-left">Letzter Kunde</th>
-              <th className="px-3 py-2 text-left">Letzte Nutzung</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vouchers.map((v) => (
-              <tr key={v.id} className="border-t hover:bg-gray-50">
-                <td className="px-3 py-2 font-mono">{v.code}</td>
+    {/* Right side: Chart */}
+    <div className="flex justify-center w-full lg:w-1/2">
+      <div className="bg-white/90 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm p-6 w-[340px] flex flex-col items-center hover:shadow-md transition-all duration-300">
+        <h3 className="text-base font-semibold text-gray-700 mb-4 tracking-tight">
+          Voucher Distribution
+        </h3>
 
-                <td className="px-3 py-2">{v.bookings?.length ?? 0}</td>
+        <PieChart width={260} height={260}>
+          <defs>
+            <radialGradient id="gradActive" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#60A5FA" stopOpacity={0.8} />
+              <stop offset="100%" stopColor="#2563EB" stopOpacity={0.9} />
+            </radialGradient>
+            <radialGradient id="gradUsed" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#6EE7B7" stopOpacity={0.8} />
+              <stop offset="100%" stopColor="#059669" stopOpacity={0.9} />
+            </radialGradient>
+            <radialGradient id="gradInactive" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FDE68A" stopOpacity={0.8} />
+              <stop offset="100%" stopColor="#CA8A04" stopOpacity={0.9} />
+            </radialGradient>
+            <radialGradient id="gradExpired" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FCA5A5" stopOpacity={0.8} />
+              <stop offset="100%" stopColor="#DC2626" stopOpacity={0.9} />
+            </radialGradient>
+          </defs>
 
-                <td className="px-3 py-2">
-                  {v.bookings?.[0]?.user?.firstName
-                    ? `${v.bookings[0].user.firstName} ${v.bookings[0].user.lastName}`
-                    : "—"}
-                </td>
+          <Pie
+            data={[
+              { name: "Active", value: voucherStats?.active || 0 },
+              { name: "Used", value: voucherStats?.used || 0 },
+              { name: "Inactive", value: voucherStats?.inactive || 0 },
+              { name: "Expired", value: voucherStats?.expired || 0 },
+            ]}
+            cx="50%"
+            cy="50%"
+            innerRadius={65}
+            outerRadius={90}
+            paddingAngle={2}
+            cornerRadius={8}
+            dataKey="value"
+            isAnimationActive={true}
+            animationDuration={1000}
+          >
+            <Cell fill="url(#gradActive)" />
+            <Cell fill="url(#gradUsed)" />
+            <Cell fill="url(#gradInactive)" />
+            <Cell fill="url(#gradExpired)" />
+          </Pie>
 
-                <td className="px-3 py-2">
-                  {v.bookings?.length > 0
-                    ? new Date(
-                        v.bookings[v.bookings.length - 1].date
-                      ).toLocaleDateString("de-DE")
-                    : "—"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <Tooltip
+            formatter={(value, name) => [`${value}`, `${name}`]}
+            contentStyle={{
+              borderRadius: "10px",
+              backgroundColor: "rgba(255,255,255,0.95)",
+              border: "1px solid #eee",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+            }}
+          />
+        </PieChart>
+
+        {/* Legend */}
+        <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-gray-600">
+          {[
+            { label: "Active", color: "bg-blue-500" },
+            { label: "Used", color: "bg-emerald-500" },
+            { label: "Inactive", color: "bg-amber-400" },
+            { label: "Expired", color: "bg-rose-500" },
+          ].map((item, index) => (
+            <div key={index} className="flex items-center gap-2 justify-center">
+              <span className={`w-3 h-3 rounded-full ${item.color}`}></span>
+              {item.label}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-  </DashboardCard>
-</Tab.Panel>
+  </div>
+</DashboardCard>
 
 
 
