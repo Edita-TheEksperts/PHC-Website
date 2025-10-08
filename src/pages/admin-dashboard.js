@@ -1081,6 +1081,7 @@ async function handleInvite(emp) {
     </div>
   </DashboardCard>
 </Tab.Panel>
+<Tab.Panel>
 {/* 🎟️ Gutscheinstatus */}
 {/* 🎟️ Gutscheinstatus */}
 <DashboardCard title="🎟️ Gutscheinstatus">
@@ -1217,7 +1218,7 @@ async function handleInvite(emp) {
   </div>
 </DashboardCard>
 
-
+</Tab.Panel>
 
 
         </Tab.Panels>

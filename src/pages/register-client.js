@@ -39,6 +39,7 @@ export default function RegisterPage() {
 
   // Optional: with canton (e.g., Zurich)
   const hdZH = new Holidays("CH", "ZH");
+  
 
   function isSwissHoliday(date) {
     return Boolean(hd.isHoliday(date));
@@ -61,9 +62,18 @@ export default function RegisterPage() {
   }
   const [loading, setLoading] = useState(false);
 
+  const [voucherStatus, setVoucherStatus] = useState(null);
+
+const [discountAmount, setDiscountAmount] = useState(0);
+
+const [voucherSuccess, setVoucherSuccess] = useState(false);
+const [voucherMessage, setVoucherMessage] = useState("");
+const [discountValue, setDiscountValue] = useState(0);
+const [discountType, setDiscountType] = useState(null);
 
   const { watch } = useForm();
   const [formError, setFormError] = useState("");
+  
 
   const router = useRouter();
   const { service, subService } = router.query;
@@ -168,6 +178,7 @@ allergyDetails: "",
   careFirstName: "",
 });
 
+
 const [sameAsEinsatzort, setSameAsEinsatzort] = useState(false);
 
 useEffect(() => {
@@ -196,6 +207,59 @@ useEffect(() => {
   form.phone,
   form.email,
 ]);
+
+const handleVoucherCheck = async () => {
+  console.log("🎟️ Checking voucher before creating PaymentIntent...");
+
+  const res = await fetch("/api/vouchers/use", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code: form.voucher }),
+  });
+
+  const data = await res.json();
+  console.log("Voucher API response:", data);
+
+  if (!data.success) {
+    setVoucherMessage(data.error || "Ungültiger Gutscheincode.");
+    setVoucherSuccess(false);
+    return;
+  }
+
+  const { discountType, discountValue } = data;
+  setDiscountType(discountType);
+  setDiscountValue(discountValue);
+
+  // ✅ Apply discount before creating PaymentIntent
+  let finalAmount = totalPayment;
+  if (discountType === "percent") {
+    finalAmount -= (totalPayment * discountValue) / 100;
+  } else if (discountType === "fixed") {
+    finalAmount -= discountValue;
+  }
+  if (finalAmount < 0) finalAmount = 0;
+
+  console.log("💰 Final total after discount:", finalAmount);
+
+  // ✅ Create PaymentIntent with discounted total
+  const intentRes = await fetch("/api/create-payment-intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: Math.round(finalAmount * 100) }), // cents
+  });
+
+  const intentData = await intentRes.json();
+  console.log("✅ Stripe PaymentIntent created with discount:", intentData);
+
+  // ✅ Update state
+  setClientSecret(intentData.clientSecret);
+  setForm((prev) => ({
+    ...prev,
+    paymentIntentId: intentData.paymentIntentId,
+  }));
+  setVoucherSuccess(true);
+  setVoucherMessage("🎉 Gutschein erfolgreich eingelöst!");
+};
 
 
   // Reset schedules & subservices kur zgjedh "einmalig"
@@ -295,32 +359,35 @@ useEffect(() => {
     }, 0);
   }
 
-  // ✅ Fetch Stripe PaymentIntent
-  useEffect(() => {
-    if (step === 3 && !clientSecret && totalPayment > 0) {
-      const fetchPaymentIntent = async () => {
-        try {
-          const res = await fetch("/api/create-payment-intent", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: totalPayment * 100 }),
-          });
+useEffect(() => {
+  // 🛑 Skip auto creation if voucher was already applied
+  if (step === 3 && !clientSecret && totalPayment > 0 && !voucherSuccess) {
+    const fetchPaymentIntent = async () => {
+      try {
+        console.log("💳 Creating initial PaymentIntent (no voucher)...");
+        const res = await fetch("/api/create-payment-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: totalPayment * 100 }),
+        });
 
-          const data = await res.json();
-          setClientSecret(data.clientSecret);
+        const data = await res.json();
+        console.log("✅ Stripe PaymentIntent created:", data);
 
-          setForm((prev) => ({
-            ...prev,
-            paymentIntentId: data.paymentIntentId,
-          }));
-        } catch (err) {
-          console.error("❌ Error getting paymentIntent:", err);
-        }
-      };
+        setClientSecret(data.clientSecret);
+        setForm((prev) => ({
+          ...prev,
+          paymentIntentId: data.paymentIntentId,
+        }));
+      } catch (err) {
+        console.error("❌ Error getting paymentIntent:", err);
+      }
+    };
 
-      fetchPaymentIntent();
-    }
-  }, [step, clientSecret, totalPayment]);
+    fetchPaymentIntent();
+  }
+}, [step, clientSecret, totalPayment, voucherSuccess]);
+
 
 useEffect(() => {
   if (step === 4 && session_id) {
@@ -502,6 +569,7 @@ kanton: form.kanton || "",
     householdSize: Number(form.householdSize) || null,
     paymentIntentId: form.paymentIntentId || "", // make sure this is set
   });
+
   const validateStep = () => {
     if (step === 1) {
       if (!form.frequency) {
@@ -644,6 +712,7 @@ if (requiresAllergyInfo) {
     return true;
   };
 
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -748,32 +817,83 @@ if (requiresAllergyInfo) {
       return;
     }
 
-    // 🔐 Get or reuse existing clientSecret for PaymentIntent
-    let secret = clientSecret;
-    if (!secret) {
-      try {
-        const intentRes = await fetch("/api/create-payment-intent", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: totalPayment * 100 }),
-        });
+// 🔐 Get or reuse existing clientSecret for PaymentIntent
+let secret = clientSecret;
+if (!secret) {
+  try {
+    // ✅ Step 1: Always check voucher before creating payment intent
+    let currentDiscountType = discountType;
+    let currentDiscountValue = discountValue;
 
-        const data = await intentRes.json();
+    if (form.voucher) {
+      console.log("🎟️ Checking voucher before payment...");
+      const res = await fetch("/api/admin/vouchers/use", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: form.voucher }),
+      });
 
-        if (!data.clientSecret) {
-          alert(
-            "❌ clientSecret fehlt. Zahlung kann nicht durchgeführt werden."
-          );
-          return;
-        }
+      const voucherData = await res.json();
+      console.log("🎟️ Voucher API response:", voucherData);
 
-        secret = data.clientSecret;
-      } catch (err) {
-        console.error("❌ Fehler beim Erstellen von PaymentIntent:", err);
-        alert("Fehler beim Erstellen der Zahlungsanfrage.");
-        return;
+      if (voucherData.success) {
+        currentDiscountType = voucherData.discountType;
+        currentDiscountValue = voucherData.discountValue;
+
+        // 🧠 Update UI asynchronously (not used in this calculation)
+        setDiscountType(voucherData.discountType);
+        setDiscountValue(voucherData.discountValue);
+        setVoucherMessage(voucherData.message);
+        setVoucherSuccess(true);
+      } else {
+        console.warn("⚠️ Voucher invalid or inactive:", voucherData.error);
       }
     }
+
+    // ✅ Step 2: Calculate discounted total *after* voucher check
+    await new Promise((resolve) => setTimeout(resolve, 100)); // tiny delay ensures fetch finishes
+
+    let finalAmount = totalPayment;
+
+    if (currentDiscountType === "percent") {
+      finalAmount = totalPayment - (totalPayment * currentDiscountValue) / 100;
+    } else if (currentDiscountType === "fixed") {
+      finalAmount = totalPayment - currentDiscountValue;
+    }
+
+    if (finalAmount < 0) finalAmount = 0;
+
+    // 🧾 Debug Logs
+    console.log("🎟️ Voucher check before creating PaymentIntent:");
+    console.log("➡️ Discount type:", currentDiscountType);
+    console.log("➡️ Discount value:", currentDiscountValue);
+    console.log("➡️ Original total:", totalPayment);
+    console.log("➡️ Final total after discount:", finalAmount);
+    console.log("💰 Amount sent to Stripe (in cents):", finalAmount * 100);
+
+    // ✅ Step 3: Create PaymentIntent with discounted amount
+    const intentRes = await fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: Math.round(finalAmount * 100) }),
+    });
+
+    const data = await intentRes.json();
+    console.log("✅ Stripe PaymentIntent response:", data);
+
+    if (!data.clientSecret) {
+      alert("❌ clientSecret fehlt. Zahlung kann nicht durchgeführt werden.");
+      return;
+    }
+
+    secret = data.clientSecret;
+  } catch (err) {
+    console.error("❌ Fehler beim Erstellen von PaymentIntent:", err);
+    alert("Fehler beim Erstellen der Zahlungsanfrage.");
+    return;
+  }
+}
+
 
     try {
       const { paymentIntent, error } = await stripe.confirmCardPayment(secret, {
@@ -1322,6 +1442,14 @@ if (requiresAllergyInfo) {
 
     return results;
   }
+  // 🧮 Calculate discounted total
+const discountedTotal =
+  discountType && discountValue > 0
+    ? discountType === "percent"
+      ? totalPayment - (totalPayment * discountValue) / 100
+      : totalPayment - discountValue
+    : totalPayment;
+
 
   useEffect(() => {
     if (
@@ -1378,6 +1506,7 @@ const handlePayment = async () => {
   }
 };
 
+ 
 
   function onSubmit(e) {
     e.preventDefault();
@@ -2260,7 +2389,64 @@ onChange={(date) => {
        Alle Zahlungen werden sicher verarbeitet. </p> <p className="text-sm sm:text-base text-gray-600">
          Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 
           48 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
-           </p> </div> {/* AGB-Checkbox */} <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border
+           </p> </div> 
+{/* 🎟️ Voucher Code Input */}
+{/* 🎟️ Voucher Code Input */}
+<div className="mt-6">
+  <label htmlFor="voucher" className="block font-medium text-gray-800 mb-1">
+    Haben Sie einen Gutschein?
+  </label>
+
+  <div className="flex gap-3">
+    <input
+      type="text"
+      id="voucher"
+      placeholder="Gutscheincode eingeben"
+      value={form.voucher || ""}
+      onChange={(e) => setForm({ ...form, voucher: e.target.value })}
+      className="flex-1 border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:ring-2 focus:ring-[#B99B5F]"
+    />
+    <button
+      type="button"
+      onClick={handleVoucherCheck}
+      className="px-5 py-2 bg-[#B99B5F] text-white rounded-md hover:bg-[#a88d55] transition"
+    >
+      Einlösen
+    </button>
+  </div>
+
+  {voucherMessage && (
+    <p
+      className={`mt-2 text-sm ${
+        voucherSuccess ? "text-green-600" : "text-red-600"
+      }`}
+    >
+      {voucherMessage}
+    </p>
+  )}
+
+  {/* 💸 Show discounted total */}
+{/* 💰 Show discounted total if voucher applied */}
+{discountType && discountValue > 0 ? (
+  <>
+    <p>
+      Originalpreis:{" "}
+      <span className="line-through text-gray-500">
+        {totalPayment.toFixed(2)} €
+      </span>
+    </p>
+    <p className="text-green-700 font-semibold">
+      Neuer Gesamtbetrag: {discountedTotal.toFixed(2)} €
+    </p>
+  </>
+) : (
+  <p>Gesamtbetrag: {totalPayment.toFixed(2)} €</p>
+)}
+
+</div>
+
+
+           {/* AGB-Checkbox */} <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border
             border-gray-200"> <input type="checkbox" id="agb"
              checked={agbAccepted} onChange={(e) => { setAgbAccepted(e.target.checked); 
              if (e.target.checked) setAgbError(""); }} className="mt-1 mr-3 w-4 h-4 text-[#B99B5F]
