@@ -13,9 +13,8 @@ export default function ChatbotWidget() {
 
   // 👉 nëse jemi te faqet që duam ta fshehim → mos shfaq asgjë
   const hiddenPaths = ["/register-client", "/employee-register"];
-  if (hiddenPaths.includes(pathname)) {
-    return null;
-  }
+  const isHidden = hiddenPaths.includes(pathname);
+
   // --- German Placeholder fix ---
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,16 +29,15 @@ export default function ChatbotWidget() {
 
   // --- Idle Timer Setup ---
   let idleTimer;
-function resetIdleTimer(addMessage) {
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(() => {
-    const msg = createChatBotMessage("Haben Sie noch Fragen?", {
-      widget: "yesNoOptions",
-    });
-    addMessage(msg);   // ✅ nur Message-Objekt
-  }, 30000);
-}
-
+  function resetIdleTimer(addMessage) {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      const msg = createChatBotMessage("Haben Sie noch Fragen?", {
+        widget: "yesNoOptions",
+      });
+      addMessage(msg); // ✅ nur Message-Objekt
+    }, 30000);
+  }
 
   // --- Auto Scroll when chat opens ---
   useEffect(() => {
@@ -77,6 +75,11 @@ function resetIdleTimer(addMessage) {
     return () => clearTimeout(timer);
   }, [isOpen]);
 
+  // ✅ Instead of returning null, render hidden div to keep hook order stable
+  if (isHidden) {
+    return <div style={{ display: "none" }} />;
+  }
+
   return (
     <div className="chatbot-container">
       {isOpen ? (
@@ -92,12 +95,11 @@ function resetIdleTimer(addMessage) {
           {/* Chat content */}
           <div className="chatbot-content">
             <div className="chatbot-inner">
-            <Chatbot
-  config={config}
-  messageParser={MessageParser}
-  actionProvider={ActionProvider}
-/>
-
+              <Chatbot
+                config={config}
+                messageParser={MessageParser}
+                actionProvider={ActionProvider}
+              />
             </div>
           </div>
         </div>

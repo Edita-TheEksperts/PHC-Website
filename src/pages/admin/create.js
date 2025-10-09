@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import AdminLayout from "../../components/AdminLayout";
@@ -10,11 +11,30 @@ import {
   XCircle,
 } from "lucide-react";
 
-export default function CreateVoucher() {
+// ✅ Server-side fetch to avoid build-time crash
+export async function getServerSideProps() {
+  try {
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/admin/vouchers`);
+    const data = await res.json();
+
+    return {
+      props: {
+        initialVouchers: data.vouchers || [],
+      },
+    };
+  } catch (error) {
+    console.error("❌ SSR fetch error:", error);
+    return { props: { initialVouchers: [] } };
+  }
+}
+
+export default function CreateVoucher({ initialVouchers }) {
   const router = useRouter();
-  const [vouchers, setVouchers] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [vouchers, setVouchers] = useState(initialVouchers);
+  const [filtered, setFiltered] = useState(initialVouchers);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [editing, setEditing] = useState(null);
 
@@ -28,9 +48,10 @@ export default function CreateVoucher() {
     isActive: true,
   });
 
-  // Fetch vouchers
+  // ✅ Refresh vouchers (client-side)
   async function fetchVouchers() {
     try {
+      setLoading(true);
       const res = await fetch("/api/admin/vouchers");
       const data = await res.json();
       if (Array.isArray(data.vouchers)) {
@@ -43,10 +64,6 @@ export default function CreateVoucher() {
       setLoading(false);
     }
   }
-
-  useEffect(() => {
-    fetchVouchers();
-  }, []);
 
   useEffect(() => {
     if (search.trim() === "") setFiltered(vouchers);
@@ -62,7 +79,7 @@ export default function CreateVoucher() {
     }
   }, [search, vouchers]);
 
-  // CREATE or UPDATE
+  // ✅ Create or update voucher
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -99,6 +116,7 @@ export default function CreateVoucher() {
     }
   }
 
+  // ✅ Delete voucher
   async function handleDelete(id) {
     if (!confirm("⚠️ Diesen Gutschein wirklich löschen?")) return;
     try {
@@ -121,7 +139,9 @@ export default function CreateVoucher() {
       discountType: voucher.discountType,
       discountValue: voucher.discountValue,
       maxUses: voucher.maxUses,
-      validFrom: voucher.validFrom?.slice(0, 10) || new Date().toISOString().slice(0, 10),
+      validFrom:
+        voucher.validFrom?.slice(0, 10) ||
+        new Date().toISOString().slice(0, 10),
       validUntil: voucher.validUntil?.slice(0, 10) || "2025-12-31",
       isActive: voucher.isActive,
     });
@@ -149,12 +169,27 @@ export default function CreateVoucher() {
           </button>
         </div>
 
+        {/* Search bar */}
+        <div className="mb-6">
+          <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden max-w-md">
+            <Search className="text-gray-400 ml-3" size={18} />
+            <input
+              type="text"
+              placeholder="Suchen..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full p-3 outline-none text-sm"
+            />
+          </div>
+        </div>
+
         {/* Form */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8 mb-10">
           <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
+            {/* Code */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Code
@@ -171,6 +206,7 @@ export default function CreateVoucher() {
               />
             </div>
 
+            {/* Discount Type */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Rabatt-Typ
@@ -187,6 +223,7 @@ export default function CreateVoucher() {
               </select>
             </div>
 
+            {/* Discount Value */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Wert
@@ -206,6 +243,7 @@ export default function CreateVoucher() {
               />
             </div>
 
+            {/* Max Uses */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Max. Verwendung
@@ -221,6 +259,7 @@ export default function CreateVoucher() {
               />
             </div>
 
+            {/* Validity Dates */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Gültig von
@@ -249,6 +288,7 @@ export default function CreateVoucher() {
               />
             </div>
 
+            {/* Active toggle */}
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -262,6 +302,7 @@ export default function CreateVoucher() {
               </label>
             </div>
 
+            {/* Submit Button */}
             <div className="flex items-end">
               <button
                 type="submit"
@@ -330,7 +371,9 @@ export default function CreateVoucher() {
                     <th className="px-6 py-3 font-semibold">Status</th>
                     <th className="px-6 py-3 font-semibold">Gültig bis</th>
                     <th className="px-6 py-3 font-semibold">Erstellt am</th>
-                    <th className="px-6 py-3 font-semibold text-right">Aktionen</th>
+                    <th className="px-6 py-3 font-semibold text-right">
+                      Aktionen
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -340,7 +383,9 @@ export default function CreateVoucher() {
                       className="border-t hover:bg-gray-50 transition-all duration-200"
                     >
                       <td className="px-6 py-3 font-medium">{v.code}</td>
-                      <td className="px-6 py-3 capitalize">{v.discountType}</td>
+                      <td className="px-6 py-3 capitalize">
+                        {v.discountType}
+                      </td>
                       <td className="px-6 py-3">{v.discountValue}</td>
                       <td className="px-6 py-3">{v.maxUses}</td>
                       <td className="px-6 py-3">
@@ -360,26 +405,25 @@ export default function CreateVoucher() {
                       <td className="px-6 py-3">
                         {new Date(v.createdAt).toLocaleDateString()}
                       </td>
-               <td className="px-6 py-3 text-center">
-  <div className="flex items-center justify-center gap-3">
-    <button
-      onClick={() => handleEdit(v)}
-      title="Bearbeiten"
-      className="p-2 rounded-full bg-amber-50 text-amber-600 hover:bg-amber-100 hover:text-amber-800 transition-all duration-200"
-    >
-      <Pencil size={16} />
-    </button>
+                      <td className="px-6 py-3 text-center">
+                        <div className="flex items-center justify-center gap-3">
+                          <button
+                            onClick={() => handleEdit(v)}
+                            title="Bearbeiten"
+                            className="p-2 rounded-full bg-amber-50 text-amber-600 hover:bg-amber-100 hover:text-amber-800 transition-all duration-200"
+                          >
+                            <Pencil size={16} />
+                          </button>
 
-    <button
-      onClick={() => handleDelete(v.id)}
-      title="Löschen"
-      className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-800 transition-all duration-200"
-    >
-      <Trash2 size={16} />
-    </button>
-  </div>
-</td>
-
+                          <button
+                            onClick={() => handleDelete(v.id)}
+                            title="Löschen"
+                            className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-800 transition-all duration-200"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -387,7 +431,6 @@ export default function CreateVoucher() {
             </div>
           )}
         </div>
-        
       </div>
     </AdminLayout>
   );
