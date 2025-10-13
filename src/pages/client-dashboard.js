@@ -212,11 +212,13 @@ const extraKm = Math.max(0, totalKm - contractedKm);
   }, [userData]);
 
 useEffect(() => {
-  if (typeof window === "undefined") return; // prevent server-side execution
+  if (typeof window === "undefined") return;
 
-  const token = window.localStorage.getItem("userToken");
+  const token = localStorage.getItem("userToken");
+
+  // nëse s'ka token → ridrejto menjëherë
   if (!token) {
-    router.push("/login");
+    router.replace("/login");
     return;
   }
 
@@ -225,19 +227,30 @@ useEffect(() => {
       const res = await fetch("/api/user/getUserData", {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      if (res.status === 401) {
+        // token i pavlefshëm → fshi nga localStorage dhe ridrejto
+        localStorage.removeItem("userToken");
+        router.replace("/login");
+        return;
+      }
+
       if (!res.ok) throw new Error("Fehler beim Laden der Benutzerdaten");
+
       const user = await res.json();
       setUserData(user);
       setUpdatedData(user);
-      setLoading(false);
     } catch (err) {
-      console.error(err);
+      console.error("❌ Error loading user:", err);
+      router.replace("/login"); // si fallback nëse ndodh ndonjë gabim
+    } finally {
       setLoading(false);
     }
   };
 
   fetchUserData();
 }, [router]);
+
 
   // --- Fetch available services
   useEffect(() => {

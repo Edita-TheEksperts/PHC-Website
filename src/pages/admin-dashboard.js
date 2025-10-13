@@ -54,6 +54,51 @@ const [activity, setActivity] = useState([
   },
 ]);
 
+const router = useRouter();
+
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  if (typeof window === "undefined") return;
+
+  const token = localStorage.getItem("adminToken"); 
+
+  if (!token) {
+    router.replace("/login");
+    return;
+  }
+
+  async function verifyAdmin() {
+    try {
+      const res = await fetch("/api/admin/verify", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.status === 401) {
+        localStorage.removeItem("adminToken");
+        router.replace("/login");
+        return;
+      }
+
+      setLoading(false);
+    } catch (err) {
+      console.error("❌ Admin verification failed:", err);
+      router.replace("/login");
+    }
+  }
+
+  verifyAdmin();
+}, [router]);
+
+if (loading) {
+  return (
+    <div className="min-h-screen flex justify-center items-center text-blue-600 text-lg font-semibold">
+      Loading admin dashboard...
+    </div>
+  );
+}
+
+
   useEffect(() => {
     fetchData();
     fetchStats();
@@ -107,7 +152,6 @@ async function fetchVacations() {
   }
 }
 
-const router = useRouter();
 const { tab, create } = router.query;
 
 const [data, setData] = useState({
