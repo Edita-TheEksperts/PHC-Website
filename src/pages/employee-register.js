@@ -24,14 +24,12 @@ const [stepError, setStepError] = useState("");
   const [showReferralModal, setShowReferralModal] = useState(false); // Show popup on step 3
 const uploadToFirebase = async (file, userId, label) => {
   if (!file) return null;
-  const actualFile = file instanceof FileList ? file[0] : file;
 
-  const fileRef = ref(storage, `users/${userId}/${label}-${Date.now()}-${actualFile.name}`);
-  const snapshot = await uploadBytes(fileRef, actualFile);
+  const fileRef = ref(storage, `users/${userId}/${label}-${Date.now()}-${file.name}`);
+  const snapshot = await uploadBytes(fileRef, file);
   const downloadURL = await getDownloadURL(snapshot.ref);
   return downloadURL;
 };
-
 const [errors, setErrors] = useState({});
 
   // When step changes to 3, show the modal
@@ -183,38 +181,21 @@ const inputClass =
 const handleChange = (e) => {
   const { name, value, type, checked, files, selectedOptions } = e.target;
 
-  // 🔹 Handle file inputs
   if (type === "file") {
-    setForm((prev) => ({ ...prev, [name]: files }));
-    setErrors((prev) => {
-      const newErrors = { ...prev };
-      delete newErrors[name]; // Remove error when user selects a file
-      return newErrors;
-    });
+    setForm((prev) => ({ ...prev, [name]: files[0] }));
     return;
   }
 
-  // 🔹 Handle all other inputs
-  let newValue =
-    type === "checkbox"
-      ? checked
-      : type === "select-multiple"
-      ? Array.from(selectedOptions).map((o) => o.value)
-      : value;
-
   setForm((prev) => ({
     ...prev,
-    [name]: newValue,
+    [name]:
+      type === "checkbox"
+        ? checked
+        : type === "select-multiple"
+        ? Array.from(selectedOptions).map((o) => o.value)
+        : value,
   }));
-
-  // 🔹 Remove error for this field as soon as user types or selects
-  setErrors((prev) => {
-    const newErrors = { ...prev };
-    delete newErrors[name];
-    return newErrors;
-  });
 };
-
 
 const validateStep = () => {
   let newErrors = {};
@@ -520,7 +501,7 @@ useEffect(() => {
         disabled={emailExists}
       />
       {errors.lastName && (
-        <p className="text-red-600 text-sm mt-0.3">{errors.lastName}</p>
+        <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
       )}
     </div>
   </div>
@@ -766,7 +747,6 @@ useEffect(() => {
         name="licenseType"
         value={form.licenseType || ""}
         onChange={handleChange}
-          required
         className={inputClass}
       >
         <option value="">Bitte wählen</option>
@@ -802,7 +782,6 @@ useEffect(() => {
             name="carAvailableForWork"
             value={form.carAvailableForWork || ""}
             onChange={handleChange}
-              required
             className={inputClass}
           >
             <option value="">Bitte wählen</option>
