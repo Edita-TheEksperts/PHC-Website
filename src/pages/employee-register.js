@@ -169,8 +169,8 @@ useEffect(() => {
 
 
   // CSS class for inputs
-  const inputClass =
-    "w-full mb-6 px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500";
+const inputClass =
+  "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500";
 
   // Step names shown at top of form
   const steps = [
