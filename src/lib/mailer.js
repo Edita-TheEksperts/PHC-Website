@@ -77,7 +77,7 @@ export async function sendApprovalEmail(employee) {
     from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
     to: email,
     subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
-    text: `
+text: `
 Liebe ${firstName}
 
 Vielen Dank für Ihre Registrierung bei Prime Home Care AG.
@@ -87,21 +87,30 @@ Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie a
 Login-Link: ${portalUrl}
 Benutzername: ${email}
 
+Hinweis: Falls Sie den Strafregister noch nicht bestellt haben, können Sie diesen hier bestellen:
+https://www.e-service.admin.ch/crex/app/wizard/navigate.do
+
 Bei Fragen stehen wir Ihnen jederzeit zur Verfügung. Willkommen im Team!
 
 Herzliche Grüsse  
 Prime Home Care AG
-    `,
-    html: `
-      <p>Liebe ${firstName}</p>
-      <p>Vielen Dank für Ihre Registrierung bei <strong>Prime Home Care AG</strong>.</p>
-      <p>Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.</p>
-      <p><strong>Login-Link:</strong> <br/> <a href="${portalUrl}">${portalUrl}</a><br/>
-      <strong>Benutzername:</strong> ${email}</p>
-      <p>Bei Fragen stehen wir Ihnen jederzeit zur Verfügung. Willkommen im Team!</p>
-      <p>Herzliche Grüsse<br/>
-      Prime Home Care AG</p>
-    `,
+`,
+
+html: `
+  <p>Liebe ${firstName}</p>
+  <p>Vielen Dank für Ihre Registrierung bei <strong>Prime Home Care AG</strong>.</p>
+  <p>Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.</p>
+  <p><strong>Login-Link:</strong> <br/> <a href="${portalUrl}">${portalUrl}</a><br/>
+  <strong>Benutzername:</strong> ${email}</p>
+
+  <p><strong>Hinweis:</strong> Falls Sie den Strafregister noch nicht bestellt haben, können Sie diesen hier bestellen:<br/>
+  <a href="https://www.e-service.admin.ch/crex/app/wizard/navigate.do" target="_blank">https://www.e-service.admin.ch/crex/app/wizard/navigate.do</a></p>
+
+  <p>Bei Fragen stehen wir Ihnen jederzeit zur Verfügung. Willkommen im Team!</p>
+  <p>Herzliche Grüsse<br/>
+  Prime Home Care AG</p>
+`,
+
     attachments: [
       { filename: `NDA_${firstName}_${lastName}.pdf`, content: ndaBuffer },
     ],
