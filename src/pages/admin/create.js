@@ -161,12 +161,7 @@ export default function CreateVoucher({ initialVouchers }) {
               Erstellen, bearbeiten oder löschen Sie Gutscheine.
             </p>
           </div>
-          <button
-            onClick={() => router.push("/admin-dashboard")}
-            className="text-blue-600 hover:underline text-sm mt-4 md:mt-0"
-          >
-            ← Zurück zum Dashboard
-          </button>
+   
         </div>
 
         {/* Search bar */}

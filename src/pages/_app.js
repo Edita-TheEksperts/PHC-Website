@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
     '/Registrierung-Form2', '/Registrierung-Jobs-Form1', '/Registrierung-Jobs-Form2',
     '/login', '/register', '/confirmation-page', '/forgot-password', '/404',
     '/500', '/reset-password', '/dashboard', '/admin-dashboard', '/client-dashboard',
-    '/employee-dashboard','/admin/employees', '/admin/clients', '/admin/settings', '/set-password' , '/dashboard/personal-info' ,'/dashboard/personal-info/edit', '/dashboard/pets', '/admin/system-email','/admin/feedback-email' ,"/dashboard/formular" ,"/admin/clients/[id]","/admin/employees/[id]", "/appointments/[id].js", "/admin/email-templates" ,"/appointments/[id]"
+    '/employee-dashboard','/admin/employees', '/admin/clients', '/admin/settings', '/set-password' , '/dashboard/personal-info' ,'/dashboard/personal-info/edit', '/dashboard/pets', '/admin/system-email','/admin/feedback-email' ,"/dashboard/formular" ,"/admin/clients/[id]","/admin/employees/[id]", "/appointments/[id].js", "/admin/email-templates",  "/admin/create" ,"/appointments/[id]"
   ];
  
   const shouldExcludeLayout = excludedPages.includes(router.pathname);

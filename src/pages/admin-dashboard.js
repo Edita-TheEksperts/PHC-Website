@@ -766,7 +766,7 @@ async function handleInvite(emp) {
                     onClick={() => window.open(`tel:${v.user.phone}`)}
                     className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
                   >
-                    📞 Client anrufen
+                    📞 Kunde anrufen
                   </button>
                 )}
 
@@ -783,7 +783,7 @@ async function handleInvite(emp) {
                     }}
                     className="px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
                   >
-                    💡 Vorschläge
+                    Vorschläge
                   </button>
                 )}
 
@@ -812,7 +812,7 @@ async function handleInvite(emp) {
                     }}
                     className="px-3 py-1 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
                   >
-                    ✅ Genehmigen
+                     Genehmigen
                   </button>
                 )}
 
@@ -841,7 +841,7 @@ async function handleInvite(emp) {
                     }}
                     className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600"
                   >
-                    ❌ Abfall
+                     Ablehnen
                   </button>
                 )}
               </div>
