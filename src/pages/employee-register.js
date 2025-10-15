@@ -221,18 +221,20 @@ if (step === 2) {
   if (!form.experienceWhere) {
     newErrors.experienceWhere = "Bitte letzte Anstellung angeben.";
   }
-  if (!form.hasLicense) {
-    newErrors.hasLicense = "Bitte Führerschein angeben.";
-  }
-  if (form.hasLicense === "ja" && !form.licenseType) {
-    newErrors.licenseType = "Bitte Führerscheintyp auswählen.";
-  }
+if (!form.hasLicense) {
+  newErrors.hasLicense = "Bitte Führerschein angeben.";
+} else if (form.hasLicense === "ja" && !form.licenseType) {
+  newErrors.licenseType = "Bitte Führerscheintyp auswählen.";
+}
+
+if (form.hasLicense === "ja") {
   if (!form.hasCar) {
     newErrors.hasCar = "Bitte Auto-Verfügbarkeit angeben.";
-  }
-  if (form.hasCar === "ja" && !form.carAvailableForWork) {
+  } else if (form.hasCar === "ja" && !form.carAvailableForWork) {
     newErrors.carAvailableForWork = "Bitte wählen, ob Auto für Arbeit verfügbar ist.";
   }
+}
+
   if (!form.howFarCanYouTravel) {
     newErrors.howFarCanYouTravel = "Bitte Umkreis auswählen.";
   }
