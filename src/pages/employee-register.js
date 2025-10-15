@@ -166,9 +166,8 @@ useEffect(() => {
 }, []);
 
 
-  // CSS class for inputs
 const inputClass =
-  "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#04436F] placeholder-gray-500";
+  "w-full px-5 py-3 border border-gray-200 rounded-xl text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-[#04436F] focus:border-[#04436F] placeholder-gray-400 transition-all duration-200";
 
   // Step names shown at top of form
   const steps = [
@@ -649,9 +648,7 @@ useEffect(() => {
 </div>
 
 
-
-<div hidden={step !== 2}>
-
+<div hidden={step !== 2} className="space-y-4">
   <h2 className="text-2xl font-bold text-[#04436F] mb-8">
     Weitere Informationen
   </h2>
@@ -816,50 +813,48 @@ useEffect(() => {
     <p className="text-red-600 text-sm mt-1">{errors.howFarCanYouTravel}</p>
   )}
 
-{/* Arbeitsstunden pro Woche */}
-<div className="mt-6">
-  <label className="block font-medium mb-2 ">
-    Wie viele Stunden pro Woche möchtest du arbeiten?
-  </label>
-
-  <div className="grid grid-cols-2 sm:grid-cols-3 mb-5 gap-3">
-    {[
-      { label: "40h / 100%", value: "40" },
-      { label: "32h / 80%", value: "32" },
-      { label: "24h / 60%", value: "24" },
-      { label: "16h / 40%", value: "16" },
-      { label: "8h / 20%", value: "8" },
-    ].map((option) => {
-      const selected = form.desiredWeeklyHours === option.value;
-      return (
-        <button
-          key={option.value}
-          type="button"
-          onClick={() =>
-            setForm((prev) => ({ ...prev, desiredWeeklyHours: option.value }))
-          }
-          className={`px-4 py-3 rounded-lg border text-sm font-medium transition-all ${
-            selected
-              ? "bg-[#04436F] text-white border-[#04436F] shadow-md"
-              : "bg-white border-gray-300 text-gray-700 hover:border-[#04436F]/50"
-          }`}
-        >
-          {option.label}
-        </button>
-      );
-    })}
+  {/* Arbeitsstunden pro Woche */}
+  <div className="mt-6">
+    <label className="block font-medium mb-2">
+      Wie viele Stunden pro Woche möchtest du arbeiten?
+    </label>
+    <div className="grid grid-cols-2 sm:grid-cols-3 mb-5 gap-3">
+      {[
+        { label: "40h / 100%", value: "40" },
+        { label: "32h / 80%", value: "32" },
+        { label: "24h / 60%", value: "24" },
+        { label: "16h / 40%", value: "16" },
+        { label: "8h / 20%", value: "8" },
+      ].map((option) => {
+        const selected = form.desiredWeeklyHours === option.value;
+        return (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() =>
+              setForm((prev) => ({ ...prev, desiredWeeklyHours: option.value }))
+            }
+            className={`px-4 py-3 rounded-lg border text-sm font-medium transition-all ${
+              selected
+                ? "bg-[#04436F] text-white border-[#04436F] shadow-md"
+                : "bg-white border-gray-300 text-gray-700 hover:border-[#04436F]/50"
+            }`}
+          >
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
+    {errors.desiredWeeklyHours && (
+      <p className="text-red-600 text-sm mt-2">{errors.desiredWeeklyHours}</p>
+    )}
   </div>
-
-  {errors.desiredWeeklyHours && (
-    <p className="text-red-600 text-sm mt-2">{errors.desiredWeeklyHours}</p>
-  )}
-</div>
-
 
   <label className="block font-medium mb-1">
     Kurzfristige Einsätze möglich? <br />
     <span className="text-sm font-normal text-gray-600">
-      (z. B. spontane Einsätze, Springerfunktion, Bereitschafts- oder Pikettdienst)
+      (z. B. spontane Einsätze, Springerfunktion, Bereitschafts- oder
+      Pikettdienst)
     </span>
   </label>
   <select
@@ -875,7 +870,6 @@ useEffect(() => {
   {errors.onCallAvailable && (
     <p className="text-red-600 text-sm mt-1">{errors.onCallAvailable}</p>
   )}
-
 
   <label className="block font-medium mb-1">Sprachen</label>
   <div className="flex flex-wrap gap-4 mb-6">
@@ -904,13 +898,13 @@ useEffect(() => {
       )
     )}
   </div>
-<input
-  name="languageOther"
-  placeholder="Weitere Sprachen"
-  value={form.languageOther || ""}
-  onChange={handleChange}
-  className={inputClass + " mt-[-4px]"}
-/>
+  <input
+    name="languageOther"
+    placeholder="Weitere Sprachen"
+    value={form.languageOther || ""}
+    onChange={handleChange}
+    className={inputClass + " mt-[-4px]"}
+  />
   {errors.languages && (
     <p className="text-red-600 text-sm mt-1">{errors.languages}</p>
   )}
@@ -936,8 +930,8 @@ useEffect(() => {
   )}
 
   <label className="block font-medium mb-1">
-    Sind Sie bereit, Unterstützung in der Körperpflege zu leisten? 
-    (Körperpflege, Hygiene, WC-Begleitung, Duschen etc.)
+    Sind Sie bereit, Unterstützung in der Körperpflege zu leisten? (Körperpflege,
+    Hygiene, WC-Begleitung, Duschen etc.)
   </label>
   <select
     name="bodyCareSupport"
@@ -970,6 +964,7 @@ useEffect(() => {
     <p className="text-red-600 text-sm mt-1">{errors.worksWithAnimals}</p>
   )}
 </div>
+
 
 <div hidden={step !== 3}>
 

@@ -321,39 +321,50 @@ if (action === "confirmed") {
     <p className="text-sm text-gray-500">Keine Zahlungen berechnet.</p>
   )}
 </Card>
-
-     <Card title="📥 Neue Zuweisungen">
+<Card title="📥 Neue Zuweisungen">
   {pendingAssignments.length === 0 ? (
     <p className="text-sm text-gray-500">Keine neuen Zuweisungen.</p>
   ) : (
     pendingAssignments.map((a) => (
-      <div key={a.id} className="border p-3 rounded mb-3">
+      <div key={a.id} className="border p-3 rounded mb-3 bg-white shadow-sm">
         <p>
           <strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}
         </p>
         <p>
           <strong>Email:</strong> {a.user.email}
         </p>
+<div className="mt-3 flex items-center gap-3 rounded-lg border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-3 shadow-sm">
+  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 18a9 9 0 100-18 9 9 0 000 18z" />
+    </svg>
+  </div>
+  <p className="text-sm text-gray-700">
+    <span className="font-semibold text-blue-700">Info:</span> Beim Kunden muss evtl. auch bei der Körperpflege geholfen werden.
+  </p>
+</div>
+
 
         <div className="mt-4 flex space-x-2">
-         <button
-  onClick={() => handleAssignmentAction(a.id, "confirmed")}
-  className="bg-green-600 text-white px-3 py-1 rounded"
->
-  Annehmen
-</button>
+          <button
+            onClick={() => handleAssignmentAction(a.id, "confirmed")}
+            className="bg-green-600 text-white px-3 py-1 rounded"
+          >
+            Annehmen
+          </button>
 
-<button
-  onClick={() => handleAssignmentAction(a.id, "rejected")}
-  className="bg-red-600 text-white px-3 py-1 rounded"
->
-  Ablehnen
-</button>
+          <button
+            onClick={() => handleAssignmentAction(a.id, "rejected")}
+            className="bg-red-600 text-white px-3 py-1 rounded"
+          >
+            Ablehnen
+          </button>
         </div>
       </div>
     ))
   )}
 </Card>
+
 <Card title="✅ Bestätigte Zuweisungen">
   <AssignmentsList confirmedAssignments={confirmedAssignments} />
 </Card>
