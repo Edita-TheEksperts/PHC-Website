@@ -12,6 +12,7 @@ const services = {
   "Freizeit und Soziale Aktivitäten": [
     "Gesellschaft leisten",
     "Gemeinsames Kochen",
+      "Biografiearbeit",
     "Vorlesen",
     "Kartenspiele",
     "Ausflüge und Reisebegleitung",

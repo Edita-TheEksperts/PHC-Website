@@ -63,6 +63,7 @@ const services = {
     "Gesellschaft leisten",
     "Gemeinsames Kochen",
     "Vorlesen",
+    "Biografiearbeit",
     "Kartenspiele",
     "Ausflüge und Reisebegleitung",
   ],

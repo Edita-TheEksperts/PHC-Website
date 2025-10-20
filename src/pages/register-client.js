@@ -712,9 +712,47 @@ if (requiresAllergyInfo) {
     return true;
   };
 
+  const [streetWarning, setStreetWarning] = useState("");
+  const [postalWarning, setPostalWarning] = useState("");
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  // Heq error-in sapo plotësohet një fushë (nëse më parë kishte mesazh)
+  if (formError && value.trim() !== "") {
+    setFormError("");
+  }
+
+  if (name === "street") {
+    // Vetëm shkronja
+    if (/\d/.test(value)) {
+      setStreetWarning("Zahlen sind in diesem Feld nicht erlaubt.");
+    } else {
+      setStreetWarning("");
+    }
+
+    const onlyLetters = value.replace(/[^A-Za-zÄÖÜäöüß\s]/g, "");
+    setForm({ ...form, [name]: onlyLetters });
+  }
+
+  else if (name === "postalCode") {
+    // Vetëm numra (max 4)
+    if (/[^0-9]/.test(value)) {
+      setPostalWarning("Nur Zahlen sind in diesem Feld erlaubt.");
+    } else if (value.length > 4) {
+      setPostalWarning("PLZ darf nur 4 Ziffern enthalten.");
+    } else {
+      setPostalWarning("");
+    }
+
+    const onlyDigits = value.replace(/\D/g, "").slice(0, 4);
+    setForm({ ...form, [name]: onlyDigits });
+  }
+
+  else {
+    setForm({ ...form, [name]: value });
+  }
+};
 
   const handleNext = async () => {
     setFormError("");
@@ -2276,6 +2314,9 @@ onChange={(date) => {
               onChange={handleChange}
               className={inputClass}
             />
+         {streetWarning && (
+          <p className="text-yellow-600 text-sm mt-1">{streetWarning}</p>
+        )}
           </div>
           <div>
             <label className="block font-medium mb-1">
@@ -2304,6 +2345,9 @@ onChange={(date) => {
               onChange={handleChange}
               className={inputClass}
             />
+         {postalWarning && (
+          <p className="text-yellow-600 text-sm mt-1">{postalWarning}</p>
+        )}
           </div>
           <div>
             <label className="block font-medium mb-1">
@@ -2579,7 +2623,7 @@ onChange={(date) => {
       onChange={() => setSameAsEinsatzort(!sameAsEinsatzort)}
       className="w-5 h-5 accent-[#B99B5F]"
     />
-    <span>Anfragende Person ist gleich wie Einsatzort (Standardwert)</span>
+    <span>Zu betreuende Person (Einsatzort)</span>
   </label>
 </div>
 
@@ -2931,83 +2975,73 @@ onChange={(date) => {
                     />
                   </div>
                 </div>
+{/* Freizeit & soziale Aktivitäten */}
+<div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
+  {/* Main Section Title */}
+  <h2 className="font-bold text-[20px] mb-6">
+    Freizeit & soziale Aktivitäten
+  </h2>
 
-                {/* Freizeit & soziale Aktivitäten */}
-                <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
-                  {/* Main Section Title */}
-                  <h2 className="font-bold text-[20px] mb-6">
-                    {" "}
-                    Freizeit & soziale Aktivitäten
-                  </h2>
+  {/* 🔹 Aktivitäten */}
+  <h3 className="font-[600] text-[16px] mb-4">Aktivitäten</h3>
 
-                  {/* 🔹 Aktivitäten */}
-                  <h3 className="font-[600] text-[16px] mb-4">Aktivitäten</h3>
+  <div className="space-y-6">
+    {[
+      ["Gesellschaft leisten", "companionship"],
+      ["Gemeinsames Kochen", "cookingTogether"],
+      ["Biografiearbeit", "biographyWork"],
+      ["Vorlesen", "reading"],
+      ["Gesellschaftspiele", "cardGames"],
+    ].map(([label, name]) => (
+      <div key={name}>
+        <label className="block font-medium mb-1">{label}</label>
+        <select
+          name={name}
+          value={form[name] || ""}
+          onChange={handleChange}
+          className="bg-white border border-gray-300 rounded-md p-3 w-full focus:border-[#B99B5F] focus:ring-[#B99B5F]/30 transition"
+        >
+          <option value="">Bitte auswählen</option>
+          <option value="Ja">Ja</option>
+          <option value="Nein">Nein</option>
+        </select>
+      </div>
+    ))}
+  </div>
 
-                  <div className="space-y-6">
-                    {[
-                      ["Gesellschaft leisten", "companionship"],
-                      ["Gemeinsames Kochen", "cookingTogether"],
-                      ["Biografiearbeit", "biographyWork"],
-                      ["Vorlesen", "reading"],
-                      ["Gesellschaftspiele", "cardGames"],
-                    ].map(([label, name]) => (
-                      <div key={name}>
-                        <label className="block font-medium mb-1">
-                          {label}
-                        </label>
-                        <select
-                          name={name}
-                          value={form[name] || ""}
-                          onChange={handleChange}
-                          className="bg-white border border-gray-300 rounded-md p-3 w-full"
-                        >
-                          <option value="">Bitte auswählen</option>
-                          <option value="Ja">Ja</option>
-                          <option value="Nein">Nein</option>
-                        </select>
+  {/* 🔹 Ausflüge & Reisebegleitung */}
+  <h3 className="font-[600] text-[16px] mb-2 mt-6">Ausflüge & Reisebegleitung</h3>
 
-                   
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* 🔹 Ausflüge & Reisebegleitung */}
-                  <h3 className="font-[600] text-[16px] mb-2 mt-4">
-                    Ausflüge & Reisebegleitung
-                  </h3>
-
-                  <div className="flex flex-wrap items-center gap-6">
-                    {[
-                      "Theaterbesuch",
-                      "Kinobesuch",
-                      "Konzertbesuch",
-                      "Fussballspiel",
-                      "Urlaubsbegleitung",
-                    ].map((trip) => (
-                      <label
-                        key={trip}
-                        className="inline-flex items-center gap-2 text-sm text-gray-800"
-                      >
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
-                          checked={form.trips?.includes(trip)}
-                          onChange={() => {
-                            const updated = new Set(form.trips || []);
-                            updated.has(trip)
-                              ? updated.delete(trip)
-                              : updated.add(trip);
-                            setForm((prev) => ({
-                              ...prev,
-                              trips: Array.from(updated),
-                            }));
-                          }}
-                        />
-                        <span>{trip}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+  <div className="flex flex-wrap items-center gap-6 mt-2">
+    {[
+      "Theaterbesuch",
+      "Kinobesuch",
+      "Konzertbesuch",
+      "Fussballspiel",
+      "Urlaubsbegleitung",
+    ].map((trip) => (
+      <label
+        key={trip}
+        className="inline-flex items-center gap-2 text-sm text-gray-800"
+      >
+        <input
+          type="checkbox"
+          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
+          checked={form.trips?.includes(trip)}
+          onChange={() => {
+            const updated = new Set(form.trips || []);
+            updated.has(trip) ? updated.delete(trip) : updated.add(trip);
+            setForm((prev) => ({
+              ...prev,
+              trips: Array.from(updated),
+            }));
+          }}
+        />
+        <span>{trip}</span>
+      </label>
+    ))}
+  </div>
+</div>
 
                 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
                   {/* Main Title */}
@@ -3628,34 +3662,52 @@ onChange={(date) => {
               
             </>
           )}
-          {step === 5 && (
+{step === 5 && (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
-    <div className="bg-white shadow-lg rounded-xl p-10 max-w-lg w-full text-center">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">
-        Vielen Dank! 🎉
+    <div className="bg-white shadow-lg rounded-2xl p-10 max-w-lg w-full text-center relative overflow-hidden">
+      {/* Confetti-like accent circle */}
+      <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#B99B5F]/10 rounded-full blur-2xl"></div>
+
+      {/* Success icon */}
+      <div className="flex justify-center mb-4">
+        <div className="w-16 h-16 flex items-center justify-center rounded-full bg-green-100 text-green-600 shadow-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-8 h-8"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Title */}
+      <h1 className="text-3xl font-bold text-gray-800 mb-3">
+        Vielen Dank!
       </h1>
-      <p className="text-gray-600 mb-6">
+
+      {/* Text */}
+      <p className="text-gray-600 leading-relaxed mb-6">
         Der Registrierungsprozess wurde erfolgreich abgeschlossen. <br />
-        Ihre Daten wurden angenommen ✅.
       </p>
 
+      {/* Buttons */}
       <div className="flex justify-center gap-4 mt-6">
-      <button
-        onClick={() => router.push("/")} // Home
-        className="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
-      >
-        Zur Startseite
-      </button>
-      <button
-        onClick={() => router.push("/login")} // Login page
-        className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg hover:bg-[#a18750]"
-      >
-        Zum Dashboard
-      </button>
-    </div>
+   
+        <button
+          onClick={() => router.push("/login")}
+          className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg hover:bg-[#a18750] transition font-medium shadow-sm"
+        >
+          Zum Dashboard
+        </button>
+      </div>
     </div>
   </div>
 )}
+
 
 
           <div className="pt-6 flex justify-end gap-4">
@@ -3733,49 +3785,53 @@ onChange={(date) => {
 <div className="w-full md:w-96 space-y-3">
   {/* Zusammenfassung */}
   <div
-    ref={summaryRef}
-    className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6"
-  >
-    {/* Titulli */}
-    <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
+  ref={summaryRef}
+  className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6"
+>
+  {/* Titulli */}
+  <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
-    {/* Përmbajtja */}
-    <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
-      <SummaryRow label="Häufigkeit" value={form.frequency} />
-      <SummaryRow
-        label="Dauer"
-        value={`${form.schedules.reduce(
-          (sum, s) => sum + (s.hours || 0),
-          0
-        )} Stunden`}
-      />
-      <SummaryRow label="Beginndatum" value={form.firstDate} />
+  {/* Përmbajtja */}
+  <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
+    <SummaryRow label="Häufigkeit" value={form.frequency} />
+    <SummaryRow
+      label="Dauer"
+      value={`${form.schedules.reduce(
+        (sum, s) => sum + (s.hours || 0),
+        0
+      )} Stunden`}
+    />
+    <SummaryRow label="Beginndatum" value={form.firstDate} />
 
-      {/* Breakdown i çmimit */}
-      <div className="border-t pt-2">
-        {form.schedules.map((s, i) => {
-          const hours = s.hours || 0;
-          const hourlyRate = form.frequency === "einmalig" ? 75 : 59;
-          return (
-            <p key={i} className="text-sm text-gray-600">
-              {hours} × {hourlyRate} CHF ={" "}
-              {(hours * hourlyRate).toFixed(2)} CHF
-            </p>
-          );
-        })}
+    {/* Breakdown i çmimit */}
+    <div className="border-t pt-2">
+      {form.schedules.map((s, i) => {
+        const hours = s.hours || 0;
+        const hourlyRate = form.frequency === "einmalig" ? 75 : 59;
+        return (
+          <p key={i} className="text-sm text-gray-600">
+            {hours} × {hourlyRate} CHF ={" "}
+            {(hours * hourlyRate).toFixed(2)} CHF
+          </p>
+        );
+      })}
 
-        {/* Totali */}
-        <p className="mt-2 font-semibold text-gray-900">
-          Gesamtsumme: {totalPayment.toFixed(2)} CHF
-        </p>
-      </div>
-    </div>
-
-    {/* Info-line */}
-    <div className="text-xs text-gray-500 italic">
-      inkl. MwSt und Versicherungs- & Sozialabgaben
+      {/* Totali */}
+      <p className="mt-2 font-semibold text-gray-900">
+        Gesamtsumme: {totalPayment.toFixed(2)} CHF
+      </p>
     </div>
   </div>
+
+  {/* Info-line e re (Opsioni 3) */}
+  <div className="border-t border-gray-200 pt-3 text-xs text-gray-600 text-center italic">
+    inkl. MwSt und Versicherungs- & Sozialabgaben<br />
+    <span className="font-medium text-gray-800 not-italic">
+      Belastung erfolgt 48h nach jeweiligen Einsatz
+    </span>
+  </div>
+</div>
+
 
   {/* Ausgewählte Dienstleistungen */}
   <div

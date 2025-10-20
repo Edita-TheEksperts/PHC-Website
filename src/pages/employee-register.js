@@ -92,6 +92,7 @@ const services = {
   "Freizeit und Soziale Aktivitäten": [
     "Gesellschaft leisten",
     "Gemeinsames Kochen",
+     "Biografiearbeit",
     "Vorlesen",
     "Kartenspiele",
     "Ausflüge und Reisebegleitung",
@@ -215,12 +216,7 @@ if (step === 2) {
   if (!form.residencePermit) {
     newErrors.residencePermit = "Bitte Aufenthaltsbewilligung wählen.";
   }
-  if (!form.experienceYears) {
-    newErrors.experienceYears = "Bitte Erfahrung auswählen.";
-  }
-  if (!form.experienceWhere) {
-    newErrors.experienceWhere = "Bitte letzte Anstellung angeben.";
-  }
+
 if (!form.hasLicense) {
   newErrors.hasLicense = "Bitte Führerschein angeben.";
 } else if (form.hasLicense === "ja" && !form.licenseType) {
@@ -268,9 +264,6 @@ if (step === 3) {
     newErrors.nightShifts = "Bitte auswählen, ob Nachtarbeit möglich ist.";
   }
 
-  if (form.nightShifts === "ja" && !form.nightShiftFrequency) {
-    newErrors.nightShiftFrequency = "Bitte Häufigkeit der Nachtschichten angeben.";
-  }
 
   if (!form.availabilityDays || form.availabilityDays.length === 0) {
     newErrors.availabilityDays = "Bitte mindestens einen Tag auswählen.";
@@ -656,73 +649,30 @@ useEffect(() => {
   </h2>
 
   <label className="block font-medium mb-1">Aufenthalts-/Arbeitsbewilligung</label>
-  <select
-    name="residencePermit"
-    value={form.residencePermit}
-    onChange={handleChange}
-    className={inputClass}
-    disabled={emailExists}
-  >
-    <option value="">Bitte wählen</option>
-    <option value="G">G</option>
-    <option value="L">L</option>
-    <option value="B">B</option>
-    <option value="C">C</option>
-    <option value="CH Pass">CH Pass</option>
-  </select>
+<select
+  name="residencePermit"
+  value={form.residencePermit}
+  onChange={handleChange}
+  className={inputClass}
+  disabled={emailExists}
+>
+  <option value="">Bitte wählen</option>
+  {[
+    "CH Pass",
+    ...["B", "C", "G", "L"].sort(), // rendit alfabetikisht të tjerët
+  ].map((option) => (
+    <option key={option} value={option}>
+      {option}
+    </option>
+  ))}
+</select>
+
   {errors.residencePermit && (
     <p className="text-red-600 text-sm mt-1">{errors.residencePermit}</p>
   )}
 
-  <label className="block font-medium mb-1">
-    Wie viele Jahre Erfahrung in der Pflege, Betreuung oder Hauswirtschaft?
-  </label>
-  <select
-    name="experienceYears"
-    value={form.experienceYears}
-    onChange={handleChange}
-    className={inputClass}
-    disabled={emailExists}
-  >
-    <option value="">Bitte wählen</option>
-    <option value="1-2 Jahre">1–2 Jahre</option>
-    <option value="2-5 Jahre">2–5 Jahre</option>
-    <option value="5+ Jahre">Mehr als 5 Jahre</option>
-    <option value="Keine Erfahrung">Keine Erfahrung</option>
-  </select>
-  {errors.experienceYears && (
-    <p className="text-red-600 text-sm mt-1">{errors.experienceYears}</p>
-  )}
+ 
 
-  {/* Letzte Anstellung */}
-  <label className="block font-medium mb-1">Letzte Anstellung (Firma)?</label>
-  <input
-    type="text"
-    placeholder="Name der Firma eingeben"
-    name="experienceWhere"
-    value={form.experienceWhere}
-    onChange={handleChange}
-    className={inputClass}
-  />
-  {errors.experienceWhere && (
-    <p className="text-red-600 text-sm mt-1">{errors.experienceWhere}</p>
-  )}
-
-  {/* Zeige Textfeld nur wenn "Firma" gewählt wurde */}
-  {form.experienceWhere === "Firma" && (
-    <>
-      <input
-        name="experienceCompany"
-        placeholder="Name der Firma"
-        value={form.experienceCompany || ""}
-        onChange={handleChange}
-        className={inputClass}
-      />
-      {errors.experienceCompany && (
-        <p className="text-red-600 text-sm mt-1">{errors.experienceCompany}</p>
-      )}
-    </>
-  )}
 
   <label className="block font-medium mb-1">PKW Führerschein vorhanden?</label>
   <select
@@ -912,10 +862,10 @@ useEffect(() => {
   )}
 
   <label className="block font-medium mb-1">
-    Reisen- und Ferienbegleitung möglich?
+ Reise- und Ferienbegleitung möglich?
   </label>
   <p className="text-gray-500 text-sm mb-2 italic">
-    Wochenende Milano oder 10 Tage Kreuzfahrt
+   Info: Wochenende Milano oder 10 Tage Kreuzfahrt
   </p>
   <select
     name="travelSupport"
@@ -992,7 +942,7 @@ useEffect(() => {
   {/* Feiertagseinsätze */}
   <div className="mb-2">
     <label className="block font-medium mb-1">
-      Feiertagseinsätze möglich? (23.00 Uhr bis 06.00 Uhr)
+      Feiertagseinsätze möglich? 
     </label>
     <select
       name="nightShifts"
@@ -1011,27 +961,7 @@ useEffect(() => {
 
   {/* Häufigkeit der Nachtschichten */}
   <div className="mb-2">
-    <label className="block font-medium mb-1">
-      Häufigkeit der Nachtschichten (z. B. 1x/Woche)
-    </label>
-    <select
-      name="nightShiftFrequency"
-      value={form.nightShiftFrequency || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="1x/Woche">1x/Woche</option>
-      <option value="2x/Woche">2x/Woche</option>
-      <option value="3x/Woche">3x/Woche</option>
-      <option value="4x/Woche">4x/Woche</option>
-      <option value="5x/Woche">5x/Woche</option>
-      <option value="6x/Woche">6x/Woche</option>
-      <option value="7x/Woche">7x/Woche</option>
-    </select>
-    {errors.nightShiftFrequency && (
-      <p className="text-red-600 text-sm mt-1">{errors.nightShiftFrequency}</p>
-    )}
+ 
   </div>
 <DateEmployee
   form={form}
@@ -1103,195 +1033,126 @@ useEffect(() => {
 </div>
 
 
-  {/* Dokumente hochladen */}
-  <div className="mt-6">
-    <h3 className="text-xl font-semibold">Dokumente hochladen</h3>
-{[
-  { label: "ID oder Reisepass – Vorderseite", key: "passportFrontFile", required: true },
-  { label: "ID oder Reisepass – Rückseite", key: "passportBackFile", required: true },
-{ label: "Aufenthalts- oder Arbeitsbewilligung", key: "workPermitFile", required: true, hideIfCHPass: true },
+{/* Datei hochladen */}
+<div className="mt-8 space-y-6">
+  <h3 className="text-lg font-semibold text-gray-800">Datei hochladen</h3>
 
-  { label: "Strafregisterauszug", key: "policeLetterFile", required: false, hideOptional: true },
-  { label: "Lebenslauf", key: "cvFile", required: true },
-  { label: "Zertifikate/Arbeitszeugnisse", key: "certificateFile", required: false },
-
-].map((field) => (
-  <div
-    key={field.key}
-    hidden={field.hideIfCHPass && form.residencePermit === "CH Pass"}
-  >
-    <label className="block font-medium mb-1 mt-4">
-      {field.label}{" "}
-      {field.required ? (
-        <span className="text-red-500 font-bold">*</span>
-      ) : field.hideOptional !== true ? (
-        <span className="text-gray-500 text-sm">(optional)</span>
-      ) : null}
-    </label>
-
-    {/* Hidden file input */}
-<input
-  type="file"
-  id={field.key}
-  accept="image/*,application/pdf"
-  capture="environment"
-  style={{ display: "none" }}
-  onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
-  required={field.required}
-/>
-
-
-    {/* Upload button */}
-    <label
-      htmlFor={field.key}
-      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+  {[
+    { label: "ID oder Reisepass – Vorderseite", key: "passportFrontFile", required: true },
+    { label: "ID oder Reisepass – Rückseite", key: "passportBackFile", required: true },
+    { label: "Aufenthalts- oder Arbeitsbewilligung", key: "workPermitFile", required: true, hideIfCHPass: true },
+    { label: "Strafregisterauszug", key: "policeLetterFile", required: false, hideOptional: true },
+    { label: "Lebenslauf", key: "cvFile", required: true },
+    { label: "Zertifikate/Arbeitszeugnisse", key: "certificateFile", required: false },
+  ].map((field) => (
+    <div
+      key={field.key}
+      hidden={field.hideIfCHPass && form.residencePermit === "CH Pass"}
+      className="space-y-2"
     >
-      Datei hochladen
-    </label>
-
-    {/* File name display */}
-    <p className="text-sm text-gray-600 mt-1">
-      {form[field.key]?.length > 0
-        ? `${form[field.key].length} Datei(en) ausgewählt`
-        : "Keine Datei ausgewählt"}
-    </p>
-
-    {/* Error message */}
-    {errors[field.key] && (
-      <p className="text-red-600 text-sm mt-1">{errors[field.key]}</p>
-    )}
-  </div>
-))}
-
-
-{/* Führerschein (always mounted, just hidden) */}
-<div hidden={form.hasLicense !== "ja"}>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Führerschein <span className="text-red-500 font-bold">*</span>
-  </label>
-
-  <input
-    type="file"
-    id="drivingLicenceFile"
-    accept="image/*,application/pdf"
-capture="environment"
-
-    multiple
-    style={{ display: "none" }}
-    onChange={(e) =>
-      setForm({ ...form, drivingLicenceFile: e.target.files })
-    }
-    required
-  />
-
-  <label
-    htmlFor="drivingLicenceFile"
-    className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
-  >
-    Dokumente hochladen
-  </label>
-
-  <p className="text-sm text-gray-600 mt-1">
-    {form.drivingLicenceFile?.length > 0
-      ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
-      : "Keine Datei ausgewählt"}
-  </p>
-
-  {errors.drivingLicenceFile && (
-    <p className="text-red-600 text-sm mt-1">{errors.drivingLicenceFile}</p>
-  )}
-</div>
-
-
-    {/* Foto Upload */}
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        Foto <span className="text-red-500 font-bold">*</span>
+      <label className="block text-sm font-medium text-gray-700">
+        {field.label}{" "}
+        {field.required ? (
+          <span className="text-red-500 font-bold">*</span>
+        ) : field.hideOptional !== true ? (
+          <span className="text-gray-400 text-xs">(optional)</span>
+        ) : null}
       </label>
+
       <input
         type="file"
-        accept="image/*"
-capture="environment"
-
-        id="profilePhoto"
-        multiple
+        id={field.key}
+        accept="image/*,application/pdf"
+        capture="environment"
         style={{ display: "none" }}
-        onChange={(e) => setForm({ ...form, profilePhoto: e.target.files })}
-        required
+        onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
+        required={field.required}
       />
+
       <label
-        htmlFor="profilePhoto"
-        className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-[#a6884a] text-sm"
+        htmlFor={field.key}
+        className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
       >
-        Dokumente hochladen
+        Datei hochladen
       </label>
-      <p className="text-sm text-gray-600 mt-1">
-        {form.profilePhoto?.length > 0
-          ? `${form.profilePhoto.length} Datei(en) ausgewählt`
+
+      <p className="text-sm text-gray-600">
+        {form[field.key]?.length > 0
+          ? `${form[field.key].length} Datei(en) ausgewählt`
           : "Keine Datei ausgewählt"}
       </p>
-      {errors.profilePhoto && (
-        <p className="text-red-600 text-sm mt-1">{errors.profilePhoto}</p>
+
+      {errors[field.key] && (
+        <p className="text-red-500 text-sm">{errors[field.key]}</p>
       )}
     </div>
-  </div>
+  ))}
 
-  {/* Wie haben Sie von uns erfahren */}
-  <div className="space-y-4 mt-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-    <label className="text-xl font-semibold mb-1">
-      Wie haben Sie von uns erfahren?
+  {/* Führerschein */}
+  <div hidden={form.hasLicense !== "ja"} className="space-y-2">
+    <label className="block text-sm font-medium text-gray-700">
+      Führerschein <span className="text-red-500 font-bold">*</span>
     </label>
-    <div className="flex flex-col gap-3">
-      {["LinkedIn", "Facebook", "Instagram", "Google"].map((option) => (
-        <label key={option} className="flex items-center gap-3 text-sm font-medium text-gray-700">
-          <input
-            type="checkbox"
-            name="howDidYouHearAboutUs"
-            value={option}
-            checked={form.howDidYouHearAboutUs === option}
-            onChange={(e) =>
-              setForm({ ...form, howDidYouHearAboutUs: e.target.value })
-            }
-            className="h-4 w-4 accent-[#04436F]"
-          />
-          {option}
-        </label>
-      ))}
-
-      <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
-        <input
-          type="checkbox"
-          name="howDidYouHearAboutUs"
-          value="Andere"
-          checked={form.howDidYouHearAboutUs?.startsWith("Andere:")}
-          onChange={(e) => {
-            const isChecked = e.target.checked;
-            setForm((prev) => ({
-              ...prev,
-              howDidYouHearAboutUs: isChecked ? "Andere:" : "",
-            }));
-          }}
-          className="h-4 w-4 accent-[#04436F]"
-        />
-        Andere
-      </label>
-
-      {form.howDidYouHearAboutUs?.startsWith("Andere:") && (
-        <input
-          type="text"
-          placeholder="z. B. Empfehlung, Werbung..."
-          value={form.howDidYouHearAboutUs.split(":")[1] || ""}
-          onChange={(e) =>
-            setForm((prev) => ({
-              ...prev,
-              howDidYouHearAboutUs: `Andere:${e.target.value}`,
-            }))
-          }
-          className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-        />
-      )}
-    </div>
+    <input
+      type="file"
+      id="drivingLicenceFile"
+      accept="image/*,application/pdf"
+      capture="environment"
+      multiple
+      style={{ display: "none" }}
+      onChange={(e) =>
+        setForm({ ...form, drivingLicenceFile: e.target.files })
+      }
+      required
+    />
+    <label
+      htmlFor="drivingLicenceFile"
+      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
+    >
+      Dokumente hochladen
+    </label>
+    <p className="text-sm text-gray-600">
+      {form.drivingLicenceFile?.length > 0
+        ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
+        : "Keine Datei ausgewählt"}
+    </p>
+    {errors.drivingLicenceFile && (
+      <p className="text-red-500 text-sm">{errors.drivingLicenceFile}</p>
+    )}
   </div>
+
+  {/* Foto Upload */}
+  <div className="space-y-2">
+    <label className="block text-sm font-medium text-gray-700">
+      Foto <span className="text-red-500 font-bold">*</span>
+    </label>
+    <input
+      type="file"
+      accept="image/*"
+      capture="environment"
+      id="profilePhoto"
+      multiple
+      style={{ display: "none" }}
+      onChange={(e) => setForm({ ...form, profilePhoto: e.target.files })}
+      required
+    />
+    <label
+      htmlFor="profilePhoto"
+      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
+    >
+      Dokumente hochladen
+    </label>
+    <p className="text-sm text-gray-600">
+      {form.profilePhoto?.length > 0
+        ? `${form.profilePhoto.length} Datei(en) ausgewählt`
+        : "Keine Datei ausgewählt"}
+    </p>
+    {errors.profilePhoto && (
+      <p className="text-red-500 text-sm">{errors.profilePhoto}</p>
+    )}
+  </div>
+</div>
+
 </div>
 
 <div hidden={step !== 4}>
@@ -1304,7 +1165,7 @@ capture="environment"
     </div>
   ) : (
     <p className="mt-2 text-gray-700">
-      Bitte bestätigen Sie Ihre Angaben und schliessen Sie die Registrierung ab.
+     Danke für Deine Online-Bewerbung. Wir werden Deine Unterlagen prüfen und uns zeitnah melden.
     </p>
   )}
 </div>
@@ -1377,7 +1238,6 @@ capture="environment"
             )}
           </>
         )}
-        <SummaryRow label="Erfahrung" value={form.experienceYears} />
         <SummaryRow label="Erfahrung (Ort)" value={form.experienceWhere === "Firma" ? form.experienceCompany || "Firma" : form.experienceWhere} />
         <SummaryRow label="Wie erfahren?" value={form.howDidYouHearAboutUs} />
       </div>
