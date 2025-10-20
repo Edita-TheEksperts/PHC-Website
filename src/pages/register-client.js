@@ -2069,108 +2069,96 @@ onChange={(date) => {
                           </button>
                         </div>
 
-                        {/* Subservices for this day */}
-                        <div className="col-span-4 mt-2 mb-4">
-                          <label className="block mb-2 font-medium">
-                            Welche Leistungen möchten Sie beanspruchen?
-                          </label>
-
-                          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                            {form.schedules[i]?.subServices?.includes(
-                              "Ausflüge und Reisebegleitung"
-                            ) && (
-                              <div className="mt-4 col-span-full p-4 border-l-4 border-[#B99B5F] bg-[#FFF8EA] rounded">
-                                <p className="text-gray-800 mb-2 font-semibold">
-                                  Für{" "}
-                                  <span className="text-[#B99B5F]">
-                                    „Ausflüge und Reisebegleitung“
-                                  </span>{" "}
-                                  bitten wir Sie, uns direkt zu kontaktieren.
-                                </p>
-                                <a
-                                  href="/contact"
-                                  className="text-[#04436F] underline font-medium hover:text-[#033552]"
-                                >
-                                  Zum Kontaktformular
-                                </a>
-                              </div>
-                            )}
-
-                            {subServices.map((sub) => {
-                              const isSelected = entry.subServices?.includes(
-                                sub.name
-                              );
-
-                              return (
-                                <button
-                                  key={sub.id}
-                                  type="button"
-                                  onClick={() => {
-                                    const updated = [...form.schedules];
-                                    const currentList =
-                                      updated[i].subServices || [];
-
-                                    const nextSubServices = isSelected
-                                      ? currentList.filter(
-                                          (s) => s !== sub.name
-                                        )
-                                      : [...currentList, sub.name];
-
-                                    updated[i].subServices = nextSubServices;
-
-                                    // ✅ Compute dynamic minimum, cap at 8h, but NEVER decrease existing hours
-                                    const count = nextSubServices.length;
-                                    const minHours = Math.min(
-                                      Math.max(count, 2),
-                                      8
-                                    ); // cap to 8 hrs/day
-                                    const currentHours = Number(
-                                      updated[i].hours ?? 2
-                                    );
-                                    updated[i].hours = Math.max(
-                                      currentHours,
-                                      minHours
-                                    ); // don't lower
-
-                                    setForm({ ...form, schedules: updated });
-                                  }}
-                                  className={`w-full flex flex-col items-start justify-between p-5 rounded-2xl border transition-all duration-300 cursor-pointer
-        ${
-          isSelected
-            ? "border-[#B99B5F] bg-gradient-to-br from-[#FFF8EA] to-[#FFF2D5] shadow-lg scale-[1.02]"
-            : "border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[#B99B5F]/60 hover:scale-[1.01]"
-        }`}
-                                >
-                                  {/* Parent service header */}
-                                  <span className="text-[10px] font-bold uppercase  text-[#B99B5F] opacity-80">
-                                    {sub.parentService}
-                                  </span>
-
-                                  {/* Subservice name */}
-                                  <span className="text-[15px] font-semibold text-gray-900 mt-1">
-                                    {sub.name}
-                                  </span>
-
-                                  {/* Status as badge */}
-                                  <span
-                                    className={`inline-block px-3 py-1 mt-3 text-xs font-medium rounded-full
-          ${
-            isSelected
-              ? "bg-green-100 text-green-700"
-              : "bg-gray-100 text-gray-500"
-          }`}
-                                  >
-                                    {isSelected
-                                      ? "✓ Ausgewählt"
-                                      : "+ Hinzufügen"}
-                                  </span>
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
+              
                       </div>
                     ))}
+<div className="mt-6 mb-10">
+  <label className="block mb-3 font-medium text-gray-800 text-center lg:text-left">
+    Welche Leistungen möchten Sie beanspruchen?
+  </label>
+
+  <div className="flex flex-col lg:flex-row gap-6">
+    {/* LEFT: Ausgewählte Dienstleistungen */}
+    <div className="lg:w-1/4 flex-shrink-0 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+ <h3 className="text-lg font-bold text-gray-800 mb-4 text-center">
+  Ausgewählte Dienstleistungen
+</h3>
+
+      <div className="flex flex-col gap-3">
+        {allServices.map((srv) => {
+          const isSelected = (form.services || []).includes(srv.name);
+          return (
+            <button
+              key={srv.id}
+              type="button"
+              onClick={() => {
+                const updated = isSelected
+                  ? form.services.filter((s) => s !== srv.name)
+                  : [...form.services, srv.name];
+                setForm((prev) => ({ ...prev, services: updated }));
+              }}
+              className={`px-4 py-2 text-sm border rounded-lg text-center transition-all duration-200 ${
+                isSelected
+                  ? "bg-[#B99B5F] text-white border-[#B99B5F]"
+                  : "bg-white text-gray-800 border-gray-200 hover:bg-gray-50"
+              }`}
+            >
+              {srv.name}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+
+    {/* RIGHT: Subservices */}
+    <div className="flex-1">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        {subServices.map((sub) => {
+          const isSelected = form.schedules[0]?.subServices?.includes(sub.name);
+          return (
+            <button
+              key={sub.id}
+              type="button"
+              onClick={() => {
+                const updated = [...form.schedules];
+                const currentList = updated[0].subServices || [];
+                const nextSubServices = isSelected
+                  ? currentList.filter((s) => s !== sub.name)
+                  : [...currentList, sub.name];
+                updated[0].subServices = nextSubServices;
+                setForm({ ...form, schedules: updated });
+              }}
+              className={`w-full flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 text-center cursor-pointer ${
+                isSelected
+                  ? "border-[#B99B5F] bg-gradient-to-br from-[#FFF8EA] to-[#FFF2D5] shadow-md scale-[1.02]"
+                  : "border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[#B99B5F]/60 hover:scale-[1.01]"
+              }`}
+            >
+              <span className="text-[11px] font-semibold uppercase text-[#B99B5F] opacity-80">
+                {sub.parentService}
+              </span>
+
+              <span className="text-[15px] font-semibold text-gray-900 mt-2 mb-2 leading-snug">
+                {sub.name}
+              </span>
+
+              <span
+                className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${
+                  isSelected
+                    ? "bg-green-100 text-green-700"
+                    : "bg-gray-100 text-gray-500"
+                }`}
+              >
+                {isSelected ? "✓ Ausgewählt" : "+ Hinzufügen"}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</div>
+
                   </div>
                 )}
               </div>
@@ -3832,41 +3820,6 @@ onChange={(date) => {
   </div>
 </div>
 
-
-  {/* Ausgewählte Dienstleistungen */}
-  <div
-    className="sticky top-28 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-9"
-    style={{ top: `${offset}px` }}
-  >
-    <h3 className="text-xl font-bold text-gray-800 mb-2">
-      Ausgewählte Dienstleistungen
-    </h3>
-
-    <div className="flex flex-wrap gap-3">
-      {allServices.map((srv) => {
-        const isSelected = (form.services || []).includes(srv.name);
-        return (
-          <button
-            key={srv.id}
-            type="button"
-            onClick={() => {
-              const updated = isSelected
-                ? form.services.filter((s) => s !== srv.name)
-                : [...form.services, srv.name];
-              setForm((prev) => ({ ...prev, services: updated }));
-            }}
-            className={`px-4 py-2 border rounded-lg ${
-              isSelected
-                ? "bg-[#B99B5F] text-white"
-                : "bg-white text-gray-800"
-            }`}
-          >
-            {srv.name}
-          </button>
-        );
-      })}
-    </div>
-  </div>
 </div>
 
 
