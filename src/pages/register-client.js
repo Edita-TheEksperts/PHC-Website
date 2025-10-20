@@ -2078,39 +2078,45 @@ onChange={(date) => {
   </label>
 
   <div className="flex flex-col lg:flex-row gap-6">
-    {/* LEFT: Ausgewählte Dienstleistungen */}
-    <div className="lg:w-1/4 flex-shrink-0 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
- <h3 className="text-lg font-bold text-gray-800 mb-4 text-center">
-  Ausgewählte Dienstleistungen
-</h3>
+    {/* LEFT COLUMN */}
+{/* LEFT: Ausgewählte Dienstleistungen */}
+<div className="lg:w-1/4 flex-shrink-0 bg-white border border-gray-200 rounded-xl shadow-sm 
+                lg:sticky lg:top-36 self-start max-h-[70vh] flex flex-col">
 
-      <div className="flex flex-col gap-3">
-        {allServices.map((srv) => {
-          const isSelected = (form.services || []).includes(srv.name);
-          return (
-            <button
-              key={srv.id}
-              type="button"
-              onClick={() => {
-                const updated = isSelected
-                  ? form.services.filter((s) => s !== srv.name)
-                  : [...form.services, srv.name];
-                setForm((prev) => ({ ...prev, services: updated }));
-              }}
-              className={`px-4 py-2 text-sm border rounded-lg text-center transition-all duration-200 ${
-                isSelected
-                  ? "bg-[#B99B5F] text-white border-[#B99B5F]"
-                  : "bg-white text-gray-800 border-gray-200 hover:bg-gray-50"
-              }`}
-            >
-              {srv.name}
-            </button>
-          );
-        })}
-      </div>
-    </div>
+  {/* Sticky title inside left box */}
+  <h3 className="text-lg font-bold text-gray-800 text-center bg-white sticky top-0 z-30 py-4 border-b border-gray-100">
+    Ausgewählte Dienstleistungen
+  </h3>
 
-    {/* RIGHT: Subservices */}
+  {/* Scrollable list of services */}
+  <div className="flex-1 overflow-y-auto p-6 space-y-3">
+    {allServices.map((srv) => {
+      const isSelected = (form.services || []).includes(srv.name);
+      return (
+        <button
+          key={srv.id}
+          type="button"
+          onClick={() => {
+            const updated = isSelected
+              ? form.services.filter((s) => s !== srv.name)
+              : [...form.services, srv.name];
+            setForm((prev) => ({ ...prev, services: updated }));
+          }}
+          className={`w-full px-4 py-2 text-sm border rounded-lg text-center transition-all duration-200 ${
+            isSelected
+              ? "bg-[#B99B5F] text-white border-[#B99B5F]"
+              : "bg-white text-gray-800 border-gray-200 hover:bg-gray-50"
+          }`}
+        >
+          {srv.name}
+        </button>
+      );
+    })}
+  </div>
+</div>
+
+
+    {/* RIGHT SIDE */}
     <div className="flex-1">
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {subServices.map((sub) => {
@@ -2137,11 +2143,9 @@ onChange={(date) => {
               <span className="text-[11px] font-semibold uppercase text-[#B99B5F] opacity-80">
                 {sub.parentService}
               </span>
-
               <span className="text-[15px] font-semibold text-gray-900 mt-2 mb-2 leading-snug">
                 {sub.name}
               </span>
-
               <span
                 className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${
                   isSelected
@@ -2158,6 +2162,7 @@ onChange={(date) => {
     </div>
   </div>
 </div>
+
 
                   </div>
                 )}
