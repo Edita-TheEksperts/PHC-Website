@@ -1883,289 +1883,305 @@ onChange={(date) => {
 
 
 
-                {form.frequency !== "Einmal" && (
-                  <div className="space-y-6">
-                    <p className="font-medium">
-                      Wann genau wünschen Sie Unterstützung?
-                    </p>
+          {form.frequency !== "Einmal" && (
+  <div className="space-y-6">
+    <p className="font-medium">
+      Wann genau wünschen Sie Unterstützung?
+    </p>
 
-                    {/* Allow adjusting number of days */}
-                    <div className="flex items-center gap-4">
-                      <span className="text-gray-700 font-medium">
-                        Tage pro Woche:
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setForm((prev) => ({
-                            ...prev,
-                            schedules: prev.schedules.slice(
-                              0,
-                              Math.max(1, prev.schedules.length - 1)
-                            ),
-                          }))
-                        }
-                        className="w-8 h-8 text-xl border rounded-full"
-                      >
-                        −
-                      </button>
-                      <span className="font-semibold">
-                        {form.schedules.length || 1}
-                      </span>
+    {/* Allow adjusting number of days */}
+    <div className="flex items-center gap-4">
+      <span className="text-gray-700 font-medium">
+        Tage pro Woche:
+      </span>
+      <button
+        type="button"
+        onClick={() =>
+          setForm((prev) => ({
+            ...prev,
+            schedules: prev.schedules.slice(
+              0,
+              Math.max(1, prev.schedules.length - 1)
+            ),
+          }))
+        }
+        className="w-8 h-8 text-xl border rounded-full"
+      >
+        −
+      </button>
+      <span className="font-semibold">
+        {form.schedules.length || 1}
+      </span>
+      <button
+        type="button"
+        onClick={() => {
+          if (isEinmalig || isMonatlich) return;
+          setForm((prev) => {
+            const baseSubServices = prev.schedules[0]?.subServices || [];
+            return {
+              ...prev,
+              schedules: [
+                ...prev.schedules,
+                {
+                  day: "",
+                  startTime: "08:00",
+                  hours: 2,
+                  subServices: [],
+                },
+              ].slice(0, 7),
+            };
+          });
+        }}
+        disabled={isEinmalig || isMonatlich}
+        className={`w-8 h-8 text-xl border rounded-full ${
+          isEinmalig || isMonatlich ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
+        +
+      </button>
+    </div>
+
+    {/* Each day's schedule */}
+    {form.schedules.map((entry, i) => (
+      <div
+        key={i}
+        className="space-y-6 border-b border-gray-200 pb-8 mb-8"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+          {/* Weekday */}
+          <select
+            value={entry.day}
+            onChange={(e) => {
+              const updated = [...form.schedules];
+              updated[i].day = e.target.value;
+              setForm({ ...form, schedules: updated });
+            }}
+            className="border px-4 py-2 rounded-md"
+            disabled={i === 0 && Boolean(form.firstDate)}
+          >
+            <option value="">Wochentag wählen</option>
+            {[
+              "Montag",
+              "Dienstag",
+              "Mittwoch",
+              "Donnerstag",
+              "Freitag",
+              "Samstag",
+              "Sonntag",
+            ].map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
+
+          {/* Start time */}
+          <TimeDropdown
+            value={entry.startTime}
+            onChange={(val) => {
+              if (val) {
+                const [hourStr, minuteStr] = val.split(":");
+                const hour = parseInt(hourStr);
+                const minute = parseInt(minuteStr);
+
+                const snappedMinute =
+                  minute < 15 ? "00" : minute < 45 ? "30" : "00";
+                const nextHour =
+                  minute >= 45 ? (hour + 1) % 24 : hour;
+
+                const fixedTime = `${String(nextHour).padStart(
+                  2,
+                  "0"
+                )}:${snappedMinute}`;
+
+                const updated = [...form.schedules];
+                updated[i].startTime = fixedTime;
+                setForm({ ...form, schedules: updated });
+              }
+            }}
+          />
+
+          {/* Duration */}
+          <div className="flex items-center gap-2">
             <button
-    type="button"
-    onClick={() => {
-      if (isEinmalig || isMonatlich) return; // 🚫 block adding if "einmalig" OR "monatlich"
-      setForm((prev) => ({
-        ...prev,
-        schedules: [
-          ...prev.schedules,
-          { day: "", startTime: "08:00", hours: 2 },
-        ].slice(0, 7), // max 7 days
-      }));
-    }}
-    disabled={isEinmalig || isMonatlich}
-    className={`w-8 h-8 text-xl border rounded-full ${
-      isEinmalig || isMonatlich ? "opacity-50 cursor-not-allowed" : ""
-    }`}
-  >
-    +
-  </button>
-                    </div>
-
-                    {/* Each day's schedule */}
-                    {form.schedules.map((entry, i) => (
-                      <div
-                        key={i}
-                        className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center"
-                      >
-                        {/* Weekday */}
-                        <select
-                          value={entry.day}
-                          onChange={(e) => {
-                            const updated = [...form.schedules];
-                            updated[i].day = e.target.value;
-                            setForm({ ...form, schedules: updated });
-                          }}
-                          className="border px-4 py-2 rounded-md"
-                           disabled={i === 0 && Boolean(form.firstDate)}
-                        >
-                          <option value="">Wochentag wählen</option>
-                          {[
-                            "Montag",
-                            "Dienstag",
-                            "Mittwoch",
-                            "Donnerstag",
-                            "Freitag",
-                            "Samstag",
-                            "Sonntag",
-                          ].map((day) => (
-                            <option key={day} value={day}>
-                              {day}
-                            </option>
-                          ))}
-                        </select>
-
-                        {/* Start time */}
-                        <TimeDropdown
-                          value={entry.startTime}
-                          onChange={(val) => {
-                            // Snap to closest 30-minutes
-                            if (val) {
-                              const [hourStr, minuteStr] = val.split(":");
-                              const hour = parseInt(hourStr);
-                              const minute = parseInt(minuteStr);
-
-                              const snappedMinute =
-                                minute < 15 ? "00" : minute < 45 ? "30" : "00";
-                              const nextHour =
-                                minute >= 45 ? (hour + 1) % 24 : hour;
-
-                              const fixedTime = `${String(nextHour).padStart(
-                                2,
-                                "0"
-                              )}:${snappedMinute}`;
-
-                              const updated = [...form.schedules];
-                              updated[i].startTime = fixedTime;
-                              setForm({ ...form, schedules: updated });
-                            }
-                          }}
-                        />
-
-                        {/* Duration */}
-                        {/* Duration */}
-                        <div className="flex items-center gap-2">
-                          {/* Minus Button */}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const updated = [...form.schedules];
-                              const subServiceCount =
-                                updated[i].subServices?.length ?? 0;
-                              const minHours = Math.max(subServiceCount, 2); // min based on subservices
-                              const current = updated[i].hours ?? 2;
-
-                              if (current > minHours) {
-                                updated[i].hours = parseFloat(
-                                  (current - 0.5).toFixed(1)
-                                );
-                                setForm({ ...form, schedules: updated });
-                              }
-                            }}
-                            disabled={
-                              form.schedules[i].hours <=
-                              Math.max(
-                                form.schedules[i].subServices?.length ?? 0,
-                                2
-                              )
-                            }
-                            className={`w-8 h-8 border rounded-full text-xl flex items-center justify-center ${
-                              form.schedules[i].hours <=
-                              Math.max(
-                                form.schedules[i].subServices?.length ?? 0,
-                                2
-                              )
-                                ? "opacity-50 cursor-not-allowed"
-                                : ""
-                            }`}
-                          >
-                            −
-                          </button>
-
-                          {/* Display hours */}
-                          <span className="inline-block w-[60px] text-center">
-                            {form.schedules[i].hours} Std
-                          </span>
-
-                          {/* Plus Button */}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const updated = [...form.schedules];
-                              const current = updated[i].hours ?? 2;
-
-                              if (current >= 8) {
-                                // ⬅️ Already at 8 → Add new day automatically
-                                updated.push({
-                                  day: "",
-                                  startTime: "08:00",
-                                  hours: 2,
-                                  subServices: [],
-                                });
-                              } else {
-                                // ⬅️ Increase by 0.5, but max 8
-                                updated[i].hours = Math.min(
-                                  parseFloat((current + 0.5).toFixed(1)),
-                                  8
-                                );
-                              }
-
-                              setForm({ ...form, schedules: updated });
-                            }}
-                            className="w-8 h-8 border rounded-full text-xl flex items-center justify-center"
-                          >
-                            +
-                          </button>
-                        </div>
-
-              
-                      </div>
-                    ))}
-<div className="mt-6 mb-10">
-  <label className="block mb-3 font-medium text-gray-800 text-center lg:text-left">
-    Welche Leistungen möchten Sie beanspruchen?
-  </label>
-
-  <div className="flex flex-col lg:flex-row gap-6">
-    {/* LEFT COLUMN */}
-{/* LEFT: Ausgewählte Dienstleistungen */}
-<div className="lg:w-1/4 flex-shrink-0 bg-white border border-gray-200 rounded-xl shadow-sm 
-                lg:sticky lg:top-36 self-start max-h-[70vh] flex flex-col">
-
-  {/* Sticky title inside left box */}
-  <h3 className="text-lg font-bold text-gray-800 text-center bg-white sticky top-0 z-30 py-4 border-b border-gray-100">
-    Ausgewählte Dienstleistungen
-  </h3>
-
-  {/* Scrollable list of services */}
-  <div className="flex-1 overflow-y-auto p-6 space-y-3">
-    {allServices.map((srv) => {
-      const isSelected = (form.services || []).includes(srv.name);
-      return (
-        <button
-          key={srv.id}
-          type="button"
-          onClick={() => {
-            const updated = isSelected
-              ? form.services.filter((s) => s !== srv.name)
-              : [...form.services, srv.name];
-            setForm((prev) => ({ ...prev, services: updated }));
-          }}
-          className={`w-full px-4 py-2 text-sm border rounded-lg text-center transition-all duration-200 ${
-            isSelected
-              ? "bg-[#B99B5F] text-white border-[#B99B5F]"
-              : "bg-white text-gray-800 border-gray-200 hover:bg-gray-50"
-          }`}
-        >
-          {srv.name}
-        </button>
-      );
-    })}
-  </div>
-</div>
-
-
-    {/* RIGHT SIDE */}
-    <div className="flex-1">
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-        {subServices.map((sub) => {
-          const isSelected = form.schedules[0]?.subServices?.includes(sub.name);
-          return (
-            <button
-              key={sub.id}
               type="button"
               onClick={() => {
                 const updated = [...form.schedules];
-                const currentList = updated[0].subServices || [];
-                const nextSubServices = isSelected
-                  ? currentList.filter((s) => s !== sub.name)
-                  : [...currentList, sub.name];
-                updated[0].subServices = nextSubServices;
-                setForm({ ...form, schedules: updated });
+                const subServiceCount =
+                  updated[i].subServices?.length ?? 0;
+                const minHours = Math.max(subServiceCount, 2);
+                const current = updated[i].hours ?? 2;
+
+                if (current > minHours) {
+                  updated[i].hours = parseFloat(
+                    (current - 0.5).toFixed(1)
+                  );
+                  setForm({ ...form, schedules: updated });
+                }
               }}
-              className={`w-full flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 text-center cursor-pointer ${
-                isSelected
-                  ? "border-[#B99B5F] bg-gradient-to-br from-[#FFF8EA] to-[#FFF2D5] shadow-md scale-[1.02]"
-                  : "border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[#B99B5F]/60 hover:scale-[1.01]"
+              disabled={
+                form.schedules[i].hours <=
+                Math.max(
+                  form.schedules[i].subServices?.length ?? 0,
+                  2
+                )
+              }
+              className={`w-8 h-8 border rounded-full text-xl flex items-center justify-center ${
+                form.schedules[i].hours <=
+                Math.max(
+                  form.schedules[i].subServices?.length ?? 0,
+                  2
+                )
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
             >
-              <span className="text-[11px] font-semibold uppercase text-[#B99B5F] opacity-80">
-                {sub.parentService}
-              </span>
-              <span className="text-[15px] font-semibold text-gray-900 mt-2 mb-2 leading-snug">
-                {sub.name}
-              </span>
-              <span
-                className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${
-                  isSelected
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-500"
-                }`}
-              >
-                {isSelected ? "✓ Ausgewählt" : "+ Hinzufügen"}
-              </span>
+              −
             </button>
-          );
-        })}
+
+            <span className="inline-block w-[60px] text-center">
+              {form.schedules[i].hours} Std
+            </span>
+
+            <button
+              type="button"
+              onClick={() => {
+                const updated = [...form.schedules];
+                const current = updated[i].hours ?? 2;
+
+                if (current >= 8) {
+                  updated.push({
+                    day: "",
+                    startTime: "08:00",
+                    hours: 2,
+                    subServices: [],
+                  });
+                } else {
+                  updated[i].hours = Math.min(
+                    parseFloat((current + 0.5).toFixed(1)),
+                    8
+                  );
+                }
+
+                setForm({ ...form, schedules: updated });
+              }}
+              className="w-8 h-8 border rounded-full text-xl flex items-center justify-center"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        {/* ✅ SERVICES SECTION - now inside each day's map */}
+        <div className="mt-6 mb-10">
+          <label className="block mb-3 font-medium text-gray-800 text-center lg:text-left">
+            Welche Leistungen möchten Sie beanspruchen? ({entry.day || "Tag " + (i + 1)})
+          </label>
+
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* LEFT: Ausgewählte Dienstleistungen */}
+            <div className="lg:w-1/4 flex-shrink-0 bg-white border border-gray-200 rounded-xl shadow-sm 
+                            lg:sticky lg:top-36 self-start max-h-[70vh] flex flex-col">
+              <h3 className="text-lg font-bold text-gray-800 text-center bg-white sticky top-0 z-30 py-4 border-b border-gray-100">
+                Ausgewählte Dienstleistungen
+              </h3>
+              <div className="flex-1 overflow-y-auto p-6 space-y-3">
+                {allServices.map((srv) => {
+                  const isSelected = (form.services || []).includes(srv.name);
+                  return (
+                    <button
+                      key={srv.id}
+                      type="button"
+                      onClick={() => {
+                        const updated = isSelected
+                          ? form.services.filter((s) => s !== srv.name)
+                          : [...form.services, srv.name];
+                        setForm((prev) => ({ ...prev, services: updated }));
+                      }}
+                      className={`w-full px-4 py-2 text-sm border rounded-lg text-center transition-all duration-200 ${
+                        isSelected
+                          ? "bg-[#B99B5F] text-white border-[#B99B5F]"
+                          : "bg-white text-gray-800 border-gray-200 hover:bg-gray-50"
+                      }`}
+                    >
+                      {srv.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* RIGHT: SubServices */}
+            <div className="flex-1">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                {subServices.map((sub) => {
+                  const isSelected = entry.subServices?.includes(sub.name);
+                  return (
+                 <button
+  key={sub.id}
+  type="button"
+  onClick={() => {
+    const updated = [...form.schedules];
+    const currentList = updated[i].subServices || [];
+
+    // Add or remove subservice
+    const nextSubServices = currentList.includes(sub.name)
+      ? currentList.filter((s) => s !== sub.name)
+      : [...currentList, sub.name];
+
+    updated[i].subServices = nextSubServices;
+
+    // ✅ Llogarit minimumin:
+    // Deri në 2 shërbime → 2 orë, më shumë se 2 → shto 1 orë për çdo shërbim shtesë
+    let minHours = 2;
+    if (nextSubServices.length > 2) {
+      minHours = 2 + (nextSubServices.length - 2);
+    }
+
+    // Nëse ora aktuale është më e vogël se minimumi → përditëso
+    if ((updated[i].hours ?? 2) < minHours) {
+      updated[i].hours = minHours;
+    }
+
+    setForm({ ...form, schedules: updated });
+  }}
+  className={`w-full flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 text-center cursor-pointer ${
+    entry.subServices?.includes(sub.name)
+      ? "border-[#B99B5F] bg-gradient-to-br from-[#FFF8EA] to-[#FFF2D5] shadow-md scale-[1.02]"
+      : "border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-[#B99B5F]/60 hover:scale-[1.01]"
+  }`}
+>
+  <span className="text-[11px] font-semibold uppercase text-[#B99B5F] opacity-80">
+    {sub.parentService}
+  </span>
+  <span className="text-[15px] font-semibold text-gray-900 mt-2 mb-2 leading-snug">
+    {sub.name}
+  </span>
+  <span
+    className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${
+      entry.subServices?.includes(sub.name)
+        ? "bg-green-100 text-green-700"
+        : "bg-gray-100 text-gray-500"
+    }`}
+  >
+    {entry.subServices?.includes(sub.name)
+      ? "✓ Ausgewählt"
+      : "+ Hinzufügen"}
+  </span>
+</button>
+
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* ✅ END SERVICES SECTION */}
       </div>
-    </div>
+    ))}
   </div>
-</div>
+)}
 
-
-                  </div>
-                )}
               </div>
             </>
           )}
