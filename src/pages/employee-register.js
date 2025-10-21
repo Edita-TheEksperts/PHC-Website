@@ -1186,8 +1186,7 @@ useEffect(() => {
 
 </div>
 
-<div hidden={step !== 4}>
-
+<div hidden={step !== 4} className="mt-16">
   <h2 className="text-2xl font-bold text-[#04436F]">Abschluss</h2>
 
   {isSubmitted ? (
@@ -1196,7 +1195,7 @@ useEffect(() => {
     </div>
   ) : (
     <p className="mt-2 text-gray-700">
-     Danke für Deine Online-Bewerbung. Wir werden Deine Unterlagen prüfen und uns zeitnah melden.
+      Danke für Deine Online-Bewerbung. Wir werden Deine Unterlagen prüfen und uns zeitnah melden.
     </p>
   )}
 </div>

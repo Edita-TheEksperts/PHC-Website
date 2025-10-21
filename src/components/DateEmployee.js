@@ -4,7 +4,7 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
   const [openStartIndex, setOpenStartIndex] = useState(null);
   const [openEndIndex, setOpenEndIndex] = useState(null);
 
-  const allDays = [
+  const availableDays = [
     "Montag",
     "Dienstag",
     "Mittwoch",
@@ -14,23 +14,14 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
     "Sonntag",
   ];
 
-  const availableDays = allDays;
-
-  const generateTimeOptions = (start = "07:00", end = "23:00") => {
-    const options = [];
-    let [h, m] = start.split(":").map(Number);
-    const [endH, endM] = end.split(":").map(Number);
-    while (h < endH || (h === endH && m <= endM)) {
-      const hh = String(h).padStart(2, "0");
-      const mm = String(m).padStart(2, "0");
-      options.push(`${hh}:${mm}`);
-      m += 30;
-      if (m >= 60) {
-        m = 0;
-        h += 1;
-      }
+  const generateTimeOptions = () => {
+    const times = [];
+    for (let h = 6; h <= 22; h++) {
+      const hour = h.toString().padStart(2, "0");
+      times.push(`${hour}:00`);
+      times.push(`${hour}:30`);
     }
-    return options;
+    return times;
   };
 
   const addDay = () => {
@@ -46,9 +37,9 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
     }));
   };
 
-  const updateTime = (index, type, value) => {
+  const updateTime = (index, field, value) => {
     const updated = [...form.availabilityDays];
-    updated[index][type] = value;
+    updated[index][field] = value;
     setForm((prev) => ({ ...prev, availabilityDays: updated }));
   };
 
@@ -58,77 +49,144 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
   };
 
   return (
-<div className="mb-14">
-  <h3 className="font-semibold mb-6 text-lg text-gray-900 tracking-wide">
-    Ihre Verfügbarkeit
-  </h3>
+    <div className="mb-14" hidden={hidden}>
+      <h3 className="font-semibold mb-6 text-lg text-gray-900 tracking-wide">
+        Ihre Verfügbarkeit
+      </h3>
 
-  {/* Add new day */}
-  <div className="flex flex-wrap gap-3 mb-8 items-center">
-    <select
-      value={form.newAvailableDay || ""}
-      onChange={(e) =>
-        setForm((prev) => ({ ...prev, newAvailableDay: e.target.value }))
-      }
-      className="border border-gray-300 bg-white px-4 py-2 rounded-full w-56 text-sm focus:ring-2 focus:ring-gray-300 focus:outline-none transition"
-    >
-      <option value="">Wochentag wählen</option>
-      {availableDays.map((day) => (
-        <option key={day} value={day}>
-          {day}
-        </option>
-      ))}
-    </select>
-
-    <button
-      type="button"
-      onClick={addDay}
-      className="px-5 py-2 bg-[#0C243C] text-white text-sm font-medium rounded-full hover:bg-[#123a60] transition"
-    >
-      Hinzufügen
-    </button>
-  </div>
-
-  {/* Availability cards */}
-  <div className="flex flex-wrap gap-4">
-    {form.availabilityDays?.map((entry, index) => (
-      <div
-        key={index}
-        className="flex items-center justify-between w-[270px] bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md transition-all duration-300"
-      >
-        <div className="flex flex-col">
-          <span className="font-semibold text-gray-800 text-sm">
-            {entry.day}
-          </span>
-          <span className="text-sm text-gray-500">
-            {entry.startTime} – {entry.endTime}
-          </span>
-        </div>
+      {/* Add new day */}
+      <div className="flex flex-wrap gap-3 mb-8 items-center">
+        <select
+          value={form.newAvailableDay || ""}
+          onChange={(e) =>
+            setForm((prev) => ({ ...prev, newAvailableDay: e.target.value }))
+          }
+          className="border border-gray-300 bg-white px-4 py-2 rounded-full w-56 text-sm focus:ring-2 focus:ring-gray-300 focus:outline-none transition"
+        >
+          <option value="">Wochentag wählen</option>
+          {availableDays.map((day) => (
+            <option key={day} value={day}>
+              {day}
+            </option>
+          ))}
+        </select>
 
         <button
-          onClick={() => removeDay(index)}
-          className="p-2 rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition"
-          aria-label="Entfernen"
+          type="button"
+          onClick={addDay}
+          className="px-5 py-2 bg-[#0C243C] text-white text-sm font-medium rounded-full hover:bg-[#123a60] transition"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          Hinzufügen
         </button>
       </div>
-    ))}
-  </div>
+
+      {/* Availability cards */}
+      <div className="flex flex-wrap gap-4">
+        {form.availabilityDays?.map((entry, index) => (
+          <div
+            key={index}
+            className="flex gap-4 items-center bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md transition-all duration-300 relative"
+          >
+            {/* Day name */}
+            <span className="min-w-[80px] font-medium">{entry.day}</span>
+
+        {/* Start time dropdown */}
+<div className="relative">
+  <button
+    type="button"
+    className="border px-4 py-2 rounded-md bg-white w-28 text-sm text-gray-700 shadow-sm"
+    onClick={() => {
+      // Open start dropdown & close the end one
+      setOpenStartIndex(openStartIndex === index ? null : index);
+      setOpenEndIndex(null);
+    }}
+  >
+    {entry.startTime}
+  </button>
+
+  {openStartIndex === index && (
+    <div className="absolute left-0 top-12 z-20 bg-white border border-gray-200 rounded-xl shadow-lg grid grid-cols-4 gap-3 p-4 max-h-64 overflow-y-auto w-72">
+      {generateTimeOptions().map((time) => (
+        <button
+          key={time}
+          className={`px-4 py-2 rounded-lg text-sm transition-all font-medium ${
+            entry.startTime === time
+              ? "bg-[#0C243C] text-white"
+              : "bg-gray-50 hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => {
+            updateTime(index, "startTime", time);
+            setOpenStartIndex(null);
+          }}
+        >
+          {time}
+        </button>
+      ))}
+    </div>
+  )}
 </div>
 
+{/* End time dropdown */}
+<div className="relative">
+  <button
+    type="button"
+    className="border px-4 py-2 rounded-md bg-white w-28 text-sm text-gray-700 shadow-sm"
+    onClick={() => {
+      // Open end dropdown & close the start one
+      setOpenEndIndex(openEndIndex === index ? null : index);
+      setOpenStartIndex(null);
+    }}
+  >
+    {entry.endTime}
+  </button>
+
+  {openEndIndex === index && (
+    <div className="absolute left-0 top-12 z-20 bg-white border border-gray-200 rounded-xl shadow-lg grid grid-cols-4 gap-3 p-4 max-h-64 overflow-y-auto w-72">
+      {generateTimeOptions().map((time) => (
+        <button
+          key={time}
+          className={`px-4 py-2 rounded-lg text-sm transition-all font-medium ${
+            entry.endTime === time
+              ? "bg-[#0C243C] text-white"
+              : "bg-gray-50 hover:bg-gray-100 text-gray-700"
+          }`}
+          onClick={() => {
+            updateTime(index, "endTime", time);
+            setOpenEndIndex(null);
+          }}
+        >
+          {time}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+
+            {/* Remove button */}
+            <button
+              onClick={() => removeDay(index)}
+              className="p-2 rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition ml-auto"
+              aria-label="Entfernen"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
