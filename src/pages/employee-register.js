@@ -864,9 +864,9 @@ useEffect(() => {
   <label className="block font-medium mb-1">
  Reise- und Ferienbegleitung möglich?
   </label>
-  <p className="text-gray-500 text-sm mb-2 italic">
+    <span className="text-sm font-normal text-gray-600">
    Info: Wochenende Milano oder 10 Tage Kreuzfahrt
-  </p>
+  </span>
   <select
     name="travelSupport"
     value={form.travelSupport || ""}
