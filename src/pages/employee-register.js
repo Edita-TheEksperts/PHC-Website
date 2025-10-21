@@ -256,9 +256,10 @@ if (!form.worksWithAnimals) {
 }
 
 if (step === 3) {
-  if (!form.availabilityFrom) {
-    newErrors.availabilityFrom = "Bitte Startdatum wählen.";
-  }
+if (form.availabilityFrom === "") {
+  errors.availabilityFrom = "Bitte Startdatum wählen.";
+}
+
 
   if (!form.nightShifts) {
     newErrors.nightShifts = "Bitte auswählen, ob Nachtarbeit möglich ist.";
@@ -922,47 +923,61 @@ useEffect(() => {
 
   <h2 className="text-2xl font-bold text-[#04436F] mb-8">Arbeitsbereitschaft</h2>
 
-  {/* Verfügbar ab wann */}
-<div className="mb-2">
-  <label className="font-medium mb-1">Verfügbar ab wann?</label>
+{/* Verfügbar ab wann */}
+<div className="mb-6">
+  <label className="block text-[16px] font-medium text-[#04436F] mb-2">
+    Verfügbar ab wann?
+  </label>
   <input
     type="date"
     name="availabilityFrom"
-    value={form.availabilityFrom || new Date().toISOString().split("T")[0]}
-    min={new Date().toISOString().split("T")[0]}  // ✅ nuk lejon datë më të hershme
-    onChange={handleChange}
-    className={inputClass}
+    value={
+      form.availabilityFrom ||
+      new Date().toISOString().split("T")[0] // ✅ Default today
+    }
+    min={new Date().toISOString().split("T")[0]} // ✅ Prevent past dates
+    onChange={(e) => {
+      handleChange(e);
+
+      // ✅ Auto-fix: if date is empty, set today by default
+      if (!e.target.value) {
+        setForm((prev) => ({
+          ...prev,
+          availabilityFrom: new Date().toISOString().split("T")[0],
+        }));
+      }
+    }}
+    className={`${inputClass} w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#04436F] focus:border-transparent transition-all`}
   />
-  {errors.availabilityFrom && (
-    <p className="text-red-600 text-sm mt-1">{errors.availabilityFrom}</p>
+
+  {/* ✅ Only show error if date is truly missing */}
+  {errors.availabilityFrom && !form.availabilityFrom && (
+    <p className="text-red-600 text-sm mt-2">{errors.availabilityFrom}</p>
   )}
 </div>
 
 
-  {/* Feiertagseinsätze */}
-  <div className="mb-2">
-    <label className="block font-medium mb-1">
-      Feiertagseinsätze möglich? 
-    </label>
-    <select
-      name="nightShifts"
-      value={form.nightShifts || ""}
-      onChange={handleChange}
-      className={inputClass}
-    >
-      <option value="">Bitte wählen</option>
-      <option value="ja">Ja</option>
-      <option value="nein">Nein</option>
-    </select>
-    {errors.nightShifts && (
-      <p className="text-red-600 text-sm mt-1">{errors.nightShifts}</p>
-    )}
-  </div>
+{/* Feiertagseinsätze */}
+<div className="mb-6">
+  <label className="block text-[16px] font-medium text-[#04436F] mb-2">
+    Feiertagseinsätze möglich?
+  </label>
+  <select
+    name="nightShifts"
+    value={form.nightShifts || ""}
+    onChange={handleChange}
+    className={`${inputClass} w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#04436F] focus:border-transparent transition-all`}
+  >
+    <option value="">Bitte wählen</option>
+    <option value="ja">Ja</option>
+    <option value="nein">Nein</option>
+  </select>
+  {errors.nightShifts && (
+    <p className="text-red-600 text-sm mt-2">{errors.nightShifts}</p>
+  )}
+</div>
 
-  {/* Häufigkeit der Nachtschichten */}
-  <div className="mb-2">
- 
-  </div>
+
 <DateEmployee
   form={form}
   setForm={setForm}
@@ -972,56 +987,72 @@ useEffect(() => {
 
 
 {/* Tätigkeiten / Arbeitsbereiche */}
-<div className="space-y-2 mt-8">
-  <label className="font-medium mb-3 block text-lg text-[#04436F]">
+<div className="space-y-8 mt-8">
+  <label className="font-semibold text-2xl text-[#04436F]">
     In welchem Bereich möchtest du arbeiten?
   </label>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+  <div className="space-y-4">
     {Object.entries(services).map(([category, subservices]) => {
       const isSelected = form.servicesOffered.includes(category);
+
       return (
         <div
           key={category}
-          onClick={() => {
-            setForm((prev) => {
-              const updated = isSelected
-                ? prev.servicesOffered.filter((item) => item !== category)
-                : [...prev.servicesOffered, category];
-              return { ...prev, servicesOffered: updated };
-            });
-          }}
-          className={`p-5 rounded-xl border transition-all cursor-pointer shadow-sm 
+          className={`rounded-2xl border transition-all duration-500 overflow-hidden shadow-sm
             ${
               isSelected
-                ? "border-[#04436F] bg-[#04436F]/10 ring-2 ring-[#04436F]"
-                : "border-gray-300 hover:border-[#04436F]/50"
+                ? "border-[#04436F]/50 bg-[#F5FAFD] scale-[1.01] shadow-md"
+                : "border-gray-200 bg-[#FAFBFC] hover:border-[#04436F]/30 hover:shadow-sm"
             }`}
         >
-          <div className="flex justify-between items-center">
-            <h3
-              className={`text-[16px] font-semibold ${
+          {/* Header */}
+          <button
+            type="button"
+            onClick={() => {
+              setForm((prev) => {
+                const updated = isSelected
+                  ? prev.servicesOffered.filter((item) => item !== category)
+                  : [...prev.servicesOffered, category];
+                return { ...prev, servicesOffered: updated };
+              });
+            }}
+            className="w-full flex justify-between items-center px-6 py-4 text-left"
+          >
+            <span
+              className={`text-lg font-semibold transition-colors ${
                 isSelected ? "text-[#04436F]" : "text-gray-800"
               }`}
             >
               {category}
-            </h3>
-            <div
-              className={`w-5 h-5 rounded-full border-2 ${
-                isSelected
-                  ? "bg-[#04436F] border-[#04436F]"
-                  : "border-gray-400"
-              }`}
-            />
-          </div>
+            </span>
 
-          {isSelected && (
-            <ul className="mt-3 text-sm text-gray-600 list-disc list-inside space-y-1">
+            <span
+              className={`transition-transform duration-500 text-[#04436F] ${
+                isSelected ? "rotate-90" : "rotate-0"
+              }`}
+            >
+              ▶
+            </span>
+          </button>
+
+          {/* Animated Subservices Section */}
+          <div
+            className={`transition-all duration-500 ease-in-out ${
+              isSelected ? "max-h-[300px] opacity-100 py-4" : "max-h-0 opacity-0 py-0"
+            }`}
+          >
+            <div className="flex flex-wrap gap-2 px-6">
               {subservices.map((item, idx) => (
-                <li key={idx}>{item}</li>
+                <span
+                  key={idx}
+                  className="px-3 py-1.5 rounded-full bg-white border border-[#04436F]/20 text-[#04436F] text-sm font-medium hover:bg-[#04436F] hover:text-white transition-all cursor-pointer shadow-sm"
+                >
+                  {item}
+                </span>
               ))}
-            </ul>
-          )}
+            </div>
+          </div>
         </div>
       );
     })}

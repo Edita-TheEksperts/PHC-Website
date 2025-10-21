@@ -58,119 +58,77 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
   };
 
   return (
-    <div className="mb-4" hidden={hidden}>
-      <h3 className="font-medium mb-1">Ihre Verfügbarkeit</h3>
+<div className="mb-14">
+  <h3 className="font-semibold mb-6 text-lg text-gray-900 tracking-wide">
+    Ihre Verfügbarkeit
+  </h3>
 
-      <div className="flex gap-4 items-center">
-        <select
-          value={form.newAvailableDay || ""}
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, newAvailableDay: e.target.value }))
-          }
-          className="border border-gray-300 px-4 py-2 rounded-md w-52 text-sm focus:outline-none focus:ring-2 focus:ring-[#B99B5F]"
-        >
-          <option value="">Wochentag wählen</option>
-          {availableDays.map((day) => (
-            <option key={day} value={day}>
-              {day}
-            </option>
-          ))}
-        </select>
+  {/* Add new day */}
+  <div className="flex flex-wrap gap-3 mb-8 items-center">
+    <select
+      value={form.newAvailableDay || ""}
+      onChange={(e) =>
+        setForm((prev) => ({ ...prev, newAvailableDay: e.target.value }))
+      }
+      className="border border-gray-300 bg-white px-4 py-2 rounded-full w-56 text-sm focus:ring-2 focus:ring-gray-300 focus:outline-none transition"
+    >
+      <option value="">Wochentag wählen</option>
+      {availableDays.map((day) => (
+        <option key={day} value={day}>
+          {day}
+        </option>
+      ))}
+    </select>
+
+    <button
+      type="button"
+      onClick={addDay}
+      className="px-5 py-2 bg-[#0C243C] text-white text-sm font-medium rounded-full hover:bg-[#123a60] transition"
+    >
+      Hinzufügen
+    </button>
+  </div>
+
+  {/* Availability cards */}
+  <div className="flex flex-wrap gap-4">
+    {form.availabilityDays?.map((entry, index) => (
+      <div
+        key={index}
+        className="flex items-center justify-between w-[270px] bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md transition-all duration-300"
+      >
+        <div className="flex flex-col">
+          <span className="font-semibold text-gray-800 text-sm">
+            {entry.day}
+          </span>
+          <span className="text-sm text-gray-500">
+            {entry.startTime} – {entry.endTime}
+          </span>
+        </div>
 
         <button
-          type="button"
-          onClick={addDay}
-          className="px-4 py-2 bg-[#B99B5F] text-white rounded-full text-sm hover:bg-[#a2884f] transition"
+          onClick={() => removeDay(index)}
+          className="p-2 rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition"
+          aria-label="Entfernen"
         >
-          +
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
       </div>
+    ))}
+  </div>
+</div>
 
-      {form.availabilityDays?.map((entry, index) => (
-        <div
-          key={`${entry.day}-${index}`}
-          className="flex gap-4 items-center bg-gray-100 p-3 rounded-md flex-wrap relative"
-        >
-          <span className="min-w-[80px] font-medium">{entry.day}</span>
-
-          {/* START TIME */}
-          <div className="relative">
-            <button
-              type="button"
-              className="border px-4 py-3 rounded-md text-base bg-white w-32 text-left shadow-sm"
-              onClick={() =>
-                setOpenStartIndex(openStartIndex === index ? null : index)
-              }
-            >
-              {entry.startTime}
-            </button>
-
-            {openStartIndex === index && (
-              <div className="absolute mt-1 bg-white border rounded-lg shadow-lg grid grid-cols-4 gap-3 p-3 z-10 max-h-72 overflow-y-auto w-72">
-                {generateTimeOptions().map((time) => (
-                  <button
-                    key={time}
-                    className={`text-base px-3 py-2 rounded-lg transition-all hover:bg-[#B99B5F] hover:text-white ${
-                      entry.startTime === time
-                        ? "bg-[#B99B5F] text-white"
-                        : "bg-gray-50"
-                    }`}
-                    onClick={() => {
-                      updateTime(index, "startTime", time);
-                      setOpenStartIndex(null);
-                    }}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <span>bis</span>
-
-          {/* END TIME */}
-          <div className="relative">
-            <button
-              type="button"
-              className="border px-4 py-3 rounded-md text-base bg-white w-32 text-left shadow-sm"
-              onClick={() =>
-                setOpenEndIndex(openEndIndex === index ? null : index)
-              }
-            >
-              {entry.endTime}
-            </button>
-
-            {openEndIndex === index && (
-              <div className="absolute mt-1 bg-white border rounded-lg shadow-lg grid grid-cols-4 gap-3 p-3 z-10 max-h-72 overflow-y-auto w-72">
-                {generateTimeOptions().map((time) => (
-                  <button
-                    key={time}
-                    className={`text-base px-3 py-2 rounded-lg transition-all hover:bg-[#B99B5F] hover:text-white ${
-                      entry.endTime === time
-                        ? "bg-[#B99B5F] text-white"
-                        : "bg-gray-50"
-                    }`}
-                    onClick={() => {
-                      updateTime(index, "endTime", time);
-                      setOpenEndIndex(null);
-                    }}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={() => removeDay(index)}
-            className="text-red-600 text-sm hover:underline ml-auto"
-          >
-            Entfernen
-          </button>
-        </div>
-      ))}
-    </div>
   );
 }
