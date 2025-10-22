@@ -3726,16 +3726,7 @@ onChange={(date) => {
         Der Registrierungsprozess wurde erfolgreich abgeschlossen. <br />
       </p>
 
-      {/* Buttons */}
-      <div className="flex justify-center gap-4 mt-6">
-   
-        <button
-          onClick={() => router.push("/login")}
-          className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg hover:bg-[#a18750] transition font-medium shadow-sm"
-        >
-          Zum Dashboard
-        </button>
-      </div>
+
     </div>
   </div>
 )}
