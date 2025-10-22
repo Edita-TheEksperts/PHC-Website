@@ -442,7 +442,7 @@ useEffect(() => {
 )}
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-4 lg:p-8 rounded-xl shadow  text-base text-gray-800"
+          className="bg-white p-4 lg:p-8 rounded-xl shadow  text-base text-gray-800 mt-10"
         >
 
 
@@ -1007,46 +1007,72 @@ useEffect(() => {
             }`}
         >
           {/* Header */}
-          <button
-            type="button"
-            onClick={() => {
-              setForm((prev) => {
-                const updated = isSelected
-                  ? prev.servicesOffered.filter((item) => item !== category)
-                  : [...prev.servicesOffered, category];
-                return { ...prev, servicesOffered: updated };
-              });
-            }}
-            className="w-full flex justify-between items-center px-6 py-4 text-left"
-          >
-            <span
-              className={`text-lg font-semibold transition-colors ${
-                isSelected ? "text-[#04436F]" : "text-gray-800"
-              }`}
+          <div className="w-full flex justify-between items-center px-6 py-4 text-left">
+            {/* Checkbox + Teksti */}
+            <div
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => {
+                setForm((prev) => {
+                  const updated = isSelected
+                    ? prev.servicesOffered.filter((item) => item !== category)
+                    : [...prev.servicesOffered, category];
+                  return { ...prev, servicesOffered: updated };
+                });
+              }}
             >
-              {category}
-            </span>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                readOnly
+                className="w-5 h-5 accent-[#04436F] cursor-pointer"
+              />
+              <span
+                className={`text-lg font-semibold transition-colors ${
+                  isSelected ? "text-[#04436F]" : "text-gray-800"
+                }`}
+              >
+                {category}
+              </span>
+            </div>
 
-            <span
-              className={`transition-transform duration-500 text-[#04436F] ${
-                isSelected ? "rotate-90" : "rotate-0"
-              }`}
+            {/* Ikona për hapje/mbyllje dropdown */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                const section = e.currentTarget.parentElement.nextElementSibling;
+                if (section) {
+                  section.classList.toggle("max-h-0");
+                  section.classList.toggle("opacity-0");
+                  section.classList.toggle("py-0");
+                  section.classList.toggle("max-h-[300px]");
+                  section.classList.toggle("opacity-100");
+                  section.classList.toggle("py-4");
+                  e.currentTarget
+                    .querySelector("span")
+                    .classList.toggle("rotate-90");
+                }
+              }}
+              className="text-[#04436F] text-lg transition-transform duration-500"
             >
-              ▶
-            </span>
-          </button>
+              <span className="inline-block transform transition-transform duration-500">
+                ▶
+              </span>
+            </button>
+          </div>
 
           {/* Animated Subservices Section */}
-          <div
-            className={`transition-all duration-500 ease-in-out ${
-              isSelected ? "max-h-[300px] opacity-100 py-4" : "max-h-0 opacity-0 py-0"
-            }`}
-          >
+          <div className="transition-all duration-500 ease-in-out max-h-0 opacity-0 py-0 overflow-hidden">
             <div className="flex flex-wrap gap-2 px-6">
               {subservices.map((item, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 rounded-full bg-white border border-[#04436F]/20 text-[#04436F] text-sm font-medium hover:bg-[#04436F] hover:text-white transition-all cursor-pointer shadow-sm"
+                  className={`px-3 py-1.5 rounded-full border text-sm font-medium shadow-sm transition-all cursor-pointer
+                    ${
+                      isSelected
+                        ? "bg-[#04436F] text-white border-[#04436F]"
+                        : "bg-white border-[#04436F]/20 text-[#04436F] hover:bg-[#04436F] hover:text-white"
+                    }`}
                 >
                   {item}
                 </span>
@@ -1186,7 +1212,7 @@ useEffect(() => {
 
 </div>
 
-<div hidden={step !== 4} className="mt-16">
+<div hidden={step !== 4} className="mt-20">
   <h2 className="text-2xl font-bold text-[#04436F]">Abschluss</h2>
 
   {isSubmitted ? (

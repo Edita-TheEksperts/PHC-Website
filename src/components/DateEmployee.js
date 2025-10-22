@@ -28,7 +28,7 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
     if (!form.newAvailableDay) return;
     const updated = [
       ...(form.availabilityDays || []),
-      { day: form.newAvailableDay, startTime: "08:00", endTime: "10:00" },
+      { day: form.newAvailableDay, startTime: "08:00", endTime: "17:00" },
     ];
     setForm((prev) => ({
       ...prev,
