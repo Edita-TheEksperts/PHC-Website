@@ -2432,42 +2432,52 @@ onChange={(date) => {
   </>
 )}
 
+{step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails 
+  <span className="text-red-500">*</span></h2>
+  {/* 🎟️ Gutschein Sektion – Modern Input Style */}
+<div className="mb-6 mt-3 rounded-xl border border-gray-200 bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    {/* Left side */}
+    <div className="flex items-center gap-3">
+      <div className="bg-[#B99B5F]/10 text-[#B99B5F] rounded-full p-2">
+        🎟️
+      </div>
+      <div>
+        <h3 className="font-semibold text-gray-900 text-base">
+          Haben Sie einen Gutschein?
+        </h3>
+        <p className="text-sm text-gray-600">
+          Geben Sie Ihren Gutscheincode unten ein.
+        </p>
+      </div>
+    </div>
 
-{step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails <span className="text-red-500">*</span></h2>
- {/* Kreditkartenfeld */} <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
-   <CardElement options={{ style:
-     { base: { fontSize: "16px", color: "#1f2937", fontFamily: "system-ui, sans-serif", 
-     "::placeholder": { color: "#9ca3af" }, }, invalid: { color: "#ef4444" }, }, 
-     }} /> </div> {/* Hinweise */} <div className="mt-4 space-y-2"> <p className="text-sm sm:text-base text-gray-600">
-       Alle Zahlungen werden sicher verarbeitet. </p> <p className="text-sm sm:text-base text-gray-600">
-         Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 
-          48 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
-           </p> </div> 
-{/* 🎟️ Voucher Code Input */}
-{/* 🎟️ Voucher Code Input */}
-<div className="mt-6">
-  <label htmlFor="voucher" className="block font-medium text-gray-800 mb-1">
-    Haben Sie einen Gutschein?
-  </label>
+    {/* Modern input with icon */}
+    <div className="relative w-full sm:w-72">
+      <input
+        type="text"
+        id="voucher"
+        placeholder="Gutscheincode eingeben"
+        value={form.voucher || ""}
+        onChange={(e) => setForm({ ...form, voucher: e.target.value })}
+        className="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-[#B99B5F] focus:border-[#B99B5F] outline-none transition shadow-sm hover:border-[#B99B5F]/50"
+      />
+      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔑</span>
+    </div>
+  </div>
 
-  <div className="flex gap-3">
-    <input
-      type="text"
-      id="voucher"
-      placeholder="Gutscheincode eingeben"
-      value={form.voucher || ""}
-      onChange={(e) => setForm({ ...form, voucher: e.target.value })}
-      className="flex-1 border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:ring-2 focus:ring-[#B99B5F]"
-    />
+  {/* Einlösen link-style button */}
+  <div className="mt-3 flex justify-end">
     <button
       type="button"
       onClick={handleVoucherCheck}
-      className="px-5 py-2 bg-[#B99B5F] text-white rounded-md hover:bg-[#a88d55] transition"
+      className="text-[#B99B5F] font-medium hover:text-[#a88d55] hover:underline transition"
     >
-      Einlösen
+      Einlösen →
     </button>
   </div>
 
+  {/* Voucher result */}
   {voucherMessage && (
     <p
       className={`mt-2 text-sm ${
@@ -2478,25 +2488,38 @@ onChange={(date) => {
     </p>
   )}
 
-  {/* 💸 Show discounted total */}
-{/* 💰 Show discounted total if voucher applied */}
-{discountType && discountValue > 0 ? (
-  <>
-    <p>
-      Originalpreis:{" "}
-      <span className="line-through text-gray-500">
-        {totalPayment.toFixed(2)} €
-      </span>
-    </p>
-    <p className="text-green-700 font-semibold">
-      Neuer Gesamtbetrag: {discountedTotal.toFixed(2)} €
-    </p>
-  </>
-) : (
-  <p>Gesamtbetrag: {totalPayment.toFixed(2)} €</p>
-)}
-
+  {/* Preisübersicht */}
+  <div className="mt-3 text-sm text-gray-700 border-t border-gray-100 pt-3">
+    {discountType && discountValue > 0 ? (
+      <>
+        <p>
+          Originalpreis:{" "}
+          <span className="line-through text-gray-500">
+            {totalPayment.toFixed(2)} €
+          </span>
+        </p>
+        <p className="text-green-700 font-semibold">
+          Neuer Gesamtbetrag: {discountedTotal.toFixed(2)} €
+        </p>
+      </>
+    ) : (
+      <p className="font-medium text-gray-800">
+        Gesamtbetrag: {totalPayment.toFixed(2)} €
+      </p>
+    )}
+  </div>
 </div>
+
+ {/* Kreditkartenfeld */} <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
+   <CardElement options={{ style:
+     { base: { fontSize: "16px", color: "#1f2937", fontFamily: "system-ui, sans-serif", 
+     "::placeholder": { color: "#9ca3af" }, }, invalid: { color: "#ef4444" }, }, 
+     }} /> </div> {/* Hinweise */} <div className="mt-4 space-y-2"> <p className="text-sm sm:text-base text-gray-600">
+       Alle Zahlungen werden sicher verarbeitet. </p> <p className="text-sm sm:text-base text-gray-600">
+         Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 
+          48 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
+           </p> </div> 
+{/* 🎟️ Voucher Code Input */}
 
 
            {/* AGB-Checkbox */} <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border
