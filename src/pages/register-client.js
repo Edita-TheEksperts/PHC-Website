@@ -1,8 +1,5 @@
 import React from "react";
 import { useRef, useState } from "react";
-
-
-
 import { useForm } from "react-hook-form";
 
 import {
@@ -35,11 +32,8 @@ export default function RegisterPage() {
     const summaryRef = useRef(null);
   const [offset, setOffset] = useState(0);
 
-  const hd = new Holidays("CH"); // Switzerland
-
-  // Optional: with canton (e.g., Zurich)
+  const hd = new Holidays("CH"); 
   const hdZH = new Holidays("CH", "ZH");
-  
 
   function isSwissHoliday(date) {
     return Boolean(hd.isHoliday(date));
@@ -49,33 +43,25 @@ export default function RegisterPage() {
 
     const hour = date.getHours();
 
-    // Night check
     if (hour >= 23 || hour <= 5) surcharge += 0.25;
 
-    // Sunday check
     if (date.getDay() === 0) surcharge += 0.5;
 
-    // Swiss holiday check
     if (hd.isHoliday(date)) surcharge += 0.5;
 
     return surcharge;
   }
   const [loading, setLoading] = useState(false);
-
   const [voucherStatus, setVoucherStatus] = useState(null);
-
 const [discountAmount, setDiscountAmount] = useState(0);
-
 const [voucherSuccess, setVoucherSuccess] = useState(false);
+const [voucherLoading, setVoucherLoading] = useState(false);
 const [voucherMessage, setVoucherMessage] = useState("");
 const [discountValue, setDiscountValue] = useState(0);
 const [discountType, setDiscountType] = useState(null);
-
   const { watch } = useForm();
   const [formError, setFormError] = useState("");
-  
-
-  const router = useRouter();
+    const router = useRouter();
   const { service, subService } = router.query;
   const [clientSecret, setClientSecret] = useState(null);
   const selectedServices = service
@@ -106,10 +92,9 @@ const [loadingStep4, setLoadingStep4] = useState(false);
   const [user, setUser] = useState(null);
   const { session_id } = router.query;
 
-  // Sync step with query
   useEffect(() => {
     if (router.query.step) {
-      setStep(Number(router.query.step)); // or keep as string if your `step` is string
+      setStep(Number(router.query.step)); 
     }
   }, [router.query.step]);
 
@@ -183,7 +168,6 @@ const [sameAsEinsatzort, setSameAsEinsatzort] = useState(false);
 
 useEffect(() => {
   if (sameAsEinsatzort) {
-    // ✅ Kur bëhet check → kopjo të dhënat nga Einsatzort
     setForm((prev) => ({
       ...prev,
       requestFirstName: prev.firstName || "",
@@ -207,62 +191,66 @@ useEffect(() => {
   form.phone,
   form.email,
 ]);
-
 const handleVoucherCheck = async () => {
   console.log("🎟️ Checking voucher before creating PaymentIntent...");
+  setVoucherLoading(true);
 
-  const res = await fetch("/api/vouchers/use", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code: form.voucher }),
-  });
+  try {
+  
+    const res = await fetch("/api/vouchers/use", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: form.voucher }),
+    });
 
-  const data = await res.json();
-  console.log("Voucher API response:", data);
+    const data = await res.json();
+    console.log("Voucher API response:", data);
 
-  if (!data.success) {
-    setVoucherMessage(data.error || "Ungültiger Gutscheincode.");
+    if (!data.success) {
+      setVoucherMessage(data.error || "Ungültiger Gutscheincode.");
+      setVoucherSuccess(false);
+      return;
+    }
+
+    const { discountType, discountValue } = data;
+    setDiscountType(discountType);
+    setDiscountValue(discountValue);
+
+    let finalAmount = totalPayment;
+    if (discountType === "percent") {
+      finalAmount -= (totalPayment * discountValue) / 100;
+    } else if (discountType === "fixed") {
+      finalAmount -= discountValue;
+    }
+    if (finalAmount < 0) finalAmount = 0;
+
+    console.log("💰 Final total after discount:", finalAmount);
+
+    const intentRes = await fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: Math.round(finalAmount * 100) }), 
+    });
+
+    const intentData = await intentRes.json();
+    console.log("✅ Stripe PaymentIntent created with discount:", intentData);
+
+    setClientSecret(intentData.clientSecret);
+    setForm((prev) => ({
+      ...prev,
+      paymentIntentId: intentData.paymentIntentId,
+    }));
+
+    setVoucherSuccess(true);
+    setVoucherMessage("🎉 Gutschein erfolgreich eingelöst!");
+  } catch (err) {
+    console.error("❌ Voucher check failed:", err);
+    setVoucherMessage("Fehler beim Einlösen des Gutscheins.");
     setVoucherSuccess(false);
-    return;
+  } finally {
+    setVoucherLoading(false);
   }
-
-  const { discountType, discountValue } = data;
-  setDiscountType(discountType);
-  setDiscountValue(discountValue);
-
-  // ✅ Apply discount before creating PaymentIntent
-  let finalAmount = totalPayment;
-  if (discountType === "percent") {
-    finalAmount -= (totalPayment * discountValue) / 100;
-  } else if (discountType === "fixed") {
-    finalAmount -= discountValue;
-  }
-  if (finalAmount < 0) finalAmount = 0;
-
-  console.log("💰 Final total after discount:", finalAmount);
-
-  // ✅ Create PaymentIntent with discounted total
-  const intentRes = await fetch("/api/create-payment-intent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ amount: Math.round(finalAmount * 100) }), // cents
-  });
-
-  const intentData = await intentRes.json();
-  console.log("✅ Stripe PaymentIntent created with discount:", intentData);
-
-  // ✅ Update state
-  setClientSecret(intentData.clientSecret);
-  setForm((prev) => ({
-    ...prev,
-    paymentIntentId: intentData.paymentIntentId,
-  }));
-  setVoucherSuccess(true);
-  setVoucherMessage("🎉 Gutschein erfolgreich eingelöst!");
 };
-
-
-  // Reset schedules & subservices kur zgjedh "einmalig"
 useEffect(() => {
   if (form.frequency === "einmalig") {
     setForm((prev) => ({
@@ -280,12 +268,9 @@ useEffect(() => {
   }
 }, [form.frequency]);
 
-  // ✅ Helper to check if date is Swiss holiday
   function isSwissHoliday(date) {
     return Boolean(hd.isHoliday(date));
   }
-
-  // ✅ Combine day + startTime into full Date
   function parseScheduleDate(entry) {
     if (!entry.day || !entry.startTime) return new Date();
 
@@ -296,14 +281,12 @@ useEffect(() => {
 
     return date;
   }
-
-  // ✅ Surcharge calculation
   function getSurcharge(date) {
     let surcharge = 0;
 
-    if (date.getHours() >= 23 || date.getHours() <= 5) surcharge += 0.25; // Night
-    if (date.getDay() === 0) surcharge += 0.5; // Sunday
-    if (isSwissHoliday(date)) surcharge += 0.5; // Holiday
+    if (date.getHours() >= 23 || date.getHours() <= 5) surcharge += 0.25; 
+    if (date.getDay() === 0) surcharge += 0.5; 
+    if (isSwissHoliday(date)) surcharge += 0.5; 
 
     return surcharge;
   }
@@ -315,14 +298,9 @@ useEffect(() => {
 
   function buildDate(entry, firstDateStr) {
     if (!firstDateStr) return new Date();
-
-    // Parse "07.09.2025"
     const [day, month, year] = firstDateStr.split(".").map(Number);
     const [hours, minutes] = entry.startTime.split(":").map(Number);
-
     const date = new Date(year, month - 1, day, hours, minutes);
-
-    // adjust date to correct weekday if user picked "Sunday" etc.
     const targetDay = [
       "Sonntag",
       "Montag",
@@ -335,18 +313,15 @@ useEffect(() => {
     while (date.getDay() !== targetDay && targetDay !== -1) {
       date.setDate(date.getDate() + 1);
     }
-
     return date;
   }
-
   let totalPayment = 0;
-
   if (frequency === "einmalig") {
     totalPayment = form.schedules?.reduce((sum, entry) => {
       const date = buildDate(entry, form.firstDate);
       const hours = parseFloat(entry.hours) || 0;
       const surcharge = getSurcharge(date);
-      const hourlyRate = 75 * (1 + surcharge); // once = 75 CHF/h
+      const hourlyRate = 75 * (1 + surcharge); 
       return sum + hours * hourlyRate;
     }, 0);
   } else if (isRecurring) {
@@ -354,7 +329,7 @@ useEffect(() => {
       const date = buildDate(entry, form.firstDate);
       const hours = parseFloat(entry.hours) || 0;
       const surcharge = getSurcharge(date);
-      const hourlyRate = 59 * (1 + surcharge); // recurring = 59 CHF/h
+      const hourlyRate = 59 * (1 + surcharge); 
       return sum + hours * hourlyRate;
     }, 0);
   }
@@ -387,6 +362,32 @@ useEffect(() => {
     fetchPaymentIntent();
   }
 }, [step, clientSecret, totalPayment, voucherSuccess]);
+useEffect(() => {
+  const updatePaymentIntent = async () => {
+    if (voucherSuccess && totalPayment > 0) {
+      console.log("🔄 Updating PaymentIntent after voucher applied...");
+      const discountedAmount =
+        discountType === "percent"
+          ? totalPayment - (totalPayment * discountValue) / 100
+          : totalPayment - discountValue;
+
+      const res = await fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: Math.round(discountedAmount * 100) }),
+      });
+
+      const data = await res.json();
+      setClientSecret(data.clientSecret);
+      setForm((prev) => ({
+        ...prev,
+        paymentIntentId: data.paymentIntentId,
+      }));
+    }
+  };
+
+  updatePaymentIntent();
+}, [voucherSuccess, discountType, discountValue, totalPayment]);
 
 
 useEffect(() => {
@@ -412,7 +413,6 @@ useEffect(() => {
   }
 }, [step, session_id]);
 
-  // Load user data from Stripe session
 useEffect(() => {
   if (step === 4 && session_id) {
     setLoadingStep4(true);
@@ -435,7 +435,6 @@ useEffect(() => {
           postalCode: userData.carePostalCode || userData.postalCode || "",
         }));
 
-        // ✅ vetëm pasi mbaron, kalon te Step 5
         setStep(5);
       })
       .catch((err) => {
@@ -465,7 +464,6 @@ useEffect(() => {
           key={i}
           className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center"
         >
-          {/* existing mapping code */}
         </div>
       ));
   }
@@ -487,12 +485,14 @@ useEffect(() => {
       </span>
     </div>
   );
-  const handleNextStep = () => {
-  if (validateStep()) {
+const handleNextStep = () => {
+  const valid = validateStep();
+  if (valid) {
+    setFormError("");
     setStep((prev) => prev + 1);
   }
 };
-// Determine if allergy info is required based on chosen subservices
+
 const requiresAllergyInfo = Array.isArray(form.subServices)
   ? form.subServices.some((s) =>
       ["Gemeinsames Kochen", "Nahrungsaufnahme", "Kochen"].includes(
@@ -523,10 +523,10 @@ kanton: form.kanton || "",
     languages: form.languages || "",
     hasPets: form.hasPets || "Nein",
     petDetails: form.hasPets === "Ja" ? form.petDetails || "" : "",
-    services: form.services || [], // array of strings
-    subServices: form.subServices || [], // array of strings
-    schedules: form.schedules || [], // array of schedule objects
-    arrivalConditions: form.arrivalConditions || [], // array
+    services: form.services || [], 
+    subServices: form.subServices || [], 
+    schedules: form.schedules || [], 
+    arrivalConditions: form.arrivalConditions || [],
     hasParking: form.hasParking || "",
     entranceLocation: form.entranceLocation || "",
     postalCode: form.postalCode || "",
@@ -567,10 +567,29 @@ kanton: form.kanton || "",
     healthFindings: form.healthFindings || "",
     roomCount: Number(form.roomCount) || null,
     householdSize: Number(form.householdSize) || null,
-    paymentIntentId: form.paymentIntentId || "", // make sure this is set
+    paymentIntentId: form.paymentIntentId || "",
   });
 
+const [errorDayIndex, setErrorDayIndex] = useState(null);
+const [errorDayMessage, setErrorDayMessage] = useState("");
+const scrollToElement = (id) => {
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      el.classList.add("ring-2", "ring-red-500", "rounded-md");
+      setTimeout(() => el.classList.remove("ring-2", "ring-red-500"), 2500);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, 400);
+};
+
   const validateStep = () => {
+    setFormError("");
+  setErrorDayIndex(null);
+  setErrorDayMessage("");
     if (step === 1) {
       if (!form.frequency) {
         setFormError("Bitte wählen Sie die Häufigkeit der Unterstützung.");
@@ -584,6 +603,33 @@ kanton: form.kanton || "",
         setFormError("Bitte wählen Sie mindestens eine Dienstleistung.");
         return false;
       }
+    if (!form.services || form.services.length === 0) {
+      setFormError("Bitte wählen Sie mindestens eine Dienstleistung.");
+      scrollToTop();
+      return false;
+    }
+
+    const missingDayIndex = form.schedules.findIndex((entry) => !entry.day);
+    if (missingDayIndex !== -1) {
+      setErrorDayIndex(missingDayIndex);
+      setErrorDayMessage("Bitte wählen Sie einen Wochentag aus.");
+      scrollToElement(`schedule-day-${missingDayIndex}`);
+      return false;
+    }
+    const missingSubIndex = form.schedules.findIndex(
+      (entry) => !entry.subServices || entry.subServices.length === 0
+    );
+    if (missingSubIndex !== -1) {
+      setErrorDayIndex(missingSubIndex);
+      setErrorDayMessage(
+        "Bitte wählen Sie mindestens eine Zusatzleistung für diesen Tag."
+      );
+      scrollToElement(`schedule-day-${missingSubIndex}`);
+      return false;
+    }
+  
+
+  return true;
       const hasAnySubService = form.schedules.some(
         (entry) =>
           Array.isArray(entry.subServices) && entry.subServices.length > 0
@@ -598,8 +644,10 @@ kanton: form.kanton || "",
         return false;
       }
     }
-if (step === 2) {
-  if (!form.anrede) {
+    if (step === 2) {
+
+
+      if (!form.anrede) {
     setFormError("Bitte wählen Sie eine Anrede aus.");
     scrollToTop();
     return false;
@@ -650,19 +698,15 @@ if (step === 2) {
 ;
     if (step === 3 && !testMode) {
       if (!testMode) {
-        // remove CardElement check completely
       }
     }
 if (step === 4 || (testMode && step === 3)) {
-  // ✅ Allergy validation only
   const subservicesList = Array.isArray(form.subServices)
     ? form.subServices.map((s) =>
         typeof s === "string" ? s : s.name
       )
     : [];
     
-
-  // ✅ Validate Anfragende Person fields (all required)
   if (!form.requestFirstName) {
     setFormError("Bitte geben Sie den Vornamen der anfragenden Person ein.");
     scrollToTop();
@@ -691,27 +735,45 @@ if (step === 4 || (testMode && step === 3)) {
   const requiresAllergyInfo = subservicesList.some((s) =>
     ["Gemeinsames Kochen", "Nahrungsaufnahme", "Kochen"].includes(s)
   );
+      if (!form.hasParking) {
+    setFormError("Bitte geben Sie an, ob ein Parkplatz vorhanden ist.");
+    scrollToTop();
+    return false;
+  }
+  if (form.hasParking === "Ja" && !form.parkingLocation) {
+    setFormError("Bitte geben Sie den Ort des Parkplatzes an.");
+    scrollToTop();
+    return false;
+  }
+if (!form.hasPets) {
+  setFormError("Bitte geben Sie an, ob Haustiere im Haushalt sind.");
+  scrollToTop("hasPets");
+  return false;
+}
+
+if (form.hasPets === "Ja" && !form.petDetails) {
+  setFormError("Bitte geben Sie an, welche Haustiere im Haushalt sind.");
+  scrollToTop("petDetails");
+  return false;
+}
+
 
 if (requiresAllergyInfo) {
   if (!form.hasAllergies) {
     setFormError("Bitte Allergien auswählen (Ja/Nein)");
-    scrollToTop(); // 👈 scroll to top only when this error happens
+    scrollToTop(); 
     return false;
   }
   if (form.hasAllergies === "Ja" && !form.allergyDetails) {
     setFormError("Bitte geben Sie die Allergien an");
-    scrollToTop(); // 👈 scroll to top for this error too
+    scrollToTop(); 
     return false;
   }
 }
-
 }
-
-
 
     return true;
   };
-
   const [streetWarning, setStreetWarning] = useState("");
   const [postalWarning, setPostalWarning] = useState("");
 
@@ -812,13 +874,12 @@ const handleChange = (e) => {
 
     const firstDate = parse(firstDateStr, "dd.MM.yyyy", new Date());
     const result = [];
-    const weeks = repeatYears * 52; // about 10 years
+    const weeks = repeatYears * 52;
 
-    // Decide interval based on frequency
     let step;
     if (frequency === "wöchentlich") step = 7;
     else if (frequency === "alle 2 Wochen") step = 14;
-    else step = 7; // fallback
+    else step = 7;
 
     for (const { day, startTime, hours } of schedules) {
       if (!day) continue;
@@ -854,12 +915,10 @@ const handleChange = (e) => {
       alert("❌ Kartenfeld fehlt");
       return;
     }
-
-// 🔐 Get or reuse existing clientSecret for PaymentIntent
 let secret = clientSecret;
 if (!secret) {
   try {
-    // ✅ Step 1: Always check voucher before creating payment intent
+  
     let currentDiscountType = discountType;
     let currentDiscountValue = discountValue;
 
@@ -878,7 +937,6 @@ if (!secret) {
         currentDiscountType = voucherData.discountType;
         currentDiscountValue = voucherData.discountValue;
 
-        // 🧠 Update UI asynchronously (not used in this calculation)
         setDiscountType(voucherData.discountType);
         setDiscountValue(voucherData.discountValue);
         setVoucherMessage(voucherData.message);
@@ -888,8 +946,7 @@ if (!secret) {
       }
     }
 
-    // ✅ Step 2: Calculate discounted total *after* voucher check
-    await new Promise((resolve) => setTimeout(resolve, 100)); // tiny delay ensures fetch finishes
+    await new Promise((resolve) => setTimeout(resolve, 100)); 
 
     let finalAmount = totalPayment;
 
@@ -901,7 +958,6 @@ if (!secret) {
 
     if (finalAmount < 0) finalAmount = 0;
 
-    // 🧾 Debug Logs
     console.log("🎟️ Voucher check before creating PaymentIntent:");
     console.log("➡️ Discount type:", currentDiscountType);
     console.log("➡️ Discount value:", currentDiscountValue);
@@ -909,7 +965,6 @@ if (!secret) {
     console.log("➡️ Final total after discount:", finalAmount);
     console.log("💰 Amount sent to Stripe (in cents):", finalAmount * 100);
 
-    // ✅ Step 3: Create PaymentIntent with discounted amount
     const intentRes = await fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -931,8 +986,6 @@ if (!secret) {
     return;
   }
 }
-
-
     try {
       const { paymentIntent, error } = await stripe.confirmCardPayment(secret, {
         payment_method: {
@@ -952,14 +1005,13 @@ if (!secret) {
       let generatedSchedules = [];
 
       if (form.frequency === "einmalig") {
-        // Only one single date with user input
         const firstDate = parse(form.firstDate, "dd.MM.yyyy", new Date());
         generatedSchedules = [
           {
             date: format(firstDate, "yyyy-MM-dd"),
             day: format(firstDate, "EEEE", { locale: de }),
-            startTime: form.startTime || "08:00", // use user input, fallback default
-            hours: form.hours || 2, // use user input, fallback default
+            startTime: form.startTime || "08:00",
+            hours: form.hours || 2, 
           },
         ];
       } else if (form.frequency === "monatlich") {
@@ -996,38 +1048,32 @@ if (!secret) {
         )
       );
 
-      // Final payload
       const payload = {
         ...form,
         subServices: collectedSubservices,
         schedules: generatedSchedules,
       };
 
-      // 📬 Finish registration
       const res = await fetch("/api/client-register-api", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          paymentIntentId: form.paymentIntentId || "", // important!
-          subServices: collectedSubservices, // ✅ this fixes the issue
+          paymentIntentId: form.paymentIntentId || "", 
+          subServices: collectedSubservices,
 
           schedules: generatedSchedules,
           firstDate: form.firstDate,
         }),
       });
-
       const data = await res.json();
-
-      // After registration success
       if (res.ok && data.userId) {
         const userId = data.userId;
 
-        // ✅ Create SetupIntent
         const setupRes = await fetch("/api/create-setup-intent", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: form.email }), // or userId if needed
+          body: JSON.stringify({ email: form.email }), 
         });
 
         const { clientSecret, customerId } = await setupRes.json();
@@ -1054,7 +1100,6 @@ if (!secret) {
             }),
           });
 
-          // ✅ GO TO STEP 4 after everything is successful
           setUserId(userId);
           setIsSubmitted(true);
           setStep(4);
@@ -1076,10 +1121,8 @@ if (!secret) {
       return;
     }
 
-    // ✅ Create a shallow copy to avoid mutating original form
     const optionalData = { ...form };
 
-    // ✅ Convert only if in DD.MM.YYYY format
     if (
       optionalData.firstDate &&
       typeof optionalData.firstDate === "string" &&
@@ -1102,10 +1145,9 @@ if (!secret) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId,
-          optionalData, // ✅ this one is formatted safely
+          optionalData, 
         }),
       });
-
       const result = await res.json();
       if (res.ok) {
         router.push("/login");
@@ -1131,8 +1173,6 @@ if (!secret) {
         }
         const data = await res.json();
         setSubServices(Array.isArray(data) ? data : []);
-
-        // ✅ set form.service here
         setForm((prev) => ({
           ...prev,
           service: service,
@@ -1156,7 +1196,6 @@ if (!secret) {
     return new Date(`${year}-${month}-${day}`);
   };
 
-  // Convert Date to dd.mm.yyyy string
   const formatSwissDate = (date) => {
     return format(date, "dd.MM.yyyy");
   };
@@ -1175,22 +1214,18 @@ if (!secret) {
               .then((subs) =>
                 subs.map((sub) => ({
                   ...sub,
-                  parentService: srv, // 🔥 add parent service here
+                  parentService: srv,
                 }))
               )
           )
         );
 
         const allSubservices = allFetched.flat();
-
-        // remove duplicates by name but keep parent info
         const unique = Array.from(
           new Map(allSubservices.map((s) => [s.name, s])).values()
         );
 
         setSubServices(unique);
-
-        // Only update form if it's empty
         setForm((prev) => ({
           ...prev,
           subServices: prev.subServices?.length
@@ -1213,7 +1248,7 @@ if (!secret) {
 
       setForm((prev) => ({
         ...prev,
-        services: selected, // ← ONLY use the clean list
+        services: selected, 
       }));
     }
   }, [service]);
@@ -1241,13 +1276,13 @@ if (!secret) {
 
       setForm((prev) => ({
         ...prev,
-        services: selected, // ← ✅ THIS IS CORRECT
+        services: selected, 
       }));
     }
   }, [service]);
 
   const timeOptions = Array.from({ length: 28 }, (_, i) => {
-    const hour = Math.floor(i / 2) + 7; // from 07:00
+    const hour = Math.floor(i / 2) + 7; 
     const minute = i % 2 === 0 ? "00" : "30";
     return `${String(hour).padStart(2, "0")}:${minute}`;
   });
@@ -1283,19 +1318,13 @@ if (!secret) {
   }
   const [errors, setErrors] = useState({});
 
-  // Simple regex for email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  // Simple regex for phone validation (numbers only, optional +, spaces allowed)
   const phoneRegex = /^[+\d\s]*$/;
 
   const handleChange1 = (e) => {
     const { name, value } = e.target;
 
-    // Update form value
     setForm((prev) => ({ ...prev, [name]: value }));
-
-    // Validate fields on change (optional, or use onBlur)
     if (name === "email") {
       if (!emailRegex.test(value)) {
         setErrors((prev) => ({ ...prev, email: "Ungültige E-Mail-Adresse" }));
@@ -1422,7 +1451,7 @@ if (!secret) {
       typeof startDate === "string"
         ? parse(startDate, "dd.MM.yyyy", new Date())
         : startDate;
-    const months = countYears * 12; // 10 years worth of months
+    const months = countYears * 12; 
     const targetDay = weekdays[dayName];
 
     for (let i = 0; i < months; i++) {
@@ -1466,7 +1495,7 @@ if (!secret) {
   }) {
     const start = parse(startDate, "dd.MM.yyyy", new Date());
     const results = [];
-    const months = countYears * 12; // 10 years
+    const months = countYears * 12; 
 
     for (let i = 0; i < months; i++) {
       const dateObj = setDate(addMonths(start, i), fixedDay);
@@ -1480,7 +1509,6 @@ if (!secret) {
 
     return results;
   }
-  // 🧮 Calculate discounted total
 const discountedTotal =
   discountType && discountValue > 0
     ? discountType === "percent"
@@ -1496,21 +1524,18 @@ const discountedTotal =
       form.fixedDayOfMonth
     ) {
       const today = startOfDay(new Date());
-      const minAllowedDate = addDays(today, 14); // +14 days
+      const minAllowedDate = addDays(today, 14); 
       const dayOfMonth = Number(form.fixedDayOfMonth);
 
       let candidateMonth = new Date();
       let candidateDate = setDate(candidateMonth, dayOfMonth);
 
-      // Keep moving to next month until we’re 14+ days in the future
       while (isBefore(candidateDate, minAllowedDate)) {
         candidateMonth = addMonths(candidateMonth, 1);
         candidateDate = setDate(candidateMonth, dayOfMonth);
       }
-
       const formatted = format(candidateDate, "dd.MM.yyyy");
 
-      // Set or overwrite only if it's auto-generated
       if (form.autoGeneratedDate || !form.firstDate) {
         setForm((prev) => ({
           ...prev,
@@ -1533,18 +1558,14 @@ const [dateError, setDateError] = useState("");
 const [isPaying, setIsPaying] = useState(false);
 const handlePayment = async () => {
   try {
-    setIsPaying(true); // ✅ Popup starten
-    // ⬇️ hier dein Stripe-Bezahl-Call
+    setIsPaying(true); 
     await confirmPayment(); 
-    // ...
   } catch (err) {
     console.error(err);
   } finally {
-    setIsPaying(false); // ❌ Popup wieder schließen
+    setIsPaying(false); 
   }
 };
-
- 
 
   function onSubmit(e) {
     e.preventDefault();
@@ -1552,10 +1573,9 @@ const handlePayment = async () => {
       setAgbError("Bitte akzeptieren Sie die AGB, um fortzufahren.");
       return;
     }
-    setAgbError(""); // clear when accepted
-    handleSubmit(e); // continue with payment
+    setAgbError(""); 
+    handleSubmit(e); 
   }
-
   useEffect(() => {
   if (step === 4 && session_id) {
     fetch(`/api/complete-registration?session_id=${session_id}`)
@@ -1578,14 +1598,9 @@ const handlePayment = async () => {
       .catch((err) => console.error("❌ Error loading user for Step 4:", err));
   }
 }, [step, session_id]);
-
-
-
-
   return (
     <div className="min-h-screen bg-white p-2 lg:p-12 flex flex-col lg:flex-row gap-4">
     <div className="flex-1 space-y-8">
-      {/* Progress bar sticky */}
       <div className="sticky top-[90px] z-50 bg-white  
                       py-4 flex flex-wrap gap-y-4 justify-center 
                       md:justify-between text-sm md:text-base 
@@ -1608,7 +1623,6 @@ const handlePayment = async () => {
     </div>
   ))}
 </div>
-
         {formError && (
           <div className="bg-red-100 text-red-700 border border-red-400 px-4 py-3 rounded relative">
             {formError}
@@ -1621,8 +1635,6 @@ const handlePayment = async () => {
         >
           {step === 1 && (
             <>
-           
-              
               <h2 className="text-2xl font-bold text-black">Wie oft & wann?</h2>
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -1657,8 +1669,6 @@ const handlePayment = async () => {
     <h3 className="text-lg font-semibold text-gray-900">
       Monatlicher Termin wählen
     </h3>
-
-    {/* Auswahlart */}
     <div className="flex flex-col space-y-1">
       <label className="text-sm font-medium text-gray-700">
         Art der Auswahl
@@ -1675,8 +1685,6 @@ const handlePayment = async () => {
         <option value="date">Fester Kalendertag</option>
       </select>
     </div>
-
-    {/* Option 1: Week + Weekday */}
     {form.monthlyMode === "pattern" && (
       <>
         <div className="flex flex-col space-y-1">
@@ -1777,8 +1785,6 @@ const handlePayment = async () => {
         </div>
       </>
     )}
-
-    {/* Option 2: Fixed Calendar Date */}
     {form.monthlyMode === "date" && (
       <div className="flex flex-col space-y-1">
         <label className="text-sm font-medium text-gray-700">
@@ -1798,15 +1804,12 @@ const handlePayment = async () => {
               baseDate.getMonth(),
               day
             );
-
             const minDate = addDays(new Date(), 14);
             if (newDate < minDate) {
               newDate.setMonth(newDate.getMonth() + 1);
             }
-
             const formatted = format(newDate, "dd.MM.yyyy", { locale: de });
             const weekday = format(newDate, "EEEE", { locale: de });
-
             setForm({
               ...form,
               fixedDayOfMonth: day,
@@ -1836,8 +1839,6 @@ const handlePayment = async () => {
     )}
   </div>
 )}
-
-
   <div className='mt-8 mb-8 w-[300px] max-w-full'>
   <label className="block mb-2 font-medium">Beginndatum auswählen</label>
 <DatePicker
@@ -1847,13 +1848,12 @@ onChange={(date) => {
     setForm({ ...form, firstDate: "" });
     return;
   }
-
   const formatted = format(date, "dd.MM.yyyy", { locale: de });
-  const weekday = format(date, "EEEE", { locale: de }); // 👈 declare first
+  const weekday = format(date, "EEEE", { locale: de }); 
 
   const updatedSchedules = [...form.schedules];
   if (updatedSchedules.length > 0) {
-    updatedSchedules[0].day = weekday; // 👈 then use it
+    updatedSchedules[0].day = weekday; 
   }
 
   setForm({
@@ -1878,18 +1878,11 @@ onChange={(date) => {
     Es sind nur Termine ab 14 Tagen im Voraus möglich.
   </p>
 </div>
-
-
-
-
-
-          {form.frequency !== "Einmal" && (
+    {form.frequency !== "Einmal" && (
   <div className="space-y-6">
     <p className="font-medium">
       Wann genau wünschen Sie Unterstützung?
     </p>
-
-    {/* Allow adjusting number of days */}
     <div className="flex items-center gap-4">
       <span className="text-gray-700 font-medium">
         Tage pro Woche:
@@ -1936,19 +1929,19 @@ onChange={(date) => {
         className={`w-8 h-8 text-xl border rounded-full ${
           isEinmalig || isMonatlich ? "opacity-50 cursor-not-allowed" : ""
         }`}
-      >
-        +
+      >   +
       </button>
     </div>
 
-    {/* Each day's schedule */}
-    {form.schedules.map((entry, i) => (
-      <div
-        key={i}
-        className="space-y-6 border-b border-gray-200 pb-8 mb-8"
-      >
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-          {/* Weekday */}
+{form.schedules.map((entry, i) => (
+  <div
+    key={i}
+    id={`schedule-day-${i}`}
+    className={`space-y-6 border-b border-gray-200 pb-8 mb-8 transition-all duration-500 ${
+      errorDayIndex === i ? "ring-2 ring-red-500 rounded-md p-4" : ""
+    }`}
+  >
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
           <select
             value={entry.day}
             onChange={(e) => {
@@ -1974,8 +1967,6 @@ onChange={(date) => {
               </option>
             ))}
           </select>
-
-          {/* Start time */}
           <TimeDropdown
             value={entry.startTime}
             onChange={(val) => {
@@ -2000,8 +1991,6 @@ onChange={(date) => {
               }
             }}
           />
-
-          {/* Duration */}
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -2038,7 +2027,6 @@ onChange={(date) => {
             >
               −
             </button>
-
             <span className="inline-block w-[60px] text-center">
               {form.schedules[i].hours} Std
             </span>
@@ -2048,7 +2036,6 @@ onChange={(date) => {
               onClick={() => {
                 const updated = [...form.schedules];
                 const current = updated[i].hours ?? 2;
-
                 if (current >= 8) {
                   updated.push({
                     day: "",
@@ -2071,15 +2058,11 @@ onChange={(date) => {
             </button>
           </div>
         </div>
-
-        {/* ✅ SERVICES SECTION - now inside each day's map */}
         <div className="mt-6 mb-10">
           <label className="block mb-3 font-medium text-gray-800 text-center lg:text-left">
             Welche Leistungen möchten Sie beanspruchen? ({entry.day || "Tag " + (i + 1)})
           </label>
-
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* LEFT: Ausgewählte Dienstleistungen */}
             <div className="lg:w-1/4 flex-shrink-0 bg-white border border-gray-200 rounded-xl shadow-sm 
                             lg:sticky lg:top-36 self-start max-h-[70vh] flex flex-col">
               <h3 className="text-lg font-bold text-gray-800 text-center bg-white sticky top-0 z-30 py-4 border-b border-gray-100">
@@ -2110,8 +2093,6 @@ onChange={(date) => {
                 })}
               </div>
             </div>
-
-            {/* RIGHT: SubServices */}
             <div className="flex-1">
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 {subServices.map((sub) => {
@@ -2124,21 +2105,17 @@ onChange={(date) => {
     const updated = [...form.schedules];
     const currentList = updated[i].subServices || [];
 
-    // Add or remove subservice
     const nextSubServices = currentList.includes(sub.name)
       ? currentList.filter((s) => s !== sub.name)
       : [...currentList, sub.name];
 
     updated[i].subServices = nextSubServices;
 
-    // ✅ Llogarit minimumin:
-    // Deri në 2 shërbime → 2 orë, më shumë se 2 → shto 1 orë për çdo shërbim shtesë
     let minHours = 2;
     if (nextSubServices.length > 2) {
       minHours = 2 + (nextSubServices.length - 2);
     }
 
-    // Nëse ora aktuale është më e vogël se minimumi → përditëso
     if ((updated[i].hours ?? 2) < minHours) {
       updated[i].hours = minHours;
     }
@@ -2169,20 +2146,25 @@ onChange={(date) => {
       : "+ Hinzufügen"}
   </span>
 </button>
-
                   );
                 })}
               </div>
             </div>
           </div>
+{errorDayIndex === i && (
+  <div className="mt-6 flex justify-start">
+    <p className="text-red-600 text-sm font-medium pl-1">
+      {errorDayMessage}
+    </p>
+  </div>
+)}
         </div>
-        {/* ✅ END SERVICES SECTION */}
+ 
       </div>
     ))}
   </div>
 )}
-
-              </div>
+      </div>
             </>
           )}
 {step === 2 && (
@@ -2204,13 +2186,11 @@ onChange={(date) => {
     </div>
 
     <div className="space-y-6 mt-6">
-      {/* Vollständiger Name */}
       <div>
         <label className="block font-semibold mb-1">
           Vollständiger Name
         </label>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-          {/* Anrede */}
           <div className="mb-2">
             <label className="block font-medium mb-1">
               Anrede <span className="text-red-500">*</span>
@@ -2256,7 +2236,6 @@ onChange={(date) => {
         </div>
       </div>
 
-      {/* Telefon */}
       <div>
         <label className="block  font-medium mb-1">
           Telefonnummer<span className="text-red-500">*</span>
@@ -2285,8 +2264,6 @@ onChange={(date) => {
           <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
         )}
       </div>
-
-      {/* E-Mail */}
       <div>
         <label className="block font-medium mb-1">
           E-Mail<span className="text-red-500">*</span>
@@ -2303,14 +2280,10 @@ onChange={(date) => {
           <p className="text-red-600 text-sm mt-1">{errors.email}</p>
         )}
       </div>
-
-      {/* Adresse */}
       <div>
         <label className="block font-semibold text-base mb-2">
           Adresse
         </label>
-
-        {/* Strasse & Hausnummer */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block font-medium mb-1">
@@ -2340,8 +2313,6 @@ onChange={(date) => {
             />
           </div>
         </div>
-
-        {/* PLZ & Ort */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div>
             <label className="block font-medium mb-1">
@@ -2371,8 +2342,6 @@ onChange={(date) => {
             />
           </div>
         </div>
-
-        {/* Kanton */}
         <div className="mt-4">
           <label className="block font-medium mb-1">
             Kanton<span className="text-red-500">*</span>
@@ -2412,8 +2381,6 @@ onChange={(date) => {
             <option value="ZH">Zürich</option>
           </select>
         </div>
-
-        {/* Land */}
  <div className="mt-4">
   <label className="block font-medium mb-1">
     Land<span className="text-red-500">*</span>
@@ -2437,11 +2404,7 @@ onChange={(date) => {
   {/* 🎟️ Gutschein Sektion – Modern Input Style */}
 <div className="mb-6 mt-3 rounded-xl border border-gray-200 bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-    {/* Left side */}
     <div className="flex items-center gap-3">
-      <div className="bg-[#B99B5F]/10 text-[#B99B5F] rounded-full p-2">
-        🎟️
-      </div>
       <div>
         <h3 className="font-semibold text-gray-900 text-base">
           Haben Sie einen Gutschein?
@@ -2451,8 +2414,6 @@ onChange={(date) => {
         </p>
       </div>
     </div>
-
-    {/* Modern input with icon */}
     <div className="relative w-full sm:w-72">
       <input
         type="text"
@@ -2466,18 +2427,19 @@ onChange={(date) => {
     </div>
   </div>
 
-  {/* Einlösen link-style button */}
   <div className="mt-3 flex justify-end">
-    <button
-      type="button"
-      onClick={handleVoucherCheck}
-      className="text-[#B99B5F] font-medium hover:text-[#a88d55] hover:underline transition"
-    >
-      Einlösen →
-    </button>
+ <button
+  type="button"
+  onClick={handleVoucherCheck}
+  disabled={voucherLoading}
+  className={`text-[#B99B5F] font-medium hover:text-[#a88d55] hover:underline transition ${
+    voucherLoading ? "opacity-60 cursor-not-allowed" : ""
+  }`}
+>
+  {voucherLoading ? "Wird überprüft..." : "Einlösen →"}
+</button>
   </div>
 
-  {/* Voucher result */}
   {voucherMessage && (
     <p
       className={`mt-2 text-sm ${
@@ -2488,29 +2450,29 @@ onChange={(date) => {
     </p>
   )}
 
-  {/* Preisübersicht */}
-  <div className="mt-3 text-sm text-gray-700 border-t border-gray-100 pt-3">
-    {discountType && discountValue > 0 ? (
-      <>
-        <p>
-          Originalpreis:{" "}
-          <span className="line-through text-gray-500">
-            {totalPayment.toFixed(2)} €
-          </span>
-        </p>
-        <p className="text-green-700 font-semibold">
-          Neuer Gesamtbetrag: {discountedTotal.toFixed(2)} €
-        </p>
-      </>
-    ) : (
-      <p className="font-medium text-gray-800">
-        Gesamtbetrag: {totalPayment.toFixed(2)} €
+<div className="mt-3 text-sm text-gray-700 border-t border-gray-100 pt-3">
+  {discountType && discountValue > 0 ? (
+    <>
+      <p>
+        Originalpreis:{" "}
+        <span className="line-through text-gray-500">
+          {totalPayment.toFixed(2)} CHF
+        </span>
       </p>
-    )}
-  </div>
+      <p className="text-green-700 font-semibold">
+        Neuer Gesamtbetrag: {discountedTotal.toFixed(2)} CHF
+      </p>
+    </>
+  ) : (
+    <p className="font-medium text-gray-800">
+      Gesamtbetrag: {totalPayment.toFixed(2)} CHF
+    </p>
+  )}
 </div>
 
- {/* Kreditkartenfeld */} <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
+</div>
+
+ <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
    <CardElement options={{ style:
      { base: { fontSize: "16px", color: "#1f2937", fontFamily: "system-ui, sans-serif", 
      "::placeholder": { color: "#9ca3af" }, }, invalid: { color: "#ef4444" }, }, 
@@ -2519,10 +2481,7 @@ onChange={(date) => {
          Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 
           48 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
            </p> </div> 
-{/* 🎟️ Voucher Code Input */}
-
-
-           {/* AGB-Checkbox */} <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border
+         <div className="flex items-start mt-6 bg-gray-50 p-3 rounded-lg border
             border-gray-200"> <input type="checkbox" id="agb"
              checked={agbAccepted} onChange={(e) => { setAgbAccepted(e.target.checked); 
              if (e.target.checked) setAgbError(""); }} className="mt-1 mr-3 w-4 h-4 text-[#B99B5F]
@@ -2538,9 +2497,6 @@ onChange={(date) => {
                   <h3 className="font-bold text-[20px] mb-6">
                     Persönliche Angaben (Zusammenfassung)
                   </h3>
-
-  
-                  {/* Einsatzort */}
                   <div>
                     <h4 className="font-[600] text-[16px] ">Einsatzort</h4>
                     <p className="text-[14px] font-semibold mb-4">
@@ -2643,10 +2599,7 @@ onChange={(date) => {
                         />
                       </div>
                     </div>
-
-          
                   </div>
-{/* ✅ Checkbox: copy Einsatzort → Anfragende Person */}
 <div className="mt-4 mb-6">
   <label className="inline-flex items-center gap-2 text-sm text-gray-800">
     <input
@@ -2659,11 +2612,9 @@ onChange={(date) => {
   </label>
 </div>
 
-{/* Anfragende Person */}
 <div className="mb-8">
   <h4 className="font-[600] text-[16px] mb-4">Anfragende Person</h4>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {/* Vorname */}
     <div className="mb-2">
       <label className="block font-medium mb-1">
         Vorname <span className="text-red-500">*</span>
@@ -2681,7 +2632,6 @@ onChange={(date) => {
       />
     </div>
 
-    {/* Nachname */}
     <div className="mb-2">
       <label className="block font-medium mb-1">
         Nachname <span className="text-red-500">*</span>
@@ -2698,8 +2648,6 @@ onChange={(date) => {
         }`}
       />
     </div>
-
-    {/* Telefonnummer */}
     <div className="mb-2">
       <label className="block font-medium mb-1">
         Telefonnummer <span className="text-red-500">*</span>
@@ -2716,8 +2664,6 @@ onChange={(date) => {
         }`}
       />
     </div>
-
-    {/* Email */}
     <div className="mb-2">
       <label className="block font-medium mb-1">
         Email <span className="text-red-500">*</span>
@@ -2738,9 +2684,6 @@ onChange={(date) => {
   </div>
 </div>
 
-
-
-          {/* Ankunftsbedingungen */}
                     <div className="mb-6">
                       <p className="font-[600] text-[16px] mb-1">
                         Ankunftsbedingungen
@@ -2791,41 +2734,39 @@ onChange={(date) => {
                         </p>
                       )}
                     </div>
+           <div className="mb-4">
+  <label className="block font-[600] mb-1">
+    Parkplatz vorhanden? <span className="text-red-500">*</span>
+  </label>
+  <select
+    name="hasParking"
+    value={form.hasParking || ""}
+    onChange={handleChange}
+    className={inputClass}
+    required
+  >
+    <option value="">Bitte auswählen</option>
+    <option value="Ja">Ja</option>
+    <option value="Nein">Nein</option>
+  </select>
 
-                    {/* Parkplatz vorhanden */}
-                    <div className="mb-4">
-                      <label className="block font-[600] mb-1">
-                        Parkplatz vorhanden?
-                      </label>
-                      <select
-                        name="hasParking"
-                        value={form.hasParking || ""}
-                        onChange={handleChange}
-                        className={inputClass}
-                      >
-                        <option value="">Bitte auswählen</option>
-                        <option value="Ja">Ja</option>
-                        <option value="Nein">Nein</option>
-                      </select>
-                    </div>
+  {form.hasParking === "Ja" && (
+    <div className="mt-4">
+      <label className="block text-sm font-medium mb-1">
+        Ort (Parkplatz) <span className="text-red-500">*</span>
+      </label>
+      <input
+        name="parkingLocation"
+        placeholder="z. B. vor dem Haus, Tiefgarage..."
+        value={form.parkingLocation || ""}
+        onChange={handleChange}
+        className={inputClass}
+        required={form.hasParking === "Ja"} // ✅ Obligative only if “Ja”
+      />
+    </div>
+  )}
+</div>
 
-                    {form.hasParking === "Ja" && (
-                      <>
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium mb-1">
-                            Ort (Parkplatz)
-                          </label>
-                          <input
-                            name="parkingLocation"
-                            placeholder="Ort (Parkplatz)"
-                            onChange={handleChange}
-                            className={inputClass}
-                          />
-                        </div>
-                      </>
-                    )}
-
-                    {/* Wo befindet sich der Eingang */}
                     <div>
                       <div className="mb-2">
                         <label className="block font-medium mb-1">
@@ -2862,18 +2803,11 @@ onChange={(date) => {
   </p>
 </div>
                 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm">
-                  {/* Main Section Title */}
                   <h2 className="font-bold text-[20px] mb-6">
                     {" "}
                     Alltagsbegleitung & Besorgungen
                   </h2>
-
-               
-
-                  {/* 🔹 Begleitung zu Terminen */}
                   <h3 className="font-medium mb-1">Begleitung zu Terminen</h3>
-
-                  {/* Checkboxen + Sonstiges */}
                   <div className="mb-6">
                     <div className="flex flex-wrap gap-6">
                       {["Arzt", "Physiotherapie", "Behördengänge"].map(
@@ -2907,8 +2841,6 @@ onChange={(date) => {
                         )
                       )}
                     </div>
-
-                    {/* Textfield für Sonstiges */}
                     <div className="mt-4">
                       <input
                         name="accompanimentOther"
@@ -2919,11 +2851,7 @@ onChange={(date) => {
                       />
                     </div>
                   </div>
-
-                  {/* 🔹 Einkäufe */}
                   <h3 className="font-[600] text-[16px] mb-4">Einkäufe</h3>
-
-                  {/* Begleitung durch Kunde */}
                   <div className="mb-4">
                     <label className="block font-medium mb-1">
                       Begleitung durch die PHC?
@@ -2940,7 +2868,6 @@ onChange={(date) => {
                     </select>
                   </div>
 
-                  {/* Art der Einkäufe */}
                   <div className="mb-6">
                     <p className="font-medium mb-1">Art der Einkäufe</p>
                     <div className="flex flex-wrap gap-6">
@@ -2973,8 +2900,6 @@ onChange={(date) => {
                       )}
                     </div>
                   </div>
-
-                  {/* 🔹 Postgänge */}
                   <h3 className="font-medium mb-1">Postgänge</h3>
 
                   <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2993,8 +2918,6 @@ onChange={(date) => {
                       className="bg-white border border-gray-300 rounded-md p-3 w-full"
                     />
                   </div>
-
-                  {/* 🔹 Weitere Begleitungen */}
                   <h3 className="font-medium mb-1">Weitere Begleitungen</h3>
 
                   <div>
@@ -3007,14 +2930,12 @@ onChange={(date) => {
                     />
                   </div>
                 </div>
-{/* Freizeit & soziale Aktivitäten */}
 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
-  {/* Main Section Title */}
+
   <h2 className="font-bold text-[20px] mb-6">
     Freizeit & soziale Aktivitäten
   </h2>
 
-  {/* 🔹 Aktivitäten */}
   <h3 className="font-[600] text-[16px] mb-4">Aktivitäten</h3>
 
   <div className="space-y-6">
@@ -3041,7 +2962,6 @@ onChange={(date) => {
     ))}
   </div>
 
-  {/* 🔹 Ausflüge & Reisebegleitung */}
   <h3 className="font-[600] text-[16px] mb-2 mt-6">Ausflüge & Reisebegleitung</h3>
 
   <div className="flex flex-wrap items-center gap-6 mt-2">
@@ -3074,15 +2994,12 @@ onChange={(date) => {
     ))}
   </div>
 </div>
-
                 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
-                  {/* Main Title */}
+           
                   <h2 className="font-bold text-[20px] mb-6">
                     {" "}
                    Gesundheitsinformationen
                   </h2>
-
-                  {/* 🔹 Körperliche Unterstützung */}
                   <h3 className="font-[600] text-[16px] mb-4">
                     Körperliche Unterstützung
                   </h3>
@@ -3115,8 +3032,6 @@ onChange={(date) => {
                       />
                     </div>
                   </div>
-
-                  {/* Zustand */}
                   <div className="mb-6">
                     <p className="block  font-medium mb-1">Zustand</p>
                     <div className="flex flex-wrap gap-6">
@@ -3154,8 +3069,6 @@ onChange={(date) => {
                       ))}
                     </div>
                   </div>
-
-                  {/* 🔹 Vorhandene Hilfsmittel */}
                   <h3 className="block  font-medium mb-1">
                     Vorhandene Hilfsmittel
                   </h3>
@@ -3200,10 +3113,7 @@ onChange={(date) => {
                     onChange={handleChange}
                     className={inputClass + " mb-6"}
                   />
-                     {/* 🔹 Mobilität */}
                   <h3 className="font-[600] text-[16px] mb-4">Mobilität</h3>
-
-                  {/* Verfügbare Hilfsmittel */}
                   <div className="mb-4">
                     <p className="font-medium mb-2">Verfügbare Hilfsmittel</p>
                     <div className="flex flex-wrap gap-6">
@@ -3223,8 +3133,6 @@ onChange={(date) => {
                       ))}
                     </div>
                   </div>
-
-                  {/* 🔹 Inkontinenz */}
                   <h3 className="block  font-medium mb-1">Inkontinenz</h3>
                   <div className="mb-6 flex flex-wrap gap-6">
                     {["Urin", "Stuhl", "Dauerkatheter", "Stoma"].map((inc) => (
@@ -3251,8 +3159,6 @@ onChange={(date) => {
                       </label>
                     ))}
                   </div>
-
-                  {/* 🔹 Kommunikation */}
                   <h3 className="block  font-medium mb-1">Kommunikation</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
   {["Sehen", "Hören", "Sprechen"].map((field) => (
@@ -3278,8 +3184,6 @@ onChange={(date) => {
   ))}
 </div>
 
-
-                  {/* 🔹 Nahrungsaufnahme */}
                   <h3 className="block  font-medium mb-1">Nahrungsaufnahme</h3>
                   <div className="mb-6 flex flex-wrap gap-6">
                     {[
@@ -3315,7 +3219,6 @@ onChange={(date) => {
                     ))}
                   </div>
 
-                  {/* 🔹 Grundpflege */}
                   <h3 className="block  font-medium mb-1">Grundpflege</h3>
                   <div className="mb-4 flex flex-wrap gap-6">
                     {["Körperhygiene", "An-/Auskleiden"].map((item) => (
@@ -3349,51 +3252,6 @@ onChange={(date) => {
                     onChange={handleChange}
                     className={inputClass + " mb-6"}
                   />
-{/*
-  🔹 Gesundheitsförderung
-  <h3 className="block font-medium mb-1">
-    Gesundheitsförderung
-  </h3>
-  <div className="mb-4 flex flex-wrap gap-6">
-    {[
-      "Gymnastik",
-      "Spaziergänge",
-      "Aktivierende Betreuung",
-    ].map((act) => (
-      <label
-        key={act}
-        className="inline-flex items-center gap-2 text-sm text-gray-800"
-      >
-        <input
-          type="checkbox"
-          className="w-5 h-5 accent-[#B99B5F] border border-gray-300 rounded"
-          checked={form.healthPromotion?.includes(act)}
-          onChange={() => {
-            const updated = new Set(form.healthPromotion || []);
-            updated.has(act)
-              ? updated.delete(act)
-              : updated.add(act);
-            setForm((prev) => ({
-              ...prev,
-              healthPromotion: Array.from(updated),
-            }));
-          }}
-        />
-        <span>{act}</span>
-      </label>
-    ))}
-  </div>
-  <input
-    name="healthPromotionOther"
-    placeholder="Sonstige"
-    value={form.healthPromotionOther || ""}
-    onChange={handleChange}
-    className={inputClass + " mb-6"}
-  />
-*/}
-
-
-                  {/* 🔹 Geistige Unterstützung */}
                   <h3 className="font-[600] text-[16px] mb-4">
                     Geistiger Zustand
                   </h3>
@@ -3425,8 +3283,6 @@ onChange={(date) => {
                       </label>
                     ))}
                   </div>
-
-                  {/* Verhaltensmerkmale */}
                   <p className="block  font-medium mb-2">Verhaltensmerkmale</p>
                   <div className="mb-6 flex flex-wrap gap-6">
                     {[
@@ -3461,7 +3317,6 @@ onChange={(date) => {
                     ))}
                   </div>
 
-                  {/* Gesundheitsbefunde */}
                   <textarea
                     name="healthFindings"
                     value={form.healthFindings || ""}
@@ -3472,13 +3327,10 @@ onChange={(date) => {
                 </div>
 
                 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
-                  {/* Main Title */}
                   <h2 className="font-bold text-[20px] mb-6">
                     {" "}
                     Haushaltshilfe & Wohnpflege
                   </h2>
-
-                  {/* 🔹 Allgemeines */}
                   <h3 className="font-[600] text-[16px] mb-4">Allgemeines</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -3517,8 +3369,6 @@ onChange={(date) => {
                       />
                     </div>
                   </div>
-
-                  {/* 🔹 Tätigkeiten */}
                   <h3 className="font-[600] text-[16px] mb-4">Tätigkeiten</h3>
                   <label className="block font-medium mb-2">
                     Ihre Tätigkeiten aus
@@ -3561,8 +3411,6 @@ onChange={(date) => {
                       </label>
                     ))}
                   </div>
-
-                  {/* Kochen - additional input if selected */}
                   {form.householdTasks?.includes("Kochen") && (
                     <div className="mb-4">
                       <label className="block font-medium text-gray-800 mb-1">
@@ -3581,13 +3429,10 @@ onChange={(date) => {
                 </div>
 
                 <div className="border border-gray-300 rounded-lg p-6 bg-white shadow-sm mt-8">
-                  {/* Main Title */}
                   <h2 className="font-bold text-[20px] mb-6">
                     {" "}
           Sonstige Angaben          
                   </h2>
-
-                  {/* Wunschsprache der Betreuungsperson */}
                   <h3 className="font-medium mb-2">
                  Wunschsprache der Betreuungsperson
                   </h3>
@@ -3622,8 +3467,6 @@ onChange={(date) => {
                       </label>
                     ))}
                   </div>
-
-                  {/* Sonstige Sprache */}
                   <div className="mb-6">
                     <input
                       name="languageOther"
@@ -3633,31 +3476,32 @@ onChange={(date) => {
                       className={inputClass}
                     />
                   </div>
+                 <h3 className="font-medium mb-1">Haustiere im Haushalt?</h3>
+<div className="mb-4">
+  <select
+    name="hasPets"
+    value={form.hasPets || ""}
+    onChange={handleChange}
+    className={inputClass}
+    required
+  >
+    <option value="">Bitte auswählen</option>
+    <option value="Ja">Ja</option>
+    <option value="Nein">Nein</option>
+  </select>
 
-                  {/* 🔹 Haustiere im Haushalt */}
-                  <h3 className="font-medium mb-1">Haustiere im Haushalt?</h3>
-                  <div className="mb-4">
-                    <select
-                      name="hasPets"
-                      value={form.hasPets || ""}
-                      onChange={handleChange}
-                      className={inputClass}
-                    >
-                      <option value="">Bitte auswählen</option>
-                      <option value="Ja">Ja</option>
-                      <option value="Nein">Nein</option>
-                    </select>
+  {form.hasPets === "Ja" && (
+    <input
+      name="petDetails"
+      placeholder="Welche Haustiere?"
+      value={form.petDetails || ""}
+      onChange={handleChange}
+      required={form.hasPets === "Ja"}
+      className={inputClass + " mt-2"}
+    />
+  )}
+</div>
 
-                    {form.hasPets === "Ja" && (
-                      <input
-                        name="petDetails"
-                        placeholder="Welche Haustiere?"
-                        value={form.petDetails || ""}
-                        onChange={handleChange}
-                        className={inputClass + " mt-2"}
-                      />
-                    )}
-                  </div>
 <div>
   <label className="block font-medium mb-1">Allergien</label>
   <select
@@ -3683,55 +3527,52 @@ onChange={(date) => {
     />
   )}
 </div>
-
-
-
-
                 </div>
-                  
-
-              </div>
-              
-            </>
+                              </div>
+                          </>
           )}
 {step === 5 && (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
-    <div className="bg-white shadow-lg rounded-2xl p-10 max-w-lg w-full text-center relative overflow-hidden">
-      {/* Confetti-like accent circle */}
-      <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#B99B5F]/10 rounded-full blur-2xl"></div>
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 animate-fadeIn">
+    <div className="bg-white shadow-xl rounded-3xl p-10 max-w-lg w-full text-center relative overflow-hidden">
+ 
+      <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-[#B99B5F]/20 to-transparent rounded-full blur-3xl"></div>
 
-      {/* Success icon */}
-      <div className="flex justify-center mb-4">
-        <div className="w-16 h-16 flex items-center justify-center rounded-full bg-green-100 text-green-600 shadow-sm">
+      <div className="flex justify-center mb-6">
+        <div className="w-20 h-20 flex items-center justify-center rounded-full bg-green-100 shadow-inner shadow-green-200 relative">
+          <div className="absolute inset-0 rounded-full bg-green-200 blur-2xl opacity-40 animate-pulse"></div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={2}
+            strokeWidth={2.5}
             stroke="currentColor"
-            className="w-8 h-8"
+            className="w-10 h-10 text-green-600 relative z-10"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
         </div>
       </div>
 
-      {/* Title */}
       <h1 className="text-3xl font-bold text-gray-800 mb-3">
         Vielen Dank!
       </h1>
 
-      {/* Text */}
-      <p className="text-gray-600 leading-relaxed mb-6">
-        Der Registrierungsprozess wurde erfolgreich abgeschlossen. <br />
+      <p className="text-gray-600 leading-relaxed mb-2">
+        Der Registrierungsprozess wurde erfolgreich abgeschlossen.
       </p>
 
-
+      <p className="text-gray-600 leading-relaxed mb-8">
+        Überprüfen Sie Ihre E-Mail für die Zugangsdaten zum PHC-Portal.
+      </p>
+      <a
+        href="/"
+        className="inline-block px-8 py-3 bg-[#B99B5F] text-white font-medium rounded-full shadow-md hover:bg-[#a88d55] hover:shadow-lg transition-all duration-300"
+      >
+        Zurück zur Website
+      </a>
     </div>
   </div>
 )}
-
-
 
           <div className="pt-6 flex justify-end gap-4">
             {step !== 5 && (
@@ -3745,18 +3586,12 @@ onChange={(date) => {
         Zurück
       </button>
     )}
-
 {step === 4 ? (
   <button
     type="button"
     onClick={() => {
-      // 🔹 Run validation before going forward
       if (!validateStep()) return; 
-
-      // 🔹 Clear any previous error when validation passes
       setFormError("");
-
-      // 🔹 Go to the next step
       setStep(5);
     }}
     className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
@@ -3772,14 +3607,12 @@ onChange={(date) => {
       onClick={() => {
         setLoading(true);
         handleNext().finally(() => setLoading(false)); 
-        // falls handleNext async ist
+ 
       }}
       className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
     >
       Jetzt bezahlen & weiter
     </button>
-
-    {/* Overlay */}
     {loading && (
       <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
         <div className="bg-white px-6 py-4 rounded-lg shadow-lg text-center">
@@ -3806,15 +3639,12 @@ onChange={(date) => {
         </form>
       </div>
 <div className="w-full md:w-96 space-y-3">
-  {/* Zusammenfassung */}
   <div
   ref={summaryRef}
   className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6"
 >
-  {/* Titulli */}
   <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
-  {/* Përmbajtja */}
   <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
     <SummaryRow label="Häufigkeit" value={form.frequency} />
     <SummaryRow
@@ -3826,27 +3656,51 @@ onChange={(date) => {
     />
     <SummaryRow label="Beginndatum" value={form.firstDate} />
 
-    {/* Breakdown i çmimit */}
-    <div className="border-t pt-2">
-      {form.schedules.map((s, i) => {
-        const hours = s.hours || 0;
-        const hourlyRate = form.frequency === "einmalig" ? 75 : 59;
-        return (
-          <p key={i} className="text-sm text-gray-600">
-            {hours} × {hourlyRate} CHF ={" "}
-            {(hours * hourlyRate).toFixed(2)} CHF
-          </p>
-        );
-      })}
-
-      {/* Totali */}
-      <p className="mt-2 font-semibold text-gray-900">
-        Gesamtsumme: {totalPayment.toFixed(2)} CHF
+<div className="border-t pt-2">
+  {form.schedules.map((s, i) => {
+    const hours = s.hours || 0;
+    const hourlyRate = form.frequency === "einmalig" ? 75 : 59;
+    return (
+      <p key={i} className="text-sm text-gray-600">
+        {hours} × {hourlyRate} CHF = {(hours * hourlyRate).toFixed(2)} CHF
       </p>
-    </div>
+    );
+  })}
+
+  <p className="mt-2 font-semibold text-gray-900">
+    Gesamtsumme: {totalPayment.toFixed(2)} CHF
+  </p>
+
+  {voucherSuccess && discountValue > 0 && (
+    <p className="text-sm text-green-700">
+      Rabatt (
+      {discountType === "percent"
+        ? `${discountValue}%`
+        : `${discountValue.toFixed(2)} CHF`}
+      ): –
+      {discountType === "percent"
+        ? ((totalPayment * discountValue) / 100).toFixed(2)
+        : discountValue.toFixed(2)}{" "}
+      CHF
+    </p>
+  )}
+
+  {voucherSuccess && (
+    <p className="mt-1 font-semibold text-gray-900">
+      Endbetrag:{" "}
+      {(
+        totalPayment -
+        (discountType === "percent"
+          ? (totalPayment * discountValue) / 100
+          : discountValue)
+      ).toFixed(2)}{" "}
+      CHF
+    </p>
+  )}
+</div>
+
   </div>
 
-  {/* Info-line e re (Opsioni 3) */}
   <div className="border-t border-gray-200 pt-3 text-xs text-gray-600 text-center italic">
     inkl. MwSt und Versicherungs- & Sozialabgaben<br />
     <span className="font-medium text-gray-800 not-italic">

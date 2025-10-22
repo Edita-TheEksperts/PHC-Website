@@ -1113,7 +1113,6 @@ useEffect(() => {
         {field.required ? (
           <span className="text-red-500 font-bold">*</span>
         ) : field.hideOptional !== true ? (
-          <span className="text-gray-400 text-xs">(optional)</span>
         ) : null}
       </label>
 
