@@ -855,6 +855,7 @@ const handleChange = (e) => {
 
   const stripe = useStripe();
   const elements = useElements();
+  
 
   function generateScheduleDates({
     firstDateStr,

@@ -209,7 +209,6 @@ if (step === 1) {
   if (!form.houseNumber) newErrors.houseNumber = "Hausnummer ist erforderlich.";
   if (!form.zipCode) newErrors.zipCode = "PLZ ist erforderlich.";
   if (!form.city) newErrors.city = "Ort ist erforderlich.";
-  if (!form.canton) newErrors.canton = "Kanton ist erforderlich.";
   if (!form.country) newErrors.country = "Land ist erforderlich.";
 }
 if (step === 2) {
@@ -367,6 +366,8 @@ const payload = {
   availabilityFrom: form.availabilityFrom || new Date().toISOString().split("T")[0],
   specialTrainings: Array.isArray(form.specialTrainings) ? form.specialTrainings : [],
 };
+const [errors, setErrors] = useState({});
+
 
     // Send form data to your API
     const res = await fetch("/api/employee-register", {
@@ -551,65 +552,104 @@ useEffect(() => {
   </div>
 
   {/* PLZ & Ort */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-    <div>
-      <label className="block font-medium mb-1">PLZ</label>
-      <input
-        name="zipCode"
-        placeholder="PLZ"
-        value={form.zipCode || ""}
-        onChange={handleChange}
-        className={inputClass}
-        disabled={emailExists}
-      />
-      {errors.zipCode && (
-        <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>
-      )}
-    </div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  <div>
+    <label className="block font-medium mb-1">PLZ</label>
+    <input
+      type="text" // <-- ndryshuar nga "number" në "text"
+      inputMode="numeric"
+      pattern="[0-9]*"
+      name="zipCode"
+      placeholder="PLZ"
+      value={form.zipCode || ""}
+      onChange={(e) => {
+        const value = e.target.value;
+        const numericValue = value.replace(/\D/g, ""); // vetëm numra
+        let error = "";
 
-    <div>
-      <label className="block font-medium mb-1">Ort</label>
-      <input
-        name="city"
-        placeholder="Ort"
-        value={form.city || ""}
-        onChange={handleChange}
-        className={inputClass}
-        disabled={emailExists}
-      />
-      {errors.city && (
-        <p className="text-red-600 text-sm mt-1">{errors.city}</p>
-      )}
-    </div>
+        if (/\D/.test(value)) {
+          error = "Nur Zahlen sind erlaubt."; // shkronja ose simbole
+        } else if (numericValue.length > 5) {
+          error = "PLZ darf maximal 5 Ziffern haben."; // maksimumi 5 shifra
+        }
+
+        setErrors((prev) => ({ ...prev, zipCode: error }));
+
+        if (numericValue.length <= 5) {
+          handleChange({ target: { name: "zipCode", value: numericValue } });
+        }
+      }}
+      className={inputClass}
+      disabled={emailExists}
+    />
+
+    {errors.zipCode && (
+      <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>
+    )}
   </div>
 
-  {/* Kanton & Nationalität in the same row */}
+
+<div>
+  <label className="block font-medium mb-1">Ort</label>
+  <input
+    type="text"
+    name="city"
+    placeholder="Ort"
+    value={form.city || ""}
+    onChange={(e) => {
+      const value = e.target.value;
+      const hasNumber = /\d/.test(value);
+      let error = "";
+
+      if (hasNumber) {
+        error = "Ort darf keine Zahlen enthalten."; // Ort nuk mund të përmbajë numra
+      }
+
+      setErrors((prev) => ({ ...prev, city: error }));
+
+      if (!hasNumber) {
+        handleChange(e);
+      }
+    }}
+    className={inputClass}
+    disabled={emailExists}
+  />
+  {errors.city && (
+    <p className="text-red-600 text-sm mt-1">{errors.city}</p>
+  )}
+</div>
+
+  </div>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
     {/* Kanton */}
-    <div>
-      <label className="block font-medium mb-1">Kanton</label>
-      <select
-        name="canton"
-        value={form.canton || ""}
-        onChange={handleChange}
-        className={inputClass}
-        disabled={emailExists}
-      >
-        <option value="">Kanton wählen</option>
-        {[
-          "AG", "AI", "AR", "BE", "BL", "BS", "FR", "GE", "GL",
-          "GR", "JU", "LU", "NE", "NW", "OW", "SG", "SH", "SO",
-          "SZ", "TG", "TI", "UR", "VD", "VS", "ZG", "ZH"
-        ].map((canton) => (
-          <option key={canton} value={canton}>
-            {canton}
-          </option>
-        ))}
-      </select>
-      {errors.canton && (
-        <p className="text-red-600 text-sm mt-1">{errors.canton}</p>
-      )}
-    </div>
+   <div>
+    <label className="block font-medium mb-1">Kanton</label>
+    <select
+      name="canton"
+      value={form.canton || ""}
+      onChange={(e) => {
+        handleChange(e);
+        setErrors((prev) => ({ ...prev, canton: "" }));
+      }}
+      className={inputClass}
+      disabled={emailExists}
+    >
+      <option value="">Kanton wählen</option>
+      {[
+        "AG", "AI", "AR", "BE", "BL", "BS", "FR", "GE", "GL",
+        "GR", "JU", "LU", "NE", "NW", "OW", "SG", "SH", "SO",
+        "SZ", "TG", "TI", "UR", "VD", "VS", "ZG", "ZH",
+      ].map((canton) => (
+        <option key={canton} value={canton}>
+          {canton}
+        </option>
+      ))}
+    </select>
+    {errors.canton && form.canton && (
+      <p className="text-red-600 text-sm mt-1">{errors.canton}</p>
+    )}
+  </div>
+
 
     {/* Nationalität */}
     <div>
@@ -923,7 +963,6 @@ useEffect(() => {
 
   <h2 className="text-2xl font-bold text-[#04436F] mb-8">Arbeitsbereitschaft</h2>
 
-{/* Verfügbar ab wann */}
 <div className="mb-6">
   <label className="block text-[16px] font-medium text-[#04436F] mb-2">
     Verfügbar ab wann?
@@ -932,29 +971,37 @@ useEffect(() => {
     type="date"
     name="availabilityFrom"
     value={
-      form.availabilityFrom ||
-      new Date().toISOString().split("T")[0] // ✅ Default today
+      form.availabilityFrom
+        ? (() => {
+            const [year, month, day] = form.availabilityFrom.split("-");
+            return `${year}-${month}-${day}`; // keep correct format for HTML
+          })()
+        : new Date().toISOString().split("T")[0]
     }
-    min={new Date().toISOString().split("T")[0]} // ✅ Prevent past dates
+    min={new Date().toISOString().split("T")[0]}
     onChange={(e) => {
-      handleChange(e);
+      const isoDate = e.target.value; // yyyy-mm-dd
+      const [year, month, day] = isoDate.split("-");
+      const formatted = `${day}.${month}.${year}`; // show 22.10.2025
 
-      // ✅ Auto-fix: if date is empty, set today by default
-      if (!e.target.value) {
-        setForm((prev) => ({
-          ...prev,
-          availabilityFrom: new Date().toISOString().split("T")[0],
-        }));
-      }
+      handleChange({
+        target: { name: "availabilityFrom", value: isoDate },
+      });
+
+      // optional: save formatted version too if needed elsewhere
+      setForm((prev) => ({
+        ...prev,
+        availabilityFromFormatted: formatted,
+      }));
     }}
     className={`${inputClass} w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#04436F] focus:border-transparent transition-all`}
   />
 
-  {/* ✅ Only show error if date is truly missing */}
   {errors.availabilityFrom && !form.availabilityFrom && (
     <p className="text-red-600 text-sm mt-2">{errors.availabilityFrom}</p>
   )}
 </div>
+
 
 
 {/* Feiertagseinsätze */}
@@ -1108,13 +1155,11 @@ useEffect(() => {
       hidden={field.hideIfCHPass && form.residencePermit === "CH Pass"}
       className="space-y-2"
     >
-      <label className="block text-sm font-medium text-gray-700">
-        {field.label}{" "}
-        {field.required ? (
-          <span className="text-red-500 font-bold">*</span>
-        ) : field.hideOptional !== true ? (
-        ) : null}
-      </label>
+          <label className="block text-sm font-medium text-gray-700">
+      {field.label}{" "}
+     {field.required && <span className="text-red-500 font-bold">*</span>}
+
+    </label>
 
       <input
         type="file"
@@ -1162,21 +1207,7 @@ useEffect(() => {
       }
       required
     />
-    <label
-      htmlFor="drivingLicenceFile"
-      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
-    >
-      Dokumente hochladen
-    </label>
-    <p className="text-sm text-gray-600">
-      {form.drivingLicenceFile?.length > 0
-        ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
-        : "Keine Datei ausgewählt"}
-    </p>
-    {errors.drivingLicenceFile && (
-      <p className="text-red-500 text-sm">{errors.drivingLicenceFile}</p>
-    )}
-  </div>
+
 
   {/* Foto Upload */}
   <div className="space-y-2">
@@ -1197,7 +1228,7 @@ useEffect(() => {
       htmlFor="profilePhoto"
       className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
     >
-      Dokumente hochladen
+     Datei hochladen
     </label>
     <p className="text-sm text-gray-600">
       {form.profilePhoto?.length > 0
@@ -1206,6 +1237,21 @@ useEffect(() => {
     </p>
     {errors.profilePhoto && (
       <p className="text-red-500 text-sm">{errors.profilePhoto}</p>
+    )}
+  </div>
+      <label
+      htmlFor="drivingLicenceFile"
+      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
+    >
+      Datei hochladen
+    </label>
+    <p className="text-sm text-gray-600">
+      {form.drivingLicenceFile?.length > 0
+        ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
+        : "Keine Datei ausgewählt"}
+    </p>
+    {errors.drivingLicenceFile && (
+      <p className="text-red-500 text-sm">{errors.drivingLicenceFile}</p>
     )}
   </div>
 </div>
