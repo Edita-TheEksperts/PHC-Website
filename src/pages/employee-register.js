@@ -983,6 +983,7 @@ useEffect(() => {
   setForm={setForm}
   handleChange={handleChange}
   hidden={step !== 3}
+   errors={errors} 
 />
 
 

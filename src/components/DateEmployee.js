@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-export default function DateEmployee({ form, setForm, handleChange, hidden }) {
+export default function DateEmployee({ form, setForm, handleChange, hidden, errors }) {
   const [openStartIndex, setOpenStartIndex] = useState(null);
   const [openEndIndex, setOpenEndIndex] = useState(null);
+  const sectionRef = useRef(null);
 
   const availableDays = [
     "Montag",
@@ -13,6 +14,12 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
     "Samstag",
     "Sonntag",
   ];
+
+  useEffect(() => {
+    if (errors?.availabilityDays && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [errors]);
 
   const generateTimeOptions = () => {
     const times = [];
@@ -49,7 +56,7 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
   };
 
   return (
-    <div className="mb-14" hidden={hidden}>
+    <div ref={sectionRef} className="mb-14" hidden={hidden}>
       <h3 className="font-semibold mb-6 text-lg text-gray-900 tracking-wide">
         Ihre Verfügbarkeit
       </h3>
@@ -90,78 +97,75 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
             {/* Day name */}
             <span className="min-w-[80px] font-medium">{entry.day}</span>
 
-        {/* Start time dropdown */}
-<div className="relative">
-  <button
-    type="button"
-    className="border px-4 py-2 rounded-md bg-white w-28 text-sm text-gray-700 shadow-sm"
-    onClick={() => {
-      // Open start dropdown & close the end one
-      setOpenStartIndex(openStartIndex === index ? null : index);
-      setOpenEndIndex(null);
-    }}
-  >
-    {entry.startTime}
-  </button>
+            {/* Start time dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                className="border px-4 py-2 rounded-md bg-white w-28 text-sm text-gray-700 shadow-sm"
+                onClick={() => {
+                  setOpenStartIndex(openStartIndex === index ? null : index);
+                  setOpenEndIndex(null);
+                }}
+              >
+                {entry.startTime}
+              </button>
 
-  {openStartIndex === index && (
-    <div className="absolute left-0 top-12 z-20 bg-white border border-gray-200 rounded-xl shadow-lg grid grid-cols-4 gap-3 p-4 max-h-64 overflow-y-auto w-72">
-      {generateTimeOptions().map((time) => (
-        <button
-          key={time}
-          className={`px-4 py-2 rounded-lg text-sm transition-all font-medium ${
-            entry.startTime === time
-              ? "bg-[#0C243C] text-white"
-              : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => {
-            updateTime(index, "startTime", time);
-            setOpenStartIndex(null);
-          }}
-        >
-          {time}
-        </button>
-      ))}
-    </div>
-  )}
-</div>
+              {openStartIndex === index && (
+                <div className="absolute left-0 top-12 z-20 bg-white border border-gray-200 rounded-xl shadow-lg grid grid-cols-4 gap-3 p-4 max-h-64 overflow-y-auto w-72">
+                  {generateTimeOptions().map((time) => (
+                    <button
+                      key={time}
+                      className={`px-4 py-2 rounded-lg text-sm transition-all font-medium ${
+                        entry.startTime === time
+                          ? "bg-[#0C243C] text-white"
+                          : "bg-gray-50 hover:bg-gray-100 text-gray-700"
+                      }`}
+                      onClick={() => {
+                        updateTime(index, "startTime", time);
+                        setOpenStartIndex(null);
+                      }}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-{/* End time dropdown */}
-<div className="relative">
-  <button
-    type="button"
-    className="border px-4 py-2 rounded-md bg-white w-28 text-sm text-gray-700 shadow-sm"
-    onClick={() => {
-      // Open end dropdown & close the start one
-      setOpenEndIndex(openEndIndex === index ? null : index);
-      setOpenStartIndex(null);
-    }}
-  >
-    {entry.endTime}
-  </button>
+            {/* End time dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                className="border px-4 py-2 rounded-md bg-white w-28 text-sm text-gray-700 shadow-sm"
+                onClick={() => {
+                  setOpenEndIndex(openEndIndex === index ? null : index);
+                  setOpenStartIndex(null);
+                }}
+              >
+                {entry.endTime}
+              </button>
 
-  {openEndIndex === index && (
-    <div className="absolute left-0 top-12 z-20 bg-white border border-gray-200 rounded-xl shadow-lg grid grid-cols-4 gap-3 p-4 max-h-64 overflow-y-auto w-72">
-      {generateTimeOptions().map((time) => (
-        <button
-          key={time}
-          className={`px-4 py-2 rounded-lg text-sm transition-all font-medium ${
-            entry.endTime === time
-              ? "bg-[#0C243C] text-white"
-              : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => {
-            updateTime(index, "endTime", time);
-            setOpenEndIndex(null);
-          }}
-        >
-          {time}
-        </button>
-      ))}
-    </div>
-  )}
-</div>
-
+              {openEndIndex === index && (
+                <div className="absolute left-0 top-12 z-20 bg-white border border-gray-200 rounded-xl shadow-lg grid grid-cols-4 gap-3 p-4 max-h-64 overflow-y-auto w-72">
+                  {generateTimeOptions().map((time) => (
+                    <button
+                      key={time}
+                      className={`px-4 py-2 rounded-lg text-sm transition-all font-medium ${
+                        entry.endTime === time
+                          ? "bg-[#0C243C] text-white"
+                          : "bg-gray-50 hover:bg-gray-100 text-gray-700"
+                      }`}
+                      onClick={() => {
+                        updateTime(index, "endTime", time);
+                        setOpenEndIndex(null);
+                      }}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Remove button */}
             <button
@@ -187,6 +191,11 @@ export default function DateEmployee({ form, setForm, handleChange, hidden }) {
           </div>
         ))}
       </div>
+
+      {/* 🔴 Error message */}
+      {errors?.availabilityDays && (
+        <p className="text-red-600 text-sm mt-3">{errors.availabilityDays}</p>
+      )}
     </div>
   );
 }
