@@ -1,11 +1,16 @@
 
-import { useState } from "react";               // React hook to use component state
-import { useRouter } from "next/router"; 
+import { useState } from "react";     
+          // React hook to use component state
+import { useRouter } from "next/router";
 import { useEffect } from "react";  
 import { useRef } from "react";            // React hook to handle side effects
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase"; // adjust path based on your structure
 import DateEmployee from "../components/DateEmployee.js"; // Adjust path if needed
+import DatePicker, { registerLocale } from "react-datepicker";
+import { de } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
+
 // Component Start
 export default function RegisterEmployee() {
   const router = useRouter();                   // Next.js router
@@ -20,6 +25,7 @@ const [stepError, setStepError] = useState("");
       <span className="text-[14px] font-semibold text-gray-900">{value || "—"}</span>
     </div>
   );
+  registerLocale("de", de);
 
   const [showReferralModal, setShowReferralModal] = useState(false); // Show popup on step 3
 const uploadToFirebase = async (file, userId, label) => {
@@ -962,38 +968,27 @@ useEffect(() => {
 <div hidden={step !== 3}>
 
   <h2 className="text-2xl font-bold text-[#04436F] mb-8">Arbeitsbereitschaft</h2>
-
 <div className="mb-6">
   <label className="block text-[16px] font-medium text-[#04436F] mb-2">
     Verfügbar ab wann?
   </label>
-  <input
-    type="date"
-    name="availabilityFrom"
-    value={
+
+  <DatePicker
+    selected={
       form.availabilityFrom
-        ? (() => {
-            const [year, month, day] = form.availabilityFrom.split("-");
-            return `${year}-${month}-${day}`; // keep correct format for HTML
-          })()
-        : new Date().toISOString().split("T")[0]
+        ? new Date(form.availabilityFrom)
+        : new Date() // ✅ Default = sot
     }
-    min={new Date().toISOString().split("T")[0]}
-    onChange={(e) => {
-      const isoDate = e.target.value; // yyyy-mm-dd
-      const [year, month, day] = isoDate.split("-");
-      const formatted = `${day}.${month}.${year}`; // show 22.10.2025
-
-      handleChange({
-        target: { name: "availabilityFrom", value: isoDate },
-      });
-
-      // optional: save formatted version too if needed elsewhere
+    onChange={(date) =>
       setForm((prev) => ({
         ...prev,
-        availabilityFromFormatted: formatted,
-      }));
-    }}
+        availabilityFrom: date ? date.toISOString().split("T")[0] : "",
+      }))
+    }
+    locale="de"                      // ✅ German calendar
+    dateFormat="dd.MM.yyyy"          // ✅ Format: 23.10.2025
+    placeholderText="TT.MM.JJJJ wählen"
+    minDate={new Date()}             // ✅ Mos lejo data të kaluara
     className={`${inputClass} w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#04436F] focus:border-transparent transition-all`}
   />
 
@@ -1001,7 +996,6 @@ useEffect(() => {
     <p className="text-red-600 text-sm mt-2">{errors.availabilityFrom}</p>
   )}
 </div>
-
 
 
 {/* Feiertagseinsätze */}
@@ -1146,8 +1140,8 @@ useEffect(() => {
     { label: "ID oder Reisepass – Vorderseite", key: "passportFrontFile", required: true },
     { label: "ID oder Reisepass – Rückseite", key: "passportBackFile", required: true },
     { label: "Aufenthalts- oder Arbeitsbewilligung", key: "workPermitFile", required: true, hideIfCHPass: true },
+      { label: "Lebenslauf", key: "cvFile", required: true },
     { label: "Strafregisterauszug", key: "policeLetterFile", required: false, hideOptional: true },
-    { label: "Lebenslauf", key: "cvFile", required: true },
     { label: "Zertifikate/Arbeitszeugnisse", key: "certificateFile", required: false },
   ].map((field) => (
     <div

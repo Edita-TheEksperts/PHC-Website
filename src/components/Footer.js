@@ -139,17 +139,13 @@ const subscribe = async (e) => {
       <h3 className="text-[#04436F] text-[16px] font-semibold">Kontaktinformationen</h3>
       <div className="flex-1 flex flex-col justify-between text-[#04436F] text-[17px] mt-2">
         <div>
-          <p>Adresse</p>
           <p>Prime Home Care AG <br></br>Schulhausstrasse 1<br/>8834 Schindellegi</p>
         </div>
         <div>
           <p>Öffnungszeiten</p>
           <p>8:30 – 11:00 und 13:30 – 16:00 Uhr</p>
         </div>
-        <div>
-          <p>E-Mail</p>
-          <a href="mailto:info@phc.ch" className="hover:underline">info@phc.ch</a>
-        </div>
+     
       </div>
     </div>
 

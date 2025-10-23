@@ -501,8 +501,6 @@ const requiresAllergyInfo = Array.isArray(form.subServices)
     )
   : false;
 
-
-
   const inputClass =
     "w-full px-5 py-4 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-[#B99B5F] placeholder-gray-500 mt-1";
   const preparePayload = (form) => ({
@@ -569,6 +567,33 @@ kanton: form.kanton || "",
     householdSize: Number(form.householdSize) || null,
     paymentIntentId: form.paymentIntentId || "",
   });
+const [errors, setErrors] = useState({
+  frequency: "",
+  firstDate: "",
+  services: "",
+  day: "",
+  subServices: "",
+});
+const refs = {
+  frequency: useRef(null),
+  firstDate: useRef(null),
+  services: useRef(null),
+  anrede: useRef(null),
+  firstName: useRef(null),
+  lastName: useRef(null),
+  email: useRef(null),
+  phone: useRef(null),
+  houseNumber: useRef(null),
+  postalCode: useRef(null),
+  city: useRef(null),
+  kanton: useRef(null),
+  // dhe mund të shtosh më vonë për pjesët e tjera
+};
+
+  const [errorFrequency, setErrorFrequency] = useState("");
+  const frequencyRef = useRef(null);
+  
+
 
 const [errorDayIndex, setErrorDayIndex] = useState(null);
 const [errorDayMessage, setErrorDayMessage] = useState("");
@@ -586,194 +611,157 @@ const scrollToElement = (id) => {
   }, 400);
 };
 
-  const validateStep = () => {
-    setFormError("");
+const validateStep = () => {
+  const newErrors = {};
   setErrorDayIndex(null);
   setErrorDayMessage("");
-    if (step === 1) {
-      if (!form.frequency) {
-        setFormError("Bitte wählen Sie die Häufigkeit der Unterstützung.");
-        return false;
-      }
-      if (!form.firstDate) {
-        setFormError("Bitte wählen Sie ein Beginndatum.");
-        return false;
-      }
-      if (!form.services || form.services.length === 0) {
-        setFormError("Bitte wählen Sie mindestens eine Dienstleistung.");
-        return false;
-      }
-    if (!form.services || form.services.length === 0) {
-      setFormError("Bitte wählen Sie mindestens eine Dienstleistung.");
-      scrollToTop();
+
+  if (step === 1) {
+    // 1️⃣ Frekuenca
+    if (!form.frequency) {
+      setErrors((prev) => ({
+        ...prev,
+        frequency: "Bitte wählen Sie die Häufigkeit der Unterstützung.",
+      }));
+      frequencyRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return false;
     }
 
+    // 2️⃣ Data
+    if (!form.firstDate) {
+      setErrors((prev) => ({
+        ...prev,
+        firstDate: "Bitte wählen Sie ein Beginndatum.",
+      }));
+      refs.firstDate.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return false;
+    }
+
+    // 3️⃣ Shërbimet
+    if (!form.services || form.services.length === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        services: "Bitte wählen Sie mindestens eine Dienstleistung.",
+      }));
+      refs.servicesRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return false;
+    }
+
+    // 4️⃣ Ditët
     const missingDayIndex = form.schedules.findIndex((entry) => !entry.day);
     if (missingDayIndex !== -1) {
+      setErrors((prev) => ({
+        ...prev,
+        day: "Bitte wählen Sie einen Wochentag aus.",
+      }));
+
+      // ✅ Shto këtë:
       setErrorDayIndex(missingDayIndex);
       setErrorDayMessage("Bitte wählen Sie einen Wochentag aus.");
+
       scrollToElement(`schedule-day-${missingDayIndex}`);
       return false;
     }
+
+    // 5️⃣ Nën-shërbimet
     const missingSubIndex = form.schedules.findIndex(
       (entry) => !entry.subServices || entry.subServices.length === 0
     );
     if (missingSubIndex !== -1) {
+      setErrors((prev) => ({
+        ...prev,
+        subServices: "Bitte wählen Sie mindestens eine Zusatzleistung für diesen Tag.",
+      }));
+
+      // ✅ Dhe këtë:
       setErrorDayIndex(missingSubIndex);
-      setErrorDayMessage(
-        "Bitte wählen Sie mindestens eine Zusatzleistung für diesen Tag."
-      );
+      setErrorDayMessage("Bitte wählen Sie mindestens eine Zusatzleistung für diesen Tag.");
+
       scrollToElement(`schedule-day-${missingSubIndex}`);
       return false;
     }
-  
+
+    // Nëse çdo gjë është në rregull
+    setErrors({
+      frequency: "",
+      firstDate: "",
+      services: "",
+      day: "",
+      subServices: "",
+    });
+
+    setErrorDayIndex(null);
+    setErrorDayMessage("");
+    return true;
+  }
+  if (step === 2) {
+  const newErrors = {};
+
+  if (!form.anrede) newErrors.anrede = "Bitte wählen Sie eine Anrede.";
+  if (!form.firstName) newErrors.firstName = "Bitte geben Sie Ihren Vornamen ein.";
+  if (!form.lastName) newErrors.lastName = "Bitte geben Sie Ihren Nachnamen ein.";
+  if (!form.phone) newErrors.phone = "Bitte geben Sie Ihre Telefonnummer ein.";
+  if (!form.email) newErrors.email = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
+  if (!form.street) newErrors.street = "Bitte geben Sie Ihre Strasse ein.";
+  if (!form.houseNumber) newErrors.houseNumber = "Bitte geben Sie Ihre Hausnummer ein.";
+  if (!form.postalCode) newErrors.postalCode = "Bitte geben Sie Ihre PLZ ein.";
+  if (!form.city) newErrors.city = "Bitte geben Sie Ihren Ort ein.";
+  if (!form.kanton) newErrors.kanton = "Bitte wählen Sie Ihren Kanton.";
+
+  // Nëse ka ndonjë gabim → ruaji dhe mos e lejo kalimin në hapin tjetër
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+
+    // scroll automatik te fusha e parë që ka error
+    const firstErrorField = Object.keys(newErrors)[0];
+    document.querySelector(`[name="${firstErrorField}"]`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+    return false;
+  }
+
+  // Nëse gjithçka është në rregull → pastro errorët
+  setErrors({});
+  return true;
+}
+  if (step === 3) {
+    console.log("📋 validateStep: running step 3 check");
+    // Nëse s’ke asnjë fushë për të validuar në këtë hap, thjesht kthe true
+    return true;
+  }
+  if (step === 4) {
+  const newErrors = {};
+
+  if (!form.requestFirstName) newErrors.requestFirstName = "Bitte geben Sie Ihren Vornamen ein.";
+  if (!form.requestLastName) newErrors.requestLastName = "Bitte geben Sie Ihren Nachnamen ein.";
+  if (!form.requestPhone) newErrors.requestPhone = "Bitte geben Sie Ihre Telefonnummer ein.";
+  if (!form.requestEmail) newErrors.requestEmail = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
+  if (!form.hasParking) newErrors.hasParking = "Bitte wählen Sie, ob ein Parkplatz vorhanden ist.";
+  if (form.hasParking === "Ja" && !form.parkingLocation)
+    newErrors.parkingLocation = "Bitte geben Sie den Standort des Parkplatzes an.";
+  if (!form.hasPets) newErrors.hasPets = "Bitte wählen Sie, ob Haustiere vorhanden sind.";
+  if (form.hasPets === "Ja" && !form.petDetails)
+    newErrors.petDetails = "Bitte geben Sie Details zu den Haustieren an.";
+  if (!form.hasAllergies) newErrors.hasAllergies = "Bitte wählen Sie, ob Allergien vorhanden sind.";
+  if (form.hasAllergies === "Ja" && !form.allergyDetails)
+    newErrors.allergyDetails = "Bitte geben Sie Details zu den Allergien an.";
+
+  setErrors(newErrors);
+
+  if (Object.keys(newErrors).length > 0) {
+    const firstErrorKey = Object.keys(newErrors)[0];
+    const el = document.querySelector(`[name="${firstErrorKey}"]`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    return false;
+  }
 
   return true;
-      const hasAnySubService = form.schedules.some(
-        (entry) =>
-          Array.isArray(entry.subServices) && entry.subServices.length > 0
-      );
-
-      if (!hasAnySubService) {
-        setFormError(
-
-
-          "Bitte wählen Sie mindestens eine Zusatzleistung für mindestens einen Tag."
-        );
-        return false;
-      }
-    }
-    if (step === 2) {
-
-
-      if (!form.anrede) {
-    setFormError("Bitte wählen Sie eine Anrede aus.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.firstName) {
-    setFormError("Bitte geben Sie den Vornamen ein.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.lastName) {
-
-    setFormError("Bitte geben Sie den Nachnamen ein.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.email) {
-    setFormError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.phone) {
-    setFormError("Bitte geben Sie eine gültige Telefonnummer ein.");
-    scrollToTop();
-    return false;
-  }
-
-  if (!form.houseNumber) {
-    setFormError("Bitte geben Sie die Hausnummer ein.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.postalCode) {
-    setFormError("Bitte geben Sie die Postleitzahl ein.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.city) {
-    setFormError("Bitte geben Sie den Ort ein.");
-    scrollToTop();
-    return false;
-  }
-  if (!form.kanton) {
-    setFormError("Bitte wählen Sie den Kanton aus.");
-    scrollToTop();
-    return false;
-  }
-}
-;
-    if (step === 3 && !testMode) {
-      if (!testMode) {
-      }
-    }
-if (step === 4 || (testMode && step === 3)) {
-  const subservicesList = Array.isArray(form.subServices)
-    ? form.subServices.map((s) =>
-        typeof s === "string" ? s : s.name
-      )
-    : [];
-    
-  if (!form.requestFirstName) {
-    setFormError("Bitte geben Sie den Vornamen der anfragenden Person ein.");
-    scrollToTop();
-    return false;
-  }
-
-  if (!form.requestLastName) {
-    setFormError("Bitte geben Sie den Nachnamen der anfragenden Person ein.");
-    scrollToTop();
-    return false;
-  }
-
-  if (!form.requestPhone) {
-    setFormError("Bitte geben Sie die Telefonnummer der anfragenden Person ein.");
-    scrollToTop();
-    return false;
-  }
-
-  if (!form.requestEmail) {
-    setFormError("Bitte geben Sie die E-Mail-Adresse der anfragenden Person ein.");
-    scrollToTop();
-
-    return false;
-  }
-
-  const requiresAllergyInfo = subservicesList.some((s) =>
-    ["Gemeinsames Kochen", "Nahrungsaufnahme", "Kochen"].includes(s)
-  );
-      if (!form.hasParking) {
-    setFormError("Bitte geben Sie an, ob ein Parkplatz vorhanden ist.");
-    scrollToTop();
-    return false;
-  }
-  if (form.hasParking === "Ja" && !form.parkingLocation) {
-    setFormError("Bitte geben Sie den Ort des Parkplatzes an.");
-    scrollToTop();
-    return false;
-  }
-if (!form.hasPets) {
-  setFormError("Bitte geben Sie an, ob Haustiere im Haushalt sind.");
-  scrollToTop("hasPets");
-  return false;
 }
 
-if (form.hasPets === "Ja" && !form.petDetails) {
-  setFormError("Bitte geben Sie an, welche Haustiere im Haushalt sind.");
-  scrollToTop("petDetails");
-  return false;
-}
+};
 
 
-if (requiresAllergyInfo) {
-  if (!form.hasAllergies) {
-    setFormError("Bitte Allergien auswählen (Ja/Nein)");
-    scrollToTop(); 
-    return false;
-  }
-  if (form.hasAllergies === "Ja" && !form.allergyDetails) {
-    setFormError("Bitte geben Sie die Allergien an");
-    scrollToTop(); 
-    return false;
-  }
-}
-}
-
-    return true;
-  };
   const [streetWarning, setStreetWarning] = useState("");
   const [postalWarning, setPostalWarning] = useState("");
 
@@ -816,34 +804,57 @@ const handleChange = (e) => {
   }
 };
 
-  const handleNext = async () => {
-    setFormError("");
+const handleNext = async () => {
+  console.log("🚀 handleNext triggered, step:", step, "agbAccepted:", agbAccepted, "testMode:", testMode);
 
-    if (!validateStep()) return;
+  setFormError("");
 
-    if (step === 2) {
-      setStep(3);
+  if (!validateStep()) {
+    console.warn("⚠️ Validation failed on step:", step);
+    return;
+  }
+
+  // STEP 2 → kalon në 3
+  if (step === 2) {
+    console.log("➡️ Moving from step 2 → 3");
+    setStep(3);
+    return;
+  }
+
+  // STEP 3 → procesi i pagesës
+  if (step === 3 && !testMode) {
+    console.log("🧾 Entering payment step (live mode)");
+
+    if (!agbAccepted) {
+      console.warn("❌ AGB not accepted – stopping process");
+      setFormError("Bitte akzeptieren Sie die AGB, um fortzufahren.");
+      scrollToTop();
       return;
     }
 
-    if (step === 3 && !testMode) {
-      if (!agbAccepted) {
-        setFormError("Bitte akzeptieren Sie die AGB, um fortzufahren.");
-        scrollToTop();
-        return;
-      }
-
+    try {
+      console.log("✅ AGB accepted, calling handleSubmit now...");
       await handleSubmit({ preventDefault: () => {} });
-      return;
+      console.log("🎉 handleSubmit finished successfully!");
+    } catch (err) {
+      console.error("💥 Error inside handleSubmit call:", err);
     }
 
-    if (step === 3 && testMode) {
-      setStep(4);
-      return;
-    }
+    console.log("🧩 Finished step 3 logic");
+    return;
+  }
 
-    setStep((prev) => prev + 1);
-  };
+  // TEST MODE → kalon direkt në hapin 4
+  if (step === 3 && testMode) {
+    console.log("🧪 Test mode active → skipping payment, going to step 4");
+    setStep(4);
+    return;
+  }
+
+  // default → kalo në hapin tjetër
+  console.log("➡️ Incrementing step:", step, "→", step + 1);
+  setStep((prev) => prev + 1);
+};
 
 
   useEffect(() => {
@@ -906,6 +917,8 @@ const handleChange = (e) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
+    
     if (!stripe || !elements) {
       alert("❌ Stripe ist nicht bereit");
       return;
@@ -1317,7 +1330,7 @@ if (!secret) {
       </div>
     );
   }
-  const [errors, setErrors] = useState({});
+  
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[+\d\s]*$/;
@@ -1638,7 +1651,7 @@ const handlePayment = async () => {
             <>
               <h2 className="text-2xl font-bold text-black">Wie oft & wann?</h2>
               <div className="space-y-4">
-                <div className="space-y-2">
+              <div ref={frequencyRef} className="space-y-2">
                   <p className="font-medium">
                     Wie oft wünschen Sie Unterstützung?
                   </p>
@@ -1663,7 +1676,8 @@ const handlePayment = async () => {
                       </button>
                     ))}
                   </div>
-                </div>
+       {errors.frequency && <p className="text-red-600 text-sm mt-1">{errors.frequency}</p>}
+</div>
 
          {form.frequency === "monatlich" && (
   <div className="space-y-4 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
@@ -1840,7 +1854,7 @@ const handlePayment = async () => {
     )}
   </div>
 )}
-  <div className='mt-8 mb-8 w-[300px] max-w-full'>
+<div ref={refs.firstDate} className='mt-8 mb-8 w-[300px] max-w-full'>
   <label className="block mb-2 font-medium">Beginndatum auswählen</label>
 <DatePicker
   selected={form.firstDate ? parseSwissDate(form.firstDate) : null}
@@ -1878,6 +1892,7 @@ onChange={(date) => {
   <p className="mt-2 text-sm text-gray-500">
     Es sind nur Termine ab 14 Tagen im Voraus möglich.
   </p>
+  {errors.firstDate && <p className="text-red-600 text-sm mt-1">{errors.firstDate}</p>}
 </div>
     {form.frequency !== "Einmal" && (
   <div className="space-y-6">
@@ -2152,13 +2167,11 @@ onChange={(date) => {
               </div>
             </div>
           </div>
-{errorDayIndex === i && (
-  <div className="mt-6 flex justify-start">
-    <p className="text-red-600 text-sm font-medium pl-1">
-      {errorDayMessage}
-    </p>
-  </div>
-)}
+    {errorDayIndex === i && (
+      <p className="text-red-600 text-sm font-medium mt-2">
+        {errorDayMessage}
+      </p>
+    )}
         </div>
  
       </div>
@@ -2206,6 +2219,9 @@ onChange={(date) => {
               <option value="Herr">Herr</option>
               <option value="Frau">Frau</option>
             </select>
+            {errors.anrede && (
+              <p className="text-red-600 text-sm mt-1">{errors.anrede}</p>
+            )}
           </div>
 
           <div className="mb-2">
@@ -2220,6 +2236,9 @@ onChange={(date) => {
               className={inputClass}
               required
             />
+            {errors.firstName && (
+              <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+            )}
           </div>
 
           <div className="mb-2">
@@ -2233,6 +2252,9 @@ onChange={(date) => {
               onChange={handleChange}
               className={inputClass}
             />
+            {errors.lastName && (
+              <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+            )}
           </div>
         </div>
       </div>
@@ -2249,12 +2271,7 @@ onChange={(date) => {
           onKeyDown={(e) => {
             if (
               !/[0-9+\s]/.test(e.key) &&
-              ![
-                "Backspace",
-                "ArrowLeft",
-                "ArrowRight",
-                "Delete",
-              ].includes(e.key)
+              !["Backspace", "ArrowLeft", "ArrowRight", "Delete"].includes(e.key)
             ) {
               e.preventDefault();
             }
@@ -2265,6 +2282,7 @@ onChange={(date) => {
           <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
         )}
       </div>
+
       <div>
         <label className="block font-medium mb-1">
           E-Mail<span className="text-red-500">*</span>
@@ -2281,10 +2299,9 @@ onChange={(date) => {
           <p className="text-red-600 text-sm mt-1">{errors.email}</p>
         )}
       </div>
+
       <div>
-        <label className="block font-semibold text-base mb-2">
-          Adresse
-        </label>
+        <label className="block font-semibold text-base mb-2">Adresse</label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block font-medium mb-1">
@@ -2297,9 +2314,12 @@ onChange={(date) => {
               onChange={handleChange}
               className={inputClass}
             />
-         {streetWarning && (
-          <p className="text-yellow-600 text-sm mt-1">{streetWarning}</p>
-        )}
+            {streetWarning && (
+              <p className="text-yellow-600 text-sm mt-1">{streetWarning}</p>
+            )}
+            {errors.street && (
+              <p className="text-red-600 text-sm mt-1">{errors.street}</p>
+            )}
           </div>
           <div>
             <label className="block font-medium mb-1">
@@ -2312,8 +2332,12 @@ onChange={(date) => {
               onChange={handleChange}
               className={inputClass}
             />
+            {errors.houseNumber && (
+              <p className="text-red-600 text-sm mt-1">{errors.houseNumber}</p>
+            )}
           </div>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div>
             <label className="block font-medium mb-1">
@@ -2326,9 +2350,12 @@ onChange={(date) => {
               onChange={handleChange}
               className={inputClass}
             />
-         {postalWarning && (
-          <p className="text-yellow-600 text-sm mt-1">{postalWarning}</p>
-        )}
+            {postalWarning && (
+              <p className="text-yellow-600 text-sm mt-1">{postalWarning}</p>
+            )}
+            {errors.postalCode && (
+              <p className="text-red-600 text-sm mt-1">{errors.postalCode}</p>
+            )}
           </div>
           <div>
             <label className="block font-medium mb-1">
@@ -2341,8 +2368,12 @@ onChange={(date) => {
               onChange={handleChange}
               className={inputClass}
             />
+            {errors.city && (
+              <p className="text-red-600 text-sm mt-1">{errors.city}</p>
+            )}
           </div>
         </div>
+
         <div className="mt-4">
           <label className="block font-medium mb-1">
             Kanton<span className="text-red-500">*</span>
@@ -2381,24 +2412,28 @@ onChange={(date) => {
             <option value="ZG">Zug</option>
             <option value="ZH">Zürich</option>
           </select>
+          {errors.kanton && (
+            <p className="text-red-600 text-sm mt-1">{errors.kanton}</p>
+          )}
         </div>
- <div className="mt-4">
-  <label className="block font-medium mb-1">
-    Land<span className="text-red-500">*</span>
-  </label>
-  <input
-    type="text"
-    name="address"
-    value="Schweiz"
-    readOnly
-    className={`${inputClass} bg-gray-100 cursor-not-allowed`}
-  />
-</div>
 
+        <div className="mt-4">
+          <label className="block font-medium mb-1">
+            Land<span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="address"
+            value="Schweiz"
+            readOnly
+            className={`${inputClass} bg-gray-100 cursor-not-allowed`}
+          />
+        </div>
       </div>
     </div>
   </>
 )}
+
 
 {step === 3 && !testMode && ( <> <h2 className="text-2xl font-bold text-gray-900 mb-6"> Zahlungsdetails 
   <span className="text-red-500">*</span></h2>
@@ -2474,10 +2509,11 @@ onChange={(date) => {
 </div>
 
  <div className="p-5 border border-gray-200 rounded-xl shadow-sm bg-white">
-   <CardElement options={{ style:
+   <CardElement   key={step} options={{ style:
      { base: { fontSize: "16px", color: "#1f2937", fontFamily: "system-ui, sans-serif", 
      "::placeholder": { color: "#9ca3af" }, }, invalid: { color: "#ef4444" }, }, 
-     }} /> </div> {/* Hinweise */} <div className="mt-4 space-y-2"> <p className="text-sm sm:text-base text-gray-600">
+     }} /> </div>
+      {/* Hinweise */} <div className="mt-4 space-y-2"> <p className="text-sm sm:text-base text-gray-600">
        Alle Zahlungen werden sicher verarbeitet. </p> <p className="text-sm sm:text-base text-gray-600">
          Ihre Karte wird erst{" "} <span className="font-medium text-gray-800 block sm:inline"> 
           48 Stunden nach erfolgter Dienstleistung </span>{" "} belastet.
@@ -2631,6 +2667,9 @@ onChange={(date) => {
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
       />
+      {errors.requestFirstName && (
+  <p className="text-red-500 text-sm mt-1">{errors.requestFirstName}</p>
+)}
     </div>
 
     <div className="mb-2">
@@ -2648,6 +2687,10 @@ onChange={(date) => {
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
       />
+      {errors.requestLastName && (
+  <p className="text-red-500 text-sm mt-1">{errors.requestLastName}</p>
+)}
+
     </div>
     <div className="mb-2">
       <label className="block font-medium mb-1">
@@ -2664,6 +2707,9 @@ onChange={(date) => {
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
       />
+      {errors.requestPhone && (
+  <p className="text-red-500 text-sm mt-1">{errors.requestPhone}</p>
+)}
     </div>
     <div className="mb-2">
       <label className="block font-medium mb-1">
@@ -2681,6 +2727,9 @@ onChange={(date) => {
           sameAsEinsatzort ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
       />
+      {errors.requestEmail && (
+  <p className="text-red-500 text-sm mt-1">{errors.requestEmail}</p>
+)}
     </div>
   </div>
 </div>
@@ -2746,6 +2795,9 @@ onChange={(date) => {
     className={inputClass}
     required
   >
+    {errors.hasParking && (
+  <p className="text-red-500 text-sm mt-1">{errors.hasParking}</p>
+)}
     <option value="">Bitte auswählen</option>
     <option value="Ja">Ja</option>
     <option value="Nein">Nein</option>
@@ -2764,6 +2816,9 @@ onChange={(date) => {
         className={inputClass}
         required={form.hasParking === "Ja"} // ✅ Obligative only if “Ja”
       />
+          {errors.parkingLocation && (
+      <p className="text-red-500 text-sm mt-1">{errors.parkingLocation}</p>
+    )}
     </div>
   )}
 </div>
@@ -3491,20 +3546,31 @@ onChange={(date) => {
     <option value="Nein">Nein</option>
   </select>
 
+  {errors.hasPets && (
+    <p className="text-red-500 text-sm mt-1">{errors.hasPets}</p>
+  )}
+
   {form.hasPets === "Ja" && (
-    <input
-      name="petDetails"
-      placeholder="Welche Haustiere?"
-      value={form.petDetails || ""}
-      onChange={handleChange}
-      required={form.hasPets === "Ja"}
-      className={inputClass + " mt-2"}
-    />
+    <>
+      <input
+        name="petDetails"
+        placeholder="Welche Haustiere?"
+        value={form.petDetails || ""}
+        onChange={handleChange}
+        required={form.hasPets === "Ja"}
+        className={inputClass + " mt-2"}
+      />
+      {errors.petDetails && (
+        <p className="text-red-500 text-sm mt-1">{errors.petDetails}</p>
+      )}
+    </>
   )}
 </div>
 
 <div>
   <label className="block font-medium mb-1">Allergien</label>
+  
+  {/* Select për përgjigjen */}
   <select
     name="hasAllergies"
     value={form.hasAllergies || ""}
@@ -3517,17 +3583,31 @@ onChange={(date) => {
     <option value="Nein">Nein</option>
   </select>
 
+  {/* ⛔️ Error message për dropdown */}
+  {errors.hasAllergies && (
+    <p className="text-red-500 text-sm mt-1">{errors.hasAllergies}</p>
+  )}
+
+  {/* Input për detajet kur zgjedh “Ja” */}
   {form.hasAllergies === "Ja" && (
-    <input
-      name="allergyDetails"
-      placeholder="Welche?"
-      value={form.allergyDetails || ""}
-      onChange={handleChange}
-      className="bg-white border border-gray-300 rounded-md p-3 w-full mt-2"
-      required={requiresAllergyInfo}
-    />
+    <>
+      <input
+        name="allergyDetails"
+        placeholder="Welche?"
+        value={form.allergyDetails || ""}
+        onChange={handleChange}
+        className="bg-white border border-gray-300 rounded-md p-3 w-full mt-2"
+        required={requiresAllergyInfo}
+      />
+
+      {/* ⛔️ Error message për detajet */}
+      {errors.allergyDetails && (
+        <p className="text-red-500 text-sm mt-1">{errors.allergyDetails}</p>
+      )}
+    </>
   )}
 </div>
+
                 </div>
                               </div>
                           </>
@@ -3607,13 +3687,18 @@ onChange={(date) => {
       type="button"
       onClick={() => {
         setLoading(true);
-        handleNext().finally(() => setLoading(false)); 
- 
+        handleNext().finally(() => setLoading(false));
       }}
-      className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
+      className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg font-semibold hover:bg-[#a88d55] transition"
+      style={{
+        position: "relative",
+        zIndex: 50, 
+        pointerEvents: "auto", 
+      }}
     >
       Jetzt bezahlen & weiter
     </button>
+
     {loading && (
       <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
         <div className="bg-white px-6 py-4 rounded-lg shadow-lg text-center">
@@ -3625,15 +3710,15 @@ onChange={(date) => {
     )}
   </>
 ) : (
- <button
-  type="button"
-  onClick={handleNextStep}
-  className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg"
->
-  Weiter
-</button>
-
-    )}
+  <button
+    type="button"
+    onClick={handleNextStep}
+    className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg font-semibold hover:bg-[#a88d55] transition"
+  >
+    Weiter
+  </button>
+)
+}
   </div>
 )}
           </div>
