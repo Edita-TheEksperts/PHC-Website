@@ -103,6 +103,52 @@ export default function EmployeeDetails() {
             />
           </Section>
 
+                <Section title="💼 Erfahrung">
+            <Item label="Jahre" value={employee.experienceYears} />
+            <Item label="Wo" value={employee.experienceWhere} />
+            <Item label="Unternehmen" value={employee.experienceCompany} />
+          </Section>
+          <Section title="🏖️ Urlaube des Mitarbeiters">
+  {employee.vacations?.length > 0 ? (
+    <ul className="space-y-2">
+      {employee.vacations.map((v) => (
+        <li
+          key={v.id}
+          className="border p-3 rounded-lg bg-gray-50 shadow-sm hover:bg-gray-100 transition"
+        >
+          <p className="font-medium text-[#04436F]">
+            📅 {formatDate(v.startDate)} – {formatDate(v.endDate)}
+          </p>
+
+          <span
+            className={`px-2 py-1 text-xs rounded mt-1 inline-block ${
+              v.status === "approved"
+                ? "bg-green-100 text-green-700"
+                : v.status === "rejected"
+                ? "bg-red-100 text-red-700"
+                : "bg-yellow-100 text-yellow-700"
+            }`}
+          >
+            {v.status === "approved"
+              ? "Genehmigt"
+              : v.status === "rejected"
+              ? "Abgelehnt"
+              : "Ausstehend"}
+          </span>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className="text-gray-500 text-sm italic">
+      Keine Urlaube gefunden
+    </p>
+  )}
+</Section>
+
+        </div>
+
+        {/* === RIGHT COLUMN === */}
+        <div className="space-y-5">
           <Section title="🗂 Hochgeladene Dateien">
             {fileLinks.map((f) => (
               <Item
@@ -112,15 +158,7 @@ export default function EmployeeDetails() {
               />
             ))}
           </Section>
-        </div>
-
-        {/* === RIGHT COLUMN === */}
-        <div className="space-y-5">
-          <Section title="💼 Erfahrung">
-            <Item label="Jahre" value={employee.experienceYears} />
-            <Item label="Wo" value={employee.experienceWhere} />
-            <Item label="Unternehmen" value={employee.experienceCompany} />
-          </Section>
+    
 
           <Section title="🚘 Führerschein & Fahrzeug">
             <Item label="Hat Lizenz" value={employee.hasLicense ? "Yes" : "No"} />
@@ -167,6 +205,43 @@ export default function EmployeeDetails() {
               </ul>
             )}
           </Section>
+
+          <Section title="📅 Termine von Mitarbeiter">
+  {employee.schedules?.length > 0 ? (
+    <ul className="space-y-2">
+      {employee.schedules.map((a) => (
+        <li
+          key={a.id}
+          className="border p-3 rounded-lg bg-gray-50 shadow-sm hover:bg-gray-100 transition cursor-pointer"
+        >
+          <p className="font-medium text-[#04436F]">
+            👤 Kunde: {a.user?.firstName} {a.user?.lastName}
+          </p>
+          
+          <p className="text-sm text-gray-600">
+            📅 {new Date(a.date).toLocaleDateString("de-DE")} — 🕒 {a.startTime} | {a.hours}h
+          </p>
+
+          <span
+            className={`px-2 py-1 inline-block text-xs rounded mt-1 ${
+              a.status === "completed" ? "bg-green-100 text-green-700" :
+              a.status === "cancelled" ? "bg-red-100 text-red-700" :
+              a.status === "active" ? "bg-yellow-100 text-yellow-700" :
+              "bg-blue-100 text-blue-700"
+            }`}
+          >
+            {a.status}
+          </span>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className="text-gray-500 text-sm italic">
+      Keine Termine für diesen Mitarbeiter gefunden
+    </p>
+  )}
+</Section>
+
         </div>
       </div>
 

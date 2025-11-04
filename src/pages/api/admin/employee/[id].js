@@ -8,18 +8,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    const employee = await prisma.employee.findUnique({
-      where: { id },
-      include: {
-        schedules: true,
-        assignments: {
-          include: {
-            user: true, // Get assigned client info
-          },
-        },
-        rejectionWarnings: true,
-      },
-    });
+const employee = await prisma.employee.findUnique({
+  where: { id },
+  include: {
+  schedules: {
+    include: { user: true },
+    orderBy: { date: "desc" },
+  },
+  assignments: {
+    include: { user: true },
+  },
+  rejectionWarnings: true,
+  vacations: true, // ✅ Add this line
+},
+
+});
+
 
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });

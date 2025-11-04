@@ -672,10 +672,12 @@ async function handleInvite(emp) {
     "Terminabsage",
     "Terminübersicht",
     "Bewerbungsstatus", 
+   
     "Arbeitszeiterfassung",
     "Buchungen",            
     "Buchungsstatus",
      "Gutscheine",
+      "New Mitarbeietr",
 
   ].map((tab) => (
     <Tab
@@ -1214,7 +1216,89 @@ async function handleInvite(emp) {
 </DashboardCard>
 
 </Tab.Panel>
+<Tab.Panel>
+  <div className="space-y-8">
 
+    {/* ✅ Top Section Title */}
+    <div>
+      <h1 className="text-2xl font-bold text-[#04436F]">Mitarbeiter Verwaltung</h1>
+      <p className="text-gray-500 text-sm mt-1">
+        Übersicht über Mitarbeiter, Einsätze und Termine
+      </p>
+    </div>
+
+    {/* ✅ Grid Layout */}
+    <div className="grid grid-cols-12 gap-6">
+
+      {/* ✅ Left Column */}
+      <div className="col-span-8 space-y-6">
+
+        {/* 👥 Employees Table */}
+        <div className="bg-white rounded-2xl shadow-sm p-6 border">
+          <h2 className="text-lg font-semibold text-[#04436F] mb-4 flex items-center gap-2">
+            👥 Mitarbeiter
+          </h2>
+
+          <EmployeeTable
+            employees={employees}
+            onApprove={handleApproval}
+            onReject={handleRejection}
+            onInvite={handleInvite}
+          />
+        </div>
+
+        {/* 📌 Employees on Assignment */}
+        <div className="bg-white rounded-2xl shadow-sm p-6 border">
+          <EmployeesOnAssignment employees={employees} />
+        </div>
+      </div>
+
+      {/* ✅ Right Column */}
+      <div className="col-span-4 space-y-6">
+
+        {/* 🌴 Vacation Requests */}
+        <div className="bg-white rounded-2xl shadow-sm p-6 border">
+          <h2 className="text-lg font-semibold text-[#04436F] mb-4 flex items-center gap-2">
+            🌴 Urlaub Anträge
+          </h2>
+
+          {vacations?.length > 0 ? (
+            <ul className="space-y-2 max-h-[240px] overflow-auto pr-2">
+              {vacations.map(v => (
+                <li key={v.id} className="p-3 border rounded-xl bg-gray-50 shadow-sm">
+                  <p className="font-semibold">
+                    👷 {v.employee?.firstName} {v.employee?.lastName}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    📅 {new Date(v.startDate).toLocaleDateString()} → {new Date(v.endDate).toLocaleDateString()}
+                  </p>
+                  <span className={`px-2 py-1 inline-block text-xs rounded mt-1 ${
+                    v.status==="approved" ? "bg-green-100 text-green-700" :
+                    v.status==="declined" ? "bg-red-100 text-red-700" :
+                    "bg-yellow-100 text-yellow-700"
+                  }`}>
+                    {v.status}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 text-sm italic">Keine Urlaubsanträge</p>
+          )}
+        </div>
+
+        {/* 📅 Appointment Calendar */}
+        <div className="bg-white rounded-2xl shadow-sm p-6 border">
+          <h2 className="text-lg font-semibold text-[#04436F] mb-4 flex items-center gap-2">
+            📅 Termine
+          </h2>
+
+          <AppointmentCalendar schedules={schedules} />
+        </div>
+      </div>
+    </div>
+  </div>
+</Tab.Panel>
 
         </Tab.Panels>
       </Tab.Group>
