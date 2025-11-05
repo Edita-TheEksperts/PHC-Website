@@ -91,17 +91,41 @@ export default async function handler(req, res) {
 const schedules = await prisma.schedule.findMany({
   include: {
     user: {
-      include: { services: true }, 
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        services: { select: { name: true }},
+      }
     },
+    employee: {
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        phone: true
+      }
+    }
   },
+  orderBy: { date: "asc" }
 });
+
 const schedulesWithService = schedules.map(s => ({
   ...s,
   serviceName:
-    s.serviceName ||
-    s.subServiceName ||
+    s.serviceName || 
     (s.user?.services?.[0]?.name ?? null),
+  subServiceName: s.subServiceName || null,
 }));
+
+return res.status(200).json({
+  employees,
+  clients,
+  schedules: schedulesWithService
+});
+
+
       return res.status(200).json({ employees, clients, schedules });
     } catch (error) {
       console.error('Error fetching dashboard data:', error);

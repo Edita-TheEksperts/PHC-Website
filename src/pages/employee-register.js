@@ -87,6 +87,14 @@ const scrollToTop = () => {
     availabilityDays: [],
     servicesOffered: [],
     howDidYouHearAboutUs: "",
+      passportFrontFile: null,
+  passportBackFile: null,
+  workPermitFile: null,
+  policeLetterFile: null,
+  cvFile: null,
+  certificateFile: null,
+  drivingLicenceFile: null,
+  profilePhoto: null,
   });
 const services = {
   "Alltagsbegleitung und Besorgungen": [
@@ -280,30 +288,14 @@ if (form.availabilityFrom === "") {
   }
 
 // File Uploads
-if (!form.passportFrontFile || form.passportFrontFile.length === 0) {
-  newErrors.passportFrontFile = "Bitte Vorderseite des Passes/IDs hochladen.";
-}
-if (!form.passportBackFile || form.passportBackFile.length === 0) {
-  newErrors.passportBackFile = "Bitte Rückseite des Passes/IDs hochladen.";
-}
-
-  if (!form.cvFile || form.cvFile.length === 0) {
-    newErrors.cvFile = "Bitte Lebenslauf hochladen.";
+  // ✅ File checks (truthy)
+    if (!form.passportFrontFile) newErrors.passportFrontFile = "Bitte Vorderseite des Passes/IDs hochladen.";
+    if (!form.passportBackFile) newErrors.passportBackFile = "Bitte Rückseite des Passes/IDs hochladen.";
+    if (!form.cvFile) newErrors.cvFile = "Bitte Lebenslauf hochladen.";
+    if (form.residencePermit !== "CH Pass" && !form.workPermitFile) newErrors.workPermitFile = "Bitte Aufenthalts- oder Arbeitsbewilligung hochladen.";
+    if (form.hasLicense === "ja" && !form.drivingLicenceFile) newErrors.drivingLicenceFile = "Bitte Führerschein hochladen.";
+    if (!form.profilePhoto) newErrors.profilePhoto = "Bitte Foto hochladen.";
   }
-
-  if (form.residencePermit !== "CH Pass" && (!form.workPermitFile || form.workPermitFile.length === 0)) {
-newErrors.workPermitFile = "Bitte Aufenthalts- oder Arbeitsbewilligung hochladen.";
-
-  }
-
-  if (form.hasLicense === "ja" && (!form.drivingLicenceFile || form.drivingLicenceFile.length === 0)) {
-    newErrors.drivingLicenceFile = "Bitte Führerschein hochladen.";
-  }
-
-  if (!form.profilePhoto || form.profilePhoto.length === 0) {
-    newErrors.profilePhoto = "Bitte Foto hochladen.";
-  }
-}
 
 
    setErrors(newErrors);
@@ -1161,7 +1153,8 @@ useEffect(() => {
         accept="image/*,application/pdf"
         capture="environment"
         style={{ display: "none" }}
-        onChange={(e) => setForm({ ...form, [field.key]: e.target.files })}
+    onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
+
         required={field.required}
       />
 

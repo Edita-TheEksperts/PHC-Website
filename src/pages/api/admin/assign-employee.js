@@ -1,77 +1,46 @@
-import { prisma } from "../../../lib/prisma";
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: process.env.SMTP_SECURE === "true",
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+// /pages/api/admin/assign-employee.js
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
+  }
+
+  const { appointmentId, userId } = req.body;
+
+  if (!appointmentId || !userId) {
+    return res.status(400).json({ message: "Missing data" });
+  }
 
   try {
-    const { userId, employeeId, serviceName, firstDate } = req.body;
-
-    if (!userId || !employeeId) {
-      return res.status(400).json({ message: "Missing userId or employeeId" });
-    }
-
-    // ✅ Complete old assignments
-    await prisma.assignment.updateMany({
-      where: { userId, status: "active" },
-      data: { status: "completed" },
+    // Get appointment
+    const appointment = await prisma.schedule.findUnique({
+      where: { id: parseInt(appointmentId) },
     });
 
-    // ✅ Create new assignment
-    const assignment = await prisma.assignment.create({
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    // ✅ Insert into Assignment table
+    await prisma.assignment.create({
       data: {
-        userId,
-        employeeId,
-        status: "active",
-        confirmationStatus: "pending",
-        serviceName,
-        firstDate: firstDate ? new Date(firstDate) : null,
+        userId: appointment.userId, // client ID
+        employeeId: userId, // employee selected
+        serviceName: appointment.serviceName || "",
       },
     });
 
-    // ✅ Fetch employee details
-    const employee = await prisma.employee.findUnique({
-      where: { id: employeeId },
+    // ✅ Update appointment with employeeId
+    await prisma.schedule.update({
+      where: { id: parseInt(appointmentId) },
+      data: { employeeId: userId },
     });
 
-    if (!employee) {
-      return res.status(404).json({ message: "Employee not found" });
-    }
-
-    // ✅ Fetch email template from DB
-    const template = await prisma.emailTemplate.findUnique({
-      where: { name: "assignmentNotification" }, // must match your seed
-    });
-
-    if (!template) {
-      return res.status(500).json({ message: "Email template not found" });
-    }
-
-    // ✅ Replace placeholders
-    let body = template.body;
-    body = body.replace("{{firstName}}", employee.firstName || "");
-
-    // ✅ Send email
-    await transporter.sendMail({
-      from: `"PHC Admin" <${process.env.SMTP_USER}>`,
-      to: employee.email,
-      subject: template.subject,
-      html: body,
-    });
-
-    res.status(200).json({ assignment });
-  } catch (err) {
-    console.error("Error assigning employee:", err);
-    res.status(500).json({ message: "Failed to assign employee" });
+    res.status(200).json({ message: "Employee assigned successfully" });
+  } catch (error) {
+    console.error("Assign Error:", error);
+    res.status(500).json({ message: error.message });
   }
 }
