@@ -12,52 +12,78 @@ export function createNdaPdf(firstName, lastName) {
     doc.on("data", buffers.push.bind(buffers));
     doc.on("end", () => resolve(Buffer.concat(buffers)));
 
-    // Logo
     try {
       doc.image("./public/phc-logo.png", { fit: [120, 120], align: "center" });
-    } catch (e) {
+    } catch {
       console.log("⚠️ NDA Logo not found, skipping image");
     }
 
     doc.moveDown(2);
-
-    // Title
     doc.fontSize(20).font("Helvetica-Bold").text("Non-Disclosure Agreement (NDA)", { align: "center" });
     doc.moveDown(2);
-
-    // Date
     doc.fontSize(12).font("Helvetica").text(`Datum: ${new Date().toLocaleDateString("de-CH")}`);
     doc.moveDown(2);
 
-    // Parties
-    doc.fontSize(12).text(`Diese NDA wird abgeschlossen mit:`, { continued: false });
-    doc.font("Helvetica-Bold").text(`${firstName} ${lastName}`, { indent: 20 });
-    doc.moveDown(2);
-
-    // Agreement text
     doc.font("Helvetica").text(
       `Mit der Unterzeichnung dieser NDA erklärt sich ${firstName} ${lastName} bereit, alle vertraulichen Informationen von Prime Home Care AG geheim zu halten.`,
       { align: "justify" }
     );
-    doc.moveDown(3);
 
-    // Signature section
-    doc.text("_____________________________", { align: "left" });
-    doc.text(`${firstName} ${lastName}`, { align: "left" });
     doc.moveDown(3);
-
-    doc.text("_____________________________", { align: "left" });
-    doc.text("Prime Home Care AG", { align: "left" });
+    doc.text("_____________________________");
+    doc.text(`${firstName} ${lastName}`);
+    doc.moveDown(3);
+    doc.text("_____________________________");
+    doc.text("Prime Home Care AG");
 
     doc.end();
   });
 }
 
 /**
- * Send welcome email with NDA + Arbeitsvertrag PDFs
+ * Create Arbeitsvertrag PDF
+ */
+export function createContractPdf(employee) {
+  return new Promise((resolve) => {
+    const doc = new PDFDocument({ margin: 50 });
+    const buffers = [];
+
+    doc.on("data", buffers.push.bind(buffers));
+    doc.on("end", () => resolve(Buffer.concat(buffers)));
+
+    const fullName = `${employee.firstName || ""} ${employee.lastName || ""}`;
+    const city = employee.city || "";
+    const date = new Date().toLocaleDateString("de-CH");
+
+    doc.fontSize(18).font("Helvetica-Bold").text("Arbeitsvertrag", { align: "center" });
+    doc.moveDown(2);
+    doc.fontSize(12).font("Helvetica").text(`Datum: ${date}`).moveDown(2);
+    doc.text(`Zwischen Prime Home Care AG und ${fullName}, ${city}.`);
+    doc.moveDown(2);
+    doc.text("Dieser Vertrag bestätigt die Anstellung als Pflegehilfe / Betreuungsperson.");
+    doc.moveDown(2);
+    doc.text("Lohn: CHF 25.00 / Stunde + Ferienentschädigung + 13. Monatslohn.");
+    doc.moveDown(3);
+    doc.text("_____________________________");
+    doc.text(`${fullName}`);
+    doc.moveDown(3);
+    doc.text("_____________________________");
+    doc.text("Prime Home Care AG");
+
+    doc.end();
+  });
+}
+
+/**
+ * Send email with NDA + contract
  */
 export async function sendApprovalEmail(employee) {
   const { email, firstName, lastName } = employee;
+
+  if (!email) {
+    console.error("❌ sendApprovalEmail: Missing employee email!", employee);
+    throw new Error("Employee email address is missing.");
+  }
   const portalUrl = process.env.NEXT_PUBLIC_BASE_URL + "/login";
 
   const ndaBuffer = await createNdaPdf(firstName, lastName);
@@ -77,42 +103,16 @@ export async function sendApprovalEmail(employee) {
     from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
     to: email,
     subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
-text: `
-Liebe ${firstName}
-
-Vielen Dank für Ihre Registrierung bei Prime Home Care AG.
-
-Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.
-
-Login-Link: ${portalUrl}
-Benutzername: ${email}
-
-Hinweis: Falls Sie den Strafregister noch nicht bestellt haben, können Sie diesen hier bestellen:
-https://www.e-service.admin.ch/crex/app/wizard/navigate.do
-
-Bei Fragen stehen wir Ihnen jederzeit zur Verfügung. Willkommen im Team!
-
-Herzliche Grüsse  
-Prime Home Care AG
-`,
-
-html: `
-  <p>Liebe ${firstName}</p>
-  <p>Vielen Dank für Ihre Registrierung bei <strong>Prime Home Care AG</strong>.</p>
-  <p>Ihr Zugang zum Mitarbeitenden-Portal ist jetzt freigeschaltet. Hier finden Sie alle relevanten Informationen zu Einsätzen, Dokumenten, Rapports und mehr.</p>
-  <p><strong>Login-Link:</strong> <br/> <a href="${portalUrl}">${portalUrl}</a><br/>
-  <strong>Benutzername:</strong> ${email}</p>
-
-  <p><strong>Hinweis:</strong> Falls Sie den Strafregister noch nicht bestellt haben, können Sie diesen hier bestellen:<br/>
-  <a href="https://www.e-service.admin.ch/crex/app/wizard/navigate.do" target="_blank">https://www.e-service.admin.ch/crex/app/wizard/navigate.do</a></p>
-
-  <p>Bei Fragen stehen wir Ihnen jederzeit zur Verfügung. Willkommen im Team!</p>
-  <p>Herzliche Grüsse<br/>
-  Prime Home Care AG</p>
-`,
-
+    html: `
+      <p>Liebe ${firstName},</p>
+      <p>Vielen Dank für Ihre Registrierung bei <strong>Prime Home Care AG</strong>.</p>
+      <p>Im Anhang finden Sie Ihre <strong>NDA</strong> und Ihren <strong>Arbeitsvertrag</strong>.</p>
+      <p><strong>Login-Link:</strong> <a href="${portalUrl}">${portalUrl}</a></p>
+      <p>Herzliche Grüsse<br/>Prime Home Care AG</p>
+    `,
     attachments: [
       { filename: `NDA_${firstName}_${lastName}.pdf`, content: ndaBuffer },
+      { filename: `Arbeitsvertrag_${firstName}_${lastName}.pdf`, content: contractBuffer },
     ],
   });
 }

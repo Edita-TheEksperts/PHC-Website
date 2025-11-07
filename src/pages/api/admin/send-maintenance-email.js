@@ -10,7 +10,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // get template
     const template = await prisma.emailTemplate.findUnique({
       where: { name: "maintenanceEmail" },
     });
@@ -19,32 +18,58 @@ export default async function handler(req, res) {
       return res.status(500).json({ message: "Template not found" });
     }
 
-    const clients = await prisma.user.findMany({
-      select: { email: true, firstName: true, lastName: true },
-    });
+    // Merrim klientët dhe punonjësit
+    const [clients, employees] = await Promise.all([
+      prisma.user.findMany({
+        select: { email: true, firstName: true, lastName: true },
+      }),
+      prisma.employee.findMany({
+        select: { email: true, firstName: true, lastName: true },
+      }),
+    ]);
 
     const phone = process.env.SUPPORT_PHONE || "[Telefonnummer]";
 
-    const sendTasks = clients.map((client) => {
-      // Replace placeholders
+    // Dërgojmë emailet një nga një
+    for (const client of clients) {
       const html = template.body
         .replace(/{{firstName}}/g, client.firstName || "")
         .replace(/{{lastName}}/g, client.lastName || "")
+        .replace(/{{portal}}/g, "Kundenportal")
+        .replace(/{{role}}/g, "Kunde")
         .replace(/{{date}}/g, date)
         .replace(/{{timeStart}}/g, timeStart)
         .replace(/{{timeEnd}}/g, timeEnd)
         .replace(/{{phone}}/g, phone);
 
-      return sendEmail({
+      await sendEmail({
         to: client.email,
         subject: template.subject,
         html,
       });
+    }
+
+    for (const emp of employees) {
+      const html = template.body
+        .replace(/{{firstName}}/g, emp.firstName || "")
+        .replace(/{{lastName}}/g, emp.lastName || "")
+        .replace(/{{portal}}/g, "Mitarbeiterportal")
+        .replace(/{{role}}/g, "Mitarbeiter")
+        .replace(/{{date}}/g, date)
+        .replace(/{{timeStart}}/g, timeStart)
+        .replace(/{{timeEnd}}/g, timeEnd)
+        .replace(/{{phone}}/g, phone);
+
+      await sendEmail({
+        to: emp.email,
+        subject: template.subject,
+        html,
+      });
+    }
+
+    res.status(200).json({
+      message: `✅ E-Mails an ${clients.length} Kunden und ${employees.length} Mitarbeiter gesendet.`,
     });
-
-    await Promise.all(sendTasks);
-
-    res.status(200).json({ message: `E-Mails an ${clients.length} Kunden gesendet.` });
   } catch (error) {
     console.error("❌ Fehler beim Senden:", error);
     res.status(500).json({ message: "Fehler beim Senden der E-Mails." });

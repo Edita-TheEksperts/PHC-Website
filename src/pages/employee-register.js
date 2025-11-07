@@ -364,8 +364,6 @@ const payload = {
   availabilityFrom: form.availabilityFrom || new Date().toISOString().split("T")[0],
   specialTrainings: Array.isArray(form.specialTrainings) ? form.specialTrainings : [],
 };
-const [errors, setErrors] = useState({});
-
 
     // Send form data to your API
     const res = await fetch("/api/employee-register", {

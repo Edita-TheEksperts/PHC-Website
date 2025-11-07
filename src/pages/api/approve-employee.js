@@ -20,7 +20,8 @@ export default async function handler(req, res) {
     });
 
     // ✅ Send email from the helper
-    await sendApprovalEmail(updated.email);
+await sendApprovalEmail(updated);
+
 
     return res.status(200).json({
       message: "Employee approved and email sent",

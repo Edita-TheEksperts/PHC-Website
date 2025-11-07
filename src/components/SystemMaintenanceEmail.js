@@ -1,25 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function SystemMaintenanceEmail({ clients }) {
+export default function SystemMaintenanceEmail({ clientsCount = 0, employeesCount = 0 }) {
   const [sending, setSending] = useState(false);
   const [message, setMessage] = useState("");
-  const [date, setDate] = useState("");  // e.g. "25.07.2025"
-  const [timeStart, setTimeStart] = useState(""); // e.g. "08:00"
-  const [timeEnd, setTimeEnd] = useState("");     // e.g. "12:00"
+  const [date, setDate] = useState("");
+  const [timeStart, setTimeStart] = useState("");
+  const [timeEnd, setTimeEnd] = useState("");
+  const [recipientType, setRecipientType] = useState("clients"); // clients or employees
 
-  // Email preview text with placeholders replaced
+  const portalLabel = recipientType === "clients" ? "Kundenportal" : "Mitarbeiterportal";
+  const greetingLabel = recipientType === "clients" ? "Guten Tag," : "Liebe/r Mitarbeiter/in,";
+
   const emailSubject = "Information: Vorübergehende Systemwartung";
   const emailBody = `
-Guten Tag,
+${greetingLabel}
 
-Am ${date} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.
+Am ${date || "____"} zwischen ${timeStart || "____"} und ${timeEnd || "____"} führen wir geplante Wartungsarbeiten an unserem System durch.
 
-In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${process.env.NEXT_PUBLIC_SUPPORT_PHONE || "[Telefonnummer]"}.
+In diesem Zeitraum ist das ${portalLabel} vorübergehend nicht erreichbar. 
+Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${
+    process.env.NEXT_PUBLIC_SUPPORT_PHONE || "[Telefonnummer]"
+  }.
 
 Vielen Dank für Ihr Verständnis.
 
 Freundliche Grüsse
-
 Ihr Prime Home Care Team
 `.trim();
 
@@ -28,6 +33,7 @@ Ihr Prime Home Care Team
       setMessage("Bitte Datum und Uhrzeiten ausfüllen.");
       return;
     }
+
     setSending(true);
     setMessage("");
 
@@ -35,11 +41,12 @@ Ihr Prime Home Care Team
       const res = await fetch("/api/admin/send-maintenance-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date, timeStart, timeEnd }),
+        body: JSON.stringify({ date, timeStart, timeEnd, recipientType }),
       });
 
       if (res.ok) {
-        setMessage(`✅ Wartungs-Mail wurde an ${clients.length} Kunden gesendet.`);
+        const count = recipientType === "clients" ? clientsCount : employeesCount;
+        setMessage(`✅ Wartungs-Mail wurde an ${count} ${recipientType === "clients" ? "Kunden" : "Mitarbeiter"} gesendet.`);
       } else {
         const err = await res.json();
         setMessage("❌ Fehler: " + err.message);
@@ -53,7 +60,33 @@ Ihr Prime Home Care Team
 
   return (
     <div className="bg-white rounded-xl shadow p-6 max-w-xl mx-auto space-y-6">
-      <h2 className="text-xl font-bold text-[#04436F]">Systemwartung E-Mail an alle Kunden</h2>
+      <h2 className="text-xl font-bold text-[#04436F]">
+        Systemwartung E-Mail an {recipientType === "clients" ? "alle Kunden" : "alle Mitarbeiter"}
+      </h2>
+
+      {/* Zgjedhja e llojit të marrësit */}
+      <div className="flex gap-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="recipientType"
+            value="clients"
+            checked={recipientType === "clients"}
+            onChange={() => setRecipientType("clients")}
+          />
+          <span>Kunden</span>
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="recipientType"
+            value="employees"
+            checked={recipientType === "employees"}
+            onChange={() => setRecipientType("employees")}
+          />
+          <span>Mitarbeiter</span>
+        </label>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <label className="flex flex-col">
@@ -100,11 +133,19 @@ Ihr Prime Home Care Team
           sending ? "bg-gray-400 cursor-not-allowed" : "bg-[#04436F] hover:bg-[#03314f]"
         } transition-colors duration-200`}
       >
-        {sending ? "Sende E-Mail..." : `E-Mail an alle ${clients.length} Kunden senden`}
+        {sending
+          ? "Sende E-Mail..."
+          : `E-Mail an alle ${
+              recipientType === "clients" ? clientsCount + " Kunden" : employeesCount + " Mitarbeiter"
+            } senden`}
       </button>
 
       {message && (
-        <p className={`text-center text-sm mt-2 ${message.startsWith("❌") ? "text-red-600" : "text-green-600"}`}>
+        <p
+          className={`text-center text-sm mt-2 ${
+            message.startsWith("❌") ? "text-red-600" : "text-green-600"
+          }`}
+        >
           {message}
         </p>
       )}
