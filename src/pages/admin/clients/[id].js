@@ -133,36 +133,48 @@ export default function ClientDetails() {
        <div className="pt-4">
   <h2 className="text-xl font-semibold text-gray-700 mb-3">🗓️ Iplanti Bsüech</h2>
   <div className="overflow-x-auto">
-    <table className="min-w-full border border-gray-200 text-sm">
-      <thead className="bg-gray-100 text-gray-700">
-        <tr>
-          <th className="px-4 py-2 text-left">Tag</th>
-          <th className="px-4 py-2 text-left">Datum</th>
-          <th className="px-4 py-2 text-left">Startzit</th>
-          <th className="px-4 py-2 text-left">Stunde</th>
-          <th className="px-4 py-2 text-left">KM</th>
-          <th className="px-4 py-2 text-left">Ufnah</th>
-        </tr>
-      </thead>
-      <tbody>
-        {client.schedules.map((sched) => (
-          <tr key={sched.id} className="border-t hover:bg-gray-50">
-            <td className="px-4 py-2">{sched.day}</td>
-            <td className="px-4 py-2">{sched.date ? new Date(sched.date).toLocaleDateString("de-CH") : "—"}</td>
-            <td className="px-4 py-2">{sched.startTime}</td>
-            <td className="px-4 py-2">{sched.hours}h</td>
-            <td className="px-4 py-2">{sched.kilometers ?? "—"}</td>
-            <td className="px-4 py-2">
-              {sched.captured ? (
-                <span className="text-green-600 font-medium">✔ Ufnah</span>
-              ) : (
-                <span className="text-red-500">✖ No nid</span>
-              )}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+<table className="min-w-full border border-gray-200 text-sm">
+  <thead className="bg-gray-100 text-gray-700">
+    <tr>
+      <th className="px-4 py-2 text-left">Tag</th>
+      <th className="px-4 py-2 text-left">Datum</th>
+      <th className="px-4 py-2 text-left">Startzit</th>
+      <th className="px-4 py-2 text-left">Stunde</th>
+      <th className="px-4 py-2 text-left">KM</th>
+      <th className="px-4 py-2 text-left">Klient</th>
+      <th className="px-4 py-2 text-left">Adresse</th>
+      <th className="px-4 py-2 text-left">Ufnah</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {client.schedules.map((sched) => (
+      <tr key={sched.id} className="border-t hover:bg-gray-50">
+        <td className="px-4 py-2">{sched.day}</td>
+        <td className="px-4 py-2">
+          {sched.date ? new Date(sched.date).toLocaleDateString("de-CH") : "—"}
+        </td>
+        <td className="px-4 py-2">{sched.startTime}</td>
+        <td className="px-4 py-2">{sched.hours}h</td>
+        <td className="px-4 py-2">{sched.kilometers ?? "—"}</td>
+        <td className="px-4 py-2">
+          {sched.user
+            ? `${sched.user.firstName} ${sched.user.lastName}`
+            : "—"}
+        </td>
+        <td className="px-4 py-2">{sched.user?.address || "—"}</td>
+        <td className="px-4 py-2">
+          {sched.captured ? (
+            <span className="text-green-600 font-medium">✔ Ufnah</span>
+          ) : (
+            <span className="text-red-500">✖ No nid</span>
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
   </div>
 </div>
 
