@@ -101,81 +101,18 @@ useEffect(() => {
                         {new Date(v.startDate).toLocaleDateString()} →{" "}
                         {new Date(v.endDate).toLocaleDateString()}
                       </p>
+{/* Action button */}
+<div className="flex flex-wrap gap-2 mb-2">
+  {v.user?.phone && (
+    <button
+      onClick={() => window.open(`tel:${v.user.phone}`)}
+      className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
+    >
+      Anruf
+    </button>
+  )}
+</div>
 
-                      {/* Action buttons */}
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        {v.user?.phone && (
-                          <button
-                            onClick={() => window.open(`tel:${v.user.phone}`)}
-                            className="px-3 py-1 bg-blue-500 text-white text-xs rounded-lg hover:bg-blue-600"
-                          >
-                            Anruf
-                          </button>
-                        )}
-
-                        {v.status === "pending" && (
-                          <>
-                            <button
-                              onClick={async () => {
-                                await fetch("/api/employee/update-vacation", {
-                                  method: "POST",
-                                  headers: { "Content-Type": "application/json" },
-                                  body: JSON.stringify({
-                                    vacationId: v.id,
-                                    action: "approve",
-                                  }),
-                                });
-                                setVacations((prev) =>
-                                  prev.map((x) =>
-                                    x.id === v.id
-                                      ? { ...x, status: "approved" }
-                                      : x
-                                  )
-                                );
-                              }}
-                              className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700"
-                            >
-                              Genehmigen
-                            </button>
-
-                            <button
-                              onClick={async () => {
-                                await fetch("/api/employee/update-vacation", {
-                                  method: "POST",
-                                  headers: { "Content-Type": "application/json" },
-                                  body: JSON.stringify({
-                                    vacationId: v.id,
-                                    action: "decline",
-                                  }),
-                                });
-                                setVacations((prev) =>
-                                  prev.map((x) =>
-                                    x.id === v.id
-                                      ? { ...x, status: "declined" }
-                                      : x
-                                  )
-                                );
-                              }}
-                              className="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600"
-                            >
-                              Ablehnen
-                            </button>
-                          </>
-                        )}
-                      </div>
-
-                      {/* Status */}
-                      <span
-                        className={`mt-2 inline-block text-xs px-2 py-1 rounded ${
-                          v.status === "approved"
-                            ? "bg-green-100 text-green-600"
-                            : v.status === "declined"
-                            ? "bg-red-100 text-red-600"
-                            : "bg-yellow-100 text-yellow-600"
-                        }`}
-                      >
-                        Status: {v.status}
-                      </span>
                     </li>
                   ))}
               </ul>

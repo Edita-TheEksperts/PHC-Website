@@ -276,9 +276,10 @@ useEffect(() => {
 </td>
 
 <td className="p-3">
-  {client.firstDate
-    ? new Date(client.firstDate).toISOString().slice(0, 10)
-    : "-"}
+{client.firstDate
+  ? new Date(client.firstDate).toLocaleDateString("de-DE")
+  : "-"}
+
 </td>
                <td className="p-3">
 <td className="p-3">
