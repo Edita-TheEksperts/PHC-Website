@@ -7,35 +7,34 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { appointmentId, userId } = req.body;
+  const { userId, employeeId } = req.body;
 
-  if (!appointmentId || !userId) {
-    return res.status(400).json({ message: "Missing data" });
+  if (!userId || !employeeId) {
+    return res.status(400).json({ message: "Missing userId or employeeId" });
   }
 
   try {
-    // Get appointment
-    const appointment = await prisma.schedule.findUnique({
-      where: { id: parseInt(appointmentId) },
-    });
+    // ✅ Verify the user exists (client)
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    if (!appointment) {
-      return res.status(404).json({ message: "Appointment not found" });
-    }
+    // ✅ Verify the employee exists
+    const employee = await prisma.employee.findUnique({ where: { id: employeeId } });
+    if (!employee) return res.status(404).json({ message: "Employee not found" });
 
-    // ✅ Insert into Assignment table
+    // ✅ Create new assignment
     await prisma.assignment.create({
       data: {
-        userId: appointment.userId, // client ID
-        employeeId: userId, // employee selected
-        serviceName: appointment.serviceName || "",
+        userId,
+        employeeId,
+        serviceName: "", // optional
       },
     });
 
-    // ✅ Update appointment with employeeId
-    await prisma.schedule.update({
-      where: { id: parseInt(appointmentId) },
-      data: { employeeId: userId },
+    // ✅ Optionally update user's status
+    await prisma.user.update({
+      where: { id: userId },
+      data: { status: "assigned" },
     });
 
     res.status(200).json({ message: "Employee assigned successfully" });

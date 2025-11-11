@@ -676,8 +676,7 @@ async function handleInvite(emp) {
     "Arbeitszeiterfassung",
     "Buchungen",            
     "Buchungsstatus",
-     "Gutscheine",
-      "New Mitarbeietr",
+     "Gutscheine"
 
   ].map((tab) => (
     <Tab

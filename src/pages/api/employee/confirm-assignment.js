@@ -58,16 +58,18 @@ if (action === "confirmed") {
     await sendApprovalEmail(employee);
   }
 
-  // 📧 Send confirmation template to the client
-  const { subject, body } = await getTemplate("assignmentAccepted", {
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
-    employeeName: `${employee.firstName} ${employee.lastName}`,
-    employeeEmail: employee.email,
-    employeePhone: employee.phone || "",
-    serviceName: user.services?.map((s) => s.name).join(", ") || "—",
-    startDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
-  });
+const { subject, body } = await getTemplate("assignmentAccepted", {
+  firstName: user.firstName || "",
+  lastName: user.lastName || "",
+  employeeFirstName: employee.firstName || "",
+  employeeLastName: employee.lastName || "",
+  employeeEmail: employee.email || "",
+  employeePhone: employee.phone || "",
+  serviceName: user.services?.map((s) => s.name).join(", ") || "—",
+  firstDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
+ 
+});
+
 
   await transporter.sendMail({
     from: `"PHC Team" <${process.env.SMTP_USER}>`,

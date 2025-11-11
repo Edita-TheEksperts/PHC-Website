@@ -114,9 +114,17 @@ async function handleCancel(clientId) {
     setTimeout(() => setMessage(""), 3000);
   }
 
+const safeClients = Array.isArray(clients) ? clients : [];
+
 const uniqueServices = [
-  ...new Set(clients.flatMap(c => c.services || []).map(s => s.name).filter(Boolean))
+  ...new Set(
+    safeClients
+      .flatMap(c => c.services || [])
+      .map(s => s.name)
+      .filter(Boolean)
+  )
 ];
+
 
 
 const filteredClients = clients
