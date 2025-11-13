@@ -24,12 +24,24 @@ function SystemMaintenanceEmailPage() {
     }
     fetchClients();
   }, []);
+const formatDate = (value) => {
+  if (!value) return "";
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return value;
+
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+
+  return `${day}.${month}.${year}`;
+};
 
   const emailSubject = "Information: Vorübergehende Systemwartung";
   const emailBody = `
 Guten Tag,
 
-Vom ${dateStart} bis zum ${dateEnd} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.
+Vom ${formatDate(dateStart)} bis zum ${formatDate(dateEnd)} zwischen ${timeStart} und ${timeEnd}
+ führen wir geplante Wartungsarbeiten an unserem System durch.
 
 In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${process.env.NEXT_PUBLIC_SUPPORT_PHONE || "[Telefonnummer]"}.
 

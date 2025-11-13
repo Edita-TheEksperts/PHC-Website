@@ -112,6 +112,7 @@ if (req.method === "PUT") {
       hours: update.hours ? Number(update.hours) : undefined,
       serviceName: update.serviceName,
       subServiceName: update.subServiceName,
+      status: "modified" // ✅ DOMOSDOSHEM!
     };
 
     if (update.date) {
@@ -144,6 +145,7 @@ if (req.method === "PUT") {
     return res.status(500).json({ error: "Failed to update appointment" });
   }
 }
+
 
 
 // ---------------- DELETE ----------------

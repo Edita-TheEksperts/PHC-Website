@@ -40,6 +40,10 @@ New Mitarbeiter
                 <Link href="/admin/kunden" className="hover:text-blue-400">
 New Kunden
 </Link>
+<Link href="/admin/einsaetze" className="hover:text-blue-400">
+  Einsätze
+</Link>
+
           <Link href="/admin/settings" className="hover:text-blue-400">
 Einstellungen          </Link>
           <Link href="/admin/system-email" className="hover:text-blue-400">

@@ -1,28 +1,54 @@
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req, res) {
-  const { employeeId } = req.query;
-// lejo që të marrë të gjitha schedules nëse employeeId s'është dërguar
-const whereClause = {
-  date: { not: null },
-  userId: { not: null },
-};
+  const { employeeId, status } = req.query;
 
-if (employeeId) {
-  whereClause.employeeId = employeeId;
-}
+  // lejo që të marrë të gjitha schedules nëse employeeId s'është dërguar
+  const whereClause = {
+    date: { not: null },
+    userId: { not: null },
+  };
 
+  if (employeeId) {
+    whereClause.employeeId = employeeId;
+  }
+
+  // -------------------------
+  //   ⚡ STATUS FILTERS
+  // -------------------------
+  if (status === "cancelled") {
+    whereClause.status = "cancelled";
+  }
+
+  if (status === "active") {
+    whereClause.status = "active";
+  }
+
+  if (status === "modified") {
+    whereClause.status = "modified";
+  }
+
+  if (status === "past") {
+    whereClause.date = { lt: new Date() };
+    whereClause.status = "active"; 
+  }
+
+  if (status === "vacation") {
+    whereClause.status = "vacation";
+  }
+  // -------------------------
 
   try {
     const schedules = await prisma.schedule.findMany({
-  where: whereClause,
+      where: whereClause,
 
       include: {
-user: { select: { id: true, firstName: true, lastName: true } },
+        user: { select: { id: true, firstName: true, lastName: true } },
         employee: { select: { firstName: true, lastName: true } },
-        service: { select: { name: true } }, // ✅ include service
-        subservice: { select: { name: true } }, // ✅ include subservice
+        service: { select: { name: true } },
+        subservice: { select: { name: true } },
       },
+
       orderBy: { date: "asc" },
     });
 
@@ -35,7 +61,7 @@ user: { select: { id: true, firstName: true, lastName: true } },
       user: s.user,
       employee: s.employee,
       status: s.status,
-      serviceName: s.service?.name || s.serviceName || null, // ✅ return
+      serviceName: s.service?.name || s.serviceName || null,
       subServiceName: s.subservice?.name || s.subServiceName || null,
     }));
 
