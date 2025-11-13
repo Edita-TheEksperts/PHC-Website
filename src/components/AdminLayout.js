@@ -43,7 +43,9 @@ New Kunden
 <Link href="/admin/einsaetze" className="hover:text-blue-400">
   Einsätze
 </Link>
-
+<Link href="/admin/finanzen" className="hover:text-blue-400">
+  Finanzen
+</Link>
           <Link href="/admin/settings" className="hover:text-blue-400">
 Einstellungen          </Link>
           <Link href="/admin/system-email" className="hover:text-blue-400">

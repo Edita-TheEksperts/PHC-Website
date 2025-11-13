@@ -35,6 +35,7 @@ model Schedule {
   status         String        @default("active")
   serviceName    String?
   subServiceName String?
+  Assignment     Assignment[]
   employee       Employee?     @relation(fields: [employeeId], references: [id])
   user           User          @relation(fields: [userId], references: [id])
   transactions   Transaction[]
@@ -206,7 +207,9 @@ model Assignment {
   confirmationStatus String    @default("pending")
   firstDate          DateTime?
   serviceName        String?
+  scheduleId         Int?
   employee           Employee  @relation(fields: [employeeId], references: [id])
+  Schedule           Schedule? @relation(fields: [scheduleId], references: [id])
   user               User      @relation(fields: [userId], references: [id])
 }
 

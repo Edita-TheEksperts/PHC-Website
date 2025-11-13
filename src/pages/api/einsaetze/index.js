@@ -51,7 +51,7 @@ export default async function handler(req, res) {
       include: {
         user: true,
         employee: true,
-        schedule: {
+        Schedule: {
           select: {
             date: true,
             startTime: true,
