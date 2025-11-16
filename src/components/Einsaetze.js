@@ -49,11 +49,12 @@ export default function Einsaetze() {
     return (
       <div className="space-y-3 mt-4">
         {list.map((item) => (
-          <div
-            key={item.id}
-onClick={() => router.push(`/admin/einsaetze/${item.id}`)}
-            className="p-4 bg-white shadow rounded border border-gray-200 cursor-pointer hover:bg-blue-50 transition"
-          >
+   <div
+  key={item.id}
+  onClick={() => console.log("Clicked item", item.id)}
+  className="p-4 bg-white shadow rounded border border-gray-200 cursor-pointer hover:bg-blue-50 transition"
+>
+
             {/* DATE */}
             <p>
               <strong>Datum:</strong> {formatDate(item.date)}
