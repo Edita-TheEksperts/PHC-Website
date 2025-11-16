@@ -6,6 +6,9 @@ export default function FinanzenPage() {
   const [vouchers, setVouchers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // ⭐ Filter state
+  const [filter, setFilter] = useState("all");
+
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -19,6 +22,7 @@ export default function FinanzenPage() {
     setSelectedPayment(null);
   };
 
+  // ⭐ Load data
   useEffect(() => {
     const load = async () => {
       try {
@@ -39,12 +43,49 @@ export default function FinanzenPage() {
     load();
   }, []);
 
-  if (loading) return <AdminLayout>Finanzen werden geladen…</AdminLayout>;
+  if (loading)
+    return <AdminLayout>Finanzen werden geladen…</AdminLayout>;
 
-  // GROUP PAYMENTS
-  const bezahlt = payments.filter((p) => p.status === "bezahlt");
-  const offen = payments.filter((p) => p.status === "offen");
-  const fehler = payments.filter((p) => p.status === "fehler");
+  // ⭐ DATE FILTER FUNCTION
+  const filterPaymentsByDate = (list) => {
+    if (filter === "all") return list;
+
+    const now = new Date();
+
+    return list.filter((p) => {
+      const d = new Date(
+        p.createdAt || p.date || p.updatedAt || p.paymentDate
+      );
+
+      if (filter === "week") {
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - now.getDay());
+        return d >= startOfWeek;
+      }
+
+      if (filter === "month") {
+        return (
+          d.getMonth() === now.getMonth() &&
+          d.getFullYear() === now.getFullYear()
+        );
+      }
+
+      return true;
+    });
+  };
+
+  // ⭐ GROUP PAYMENTS WITH FILTER APPLIED
+  const bezahlt = filterPaymentsByDate(
+    payments.filter((p) => p.status === "bezahlt")
+  );
+
+  const offen = filterPaymentsByDate(
+    payments.filter((p) => p.status === "offen")
+  );
+
+  const fehler = filterPaymentsByDate(
+    payments.filter((p) => p.status === "fehler")
+  );
 
   // SECTION WRAPPER
   const renderSection = (title, children) => (
@@ -61,6 +102,7 @@ export default function FinanzenPage() {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
         <div className="bg-white w-full max-w-lg p-6 rounded-xl shadow-xl relative">
+
           {/* CLOSE BUTTON */}
           <button
             onClick={closeModal}
@@ -89,9 +131,7 @@ export default function FinanzenPage() {
 
               <div className="max-h-40 overflow-y-auto border p-3 rounded-lg bg-gray-50">
                 {selectedPayment.schedules.length === 0 ? (
-                  <p className="text-gray-600 italic">
-                    No schedules for this user.
-                  </p>
+                  <p className="text-gray-600 italic">No schedules for this user.</p>
                 ) : (
                   selectedPayment.schedules.map((s, i) => (
                     <div key={i} className="border-b pb-2 mb-2">
@@ -105,6 +145,7 @@ export default function FinanzenPage() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     );
@@ -117,11 +158,24 @@ export default function FinanzenPage() {
         {/* MODAL */}
         <PaymentModal />
 
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">
           Finanzübersicht
         </h1>
 
-        {/* GRID: 2 SECTIONS TOP — 2 SECTIONS BOTTOM */}
+        {/* ⭐ FILTER DROPDOWN */}
+        <div className="flex gap-3 mb-8">
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="border px-3 py-2 rounded-lg shadow-sm"
+          >
+            <option value="week">Diese Woche</option>
+            <option value="month">Dieser Monat</option>
+            <option value="all">Alle Zeiten</option>
+          </select>
+        </div>
+
+        {/* GRID STRUCTURE */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
           {/* 🟢 PAID */}
