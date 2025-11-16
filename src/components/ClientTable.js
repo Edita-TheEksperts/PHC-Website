@@ -327,9 +327,11 @@ useEffect(() => {
 
     <option value="">Mitarbeiter auswählen</option>
     {employees.map((emp) => (
-      <option key={emp.id} value={emp.id}>
-        👤 {emp.firstName} {emp.lastName} ({emp.status})
-      </option>
+<option key={emp.id} value={emp.id}>
+  👤 {emp.firstName} {emp.lastName}
+</option>
+
+
     ))}
   </select>
 </td>
