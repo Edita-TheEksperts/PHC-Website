@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "../components/AdminLayout";
+import { useRouter } from "next/router";
 
 export default function Einsaetze() {
   const [data, setData] = useState(null);
   const [activeTab, setActiveTab] = useState("aktive");
   const [loading, setLoading] = useState(true);
 
-const formatDate = (dateValue) => {
-  if (!dateValue) return "Kein Datum";
+  const router = useRouter();
 
-  const d = new Date(dateValue);
-  if (isNaN(d.getTime())) return "Kein Datum";
+  const formatDate = (dateValue) => {
+    if (!dateValue) return "Kein Datum";
 
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const year = d.getFullYear();
+    const d = new Date(dateValue);
+    if (isNaN(d.getTime())) return "Kein Datum";
 
-  return `${day}.${month}.${year}`;
-};
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
 
+    return `${day}.${month}.${year}`;
+  };
 
-  // LOAD DATA
   useEffect(() => {
     const load = async () => {
       try {
@@ -39,7 +40,7 @@ const formatDate = (dateValue) => {
   if (!data) return <AdminLayout>No data found.</AdminLayout>;
 
   // -----------------------------
-  // RENDER LIST FUNCTION
+  // RENDER LIST FUNCTION — UPDATED
   // -----------------------------
   const renderList = (list) => {
     if (!list || list.length === 0)
@@ -50,7 +51,8 @@ const formatDate = (dateValue) => {
         {list.map((item) => (
           <div
             key={item.id}
-            className="p-4 bg-white shadow rounded border border-gray-200"
+onClick={() => router.push(`/admin/einsaetze/${item.id}`)}
+            className="p-4 bg-white shadow rounded border border-gray-200 cursor-pointer hover:bg-blue-50 transition"
           >
             {/* DATE */}
             <p>
@@ -94,13 +96,6 @@ const formatDate = (dateValue) => {
             {item.confirmationStatus && (
               <p>
                 <strong>Bestätigung:</strong> {item.confirmationStatus}
-              </p>
-            )}
-
-            {/* OPTIONAL MESSAGE FOR REJECTED WITHOUT SCHEDULE */}
-            {!item.date && item.confirmationStatus === "rejected" && (
-              <p className="text-sm text-red-500 mt-1">
-                Dieser Einsatz wurde abgelehnt, bevor ein Termin geplant wurde.
               </p>
             )}
           </div>

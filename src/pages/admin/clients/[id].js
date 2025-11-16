@@ -7,6 +7,15 @@ export default function ClientDetails() {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  function formatDate(dateString) {
+  if (!dateString) return "—";
+  const d = new Date(dateString);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+
   useEffect(() => {
     if (!id) return;
     async function fetchClient() {
@@ -51,7 +60,7 @@ export default function ClientDetails() {
 
         {/* Address */}
      <section>
-  <h2 className="text-xl font-semibold text-gray-700 mb-3">📍 Adresse</h2>
+  <h2 className="text-xl font-semibold text-gray-700 mb-3"> Adresse</h2>
   <ul className="space-y-1 text-gray-800">
     <li><strong>Strasse:</strong> {client.address}</li>
     <li><strong>PLZ:</strong> {client.postalCode || "—"}</li>
@@ -61,7 +70,7 @@ export default function ClientDetails() {
 
         {/* Emergency Contact */}
         <section>
-  <h2 className="text-xl font-semibold text-gray-700 mb-3">🚨 Notfallkontakt</h2>
+  <h2 className="text-xl font-semibold text-gray-700 mb-3"> Notfallkontakt</h2>
   <ul className="space-y-1 text-gray-800">
     <li><strong>Name:</strong> {client.emergencyContactName || "—"}</li>
     <li><strong>Telefon:</strong> {client.emergencyContactPhone || "—"}</li>
@@ -71,7 +80,7 @@ export default function ClientDetails() {
 
         {/* Services */}
        <section>
-  <h2 className="text-xl font-semibold text-gray-700 mb-3">🧾 Dienstleistungen</h2>
+  <h2 className="text-xl font-semibold text-gray-700 mb-3"> Dienstleistungen</h2>
   <ul className="space-y-1 text-gray-800">
     <li><strong>Hauptdienstleistungen:</strong> {(client.services || []).map(s => s.name).join(", ") || "—"}</li>
     <li><strong>Nebendienstleistungen:</strong> {(client.subServices || []).map(s => s.name).join(", ") || "—"}</li>
@@ -81,9 +90,11 @@ export default function ClientDetails() {
 
         {/* Service Preferences */}
         <section>
-  <h2 className="text-xl font-semibold text-gray-700 mb-3">🧽 Service Präferenzen</h2>
+  <h2 className="text-xl font-semibold text-gray-700 mb-3">Service Präferenzen</h2>
   <ul className="space-y-1 text-gray-800">
-    <li><strong>Erstes Datum:</strong> {client.firstDate ? new Date(client.firstDate).toLocaleDateString() : "—"}</li>
+    <li><strong>Erstes Datum:</strong> 
+{formatDate(client.firstDate)}
+    </li>
     <li><strong>Häufigkeit:</strong> {client.frequency || "—"}</li>
     <li><strong>Dauer:</strong> {client.duration ? `${client.duration} Stunde(n)` : "—"}</li>
   </ul>
@@ -92,7 +103,7 @@ export default function ClientDetails() {
         {/* Assignment */}
         {client.assignments?.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold text-gray-700 mb-3">👥 Zuegteilti</h2>
+            <h2 className="text-xl font-semibold text-gray-700 mb-3">Zugeteilt</h2>
             <p className="text-gray-800">
               <strong>Assigned To:</strong> {client.assignments[0]?.employee?.firstName || "—"}{" "}
               <span className="text-sm text-blue-600">
@@ -104,7 +115,7 @@ export default function ClientDetails() {
 
         {/* Meta Info */}
       <section>
-  <h2 className="text-xl font-semibold text-gray-700 mb-3">📂 Meta-Info</h2>
+  <h2 className="text-xl font-semibold text-gray-700 mb-3"> Meta-Info</h2>
   <ul className="space-y-1 text-gray-800">
     <li>
       <strong>Status:</strong>{" "}
@@ -121,7 +132,7 @@ export default function ClientDetails() {
         {client.role}
       </span>
     </li>
-    <li><strong>Aaglegt:</strong> {new Date(client.createdAt).toLocaleString()}</li>
+    <li><strong>Angelegt:</strong> {new Date(client.createdAt).toLocaleString()}</li>
     <li><strong>Aktualisiert:</strong> {new Date(client.updatedAt).toLocaleString()}</li>
   </ul>
 </section>
@@ -131,19 +142,18 @@ export default function ClientDetails() {
       {/* Schedule */}
       {client.schedules?.length > 0 && (
        <div className="pt-4">
-  <h2 className="text-xl font-semibold text-gray-700 mb-3">🗓️ Iplanti Bsüech</h2>
+  <h2 className="text-xl font-semibold text-gray-700 mb-3">Eingeplante Einsätze</h2>
   <div className="overflow-x-auto">
 <table className="min-w-full border border-gray-200 text-sm">
   <thead className="bg-gray-100 text-gray-700">
     <tr>
       <th className="px-4 py-2 text-left">Tag</th>
       <th className="px-4 py-2 text-left">Datum</th>
-      <th className="px-4 py-2 text-left">Startzit</th>
-      <th className="px-4 py-2 text-left">Stunde</th>
+      <th className="px-4 py-2 text-left">Zeit</th>
+      <th className="px-4 py-2 text-left">Stunden</th>
       <th className="px-4 py-2 text-left">KM</th>
-      <th className="px-4 py-2 text-left">Klient</th>
       <th className="px-4 py-2 text-left">Adresse</th>
-      <th className="px-4 py-2 text-left">Ufnah</th>
+      <th className="px-4 py-2 text-left">Status </th>
     </tr>
   </thead>
 
@@ -152,22 +162,17 @@ export default function ClientDetails() {
       <tr key={sched.id} className="border-t hover:bg-gray-50">
         <td className="px-4 py-2">{sched.day}</td>
         <td className="px-4 py-2">
-          {sched.date ? new Date(sched.date).toLocaleDateString("de-CH") : "—"}
+{formatDate(sched.date)}
         </td>
         <td className="px-4 py-2">{sched.startTime}</td>
         <td className="px-4 py-2">{sched.hours}h</td>
         <td className="px-4 py-2">{sched.kilometers ?? "—"}</td>
-        <td className="px-4 py-2">
-          {sched.user
-            ? `${sched.user.firstName} ${sched.user.lastName}`
-            : "—"}
-        </td>
         <td className="px-4 py-2">{sched.user?.address || "—"}</td>
         <td className="px-4 py-2">
           {sched.captured ? (
-            <span className="text-green-600 font-medium">✔ Ufnah</span>
+            <span className="text-green-600 font-medium"> Offen</span>
           ) : (
-            <span className="text-red-500">✖ No nid</span>
+            <span className="text-red-500">Noch offen</span>
           )}
         </td>
       </tr>
