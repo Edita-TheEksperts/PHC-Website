@@ -91,14 +91,14 @@ export default function MitarbeiterVerwaltungPage() {
         {/* --- TOP SECTION (3 CARDS) --- */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Urlaub Anträge */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border">
-            <h2 className="text-lg font-semibold text-[#04436F] mb-4 flex items-center gap-2">
-              Urlaub Anträge
-            </h2>
+<div className="bg-white rounded-2xl shadow-sm p-6 border h-[680px] flex flex-col">
+  <h2 className="text-lg font-semibold text-[#04436F] mb-4">
+    Urlaub Anträge
+  </h2>
 
-            {vacations?.length > 0 ? (
-              <ul className="space-y-3 max-h-[260px] overflow-auto pr-2">
-                {employeeVacations.map((v) => (
+  {vacations?.length > 0 ? (
+    <ul className="space-y-3 overflow-auto pr-2 flex-grow">
+      {employeeVacations.map((v) => (
                   <li key={v.id} className="p-4 border rounded-xl bg-white shadow-sm">
                     <p className="font-semibold text-gray-800">
                       {v.employee?.firstName} {v.employee?.lastName}
