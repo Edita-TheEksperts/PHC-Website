@@ -2,12 +2,19 @@
   "name": "landing-pages",
   "version": "0.1.0",
   "private": true,
+
+  "type": "module",
+
+
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:assignment-reminder": "node test-assignment-reminders.js"
+
+
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",

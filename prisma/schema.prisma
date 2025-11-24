@@ -203,6 +203,7 @@ model Assignment {
   userId             String
   employeeId         String
   status             String    @default("active")
+  reminderSentCount  Int       @default(0) 
   createdAt          DateTime  @default(now())
   confirmationStatus String    @default("pending")
   firstDate          DateTime?

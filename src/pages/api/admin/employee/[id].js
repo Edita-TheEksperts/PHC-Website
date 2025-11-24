@@ -13,7 +13,15 @@ const employee = await prisma.employee.findUnique({
       include: {
         schedules: {
           include: {
-            user: true,
+          user: {
+      select: {
+        firstName: true,
+        lastName: true,
+        services: { select: { name: true } },      // ✅ shton shërbimet
+        subServices: { select: { name: true } },   // ✅ 
+      },
+    },
+    
             employee: {
               select: {
                 firstName: true,
