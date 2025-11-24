@@ -37,6 +37,9 @@ export default function AdminLayout({ children }) {
                   <Link href="/admin/mitarbeiter" className="hover:text-blue-400">
 New Mitarbeiter
 </Link>
+        <Link href="/admin/newEmployee" className="hover:text-blue-400">
+ Employee List
+</Link>
                 <Link href="/admin/kunden" className="hover:text-blue-400">
 New Kunden
 </Link>
