@@ -169,6 +169,8 @@ if (req.method === "DELETE") {
     const transaction = appt.transactions?.[0];
     const totalAmount = transaction?.amountClient || 0;
 
+    
+
     // === STORNIERUNG (Cancel) ===
     if (cancel) {
       const now = new Date();

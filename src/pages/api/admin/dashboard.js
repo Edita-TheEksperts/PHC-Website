@@ -111,6 +111,7 @@ const schedules = await prisma.schedule.findMany({
   orderBy: { date: "asc" }
 });
 
+
 const schedulesWithService = schedules.map(s => ({
   ...s,
   serviceName:
@@ -126,7 +127,6 @@ return res.status(200).json({
 });
 
 
-      return res.status(200).json({ employees, clients, schedules });
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       return res.status(500).json({ message: 'Error fetching dashboard data' });

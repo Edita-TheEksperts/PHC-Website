@@ -14,6 +14,10 @@ export default function MitarbeiterVerwaltungPage() {
   const [vacations, setVacations] = useState([]);
   const [approvedEmployees, setApprovedEmployees] = useState([]);
   const [clients, setClients] = useState([]);
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
+const [editSchedule, setEditSchedule] = useState(null);
+const [allServices, setAllServices] = useState([]);
+const [cancelQuestion, setCancelQuestion] = useState(null);
   const employeeVacations = vacations.filter((v) => v.employee);
 
   async function fetchVacations() {
@@ -44,6 +48,88 @@ export default function MitarbeiterVerwaltungPage() {
     fetchData();
     fetchVacations();
   }, []);
+  useEffect(() => {
+  async function fetchServices() {
+    const res = await fetch("/api/admin/services");
+    const data = await res.json();
+    setAllServices(Array.isArray(data) ? data : []); // SIGURIM që është array
+  }
+  fetchServices();
+}, []);
+
+  async function handleCancel(id) {
+  await fetch(`/api/admin/schedules/${id}/cancel`, {
+    method: "PATCH",
+  });
+
+  // refresh data
+  fetchDashboardData?.();
+}
+async function saveEditedSchedule() {
+  const res = await fetch(`/api/admin/schedules/${editSchedule.id}/edit`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(editSchedule),
+  });
+
+  const newSchedule = await res.json();
+
+  setSchedules(prev => [
+    // Shto termin e ri
+    newSchedule,
+    // Mbaji të tjerët, por termini i vjetër tani ka status cancelled
+    ...prev.map(s =>
+      s.id === editSchedule.id
+        ? { ...s, status: "cancelled" }
+        : s
+    )
+  ]);
+
+  setEditSchedule(null);
+}
+
+async function handleCancelWithEmail(schedule, cancelledBy) {
+  try {
+    // 1) Anulo termin dhe dërgo automatikisht email
+    await fetch(`/api/admin/schedules/${schedule.id}/cancel?cancelledBy=${cancelledBy}`, {
+      method: "PATCH",
+    });
+
+    // 2) Mbyll modalin
+    setCancelQuestion(null);
+
+    // 3) Përditëso UI lokalisht
+    setSchedules(prev =>
+      prev.map(s =>
+        s.id === schedule.id ? { ...s, status: "cancelled" } : s
+      )
+    );
+
+  } catch (error) {
+    console.error("❌ Fehler beim Stornieren:", error);
+  }
+}
+
+
+
+// ✅ Fetch schedules nga i njëjti API si DashboardPage
+useEffect(() => {
+  async function fetchSchedules() {
+    try {
+      const res = await fetch("/api/admin/dashboard");
+      if (!res.ok) throw new Error(`Failed to fetch schedules: ${res.status}`);
+      const data = await res.json();
+
+      // në DashboardPage, schedules vijnë brenda objektit kryesor
+      setSchedules(data.schedules || []);
+    } catch (err) {
+      console.error("❌ Error fetching schedules:", err);
+      setSchedules([]);
+    }
+  }
+
+  fetchSchedules();
+}, []);
 
   async function handleApproval(emp) {
     await fetch("/api/approve-employee", {
@@ -89,7 +175,7 @@ export default function MitarbeiterVerwaltungPage() {
         </div>
 
         {/* --- TOP SECTION (3 CARDS) --- */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Urlaub Anträge */}
 <div className="bg-white rounded-2xl shadow-sm p-6 border h-[680px] flex flex-col">
   <h2 className="text-lg font-semibold text-[#04436F] mb-4">
@@ -268,64 +354,81 @@ export default function MitarbeiterVerwaltungPage() {
               </p>
             )}
           </div>
-    {/* 📅 Buchungen (NEW) */}
-<DashboardCard title=" Buchungen">
+<DashboardCard title="📅 Buchungen">
   <div className="p-4">
     {schedules.length > 0 ? (
-      <ul className="divide-y divide-gray-200 max-h-[400px] overflow-auto pr-2">
-        {schedules.slice(0, 10).map((s) => (
-          <li
-            key={s.id}
-            className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div>
-              {/* 👤 Client Name */}
-      <p
-  onClick={() => window.open(`/admin/clients/${s.user?.id}`, "_blank")}
-  className="font-semibold text-gray-800 hover:text-[#04436F] hover:underline cursor-pointer"
->
-  {s.user
-    ? `${s.user.firstName} ${s.user.lastName}`
-    : "— Kein Kunde —"}
-</p>
+      <ul className="max-h-[550px] overflow-auto pr-2 space-y-3">
+{schedules.slice(0, 10).map((s) => {
+  console.log("🔍 Schedule object:", s);
+  console.log("👤 s.user:", s.user);
+  console.log("📌 s.userId:", s.userId);
+
+  return (
+    <li
+      key={s.id}
+      className="p-4 bg-white rounded-xl border shadow-sm hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+    >
+      {/* LEFT INFO */}
+      <div className="flex-1">
+        {/* Client Name */}
+        <p
+          onClick={() => window.open(`/admin/clients/${s.user?.id}`, "_blank")}
+          className="font-semibold text-gray-800 hover:text-[#04436F] hover:underline cursor-pointer text-sm"
+        >
+          {s.user
+            ? `${s.user.firstName} ${s.user.lastName}`
+            : "— Kein Kunde —"}
+        </p>
+
+        {/* Service + Date */}
+        <p className="text-gray-600 text-xs mt-1">
+          {s.serviceName || s.subServiceName || "Service"} ·{" "}
+          {s.date
+            ? new Date(s.date).toLocaleDateString("de-DE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
+            : `${s.day || ""} ${s.startTime || ""}`}
+        </p>
+
+        {s.employee && (
+          <p className="text-xs text-gray-500 mt-1">
+            Mitarbeiter: {s.employee.firstName} {s.employee.lastName}
+          </p>
+        )}
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+        <span
+          className={`px-3 py-1 text-xs rounded-full border font-medium
+            ${
+              s.status === "active"
+                ? "bg-blue-50 text-blue-700 border-blue-200"
+                : s.status === "completed"
+                ? "bg-green-50 text-green-700 border-green-200"
+                : s.status === "cancelled"
+                ? "bg-red-50 text-red-700 border-red-200"
+                : "bg-gray-50 text-gray-700 border-gray-200"
+            }
+          `}
+        >
+          {s.status || "pending"}
+        </span>
+
+        <button
+          onClick={() => setSelectedSchedule(s)}
+          className="px-3 py-1.5 text-xs bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 shadow-sm"
+        >
+          Sortieren
+        </button>
 
 
-              {/* 🛠 Service & Date */}
-              <p className="text-gray-600 text-xs">
-                {s.serviceName || s.subServiceName || "Service"} –{" "}
-                {s.date
-                  ? new Date(s.date).toLocaleDateString("de-DE", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : `${s.day || ""} ${s.startTime || ""}`}
-              </p>
+      </div>
+    </li>
+  );
+})}
 
-              {/* 👨‍💼 Optional: Employee Name */}
-              {s.employee && (
-                <p className="text-xs text-gray-500">
-                  Mitarbeiter: {s.employee.firstName} {s.employee.lastName}
-                </p>
-              )}
-            </div>
-
-            {/* 🟢 Status */}
-            <span
-              className={`mt-2 sm:mt-0 px-2 py-1 text-xs rounded self-start sm:self-center ${
-                s.status === "active"
-                  ? "bg-blue-100 text-blue-700"
-                  : s.status === "completed"
-                  ? "bg-green-100 text-green-700"
-                  : s.status === "cancelled"
-                  ? "bg-red-100 text-red-700"
-                  : "bg-yellow-100 text-yellow-700"
-              }`}
-            >
-              {s.status || "pending"}
-            </span>
-          </li>
-        ))}
       </ul>
     ) : (
       <p className="text-gray-500 italic">Keine Buchungen verfügbar</p>
@@ -357,6 +460,198 @@ export default function MitarbeiterVerwaltungPage() {
           />
         </div>
       </div>
+              {selectedSchedule && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-xl w-full max-w-sm shadow-xl">
+      <h3 className="text-lg font-semibold mb-4 text-[#04436F]">
+        Was möchten Sie tun?
+      </h3>
+
+      <p className="text-gray-700 mb-6">
+        Möchten Sie diesen Termin stornieren oder einen neuen Termin erstellen?
+      </p>
+
+      <div className="flex justify-between gap-4">
+  <button
+  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-full"
+  onClick={() => {
+    setCancelQuestion(selectedSchedule); // hap modalin e pyetjes
+    setSelectedSchedule(null);
+  }}
+>
+  Termin stornieren
+</button>
+
+
+ <button
+  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
+  onClick={() => {
+    setSelectedSchedule(null);
+    setEditSchedule({ ...selectedSchedule, createNew: true });
+  }}
+>
+  Neuen Termin erstellen
+</button>
+
+      </div>
+
+      <button
+        className="mt-4 w-full py-2 bg-gray-300 rounded hover:bg-gray-400"
+        onClick={() => setSelectedSchedule(null)}
+      >
+        Abbrechen
+      </button>
+    </div>
+  </div>
+)}
+{editSchedule && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
+      <h3 className="text-lg font-semibold text-[#04436F] mb-4">
+        Termin bearbeiten
+      </h3>
+
+      <div className="space-y-3">
+
+        {/* DATE */}
+        <input
+          className="border p-2 rounded w-full"
+          type="date"
+          value={editSchedule.date?.split("T")[0] || ""}
+          onChange={(e) =>
+            setEditSchedule({
+              ...editSchedule,
+              date: e.target.value
+            })
+          }
+        />
+
+        {/* TIME */}
+        <input
+          className="border p-2 rounded w-full"
+          type="time"
+          value={editSchedule.startTime || ""}
+          onChange={(e) =>
+            setEditSchedule({
+              ...editSchedule,
+              startTime: e.target.value
+            })
+          }
+        />
+
+        {/* HOURS */}
+        <input
+          className="border p-2 rounded w-full"
+          type="number"
+          placeholder="Stunden"
+          value={editSchedule.hours || ""}
+          onChange={(e) =>
+            setEditSchedule({
+              ...editSchedule,
+              hours: e.target.value
+            })
+          }
+        />
+
+        {/* SERVICE */}
+        <select
+          className="border p-2 rounded w-full"
+          value={editSchedule.serviceName || ""}
+          onChange={(e) => {
+            setEditSchedule({
+              ...editSchedule,
+              serviceName: e.target.value,
+              subServiceName: "" // reset subservice kur ndryshon service
+            });
+          }}
+        >
+          <option value="">Service auswählen</option>
+          {allServices.map((service) => (
+            <option key={service.id} value={service.name}>
+              {service.name}
+            </option>
+          ))}
+        </select>
+
+        {/* SUBSERVICE */}
+        <select
+          className="border p-2 rounded w-full"
+          value={editSchedule.subServiceName || ""}
+          onChange={(e) =>
+            setEditSchedule({
+              ...editSchedule,
+              subServiceName: e.target.value
+            })
+          }
+        >
+          <option value="">Unterdienst auswählen</option>
+
+          {allServices
+            .find((s) => s.name === editSchedule.serviceName)
+            ?.subServices?.map((sub) => (
+              <option key={sub.id} value={sub.name}>
+                {sub.name}
+              </option>
+            ))}
+        </select>
+      </div>
+
+      <div className="flex gap-3 mt-6">
+        <button
+          onClick={() => setEditSchedule(null)}
+          className="px-4 py-2 bg-gray-300 rounded w-full"
+        >
+          Abbrechen
+        </button>
+
+        <button
+          onClick={saveEditedSchedule}
+          className="px-4 py-2 bg-green-600 text-white rounded w-full"
+        >
+          Speichern
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+{cancelQuestion && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-xl w-full max-w-sm shadow-xl">
+
+      <h3 className="text-lg font-semibold mb-4 text-[#04436F]">
+        Wer storniert diesen Termin?
+      </h3>
+
+      <p className="text-gray-700 mb-4">
+        Bitte wählen Sie, wer die Stornierung durchführt.
+      </p>
+
+      <div className="flex gap-3">
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded w-full hover:bg-blue-700"
+          onClick={() => handleCancelWithEmail(cancelQuestion, "kunde")}
+        >
+          Kunde
+        </button>
+
+        <button
+          className="px-4 py-2 bg-green-600 text-white rounded w-full hover:bg-green-700"
+          onClick={() => handleCancelWithEmail(cancelQuestion, "employee")}
+        >
+          Mitarbeiter
+        </button>
+      </div>
+
+      <button
+        className="mt-4 w-full py-2 bg-gray-300 rounded hover:bg-gray-400"
+        onClick={() => setCancelQuestion(null)}
+      >
+        Abbrechen
+      </button>
+    </div>
+  </div>
+)}
+
     </AdminLayout>
   );
 }
