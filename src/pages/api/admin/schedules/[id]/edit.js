@@ -21,24 +21,27 @@ export default async function handler(req, res) {
       weekday: "long",
     });
 
-    // 3️⃣ Create NEW schedule with updated values
-    const newSchedule = await prisma.schedule.create({
-      data: {
-        day,
-        date: new Date(date),
-        startTime,
-        hours: Number(hours),
-        serviceName,
-        subServiceName,
-        userId,
-        employeeId,
-        status: "active"
-      },
-      include: {
-        user: true,
-        employee: true
-      }
-    });
+ const newSchedule = await prisma.schedule.create({
+  data: {
+    day,
+    date: new Date(date),
+    startTime,
+    hours,
+    serviceName,
+    subServiceName,
+userId: userId || undefined,
+employeeId: employeeId || null,
+
+
+
+    status: "active",
+  },
+  include: {
+    user: true,
+    employee: true,
+  },
+});
+
 
     res.status(200).json(newSchedule);
 

@@ -7,10 +7,11 @@ export default async function handler(req, res) {
     // ▌1. LOAD ALL SCHEDULES
     const schedules = await prisma.schedule.findMany({
       orderBy: { date: "asc" },
-      include: {
-        user: { select: { firstName: true, lastName: true, email: true } },
-        employee: { select: { firstName: true, lastName: true, email: true } }
-      }
+include: {
+  user: { select: { id: true, firstName: true, lastName: true, email: true } },
+  employee: { select: { id: true, firstName: true, lastName: true, email: true } }
+}
+
     });
 
     // ▌2. ACTIVE SCHEDULES
@@ -40,9 +41,10 @@ export default async function handler(req, res) {
         employeeId: null,
         status: "active"
       },
-      include: {
-        user: { select: { firstName: true, lastName: true, email: true } }
-      }
+  include: {
+  user: { select: { id: true, firstName: true, lastName: true, email: true } }
+}
+
     });
 
     // ▌8. REJECTED ASSIGNMENTS

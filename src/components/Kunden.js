@@ -113,6 +113,39 @@ async function handleCancelWithEmail(schedule, cancelledBy) {
   }
 }
 
+const [filter, setFilter] = useState("today");
+const filteredSchedules = schedules.filter((s) => {
+  const d = new Date(s.date);
+  const now = new Date();
+
+  if (filter === "today") {
+    return d.toDateString() === now.toDateString();
+  }
+
+  if (filter === "thisWeek") {
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - now.getDay());
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 7);
+    return d >= weekStart && d < weekEnd;
+  }
+
+  if (filter === "thisMonth") {
+    return (
+      d.getMonth() === now.getMonth() &&
+      d.getFullYear() === now.getFullYear()
+    );
+  }
+
+  if (filter === "nextMonth") {
+    return (
+      d.getMonth() === now.getMonth() + 1 &&
+      d.getFullYear() === now.getFullYear()
+    );
+  }
+
+  return true;
+});
 
 
 // ✅ Fetch schedules nga i njëjti API si DashboardPage
@@ -193,9 +226,34 @@ useEffect(() => {
 
 <DashboardCard title="📅 Buchungen">
   <div className="p-4">
+    {/* FILTER BUTTONS */}
+<div className="flex items-center gap-2 mb-4">
+  {[
+    ["today", "Heute"],
+    ["thisWeek", "Diese Woche"],
+    ["thisMonth", "Diesen Monat"],
+    ["nextMonth", "Nächsten Monat"],
+  ].map(([key, label]) => (
+    <button
+      key={key}
+      onClick={() => setFilter(key)}
+      className={`
+        px-3 py-1.5 text-xs rounded-full border font-medium transition
+        ${
+          filter === key
+            ? "bg-[#04436F] text-white border-[#04436F]"
+            : "bg-white text-[#04436F] border-[#04436F]/40 hover:bg-[#04436F]/10"
+        }
+      `}
+    >
+      {label}
+    </button>
+  ))}
+</div>
+
     {schedules.length > 0 ? (
       <ul className="max-h-[400px] overflow-auto pr-2 space-y-3">
-{schedules.slice(0, 10).map((s) => {
+{filteredSchedules.slice(0, 20).map((s) => {
   console.log("🔍 Schedule object:", s);
   console.log("👤 s.user:", s.user);
   console.log("📌 s.userId:", s.userId);
@@ -271,6 +329,7 @@ useEffect(() => {
       <p className="text-gray-500 italic">Keine Buchungen verfügbar</p>
     )}
   </div>
+  
 </DashboardCard>
 
 
