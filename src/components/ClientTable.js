@@ -322,18 +322,61 @@ useEffect(() => {
       [client.id]: e.target.value,
     })
   }
-  className="border px-2 py-1 rounded min-w-[160px]"
+  className="border px-2 py-1 rounded min-w-[200px]"
 >
+  <option value="">Mitarbeiter auswählen</option>
 
-    <option value="">Mitarbeiter auswählen</option>
-    {employees.map((emp) => (
-<option key={emp.id} value={emp.id}>
-  👤 {emp.firstName} {emp.lastName}
-</option>
+  {/* === 1. STRONG MATCHES (score ≥ 70) === */}
+  {recommended[client.id]
+    ?.filter(rec => rec.score >= 70 && !rec.hasAllergy)
+    .sort((a, b) => b.score - a.score)
+    .map(rec => {
+      const emp = employees.find(e => e.id === rec.employeeId);
+      if (!emp) return null;
+      return (
+        <option
+          key={rec.employeeId}
+          value={rec.employeeId}
+          style={{
+            backgroundColor: "#E8FDD8", // green soft
+            fontWeight: "600",
+          }}
+        >
+          ⭐ {emp.firstName} {emp.lastName} — {rec.score}% Match
+        </option>
+      );
+    })}
 
+  {/* === 2. NORMAL MATCHES (score 30–69) === */}
+  {recommended[client.id]
+    ?.filter(rec => rec.score < 70 && rec.score >= 30 && !rec.hasAllergy)
+    .sort((a, b) => b.score - a.score)
+    .map(rec => {
+      const emp = employees.find(e => e.id === rec.employeeId);
+      if (!emp) return null;
+      return (
+        <option
+          key={rec.employeeId}
+          value={rec.employeeId}
+          style={{
+            backgroundColor: "#F5FDD8", // yellow soft
+          }}
+        >
+          ⚡ {emp.firstName} {emp.lastName} — {rec.score}%
+        </option>
+      );
+    })}
 
+  {/* === 3. EMPLOYEES NOT MATCHING (fallback) === */}
+  {employees
+    .filter(emp => !recommended[client.id]?.some(r => r.employeeId === emp.id))
+    .map(emp => (
+      <option key={emp.id} value={emp.id}>
+        👤 {emp.firstName} {emp.lastName}
+      </option>
     ))}
-  </select>
+</select>
+
 </td>
 
 

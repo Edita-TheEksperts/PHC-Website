@@ -58,8 +58,6 @@ export default async function handler(req, res) {
       <p>Guten Tag,</p>
       <p>Der folgende Termin wurde storniert:</p>
 
-      <p><strong>Wer storniert:</strong> 
-         ${cancelledBy === "kunde" ? "Kunde" : "Mitarbeiter"}</p>
 
       <p><strong>Datum:</strong> 
          ${appt.date ? appt.date.toLocaleDateString("de-DE") : "-"}</p>
@@ -70,7 +68,7 @@ export default async function handler(req, res) {
          ${appt.serviceName || appt.subServiceName || "-"}</p>
 
       <br/>
-      <p>Mit freundlichen Grüßen<br>Prime Home Care AG</p>
+      <p>Mit freundlichen Grüssen<br>Prime Home Care AG</p>
     `;
 
     // 5️⃣ SEND email to both

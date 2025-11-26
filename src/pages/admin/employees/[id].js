@@ -412,7 +412,7 @@ const filteredTermine =
           className="border p-3 rounded-lg bg-gray-50 shadow-sm hover:bg-gray-100 transition cursor-pointer"
         >
           <p className="font-medium text-[#04436F]">
-            👤 Kunde: {a.user?.firstName} {a.user?.lastName}
+             Kunde: {a.user?.firstName} {a.user?.lastName}
           </p>
           <p className="text-sm text-gray-600">
              {new Date(a.date).toLocaleDateString("de-DE")} — 🕒 {a.startTime} | {a.hours}h
