@@ -1,11 +1,13 @@
 // pages/api/finances/retry-payments.js
 import Stripe from "stripe";
 import { prisma } from "../../../lib/prisma";
+import { sendEmail } from "../../../lib/emails.js";
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-
+  // 🔐 Security: Cron Authorization
   if (req.headers.authorization !== process.env.CRON_SECRET) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -15,13 +17,14 @@ export default async function handler(req, res) {
   const now = new Date();
 
   try {
+    // 🔎 Find users whose payment needs retrying
     const users = await prisma.user.findMany({
       where: {
         paymentIntentId: { not: null },
         manualPaid: false,
-        phc: false,
-        nextAttempt: { lte: now },
-        attempts: { lt: 3 }
+        phc: false,                   // not flagged yet
+        nextAttempt: { lte: now },    // attempt time reached
+        attempts: { lt: 3 }           // max 3 attempts
       }
     });
 
@@ -29,10 +32,12 @@ export default async function handler(req, res) {
       try {
         const intent = await stripe.paymentIntents.retrieve(user.paymentIntentId);
 
+        // Only capture if Stripe allows it
         if (intent.status !== "requires_capture") {
           throw new Error("Not capturable");
         }
 
+        // 💰 Try to capture payment
         await stripe.paymentIntents.capture(user.paymentIntentId);
 
         await prisma.user.update({
@@ -48,26 +53,44 @@ export default async function handler(req, res) {
       } catch (err) {
         const attempts = user.attempts + 1;
 
+        // ❌ Payment failed 3 times → flag user + notify admin
         if (attempts >= 3) {
           await prisma.user.update({
             where: { id: user.id },
             data: {
-              phc: true,
+              phc: true,               // mark as persistent failure
               nextAttempt: null,
               attempts
             }
           });
 
+          // 📩 EMAIL ADMINIT
+          await sendEmail({
+            to: process.env.ADMIN_NOTIFICATION_EMAIL,
+            subject: `⚠️ Payment failed 3 times – ${user.firstName} ${user.lastName}`,
+            html: `
+              <h2>⚠️ Payment Failure Alert</h2>
+              <p>A client's payment has failed three times.</p>
+              
+              <p><strong>Client:</strong> ${user.firstName} ${user.lastName}</p>
+              <p><strong>Email:</strong> ${user.email}</p>
+              <p><strong>PaymentIntent ID:</strong> ${user.paymentIntentId}</p>
+
+              <p>This client may need manual follow-up.</p>
+            `
+          });
+
         } else {
-          const next = new Date();
-          next.setHours(next.getHours() + 48);
+          // ⏳ Schedule next retry after 48h
+          const nextAttempt = new Date();
+          nextAttempt.setHours(nextAttempt.getHours() + 48);
 
           await prisma.user.update({
             where: { id: user.id },
             data: {
               attempts,
               reminderCount: user.reminderCount + 1,
-              nextAttempt: next
+              nextAttempt
             }
           });
         }
@@ -77,7 +100,7 @@ export default async function handler(req, res) {
     res.status(200).json({ ok: true });
 
   } catch (err) {
-    console.error(err);
+    console.error("❌ Retry Payments Error:", err);
     res.status(500).json({ error: "Server error" });
   }
 }
