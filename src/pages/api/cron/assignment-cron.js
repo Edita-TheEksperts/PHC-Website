@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { runAssignmentReminders } from "../../utils/assignment-reminder-cron.js";
+import { runAssignmentReminders } from "../assignment-reminder-cron.js";
 
 // Cron për dev: ekzekuto çdo minutë
 cron.schedule("* * * * *", async () => {

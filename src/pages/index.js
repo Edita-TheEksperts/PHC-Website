@@ -22,6 +22,7 @@ export default function Home() {
     },
 {
   question: "Können auch einzelne Leistungen in Anspruch genommen werden?",
+    answerType: "jsx",
   answer: (
     <div>
       <p>

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { useRouter } from "next/router";
 import blogsData from "../../data/blogsData";
 import Link from "next/link";

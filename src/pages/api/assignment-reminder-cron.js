@@ -1,6 +1,6 @@
 // src/utils/assignment-reminder-cron.js
 import { PrismaClient } from "@prisma/client";
-import { sendEmail } from "../lib/emails.js";
+import { sendEmail } from "../../lib/emails.js";
 
 const prisma = new PrismaClient();
 

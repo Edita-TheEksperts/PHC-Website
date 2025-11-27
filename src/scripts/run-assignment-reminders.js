@@ -1,4 +1,4 @@
-import { runAssignmentReminders } from "../utils/assignment-reminder-cron.js";
+import { runAssignmentReminders } from "../pages/api/assignment-reminder-cron.js";
 
 async function main() {
   console.log("⏱ Running assignment reminders:", new Date());
