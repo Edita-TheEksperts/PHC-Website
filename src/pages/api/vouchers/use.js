@@ -1,5 +1,4 @@
-import { prisma } from "../../../lib/prisma"; // ✅ Corrected import path for your structure
-
+import { prisma } from "../../../lib/prisma"; 
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
@@ -7,52 +6,51 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { code } = req.body;
+    const { code, userId } = req.body;
 
-    if (!code) {
-      return res.status(400).json({ error: "Kein Gutscheincode angegeben." });
+    if (!code || !userId) {
+      return res.status(400).json({ error: "Missing code or userId" });
     }
 
-    // 🔍 Find voucher by code
+    // Find voucher
     const voucher = await prisma.voucher.findUnique({
       where: { code: code.trim().toUpperCase() },
     });
-
-    console.log("✅ Voucher found:", voucher);
 
     if (!voucher) {
       return res.status(404).json({ error: "Gutschein nicht gefunden." });
     }
 
-    // ⛔ Check if voucher is still valid
+    // Check validity
     const now = new Date();
     const isExpired =
       (voucher.validUntil && new Date(voucher.validUntil) < now) ||
       (voucher.maxUses && voucher.usedCount >= voucher.maxUses);
 
     if (!voucher.isActive || isExpired) {
-      return res
-        .status(400)
-        .json({ error: "Gutschein ist abgelaufen oder inaktiv." });
+      return res.status(400).json({ error: "Gutschein ist abgelaufen oder inaktiv." });
     }
 
-    // ✅ Update usedCount
+    // Update usage + connect to user
     await prisma.voucher.update({
       where: { code: voucher.code },
-      data: { usedCount: { increment: 1 } },
+      data: {
+        usedCount: { increment: 1 },
+        usedBy: {
+          connect: { id: userId },
+        },
+      },
     });
 
-    // ✅ Return correct fields matching your schema
     return res.status(200).json({
       success: true,
-      discountType: voucher.discountType?.toLowerCase() || null, // 💡 correct field
-      discountValue: voucher.discountValue ?? 0, // 💡 correct field
+      discountType: voucher.discountType?.toLowerCase() || null,
+      discountValue: voucher.discountValue ?? 0,
       message: "Gutschein erfolgreich eingelöst!",
     });
+
   } catch (err) {
     console.error("❌ Fehler beim Überprüfen des Gutscheins:", err);
-    return res
-      .status(500)
-      .json({ error: "Serverfehler beim Überprüfen des Gutscheins." });
+    return res.status(500).json({ error: "Serverfehler beim Überprüfen des Gutscheins." });
   }
 }

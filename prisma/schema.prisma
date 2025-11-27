@@ -203,12 +203,12 @@ model Assignment {
   userId             String
   employeeId         String
   status             String    @default("active")
-  reminderSentCount  Int       @default(0) 
   createdAt          DateTime  @default(now())
   confirmationStatus String    @default("pending")
   firstDate          DateTime?
   serviceName        String?
   scheduleId         Int?
+  reminderSentCount  Int       @default(0)
   employee           Employee  @relation(fields: [employeeId], references: [id])
   Schedule           Schedule? @relation(fields: [scheduleId], references: [id])
   user               User      @relation(fields: [userId], references: [id])

@@ -197,11 +197,14 @@ const handleVoucherCheck = async () => {
 
   try {
   
-    const res = await fetch("/api/vouchers/use", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: form.voucher }),
-    });
+const res = await fetch("/api/vouchers/use", {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    code: voucherCode,
+    userId: createdUserId || form.userId,  //  ← DUHET
+  }),
+});
 
     const data = await res.json();
     console.log("Voucher API response:", data);
@@ -1068,18 +1071,43 @@ if (!secret) {
         schedules: generatedSchedules,
       };
 
-      const res = await fetch("/api/client-register-api", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          paymentIntentId: form.paymentIntentId || "", 
-          subServices: collectedSubservices,
+ const res = await fetch("/api/client-register-api", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    // -------------------------
+    // 🔵 Required fields for API
+    // -------------------------
+    firstName: form.firstName || "",
+    lastName: form.lastName || "",
+    email: form.email || "",
+    phone: form.phone || "",
+    address: form.address || "",
+    street: form.street || "",
+    postalCode: form.postalCode || "",
+    city: form.city || "",
 
-          schedules: generatedSchedules,
-          firstDate: form.firstDate,
-        }),
-      });
+    frequency: form.frequency || "",
+    duration: form.duration || "",
+    
+    firstDate: form.firstDate,
+
+    // 🔵 Services & Subservices
+    services: form.services || [],
+    subServices: collectedSubservices || [],
+
+    // 🔵 Payment
+    paymentIntentId: form.paymentIntentId,
+
+    // 🔵 Schedule data
+    schedules: generatedSchedules || [],
+
+    // 🔵 Optional fields
+    anrede: form.anrede || "",
+    kanton: form.kanton || "",
+  }),
+});
+
       const data = await res.json();
       if (res.ok && data.userId) {
         const userId = data.userId;

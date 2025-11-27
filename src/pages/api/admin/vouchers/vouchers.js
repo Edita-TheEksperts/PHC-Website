@@ -1,23 +1,26 @@
-// /api/admin/vouchers.js
-
-import { prisma } from "../../../../lib/prisma";
+import { prisma } from "../../../../../lib/prisma";
 
 export default async function handler(req, res) {
   try {
     const vouchers = await prisma.voucher.findMany({
+      orderBy: { createdAt: "desc" },
       include: {
-        _count: {
-          select: { redemptions: true }, // assumes relation Voucher -> Redemption
+        usedBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
         },
       },
     });
 
-    // Add usage metrics
     const total = vouchers.length;
-    const used = vouchers.filter(v => v._count.redemptions > 0).length;
-    const active = vouchers.filter(v => v.isActive).length;
+    const used = vouchers.filter((v) => v.usedBy.length > 0).length;
+    const active = vouchers.filter((v) => v.isActive).length;
 
-    res.json({
+    return res.status(200).json({
       vouchers,
       stats: {
         total,
@@ -26,8 +29,8 @@ export default async function handler(req, res) {
         usageRate: total ? Math.round((used / total) * 100) : 0,
       },
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch vouchers" });
+  } catch (error) {
+    console.error("Voucher API error:", error);
+    return res.status(500).json({ vouchers: [] });
   }
 }

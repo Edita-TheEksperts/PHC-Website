@@ -20,51 +20,73 @@ export default async function handler(req, res) {
       frequency,
       duration,
       firstDate,
-      services,
-       anrede, 
-  kanton,
-      subServices,
+      services = [],
+      subServices = [],
+      anrede,
+      kanton,
       schedules = [],
       paymentIntentId,
     } = req.body;
 
-    // ✅ Required field check
-    if (!firstName || !lastName || !email || !firstDate || !services?.length) {
+    // ------------------------------
+    // 1️⃣ Required field checks
+    // ------------------------------
+    if (!firstName || !lastName || !email || !firstDate) {
       return res.status(400).json({ message: "❌ Missing required fields" });
     }
 
-    // ✅ Check for missing paymentIntentId
+    if (!services.length) {
+      return res.status(400).json({ message: "❌ No services selected" });
+    }
+
     if (!paymentIntentId) {
       return res.status(400).json({ message: "❌ paymentIntentId is missing!" });
     }
 
-    // ✅ Date parsing
+    // ------------------------------
+    // 2️⃣ Parse date formats
+    // ------------------------------
     const parsedDate =
       typeof firstDate === "string" && firstDate.includes(".")
         ? new Date(firstDate.split(".").reverse().join("-"))
         : new Date(firstDate);
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+    const resetTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-    // ✅ Validate services
-    const serviceRecords = await prisma.service.findMany({
-      where: { name: { in: services } },
-    });
-    const subServiceRecords = await prisma.subService.findMany({
-      where: { name: { in: subServices } },
-    });
+    // ------------------------------
+    // 3️⃣ AUTO-MATCH Services & Subservices
+    // ------------------------------
 
-    if (
-      serviceRecords.length !== services.length ||
-      subServiceRecords.length !== subServices.length
-    ) {
-      return res
-        .status(400)
-        .json({ message: "❌ Service or Subservice not found" });
+    // Fetch all from DB
+    const allServices = await prisma.service.findMany();
+    const allSubServices = await prisma.subService.findMany();
+
+    // Map input → DB records by partial match
+    const serviceRecords = allServices.filter((s) =>
+      services.some((input) =>
+        input.toLowerCase().trim().includes(s.name.toLowerCase().trim())
+      )
+    );
+
+    const subServiceRecords = allSubServices.filter((s) =>
+      subServices.some((input) =>
+        input.toLowerCase().trim().includes(s.name.toLowerCase().trim())
+      )
+    );
+
+    // Validate mapped values
+    if (serviceRecords.length === 0) {
+      return res.status(400).json({
+        message: "❌ No matching services found.",
+        received: services,
+        dbServices: allServices.map((s) => s.name),
+      });
     }
 
-    // ✅ Build individual schedule entries
+    // ------------------------------
+    // 4️⃣ Build all schedule entries
+    // ------------------------------
     const schedulesCreate = schedules.map((entry) => ({
       day: entry.day,
       startTime: entry.startTime,
@@ -72,15 +94,20 @@ export default async function handler(req, res) {
       date: new Date(entry.date),
     }));
 
-    // ✅ Payment calculation
+    // ------------------------------
+    // 5️⃣ Payment calculation
+    // ------------------------------
     const totalHours = schedulesCreate.reduce((sum, s) => sum + s.hours, 0);
-    const HOURLY_RATE = 1;
+    const HOURLY_RATE = 1; // your rate
     const totalPayment = totalHours * HOURLY_RATE;
 
-    // ✅ Create or update user
+    // ------------------------------
+    // 6️⃣ Create or update user
+    // ------------------------------
     let user = await prisma.user.findUnique({ where: { email } });
 
     if (user) {
+      // Update existing user
       user = await prisma.user.update({
         where: { email },
         data: {
@@ -89,6 +116,7 @@ export default async function handler(req, res) {
         },
       });
     } else {
+      // Create a new user
       user = await prisma.user.create({
         data: {
           firstName,
@@ -106,10 +134,11 @@ export default async function handler(req, res) {
           totalPayment,
           resetToken,
           resetTokenExpiry,
-           anrede, 
-  kanton,
+          anrede,
+          kanton,
+
           services: {
-            connect: services.map((name) => ({ name })),
+            connect: serviceRecords.map((s) => ({ id: s.id })),
           },
           subServices: {
             connect: subServiceRecords.map((s) => ({ id: s.id })),
@@ -120,15 +149,17 @@ export default async function handler(req, res) {
         },
       });
 
-      // ✅ Email confirmation (send only for new user)
+      // ------------------------------
+      // 7️⃣ Send welcome email
+      // ------------------------------
       const template = await prisma.emailTemplate.findUnique({
         where: { name: "welcomeEmail" },
       });
 
       if (template) {
         let body = template.body;
-        body = body.replace(/{{firstName}}/g, firstName || "");
-        body = body.replace(/{{lastName}}/g, lastName || "");
+        body = body.replace(/{{firstName}}/g, firstName);
+        body = body.replace(/{{lastName}}/g, lastName);
         body = body.replace(
           /{{resetLink}}/g,
           `${process.env.NEXT_PUBLIC_BASE_URL}/setpassword?token=${resetToken}`
@@ -142,11 +173,12 @@ export default async function handler(req, res) {
       }
     }
 
-    // ✅ Push new client into Salesforce
+    // ------------------------------
+    // 8️⃣ Sync with Salesforce
+    // ------------------------------
     if (!user.salesforceId) {
       try {
         const sfId = await createOrUpdateSalesforceAccount(user);
-
         await prisma.user.update({
           where: { id: user.id },
           data: { salesforceId: sfId },
@@ -156,20 +188,20 @@ export default async function handler(req, res) {
       }
     }
 
-    // ✅ Create reminders
+    // ------------------------------
+    // 9️⃣ Create reminders
+    // ------------------------------
     await prisma.reminder.createMany({
       data: [
         {
           userId: user.id,
           type: "4h_reminder",
           scheduledAt: new Date(Date.now() + 4 * 60 * 60 * 1000),
-          sent: false,
         },
         {
           userId: user.id,
           type: "48h_reminder",
           scheduledAt: new Date(Date.now() + 48 * 60 * 60 * 1000),
-          sent: false,
         },
       ],
     });
@@ -183,19 +215,12 @@ export default async function handler(req, res) {
     if (error.code === "P2002") {
       return res.status(409).json({
         message: "❌ Diese E-Mail-Adresse ist bereits registriert.",
-        field: error.meta?.target,
-      });
-    }
-
-    if (error.code === "P2025") {
-      return res.status(400).json({
-        message: "❌ Ein erforderlicher Datensatz konnte nicht gefunden werden.",
       });
     }
 
     return res.status(500).json({
       message: "❌ Interner Serverfehler",
-      error: error.message || "Unbekannter Fehler",
+      error: error.message,
     });
   }
 }
