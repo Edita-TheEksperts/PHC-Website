@@ -45,9 +45,17 @@ const clientList = Object.values(
         const data = await res.json();
         setPayments(data);
 
-        const voucherRes = await fetch("/api/finances/vouchers");
-        const voucherJson = await voucherRes.json();
-        setVouchers(voucherJson.vouchers || []);
+const voucherRes = await fetch("/api/finances/vouchers");
+const voucherJson = await voucherRes.json();
+
+console.log("🔥 VOUCHER DATA FROM API:", voucherJson);
+console.log("🔥 USED BY FOR EACH VOUCHER:", voucherJson.vouchers?.map(v => ({
+  code: v.code,
+  usedBy: v.usedBy
+})));
+
+setVouchers(voucherJson.vouchers || []);
+
       } catch (err) {
         console.error("Fehler beim Laden:", err);
       } finally {
@@ -488,7 +496,7 @@ const d = new Date(p.paymentDate);
           )}
 
 {renderSection(
-  "🎟️ Gutscheine (mit Nutzung)",
+  " Gutscheine (mit Nutzung)",
   <div className="space-y-4 max-h-80 overflow-y-auto pr-2">
 <div className="mb-4 flex flex-wrap gap-3 items-center">
 
@@ -575,27 +583,25 @@ filterVouchers(vouchers).map((v) => (
             {new Date(v.validUntil).toLocaleDateString()}
           </p>
 
-          <p>
-            <strong>Verwendet:</strong> {v.usedBy?.length || 0} / {v.maxUses} mal
-          </p>
+<p>
+  <strong>Verwendet:</strong> {v.usedCount} / {v.maxUses} mal
+</p>
 
-          {/* 🧍 Clients who used the voucher */}
-          {v.usedBy?.length > 0 && (
-            <div className="mt-3 border-t pt-3">
-              <p className="font-semibold mb-2">Benutzt von:</p>
-              {v.usedBy.map((u) => (
-                <div
-                  key={u.id}
-                  className="bg-white p-2 rounded-md border flex flex-col"
-                >
-                  <span className="font-medium">
-                    {u.firstName} {u.lastName}
-                  </span>
-                  <span className="text-sm text-gray-600">{u.email}</span>
-                </div>
-              ))}
-            </div>
-          )}
+{v.usedBy && v.usedBy.length > 0 && (
+  <div className="mt-3 border-t pt-3">
+    <p className="font-semibold mb-2">Benutzt von:</p>
+
+    {v.usedBy.map((u) => (
+      <div key={u.id} className="bg-white p-2 rounded-md border">
+        <span className="font-medium">
+          {u.firstName} {u.lastName}
+        </span>
+        <span className="text-sm text-gray-600">{u.email}</span>
+      </div>
+    ))}
+  </div>
+)}
+
         </div>
       ))
     )}

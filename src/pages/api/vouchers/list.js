@@ -9,8 +9,19 @@ export default async function handler(req, res) {
   try {
     const vouchers = await prisma.voucher.findMany({
       orderBy: { createdAt: "desc" },
+      include: {
+        usedBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+      },
     });
-    res.status(200).json(vouchers);
+
+    res.status(200).json({ vouchers });
   } catch (error) {
     console.error("Voucher fetch error:", error);
     res.status(500).json({ error: "Internal Server Error" });

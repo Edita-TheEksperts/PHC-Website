@@ -196,18 +196,16 @@ const handleVoucherCheck = async () => {
   setVoucherLoading(true);
 
   try {
-  
-const res = await fetch("/api/vouchers/use", {
-  method: "PUT",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    code: voucherCode,
-    userId: createdUserId || form.userId,  //  ← DUHET
-  }),
-});
+    const res = await fetch("/api/vouchers/use", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        code: form.voucher,   // ✅ FIXED
+        userId: userId || null // ose hiqe fare
+      }),
+    });
 
     const data = await res.json();
-    console.log("Voucher API response:", data);
 
     if (!data.success) {
       setVoucherMessage(data.error || "Ungültiger Gutscheincode.");
@@ -216,36 +214,12 @@ const res = await fetch("/api/vouchers/use", {
     }
 
     const { discountType, discountValue } = data;
+
     setDiscountType(discountType);
     setDiscountValue(discountValue);
-
-    let finalAmount = totalPayment;
-    if (discountType === "percent") {
-      finalAmount -= (totalPayment * discountValue) / 100;
-    } else if (discountType === "fixed") {
-      finalAmount -= discountValue;
-    }
-    if (finalAmount < 0) finalAmount = 0;
-
-    console.log("💰 Final total after discount:", finalAmount);
-
-    const intentRes = await fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: Math.round(finalAmount * 100) }), 
-    });
-
-    const intentData = await intentRes.json();
-    console.log("✅ Stripe PaymentIntent created with discount:", intentData);
-
-    setClientSecret(intentData.clientSecret);
-    setForm((prev) => ({
-      ...prev,
-      paymentIntentId: intentData.paymentIntentId,
-    }));
-
     setVoucherSuccess(true);
     setVoucherMessage("🎉 Gutschein erfolgreich eingelöst!");
+
   } catch (err) {
     console.error("❌ Voucher check failed:", err);
     setVoucherMessage("Fehler beim Einlösen des Gutscheins.");
@@ -254,6 +228,7 @@ const res = await fetch("/api/vouchers/use", {
     setVoucherLoading(false);
   }
 };
+
 useEffect(() => {
   if (form.frequency === "einmalig") {
     setForm((prev) => ({
@@ -293,6 +268,7 @@ useEffect(() => {
 
     return surcharge;
   }
+const [voucherCode, setVoucherCode] = useState("");
 
   const frequency = form?.frequency?.toLowerCase();
   const isRecurring = ["wöchentlich", "alle 2 wochen", "monatlich"].includes(

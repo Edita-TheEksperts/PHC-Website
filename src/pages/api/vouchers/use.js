@@ -8,8 +8,9 @@ export default async function handler(req, res) {
   try {
     const { code, userId } = req.body;
 
-    if (!code || !userId) {
-      return res.status(400).json({ error: "Missing code or userId" });
+    // ❗ Voucher code required, userId is optional
+    if (!code) {
+      return res.status(400).json({ error: "Missing voucher code" });
     }
 
     // Find voucher
@@ -31,15 +32,19 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Gutschein ist abgelaufen oder inaktiv." });
     }
 
-    // Update usage + connect to user
+    // Prepare update data
+    const updateData = {
+      usedCount: { increment: 1 },
+    };
+
+    // Connect to user **only if userId exists**
+    if (userId) {
+      updateData.usedBy = { connect: { id: userId } };
+    }
+
     await prisma.voucher.update({
       where: { code: voucher.code },
-      data: {
-        usedCount: { increment: 1 },
-        usedBy: {
-          connect: { id: userId },
-        },
-      },
+      data: updateData,
     });
 
     return res.status(200).json({
