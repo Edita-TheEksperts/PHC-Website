@@ -72,23 +72,24 @@ async function sendAccountSetupEmail(userEmail, fullName) {
   const mailOptions = {
     from: `"Prime Home Care" <${process.env.SMTP_USER}>`,
     to: userEmail,
-    subject: "Welcome to Prime Home Care AG – Set Your Password",
+    subject: "Willkommen bei Prime Home Care AG – Passwort erstellen",
     html: `
-      <p>Hello ${fullName},</p>
-      <p>Thank you for registering with Prime Home Care AG.</p>
-      <p>Your access to the customer portal has been successfully set up:</p>
-      <ul>
-        <li>Manage bookings</li>
-        <li>View invoices</li>
-        <li>Communicate with us</li>
-      </ul>
-      <p><strong>Please create your password via the button below:</strong></p>
-      <a href="${passwordLink}"
-         style="display:inline-block; background-color:#B99B5F; color:#fff; padding:10px 18px; border-radius:5px; text-decoration:none; font-weight:bold;">
-        Create Password
-      </a>
-      <br><br>
-      <p>Ihr Prime Home Care Team</p>
+<p>Hallo ${fullName},</p>
+<p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.</p>
+<p>Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet:</p>
+<ul>
+  <li>Buchungen verwalten</li>
+  <li>Rechnungen einsehen</li>
+  <li>Mit uns kommunizieren</li>
+</ul>
+<p><strong>Bitte erstellen Sie Ihr Passwort über die Schaltfläche unten:</strong></p>
+<a href="${passwordLink}"
+   style="display:inline-block; background-color:#B99B5F; color:#fff; padding:10px 18px; border-radius:5px; text-decoration:none; font-weight:bold;">
+  Passwort erstellen
+</a>
+<br><br>
+<p>Ihr Prime Home Care Team</p>
+
     `,
   };
 

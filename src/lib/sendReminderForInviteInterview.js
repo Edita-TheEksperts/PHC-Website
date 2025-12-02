@@ -9,11 +9,11 @@ export async function sendReminderForInviteInterview() {
     where: {
       invited: true,
       inviteSentAt: { lte: threeDaysAgo },
-      status: "pending",
+      status: "pending",a
     },
   });
 
-  const calendlyUrl = "https://calendly.com/YOUR_REAL_LINK"; // replace this
+  const calendlyUrl = "https://calendly.com/primehomecare";
 
   // 2. Send a reminder email to each one
   for (const emp of employees) {

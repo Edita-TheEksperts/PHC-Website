@@ -10,7 +10,6 @@ export async function runAssignmentReminders() {
     const twelveHoursAgo = new Date(now.getTime() - 12 * 60 * 60 * 1000);
     const thirtySixHoursAgo = new Date(now.getTime() - 36 * 60 * 60 * 1000);
 
-    // Gjej assignment-et pending për reminders
     const assignments = await prisma.assignment.findMany({
       where: {
         confirmationStatus: "pending",
@@ -25,7 +24,6 @@ export async function runAssignmentReminders() {
       const employee = assignment.employee;
       if (!employee?.email) continue;
 
-      // 1️⃣ Dërgo reminder i parë pas 12h
       if (assignment.reminderSentCount === 0) {
         const subject = "Reminder: Bitte Job akzeptieren";
         const html = `
@@ -48,7 +46,6 @@ export async function runAssignmentReminders() {
         }
       }
 
-      // 2️⃣ Dërgo reminder i dytë pas 24h (pra total 36h)
       if (assignment.reminderSentCount === 1 && assignment.createdAt <= thirtySixHoursAgo) {
         const subject = "Final Reminder: Bitte Job akzeptieren";
         const html = `
@@ -62,13 +59,11 @@ export async function runAssignmentReminders() {
           await sendEmail({ to: employee.email, subject, html });
           console.log(`✅ Second reminder sent to ${employee.email}`);
 
-          // Anulo assignment pas 36h dhe njofto admin
           await prisma.assignment.update({
             where: { id: assignment.id },
             data: { status: "cancelled", reminderSentCount: 2 },
           });
 
-          // Njofto admin (mund të jetë email global ose lista admin)
           const admins = await prisma.user.findMany({ where: { role: "admin" } });
           for (const admin of admins) {
             if (!admin.email) continue;

@@ -11,7 +11,7 @@ export default async function sendInterviewEmail(email, firstName = "") {
     },
   });
 
-  const calendlyUrl = "https://calendly.com/your-link"; // ← Replace with real link
+  const calendlyUrl = "https://calendly.com/primehomecare"; // ← Replace with real link
 
    const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">

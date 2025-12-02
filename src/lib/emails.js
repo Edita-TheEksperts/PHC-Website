@@ -23,6 +23,6 @@ export async function sendEmail({ to, subject, html }) {
     });
   } catch (err) {
     console.error("❌ Email sending error:", err);
-    throw err; // rethrow to catch in your handler if needed
+    throw err; 
   }
 }

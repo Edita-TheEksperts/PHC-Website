@@ -15,10 +15,11 @@ export async function sendCalendlyInvite(email) {
   await transporter.sendMail({
     from: `"Your Company" <no-reply@yourdomain.com>`,
     to: email,
-    subject: "Schedule your interview",
+    subject: "Vereinbaren Sie Ihr Vorstellungsgespräch",
     html: `
-      <p>Thank you for registering.</p>
-      <p>Please <a href="${calendlyLink}">book your interview here</a>.</p>
+<p>Vielen Dank für Ihre Registrierung.</p>
+<p>Bitte <a href="${calendlyLink}">vereinbaren Sie hier Ihr Vorstellungsgespräch</a>.</p>
+
     `,
   });
 }

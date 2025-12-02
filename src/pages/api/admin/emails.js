@@ -1,6 +1,6 @@
 import { prisma } from "../../../lib/prisma";
 
-// Helper: wrap text lines with <p>
+
 const formatBody = (text) => {
   return text
     .split(/\n+/)
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       where: { id },
       data: {
         subject,
-        body: formatBody(body), // ✅ always save wrapped
+        body: formatBody(body), 
       },
     });
 

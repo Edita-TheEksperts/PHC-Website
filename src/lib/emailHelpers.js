@@ -13,7 +13,6 @@ export function createContractPdf(employee) {
     doc.on("data", buffers.push.bind(buffers));
     doc.on("end", () => resolve(Buffer.concat(buffers)));
 
-    // Prepare employee data
     const fullName = `${employee.firstName || ""} ${employee.lastName || ""}`.trim();
     const fullAddress = `${employee.address || ""} ${employee.houseNumber || ""}, ${employee.zipCode || ""} ${employee.city || ""}`.trim();
 const contractDate = new Date().toLocaleDateString("de-CH", {
