@@ -91,17 +91,19 @@ const { subject, body } = await getTemplate("assignmentAccepted", {
         where: { employeeId },
       });
 
-      if (rejectedCount >= 5 && !warningSent) {
+      if (rejectedCount >= 3 && !warningSent) {
         const { subject, body } = await getTemplate("rejectionWarning", {
           employeeFirstName: updated.employee.firstName,
         });
 
-        await transporter.sendMail({
-          from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
-          to: updated.employee.email,
-          subject,
-          html: body,
-        });
+    await transporter.sendMail({
+  from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+  to: updated.employee.email,
+  cc: "admin@phc.ch", 
+  subject,
+  html: body,
+});
+
 
         await prisma.rejectionWarning.create({
           data: { employeeId, sentAt: new Date() },

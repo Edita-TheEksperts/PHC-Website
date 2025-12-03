@@ -45,5 +45,6 @@ export async function sendPendingReminders() {
     } catch (error) {
       console.error(`Failed to send reminder to ${user.email}:`, error);
     }
+    
   }
 }
