@@ -573,7 +573,7 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
 
         <button
           type="submit"
-          className="bg-[#04436F] text-white py-2 px-4 rounded-lg"
+          className="bg-[#B99B5F] text-white py-2 px-4 rounded-lg"
         >
           Urlaub speichern
         </button>
@@ -1445,8 +1445,8 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
 
           <button
             type="submit"
-            className="mt-12 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
-              hover:bg-[#033553] transition"
+            className="mt-12 bg-[#B99B5F] text-white py-3 rounded-lg font-semibold text-sm 
+              hover:bg-[#bca77c] transition"
           >
             Termin buchen
           </button>
@@ -1654,8 +1654,8 @@ Hier können Sie Ihre gespeicherte Zahlungsmethode einsehen und bei Bedarf aktua
   ))}
   <button
     type="submit"
-    className="mt-4 bg-[#04436F] text-white py-3 rounded-lg font-semibold text-sm 
-      hover:bg-[#033553] transition"
+    className="mt-4 bg-[#B99B5F] text-white py-3 rounded-lg font-semibold text-sm 
+      hover:bg-[#bca77c] transition"
   >
     Änderungen speichern
   </button>
