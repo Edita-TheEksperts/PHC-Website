@@ -181,6 +181,18 @@ const extraKm = Math.max(0, totalKm - contractedKm);
       alert("❌ Termin konnte nicht storniert werden.");
     }
   };
+const [paymentMethod, setPaymentMethod] = useState(null);
+const [showPaymentBox, setShowPaymentBox] = useState(false);
+
+useEffect(() => {
+  if (!userData?.stripeCustomerId) return;
+
+  fetch(`/api/get-payment-method?customerId=${userData.stripeCustomerId}`)
+    .then(res => res.json())
+    .then(data => setPaymentMethod(data.paymentMethod))
+    .catch(err => console.error("❌ Payment load error:", err));
+}, [userData]);
+
 
   const terminateAppointment = async (id, immediate = false) => {
     await fetch(
@@ -348,6 +360,59 @@ useEffect(() => {
       alert("Fehler bei der Zahlung.");
     }
   };
+  const [editingCard, setEditingCard] = useState(false);
+const [cardLoading, setCardLoading] = useState(false);
+
+
+async function handleUpdateCard() {
+  setCardLoading(true);
+
+  // 1) Create Stripe payment method
+  const { paymentMethod, error } = await stripe.createPaymentMethod({
+    type: "card",
+    card: elements.getElement(CardElement),
+  });
+
+  if (error) {
+    alert(error.message);
+    setCardLoading(false);
+    return;
+  }
+
+  // 2) Send to backend
+  const res = await fetch("/api/update-payment-method", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId: userData.id,
+      customerId: userData.stripeCustomerId,
+      newPaymentMethodId: paymentMethod.id,
+    }),
+  });
+
+  const data = await res.json();
+  setCardLoading(false);
+
+  if (data.success) {
+    alert("Zahlungsmethode erfolgreich aktualisiert!");
+    setEditingCard(false);
+    fetchPaymentMethod(); // Rifresko kartën e re
+  } else {
+    alert("Fehler: Zahlungsmethode konnte nicht gespeichert werden.");
+  }
+}
+const fetchPaymentMethod = async () => {
+  if (!userData?.stripeCustomerId) return;
+
+  const res = await fetch(
+    `/api/get-payment-method?customerId=${userData.stripeCustomerId}`
+  );
+
+  const data = await res.json();
+
+  setPaymentMethod(data.paymentMethod || null);
+};
+
   const normalize = (str) =>
     str
       ?.toLowerCase()
@@ -734,6 +799,7 @@ useEffect(() => {
   </div>
 </article>
 
+
 <section
   className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
   ${showAppointments
@@ -873,6 +939,8 @@ useEffect(() => {
   </div>
 </section>
 
+
+
 {/* --- URLAUB --- */}
 <section
   className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
@@ -962,6 +1030,7 @@ useEffect(() => {
     </div>
   </div>
 </section>
+
 {/* --- MONATSÜBERSICHT --- */}
 <ClientDashboard2 userId={userData?.id} />
 
@@ -1377,7 +1446,7 @@ useEffect(() => {
       )}
 
       {/* Step 2: Payment */}
-      {step === "payment" && (
+{step === "payment" && !editingCard && (
         <div className="p-2 bg-white rounded-2xl shadow-md">
           <h2 className="text-xl font-bold mb-4">Zahlungsdetails</h2>
           <CardElement className="border p-3 rounded-lg" />
@@ -1432,7 +1501,72 @@ useEffect(() => {
   </div>
 </section>
 
-          
+          <section
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  ${showPaymentBox ? "scale-100 opacity-100 rounded-3xl shadow-2xl" : "scale-95 opacity-90 rounded-xl shadow-md"}`}
+>
+  
+  <header
+    onClick={() => setShowPaymentBox(prev => !prev)}
+    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+  >
+    
+    <h3 className="text-2xl font-semibold text-[#B99B5F]">
+      Zahlungsmethode
+    </h3>
+
+    {showPaymentBox ? (
+      <ChevronUp className="w-6 h-6 text-gray-500" />
+    ) : (
+      <ChevronDown className="w-6 h-6 text-gray-500" />
+    )}
+  </header>
+  <div
+    className={`transition-all duration-500 ${
+      showInfoUpdate
+        ? "max-h-0 opacity-0 overflow-hidden"
+        : "max-h-40 opacity-100"
+    }`}
+  >
+    <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
+Hier können Sie Ihre gespeicherte Zahlungsmethode einsehen und bei Bedarf aktualisieren.    </p>
+  </div>
+  <div
+    className={`transition-all duration-500 transform ${
+      showPaymentBox
+        ? "max-h-[500px] opacity-100 scale-100"
+        : "max-h-0 opacity-0 scale-95"
+    }`}
+  >
+    <div className="p-6 space-y-4 text-gray-700">
+
+      {/* If no method */}
+      {!paymentMethod && (
+        <p className="italic text-gray-500">
+          Keine Zahlungsmethode gespeichert.
+        </p>
+      )}
+
+      {/* If card exists */}
+      {paymentMethod && (
+        <>
+          <p><strong>Kartentyp:</strong> {paymentMethod.brand}</p>
+          <p><strong>Nummer:</strong> **** **** **** {paymentMethod.last4}</p>
+          <p>
+            <strong>Ablaufdatum:</strong> {paymentMethod.exp_month}/{paymentMethod.exp_year}
+          </p>
+        </>
+      )}
+<button
+  className="mt-3 bg-[#B99B5F] text-white py-2 px-4 rounded-lg"
+  onClick={() => setEditingCard(true)}
+>
+  Zahlungsmethode ändern
+</button>
+
+    </div>
+  </div>
+</section>
               {/* Update Information Form */}
             {/* Informationen aktualisieren Section */}
 <section
@@ -1632,10 +1766,31 @@ useEffect(() => {
           </div>
         </>
       )}
+      
     </div>
   </div>
 )}
 
+{editingCard && (
+  <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+    <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md relative">
+      <button onClick={() => setEditingCard(false)}>✕</button>
+
+      <h3 className="text-xl font-semibold text-[#B99B5F] mb-4">
+        Neue Zahlungsmethode
+      </h3>
+
+      <CardElement className="border px-3 py-3 rounded-lg" />
+
+      <button
+        onClick={handleUpdateCard}
+        className="w-full bg-[#04436F] text-white py-3 rounded-lg mt-6"
+      >
+        Zahlungsmethode aktualisieren
+      </button>
+    </div>
+  </div>
+)}
 
         </main>
       </div>
