@@ -52,24 +52,30 @@ export default async function handler(req, res) {
       });
     }
 
-    // ➤ Update normal i të dhënave tjera
-    const allowedFields = [
-      "fullName", "email", "phone", "address",
-      "emergencyContactName", "emergencyContactPhone",
-      "frequency", "duration", "firstDate",
-      "languages", "pets",
-      "mobility", "transport", "appointments",
-      "appointmentsOther", "shoppingAssist", "shoppingType",
-      "briefkasten", "postfach", "sonstige",
-      "form4Completed", "requestFirstName", "requestLastName", "requestPhone", "requestEmail",
-    ];
+const allowedFields = [
+  "fullName", "email", "phone", "address",
+
+  "careCity",
+  "careStreet",
+
+  "emergencyContactName", "emergencyContactPhone",
+  "frequency", "duration", "firstDate",
+  "languages", "pets",
+  "mobility", "transport", "appointments",
+  "appointmentsOther", "shoppingAssist", "shoppingType",
+  "briefkasten", "postfach", "sonstige",
+  "form4Completed",
+  "requestFirstName", "requestLastName", "requestPhone", "requestEmail",
+];
+
 
     const safeData = {};
-    for (const key of allowedFields) {
-      if (key in incomingData) {
-        safeData[key] = incomingData[key];
-      }
-    }
+for (const key of allowedFields) {
+  if (key in incomingData) {
+    safeData[key] = incomingData[key];
+  }
+}
+
 
     const updatedUser = await prisma.user.update({
       where: { id },

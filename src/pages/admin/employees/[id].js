@@ -317,10 +317,22 @@ const filteredTermine =
     <button
       onClick={() => {
         setSkillsData({
-          specialTrainings: (employee.specialTrainings || []).join(", "),
-          languages: (employee.languages || []).join(", "),
-          communicationTraits: (employee.communicationTraits || []).join(", "),
-          dietaryExperience: (employee.dietaryExperience || []).join(", "),
+     specialTrainings: Array.isArray(employee.specialTrainings)
+  ? employee.specialTrainings.join(", ")
+  : (employee.specialTrainings || ""),
+
+languages: Array.isArray(employee.languages)
+  ? employee.languages.join(", ")
+  : (employee.languages || ""),
+
+communicationTraits: Array.isArray(employee.communicationTraits)
+  ? employee.communicationTraits.join(", ")
+  : (employee.communicationTraits || ""),
+
+dietaryExperience: Array.isArray(employee.dietaryExperience)
+  ? employee.dietaryExperience.join(", ")
+  : (employee.dietaryExperience || ""),
+
         });
         setEditSkills(true);
       }}

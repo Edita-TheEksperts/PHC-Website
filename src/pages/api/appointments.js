@@ -115,11 +115,14 @@ if (req.method === "PUT") {
       status: "modified" // ✅ DOMOSDOSHEM!
     };
 
-    if (update.date) {
-      const d = new Date(update.date);
-      nextData.date = d;
-      nextData.day = d.toLocaleDateString("de-DE", { weekday: "long" });
-    }
+ if (update.date) {
+
+  const d = new Date(update.date + "T12:00:00");
+
+  nextData.date = d;
+  nextData.day = d.toLocaleDateString("de-DE", { weekday: "long" });
+}
+
 
     const updated = await prisma.schedule.update({
       where: { id: Number(id) },

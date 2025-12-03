@@ -107,7 +107,6 @@ export async function sendApprovalEmail(employee) {
       <p>Liebe ${firstName},</p>
       <p>Vielen Dank für Ihre Registrierung bei <strong>Prime Home Care AG</strong>.</p>
       <p>Im Anhang finden Sie Ihre <strong>NDA</strong> und Ihren <strong>Arbeitsvertrag</strong>.</p>
-      <p><strong>Login-Link:</strong> <a href="${portalUrl}">${portalUrl}</a></p>
       <p>Herzliche Grüsse<br/>Prime Home Care AG</p>
     `,
     attachments: [

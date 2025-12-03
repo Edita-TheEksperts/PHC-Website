@@ -4,18 +4,35 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   // === UPDATE (PATCH) ===
-  if (req.method === "PATCH") {
-    try {
-      const updated = await prisma.employee.update({
-        where: { id },
-        data: req.body, // ruan VETËM çfarë dërgon fronti
-      });
-      return res.status(200).json(updated);
-    } catch (error) {
-      console.error("Update error:", error);
-      return res.status(500).json({ message: "Failed to update employee" });
-    }
+ if (req.method === "PATCH") {
+  try {
+    const allowed = [
+      "email", "phone", "address", "city", "zipCode", "country", "canton",
+      "specialTrainings", "languages", "communicationTraits", "dietaryExperience",
+      "experienceYears", "experienceWhere", "experienceCompany",
+      "availabilityFrom", "availabilityDays",
+      "licenseType", "hasLicense", "hasCar", "carAvailableForWork",
+      "nationality", "houseNumber"
+    ];
+
+    // vetem fushat reale lejohet te perditesohen
+    const data = {};
+    Object.keys(req.body).forEach((key) => {
+      if (allowed.includes(key)) data[key] = req.body[key];
+    });
+
+    const updated = await prisma.employee.update({
+      where: { id },
+      data,
+    });
+
+    return res.status(200).json(updated);
+  } catch (error) {
+    console.error("Update error:", error);
+    return res.status(500).json({ message: "Failed to update employee" });
   }
+}
+
 
   // === GET (EXISTING) ===
   if (req.method === "GET") {

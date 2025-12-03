@@ -51,25 +51,37 @@ export default function AppointmentDetailPage() {
   fetchAppointment();
 }, [router.isReady, id]);
 
+async function handleAssignEmployee() {
+  if (!selectedEmployee) return alert("Bitte Mitarbeiter auswählen!");
 
-  async function handleAssignEmployee() {
-    if (!selectedEmployee) return;
-
- const res = await fetch("/api/admin/assign-employee", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
+  console.log("🔥 Sending payload:", {
     appointmentId: id,
-    userId: selectedEmployee, // <-- change here
-  }),
-});
+    userId: appointment.user?.id,
+    employeeId: selectedEmployee
+  });
 
-    if (res.ok) {
-      router.reload();
-    } else {
-      alert("Error assigning employee");
-    }
+  const res = await fetch("/api/admin/assign-employee", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      appointmentId: id,
+      userId: appointment.user?.id,     // ID e klientit
+      employeeId: selectedEmployee      // ID e punonjësit
+    }),
+  });
+
+  const data = await res.json();
+  console.log("📥 Server response:", data);
+
+  if (!res.ok) {
+    return alert("Error: " + data.message);
   }
+
+  alert("Mitarbeiter erfolgreich zugewiesen!");
+  router.reload();
+}
+
+
 
   if (loading) return <div className="p-6 text-gray-600">⏳ Lade Termin...</div>;
   if (error) return <div className="p-6 text-red-600">❌ {error}</div>;

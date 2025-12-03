@@ -132,20 +132,29 @@ const extraKm = Math.max(0, totalKm - contractedKm);
       prev.map((appt) => (appt.id === id ? { ...appt, captured: true } : appt))
     );
   };
-  useEffect(() => {
-    if (selectedAppointment) {
-      const d = new Date(selectedAppointment.date);
-      const formatted = d.toISOString().split("T")[0]; // YYYY-MM-DD for <input type="date">
+useEffect(() => {
+  if (!selectedAppointment?.date) return;
 
-      setEditData({
-        date: formatted,
-        startTime: selectedAppointment.startTime,
-        hours: selectedAppointment.hours,
-        serviceName: selectedAppointment.serviceName,
-        subServiceName: selectedAppointment.subServiceName,
-      });
-    }
-  }, [selectedAppointment]);
+  // SIGURIA: kontrollo nëse data është valide
+  const raw = selectedAppointment.date.split("T")[0]; // merr vetëm YYYY-MM-DD
+  const d = new Date(raw + "T12:00:00");
+
+  if (isNaN(d.getTime())) return; // shmang crash
+
+  const formatted = [
+    d.getFullYear(),
+    String(d.getMonth() + 1).padStart(2, "0"),
+    String(d.getDate()).padStart(2, "0")
+  ].join("-");
+
+  setEditData({
+    date: formatted,
+    startTime: selectedAppointment.startTime,
+    hours: selectedAppointment.hours,
+    serviceName: selectedAppointment.serviceName,
+    subServiceName: selectedAppointment.subServiceName,
+  });
+}, [selectedAppointment]);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -445,17 +454,16 @@ const fetchPaymentMethod = async () => {
   console.log("✅ handleSubmit u thirr");
   console.log("UpdatedData: ", updatedData);
 
-  // kontroll i detyruar për Hausnummer
-  if (!updatedData.houseNumber || updatedData.houseNumber.trim() === "") {
-    alert("❌ Bitte geben Sie Ihre Hausnummer ein.");
-    return;
-  }
+if (!updatedData.careStreet || updatedData.careStreet.trim() === "") {
+  alert("❌ Bitte geben Sie Ihre Hausnummer ein.");
+  return;
+}
 
-  // kontroll i detyruar për Stadt
-  if (!updatedData.city || updatedData.city.trim() === "") {
-    alert("❌ Bitte geben Sie Ihren Wohnort ein.");
-    return;
-  }
+if (!updatedData.careCity || updatedData.careCity.trim() === "") {
+  alert("❌ Bitte geben Sie Ihren Wohnort ein.");
+  return;
+}
+
 
   // nëse do të mbash edhe fushat tjera si opsionale ose të kontrolluara
   const requiredFields = ["firstName", "lastName", "email", "phone"];
@@ -1620,8 +1628,9 @@ Hier können Sie Ihre gespeicherte Zahlungsmethode einsehen und bei Bedarf aktua
     { name: "lastName", label: "Nachname ", type: "text" },
     { name: "email", label: "E-Mail Adresse", type: "email" },
     { name: "phone", label: "Telefonnummer", type: "tel" },
-    { name: "houseNumber", label: "Hausnummer", type: "text" },
-    { name: "city", label: "Stadt", type: "text" },
+{ name: "careCity", label: "Stadt", type: "text" },
+{ name: "careStreet", label: "Hausnummer", type: "text" }
+,
     { name: "requestFirstName", label: "Notfall Kontakt Name", type: "text" },
     { name: "requestLastName", label: "Notfall Kontakt Nachname", type: "text" },
     { name: "requestPhone", label: "Notfall Kontakt Telefonnummer", type: "tel" },
@@ -1706,7 +1715,11 @@ Hier können Sie Ihre gespeicherte Zahlungsmethode einsehen und bei Bedarf aktua
           {/* Pjesa e formularit për editim */}
           <label className="block text-sm font-medium">Datum</label>
           <DatePicker
-            selected={editData.date ? new Date(editData.date) : null}
+selected={
+  editData.date && !isNaN(new Date(editData.date + "T12:00:00"))
+    ? new Date(editData.date + "T12:00:00")
+    : null
+}
             onChange={(date) =>
               setEditData((prev) => ({
                 ...prev,

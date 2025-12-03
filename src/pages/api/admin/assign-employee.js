@@ -1,4 +1,3 @@
-// /pages/api/admin/assign-employee.js
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -7,39 +6,50 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { userId, employeeId } = req.body;
+  const { appointmentId, userId, employeeId } = req.body;
 
-  if (!userId || !employeeId) {
-    return res.status(400).json({ message: "Missing userId or employeeId" });
+  if (!appointmentId || !userId || !employeeId) {
+    return res.status(400).json({ message: "Missing data" });
   }
 
   try {
-    // ✅ Verify the user exists (client)
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const appointment = await prisma.schedule.findUnique({
+      where: { id: Number(appointmentId) }
+    });
 
-    // ✅ Verify the employee exists
-    const employee = await prisma.employee.findUnique({ where: { id: employeeId } });
-    if (!employee) return res.status(404).json({ message: "Employee not found" });
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
 
-    // ✅ Create new assignment
+    // 1️⃣ Create assignment
     await prisma.assignment.create({
       data: {
         userId,
         employeeId,
-        serviceName: "", // optional
+        scheduleId: appointment.id,
+        serviceName: appointment.serviceName || "",
       },
     });
 
-    // ✅ Optionally update user's status
-    await prisma.user.update({
-      where: { id: userId },
-      data: { status: "assigned" },
+    // 2️⃣ Update appointment → attach employee
+    const updatedSchedule = await prisma.schedule.update({
+      where: { id: appointment.id },
+      data: {
+        employeeId: employeeId,
+      },
+      include: {
+        employee: true,
+        user: true
+      }
     });
 
-    res.status(200).json({ message: "Employee assigned successfully" });
+    return res.status(200).json({
+      message: "Employee assigned successfully",
+      schedule: updatedSchedule,
+    });
+
   } catch (error) {
-    console.error("Assign Error:", error);
-    res.status(500).json({ message: error.message });
+    console.error("❌ ASSIGN ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 }
