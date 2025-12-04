@@ -30,42 +30,72 @@ export default async function handler(req, res) {
 
     const phone = process.env.SUPPORT_PHONE || "[Telefonnummer]";
 
-    // Dërgojmë emailet një nga një
-    for (const client of clients) {
-      const html = template.body
-        .replace(/{{firstName}}/g, client.firstName || "")
-        .replace(/{{lastName}}/g, client.lastName || "")
-        .replace(/{{portal}}/g, "Kundenportal")
-        .replace(/{{role}}/g, "Kunde")
-        .replace(/{{date}}/g, date)
-        .replace(/{{timeStart}}/g, timeStart)
-        .replace(/{{timeEnd}}/g, timeEnd)
-        .replace(/{{phone}}/g, phone);
+// Dërgojmë email tek klientët
+for (const client of clients) {
 
-      await sendEmail({
-        to: client.email,
-        subject: template.subject,
-        html,
-      });
-    }
+  // Skip invalid client email
+  if (
+    !client.email ||
+    client.email.trim() === "" ||
+    client.email.endsWith("@theeksperts.ch")
+  ) {
+    console.warn("⚠️ Skipping invalid client email:", client.email);
+    continue;
+  }
 
-    for (const emp of employees) {
-      const html = template.body
-        .replace(/{{firstName}}/g, emp.firstName || "")
-        .replace(/{{lastName}}/g, emp.lastName || "")
-        .replace(/{{portal}}/g, "Mitarbeiterportal")
-        .replace(/{{role}}/g, "Mitarbeiter")
-        .replace(/{{date}}/g, date)
-        .replace(/{{timeStart}}/g, timeStart)
-        .replace(/{{timeEnd}}/g, timeEnd)
-        .replace(/{{phone}}/g, phone);
+  const html = template.body
+    .replace(/{{firstName}}/g, client.firstName || "")
+    .replace(/{{lastName}}/g, client.lastName || "")
+    .replace(/{{portal}}/g, "Kundenportal")
+    .replace(/{{role}}/g, "Kunde")
+    .replace(/{{date}}/g, date)
+    .replace(/{{timeStart}}/g, timeStart)
+    .replace(/{{timeEnd}}/g, timeEnd)
+    .replace(/{{phone}}/g, phone);
 
-      await sendEmail({
-        to: emp.email,
-        subject: template.subject,
-        html,
-      });
-    }
+  try {
+    await sendEmail({
+      to: client.email,
+      subject: template.subject,
+      html,
+    });
+  } catch (err) {
+    console.error("⚠️ Could not send to client:", client.email, err);
+  }
+}
+
+
+for (const emp of employees) {
+  // Skip invalid employee email
+  if (
+    !emp.email ||
+    emp.email.trim() === "" ||
+    emp.email.endsWith("@theeksperts.ch")
+  ) {
+    console.warn("⚠️ Skipping invalid employee email:", emp.email);
+    continue;
+  }
+
+  const html = template.body
+    .replace(/{{firstName}}/g, emp.firstName || "")
+    .replace(/{{lastName}}/g, emp.lastName || "")
+    .replace(/{{portal}}/g, "Mitarbeiterportal")
+    .replace(/{{role}}/g, "Mitarbeiter")
+    .replace(/{{date}}/g, date)
+    .replace(/{{timeStart}}/g, timeStart)
+    .replace(/{{timeEnd}}/g, timeEnd)
+    .replace(/{{phone}}/g, phone);
+
+  try {
+    await sendEmail({
+      to: emp.email,
+      subject: template.subject,
+      html,
+    });
+  } catch (err) {
+    console.error("⚠️ Could not send to:", emp.email, err);
+  }
+}
 
     res.status(200).json({
       message: `✅ E-Mails an ${clients.length} Kunden und ${employees.length} Mitarbeiter gesendet.`,
