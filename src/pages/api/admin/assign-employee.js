@@ -8,44 +8,51 @@ export default async function handler(req, res) {
 
   const { appointmentId, userId, employeeId } = req.body;
 
-  if (!appointmentId || !userId || !employeeId) {
-    return res.status(400).json({ message: "Missing data" });
+  // Always needed
+  if (!userId || !employeeId) {
+    return res.status(400).json({ message: "Missing userId or employeeId" });
   }
 
   try {
-    const appointment = await prisma.schedule.findUnique({
-      where: { id: Number(appointmentId) }
-    });
+    let appointment = null;
+    let updatedSchedule = null;
 
-    if (!appointment) {
-      return res.status(404).json({ message: "Appointment not found" });
+    // 👉 Case A: STRICT MODE (client table)
+    if (appointmentId) {
+      appointment = await prisma.schedule.findUnique({
+        where: { id: Number(appointmentId) }
+      });
+
+      if (!appointment) {
+        return res.status(404).json({ message: "Appointment not found" });
+      }
     }
 
-    // 1️⃣ Create assignment
+    // 👉 1️⃣ Create assignment (works even without appointment)
     await prisma.assignment.create({
       data: {
         userId,
         employeeId,
-        scheduleId: appointment.id,
-        serviceName: appointment.serviceName || "",
+        scheduleId: appointment?.id || null,
+        serviceName: appointment?.serviceName || "",
       },
     });
 
-    // 2️⃣ Update appointment → attach employee
-    const updatedSchedule = await prisma.schedule.update({
-      where: { id: appointment.id },
-      data: {
-        employeeId: employeeId,
-      },
-      include: {
-        employee: true,
-        user: true
-      }
-    });
+    // 👉 2️⃣ Update appointment only if exists
+    if (appointment) {
+      updatedSchedule = await prisma.schedule.update({
+        where: { id: appointment.id },
+        data: { employeeId },
+        include: {
+          employee: true,
+          user: true,
+        },
+      });
+    }
 
     return res.status(200).json({
       message: "Employee assigned successfully",
-      schedule: updatedSchedule,
+      schedule: updatedSchedule, // null if none
     });
 
   } catch (error) {
