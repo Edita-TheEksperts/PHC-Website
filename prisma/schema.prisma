@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"where: { id: Number(appointmentId) }
+ provider = "prisma-client-js"
 
 }
 
