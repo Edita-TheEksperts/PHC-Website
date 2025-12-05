@@ -126,6 +126,14 @@ const uniqueServices = [
 ];
 
 
+function translateReason(reason) {
+  return reason
+    .replace("Same city", "Gleiche Stadt")
+    .replace("Service match", "Dienstleistungs-Matching")
+    .replace("Language match", "Sprachübereinstimmung")
+    .replace("Pet compatibility", "Tierverträglichkeit")
+    .replace("Availability match", "Verfügbarkeits-Matching");
+}
 
 const filteredClients = clients
   .filter((client) => {
@@ -631,7 +639,7 @@ useEffect(() => {
             {/* 🟢 Gründe */}
             <ul className="list-disc ml-5 text-sm text-gray-600">
               {rec.reasons.map((reason, i) => (
-                <li key={i}>{reason}</li>
+<li key={i}>{translateReason(reason)}</li>
               ))}
             </ul>
 
