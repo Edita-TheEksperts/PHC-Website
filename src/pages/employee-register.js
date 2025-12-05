@@ -269,9 +269,10 @@ if (!form.worksWithAnimals) {
 }
 
 if (step === 3) {
-if (form.availabilityFrom === "") {
-  errors.availabilityFrom = "Bitte Startdatum wählen.";
-}
+  if (!form.availabilityFrom) {
+    newErrors.availabilityFrom = "Bitte Startdatum wählen.";
+  }
+
 
 
   if (!form.nightShifts) {
@@ -315,12 +316,22 @@ if (form.availabilityFrom === "") {
 };
 
 const handleNext = () => {
-  const isValid = validateStep();
-  if (!isValid) return; 
+  console.log("➡️ handleNext called");
+  console.log("Current step:", step);
 
+  const isValid = validateStep();
+  console.log("Validation result:", isValid);
+
+  if (!isValid) {
+    console.log("⛔ Step NOT valid. Errors:", errors);
+    return;
+  }
+
+  console.log("✔️ Validation OK → proceeding to next step.");
   setStepError("");
   setStep((s) => s + 1);
 };
+
 
 
 const specialTrainingsRef = useRef(null);
@@ -1145,16 +1156,16 @@ useEffect(() => {
 
     </label>
 
-      <input
-        type="file"
-        id={field.key}
-        accept="image/*,application/pdf"
-        capture="environment"
-        style={{ display: "none" }}
-    onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
+  <input
+  type="file"
+  id={field.key}
+  name={field.key}
+  accept="image/*,application/pdf"
+  capture="environment"
+  style={{ display: "none" }}
+  onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
+/>
 
-        required={field.required}
-      />
 
       <label
         htmlFor={field.key}
@@ -1164,9 +1175,10 @@ useEffect(() => {
       </label>
 
       <p className="text-sm text-gray-600">
-        {form[field.key]?.length > 0
-          ? `${form[field.key].length} Datei(en) ausgewählt`
-          : "Keine Datei ausgewählt"}
+{form[field.key]
+  ? form[field.key].name
+  : "Keine Datei ausgewählt"}
+
       </p>
 
       {errors[field.key] && (
@@ -1183,47 +1195,19 @@ useEffect(() => {
     <input
       type="file"
       id="drivingLicenceFile"
+        name="drivingLicenceFile"      // ← kërkohet patjetër!
+
       accept="image/*,application/pdf"
       capture="environment"
       multiple
       style={{ display: "none" }}
-      onChange={(e) =>
-        setForm({ ...form, drivingLicenceFile: e.target.files })
-      }
-      required
+     onChange={(e) => setForm({ ...form, drivingLicenceFile: e.target.files[0] })}
+
+      
     />
 
 
-  {/* Foto Upload */}
-  <div className="space-y-2">
-    <label className="block text-sm font-medium text-gray-700">
-      Foto <span className="text-red-500 font-bold">*</span>
-    </label>
-    <input
-      type="file"
-      accept="image/*"
-      capture="environment"
-      id="profilePhoto"
-      multiple
-      style={{ display: "none" }}
-      onChange={(e) => setForm({ ...form, profilePhoto: e.target.files })}
-      required
-    />
-    <label
-      htmlFor="profilePhoto"
-      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
-    >
-     Datei hochladen
-    </label>
-    <p className="text-sm text-gray-600">
-      {form.profilePhoto?.length > 0
-        ? `${form.profilePhoto.length} Datei(en) ausgewählt`
-        : "Keine Datei ausgewählt"}
-    </p>
-    {errors.profilePhoto && (
-      <p className="text-red-500 text-sm">{errors.profilePhoto}</p>
-    )}
-  </div>
+
       <label
       htmlFor="drivingLicenceFile"
       className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
@@ -1240,7 +1224,37 @@ useEffect(() => {
     )}
   </div>
 </div>
+{/* Foto Upload */}
+<div className="space-y-2">
+  <label className="block text-sm font-medium text-gray-700">
+    Foto <span className="text-red-500 font-bold">*</span>
+  </label>
 
+  <input
+    type="file"
+    accept="image/*"
+    name="profilePhoto"
+    capture="environment"
+    id="profilePhoto"
+    style={{ display: "none" }}
+    onChange={(e) => setForm({ ...form, profilePhoto: e.target.files[0] })}
+  />
+
+  <label
+    htmlFor="profilePhoto"
+    className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
+  >
+    Datei hochladen
+  </label>
+
+  <p className="text-sm text-gray-600">
+    {form.profilePhoto ? form.profilePhoto.name : "Keine Datei ausgewählt"}
+  </p>
+
+  {errors.profilePhoto && (
+    <p className="text-red-500 text-sm">{errors.profilePhoto}</p>
+  )}
+</div>
 </div>
 
 <div hidden={step !== 4} className="mt-20">

@@ -1,4 +1,6 @@
 import { PrismaClient } from "@prisma/client";
+import { sendEmail } from "../../../lib/emails";  // 🟢 SIGUROHU QË PATH ËSHTË I SAKTË
+
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
@@ -8,7 +10,6 @@ export default async function handler(req, res) {
 
   const { appointmentId, userId, employeeId } = req.body;
 
-  // Always needed
   if (!userId || !employeeId) {
     return res.status(400).json({ message: "Missing userId or employeeId" });
   }
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
     let appointment = null;
     let updatedSchedule = null;
 
-    // 👉 Case A: STRICT MODE (client table)
+    // Fetch appointment if passed
     if (appointmentId) {
       appointment = await prisma.schedule.findUnique({
         where: { id: Number(appointmentId) }
@@ -28,17 +29,21 @@ export default async function handler(req, res) {
       }
     }
 
-    // 👉 1️⃣ Create assignment (works even without appointment)
-    await prisma.assignment.create({
+    // 1️⃣ Create assignment record
+    const assignment = await prisma.assignment.create({
       data: {
         userId,
         employeeId,
         scheduleId: appointment?.id || null,
         serviceName: appointment?.serviceName || "",
       },
+      include: {
+        user: true,
+        employee: true,
+      }
     });
 
-    // 👉 2️⃣ Update appointment only if exists
+    // 2️⃣ If appointment exists, update it
     if (appointment) {
       updatedSchedule = await prisma.schedule.update({
         where: { id: appointment.id },
@@ -50,9 +55,42 @@ export default async function handler(req, res) {
       });
     }
 
+    // 3️⃣ SEND EMAIL TO EMPLOYEE WITH ACCEPT & REJECT LINKS
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  
+    const employee = assignment.employee;
+    const user = assignment.user;
+const dashboardUrl = "https://phc-website-vert.vercel.app/employee-dashboard";
+
+const html = `
+<p>Hallo ${employee.firstName},</p>
+
+<p>Sie haben einen neuen Einsatz für den Kunden 
+<strong>${user.firstName} ${user.lastName}</strong>.</p>
+
+<p>Um den Einsatz anzunehmen oder abzulehnen, melden Sie sich bitte im Dashboard an:</p>
+
+<p>
+  <a href="${dashboardUrl}"
+     style="display:inline-block;padding:12px 20px;background:#04436F;color:white;border-radius:8px;text-decoration:none;font-weight:bold;">
+      Zum Mitarbeiter-Dashboard
+  </a>
+</p>
+
+<p>Prime Home Care</p>
+`;
+
+
+    await sendEmail({
+      to: employee.email,
+      subject: "Neuer Einsatz – Bitte bestätigen",
+      html,
+    });
+
     return res.status(200).json({
-      message: "Employee assigned successfully",
-      schedule: updatedSchedule, // null if none
+      message: "Employee assigned and email sent successfully",
+      schedule: updatedSchedule,
     });
 
   } catch (error) {

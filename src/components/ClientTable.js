@@ -126,14 +126,6 @@ const uniqueServices = [
 ];
 
 
-function translateReason(reason) {
-  return reason
-    .replace("Same city", "Gleiche Stadt")
-    .replace("Service match", "Dienstleistungs-Matching")
-    .replace("Language match", "Sprachübereinstimmung")
-    .replace("Pet compatibility", "Tierverträglichkeit")
-    .replace("Availability match", "Verfügbarkeits-Matching");
-}
 
 const filteredClients = clients
   .filter((client) => {
@@ -411,13 +403,13 @@ useEffect(() => {
 <optgroup label="👤 Andere Mitarbeiter">
   {employees
     .filter(emp =>
-      !(recommended[client.id] || []).some(r => r.employeeId === emp.id)
+      !(recommended[client.id] || []).some(rec => rec.employeeId === emp.id)
     )
     .map(emp => (
       <option
         key={emp.id}
         value={emp.id}
-        style={{ backgroundColor: "#F0F0F0" }}
+        style={{ backgroundColor: "#F5F5F5" }}
       >
         👤 {emp.firstName} {emp.lastName} — kein Match
       </option>
@@ -620,34 +612,24 @@ useEffect(() => {
         <p className="text-center text-sm mt-4 text-blue-700">{message}</p>
       )}
 
-{showModal && (
+      {showModal && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
     <div className="bg-white p-6 rounded-xl shadow-lg w-[400px]">
-      
-      {/* 🟢 Titel */}
-      <h3 className="text-lg font-bold mb-4">Warum wurde dieser Mitarbeiter empfohlen?</h3>
-
+      <h3 className="text-lg font-bold mb-4">Warum empfohlen?</h3>
       <ul className="space-y-3">
         {modalRecs.map((rec) => (
           <li key={rec.employeeId} className="p-3 border rounded">
-            
-            {/* 🟢 Mitarbeitername + Score */}
             <p className="font-medium">
-              ⭐ {rec.firstName} {rec.lastName} (Matching: {rec.score}%)
+              ⭐ {rec.firstName} {rec.lastName} (Punktzahl: {rec.score})
             </p>
-
-            {/* 🟢 Gründe */}
             <ul className="list-disc ml-5 text-sm text-gray-600">
               {rec.reasons.map((reason, i) => (
-<li key={i}>{translateReason(reason)}</li>
+                <li key={i}>{reason}</li>
               ))}
             </ul>
-
           </li>
         ))}
       </ul>
-
-      {/* 🟢 Button zum Schliessen */}
       <div className="mt-4 text-right">
         <button
           onClick={() => setShowModal(false)}
@@ -656,7 +638,6 @@ useEffect(() => {
           Schliessen
         </button>
       </div>
-
     </div>
   </div>
 )}

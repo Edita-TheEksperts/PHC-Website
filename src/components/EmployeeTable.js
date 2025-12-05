@@ -39,20 +39,25 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
       .catch((err) => console.error(err));
   };
 
-  const filteredEmployees = employees.filter((emp) => {
-    const matchesName = `${emp.firstName} ${emp.lastName}`
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter ? emp.status === statusFilter : true;
-    const matchesInvite =
-      inviteFilter === "invited"
-        ? emp.invited
-        : inviteFilter === "not_invited"
-        ? !emp.invited
-        : true;
+  // ✅ SHOW ONLY APPROVED EMPLOYEES
+  const filteredEmployees = employees
+    .filter((emp) => emp.status === "approved") // ⬅️ IMPORTANT
+    .filter((emp) => {
+      const matchesName = `${emp.firstName} ${emp.lastName}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-    return matchesName && matchesStatus && matchesInvite;
-  });
+      const matchesStatus = statusFilter ? emp.status === statusFilter : true;
+
+      const matchesInvite =
+        inviteFilter === "invited"
+          ? emp.invited
+          : inviteFilter === "not_invited"
+          ? !emp.invited
+          : true;
+
+      return matchesName && matchesStatus && matchesInvite;
+    });
 
   const sortedEmployees = [...filteredEmployees].sort((a, b) => {
     if (!a.createdAt || !b.createdAt) return 0;
@@ -136,7 +141,7 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
       </div>
 
       {/* Desktop */}
-<div className="hidden sm:block bg-white rounded-xl shadow overflow-x-auto max-w-[100%]">
+      <div className="hidden sm:block bg-white rounded-xl shadow overflow-x-auto max-w-[100%]">
         <table className="min-w-[900px] w-full text-sm text-gray-700">
           <thead className="bg-gray-100">
             <tr className="bg-gray-100 text-sm text-gray-700 uppercase tracking-wide">
@@ -159,60 +164,35 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                 <td className="p-3 capitalize font-semibold">
                   {statusLabels[emp.status] || emp.status}
                 </td>
-<td className="p-2">
-  <div className="flex flex-wrap gap-1">
-    {emp.status === "pending" && (
-      <>
-        <button
-          onClick={() => onApprove(emp)}
-          className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
-        >
-          ✓ Genehmigen
-        </button>
-        <button
-          onClick={() => onReject(emp)}
-          className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
-        >
-          ✕ Ablehnen
-        </button>
-        {!emp.invited && (
-          <button
-            onClick={() => onInvite(emp)}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
-          >
-            ✉ Einladen
-          </button>
-        )}
-      </>
-    )}
 
-    <button
-      onClick={() => router.push(`/admin/employees/${emp.id}`)}
-      className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
-    >
-      Details
-    </button>
-    <button
-      onClick={() => handleSendDocument(emp, 'Auflösungschreiben')}
-      className="bg-yellow-600 hover:bg-yellow-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
-    >
-      Auflösung
-    </button>
-    <button
-      onClick={() => handleSendDocument(emp, 'KündigungMA')}
-      className="bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
-    >
-      Kündigung MA
-    </button>
-    <button
-      onClick={() => handleSendDocument(emp, 'KündigungMAFristlos')}
-      className="bg-red-800 hover:bg-red-900 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
-    >
-      Fristlos
-    </button>
-  </div>
-</td>
-
+                <td className="p-2">
+                  <div className="flex flex-wrap gap-1">
+                    <button
+                      onClick={() => router.push(`/admin/employees/${emp.id}`)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
+                    >
+                      Details
+                    </button>
+                    <button
+                      onClick={() => handleSendDocument(emp, 'Auflösungschreiben')}
+                      className="bg-yellow-600 hover:bg-yellow-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
+                    >
+                      Auflösung
+                    </button>
+                    <button
+                      onClick={() => handleSendDocument(emp, 'KündigungMA')}
+                      className="bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
+                    >
+                      Kündigung MA
+                    </button>
+                    <button
+                      onClick={() => handleSendDocument(emp, 'KündigungMAFristlos')}
+                      className="bg-red-800 hover:bg-red-900 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
+                    >
+                      Fristlos
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -243,31 +223,6 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
             </p>
 
             <div className="flex flex-wrap gap-2 pt-2">
-              {emp.status === "pending" && (
-                <>
-                  <button
-                    onClick={() => onApprove(emp)}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
-                  >
-                    Genehmigen
-                  </button>
-                  <button
-                    onClick={() => onReject(emp)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
-                  >
-                    Ablehnen
-                  </button>
-                  {!emp.invited && (
-                    <button
-                      onClick={() => onInvite(emp)}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"
-                    >
-                      Einladen
-                    </button>
-                  )}
-                </>
-              )}
-
               <button
                 onClick={() => router.push(`/admin/employees/${emp.id}`)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm shadow-sm transition flex-1"

@@ -7,86 +7,91 @@ const prisma = new PrismaClient();
 export async function runAssignmentReminders() {
   try {
     const now = new Date();
-    const twelveHoursAgo = new Date(now.getTime() - 12 * 60 * 60 * 1000);
-    const thirtySixHoursAgo = new Date(now.getTime() - 36 * 60 * 60 * 1000);
+
+    const reminder1Time = new Date(now.getTime() - 12 * 60 * 60 * 1000);
+    const reminder2Time = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const cancelTime   = new Date(now.getTime() - 36 * 60 * 60 * 1000);
 
     const assignments = await prisma.assignment.findMany({
-      where: {
-        confirmationStatus: "pending",
-        createdAt: { lte: twelveHoursAgo },
-      },
-      include: { employee: true, user: true },
+      where: { confirmationStatus: "pending" },
+      include: { employee: true, user: true }
     });
 
-    console.log(`Found ${assignments.length} assignments needing reminders`);
-
-    for (const assignment of assignments) {
-      const employee = assignment.employee;
+    for (const a of assignments) {
+      const employee = a.employee;
       if (!employee?.email) continue;
 
-      if (assignment.reminderSentCount === 0) {
-        const subject = "Reminder: Bitte Job akzeptieren";
-        const html = `
-          <p>Hallo ${employee.firstName},</p>
-          <p>Bitte bestätige deine Aufgabe, die dir zugewiesen wurde.</p>
-          <p>Danke!</p>
-          <p>Prime Home Care</p>
-        `;
+      // Reminder 1 — after 12h
+      if (a.reminderSentCount === 0 && a.createdAt <= reminder1Time) {
+        await sendEmail({
+          to: employee.email,
+          subject: "Reminder: Bitte Job akzeptieren",
+          html: `
+            <p>Hallo ${employee.firstName},</p>
+            <p>Bitte bestätige den dir zugewiesenen Einsatz.</p>
+            <p>Prime Home Care</p>
+          `
+        });
 
-        try {
-          await sendEmail({ to: employee.email, subject, html });
-          console.log(`✅ First reminder sent to ${employee.email}`);
+        await prisma.assignment.update({
+          where: { id: a.id },
+          data: { reminderSentCount: 1 }
+        });
 
-          await prisma.assignment.update({
-            where: { id: assignment.id },
-            data: { reminderSentCount: 1 },
-          });
-        } catch (err) {
-          console.error(`❌ Could not send first reminder to ${employee.email}`, err);
-        }
+        continue;
       }
 
-      if (assignment.reminderSentCount === 1 && assignment.createdAt <= thirtySixHoursAgo) {
-        const subject = "Final Reminder: Bitte Job akzeptieren";
-        const html = `
-          <p>Hallo ${employee.firstName},</p>
-          <p>Du hast den Job noch nicht bestätigt. Nach 36 Stunden wird der Job automatisch storniert.</p>
-          <p>Danke!</p>
-          <p>Prime Home Care</p>
-        `;
+      // Reminder 2 — after 24h
+      if (a.reminderSentCount === 1 && a.createdAt <= reminder2Time) {
+        await sendEmail({
+          to: employee.email,
+          subject: "Letzte Erinnerung: Bitte Job akzeptieren",
+          html: `
+            <p>Hallo ${employee.firstName},</p>
+            <p>Dies ist die letzte Erinnerung, den Einsatz zu bestätigen.</p>
+            <p>Prime Home Care</p>
+          `
+        });
 
-        try {
-          await sendEmail({ to: employee.email, subject, html });
-          console.log(`✅ Second reminder sent to ${employee.email}`);
+        await prisma.assignment.update({
+          where: { id: a.id },
+          data: { reminderSentCount: 2 }
+        });
 
-          await prisma.assignment.update({
-            where: { id: assignment.id },
-            data: { status: "cancelled", reminderSentCount: 2 },
+        continue;
+      }
+
+      // Auto cancel — after 36h
+      if (a.reminderSentCount >= 2 && a.createdAt <= cancelTime) {
+
+        await prisma.assignment.update({
+          where: { id: a.id },
+          data: { confirmationStatus: "cancelled" }
+        });
+
+        const admins = await prisma.user.findMany({
+          where: { role: "admin" }
+        });
+
+        for (const admin of admins) {
+          await sendEmail({
+            to: admin.email,
+            subject: "Einsatz automatisch storniert",
+            html: `
+              <p>Hallo Admin,</p>
+              <p>Der Einsatz für MA ${employee.firstName} ${employee.lastName}
+              wurde nach 36h automatisch storniert.</p>
+            `
           });
-
-          const admins = await prisma.user.findMany({ where: { role: "admin" } });
-          for (const admin of admins) {
-            if (!admin.email) continue;
-            await sendEmail({
-              to: admin.email,
-              subject: "Assignment automatisch storniert",
-              html: `
-                <p>Hallo Admin,</p>
-                <p>Die Aufgabe von ${employee.firstName} ${employee.lastName} wurde nach 36h ohne Bestätigung automatisch storniert.</p>
-              `,
-            });
-          }
-          console.log("✅ Admins notified for cancelled assignment");
-
-        } catch (err) {
-          console.error(`❌ Could not send second reminder / cancel for ${employee.email}`, err);
         }
+
+        continue;
       }
     }
 
-    console.log("✅ Assignment reminders executed");
+    console.log("Cron job finished.");
   } catch (err) {
-    console.error("❌ Error running assignment reminders:", err);
+    console.error("Cron error:", err);
   } finally {
     await prisma.$disconnect();
   }

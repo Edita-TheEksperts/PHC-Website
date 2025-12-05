@@ -21,6 +21,8 @@ const [licenseData, setLicenseData] = useState({});
 
 const [editSkills, setEditSkills] = useState(false);
 const [skillsData, setSkillsData] = useState({});
+const [einsatzFilter, setEinsatzFilter] = useState("all");
+
 
 
   useEffect(() => {
@@ -36,6 +38,16 @@ const [skillsData, setSkillsData] = useState({});
   if (!employee) return <p className="p-6 text-gray-600">Loading...</p>;
 // === AFTER employee is loaded ===
 if (!employee) return <p className="p-6 text-gray-600">Loading...</p>;
+
+const filteredAssignments =
+  einsatzFilter === "all"
+    ? employee.assignments
+    : employee.assignments?.filter(a => {
+        if (einsatzFilter === "pending") {
+          return a.status === "pending" || a.status === "active";
+        }
+        return a.status === einsatzFilter;
+      });
 
 async function saveSkills() {
   const payload = {
@@ -72,6 +84,8 @@ async function saveLicenseCar() {
     hasCar: licenseData.hasCar === "Ja",
     carAvailableForWork: licenseData.carAvailableForWork === "Ja",
   };
+
+
 
   const res = await fetch(`/api/admin/employee/${id}`, {
     method: "PATCH",
@@ -386,19 +400,64 @@ dietaryExperience: Array.isArray(employee.dietaryExperience)
             )}
           </Section>
 
-          <Section title=" Einsätze">
-            <Item label="Gesamte Einsätze" value={employee.assignments?.length || 0} />
-            <Item label="Gesamte Einsatzpläne" value={employee.schedules?.length || 0} />
-            {employee.schedules?.length > 0 && (
-              <ul className="list-disc ml-6 text-sm text-gray-700 max-h-48 overflow-y-auto">
-                {employee.schedules.map((s) => (
-                  <li key={s.id}>
-                    {s.day} – {s.hours}h @ {s.startTime} ({formatDate(s.date)})
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Section>
+<Section title=" Einsätze (History)">
+  <div className="mb-3 flex items-center gap-2">
+    <label className="font-medium text-gray-700">Filter:</label>
+<select
+  value={einsatzFilter}
+  onChange={(e) => setEinsatzFilter(e.target.value)}
+  className="border rounded px-2 py-1"
+>
+  <option value="all">Alle</option>
+  <option value="pending">Offen</option>       {/* Offen */}
+  <option value="active">Aktiv</option>        {/* Status real */}
+  <option value="accepted">Angenommen</option>
+  <option value="rejected">Abgelehnt</option>
+</select>
+
+
+  </div>
+
+  <ul key={einsatzFilter} className="space-y-2 max-h-64 overflow-y-auto">
+    {filteredAssignments?.map((a) => (
+      <li
+        key={a.id}
+        className="border p-3 rounded-lg bg-gray-50 shadow-sm"
+      >
+        <p className="font-medium text-[#04436F]">
+          Kunde: {a.user?.firstName} {a.user?.lastName}
+        </p>
+
+        <p className="text-sm text-gray-700">
+          Zugewiesen am: {formatDate(a.createdAt)}
+        </p>
+
+        <p className="text-sm text-gray-700">
+          Dienstleistung: {a.serviceName || "—"}
+        </p>
+
+        <span
+          className={`px-2 py-1 text-xs rounded mt-1 inline-block ${
+            a.status === "accepted"
+              ? "bg-green-100 text-green-700"
+              : a.status === "rejected"
+              ? "bg-red-100 text-red-700"
+              : "bg-yellow-100 text-yellow-700"
+          }`}
+        >
+          {a.status === "accepted"
+            ? "Angenommen"
+            : a.status === "rejected"
+            ? "Abgelehnt"
+            : "Offen"}
+        </span>
+      </li>
+    ))}
+  </ul>
+
+</Section>
+
+    
 
 <Section title=" Termine">
   {/* Filter Dropdown */}
