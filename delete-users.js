@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
  * Vendosi ketu ID-të e userëve që dëshiron të fshihen
  */
 const USER_IDS = [
-  "feae04d1-dcd0-457a-82ee-ca2d803aaaad",
+  "05284cb2-351b-452f-98fe-67c19c5a4132",
   "8c691646-3519-46e2-b445-e4a4075899c7",
   "02a7a3bf-8165-41be-bb53-ac2d4d50621d",
 ];

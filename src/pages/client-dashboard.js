@@ -948,10 +948,9 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
 </section>
 
 
-
-{/* --- URLAUB --- */}
 <section
-  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
+  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out
+
   ${showVacations
     ? " scale-100 opacity-100 rounded-3xl shadow-2xl"
     : " scale-95 opacity-90 rounded-xl shadow-md"}`}
@@ -991,15 +990,14 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
       </p>
     </div>
   )}
+<div
+  className={`transition-all duration-500 ${
+    showVacations
+      ? "opacity-100 scale-100 h-auto"
+      : "opacity-0 scale-95 h-0"
+  }`}
+>
 
-  {/* Content kur hapet */}
-  <div
-    className={`transition-all duration-500 transform ${
-      showVacations
-        ? "max-h-[800px] opacity-100 scale-100"
-        : "max-h-0 opacity-0 scale-95"
-    }`}
-  >
     <div className="p-6 space-y-6">
       {/* Form */}
       <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 shadow-inner mb-6">
