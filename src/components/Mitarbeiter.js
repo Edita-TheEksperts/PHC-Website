@@ -19,6 +19,8 @@ const [editSchedule, setEditSchedule] = useState(null);
 const [allServices, setAllServices] = useState([]);
 const [cancelQuestion, setCancelQuestion] = useState(null);
   const employeeVacations = vacations.filter((v) => v.employee);
+  const [bookingFilter, setBookingFilter] = useState("");
+
 
   async function fetchVacations() {
     try {
@@ -32,6 +34,47 @@ const [cancelQuestion, setCancelQuestion] = useState(null);
       setVacations([]);
     }
   }
+function matchesBookingFilter(schedule) {
+  if (!bookingFilter) return true;
+  if (!schedule.date) return false;
+
+  const date = new Date(schedule.date);
+  const today = new Date();
+
+  // TODAY
+  if (bookingFilter === "today") {
+    return date.toDateString() === today.toDateString();
+  }
+
+  // THIS WEEK
+  if (bookingFilter === "week") {
+    const start = new Date(today);
+    start.setDate(today.getDate() - today.getDay()); // Sunday
+    const end = new Date(start);
+    end.setDate(start.getDate() + 7);
+    return date >= start && date < end;
+  }
+
+  // CURRENT MONTH
+  if (bookingFilter === "month") {
+    return (
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  }
+
+  // NEXT MONTH
+  if (bookingFilter === "next_month") {
+    const nextMonth = new Date(today);
+    nextMonth.setMonth(today.getMonth() + 1);
+    return (
+      date.getMonth() === nextMonth.getMonth() &&
+      date.getFullYear() === nextMonth.getFullYear()
+    );
+  }
+
+  return true;
+}
 
   async function fetchData() {
     const res = await fetch("/api/admin/dashboard");
@@ -355,10 +398,65 @@ useEffect(() => {
             )}
           </div>
 <DashboardCard title="📅 Buchungen">
+{/* FILTER BUTTONS */}
+<div className="flex items-center gap-3 mb-4">
+
+  <button
+    onClick={() => setBookingFilter("today")}
+    className={`px-4 py-2 rounded-lg text-sm font-medium border 
+      ${bookingFilter === "today" 
+        ? "bg-blue-600 text-white border-blue-600" 
+        : "bg-white text-gray-700 border-gray-300"}`}
+  >
+    Heute
+  </button>
+
+  <button
+    onClick={() => setBookingFilter("week")}
+    className={`px-4 py-2 rounded-lg text-sm font-medium border 
+      ${bookingFilter === "week"
+        ? "bg-blue-600 text-white border-blue-600"
+        : "bg-white text-gray-700 border-gray-300"}`}
+  >
+    Diese Woche
+  </button>
+
+  <button
+    onClick={() => setBookingFilter("month")}
+    className={`px-4 py-2 rounded-lg text-sm font-medium border 
+      ${bookingFilter === "month"
+        ? "bg-blue-600 text-white border-blue-600"
+        : "bg-white text-gray-700 border-gray-300"}`}
+  >
+    Dieser Monat
+  </button>
+
+  <button
+    onClick={() => setBookingFilter("next_month")}
+    className={`px-4 py-2 rounded-lg text-sm font-medium border 
+      ${bookingFilter === "next_month"
+        ? "bg-blue-600 text-white border-blue-600"
+        : "bg-white text-gray-700 border-gray-300"}`}
+  >
+    Nächster Monat
+  </button>
+
+  <button
+    onClick={() => setBookingFilter("")}
+    className="px-4 py-2 rounded-lg text-sm font-medium border bg-gray-100 text-gray-700 hover:bg-gray-200"
+  >
+    Filter zurücksetzen
+  </button>
+</div>
+
+
   <div className="p-4">
     {schedules.length > 0 ? (
       <ul className="max-h-[550px] overflow-auto pr-2 space-y-3">
-{schedules.slice(0, 10).map((s) => {
+{schedules
+  .filter(matchesBookingFilter)
+  .slice(0, 10)
+  .map((s) => {
   console.log("🔍 Schedule object:", s);
   console.log("👤 s.user:", s.user);
   console.log("📌 s.userId:", s.userId);

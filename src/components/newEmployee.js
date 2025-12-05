@@ -60,7 +60,7 @@ export default function NewEmployee({ employees, onApprove, onReject, onInvite }
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-3xl font-bold text-[#1E3A8A]">Mitarbeiterübersicht</h2>
+<h2 className="text-3xl font-bold text-[#1E3A8A]">Bewerberübersicht</h2>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-4 items-end">
