@@ -283,37 +283,35 @@ useEffect(() => {
 </td>
                <td className="p-3">
 <td className="p-3">
-  {/* Strong Match Recommendations */}
-{/* ✅ Show Strong Matches only (>=70% and no allergy) */}
+ {/* === TOP RECOMMENDATIONS (SUPER & GOOD) === */}
 {recommended[client.id]
-  ?.filter(rec => rec.score >= 70 && !rec.hasAllergy)
+  ?.filter(rec => rec.score >= 60)   // 60+ are GOOD or SUPER
   .slice(0, 2)
-  .map((rec) => (
-  <div
-  key={rec.employeeId}
-  className="flex items-center justify-between mb-2 p-2 rounded-lg border border-green-300 bg-green-50"
->
-  <span className="text-green-800 text-sm font-semibold flex items-center gap-1">
-    ⭐ {rec.firstName} {rec.lastName}
-    <span className="ml-1 text-xs font-medium text-green-600">
-      ({rec.score}% match)
-    </span>
-  </span>
-  <button
-    className="text-blue-600 text-xs underline"
-    onClick={() => {
-      setModalRecs(recommended[client.id]);
-      setShowModal(true);
-    }}
-  >
-    Warum?
-  </button>
-</div>
+  .map(rec => (
+    <div
+      key={rec.employeeId}
+      className="flex items-center justify-between mb-2 p-2 rounded-lg border bg-green-50 border-green-300"
+    >
+      <span className="text-green-800 text-sm font-semibold flex items-center gap-1">
+        ⭐ {rec.firstName} {rec.lastName}
+        <span className="ml-1 text-xs font-medium text-green-600">
+          ({rec.score}% Match)
+        </span>
+      </span>
 
+      <button
+        className="text-blue-600 text-xs underline"
+        onClick={() => {
+          setModalRecs([rec]); // show only this rec’s reasons
+          setShowModal(true);
+        }}
+      >
+        Warum?
+      </button>
+    </div>
   ))}
 
-  
-  {/* ✅ Single Dropdown only */}
+{/* === MATCHING DROPDOWN === */}
 <select
   value={selectedEmployee[client.id] || ""}
   onChange={(e) =>
@@ -322,59 +320,102 @@ useEffect(() => {
       [client.id]: e.target.value,
     })
   }
-  className="border px-2 py-1 rounded min-w-[200px]"
+  className="border px-2 py-1 rounded min-w-[240px] font-medium"
 >
   <option value="">Mitarbeiter auswählen</option>
 
-  {/* === 1. STRONG MATCHES (score ≥ 70) === */}
-  {recommended[client.id]
-    ?.filter(rec => rec.score >= 70 && !rec.hasAllergy)
-    .sort((a, b) => b.score - a.score)
-    .map(rec => {
-      const emp = employees.find(e => e.id === rec.employeeId);
-      if (!emp) return null;
-      return (
-        <option
-          key={rec.employeeId}
-          value={rec.employeeId}
-          style={{
-            backgroundColor: "#E8FDD8", // green soft
-            fontWeight: "600",
-          }}
-        >
-          ⭐ {emp.firstName} {emp.lastName} — {rec.score}% Match
-        </option>
-      );
-    })}
+  {/* SUPER MATCH (≥80) */}
+  <optgroup label="⭐ Super Match (80–100%)">
+    {recommended[client.id]
+      ?.filter(r => r.score >= 80)
+      .map(rec => {
+        const emp = employees.find(e => e.id === rec.employeeId);
+        if (!emp) return null;
+        return (
+          <option
+            key={rec.employeeId}
+            value={rec.employeeId}
+            style={{ backgroundColor: "#C8F7C5", fontWeight: "600" }}
+          >
+            ⭐ {emp.firstName} {emp.lastName} — {rec.score}%
+          </option>
+        );
+      })}
+  </optgroup>
 
-  {/* === 2. NORMAL MATCHES (score 30–69) === */}
-  {recommended[client.id]
-    ?.filter(rec => rec.score < 70 && rec.score >= 30 && !rec.hasAllergy)
-    .sort((a, b) => b.score - a.score)
-    .map(rec => {
-      const emp = employees.find(e => e.id === rec.employeeId);
-      if (!emp) return null;
-      return (
-        <option
-          key={rec.employeeId}
-          value={rec.employeeId}
-          style={{
-            backgroundColor: "#F5FDD8", // yellow soft
-          }}
-        >
-          ⚡ {emp.firstName} {emp.lastName} — {rec.score}%
-        </option>
-      );
-    })}
+  {/* GOOD MATCH (60–79) */}
+  <optgroup label="👍 Guter Match (60–79%)">
+    {recommended[client.id]
+      ?.filter(r => r.score >= 60 && r.score < 80)
+      .map(rec => {
+        const emp = employees.find(e => e.id === rec.employeeId);
+        if (!emp) return null;
+        return (
+          <option
+            key={rec.employeeId}
+            value={rec.employeeId}
+            style={{ backgroundColor: "#E9F9D8" }}
+          >
+            👍 {emp.firstName} {emp.lastName} — {rec.score}%
+          </option>
+        );
+      })}
+  </optgroup>
 
-  {/* === 3. EMPLOYEES NOT MATCHING (fallback) === */}
+  {/* MEDIUM MATCH (40–59) */}
+  <optgroup label="👌 Mittlerer Match (40–59%)">
+    {recommended[client.id]
+      ?.filter(r => r.score >= 40 && r.score < 60)
+      .map(rec => {
+        const emp = employees.find(e => e.id === rec.employeeId);
+        if (!emp) return null;
+        return (
+          <option
+            key={rec.employeeId}
+            value={rec.employeeId}
+            style={{ backgroundColor: "#FFF2CC" }}
+          >
+            👌 {emp.firstName} {emp.lastName} — {rec.score}%
+          </option>
+        );
+      })}
+  </optgroup>
+
+  {/* LOW MATCH (1–39) */}
+  <optgroup label="⚠️ Niedriger Match (1–39%)">
+    {recommended[client.id]
+      ?.filter(r => r.score > 0 && r.score < 40)
+      .map(rec => {
+        const emp = employees.find(e => e.id === rec.employeeId);
+        if (!emp) return null;
+        return (
+          <option
+            key={rec.employeeId}
+            value={rec.employeeId}
+            style={{ backgroundColor: "#FFF9D8" }}
+          >
+            ⚠️ {emp.firstName} {emp.lastName} — {rec.score}%
+          </option>
+        );
+      })}
+  </optgroup>
+
+<optgroup label="👤 Andere Mitarbeiter">
   {employees
-    .filter(emp => !recommended[client.id]?.some(r => r.employeeId === emp.id))
+    .filter(emp =>
+      !(recommended[client.id] || []).some(r => r.employeeId === emp.id)
+    )
     .map(emp => (
-      <option key={emp.id} value={emp.id}>
-        👤 {emp.firstName} {emp.lastName}
+      <option
+        key={emp.id}
+        value={emp.id}
+        style={{ backgroundColor: "#F0F0F0" }}
+      >
+        👤 {emp.firstName} {emp.lastName} — kein Match
       </option>
     ))}
+</optgroup>
+
 </select>
 
 </td>
@@ -571,24 +612,34 @@ useEffect(() => {
         <p className="text-center text-sm mt-4 text-blue-700">{message}</p>
       )}
 
-      {showModal && (
+{showModal && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
     <div className="bg-white p-6 rounded-xl shadow-lg w-[400px]">
-      <h3 className="text-lg font-bold mb-4">Warum empfohlen?</h3>
+      
+      {/* 🟢 Titel */}
+      <h3 className="text-lg font-bold mb-4">Warum wurde dieser Mitarbeiter empfohlen?</h3>
+
       <ul className="space-y-3">
         {modalRecs.map((rec) => (
           <li key={rec.employeeId} className="p-3 border rounded">
+            
+            {/* 🟢 Mitarbeitername + Score */}
             <p className="font-medium">
-              ⭐ {rec.firstName} {rec.lastName} (Punktzahl: {rec.score})
+              ⭐ {rec.firstName} {rec.lastName} (Matching: {rec.score}%)
             </p>
+
+            {/* 🟢 Gründe */}
             <ul className="list-disc ml-5 text-sm text-gray-600">
               {rec.reasons.map((reason, i) => (
                 <li key={i}>{reason}</li>
               ))}
             </ul>
+
           </li>
         ))}
       </ul>
+
+      {/* 🟢 Button zum Schliessen */}
       <div className="mt-4 text-right">
         <button
           onClick={() => setShowModal(false)}
@@ -597,6 +648,7 @@ useEffect(() => {
           Schliessen
         </button>
       </div>
+
     </div>
   </div>
 )}

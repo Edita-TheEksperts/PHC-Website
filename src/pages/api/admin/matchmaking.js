@@ -8,24 +8,31 @@ export default async function handler(req, res) {
 
   try {
     const { clientId, startDate, endDate } = req.query;
-    if (!clientId) {
-      return res.status(400).json({ message: "clientId is required" });
-    }
+    if (!clientId) return res.status(400).json({ message: "clientId is required" });
 
-    const start = startDate ? new Date(startDate) : new Date();
-    const end = endDate ? new Date(endDate) : new Date(start.getTime() + 86400000);
-
-    // Load client
+    // ------------------------------------------------------------
+    // STEP 1 — LOAD CLIENT
+    // ------------------------------------------------------------
     const client = await prisma.user.findUnique({
       where: { id: clientId },
       include: { services: true, subServices: true },
     });
 
-    if (!client) {
-      return res.status(404).json({ message: "Client not found" });
-    }
+    if (!client) return res.status(404).json({ message: "Client not found" });
 
-    // --- Normalize services ---
+    // ------------------------------------------------------------
+    // STEP 2 — TIME WINDOW
+    // ------------------------------------------------------------
+    let start = startDate ? new Date(startDate) :
+                client.firstDate ? new Date(client.firstDate) :
+                new Date();
+
+    let end = endDate ? new Date(endDate) :
+              new Date(start.getTime() + 24 * 3600 * 1000);
+
+    // ------------------------------------------------------------
+    // STEP 3 — NORMALIZED CLIENT NEEDS
+    // ------------------------------------------------------------
     const SERVICE_ALIASES = {
       "alltagsbegleitung und besorgungen": "alltagsbegleitung",
       "beleitung zu terminen": "terminbegleitung",
@@ -37,131 +44,153 @@ export default async function handler(req, res) {
       "hauswirtschaft": "haushaltshilfe",
     };
 
-    function unique(arr) {
-      return [...new Set(arr)];
+    const normalize = arr =>
+      [...new Set(arr.map(s => SERVICE_ALIASES[s] || s.toLowerCase()))];
+
+    let needs = [
+      ...(client.services?.map(s => s.name.toLowerCase()) || []),
+      ...(client.subServices?.map(s => s.name.toLowerCase()) || []),
+    ];
+
+    if (needs.length === 0) {
+      if (client.mobility) needs.push("mobility");
+      if (client.companionship) needs.push("companionship");
+      if (client.shoppingAssist) needs.push("shopping");
+      if (client.basicCare) needs.push("care");
     }
 
-    function normalizeNeeds(needs) {
-      return unique(needs.map(n => SERVICE_ALIASES[n] || n.toLowerCase()));
-    }
+    const finalNeeds = normalize(needs);
 
-    let clientNeeds = [
-      ...(client.services?.map(s => s.name) || []),
-      ...(client.subServices?.map(ss => ss.name) || []),
-    ].map(s => s.toLowerCase());
-
-    if (clientNeeds.length === 0) {
-      if (client.mobility) clientNeeds.push("mobility");
-      if (client.companionship) clientNeeds.push("companionship");
-      if (client.shoppingAssist) clientNeeds.push("shopping");
-      if (client.basicCare) clientNeeds.push("care");
-    }
-
-    const finalNeeds = normalizeNeeds(clientNeeds);
-
-    // --- Location info ---
-    const clientCity = client.careCity || client.city || null;
-    const clientPostalCode = client.carePostalCode || client.postalCode || null;
+    // ------------------------------------------------------------
+    // STEP 4 — CLIENT CONTEXT
+    // ------------------------------------------------------------
+    const clientCity = client.careCity || null;
     const clientCanton = client.canton || null;
+    const clientLanguage = client.languages?.toLowerCase() || null;
+    const clientHasPets = client.pets?.toLowerCase() === "yes" || client.pets?.toLowerCase() === "ja";
+    const clientNeedsBodyCare = client.basicCare?.toLowerCase() === "yes" || client.basicCare?.toLowerCase() === "ja";
 
-    // --- Query employees ---
-// --- Query employees (don't over-filter here) ---
-let employees = await prisma.employee.findMany({
-  where: {
-    status: "available",
-  },
-  select: {
-    id: true,
-    firstName: true,
-    lastName: true,
-    phone: true,
-    servicesOffered: true,
-    city: true,
-    zipCode: true,
-    canton: true,
-  },
-});
+    // ------------------------------------------------------------
+    // STEP 5 — LOAD EMPLOYEES
+    // ------------------------------------------------------------
+    const employees = await prisma.employee.findMany({
+      where: { status: "available" },
+      include: { vacations: true, schedules: true },
+    });
 
-    // --- Vacation + schedule filter ---
+    // ------------------------------------------------------------
+    // STEP 6 — HARD FILTERS
+    // ------------------------------------------------------------
     const available = [];
+
     for (const emp of employees) {
-      const onVacation = await prisma.vacation.findFirst({
-        where: {
-          employeeId: emp.id,
-          startDate: { lte: end },
-          endDate: { gte: start },
-        },
-      });
 
-      const scheduled = await prisma.schedule.findFirst({
-        where: {
-          employeeId: emp.id,
-          date: { gte: start, lte: end },
-        },
-      });
+      // Vacation overlaps
+      const vacationConflict = emp.vacations.some(v =>
+        v.startDate <= end && v.endDate >= start
+      );
+      if (vacationConflict) continue;
 
-      if (!onVacation && !scheduled) {
-        available.push(emp);
-      }
+      // Schedule overlaps
+      const scheduleConflict = emp.schedules.some(s =>
+        s.date && s.date >= start && s.date <= end
+      );
+      if (scheduleConflict) continue;
+
+      // Pets rule
+      if (clientHasPets && emp.worksWithAnimals?.toLowerCase() !== "yes" && emp.worksWithAnimals?.toLowerCase() !== "ja")
+        continue;
+
+      // Body care rule
+      if (clientNeedsBodyCare && emp.bodyCareSupport?.toLowerCase() !== "yes" && emp.bodyCareSupport?.toLowerCase() !== "ja")
+        continue;
+
+      available.push(emp);
     }
 
- // --- Build recommendations ---
-const recommendations = available.map(emp => {
-  let score = 0;
-  let reasons = [];
+    // ------------------------------------------------------------
+    // STEP 7 — SCORING SYSTEM (0–100)
+    // ------------------------------------------------------------
+    function scoreEmployee(emp) {
+      let score = 0;
+      let reasons = [];
 
-  // Service match
-  const matchedServices = emp.servicesOffered.filter(s =>
-    finalNeeds.includes(s.toLowerCase())
-  );
-  if (matchedServices.length > 0) {
-    score += matchedServices.length * 2;
-    reasons.push(`Matches services: ${matchedServices.join(", ")}`);
-  }
+      // ---- 1. Location (max 30)
+      if (clientCity && emp.city?.toLowerCase() === clientCity.toLowerCase()) {
+        score += 20;
+        reasons.push("Same city");
+      }
+      if (clientCanton && emp.canton?.toLowerCase() === clientCanton.toLowerCase()) {
+        score += 10;
+        reasons.push("Same canton");
+      }
 
-  // Location match
-  if (clientCity && emp.city?.toLowerCase() === clientCity.toLowerCase()) {
-    score += 1;
-    reasons.push("Same city");
-  } else if (clientCanton && emp.canton?.toLowerCase() === clientCanton.toLowerCase()) {
-    score += 0.5;
-    reasons.push("Same canton");
-  }
+      // ---- 2. Services (max 30)
+      const matchedServices = emp.servicesOffered?.filter(s =>
+        finalNeeds.includes(s.toLowerCase())
+      ) || [];
 
-  // Availability (already filtered)
-  score += 1;
+      if (matchedServices.length > 0) {
+        score += Math.min(matchedServices.length * 10, 30);
+        reasons.push(`Service match: ${matchedServices.join(", ")}`);
+      }
 
-  // Fallback if no services matched at all
-  if (matchedServices.length === 0) {
-    reasons.push("No service match, but available nearby");
-  }
+      // ---- 3. SubServices (max 10)
+      const matchedSub = emp.servicesOffered?.filter(s =>
+        finalNeeds.includes(s.toLowerCase())
+      ) || [];
 
-  return { ...emp, employeeId: emp.id, score, reasons };
-});
+      if (matchedSub.length > 0) {
+        score += Math.min(matchedSub.length * 5, 10);
+      }
 
-// Always sort
-// After building recommendations
-recommendations.sort((a, b) => b.score - a.score);
+      // ---- 4. Language (max 10)
+      if (clientLanguage && emp.languages?.includes(clientLanguage)) {
+        score += 10;
+        reasons.push("Language match");
+      }
 
-// ✅ Guarantee fallback (top 3 available employees if empty)
-if (recommendations.length === 0) {
-  recommendations.push(
-    ...available.slice(0, 3).map(emp => ({
-      ...emp,
-      employeeId: emp.id,
-      score: 0,
-      reasons: ["Fallback: no strong match found, but available"],
-    }))
-  );
-}
+      // ---- 5. Bodycare (max 5)
+      if (clientNeedsBodyCare && emp.bodyCareSupport?.toLowerCase() === "yes") {
+        score += 5;
+        reasons.push("Can provide body care");
+      }
 
-res.status(200).json(recommendations);
+      // ---- 6. Availability (max 5)
+      if (emp.availabilityDays?.length > 0) {
+        score += 5;
+      }
 
-// ✅ Always respond with recommendations
-res.status(200).json(recommendations);
+      return { score: Math.min(score, 100), reasons };
+    }
+
+    const recommendations = available.map(emp => {
+      const result = scoreEmployee(emp);
+
+      return {
+        employeeId: emp.id,
+        firstName: emp.firstName,
+        lastName: emp.lastName,
+        city: emp.city,
+        canton: emp.canton,
+        score: result.score,
+        reasons: result.reasons,
+      };
+    });
+
+    // ------------------------------------------------------------
+    // STEP 8 — SORT + FALLBACK
+    // ------------------------------------------------------------
+    recommendations.sort((a, b) => b.score - a.score);
+
+    if (recommendations.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    return res.status(200).json(recommendations);
 
   } catch (err) {
     console.error("❌ Matchmaking API error:", err);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error", error: err.message });
   }
 }
