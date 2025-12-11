@@ -95,7 +95,7 @@ export default function NewEmployee({ employees, onApprove, onReject, onInvite }
           onChange={e => setSortOrder(e.target.value)}
           className="border rounded-lg px-3 py-2 w-44 focus:ring-2 focus:ring-indigo-500"
         >
-          <option value="">Sortieren</option>
+          <option value="">Stornieren</option>
           <option value="newest">Neueste zuerst</option>
           <option value="oldest">Älteste zuerst</option>
         </select>

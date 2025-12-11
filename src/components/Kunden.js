@@ -315,7 +315,7 @@ useEffect(() => {
           onClick={() => setSelectedSchedule(s)}
           className="px-3 py-1.5 text-xs bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 shadow-sm"
         >
-          Sortieren
+         Stornieren
         </button>
 
 
