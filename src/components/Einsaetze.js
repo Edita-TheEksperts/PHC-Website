@@ -366,8 +366,22 @@ setData((prev) => {
         <p><strong>Zeit:</strong> {selectedItem.startTime}</p>
         <p><strong>Stunden:</strong> {selectedItem.hours}</p>
 
-        <p><strong>Service:</strong> {selectedItem.serviceName || "—"}</p>
-        <p><strong>Subservice:</strong> {selectedItem.subServiceName || "—"}</p>
+      <p>
+  <strong>Service:</strong>{" "}
+  {selectedItem.serviceName ||
+    (selectedItem.user?.services?.length
+      ? selectedItem.user.services.map((s) => s.name).join(", ")
+      : "—")}
+</p>
+
+<p>
+  <strong>Subservice:</strong>{" "}
+  {selectedItem.subServiceName ||
+    (selectedItem.user?.subServices?.length
+      ? selectedItem.user.subServices.map((s) => s.name).join(", ")
+      : "—")}
+</p>
+
 
         {selectedItem.user && (
           <p>

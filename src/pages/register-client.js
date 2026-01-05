@@ -1298,12 +1298,11 @@ if (!secret) {
       }));
     }
   }, [service]);
-
-  const timeOptions = Array.from({ length: 28 }, (_, i) => {
-    const hour = Math.floor(i / 2) + 7; 
-    const minute = i % 2 === 0 ? "00" : "30";
-    return `${String(hour).padStart(2, "0")}:${minute}`;
-  });
+const timeOptions = Array.from({ length: 48 }, (_, i) => {
+  const hour = Math.floor(i / 2);
+  const minute = i % 2 === 0 ? "00" : "30";
+  return `${String(hour).padStart(2, "0")}:${minute}`;
+});
 
   function TimeDropdown({ value, onChange }) {
     const [open, setOpen] = React.useState(false);
@@ -1314,6 +1313,8 @@ if (!secret) {
     };
 
     return (
+
+
       <div className="relative" style={{ width: "120px" }}>
         <div className="time-picker-display" onClick={() => setOpen(!open)}>
           {value || "Select time"}

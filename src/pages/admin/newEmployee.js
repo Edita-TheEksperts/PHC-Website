@@ -58,16 +58,7 @@ export default function NewEmployeePage() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold text-[#04436F] mb-6">Alle Mitarbeiter</h1>
-
-      {/* Add Employee Form */}
-      <form onSubmit={handleAddEmployee} className="mb-6 p-5 bg-gray-50 rounded-xl shadow flex flex-col lg:flex-row gap-4">
-        <input type="text" placeholder="Vorname" value={newEmployee.firstName} onChange={e => setNewEmployee({ ...newEmployee, firstName: e.target.value })} className="border rounded-lg px-3 py-2 flex-1 focus:ring-2 focus:ring-[#04436F]" required />
-        <input type="text" placeholder="Nachname" value={newEmployee.lastName} onChange={e => setNewEmployee({ ...newEmployee, lastName: e.target.value })} className="border rounded-lg px-3 py-2 flex-1 focus:ring-2 focus:ring-[#04436F]" required />
-        <input type="email" placeholder="E-Mail" value={newEmployee.email} onChange={e => setNewEmployee({ ...newEmployee, email: e.target.value })} className="border rounded-lg px-3 py-2 flex-1 focus:ring-2 focus:ring-[#04436F]" required />
-        <button type="submit" className="bg-[#04436F] text-white px-5 py-2 rounded-full hover:bg-[#033252] transition font-semibold">Mitarbeiter hinzufügen</button>
-      </form>
-
+      <h1 className="text-3xl font-bold text-[#04436F] mb-6">Bewerber</h1>
       {/* Search */}
       <input
         type="text"

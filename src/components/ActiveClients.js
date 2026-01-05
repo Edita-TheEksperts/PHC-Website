@@ -6,10 +6,11 @@ export default function ActiveClients({ clients }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showAll, setShowAll] = useState(false);
 
-const activeClients = clients.filter(
+const activeClients = (clients || []).filter(
   (c) =>
-    c.assignments &&
-    c.assignments.some((a) => a.status === "active" || a.status === "Aktiv")
+    Array.isArray(c.services) &&
+    c.services.length > 0 &&
+    c.status !== "canceled"
 );
 
 

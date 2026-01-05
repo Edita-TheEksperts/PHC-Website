@@ -41,6 +41,13 @@ export default function AppointmentCalendar({ schedules }) {
 
   return (
     <div className="my-10 bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+      {/* ✅ ONLY CHANGE: override weekend red color */}
+      <style jsx global>{`
+        .react-calendar__month-view__days__day--weekend {
+          color: #1f2937 !important;
+        }
+      `}</style>
+
       <h2 className="text-2xl font-bold text-[#04436F] mb-4">Termine</h2>
 
       <Calendar
@@ -108,16 +115,15 @@ export default function AppointmentCalendar({ schedules }) {
                       </p>
                     </div>
 
-              <button
-  onClick={(e) => {
-    e.stopPropagation();
-  router.push(`/appointments/${a.id}`);
-  }}
-  className="text-xs bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700"
->
-  Details
-</button>
-
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push(`/appointments/${a.id}`);
+                      }}
+                      className="text-xs bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700"
+                    >
+                      Details
+                    </button>
                   </div>
                 </li>
               ))}
@@ -125,8 +131,6 @@ export default function AppointmentCalendar({ schedules }) {
           )}
         </div>
       )}
-
- 
     </div>
   );
 }

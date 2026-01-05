@@ -209,16 +209,6 @@ useEffect(() => {
       </select>
     </div>
 
-    {/* 📅 Filter by Date */}
-    <div className="flex flex-col text-sm">
-      <label className="mb-1 text-gray-600 font-medium">Nach Leistungsdatum filtern</label>
-      <input
-        type="date"
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-        className="border px-3 py-2 rounded"
-      />
-    </div>
 
     {/* 🔄 Sort Options */}
     <div className="flex flex-col text-sm">
@@ -257,7 +247,6 @@ useEffect(() => {
   <th className="px-4 py-2 text-left">Name</th>
   <th className="px-4 py-2 text-left">E-Mail</th>
   <th className="px-4 py-2 text-left">Service</th>
-  <th className="px-4 py-2 text-left">Datum</th>
   <th className="px-4 py-2 text-left">Mitarbeiter zuweisen</th>
   <th className="px-4 py-2 text-left">Aktion</th>
   <th className="px-4 py-2 text-left">Status</th>
@@ -275,12 +264,7 @@ useEffect(() => {
     : "-"}
 </td>
 
-<td className="p-3">
-{client.firstDate
-  ? new Date(client.firstDate).toLocaleDateString("de-DE")
-  : "-"}
 
-</td>
                <td className="p-3">
 <td className="p-3">
  {/* === TOP RECOMMENDATIONS (SUPER & GOOD) === */}

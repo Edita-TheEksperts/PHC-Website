@@ -331,11 +331,7 @@ useEffect(() => {
   </div>
   
 </DashboardCard>
-
-
         </div>
-
-        {/* 👥 Kundenübersicht — full width */}
         <DashboardCard title="Kundenübersicht">
           <ClientTable clients={clients} />
         </DashboardCard>
@@ -346,7 +342,6 @@ useEffect(() => {
       <h3 className="text-lg font-semibold mb-4 text-[#04436F]">
         Was möchten Sie tun?
       </h3>
-
       <p className="text-gray-700 mb-6">
         Möchten Sie diesen Termin stornieren oder einen neuen Termin erstellen?
       </p>

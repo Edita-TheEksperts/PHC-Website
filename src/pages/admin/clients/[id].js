@@ -6,6 +6,8 @@ export default function ClientDetails() {
   const { id } = router.query;
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showSchedules, setShowSchedules] = useState(false);
+
 
   function formatDate(dateString) {
     if (!dateString) return "—";
@@ -194,49 +196,69 @@ export default function ClientDetails() {
             )}
           </div>
 
-          {/* TERMINLISTE */}
-          {client.schedules?.length > 0 && (
-            <div>
-              <h3 className="text-xl font-semibold text-gray-700 mb-3">Termine (Einsätze)</h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full border border-gray-200 text-sm">
-                  <thead className="bg-gray-100 text-gray-700">
-                    <tr>
-                      <th className="px-4 py-2">Datum</th>
-                      <th className="px-4 py-2">Zeit</th>
-                      <th className="px-4 py-2">Stunden</th>
-                      <th className="px-4 py-2">Mitarbeiter</th>
-                      <th className="px-4 py-2">Status</th>
-                    </tr>
-                  </thead>
+{client.schedules?.length > 0 && (
+  <div>
+    <div className="flex items-center justify-between mb-3">
+      <h3 className="text-xl font-semibold text-gray-700">
+        Termine (Einsätze)
+      </h3>
 
-                  <tbody>
-                    {client.schedules.map(sched => (
-                      <tr key={sched.id} className="border-t hover:bg-gray-50">
-                        <td className="px-4 py-2">{sched.date ? new Date(sched.date).toLocaleDateString("de-DE") : "—"}</td>
-                        <td className="px-4 py-2">{sched.startTime || "—"}</td>
-                        <td className="px-4 py-2">{sched.hours}h</td>
-                        <td className="px-4 py-2">
-                          {sched.employee
-                            ? `${sched.employee.firstName} ${sched.employee.lastName}`
-                            : "Kein Mitarbeiter zugewiesen"}
-                        </td>
-                        <td className="px-4 py-2">
-                          {sched.status === "cancelled" ? (
-                            <span className="text-red-600 font-medium">Storniert</span>
-                          ) : sched.status === "completed" ? (
-                            <span className="text-green-600 font-medium">Abgeschlossen</span>
-                          ) : (
-                            <span className="text-yellow-600 font-medium">Offen</span>
-                          )}
-                        </td>
-                      </tr>
-                   ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+      <button
+        onClick={() => setShowSchedules((p) => !p)}
+        className="text-sm text-blue-600 hover:underline font-medium"
+      >
+        {showSchedules ? "Ausblenden" : "Anzeigen"}
+      </button>
+    </div>
+
+    {showSchedules && (
+      <div className="overflow-x-auto max-h-[920px] overflow-y-auto border border-gray-200 rounded-lg">
+        <table className="min-w-full text-sm">
+          <thead className="bg-gray-100 text-gray-700 sticky top-0">
+            <tr>
+              <th className="px-4 py-2">Datum</th>
+              <th className="px-4 py-2">Zeit</th>
+              <th className="px-4 py-2">Stunden</th>
+              <th className="px-4 py-2">Mitarbeiter</th>
+              <th className="px-4 py-2">Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {client.schedules.map((sched) => (
+              <tr key={sched.id} className="border-t hover:bg-gray-50">
+                <td className="px-4 py-2">
+                  {sched.date
+                    ? new Date(sched.date).toLocaleDateString("de-DE")
+                    : "—"}
+                </td>
+                <td className="px-4 py-2">{sched.startTime || "—"}</td>
+                <td className="px-4 py-2">{sched.hours}h</td>
+                <td className="px-4 py-2">
+                  {sched.employee
+                    ? `${sched.employee.firstName} ${sched.employee.lastName}`
+                    : "Kein Mitarbeiter zugewiesen"}
+                </td>
+                <td className="px-4 py-2">
+                  {sched.status === "cancelled" ? (
+                    <span className="text-red-600 font-medium">Storniert</span>
+                  ) : sched.status === "completed" ? (
+                    <span className="text-green-600 font-medium">
+                      Abgeschlossen
+                    </span>
+                  ) : (
+                    <span className="text-yellow-600 font-medium">Offen</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+)}
+
         </div>
 
       </div>

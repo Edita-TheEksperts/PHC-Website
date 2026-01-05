@@ -21,15 +21,15 @@ export default function DateEmployee({ form, setForm, handleChange, hidden, erro
     }
   }, [errors]);
 
-  const generateTimeOptions = () => {
-    const times = [];
-    for (let h = 6; h <= 22; h++) {
-      const hour = h.toString().padStart(2, "0");
-      times.push(`${hour}:00`);
-      times.push(`${hour}:30`);
-    }
-    return times;
-  };
+const generateTimeOptions = () => {
+  const times = [];
+  for (let h = 0; h <= 23; h++) {
+    const hour = h.toString().padStart(2, "0");
+    times.push(`${hour}:00`);
+    times.push(`${hour}:30`);
+  }
+  return times;
+};
 
   const addDay = () => {
     if (!form.newAvailableDay) return;
