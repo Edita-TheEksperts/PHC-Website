@@ -8,6 +8,7 @@ export default async function handler(req, res) {
 
   try {
     const {
+      // Basic
       firstName,
       lastName,
       email,
@@ -26,16 +27,13 @@ export default async function handler(req, res) {
       schedules = [],
       paymentIntentId,
 
-      // Fragebogen
+      // Kontakt / Fragebogen
       languages,
       emergencyContactName,
       emergencyContactPhone,
 
       hasAllergies,
-      allergyCheck,
-      allergies,
       allergyDetails,
-      allergyWhich,
       healthFindings,
       medicalFindings,
 
@@ -70,28 +68,35 @@ export default async function handler(req, res) {
     }
 
     /* --------------------------------------------------
-       2️⃣ HELPERS
+       2️⃣ HELPERS (TYPE SAFE)
     -------------------------------------------------- */
 
-    const clean = (v) => {
+    const toStr = (v) => {
       if (v === undefined || v === null) return null;
+      if (Array.isArray(v)) return v.join(", ");
       if (typeof v === "string") {
         const t = v.trim();
         return t === "" || t === "—" ? null : t;
       }
-      return v;
+      return String(v);
     };
 
-    const cleanInt = (v) => {
+    const toInt = (v) => {
       const n = Number(v);
       return Number.isFinite(n) ? n : null;
+    };
+
+    const toBool = (v) => {
+      if (v === true || v === "true") return true;
+      if (v === false || v === "false") return false;
+      return null;
     };
 
     const removeNulls = (obj) =>
       Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null));
 
     /* --------------------------------------------------
-       3️⃣ DATE PARSE (SAFE)
+       3️⃣ DATE PARSE
     -------------------------------------------------- */
 
     let parsedDate = null;
@@ -103,7 +108,7 @@ export default async function handler(req, res) {
     }
 
     /* --------------------------------------------------
-       4️⃣ SERVICES (TOLERANT)
+       4️⃣ SERVICES (TOLERANT MATCH)
     -------------------------------------------------- */
 
     const allServices = await prisma.service.findMany();
@@ -120,13 +125,13 @@ export default async function handler(req, res) {
     );
 
     /* --------------------------------------------------
-       5️⃣ SCHEDULES
+       5️⃣ SCHEDULES + PAYMENT
     -------------------------------------------------- */
 
     const schedulesCreate = (schedules || []).map((s) => ({
       day: s.day,
       startTime: s.startTime,
-      hours: cleanInt(s.hours) ?? 0,
+      hours: toInt(s.hours) ?? 0,
       date: s.date ? new Date(s.date) : null,
     }));
 
@@ -135,38 +140,45 @@ export default async function handler(req, res) {
       0
     );
 
-    const HOURLY_RATE = 1;
+    const HOURLY_RATE = 1; // adjust if needed
     const totalPayment = totalHours * HOURLY_RATE;
 
     /* --------------------------------------------------
-       6️⃣ QUESTIONNAIRE
+       6️⃣ QUESTIONNAIRE (SAFE FOR PRISMA)
     -------------------------------------------------- */
-const questionnaireData = removeNulls({
-  languages: toString(languages),
 
-  shoppingItems: toString(shoppingItems),
-  shoppingWithClient: shoppingWithClient,
+    const questionnaireData = removeNulls({
+      // Kontakt
+      languages: toStr(languages),
+      emergencyContactName: toStr(emergencyContactName),
+      emergencyContactPhone: toStr(emergencyContactPhone),
 
-  householdTasks: toJson(householdTasks),
-  householdRooms: cleanInt(householdRooms),
-  householdPeople: cleanInt(householdPeople),
+      // Allergien & Gesundheit
+      hasAllergies: toBool(hasAllergies),
+      allergyDetails: toStr(allergyDetails),
+      healthFindings: toStr(healthFindings),
+      medicalFindings: toStr(medicalFindings),
 
-  mobilityAids: toString(mobilityAids),
-  physicalState: toString(physicalCondition),
+      // Mobilität & Haushalt
+      mobility: toStr(mobility),
+      mobilityAids: toStr(mobilityAids),
+      householdRooms: toInt(householdRooms),
+      householdPeople: toInt(householdPeople),
 
-  foodSupportTypes: toString(nutritionSupport),
-  basicCare: toString(basicCare),
-  basicCareOther: basicCareOther,
+      // Alltag
+      cooking: toStr(cooking),
+      jointCooking: toStr(jointCooking),
+      shoppingType: toStr(shoppingType),
+      shoppingWithClient: toStr(shoppingWithClient),
 
-  mentalDiagnoses: toString(diagnoses),
-  behaviorTraits: toString(behaviorTraits),
-
-  healthFindings,
-  medicalFindings,
-
-  hasAllergies,
-  allergyDetails,
-});
+      // Kommunikation
+      communicationVision: toStr(communicationVision),
+      communicationSehen: toStr(communicationSehen),
+      communicationHearing: toStr(communicationHearing),
+      communicationHören: toStr(communicationHören),
+      communicationSpeech: toStr(communicationSpeech),
+      communicationSprechen: toStr(communicationSprechen),
+    });
 
     /* --------------------------------------------------
        7️⃣ CREATE OR UPDATE USER
@@ -189,25 +201,25 @@ const questionnaireData = removeNulls({
 
       user = await prisma.user.create({
         data: {
-          firstName: clean(firstName),
-          lastName: clean(lastName),
+          firstName: toStr(firstName),
+          lastName: toStr(lastName),
           email,
-          phone: clean(phone),
-          address: clean(address) ?? "—",
-          frequency: clean(frequency) ?? "einmalig",
-          duration: cleanInt(duration),
+          phone: toStr(phone),
+          address: toStr(address) ?? "—",
+          frequency: toStr(frequency) ?? "einmalig",
+          duration: toInt(duration),
           firstDate: parsedDate,
 
-          careStreet: clean(street),
-          carePostalCode: clean(postalCode),
-          careCity: clean(city),
+          careStreet: toStr(street),
+          carePostalCode: toStr(postalCode),
+          careCity: toStr(city),
 
           paymentIntentId,
           totalPayment,
           resetToken,
           resetTokenExpiry,
-          anrede: clean(anrede),
-          kanton: clean(kanton),
+          anrede: toStr(anrede),
+          kanton: toStr(kanton),
 
           ...questionnaireData,
 
@@ -223,14 +235,14 @@ const questionnaireData = removeNulls({
         },
       });
 
-      /* -------- SEND EMAIL -------- */
+      /* -------- SEND WELCOME EMAIL -------- */
 
       const template = await prisma.emailTemplate.findUnique({
         where: { name: "welcomeEmail" },
       });
 
       if (template) {
-        let body = template.body
+        const body = template.body
           .replace(/{{firstName}}/g, firstName ?? "")
           .replace(/{{lastName}}/g, lastName ?? "")
           .replace(
@@ -247,7 +259,7 @@ const questionnaireData = removeNulls({
     }
 
     /* --------------------------------------------------
-       8️⃣ SALESFORCE
+       8️⃣ SALESFORCE SYNC
     -------------------------------------------------- */
 
     if (user && !user.salesforceId) {
