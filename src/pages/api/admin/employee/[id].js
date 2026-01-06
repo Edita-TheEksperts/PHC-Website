@@ -4,21 +4,43 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   // === UPDATE (PATCH) ===
- if (req.method === "PATCH") {
+// === UPDATE (PATCH) ===
+if (req.method === "PATCH") {
   try {
-    const allowed = [
-      "email", "phone", "address", "city", "zipCode", "country", "canton",
-      "specialTrainings", "languages", "communicationTraits", "dietaryExperience",
-      "experienceYears", "experienceWhere", "experienceCompany",
-      "availabilityFrom", "availabilityDays",
-      "licenseType", "hasLicense", "hasCar", "carAvailableForWork",
-      "nationality", "houseNumber"
-    ];
+const allowed = [
+  // BASIC
+  "email", "phone", "salutation", "firstName", "lastName",
 
-    // vetem fushat reale lejohet te perditesohen
+  // ADDRESS
+  "address", "houseNumber", "zipCode", "city", "country", "canton", "nationality",
+
+  // EXPERIENCE
+  "experienceYears", "experienceWhere", "experienceCompany",
+
+  // AVAILABILITY
+  "availabilityFrom", "availabilityDays",
+
+  // LICENSE & CAR
+  "hasLicense", "licenseType", "hasCar", "carAvailableForWork",
+
+  // WORK CONDITIONS
+  "smoker", "onCallAvailable", "nightShifts",
+  "travelSupport", "bodyCareSupport", "worksWithAnimals",
+  "desiredWeeklyHours", "howFarCanYouTravel",
+
+  // SKILLS
+  "languages", "languageOther",
+  "specialTrainings", "communicationTraits", "dietaryExperience",
+  "servicesOffered"
+];
+
+
     const data = {};
+
     Object.keys(req.body).forEach((key) => {
-      if (allowed.includes(key)) data[key] = req.body[key];
+      if (allowed.includes(key)) {
+        data[key] = req.body[key];
+      }
     });
 
     const updated = await prisma.employee.update({
@@ -32,6 +54,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ message: "Failed to update employee" });
   }
 }
+
 
 
   // === GET (EXISTING) ===

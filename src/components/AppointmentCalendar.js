@@ -13,23 +13,22 @@ export default function AppointmentCalendar({ schedules }) {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const router = useRouter();
 
-  const selectedISO = selectedDate
-    ? selectedDate.toISOString().slice(0, 10)
-    : null;
+  // ✅ FIX: compare dates in LOCAL timezone (avoids UTC day shifting)
+  const toLocalISO = (d) => {
+    if (!d) return null;
+    const date = d instanceof Date ? d : new Date(d);
+    return date.toLocaleDateString("sv-SE"); // YYYY-MM-DD
+  };
 
-  const assignedAppointments = useMemo(
-    () => schedules.filter((s) => s.employee),
-    [schedules]
-  );
+  const selectedISO = selectedDate ? toLocalISO(selectedDate) : null;
+
+  // ✅ highlight ALL appointments (not only assigned)
+  const appointmentsForCalendar = useMemo(() => schedules, [schedules]);
 
   const filteredAppointments = useMemo(() => {
     if (!selectedISO) return schedules;
-    return schedules.filter(
-      (s) =>
-        s.date &&
-        new Date(s.date).toISOString().slice(0, 10) === selectedISO
-    );
-  }, [selectedISO, assignedAppointments]);
+    return schedules.filter((s) => s.date && toLocalISO(s.date) === selectedISO);
+  }, [selectedISO, schedules]);
 
   function formatDate(d) {
     return new Date(d).toLocaleDateString("de-DE");
@@ -41,10 +40,22 @@ export default function AppointmentCalendar({ schedules }) {
 
   return (
     <div className="my-10 bg-white p-6 rounded-2xl shadow-md border border-gray-200">
-      {/* ✅ ONLY CHANGE: override weekend red color */}
-      <style jsx global>{`
-        .react-calendar__month-view__days__day--weekend {
+      <style jsx>{`
+        /* keep weekends normal (not red) */
+        :global(.react-calendar__month-view__days__day--weekend) {
           color: #1f2937 !important;
+        }
+
+        /* ✅ circle highlight for days that have appointments */
+        :global(.react-calendar__tile.has-appointment abbr) {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 34px;
+          height: 34px;
+          border-radius: 9999px;
+          border: 2px solid #2563eb;
+          font-weight: 700;
         }
       `}</style>
 
@@ -57,13 +68,23 @@ export default function AppointmentCalendar({ schedules }) {
         }}
         value={calendarDate}
         className="w-full mb-4 border rounded-xl p-6"
-        tileContent={({ date }) => {
-          const hasAppointment = assignedAppointments.some(
-            (s) =>
-              s.date &&
-              new Date(s.date).toISOString().slice(0, 10) ===
-                date.toISOString().slice(0, 10)
+        tileClassName={({ date, view }) => {
+          if (view !== "month") return "";
+          const iso = toLocalISO(date);
+
+          const hasAppointment = appointmentsForCalendar.some(
+            (s) => s.date && toLocalISO(s.date) === iso
           );
+
+          return hasAppointment ? "has-appointment" : "";
+        }}
+        tileContent={({ date }) => {
+          const iso = toLocalISO(date);
+
+          const hasAppointment = appointmentsForCalendar.some(
+            (s) => s.date && toLocalISO(s.date) === iso
+          );
+
           return hasAppointment ? (
             <div className="w-2 h-2 bg-blue-500 rounded-full mt-1 mx-auto" />
           ) : null;
@@ -74,9 +95,7 @@ export default function AppointmentCalendar({ schedules }) {
         onClick={() => setIsOpen((p) => !p)}
         className="mt-4 px-4 py-2 bg-[#04436F] text-white text-sm font-semibold rounded-xl hover:bg-[#033252] transition-all"
       >
-        {isOpen
-          ? "🔽 Termine ausblenden"
-          : `📂 Termine (${filteredAppointments.length})`}
+        {isOpen ? "🔽 Termine ausblenden" : `📂 Termine (${filteredAppointments.length})`}
       </button>
 
       {selectedDate && (
@@ -110,8 +129,7 @@ export default function AppointmentCalendar({ schedules }) {
                         {a.employee?.lastName || ""}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {a.date ? formatDate(a.date) : "—"} — {a.startTime} (
-                        {a.hours}h)
+                        {a.date ? formatDate(a.date) : "—"} — {a.startTime} ({a.hours}h)
                       </p>
                     </div>
 

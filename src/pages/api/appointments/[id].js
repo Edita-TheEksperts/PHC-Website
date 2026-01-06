@@ -27,6 +27,14 @@ export default async function handler(req, res) {
             role: true,
             address: true,
             careCity: true,
+
+            // ✅ relations from user
+            services: {
+              select: { id: true, name: true },
+            },
+            subServices: {
+              select: { id: true, name: true },
+            },
           },
         },
         employee: {
@@ -48,15 +56,36 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: "Appointment not found" });
     }
 
-    res.status(200).json({
+    // ✅ prepare clean strings (optional but helpful)
+    const userServices =
+      Array.isArray(appt.user?.services) && appt.user.services.length > 0
+        ? appt.user.services.map((s) => s?.name).filter(Boolean).join(", ")
+        : null;
+
+    const userSubServices =
+      Array.isArray(appt.user?.subServices) && appt.user.subServices.length > 0
+        ? appt.user.subServices.map((s) => s?.name).filter(Boolean).join(", ")
+        : null;
+
+    // ✅ fallback to schedule fields if needed
+    const serviceNameToShow = userServices || appt.serviceName || null;
+    const subServiceNameToShow = userSubServices || appt.subServiceName || null;
+
+    return res.status(200).json({
       id: appt.id,
       date: appt.date ? appt.date.toISOString() : null,
       startTime: appt.startTime,
       hours: appt.hours,
       notes: appt.notes ?? null,
+
+      // ✅ keep originals
       user: appt.user,
-      client: appt.user, // alias for clarity
+      client: appt.user,
       employee: appt.employee,
+
+      // ✅ add these so frontend always has them
+      serviceName: serviceNameToShow,
+      subServiceName: subServiceNameToShow,
     });
   } catch (error) {
     console.error("❌ Error loading appointment:", error);

@@ -173,6 +173,21 @@ useEffect(() => {
   setSelectedEmployee(initialMap);
   setAssignedMap(initialMap); // optional: to show "Assigned ✔"
 }, [clients]);
+function formatDate(dateString) {
+  if (!dateString) return "—";
+  const d = new Date(dateString);
+  return d.toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+const acceptedEmployees = employees.filter((emp) => {
+  const s = (emp.status || "").toLowerCase();
+
+  // ndrysho "approved" nëse tek ju quhet "accepted"
+  return s === "approved" || s === "accepted";
+});
 
 
   return (
@@ -194,20 +209,7 @@ useEffect(() => {
       />
     </div>
 
-    {/* 🧾 Filter by Service */}
-    <div className="flex flex-col text-sm">
-      <label className="mb-1 text-gray-600 font-medium">Nach Dienstleistung filtern</label>
-      <select
-        value={selectedService}
-        onChange={(e) => setSelectedService(e.target.value)}
-        className="border px-3 py-2 rounded"
-      >
-        <option value="">Alle Dienstleistungen</option>
-        {uniqueServices.map((service) => (
-          <option key={service} value={service}>{service}</option>
-        ))}
-      </select>
-    </div>
+  
 
 
     {/* 🔄 Sort Options */}
@@ -244,6 +246,8 @@ useEffect(() => {
         <table className="min-w-full text-sm">
           <thead className="bg-gray-100 text-left">
         <tr className="bg-gray-100 text-sm text-gray-700 uppercase tracking-wide">
+          <th className="px-4 py-2 text-left">Erstellt am</th>
+
   <th className="px-4 py-2 text-left">Name</th>
   <th className="px-4 py-2 text-left">E-Mail</th>
   <th className="px-4 py-2 text-left">Service</th>
@@ -255,7 +259,12 @@ useEffect(() => {
           </thead>
 <tbody className="text-sm text-gray-700">
             {filteredClients.map((client) => (
-              <tr key={client.id} className="border-t hover:bg-gray-50">
+<tr key={client.id} className="border-t hover:bg-gray-50">
+  {/* Erstellt am */}
+  <td className="p-3 text-sm text-gray-600">
+    {formatDate(client.createdAt)}
+  </td>
+
                 <td className="p-3">{client.firstName} {client.lastName}</td>
                 <td className="p-3">{client.email}</td>
 <td className="p-3">
@@ -313,7 +322,7 @@ useEffect(() => {
     {recommended[client.id]
       ?.filter(r => r.score >= 80)
       .map(rec => {
-        const emp = employees.find(e => e.id === rec.employeeId);
+const emp = acceptedEmployees.find(e => e.id === rec.employeeId);
         if (!emp) return null;
         return (
           <option
@@ -385,11 +394,12 @@ useEffect(() => {
   </optgroup>
 
 <optgroup label="👤 Andere Mitarbeiter">
-  {employees
-    .filter(emp =>
-      !(recommended[client.id] || []).some(rec => rec.employeeId === emp.id)
-    )
-    .map(emp => (
+{acceptedEmployees
+  .filter(emp =>
+    !(recommended[client.id] || []).some(rec => rec.employeeId === emp.id)
+  )
+  .map(emp => (
+
       <option
         key={emp.id}
         value={emp.id}
@@ -440,6 +450,9 @@ useEffect(() => {
         </p>
       );
     })()}
+
+
+
 
     {/* Cancel Button */}
     {getStatus(client) === "Open" && (
@@ -527,7 +540,7 @@ useEffect(() => {
       className="border w-full px-3 py-2 rounded"
     >
       <option value="">Mitarbeiter auswählen</option>
-      {employees.map((emp) => (
+{acceptedEmployees.map((emp) => (
         <option key={emp.id} value={emp.id}>
           {emp.firstName} {emp.lastName} ({emp.status})
         </option>

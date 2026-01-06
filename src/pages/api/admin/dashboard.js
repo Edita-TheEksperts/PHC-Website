@@ -10,10 +10,12 @@ async function fetchEmployees() {
       firstName: true,
       lastName: true,
       email: true,
-      phone: true,
+      phone: true,          // ✅ ekziston
       status: true,
       invited: true,
+      createdAt: true,      // ✅ SHTO KËTË
       howDidYouHearAboutUs: true,
+
       assignments: {
         select: {
           status: true,
@@ -30,6 +32,7 @@ async function fetchEmployees() {
           },
         },
       },
+
       schedules: {
         select: {
           id: true,
@@ -49,6 +52,7 @@ async function fetchEmployees() {
     },
   });
 }
+
 
 // Fetch all clients with related data
 async function fetchClients() {

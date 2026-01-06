@@ -1,4 +1,3 @@
-import { hash } from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import crypto from "crypto";
 import { sendEmail } from "../../lib/emails";
@@ -26,116 +25,191 @@ export default async function handler(req, res) {
       kanton,
       schedules = [],
       paymentIntentId,
+
+      // Fragebogen
+      languages,
+      emergencyContactName,
+      emergencyContactPhone,
+
+      hasAllergies,
+      allergyCheck,
+      allergies,
+      allergyDetails,
+      allergyWhich,
+      healthFindings,
+      medicalFindings,
+
+      mobility,
+      mobilityAids,
+      householdRooms,
+      householdPeople,
+
+      cooking,
+      jointCooking,
+      shoppingType,
+      shoppingWithClient,
+
+      communicationVision,
+      communicationSehen,
+      communicationHearing,
+      communicationHören,
+      communicationSpeech,
+      communicationSprechen,
     } = req.body;
 
-    // ------------------------------
-    // 1️⃣ Required field checks
-    // ------------------------------
-    if (!firstName || !lastName || !email || !firstDate) {
-      return res.status(400).json({ message: "❌ Missing required fields" });
-    }
+    /* --------------------------------------------------
+       1️⃣ BASIC VALIDATION (STRIPE SAFE)
+    -------------------------------------------------- */
 
-    if (!services.length) {
-      return res.status(400).json({ message: "❌ No services selected" });
+    if (!email) {
+      return res.status(400).json({ message: "❌ Email missing" });
     }
 
     if (!paymentIntentId) {
-      return res.status(400).json({ message: "❌ paymentIntentId is missing!" });
+      return res.status(400).json({ message: "❌ paymentIntentId missing" });
     }
 
-    // ------------------------------
-    // 2️⃣ Parse date formats
-    // ------------------------------
-    const parsedDate =
-      typeof firstDate === "string" && firstDate.includes(".")
-        ? new Date(firstDate.split(".").reverse().join("-"))
-        : new Date(firstDate);
+    /* --------------------------------------------------
+       2️⃣ HELPERS
+    -------------------------------------------------- */
 
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const clean = (v) => {
+      if (v === undefined || v === null) return null;
+      if (typeof v === "string") {
+        const t = v.trim();
+        return t === "" || t === "—" ? null : t;
+      }
+      return v;
+    };
 
-    // ------------------------------
-    // 3️⃣ AUTO-MATCH Services & Subservices
-    // ------------------------------
+    const cleanInt = (v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    };
 
-    // Fetch all from DB
+    const removeNulls = (obj) =>
+      Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null));
+
+    /* --------------------------------------------------
+       3️⃣ DATE PARSE (SAFE)
+    -------------------------------------------------- */
+
+    let parsedDate = null;
+    if (firstDate) {
+      parsedDate =
+        typeof firstDate === "string" && firstDate.includes(".")
+          ? new Date(firstDate.split(".").reverse().join("-"))
+          : new Date(firstDate);
+    }
+
+    /* --------------------------------------------------
+       4️⃣ SERVICES (TOLERANT)
+    -------------------------------------------------- */
+
     const allServices = await prisma.service.findMany();
     const allSubServices = await prisma.subService.findMany();
 
-    // Map input → DB records by partial match
+    const normalize = (x) => String(x ?? "").toLowerCase().trim();
+
     const serviceRecords = allServices.filter((s) =>
-      services.some((input) =>
-        input.toLowerCase().trim().includes(s.name.toLowerCase().trim())
-      )
+      services.some((i) => normalize(i).includes(normalize(s.name)))
     );
 
     const subServiceRecords = allSubServices.filter((s) =>
-      subServices.some((input) =>
-        input.toLowerCase().trim().includes(s.name.toLowerCase().trim())
-      )
+      subServices.some((i) => normalize(i).includes(normalize(s.name)))
     );
 
-    // Validate mapped values
-    if (serviceRecords.length === 0) {
-      return res.status(400).json({
-        message: "❌ No matching services found.",
-        received: services,
-        dbServices: allServices.map((s) => s.name),
-      });
-    }
+    /* --------------------------------------------------
+       5️⃣ SCHEDULES
+    -------------------------------------------------- */
 
-    // ------------------------------
-    // 4️⃣ Build all schedule entries
-    // ------------------------------
-    const schedulesCreate = schedules.map((entry) => ({
-      day: entry.day,
-      startTime: entry.startTime,
-      hours: parseFloat(entry.hours),
-      date: new Date(entry.date),
+    const schedulesCreate = (schedules || []).map((s) => ({
+      day: s.day,
+      startTime: s.startTime,
+      hours: cleanInt(s.hours) ?? 0,
+      date: s.date ? new Date(s.date) : null,
     }));
 
-    // ------------------------------
-    // 5️⃣ Payment calculation
-    // ------------------------------
-    const totalHours = schedulesCreate.reduce((sum, s) => sum + s.hours, 0);
-    const HOURLY_RATE = 1; // your rate
+    const totalHours = schedulesCreate.reduce(
+      (sum, s) => sum + (s.hours || 0),
+      0
+    );
+
+    const HOURLY_RATE = 1;
     const totalPayment = totalHours * HOURLY_RATE;
 
-    // ------------------------------
-    // 6️⃣ Create or update user
-    // ------------------------------
+    /* --------------------------------------------------
+       6️⃣ QUESTIONNAIRE
+    -------------------------------------------------- */
+const questionnaireData = removeNulls({
+  languages: toString(languages),
+
+  shoppingItems: toString(shoppingItems),
+  shoppingWithClient: shoppingWithClient,
+
+  householdTasks: toJson(householdTasks),
+  householdRooms: cleanInt(householdRooms),
+  householdPeople: cleanInt(householdPeople),
+
+  mobilityAids: toString(mobilityAids),
+  physicalState: toString(physicalCondition),
+
+  foodSupportTypes: toString(nutritionSupport),
+  basicCare: toString(basicCare),
+  basicCareOther: basicCareOther,
+
+  mentalDiagnoses: toString(diagnoses),
+  behaviorTraits: toString(behaviorTraits),
+
+  healthFindings,
+  medicalFindings,
+
+  hasAllergies,
+  allergyDetails,
+});
+
+    /* --------------------------------------------------
+       7️⃣ CREATE OR UPDATE USER
+    -------------------------------------------------- */
+
     let user = await prisma.user.findUnique({ where: { email } });
 
     if (user) {
-      // Update existing user
       user = await prisma.user.update({
         where: { email },
         data: {
           paymentIntentId,
           totalPayment,
+          ...questionnaireData,
         },
       });
     } else {
-      // Create a new user
+      const resetToken = crypto.randomBytes(32).toString("hex");
+      const resetTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
       user = await prisma.user.create({
         data: {
-          firstName,
-          lastName,
+          firstName: clean(firstName),
+          lastName: clean(lastName),
           email,
-          phone,
-          address,
-          careStreet: street,
-          carePostalCode: postalCode,
-          careCity: city,
-          frequency,
-          duration,
+          phone: clean(phone),
+          address: clean(address) ?? "—",
+          frequency: clean(frequency) ?? "einmalig",
+          duration: cleanInt(duration),
           firstDate: parsedDate,
+
+          careStreet: clean(street),
+          carePostalCode: clean(postalCode),
+          careCity: clean(city),
+
           paymentIntentId,
           totalPayment,
           resetToken,
           resetTokenExpiry,
-          anrede,
-          kanton,
+          anrede: clean(anrede),
+          kanton: clean(kanton),
+
+          ...questionnaireData,
 
           services: {
             connect: serviceRecords.map((s) => ({ id: s.id })),
@@ -149,21 +223,20 @@ export default async function handler(req, res) {
         },
       });
 
-      // ------------------------------
-      // 7️⃣ Send welcome email
-      // ------------------------------
+      /* -------- SEND EMAIL -------- */
+
       const template = await prisma.emailTemplate.findUnique({
         where: { name: "welcomeEmail" },
       });
 
       if (template) {
-        let body = template.body;
-        body = body.replace(/{{firstName}}/g, firstName);
-        body = body.replace(/{{lastName}}/g, lastName);
-        body = body.replace(
-          /{{resetLink}}/g,
-          `${process.env.NEXT_PUBLIC_BASE_URL}/setpassword?token=${resetToken}`
-        );
+        let body = template.body
+          .replace(/{{firstName}}/g, firstName ?? "")
+          .replace(/{{lastName}}/g, lastName ?? "")
+          .replace(
+            /{{resetLink}}/g,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/setpassword?token=${resetToken}`
+          );
 
         await sendEmail({
           to: email,
@@ -173,24 +246,26 @@ export default async function handler(req, res) {
       }
     }
 
-    // ------------------------------
-    // 8️⃣ Sync with Salesforce
-    // ------------------------------
-    if (!user.salesforceId) {
+    /* --------------------------------------------------
+       8️⃣ SALESFORCE
+    -------------------------------------------------- */
+
+    if (user && !user.salesforceId) {
       try {
         const sfId = await createOrUpdateSalesforceAccount(user);
         await prisma.user.update({
           where: { id: user.id },
           data: { salesforceId: sfId },
         });
-      } catch (error) {
-        console.error("❌ Salesforce sync failed:", error);
+      } catch (e) {
+        console.error("Salesforce error:", e);
       }
     }
 
-    // ------------------------------
-    // 9️⃣ Create reminders
-    // ------------------------------
+    /* --------------------------------------------------
+       9️⃣ REMINDERS
+    -------------------------------------------------- */
+
     await prisma.reminder.createMany({
       data: [
         {
@@ -206,21 +281,16 @@ export default async function handler(req, res) {
       ],
     });
 
-    return res
-      .status(201)
-      .json({ message: "✅ Registration complete", userId: user.id });
+    return res.status(201).json({
+      message: "✅ Registration complete",
+      userId: user.id,
+    });
   } catch (error) {
-    console.error("❌ Error during registration:", error);
-
-    if (error.code === "P2002") {
-      return res.status(409).json({
-        message: "❌ Diese E-Mail-Adresse ist bereits registriert.",
-      });
-    }
+    console.error("❌ Register error:", error);
 
     return res.status(500).json({
-      message: "❌ Interner Serverfehler",
-      error: error.message,
+      message: "❌ Internal server error",
+      error: error?.message || String(error),
     });
   }
 }

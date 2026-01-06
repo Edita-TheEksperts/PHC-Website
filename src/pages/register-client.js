@@ -517,14 +517,16 @@ kanton: form.kanton || "",
     mailboxDetails: form.mailboxDetails || "",
     additionalAccompaniment: form.additionalAccompaniment || "",
     companionship: form.companionship || "",
-    cookingTogether: form.cookingTogether || "",
+jointCooking: form.cookingTogether || "",
     biographyWork: form.biographyWork || "",
     hasTech: form.hasTech || "",
     reading: form.reading || "",
     cardGames: form.cardGames || "",
     hasAllergies: form.hasAllergies || "",
     allergyDetails: form.allergyDetails || "",
-    trips: form.trips || [],
+trips: Array.isArray(form.trips)
+  ? form.trips.join(", ")
+  : "",
     height: Number(form.height) || null,
     weight: Number(form.weight) || null,
     careTools: form.careTools || [],
@@ -1047,7 +1049,7 @@ if (!secret) {
         schedules: generatedSchedules,
       };
 
- const res = await fetch("/api/client-register-api", {
+const res = await fetch("/api/client-register-api", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
@@ -1065,7 +1067,6 @@ if (!secret) {
 
     frequency: form.frequency || "",
     duration: form.duration || "",
-    
     firstDate: form.firstDate,
 
     // 🔵 Services & Subservices
@@ -1081,8 +1082,55 @@ if (!secret) {
     // 🔵 Optional fields
     anrede: form.anrede || "",
     kanton: form.kanton || "",
+
+    // ----------------------------------------------------
+    // ✅ Fragebogen / Profile fields (SAVE THEM IN DB)
+    // ----------------------------------------------------
+languages: Array.isArray(form.languages)
+  ? form.languages.join(", ")
+  : "",
+    emergencyContactName: form.emergencyContactName || "",
+    emergencyContactPhone: form.emergencyContactPhone || "",
+
+    // Allergies & Health
+    hasAllergies: form.hasAllergies || "",
+    allergyCheck: form.allergyCheck || "",
+    allergies: form.allergies || "",
+    allergyDetails: form.allergyDetails || "",
+    allergyWhich: form.allergyWhich || "",
+    healthFindings: form.healthFindings || "",
+    medicalFindings: form.medicalFindings || "",
+
+    // Mobility & Household (ints)
+    mobility: form.mobility || "",
+mobilityAids: Array.isArray(form.mobilityAids)
+  ? form.mobilityAids.join(", ")
+  : "",
+    householdRooms:
+      form.householdRooms === "" || form.householdRooms === undefined
+        ? null
+        : Number(form.householdRooms),
+    householdPeople:
+      form.householdPeople === "" || form.householdPeople === undefined
+        ? null
+        : Number(form.householdPeople),
+
+    // Daily support
+    cooking: form.cooking || "",
+    jointCooking: form.jointCooking || "",
+    shoppingType: form.shoppingType || "",
+    shoppingWithClient: form.shoppingWithClient || "",
+
+    // Communication (both versions supported)
+    communicationVision: form.communicationVision || "",
+    communicationSehen: form.communicationSehen || "",
+    communicationHearing: form.communicationHearing || "",
+    communicationHören: form.communicationHören || "",
+    communicationSpeech: form.communicationSpeech || "",
+    communicationSprechen: form.communicationSprechen || "",
   }),
 });
+
 
       const data = await res.json();
       if (res.ok && data.userId) {
@@ -1647,9 +1695,7 @@ const handlePayment = async () => {
             {formError}
           </div>
         )}
-
-        <form
-          onSubmit={handleSubmit}
+<form onSubmit={(e) => e.preventDefault()}
           className="bg-white  p-2 lg:p-8 rounded-xl border-2 border-gray-200 space-y-8 text-base text-gray-800"
         >
           {step === 1 && (
@@ -3221,29 +3267,55 @@ onChange={(date) => {
                     ))}
                   </div>
                   <h3 className="block  font-medium mb-1">Kommunikation</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-  {["Sehen", "Hören", "Sprechen"].map((field) => (
-    <div key={field} className="flex flex-col">
-      <label htmlFor={field} className="inline-flex items-center gap-2 text-sm text-gray-800">
-        {field}
-      </label>
-      <select
-        id={field}
-        name={field}
-        value={form[field] || ""}
-        onChange={handleChange}
-        className={inputClass}
-      >
-        <option value="">
-          {field.charAt(0).toUpperCase() + field.slice(1)}...
-        </option>
-        <option value="Keine Probleme">Keine Probleme</option>
-        <option value="Eingeschränkt">Eingeschränkt</option>
-        <option value="Nahezu blind/taub">Nahezu blind/taub</option>
-      </select>
-    </div>
-  ))}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+
+  <div>
+    <label className="block text-sm font-medium">Sehen</label>
+    <select
+      name="communicationSehen"
+      value={form.communicationSehen || ""}
+      onChange={handleChange}
+      className={inputClass}
+    >
+      <option value="">Bitte auswählen</option>
+      <option value="Keine Probleme">Keine Probleme</option>
+      <option value="Eingeschränkt">Eingeschränkt</option>
+      <option value="Nahezu blind">Nahezu blind</option>
+    </select>
+  </div>
+
+  <div>
+    <label className="block text-sm font-medium">Hören</label>
+    <select
+      name="communicationHören"
+      value={form.communicationHören || ""}
+      onChange={handleChange}
+      className={inputClass}
+    >
+      <option value="">Bitte auswählen</option>
+      <option value="Keine Probleme">Keine Probleme</option>
+      <option value="Eingeschränkt">Eingeschränkt</option>
+      <option value="Nahezu taub">Nahezu taub</option>
+    </select>
+  </div>
+
+  <div>
+    <label className="block text-sm font-medium">Sprechen</label>
+    <select
+      name="communicationSprechen"
+      value={form.communicationSprechen || ""}
+      onChange={handleChange}
+      className={inputClass}
+    >
+      <option value="">Bitte auswählen</option>
+      <option value="Keine Probleme">Keine Probleme</option>
+      <option value="Eingeschränkt">Eingeschränkt</option>
+      <option value="Nicht möglich">Nicht möglich</option>
+    </select>
+  </div>
+
 </div>
+
 
                   <h3 className="block  font-medium mb-1">Nahrungsaufnahme</h3>
                   <div className="mb-6 flex flex-wrap gap-6">

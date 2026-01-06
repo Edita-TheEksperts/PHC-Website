@@ -79,7 +79,7 @@ const activeClients = (clients || []).filter(
                       {client.firstName || "—"} {client.lastName || ""}
                     </p>
                     <p className="text-sm text-gray-500">
-                      Aufgaben: {client.assignments?.length}
+                      Zuweisung: {client.assignments?.length}
                     </p>
                   </div>
                 </div>
