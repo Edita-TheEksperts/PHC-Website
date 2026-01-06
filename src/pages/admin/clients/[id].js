@@ -122,21 +122,194 @@ export default function ClientDetails() {
       "communicationHören",
       "communicationSpeech",
       "communicationSprechen",
+
+      // (optional extra questionnaire keys if your backend has them)
+      "careFirstName",
+      "careLastName",
+      "requestFirstName",
+      "requestLastName",
+      "arrivalKeyStored",
+      "arrivalSomeoneHome",
+      "parkingAvailable",
+      "entranceLocation",
+      "additionalInfo",
+
+      "doctorVisits",
+      "physioVisits",
+      "authorityVisits",
+      "postKeyWhere",
+      "postBoxWhich",
+      "otherAccompaniments",
+
+      "companionship",
+      "biographyWork",
+      "reading",
+      "cardgames",
+      "trips",
+
+      "heightCm",
+      "weightKg",
+      "careTools",
+      "incontinence",
+      "foodSupport",
+      "swallowingProblems",
+      "appetiteLoss",
+      "hygieneSupport",
+      "dressingSupport",
+      "mentalHealthNotes",
+      "diagnosisDepression",
+      "diagnosisDementia",
+      "diagnosisAlzheimer",
+      "restlessness",
+      "dayNightReversed",
+      "wandering",
+      "personalityChange",
+      "aggressiveness",
+      "apathy",
+
+      "houseTasksBalcony",
+      "houseTasksLaundry",
+      "houseTasksCooking",
+      "houseTasksWindows",
+      "houseTasksBedSheets",
+      "houseTasksTidyUp",
+      "houseTasksTrash",
+      "houseTasksDusting",
+      "houseTasksVacuum",
+      "houseTasksMop",
+      "houseTasksCurtains",
+      "petsInHousehold",
+      "otherLanguage",
     ],
     []
   );
 
   const ALLOWED_SET = useMemo(() => new Set(ALLOWED_FIELDS), [ALLOWED_FIELDS]);
 
-function labelize(key) {
-  const lower = key.toLowerCase();
-  if (FIELD_LABELS[lower]) return FIELD_LABELS[lower];
+  // =========================================================
+  // ✅ FIELD LABELS (RENAMED) — used inside Fragebogen + general
+  // =========================================================
+  const FIELD_LABELS = {
+    // Persönliche Daten
+    anrede: "Anrede",
+    firstname: "Vorname",
+    lastname: "Nachname",
 
-  return key
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (c) => c.toUpperCase());
-}
+    // Zu betreuende Person (Einsatzort)
+    carefirstname: "Vorname (zu betreuende Person)",
+    carelastname: "Nachname (zu betreuende Person)",
 
+    // Anfragende Person
+    requestfirstname: "Vorname (anfragende Person)",
+    requestlastname: "Nachname (anfragende Person)",
+
+    role: "Rolle",
+    status: "Status",
+
+    // Kontakt
+    email: "E-Mail",
+    phone: "Telefonnummer",
+    languages: "Sprachen",
+    otherlanguage: "Sonstige Sprache",
+
+    // Adresse (Einsatzort / Betreuung)
+    carestreet: "Strasse",
+    carepostalcode: "PLZ",
+    carecity: "Ort",
+
+    // Service / Vertrag
+    frequency: "Häufigkeit",
+    duration: "Dauer (Std.)",
+    firstdate: "Erstes Einsatzdatum",
+
+    // Notfallkontakt
+    emergencycontactname: "Notfallkontakt Name",
+    emergencycontactphone: "Notfallkontakt Telefon",
+
+    // Sektion 1 – Ankunft / Eingang
+    arrivalkeystored: "Schlüssel ist hinterlegt",
+    arrivalsomeonehome: "Es ist jemand zu Hause",
+    parkingavailable: "Parkplatz vorhanden?",
+    entrancelocation: "Wo befindet sich der Eingang?",
+    additionalinfo: "Zusätzliche Informationen",
+
+    // Sektion 2 – Alltagsbegleitung & Besorgungen
+    doctorvisits: "Begleitung zu Terminen: Arzt",
+    physiovisits: "Begleitung zu Terminen: Physiotherapie",
+    authorityvisits: "Begleitung zu Terminen: Behördengänge",
+    shoppingwithclient: "Begleitung durch die PHC?",
+    shoppingtype: "Art der Einkäufe",
+    postkeywhere: "Wo ist der Briefkastenschlüssel?",
+    postboxwhich: "Welches Postfach?",
+    otheraccompaniments: "Weitere Begleitungen",
+
+    // Sektion 3 – Freizeit & soziale Aktivitäten
+    companionship: "Gesellschaft leisten",
+    jointcooking: "Gemeinsames Kochen",
+    biographywork: "Biografiearbeit",
+    reading: "Vorlesen",
+    cardgames: "Gesellschaftsspiele / Kartenspiele",
+    trips: "Ausflüge & Reisebegleitung",
+
+    // Sektion 4 – Gesundheitsinformationen
+    heightcm: "Grösse (cm)",
+    weightkg: "Gewicht (kg)",
+    mobility: "Zustand / Mobilität",
+    mobilityaids: "Vorhandene Hilfsmittel",
+    caretools: "Pflegehilfsmittel",
+    incontinence: "Inkontinenz",
+    communicationvision: "Sehen",
+    communicationsehen: "Sehen",
+    communicationhearing: "Hören",
+    communicationhören: "Hören",
+    communicationspeech: "Sprechen",
+    communicationsprechen: "Sprechen",
+    hasallergies: "Allergien vorhanden",
+    allergydetails: "Allergiedetails",
+    healthfindings: "Gesundheitliche Hinweise",
+    medicalfindings: "Medizinische Befunde",
+    foodsupport: "Nahrungsaufnahme: Unterstützung nötig",
+    swallowingproblems: "Probleme beim Schlucken",
+    appetiteloss: "Appetitlosigkeit",
+    hygienessupport: "Grundpflege: Körperhygiene",
+    dressingsupport: "Grundpflege: An-/Auskleiden",
+
+    diagnosisdepression: "Diagnose: Depression",
+    diagnosisdementia: "Diagnose: Demenz",
+    diagnosisalzheimer: "Diagnose: Alzheimer",
+    restlessness: "Starke Unruhe",
+    daynightreversed: "Gestörter Tag-/Nachtrhythmus",
+    wandering: "Weglauftendenz",
+    personalitychange: "Persönlichkeitsveränderungen",
+    aggressiveness: "Aggressivität",
+    apathy: "Apathie",
+    mentalhealthnotes: "Geistiger Zustand / Hinweise",
+
+    // Sektion 5 – Haushaltshilfe & Wohnpflege
+    householdrooms: "Anzahl Zimmer",
+    householdpeople: "Wieviel-Personen-Haushalt?",
+    housetasksbalcony: "Balkon- & Blumenpflege",
+    housetaskslaundry: "Waschen / Bügeln / Verräumen",
+    housetaskscooking: "Kochen",
+    housetaskswindows: "Fenster putzen",
+    housetasksbedsheets: "Bettwäsche wechseln",
+    housetaskstidyup: "Aufräumen",
+    housetaskstrash: "Abfall trennen / entsorgen",
+    housetasksdusting: "Abstauben",
+    housetasksvacuum: "Staubsaugen",
+    housetasksmop: "Boden wischen",
+    housetaskscurtains: "Vorhänge reinigen",
+    petsinhousehold: "Haustiere im Haushalt?",
+  };
+
+  function labelize(key) {
+    const lower = (key || "").toLowerCase();
+    if (FIELD_LABELS[lower]) return FIELD_LABELS[lower];
+
+    return (key || "")
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (c) => c.toUpperCase());
+  }
 
   function formatPrimitiveValue(key, value) {
     if (value === null || value === undefined) return "—";
@@ -176,7 +349,10 @@ function labelize(key) {
       k.includes("bemerk") ||
       k.includes("allergy") ||
       k.includes("medical") ||
-      k.includes("health")
+      k.includes("health") ||
+      k.includes("additionalinfo") ||
+      k.includes("otheraccompaniments") ||
+      k.includes("mentalhealthnotes")
     );
   }
 
@@ -202,7 +378,7 @@ function labelize(key) {
     if (type === "boolean") {
       return (
         <select
-          className="w-full max-w-[320px] border rounded-lg px-3 py-2 text-gray-900"
+          className="w-full max-w-[420px] border rounded-lg px-3 py-2 text-gray-900"
           value={formData[fieldKey] === true ? "true" : formData[fieldKey] === false ? "false" : ""}
           onChange={(e) => {
             const v = e.target.value;
@@ -224,7 +400,7 @@ function labelize(key) {
       return (
         <input
           type="number"
-          className="w-full max-w-[320px] border rounded-lg px-3 py-2 text-gray-900"
+          className="w-full max-w-[420px] border rounded-lg px-3 py-2 text-gray-900"
           value={formData[fieldKey] ?? ""}
           onChange={(e) => {
             const raw = e.target.value;
@@ -251,7 +427,7 @@ function labelize(key) {
     return (
       <input
         type="text"
-        className="w-full max-w-[420px] border rounded-lg px-3 py-2 text-gray-900"
+        className="w-full max-w-[520px] border rounded-lg px-3 py-2 text-gray-900"
         value={formData[fieldKey] ?? ""}
         onChange={(e) => setFormData((p) => ({ ...p, [fieldKey]: e.target.value }))}
       />
@@ -306,80 +482,7 @@ function labelize(key) {
     } finally {
       setSaving(false);
     }
-
-
   }
-
-const FIELD_LABELS = {
-  // Persönliche Daten
-  anrede: "Anrede",
-  firstname: "Vorname",
-  lastname: "Nachname",
-
-  carefirstname: "Vorname Betreuungsperson",
-  carelastname: "Nachname Betreuungsperson",
-
-  requestfirstname: "Vorname anfragende Person",
-  requestlastname: "Nachname anfragende Person",
-
-  role: "Rolle",
-  status: "Status",
-
-  // Kontakt
-  email: "E-Mail",
-  phone: "Telefon",
-  languages: "Sprachen",
-
-  // Adresse
-  street: "Strasse",
-  address: "Adresse",
-  postalcode: "PLZ",
-  city: "Ort",
-  kanton: "Kanton",
-
-  carestreet: "Strasse",
-  carepostalcode: " PLZ",
-  carecity: "Ort",
-
-  // Service / Vertrag
-  frequency: "Häufigkeit",
-  duration: "Dauer (Std.)",
-  firstdate: "Erstes Einsatzdatum",
-
-  // Kommunikation
-  communicationvision: "Sehen",
-  communicationsehen: "Sehen",
-  communicationhearing: "Hören",
-  communicationhören: "Hören",
-  communicationspeech: "Sprechen",
-  communicationsprechen: "Sprechen",
-
-  // Allergien & Gesundheit
-  hasallergies: "Allergien vorhanden",
-  allergydetails: "Allergiedetails",
-  healthfindings: "Gesundheitliche Hinweise",
-  medicalfindings: "Medizinische Befunde",
-
-  // Mobilität & Hilfsmittel
-  mobility: "Mobilität",
-  mobilityaids: "Hilfsmittel",
-  caretools: "Pflegehilfsmittel",
-
-  // Haushalt
-  householdrooms: "Anzahl Zimmer",
-  householdpeople: "Personen im Haushalt",
-
-  // Alltag & Freizeit
-  cooking: "Kochen",
-  jointcooking: "Gemeinsames Kochen",
-  shoppingtype: "Einkaufsart",
-  shoppingwithclient: "Einkaufen mit Klient/in",
-  companionship: "Gesellschaft leisten",
-  reading: "Vorlesen",
-  cardgames: "Kartenspiele",
-  trips: "Ausflüge",
-};
-
 
   // =========================================================
   // ✅ AUTO-FIELDS FROM PRISMA (flat primitive fields)
@@ -416,101 +519,190 @@ const FIELD_LABELS = {
   }, [mergedClient]);
 
   // =========================================================
-  // ✅ CATEGORIZE FIELDS (auto) using key patterns
+  // ✅ FRAGEBOGEN SECTIONS (like screenshot: Sektion 1..5)
   // =========================================================
 
-  const categorizedClientFields = useMemo(() => {
-    if (!allClientFields?.length) return {};
+  const QUESTIONNAIRE_SECTIONS = useMemo(
+    () => [
+   {
+  id: "sektion-1",
+  title: "Sektion 1 — Persönliche Angaben (Zusammenfassung)",
+  fields: [
+    // ✅ Zu betreuende Person / Einsatzort
+    { key: "careFirstName", label: "Vorname (zu betreuende Person)" },
+    { key: "careLastName", label: "Nachname (zu betreuende Person)" },
+    { key: "carePhone", label: "Telefonnummer (zu betreuende Person)" },
 
-    const groups = {
-      "Persönliche Daten": [],
-      "Kontakt & Adresse": [],
-      "Service & Vertrag": [],
-      "Kommunikation": [],
-      "Allergien & Gesundheit": [],
-      "Mobilität & Hilfsmittel": [],
-      "Haushalt": [],
-      "Freizeit & Alltag": [],
-      "Sonstiges": [],
-    };
+    // ✅ Kontakt (anfragende Person / account)
+    { key: "phone", label: "Telefonnummer" },
+    { key: "email", label: "E-Mail" },
 
-    const add = (group, field) => groups[group].push(field);
+    // ✅ Adresse Einsatzort
+    { key: "careStreet", label: "Strasse" },
+    { key: "carePostalCode", label: "PLZ" },
+    { key: "careCity", label: "Ort" },
 
-    for (const f of allClientFields) {
-      const k = (f.key || "").toLowerCase();
+    // ✅ Anfragende Person
+    { key: "requestFirstName", label: "Vorname (anfragende Person)" },
+    { key: "requestLastName", label: "Nachname (anfragende Person)" },
+    { key: "requestPhone", label: "Telefonnummer (anfragende Person)" },
+    { key: "requestEmail", label: "E-Mail (anfragende Person)" },
 
-      // Person
-      if (["anrede", "firstname", "lastname", "role", "status"].some((x) => k.includes(x))) {
-        add("Persönliche Daten", f);
-        continue;
-      }
+    // ✅ Ankunftsbedingungen / Eingang
+    { key: "careArrivalConditions", label: "Ankunftsbedingungen" },
+    { key: "careHasParking", label: "Parkplatz vorhanden?" },
+    { key: "mailboxKeyLocation", label: "Wo ist der Briefkastenschlüssel?" },
+    { key: "postfach", label: "Welches Postfach?" },
+    { key: "careEntrance", label: "Wo befindet sich der Eingang?" },
+    { key: "careEntranceDetails", label: "Eingang Details" },
 
-      // Contact & Address
-      if (
-        [
-          "email",
-          "phone",
-          "street",
-          "address",
-          "postal",
-          "city",
-          "kanton",
-          "plz",
-          "carestreet",
-          "carepostal",
-          "carecity",
-        ].some((x) => k.includes(x))
-      ) {
-        add("Kontakt & Adresse", f);
-        continue;
-      }
+    // ✅ Additional info
+    { key: "specialRequests", label: "Zusätzliche Informationen / Wünsche" },
+  ],
+}
+,
+    {
+  id: "sektion-2",
+  title: "Sektion 2 — Alltagsbegleitung & Besorgungen",
+  fields: [
+    // ✅ Begleitung zu Terminen (Arzt / Physiotherapie / Behördengänge)
+    { key: "appointmentTypes", label: "Begleitung zu Terminen" },
+    { key: "appointmentOther", label: "Sonstiges (Termine)" },
 
-      // Service / contract / meta
-      if (["frequency", "duration", "firstdate", "createdat", "updatedat"].some((x) => k.includes(x))) {
-        add("Service & Vertrag", f);
-        continue;
-      }
+    // ✅ Einkäufe
+    { key: "shoppingWithClient", label: "Begleitung durch die PHC?" },
+    { key: "shoppingItems", label: "Art der Einkäufe" },
 
-      // Communication
-      if (["communication", "sehen", "hören", "sprechen", "vision", "hearing", "speech"].some((x) => k.includes(x))) {
-        add("Kommunikation", f);
-        continue;
-      }
+    // ✅ Postgänge
+    { key: "mailboxKeyLocation", label: "Wo ist der Briefkastenschlüssel?" },
+    { key: "postfach", label: "Welches Postfach?" },
 
-      // Allergies & Health
-      if (["allerg", "health", "medical", "diagnos", "findings"].some((x) => k.includes(x))) {
-        add("Allergien & Gesundheit", f);
-        continue;
-      }
+    // ✅ Weitere Begleitungen
+    { key: "additionalAccompaniment", label: "Weitere Begleitungen" },
+  ],
+}
+,
+  {
+  id: "sektion-3",
+  title: "Sektion 3 — Freizeit & soziale Aktivitäten",
+  fields: [
+    { key: "companionship", label: "Gesellschaft leisten" },
+    { key: "jointCooking", label: "Gemeinsames Kochen" },
+    { key: "biographyWork", label: "Biografiearbeit" },
+    { key: "reading", label: "Vorlesen" },
+    { key: "cardGames", label: "Gesellschaftsspiele" },
+    { key: "trips", label: "Ausflüge & Reisebegleitung" },
+  ],
+}
+,
+{
+  id: "sektion-4",
+  title: "Sektion 4 — Gesundheitsinformationen",
+  fields: [
+    // ✅ Körperliche Unterstützung
+    { key: "height", label: "Grösse (cm)" },
+    { key: "weight", label: "Gewicht (kg)" },
 
-      // Mobility & tools
-      if (["mobility", "aids", "caretools", "roll", "gehstock", "rollstuhl"].some((x) => k.includes(x))) {
-        add("Mobilität & Hilfsmittel", f);
-        continue;
-      }
+    { key: "physicalState", label: "Zustand" },
 
-      // Household
-      if (["household", "room", "zimmer", "people", "haushalt"].some((x) => k.includes(x))) {
-        add("Haushalt", f);
-        continue;
-      }
+    // ✅ Vorhandene Hilfsmittel
+    { key: "mobilityAids", label: "Vorhandene Hilfsmittel" },
+    { key: "toolsAvailable", label: "Pflegehilfsmittel" },
+    { key: "toolsOther", label: "Pflegehilfsmittel (Sonstige)" },
 
-      // Everyday / leisure
-      if (["cooking", "jointcooking", "shopping", "companionship", "reading", "card", "trip"].some((x) => k.includes(x))) {
-        add("Freizeit & Alltag", f);
-        continue;
-      }
+    // ✅ Mobilität
+    { key: "mobility", label: "Mobilität" },
 
-      add("Sonstiges", f);
+    // ✅ Inkontinenz
+    { key: "incontinence", label: "Inkontinenz" },
+    { key: "incontinenceTypes", label: "Art der Inkontinenz" },
+
+    // ✅ Kommunikation
+    { key: "communicationVision", label: "Sehen" },
+    { key: "communicationHearing", label: "Hören" },
+    { key: "communicationSpeech", label: "Sprechen" },
+
+    // ✅ Nahrungsaufnahme
+    { key: "foodSupport", label: "Unterstützung notwendig" },
+    { key: "foodSupportTypes", label: "Art der Unterstützung" },
+
+    // ✅ Grundpflege
+    { key: "basicCare", label: "Grundpflege" },
+    { key: "basicCareNeeds", label: "Grundpflege Bedarf" },
+    { key: "basicCareOtherField", label: "Grundpflege Sonstiges" },
+
+    // ✅ Geistiger Zustand – Diagnosen
+    { key: "mentalDiagnoses", label: "Diagnosen" },
+
+    // ✅ Verhaltensmerkmale
+    { key: "behaviorTraits", label: "Verhaltensmerkmale" },
+
+    // ✅ Gesundheitsbefunde / Hinweise
+    { key: "medicalFindings", label: "Gesundheitsbefunde" },
+    { key: "healthFindings", label: "Gesundheitliche Hinweise" },
+  ],
+}
+,
+  {
+  id: "sektion-5",
+  title: "Sektion 5 — Haushaltshilfe & Wohnpflege",
+  fields: [
+    // ✅ Allgemeines
+    { key: "householdRooms", label: "Anzahl Zimmer" },
+    { key: "householdPeople", label: "Wieviel-Personen-Haushalt?" },
+
+    // ✅ Tätigkeiten (checkbox list in UI) — stored as Json
+    { key: "householdTasks", label: "Ihre Tätigkeiten aus" },
+
+    // ✅ Sonstige Angaben
+    { key: "languages", label: "Wunschsprache der Betreuungsperson" },
+    { key: "otherLanguage", label: "Sonstige Sprache" },
+
+    { key: "pets", label: "Haustiere im Haushalt?" },
+
+    // ✅ Allergien (photo has dropdown)
+    { key: "hasAllergies", label: "Allergien" },
+    { key: "allergyWhich", label: "Welche Allergien?" },
+    { key: "allergyDetails", label: "Allergie Details" },
+  ],
+}
+
+    ],
+    []
+  );
+
+  const questionnaireUsedKeys = useMemo(() => {
+    const s = new Set();
+    for (const sec of QUESTIONNAIRE_SECTIONS) {
+      for (const f of sec.fields) s.add(f.key);
     }
+    return s;
+  }, [QUESTIONNAIRE_SECTIONS]);
 
-    // remove empty groups
-    const cleaned = {};
-    for (const [name, arr] of Object.entries(groups)) {
-      if (arr.length) cleaned[name] = arr;
-    }
-    return cleaned;
-  }, [allClientFields]);
+  const remainingQuestionnaireFields = useMemo(() => {
+    // show any other primitive fields that are NOT already displayed in Sektion 1..5
+    // (so you "don't lose" anything)
+    return (allClientFields || []).filter((f) => {
+      const k = f.key;
+      if (EXCLUDE_KEYS.has(k)) return false;
+      if (questionnaireUsedKeys.has(k)) return false;
+
+      // keep Prisma/meta + other fields too, but this "Weitere Felder" stays under Fragebogen
+      // (so your request "dont remove something" is respected)
+      return true;
+    });
+  }, [allClientFields, questionnaireUsedKeys]);
+
+  function FieldRow({ label, fieldKey }) {
+    return (
+      <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6 items-start">
+        <strong className="text-gray-700">{label}</strong>
+        <div className="flex justify-end min-w-0">
+          <InputField fieldKey={fieldKey} value={mergedClient?.[fieldKey]} />
+        </div>
+      </li>
+    );
+  }
 
   // =========================================================
   // ✅ RETURNS LAST
@@ -564,81 +756,70 @@ const FIELD_LABELS = {
         <div className="bg-white rounded-xl shadow p-8 border space-y-10">
           <h2 className="text-2xl font-bold text-[#04436F]">Funnel & Persönliche Infos</h2>
 
-<div className="flex flex-col gap-8">
-<section className="bg-gray-50 rounded-xl border p-6 overflow-hidden">
-  <h3 className="text-xl font-semibold text-[#04436F] mb-5">
-    Persönliche Infos
-  </h3>
+          <div className="flex flex-col gap-8">
+            <section className="bg-gray-50 rounded-xl border p-6 overflow-hidden">
+              <h3 className="text-xl font-semibold text-[#04436F] mb-5">Persönliche Infos</h3>
 
-  <ul className="grid gap-y-4 text-gray-800">
-    <li className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-4 items-start">
-      <span className="text-sm font-medium text-gray-500">E-Mail</span>
-      <div className="w-full min-w-0 break-words">
-        <InputField
-          fieldKey="email"
-          value={mergedClient?.email}
-          className="w-full"
-        />
-      </div>
-    </li>
+              <ul className="grid gap-y-4 text-gray-800">
+                <li className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-4 items-start">
+                  <span className="text-sm font-medium text-gray-500">E-Mail</span>
+                  <div className="w-full min-w-0 break-words">
+                    <InputField fieldKey="email" value={mergedClient?.email} className="w-full" />
+                  </div>
+                </li>
 
-    <li className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-4 items-start">
-      <span className="text-sm font-medium text-gray-500">Telefon</span>
-      <div className="w-full min-w-0">
-        <InputField
-          fieldKey="phone"
-          value={mergedClient?.phone}
-          className="w-full"
-        />
-      </div>
-    </li>
+                <li className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-4 items-start">
+                  <span className="text-sm font-medium text-gray-500">Telefon</span>
+                  <div className="w-full min-w-0">
+                    <InputField fieldKey="phone" value={mergedClient?.phone} className="w-full" />
+                  </div>
+                </li>
 
-    <li className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-4 items-start">
-      <span className="text-sm font-medium text-gray-500">Sprachen</span>
-      <div className="w-full min-w-0">
-        <InputField
-          fieldKey="languages"
-          value={mergedClient?.languages}
-          className="w-full"
-        />
-      </div>
-    </li>
-  </ul>
-</section>
+                <li className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-4 items-start">
+                  <span className="text-sm font-medium text-gray-500">Sprachen</span>
+                  <div className="w-full min-w-0">
+                    <InputField
+                      fieldKey="languages"
+                      value={mergedClient?.languages}
+                      className="w-full"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </section>
 
+            <section>
+              <h3 className="text-xl font-semibold text-gray-700 mb-3">Adresse</h3>
 
-<section>
-  <h3 className="text-xl font-semibold text-gray-700 mb-3">Adresse</h3>
+              <ul className="space-y-3 text-gray-800">
+                <li className="grid grid-cols-[160px_1fr] gap-4">
+                  <strong className="text-gray-700">Strasse:</strong>
+                  <div className="break-words">
+                    <InputField fieldKey="careStreet" value={mergedClient?.careStreet} />
+                  </div>
+                </li>
 
-  <ul className="space-y-3 text-gray-800">
-    <li className="grid grid-cols-[160px_1fr] gap-4">
-      <strong className="text-gray-700">Strasse:</strong>
-      <div className="break-words">
-        <InputField fieldKey="careStreet" value={mergedClient?.careStreet} />
-      </div>
-    </li>
+                <li className="grid grid-cols-[160px_1fr] gap-4">
+                  <strong className="text-gray-700">PLZ:</strong>
+                  <div>
+                    <InputField fieldKey="carePostalCode" value={mergedClient?.carePostalCode} />
+                  </div>
+                </li>
 
-    <li className="grid grid-cols-[160px_1fr] gap-4">
-      <strong className="text-gray-700">PLZ:</strong>
-      <div>
-        <InputField fieldKey="carePostalCode" value={mergedClient?.carePostalCode} />
-      </div>
-    </li>
-
-    <li className="grid grid-cols-[160px_1fr] gap-4">
-      <strong className="text-gray-700">Ort:</strong>
-      <div>
-        <InputField fieldKey="careCity" value={mergedClient?.careCity} />
-      </div>
-    </li>
-  </ul>
-</section>
-
+                <li className="grid grid-cols-[160px_1fr] gap-4">
+                  <strong className="text-gray-700">Ort:</strong>
+                  <div>
+                    <InputField fieldKey="careCity" value={mergedClient?.careCity} />
+                  </div>
+                </li>
+              </ul>
+            </section>
 
             <section>
               <h3 className="text-xl font-semibold text-gray-700 mb-3">Notfallkontakt</h3>
               <ul className="space-y-3 text-gray-800">
-                     <li className="grid grid-cols-[160px_1fr] items-center gap-4">                  <strong className="min-w-[140px] text-gray-700">Name:</strong>
+                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
+                  <strong className="min-w-[140px] text-gray-700">Name:</strong>
                   <div className="flex-1 flex justify-end">
                     <InputField
                       fieldKey="emergencyContactName"
@@ -647,7 +828,8 @@ const FIELD_LABELS = {
                   </div>
                 </li>
 
-                     <li className="grid grid-cols-[160px_1fr] items-center gap-4">                  <strong className="min-w-[140px] text-gray-700">Telefon:</strong>
+                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
+                  <strong className="min-w-[140px] text-gray-700">Telefon:</strong>
                   <div className="flex-1 flex justify-end">
                     <InputField
                       fieldKey="emergencyContactPhone"
@@ -681,19 +863,22 @@ const FIELD_LABELS = {
             <section>
               <h3 className="text-xl font-semibold text-gray-700 mb-3">Service Präferenzen</h3>
               <ul className="space-y-3 text-gray-800">
-                     <li className="grid grid-cols-[160px_1fr] items-center gap-4">                  <strong className="min-w-[140px] text-gray-700">Erstes Datum:</strong>
+                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
+                  <strong className="min-w-[140px] text-gray-700">Erstes Datum:</strong>
                   <span className="text-gray-900 break-words text-right flex-1">
                     {formatDate(client.firstDate)}
                   </span>
                 </li>
 
-                     <li className="grid grid-cols-[160px_1fr] items-center gap-4">                  <strong className="min-w-[140px] text-gray-700">Häufigkeit:</strong>
+                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
+                  <strong className="min-w-[140px] text-gray-700">Häufigkeit:</strong>
                   <div className="flex-1 flex justify-end">
                     <InputField fieldKey="frequency" value={mergedClient?.frequency} />
                   </div>
                 </li>
 
-                     <li className="grid grid-cols-[160px_1fr] items-center gap-4">                  <strong className="min-w-[140px] text-gray-700">Dauer:</strong>
+                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
+                  <strong className="min-w-[140px] text-gray-700">Dauer:</strong>
                   <div className="flex-1 flex justify-end">
                     <InputField fieldKey="duration" value={mergedClient?.duration} />
                   </div>
@@ -730,25 +915,18 @@ const FIELD_LABELS = {
               </ul>
             </section>
 
-            {/* ✅ NEW: Prisma fields, categorized */}
+            {/* ✅ NEW: Fragebogen split into Sektion 1..5 (like screenshot) */}
             <section className="md:col-span-2">
               <h3 className="text-xl font-semibold text-gray-700 mb-3">Fragebogen</h3>
 
-              <div className="space-y-5">
-                {Object.entries(categorizedClientFields).map(([category, fields]) => (
-                  <div key={category} className="bg-gray-50 p-6 rounded-xl border">
-                    <h4 className="text-lg font-semibold text-[#04436F] mb-4">
-                      {category}
-                    </h4>
+              <div className="space-y-6">
+                {QUESTIONNAIRE_SECTIONS.map((sec) => (
+                  <div key={sec.id} className="bg-gray-50 p-6 rounded-xl border">
+                    <h4 className="text-lg font-semibold text-[#04436F] mb-4">{sec.title}</h4>
 
                     <ul className="space-y-3 text-gray-800">
-                      {fields.map((f) => (
-                        <li key={f.key} className="flex items-start justify-between gap-6">
-                          <strong className="min-w-[240px] text-gray-700">{f.label}:</strong>
-                          <div className="text-right flex-1 flex justify-end">
-                            <InputField fieldKey={f.key} value={f.rawValue} />
-                          </div>
-                        </li>
+                      {sec.fields.map((f) => (
+                        <FieldRow key={f.key} label={f.label} fieldKey={f.key} />
                       ))}
                     </ul>
 
@@ -759,6 +937,8 @@ const FIELD_LABELS = {
                     )}
                   </div>
                 ))}
+
+             
               </div>
             </section>
           </div>
