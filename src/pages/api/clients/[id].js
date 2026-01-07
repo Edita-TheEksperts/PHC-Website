@@ -64,52 +64,102 @@ export default async function handler(req, res) {
        * Ruajmë vetëm field-at primitive që lejojmë të editohen
        * (jo relations, jo password, jo stripe, etj.)
        */
-      const ALLOWED_FIELDS = [
-        "anrede",
-        "firstName",
-        "lastName",
-        "email",
-        "phone",
-        "languages",
+const ALLOWED_FIELDS = [
+  // Basic
+  "anrede",
+  "firstName",
+  "lastName",
+  "email",
+  "phone",
+  "languages",
+  "otherLanguage",
 
-        "careStreet",
-        "carePostalCode",
-        "careCity",
+  // Address / Care
+  "careStreet",
+  "carePostalCode",
+  "careCity",
+  "carePhone",
+  "careHasParking",
+  "careEntrance",
+  "careEntranceDetails",
+  "mailboxKeyLocation",
+  "mailboxDetails",
 
-        "frequency",
-        "duration",
+  // Request person
+  "requestFirstName",
+  "requestLastName",
+  "requestEmail",
+  "requestPhone",
 
-        "emergencyContactName",
-        "emergencyContactPhone",
+  // Questionnaire – Health
+  "height",
+  "weight",
+  "physicalState",
+  "mobility",
+  "mobilityAids",
 
-        // Fragebogen (nëse do t’i editosh)
-        "hasAllergies",
-        "allergyDetails",
-        "healthFindings",
-        "medicalFindings",
-        "mobility",
-        "mobilityAids",
-        "householdRooms",
-        "householdPeople",
-        "cooking",
-        "jointCooking",
-        "shoppingType",
-        "shoppingWithClient",
-        "communicationVision",
-        "communicationSehen",
-        "communicationHearing",
-        "communicationHören",
-        "communicationSpeech",
-        "communicationSprechen",
-      ];
+  // ✅ Pflegehilfsmittel (PRISMA REAL)
+  "toolsAvailable",
+  "toolsOther",
+  "aids",
+  "aidsOther",
+
+  // Inkontinenz / Ernährung
+  "incontinence",
+  "incontinenceTypes",
+  "foodSupport",
+  "foodSupportTypes",
+
+  // Medical / Health
+  "medicalFindings",
+  "healthFindings",
+  "allergyDetails",
+  "hasAllergies",
+
+  // Mental / Verhalten
+  "mentalDiagnoses",
+  "behaviorTraits",
+
+  // Household
+  "householdRooms",
+  "householdPeople",
+  "householdTasks",
+  "pets",
+
+  // Activities
+  "shoppingType",
+  "shoppingWithClient",
+  "shoppingItems",
+  "jointCooking",
+  "cooking",
+  "companionship",
+  "biographyWork",
+  "reading",
+  "cardGames",
+  "trips",
+
+  // Appointments
+  "appointmentTypes",
+  "appointmentOther",
+  "additionalAccompaniment",
+
+  // Emergency
+  "emergencyContactName",
+  "emergencyContactPhone",
+
+  // Misc
+  "specialRequests",
+];
+
+
 
       // 👉 Marrim vetëm field-at e lejuara
       const updateData = {};
-      for (const key of ALLOWED_FIELDS) {
-        if (key in data) {
-          updateData[key] = data[key];
-        }
-      }
+for (const key of ALLOWED_FIELDS) {
+  if (key in data && data[key] !== undefined) {
+    updateData[key] = data[key];
+  }
+}
 
       const updatedClient = await prisma.user.update({
         where: { id: String(id) },

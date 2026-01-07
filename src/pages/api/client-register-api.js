@@ -24,6 +24,19 @@ export default async function handler(req, res) {
       subServices = [],
       anrede,
       kanton,
+
+
+  // ✅ CARE PERSON
+  careFirstName,
+  careLastName,
+  carePhone,
+
+  // ✅ REQUEST PERSON  🔥
+  requestFirstName,
+  requestLastName,
+  requestEmail,
+  requestPhone,
+
       schedules = [],
       paymentIntentId,
 
@@ -74,10 +87,13 @@ export default async function handler(req, res) {
     const toStr = (v) => {
       if (v === undefined || v === null) return null;
       if (Array.isArray(v)) return v.join(", ");
-      if (typeof v === "string") {
-        const t = v.trim();
-        return t === "" || t === "—" ? null : t;
-      }
+const toStrAllowEmpty = (v) => {
+  if (v === undefined || v === null) return null;
+  if (Array.isArray(v)) return v.join(", ");
+  if (typeof v === "string") return v.trim();
+  return String(v);
+};
+
       return String(v);
     };
 
@@ -156,7 +172,7 @@ export default async function handler(req, res) {
       // Allergien & Gesundheit
       hasAllergies: toBool(hasAllergies),
       allergyDetails: toStr(allergyDetails),
-      healthFindings: toStr(healthFindings),
+healthFindings: healthFindings ?? "",
       medicalFindings: toStr(medicalFindings),
 
       // Mobilität & Haushalt
@@ -209,11 +225,16 @@ export default async function handler(req, res) {
           frequency: toStr(frequency) ?? "einmalig",
           duration: toInt(duration),
           firstDate: parsedDate,
-
+  careFirstName: toStr(careFirstName),
+  careLastName: toStr(careLastName),
+  carePhone: toStr(carePhone),
           careStreet: toStr(street),
           carePostalCode: toStr(postalCode),
           careCity: toStr(city),
-
+   requestFirstName: toStr(requestFirstName),
+    requestLastName: toStr(requestLastName),
+    requestEmail: toStr(requestEmail),
+    requestPhone: toStr(requestPhone),
           paymentIntentId,
           totalPayment,
           resetToken,

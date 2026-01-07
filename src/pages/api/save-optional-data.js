@@ -40,18 +40,24 @@ function serializeArrays(data) {
 
 const allowedUserFields = new Set([
   "frequency", "duration", "firstDate", "email", "address",
-  "mobilityAids", "transportOption", "careFirstName", "careLastName", "carePhone",
+  "mobilityAids","mobility", "transportOption", "careFirstName", "careLastName", "carePhone",
   "careStreet", "careEntrance", "carePostalCode", "careCity", "careEntranceDetails",
   "careArrivalConditions", "careHasParking", "appointmentTypes", "appointmentOther",
   "shoppingWithClient", "shoppingItems", "mailboxKeyLocation", "mailboxDetails",
-  "additionalAccompaniment", "companionshipSupport", "jointCooking", "biographyWork",
+  "additionalAccompaniment","companionship", "companionshipSupport", "jointCooking", "biographyWork",
   "techAvailable", "allergyCheck", "allergyWhich", "reading", "cardGames", "trips",
   "height", "weight", "physicalState", "toolsAvailable", "toolsOther", "incontinenceTypes",
   "communicationVision", "communicationHearing", "communicationSpeech", "foodSupportTypes",
   "basicCareNeeds", "basicCareOtherField", "healthPromotions", "healthPromotionOther",
   "mentalSupportNeeded", "mentalDiagnoses", "behaviorTraits", "healthFindings",
   "languages", "pets",  "paymentIntentId", "totalPayment",
-  "householdRooms", "householdPeople", "householdTasks", "cooking",
+  "householdRooms", "householdPeople", "householdTasks", "cooking",  "requestFirstName",
+  "requestLastName",
+  "requestEmail",
+  "requestPhone",
+    "communicationSehen",
+  "communicationHören",
+  "communicationSprechen",
 ]);
 
 function filterValidFields(data) {
@@ -72,6 +78,10 @@ function mapFrontendToBackend(formData) {
     street: "careStreet",
     entranceLocation: "careEntrance",
     postalCode: "carePostalCode",
+      requestFirstName: "requestFirstName",
+  requestLastName: "requestLastName",
+  requestEmail: "requestEmail",
+  requestPhone: "requestPhone",
     city: "careCity",
     entranceDescription: "careEntranceDetails",
     arrivalConditions: "careArrivalConditions",
@@ -85,6 +95,7 @@ function mapFrontendToBackend(formData) {
 
     shoppingWithClient: "shoppingWithClient",
     shoppingItems: "shoppingItems",
+    mobility: "mobility",
 
     mailboxKeyLocation: "mailboxKeyLocation",
     mailboxDetails: "mailboxDetails",

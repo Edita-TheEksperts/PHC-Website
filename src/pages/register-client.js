@@ -498,7 +498,7 @@ kanton: form.kanton || "",
     expiryDate: form.expiryDate || "",
     cvc: form.cvc || "",
     languages: form.languages || "",
-    hasPets: form.hasPets || "Nein",
+    hasPets: form.pets || "Nein",
     petDetails: form.hasPets === "Ja" ? form.petDetails || "" : "",
     services: form.services || [], 
     subServices: form.subServices || [], 
@@ -522,7 +522,7 @@ jointCooking: form.cookingTogether || "",
     hasTech: form.hasTech || "",
     reading: form.reading || "",
     cardGames: form.cardGames || "",
-    hasAllergies: form.hasAllergies || "",
+      hasAllergies: form.hasAllergies || "",
     allergyDetails: form.allergyDetails || "",
 trips: Array.isArray(form.trips)
   ? form.trips.join(", ")
@@ -544,6 +544,8 @@ trips: Array.isArray(form.trips)
     diagnoses: form.diagnoses || [],
     behaviorTraits: form.behaviorTraits || [],
     healthFindings: form.healthFindings || "",
+     medicalFindings: form.healthFindings || "", // 🔥 FIX
+
     roomCount: Number(form.roomCount) || null,
     householdSize: Number(form.householdSize) || null,
     paymentIntentId: form.paymentIntentId || "",
@@ -1081,6 +1083,9 @@ const res = await fetch("/api/client-register-api", {
 
     // 🔵 Optional fields
     anrede: form.anrede || "",
+    communicationSehen: form.communicationSehen || "",
+communicationHören: form.communicationHören || "",
+communicationSprechen: form.communicationSprechen || "",
     kanton: form.kanton || "",
 
     // ----------------------------------------------------
@@ -1093,7 +1098,7 @@ languages: Array.isArray(form.languages)
     emergencyContactPhone: form.emergencyContactPhone || "",
 
     // Allergies & Health
-    hasAllergies: form.hasAllergies || "",
+    hasAllergies: form.allergies || "",
     allergyCheck: form.allergyCheck || "",
     allergies: form.allergies || "",
     allergyDetails: form.allergyDetails || "",
@@ -1128,6 +1133,10 @@ mobilityAids: Array.isArray(form.mobilityAids)
     communicationHören: form.communicationHören || "",
     communicationSpeech: form.communicationSpeech || "",
     communicationSprechen: form.communicationSprechen || "",
+    incontinence: Array.isArray(form.incontinence)
+  ? form.incontinence.join(", ")
+  : "",
+
   }),
 });
 
@@ -1209,10 +1218,16 @@ mobilityAids: Array.isArray(form.mobilityAids)
       const res = await fetch("/api/save-optional-data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          optionalData, 
-        }),
+body: JSON.stringify({
+  userId,
+  optionalData,
+  // ✅ add these explicitly (or inside optionalData, but keep consistent with API)
+  requestFirstName: form.requestFirstName || "",
+  requestLastName: form.requestLastName || "",
+  requestEmail: form.requestEmail || "",
+  requestPhone: form.requestPhone || "",
+})
+,
       });
       const result = await res.json();
       if (res.ok) {
@@ -3611,13 +3626,14 @@ onChange={(date) => {
                   </div>
                  <h3 className="font-medium mb-1">Haustiere im Haushalt?</h3>
 <div className="mb-4">
-  <select
-    name="hasPets"
+<select
+   name="hasPets"
     value={form.hasPets || ""}
     onChange={handleChange}
     className={inputClass}
     required
   >
+
     <option value="">Bitte auswählen</option>
     <option value="Ja">Ja</option>
     <option value="Nein">Nein</option>
@@ -3747,10 +3763,29 @@ onChange={(date) => {
 {step === 4 ? (
   <button
     type="button"
-    onClick={() => {
-      if (!validateStep()) return; 
+    onClick={async () => {
+      // 1️⃣ Validim i fushave të Step 4
+      if (!validateStep()) return;
+
       setFormError("");
-      setStep(5);
+
+      try {
+        // 2️⃣ Shfaq loading (opsionale por e sigurt)
+        setLoadingStep4(true);
+
+        // 🔥 3️⃣ FIX KRYESOR: RUAN PYETËSORIN NË DB
+        await handleOptionalSubmit();
+
+        // 4️⃣ Kalon në hapin final
+        setStep(5);
+      } catch (err) {
+        console.error("❌ Fehler beim Speichern der Zusatzdaten:", err);
+        setFormError(
+          "Beim Speichern der zusätzlichen Angaben ist ein Fehler aufgetreten."
+        );
+      } finally {
+        setLoadingStep4(false);
+      }
     }}
     className="px-6 py-3 bg-[#B99B5F] text-white rounded-lg disabled:opacity-50"
     disabled={loadingStep4}
@@ -3809,6 +3844,7 @@ onChange={(date) => {
   <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
   <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
+    
     <SummaryRow label="Häufigkeit" value={form.frequency} />
     <SummaryRow
       label="Dauer"

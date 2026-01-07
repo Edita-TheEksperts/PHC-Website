@@ -1,6 +1,7 @@
 // pages/admin/clients/[id].jsx
+import { useEffect, useMemo, useState, memo } from "react";
+
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
 
 export default function ClientDetails() {
   const router = useRouter();
@@ -83,106 +84,136 @@ export default function ClientDetails() {
     "vacations",
   ]);
 
-  // ✅ SAME LIST AS API (so frontend only edits what backend accepts)
-  const ALLOWED_FIELDS = useMemo(
-    () => [
-      "anrede",
-      "firstName",
-      "lastName",
-      "email",
-      "phone",
-      "languages",
+const ALLOWED_FIELDS = useMemo(
+  () => [
+    // =====================
+    // Basic / Identity
+    // =====================
+    "anrede",
+    "firstName",
+    "lastName",
+    "email",
+    "phone",
+    "languages",
+    "otherLanguage",
 
-      "careStreet",
-      "carePostalCode",
-      "careCity",
+    // =====================
+    // Request Person
+    // =====================
+    "requestFirstName",
+    "requestLastName",
+    "requestEmail",
+    "requestPhone",
 
-      "frequency",
-      "duration",
+    // =====================
+    // Care / Address
+    // =====================
+    "careFirstName",
+    "careLastName",
+    "carePhone",
+    "careStreet",
+    "carePostalCode",
+    "careCity",
+    "careArrivalConditions",
+    "careHasParking",
+    "careEntrance",
+    "careEntranceDetails",
+    "mailboxKeyLocation",
+    "mailboxDetails",
 
-      "emergencyContactName",
-      "emergencyContactPhone",
+    // =====================
+    // Service / Contract
+    // =====================
+    "frequency",
+    "duration",
 
-      // Fragebogen
-      "hasAllergies",
-      "allergyDetails",
-      "healthFindings",
-      "medicalFindings",
-      "mobility",
-      "mobilityAids",
-      "householdRooms",
-      "householdPeople",
-      "cooking",
-      "jointCooking",
-      "shoppingType",
-      "shoppingWithClient",
-      "communicationVision",
-      "communicationSehen",
-      "communicationHearing",
-      "communicationHören",
-      "communicationSpeech",
-      "communicationSprechen",
+    // =====================
+    // Health – Physical
+    // =====================
+    "height",
+    "weight",
+    "physicalState",
+    "mobility",
+    "mobilityAids",
 
-      // (optional extra questionnaire keys if your backend has them)
-      "careFirstName",
-      "careLastName",
-      "requestFirstName",
-      "requestLastName",
-      "arrivalKeyStored",
-      "arrivalSomeoneHome",
-      "parkingAvailable",
-      "entranceLocation",
-      "additionalInfo",
+    // Pflegehilfsmittel (PRISMA)
+    "toolsAvailable",
+    "toolsOther",
 
-      "doctorVisits",
-      "physioVisits",
-      "authorityVisits",
-      "postKeyWhere",
-      "postBoxWhich",
-      "otherAccompaniments",
+    // Inkontinenz & Ernährung
+    "incontinence",
+    "incontinenceTypes",
+    "foodSupport",
+    "foodSupportTypes",
 
-      "companionship",
-      "biographyWork",
-      "reading",
-      "cardgames",
-      "trips",
+    // =====================
+    // Health – Communication
+    // =====================
+    "communicationSehen",
+    "communicationHören",
+    "communicationSprechen",
 
-      "heightCm",
-      "weightKg",
-      "careTools",
-      "incontinence",
-      "foodSupport",
-      "swallowingProblems",
-      "appetiteLoss",
-      "hygieneSupport",
-      "dressingSupport",
-      "mentalHealthNotes",
-      "diagnosisDepression",
-      "diagnosisDementia",
-      "diagnosisAlzheimer",
-      "restlessness",
-      "dayNightReversed",
-      "wandering",
-      "personalityChange",
-      "aggressiveness",
-      "apathy",
+    // =====================
+    // Health – Medical
+    // =====================
+    "medicalFindings",
+    "healthFindings",
+    "hasAllergies",
+    "allergyDetails",
+    "allergyWhich",
 
-      "houseTasksBalcony",
-      "houseTasksLaundry",
-      "houseTasksCooking",
-      "houseTasksWindows",
-      "houseTasksBedSheets",
-      "houseTasksTidyUp",
-      "houseTasksTrash",
-      "houseTasksDusting",
-      "houseTasksVacuum",
-      "houseTasksMop",
-      "houseTasksCurtains",
-      "petsInHousehold",
-      "otherLanguage",
-    ],
-    []
-  );
+    // =====================
+    // Mental / Behaviour
+    // =====================
+    "mentalDiagnoses",
+    "behaviorTraits",
+    "mentalHealthNotes",
+    "dayNightReversed",
+    "personalityChange",
+
+    // =====================
+    // Household
+    // =====================
+    "householdRooms",
+    "householdPeople",
+    "householdTasks",
+    "pets",
+
+    // =====================
+    // Activities / Freizeit
+    // =====================
+    "companionship",
+    "jointCooking",
+    "cooking",
+    "biographyWork",
+    "reading",
+    "cardGames",
+    "trips",
+
+    // =====================
+    // Shopping / Appointments
+    // =====================
+    "shoppingType",
+    "shoppingWithClient",
+    "shoppingItems",
+    "appointmentTypes",
+    "appointmentOther",
+    "additionalAccompaniment",
+
+    // =====================
+    // Emergency
+    // =====================
+    "emergencyContactName",
+    "emergencyContactPhone",
+
+    // =====================
+    // Misc
+    // =====================
+    "specialRequests",
+  ],
+  []
+);
+
 
   const ALLOWED_SET = useMemo(() => new Set(ALLOWED_FIELDS), [ALLOWED_FIELDS]);
 
@@ -194,10 +225,9 @@ export default function ClientDetails() {
     anrede: "Anrede",
     firstname: "Vorname",
     lastname: "Nachname",
+firstName: "Vorname (zu betreuende Person)",
+lastName: "Nachname (zu betreuende Person)",
 
-    // Zu betreuende Person (Einsatzort)
-    carefirstname: "Vorname (zu betreuende Person)",
-    carelastname: "Nachname (zu betreuende Person)",
 
     // Anfragende Person
     requestfirstname: "Vorname (anfragende Person)",
@@ -222,9 +252,7 @@ export default function ClientDetails() {
     duration: "Dauer (Std.)",
     firstdate: "Erstes Einsatzdatum",
 
-    // Notfallkontakt
-    emergencycontactname: "Notfallkontakt Name",
-    emergencycontactphone: "Notfallkontakt Telefon",
+  
 
     // Sektion 1 – Ankunft / Eingang
     arrivalkeystored: "Schlüssel ist hinterlegt",
@@ -240,7 +268,7 @@ export default function ClientDetails() {
     shoppingwithclient: "Begleitung durch die PHC?",
     shoppingtype: "Art der Einkäufe",
     postkeywhere: "Wo ist der Briefkastenschlüssel?",
-    postboxwhich: "Welches Postfach?",
+    mailboxDetails: "Welches Postfach?",
     otheraccompaniments: "Weitere Begleitungen",
 
     // Sektion 3 – Freizeit & soziale Aktivitäten
@@ -264,7 +292,7 @@ export default function ClientDetails() {
     communicationhören: "Hören",
     communicationspeech: "Sprechen",
     communicationsprechen: "Sprechen",
-    hasallergies: "Allergien vorhanden",
+    allergies: "Allergien vorhanden",
     allergydetails: "Allergiedetails",
     healthfindings: "Gesundheitliche Hinweise",
     medicalfindings: "Medizinische Befunde",
@@ -272,11 +300,7 @@ export default function ClientDetails() {
     swallowingproblems: "Probleme beim Schlucken",
     appetiteloss: "Appetitlosigkeit",
     hygienessupport: "Grundpflege: Körperhygiene",
-    dressingsupport: "Grundpflege: An-/Auskleiden",
 
-    diagnosisdepression: "Diagnose: Depression",
-    diagnosisdementia: "Diagnose: Demenz",
-    diagnosisalzheimer: "Diagnose: Alzheimer",
     restlessness: "Starke Unruhe",
     daynightreversed: "Gestörter Tag-/Nachtrhythmus",
     wandering: "Weglauftendenz",
@@ -362,77 +386,83 @@ export default function ClientDetails() {
     return "string";
   }
 
-  function InputField({ fieldKey, value }) {
-    const canEdit = ALLOWED_SET.has(fieldKey);
-    const type = inferFieldType(fieldKey, value);
+const InputField = memo(function InputField({ fieldKey, value }) {
+  const canEdit = ALLOWED_SET.has(fieldKey);
+  const type = inferFieldType(fieldKey, value);
 
-    if (!isEditing || !canEdit) {
-      return (
-        <span className="text-gray-900 break-words text-right flex-1">
-          {formatPrimitiveValue(fieldKey, value)}
-        </span>
-      );
-    }
+  if (!isEditing || !canEdit) {
+    return (
+      <span className="text-gray-900 break-words text-right flex-1">
+        {formatPrimitiveValue(fieldKey, value)}
+      </span>
+    );
+  }
 
-    // ✅ boolean as select
-    if (type === "boolean") {
-      return (
-        <select
-          className="w-full max-w-[420px] border rounded-lg px-3 py-2 text-gray-900"
-          value={formData[fieldKey] === true ? "true" : formData[fieldKey] === false ? "false" : ""}
-          onChange={(e) => {
-            const v = e.target.value;
-            setFormData((p) => ({
-              ...p,
-              [fieldKey]: v === "true" ? true : v === "false" ? false : null,
-            }));
-          }}
-        >
-          <option value="">—</option>
-          <option value="true">Ja</option>
-          <option value="false">Nein</option>
-        </select>
-      );
-    }
+  if (type === "boolean") {
+    return (
+      <select
+        className="w-full max-w-[420px] border rounded-lg px-3 py-2 text-gray-900"
+        value={
+          formData[fieldKey] === true
+            ? "true"
+            : formData[fieldKey] === false
+            ? "false"
+            : ""
+        }
+        onChange={(e) => {
+          const v = e.target.value;
+          setFormData((p) => ({
+            ...p,
+            [fieldKey]: v === "true" ? true : v === "false" ? false : null,
+          }));
+        }}
+      >
+        <option value="">—</option>
+        <option value="true">Ja</option>
+        <option value="false">Nein</option>
+      </select>
+    );
+  }
 
-    // ✅ number
-    if (type === "number") {
-      return (
-        <input
-          type="number"
-          className="w-full max-w-[420px] border rounded-lg px-3 py-2 text-gray-900"
-          value={formData[fieldKey] ?? ""}
-          onChange={(e) => {
-            const raw = e.target.value;
-            setFormData((p) => ({
-              ...p,
-              [fieldKey]: raw === "" ? null : Number(raw),
-            }));
-          }}
-        />
-      );
-    }
-
-    // ✅ string (textarea for long)
-    if (isLongText(fieldKey)) {
-      return (
-        <textarea
-          className="w-full border rounded-lg px-3 py-2 text-gray-900 min-h-[90px]"
-          value={formData[fieldKey] ?? ""}
-          onChange={(e) => setFormData((p) => ({ ...p, [fieldKey]: e.target.value }))}
-        />
-      );
-    }
-
+  if (type === "number") {
     return (
       <input
-        type="text"
-        className="w-full max-w-[520px] border rounded-lg px-3 py-2 text-gray-900"
+        type="number"
+        className="w-full max-w-[420px] border rounded-lg px-3 py-2 text-gray-900"
         value={formData[fieldKey] ?? ""}
-        onChange={(e) => setFormData((p) => ({ ...p, [fieldKey]: e.target.value }))}
+        onChange={(e) =>
+          setFormData((p) => ({
+            ...p,
+            [fieldKey]: e.target.value === "" ? null : Number(e.target.value),
+          }))
+        }
       />
     );
   }
+
+  if (isLongText(fieldKey)) {
+    return (
+      <textarea
+        className="w-full border rounded-lg px-3 py-2 text-gray-900 min-h-[90px]"
+        value={formData[fieldKey] ?? ""}
+        onChange={(e) =>
+          setFormData((p) => ({ ...p, [fieldKey]: e.target.value }))
+        }
+      />
+    );
+  }
+
+  return (
+    <input
+      type="text"
+      className="w-full max-w-[520px] border rounded-lg px-3 py-2 text-gray-900"
+      value={formData[fieldKey] ?? ""}
+      onChange={(e) =>
+        setFormData((p) => ({ ...p, [fieldKey]: e.target.value }))
+      }
+    />
+  );
+});
 
   function startEdit() {
     if (!client) return;
@@ -522,154 +552,124 @@ export default function ClientDetails() {
   // ✅ FRAGEBOGEN SECTIONS (like screenshot: Sektion 1..5)
   // =========================================================
 
-  const QUESTIONNAIRE_SECTIONS = useMemo(
-    () => [
-   {
-  id: "sektion-1",
-  title: "Sektion 1 — Persönliche Angaben (Zusammenfassung)",
-  fields: [
-    // ✅ Zu betreuende Person / Einsatzort
-    { key: "careFirstName", label: "Vorname (zu betreuende Person)" },
-    { key: "careLastName", label: "Nachname (zu betreuende Person)" },
-    { key: "carePhone", label: "Telefonnummer (zu betreuende Person)" },
-
-    // ✅ Kontakt (anfragende Person / account)
-    { key: "phone", label: "Telefonnummer" },
-    { key: "email", label: "E-Mail" },
-
-    // ✅ Adresse Einsatzort
-    { key: "careStreet", label: "Strasse" },
-    { key: "carePostalCode", label: "PLZ" },
-    { key: "careCity", label: "Ort" },
-
-    // ✅ Anfragende Person
-    { key: "requestFirstName", label: "Vorname (anfragende Person)" },
-    { key: "requestLastName", label: "Nachname (anfragende Person)" },
-    { key: "requestPhone", label: "Telefonnummer (anfragende Person)" },
-    { key: "requestEmail", label: "E-Mail (anfragende Person)" },
-
-    // ✅ Ankunftsbedingungen / Eingang
-    { key: "careArrivalConditions", label: "Ankunftsbedingungen" },
-    { key: "careHasParking", label: "Parkplatz vorhanden?" },
-    { key: "mailboxKeyLocation", label: "Wo ist der Briefkastenschlüssel?" },
-    { key: "postfach", label: "Welches Postfach?" },
-    { key: "careEntrance", label: "Wo befindet sich der Eingang?" },
-    { key: "careEntranceDetails", label: "Eingang Details" },
-
-    // ✅ Additional info
-    { key: "specialRequests", label: "Zusätzliche Informationen / Wünsche" },
-  ],
-}
-,
+const QUESTIONNAIRE_SECTIONS = useMemo(
+  () => [
     {
-  id: "sektion-2",
-  title: "Sektion 2 — Alltagsbegleitung & Besorgungen",
-  fields: [
-    // ✅ Begleitung zu Terminen (Arzt / Physiotherapie / Behördengänge)
-    { key: "appointmentTypes", label: "Begleitung zu Terminen" },
-    { key: "appointmentOther", label: "Sonstiges (Termine)" },
+      id: "sektion-1",
+      title: "Persönliche Angaben (Zusammenfassung)",
+      fields: [
+        // Zu betreuende Person / Einsatzort
+        { key: "firstName", label: "Vorname (zu betreuende Person)" },
+        { key: "lastName", label: "Nachname (zu betreuende Person)" },
+        { key: "carePhone", label: "Telefonnummer (zu betreuende Person)" },
 
-    // ✅ Einkäufe
-    { key: "shoppingWithClient", label: "Begleitung durch die PHC?" },
-    { key: "shoppingItems", label: "Art der Einkäufe" },
+        // Kontakt
+        { key: "phone", label: "Telefonnummer" },
+        { key: "email", label: "E-Mail" },
 
-    // ✅ Postgänge
-    { key: "mailboxKeyLocation", label: "Wo ist der Briefkastenschlüssel?" },
-    { key: "postfach", label: "Welches Postfach?" },
+        // Adresse Einsatzort
+        { key: "careStreet", label: "Strasse" },
+        { key: "carePostalCode", label: "PLZ" },
+        { key: "careCity", label: "Ort" },
 
-    // ✅ Weitere Begleitungen
-    { key: "additionalAccompaniment", label: "Weitere Begleitungen" },
+        // Anfragende Person
+        { key: "requestFirstName", label: "Vorname (anfragende Person)" },
+        { key: "requestLastName", label: "Nachname (anfragende Person)" },
+        { key: "requestPhone", label: "Telefonnummer (anfragende Person)" },
+        { key: "requestEmail", label: "E-Mail (anfragende Person)" },
+
+        // Ankunft / Eingang
+        { key: "careArrivalConditions", label: "Ankunftsbedingungen" },
+        { key: "careHasParking", label: "Parkplatz vorhanden?" },
+        { key: "mailboxKeyLocation", label: "Wo ist der Briefkastenschlüssel?" },
+        { key: "mailboxDetails", label: "Welches Postfach?" },
+        { key: "careEntrance", label: "Wo befindet sich der Eingang?" },
+        { key: "careEntranceDetails", label: "Eingang Details" },
+
+      ],
+    },
+
+    {
+      id: "sektion-2",
+      title: "Alltagsbegleitung & Besorgungen",
+      fields: [
+        { key: "appointmentTypes", label: "Begleitung zu Terminen" },
+        { key: "appointmentOther", label: "Sonstiges (Termine)" },
+
+        { key: "shoppingWithClient", label: "Begleitung durch die PHC?" },
+        { key: "shoppingItems", label: "Art der Einkäufe" },
+
+        { key: "mailboxKeyLocation", label: "Wo ist der Briefkastenschlüssel?" },
+        { key: "mailboxDetails", label: "Welches Postfach?" },
+
+        { key: "additionalAccompaniment", label: "Weitere Begleitungen" },
+      ],
+    },
+
+    {
+      id: "sektion-3",
+      title: "Freizeit & soziale Aktivitäten",
+      fields: [
+        { key: "jointCooking", label: "Gemeinsames Kochen" },
+        { key: "biographyWork", label: "Biografiearbeit" },
+        { key: "reading", label: "Vorlesen" },
+        { key: "cardGames", label: "Gesellschaftsspiele" },
+        { key: "trips", label: "Ausflüge & Reisebegleitung" },
+      ],
+    },
+
+    {
+      id: "sektion-4",
+      title: "Gesundheitsinformationen",
+      fields: [
+        { key: "height", label: "Grösse (cm)" },
+        { key: "weight", label: "Gewicht (kg)" },
+
+        { key: "physicalState", label: "Zustand" },
+
+        { key: "mobilityAids", label: "Vorhandene Hilfsmittel" },
+        { key: "toolsAvailable", label: "Pflegehilfsmittel" },
+        { key: "toolsOther", label: "Pflegehilfsmittel (Sonstige)" },
+
+
+        { key: "incontinenceTypes", label: "Art der Inkontinenz" },
+{ key: "communicationSehen", label: "Sehen" },
+{ key: "communicationHören", label: "Hören" },
+{ key: "communicationSprechen", label: "Sprechen" },
+
+        { key: "foodSupportTypes", label: "Art der Unterstützung" },
+
+        { key: "basicCareNeeds", label: "Grundpflege Bedarf" },
+        { key: "basicCareOtherField", label: "Grundpflege Sonstiges" },
+
+        { key: "mentalDiagnoses", label: "Diagnosen" },
+        { key: "behaviorTraits", label: "Verhaltensmerkmale" },
+
+        { key: "healthFindings", label: "Gesundheitliche Hinweise" },
+      ],
+    },
+
+    {
+      id: "sektion-5",
+      title: "Haushaltshilfe & Wohnpflege",
+      fields: [
+        { key: "householdRooms", label: "Anzahl Zimmer" },
+        { key: "householdPeople", label: "Wieviel-Personen-Haushalt?" },
+
+        { key: "householdTasks", label: "Ihre Tätigkeiten" },
+
+        { key: "languages", label: "Wunschsprache der Betreuungsperson" },
+        { key: "otherLanguage", label: "Sonstige Sprache" },
+
+        { key: "pets", label: "Haustiere im Haushalt?" },
+
+        { key: "allergyWhich", label: "Welche Allergien?" },
+      ],
+    },
   ],
-}
-,
-  {
-  id: "sektion-3",
-  title: "Sektion 3 — Freizeit & soziale Aktivitäten",
-  fields: [
-    { key: "companionship", label: "Gesellschaft leisten" },
-    { key: "jointCooking", label: "Gemeinsames Kochen" },
-    { key: "biographyWork", label: "Biografiearbeit" },
-    { key: "reading", label: "Vorlesen" },
-    { key: "cardGames", label: "Gesellschaftsspiele" },
-    { key: "trips", label: "Ausflüge & Reisebegleitung" },
-  ],
-}
-,
-{
-  id: "sektion-4",
-  title: "Sektion 4 — Gesundheitsinformationen",
-  fields: [
-    // ✅ Körperliche Unterstützung
-    { key: "height", label: "Grösse (cm)" },
-    { key: "weight", label: "Gewicht (kg)" },
+  []
+);
 
-    { key: "physicalState", label: "Zustand" },
-
-    // ✅ Vorhandene Hilfsmittel
-    { key: "mobilityAids", label: "Vorhandene Hilfsmittel" },
-    { key: "toolsAvailable", label: "Pflegehilfsmittel" },
-    { key: "toolsOther", label: "Pflegehilfsmittel (Sonstige)" },
-
-    // ✅ Mobilität
-    { key: "mobility", label: "Mobilität" },
-
-    // ✅ Inkontinenz
-    { key: "incontinence", label: "Inkontinenz" },
-    { key: "incontinenceTypes", label: "Art der Inkontinenz" },
-
-    // ✅ Kommunikation
-    { key: "communicationVision", label: "Sehen" },
-    { key: "communicationHearing", label: "Hören" },
-    { key: "communicationSpeech", label: "Sprechen" },
-
-    // ✅ Nahrungsaufnahme
-    { key: "foodSupport", label: "Unterstützung notwendig" },
-    { key: "foodSupportTypes", label: "Art der Unterstützung" },
-
-    // ✅ Grundpflege
-    { key: "basicCare", label: "Grundpflege" },
-    { key: "basicCareNeeds", label: "Grundpflege Bedarf" },
-    { key: "basicCareOtherField", label: "Grundpflege Sonstiges" },
-
-    // ✅ Geistiger Zustand – Diagnosen
-    { key: "mentalDiagnoses", label: "Diagnosen" },
-
-    // ✅ Verhaltensmerkmale
-    { key: "behaviorTraits", label: "Verhaltensmerkmale" },
-
-    // ✅ Gesundheitsbefunde / Hinweise
-    { key: "medicalFindings", label: "Gesundheitsbefunde" },
-    { key: "healthFindings", label: "Gesundheitliche Hinweise" },
-  ],
-}
-,
-  {
-  id: "sektion-5",
-  title: "Sektion 5 — Haushaltshilfe & Wohnpflege",
-  fields: [
-    // ✅ Allgemeines
-    { key: "householdRooms", label: "Anzahl Zimmer" },
-    { key: "householdPeople", label: "Wieviel-Personen-Haushalt?" },
-
-    // ✅ Tätigkeiten (checkbox list in UI) — stored as Json
-    { key: "householdTasks", label: "Ihre Tätigkeiten aus" },
-
-    // ✅ Sonstige Angaben
-    { key: "languages", label: "Wunschsprache der Betreuungsperson" },
-    { key: "otherLanguage", label: "Sonstige Sprache" },
-
-    { key: "pets", label: "Haustiere im Haushalt?" },
-
-    // ✅ Allergien (photo has dropdown)
-    { key: "hasAllergies", label: "Allergien" },
-    { key: "allergyWhich", label: "Welche Allergien?" },
-    { key: "allergyDetails", label: "Allergie Details" },
-  ],
-}
-
-    ],
-    []
-  );
 
   const questionnaireUsedKeys = useMemo(() => {
     const s = new Set();
@@ -788,132 +788,126 @@ export default function ClientDetails() {
               </ul>
             </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-700 mb-3">Adresse</h3>
+      <section className="bg-gray-50 rounded-xl border p-6">
+  <h3 className="text-xl font-semibold text-[#04436F] mb-4">Adresse</h3>
 
-              <ul className="space-y-3 text-gray-800">
-                <li className="grid grid-cols-[160px_1fr] gap-4">
-                  <strong className="text-gray-700">Strasse:</strong>
-                  <div className="break-words">
-                    <InputField fieldKey="careStreet" value={mergedClient?.careStreet} />
-                  </div>
-                </li>
+  <ul className="space-y-3 text-gray-800">
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6 items-start">
+      <strong className="text-gray-700">Strasse</strong>
+      <div className="flex justify-end min-w-0">
+        <InputField fieldKey="careStreet" value={mergedClient?.careStreet} />
+      </div>
+    </li>
 
-                <li className="grid grid-cols-[160px_1fr] gap-4">
-                  <strong className="text-gray-700">PLZ:</strong>
-                  <div>
-                    <InputField fieldKey="carePostalCode" value={mergedClient?.carePostalCode} />
-                  </div>
-                </li>
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6 items-start">
+      <strong className="text-gray-700">PLZ</strong>
+      <div className="flex justify-end min-w-0">
+        <InputField fieldKey="carePostalCode" value={mergedClient?.carePostalCode} />
+      </div>
+    </li>
 
-                <li className="grid grid-cols-[160px_1fr] gap-4">
-                  <strong className="text-gray-700">Ort:</strong>
-                  <div>
-                    <InputField fieldKey="careCity" value={mergedClient?.careCity} />
-                  </div>
-                </li>
-              </ul>
-            </section>
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6 items-start">
+      <strong className="text-gray-700">Ort</strong>
+      <div className="flex justify-end min-w-0">
+        <InputField fieldKey="careCity" value={mergedClient?.careCity} />
+      </div>
+    </li>
+  </ul>
+</section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-700 mb-3">Notfallkontakt</h3>
-              <ul className="space-y-3 text-gray-800">
-                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
-                  <strong className="min-w-[140px] text-gray-700">Name:</strong>
-                  <div className="flex-1 flex justify-end">
-                    <InputField
-                      fieldKey="emergencyContactName"
-                      value={mergedClient?.emergencyContactName}
-                    />
-                  </div>
-                </li>
 
-                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
-                  <strong className="min-w-[140px] text-gray-700">Telefon:</strong>
-                  <div className="flex-1 flex justify-end">
-                    <InputField
-                      fieldKey="emergencyContactPhone"
-                      value={mergedClient?.emergencyContactPhone}
-                    />
-                  </div>
-                </li>
-              </ul>
-            </section>
+<section className="bg-gray-50 rounded-xl border p-6">
+  <h3 className="text-xl font-semibold text-[#04436F] mb-4">Dienstleistungen</h3>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-700 mb-3">Dienstleistungen</h3>
-              {/* keep relations read-only */}
-              <ul className="space-y-1 text-gray-800">
-                <li>
-                  <strong>Hauptdienstleistungen:</strong>{" "}
-                  {(client.services || []).map((s) => s.name).join(", ") || "—"}
-                </li>
-                <li>
-                  <strong>Nebendienstleistungen:</strong>{" "}
-                  {(client.subServices || []).map((s) => s.name).join(", ") || "—"}
-                </li>
-              </ul>
-              {isEditing && (
-                <p className="text-xs text-gray-500 mt-2">
-                  Dienstleistungen werden hier nicht bearbeitet (Relations).
-                </p>
-              )}
-            </section>
+  <ul className="space-y-3 text-gray-800">
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6">
+      <strong className="text-gray-700">Hauptdienstleistungen</strong>
+      <span className="text-gray-900 break-words text-right">
+        {(client.services || []).map((s) => s.name).join(", ") || "—"}
+      </span>
+    </li>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-700 mb-3">Service Präferenzen</h3>
-              <ul className="space-y-3 text-gray-800">
-                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
-                  <strong className="min-w-[140px] text-gray-700">Erstes Datum:</strong>
-                  <span className="text-gray-900 break-words text-right flex-1">
-                    {formatDate(client.firstDate)}
-                  </span>
-                </li>
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6">
+      <strong className="text-gray-700">Nebendienstleistungen</strong>
+      <span className="text-gray-900 break-words text-right">
+        {(client.subServices || []).map((s) => s.name).join(", ") || "—"}
+      </span>
+    </li>
+  </ul>
 
-                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
-                  <strong className="min-w-[140px] text-gray-700">Häufigkeit:</strong>
-                  <div className="flex-1 flex justify-end">
-                    <InputField fieldKey="frequency" value={mergedClient?.frequency} />
-                  </div>
-                </li>
+  {isEditing && (
+    <p className="text-xs text-gray-500 mt-4">
+      Dienstleistungen werden hier nicht bearbeitet (Relations).
+    </p>
+  )}
+</section>
 
-                <li className="grid grid-cols-[160px_1fr] items-center gap-4">
-                  <strong className="min-w-[140px] text-gray-700">Dauer:</strong>
-                  <div className="flex-1 flex justify-end">
-                    <InputField fieldKey="duration" value={mergedClient?.duration} />
-                  </div>
-                </li>
-              </ul>
-            </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-700 mb-3">Meta</h3>
-              <ul className="space-y-1 text-gray-800">
-                <li>
-                  <strong>Status:</strong>{" "}
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                      client.status === "canceled"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-green-100 text-green-700"
-                    }`}
-                  >
-                    {client.status || "open"}
-                  </span>
-                </li>
-                <li>
-                  <strong>Rolle:</strong> {client.role || "—"}
-                </li>
-                <li>
-                  <strong>Angelegt:</strong>{" "}
-                  {client.createdAt ? new Date(client.createdAt).toLocaleString() : "—"}
-                </li>
-                <li>
-                  <strong>Aktualisiert:</strong>{" "}
-                  {client.updatedAt ? new Date(client.updatedAt).toLocaleString() : "—"}
-                </li>
-              </ul>
-            </section>
+         <section className="bg-gray-50 rounded-xl border p-6">
+  <h3 className="text-xl font-semibold text-[#04436F] mb-4">Service Präferenzen</h3>
+
+  <ul className="space-y-3 text-gray-800">
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6">
+      <strong className="text-gray-700">Erstes Datum</strong>
+      <span className="text-gray-900 break-words text-right">
+        {formatDate(client.firstDate)}
+      </span>
+    </li>
+
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6 items-start">
+      <strong className="text-gray-700">Häufigkeit</strong>
+      <div className="flex justify-end min-w-0">
+        <InputField fieldKey="frequency" value={mergedClient?.frequency} />
+      </div>
+    </li>
+
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6 items-start">
+      <strong className="text-gray-700">Dauer</strong>
+      <div className="flex justify-end min-w-0">
+        <InputField fieldKey="duration" value={mergedClient?.duration} />
+      </div>
+    </li>
+  </ul>
+</section>
+
+<section className="bg-gray-50 rounded-xl border p-6">
+  <h3 className="text-xl font-semibold text-[#04436F] mb-4">Meta</h3>
+
+  <ul className="space-y-3 text-gray-800">
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6 items-center">
+      <strong className="text-gray-700">Status</strong>
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-medium justify-self-end ${
+          client.status === "canceled"
+            ? "bg-red-100 text-red-700"
+            : "bg-green-100 text-green-700"
+        }`}
+      >
+        {client.status || "open"}
+      </span>
+    </li>
+
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6">
+      <strong className="text-gray-700">Rolle</strong>
+      <span className="text-right">{client.role || "—"}</span>
+    </li>
+
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6">
+      <strong className="text-gray-700">Angelegt</strong>
+      <span className="text-right">
+        {client.createdAt ? new Date(client.createdAt).toLocaleString() : "—"}
+      </span>
+    </li>
+
+    <li className="grid grid-cols-1 sm:grid-cols-[240px_1fr] gap-2 sm:gap-6">
+      <strong className="text-gray-700">Aktualisiert</strong>
+      <span className="text-right">
+        {client.updatedAt ? new Date(client.updatedAt).toLocaleString() : "—"}
+      </span>
+    </li>
+  </ul>
+</section>
+
 
             {/* ✅ NEW: Fragebogen split into Sektion 1..5 (like screenshot) */}
             <section className="md:col-span-2">
