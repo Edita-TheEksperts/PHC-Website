@@ -54,8 +54,7 @@ await prisma.employee.create({
     residencePermit: data.residencePermit || null,
 
     // === EXPERIENCE ===
-    experienceYears: data.experienceYears || null,
-    experienceWhere: data.experienceWhere || null,
+ experienceYears: data.experienceYears || "0",    experienceWhere: data.experienceWhere || null,
     experienceCompany: data.experienceCompany || null,
 
     // === LICENSE & CAR ===
@@ -78,7 +77,7 @@ await prisma.employee.create({
     availabilityFrom: data.availabilityFrom
       ? new Date(data.availabilityFrom)
       : null,
-    availabilityDays: data.availabilityDays || [],
+   availabilityDays: normalizedAvailabilityDays,
 
     // === SKILLS ===
     languages: data.languages || [],
@@ -87,16 +86,15 @@ await prisma.employee.create({
     communicationTraits: data.communicationTraits || [],
     dietaryExperience: data.dietaryExperience || [],
     servicesOffered: data.servicesOffered || [],
+// === FILES ===
+passportFile: data.passportFrontFile || null,
+visaFile: data.workPermitFile || null,
+policeLetterFile: data.policeLetterFile || null,
+cvFile: data.cvFile || null,
+certificateFile: data.certificateFile || null,
+drivingLicenceFile: data.drivingLicenceFile || null,
+profilePhoto: data.profilePhoto || null,
 
-    // === FILES ===
-    passportFrontFile: data.passportFrontFile || null,
-    passportBackFile: data.passportBackFile || null,
-    workPermitFile: data.workPermitFile || null,
-    policeLetterFile: data.policeLetterFile || null,
-    cvFile: data.cvFile || null,
-    certificateFile: data.certificateFile || null,
-    drivingLicenceFile: data.drivingLicenceFile || null,
-    profilePhoto: data.profilePhoto || null,
 
     // === META ===
     howDidYouHearAboutUs: data.howDidYouHearAboutUs || null,
