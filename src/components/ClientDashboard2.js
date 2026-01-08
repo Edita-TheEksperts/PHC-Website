@@ -8,7 +8,7 @@ export default function ClientDashboard2({ userId }) {
     (url) => fetch(url).then((r) => r.json())
   );
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   if (error) return <p>❌ Failed to load</p>;
   if (!data) return <p>⏳ Loading...</p>;

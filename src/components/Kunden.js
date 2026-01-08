@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import AdminLayout from "../components/AdminLayout";
 import ClientTable from "../components/ClientTable";
 import DashboardCard from "../components/DashboardCard";
+import AppointmentCalendar from "../components/AppointmentCalendar";
+
 import ActiveClients from "../components/ActiveClients";
 
 export default function AdminKundenPage() {
@@ -224,6 +226,13 @@ useEffect(() => {
             )}
           </DashboardCard>
 
+        {/* Termine */}
+          <div className="bg-white rounded-2xl shadow-sm p-6 border">
+            <h2 className="text-lg font-semibold text-[#04436F] mb-4 flex items-center gap-2">
+              Termine
+            </h2>
+            <AppointmentCalendar schedules={schedules} />
+          </div>
 <DashboardCard title="📅 Buchungen">
   <div className="p-4">
     {/* FILTER BUTTONS */}

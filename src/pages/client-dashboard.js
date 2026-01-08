@@ -61,17 +61,18 @@ export default function ClientDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
 const [showInfoUpdate, setShowInfoUpdate] = useState(false);
+const [showMonthlyOverview, setShowMonthlyOverview] = useState(true);
+const [uiMessage, setUiMessage] = useState(null);
 
   const [updatedData, setUpdatedData] = useState({});
-  const [showAppointments, setShowAppointments] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
+const [showAppointments, setShowAppointments] = useState(true);
+const [showHistory, setShowHistory] = useState(true);
+const [showUserInfo, setShowUserInfo] = useState(true);
+const [showVacations, setShowVacations] = useState(true);
+const [showBooking, setShowBooking] = useState(true);
   const [showOverlayForm, setShowOverlayForm] = useState(true);
   const [services, setServices] = useState("");
   const [allServices, setAllServices] = useState([]);
-  const [showUserInfo, setShowUserInfo] = useState(false);
-const [showVacations, setShowVacations] = useState(false);
-const [showBooking, setShowBooking] = useState(false);
-
 
   const [isNotifVisible, setIsNotifVisible] = useState(false);
   const [notifShownOnce, setNotifShownOnce] = useState(false);
@@ -171,27 +172,46 @@ useEffect(() => {
     return ["cancelled", "terminated", "done"].includes(a.status) || isPast;
   });
 
-  const cancelAppointment = async (id) => {
-    try {
-      const res = await fetch(`/api/appointments?id=${id}&cancel=true`, {
-        method: "DELETE",
+const cancelAppointment = async (id) => {
+  try {
+    const res = await fetch(`/api/appointments?id=${id}&cancel=true`, {
+      method: "DELETE",
+    });
+
+    // ✅ Përditëso UI menjëherë
+    setAppointments((prev) =>
+      prev.map((appt) =>
+        appt.id === id ? { ...appt, status: "cancelled" } : appt
+      )
+    );
+
+    if (!res.ok) {
+      // ⚠️ backend error (email), por UX vazhdon
+      setUiMessage({
+        type: "warning",
+        text:
+          "Termin wurde storniert, aber die Bestätigungs-E-Mail konnte nicht gesendet werden.",
       });
-
-      if (!res.ok) throw new Error("Fehler beim Stornieren");
-
-      // Përditëso state lokalisht
-      setAppointments((prev) =>
-        prev.map((appt) =>
-          appt.id === id ? { ...appt, status: "cancelled" } : appt
-        )
-      );
-    } catch (err) {
-      console.error(err);
-      alert("❌ Termin konnte nicht storniert werden.");
+    } else {
+      setUiMessage({
+        type: "success",
+        text: "✅ Termin erfolgreich storniert.",
+      });
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setUiMessage({
+      type: "error",
+      text: "❌ Termin konnte nicht storniert werden. Bitte versuchen Sie es erneut.",
+    });
+  }
+
+  // ⏳ fshi mesazhin pas 4 sekondash
+  setTimeout(() => setUiMessage(null), 4000);
+};
+
 const [paymentMethod, setPaymentMethod] = useState(null);
-const [showPaymentBox, setShowPaymentBox] = useState(false);
+const [showPaymentBox, setShowPaymentBox] = useState(true);
 
 useEffect(() => {
   if (!userData?.stripeCustomerId) return;
@@ -635,15 +655,7 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
                 >
                   Dashboard
                 </li>
-                <li
-                  onClick={() => {
-                    router.push("/dashboard/personal-info");
-                    setIsOpen(false);
-                  }}
-                  className="cursor-pointer hover:text-[#A6884A]"
-                >
-                  Persönliche Informationen
-                </li>
+
                 <li
                   onClick={() => {
                     router.push("/dashboard/formular");
@@ -651,8 +663,7 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
                   }}
                   className="cursor-pointer hover:text-[#A6884A]"
                 >
-                  Formular
-                </li>
+Persönliche Informationen                </li>
               </ul>
             </div>
           )}
@@ -673,20 +684,12 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
               >
                 Dashboard
               </li>
-              <li
-                onClick={() => router.push("/dashboard/personal-info")}
-                className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
-              >
-                Persönliche Informationen
-                {isNotifVisible && (
-                  <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
-                )}
-              </li>
+
               <li
                 onClick={() => router.push("/dashboard/formular")}
                 className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
               >
-                Formular
+             Persönliche Informationen
               </li>
               <li
                 onClick={() => {
@@ -705,9 +708,10 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
         <main className="flex-1 p-2 mt-[100px] lg:mt-0 lg:p-12 overflow-auto">
           {/* Header */}
           <header className="flex justify-between items-center mb-12">
-            <h2 className="text-2xl lg:text-4xl font-bold text-[#B99B5F]">
-              Kundenübersicht{" "}
-            </h2>
+     <h2 className="text-2xl lg:text-4xl font-bold text-[#B99B5F]">
+  Guten Tag {userData?.firstName} {userData?.lastName}
+</h2>
+
 
             {/* Logout Button */}
             <button
@@ -729,71 +733,6 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
 
           {/* User Info + Documents + Service */}
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-<article
-  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
-  ${showUserInfo 
-? " scale-100 opacity-100 rounded-3xl shadow-2xl"
-: "scale-95 opacity-90 rounded-xl shadow-md"
-}`}
-
->
-  <header
-    onClick={() => setShowUserInfo((prev) => !prev)}
-    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
-  >
-    <h3 className="text-2xl font-semibold text-[#B99B5F]">
-      Benutzerinformationen
-    </h3>
-    <svg
-      className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${
-        showUserInfo ? "rotate-180" : ""
-      }`}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M19 9l-7 7-7-7"
-      />
-    </svg>
-  </header>
-
-  {!showUserInfo && (
-    <div className="transition-all duration-500">
-      <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
-        Hier finden Sie die persönlichen Benutzerinformationen.
-      </p>
-    </div>
-  )}
-
-  <div
-    className={`transition-all duration-500 transform ${
-      showUserInfo
-        ? "max-h-[500px] opacity-100 scale-100"
-        : "max-h-0 opacity-0 scale-95"
-    }`}
-    
-  >
-    <div className="p-6 space-y-3 text-lg text-gray-800">
-      <p>
-        <strong>Name:</strong> {userData.firstName} {userData.lastName}
-      </p>
-      <p>
-        <strong>Email:</strong> {userData.email}
-      </p>
-      <p>
-        <strong>Telefon:</strong> {userData.phone}
-      </p>
-      <p>
-        <strong>Adresse:</strong> {userData.address}
-      </p>
-    </div>
-  </div>
-</article>
-
 
 <section
   className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
@@ -867,10 +806,7 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
                 {/* Info */}
                 <div className="space-y-2 text-sm text-gray-800">
                   <div className="flex items-center justify-between">
-                    <p className="flex items-center gap-2 font-semibold">
-                      <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
-                      {appt.day}
-                    </p>
+      
                     <span
                       className={`px-3 py-1 text-xs font-medium rounded-full ${
                         appt.status === "active"
@@ -883,12 +819,13 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
                   </div>
 
                   {appt.date && (
-                    <p className="flex items-center gap-2 text-xs text-gray-600">
-                      <Clock className="w-4 h-4 text-[#B99B5F]" />
-                      {format(parseISO(appt.date), "EEEE, d. MMM yyyy", {
-                        locale: de,
-                      })}
-                    </p>
+       <p className="flex items-center gap-3 text-base font-bold text-gray-800">
+  <CalendarDays className="w-5 h-5 text-[#B99B5F]" />
+  {format(parseISO(appt.date), "EEEE, d. MMMM yyyy", {
+    locale: de,
+  })}
+</p>
+
                   )}
 
                   <div className="flex items-center gap-4 text-xs text-gray-600">
@@ -1026,10 +963,6 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
 
 {/* --- MONATSÜBERSICHT --- */}
 <ClientDashboard2 userId={userData?.id} />
-
-          </section>
-
-     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-16">
               {/* --- SERVICE HISTORY --- */}
       {/* Serviceverlauf Section */}
 <section
@@ -1041,7 +974,7 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
 
   {/* Header */}
   <div
-    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
+    className="flex items-center justify-between px-2 py-4 cursor-pointer select-none border-b border-gray-100"
     onClick={() => setShowHistory(!showHistory)}
   >
            <h3 className="text-2xl font-semibold text-[#B99B5F]">
@@ -1150,10 +1083,7 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
               {/* Info */}
               <div className="space-y-2 text-sm text-gray-800">
                 <div className="flex items-center justify-between">
-                  <p className="flex items-center gap-2 font-semibold">
-                    <CalendarDays className="w-4 h-4 text-[#B99B5F]" />{" "}
-                    {item.day}
-                  </p>
+       
                   <span
                     className={`px-3 py-1 text-xs font-medium rounded-full
                       ${
@@ -1267,6 +1197,10 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
     </article>
   </div>
 </section>
+
+          </section>
+
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-8">
 
           {/* Neue Buchung planen Section */}
 <section
@@ -1560,94 +1494,7 @@ Hier können Sie Ihre gespeicherte Zahlungsmethode einsehen und bei Bedarf aktua
     </div>
   </div>
 </section>
-              {/* Update Information Form */}
-            {/* Informationen aktualisieren Section */}
-<section
-  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
-  ${showInfoUpdate
-    ? " scale-100 opacity-100 rounded-3xl shadow-2xl"
-    : " scale-95 opacity-90 rounded-xl shadow-md"}`}
->
-  {/* Header */}
-  <div
-    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
-    onClick={() => setShowInfoUpdate(!showInfoUpdate)}
-  >
-      <h3 className="text-2xl font-semibold text-[#B99B5F]">
-     Informationen aktualisieren
-    </h3>
-    {showInfoUpdate ? (
-      <ChevronUp className="w-6 h-6 text-gray-500" />
-    ) : (
-      <ChevronDown className="w-6 h-6 text-gray-500" />
-    )}
-  </div>
 
-  {/* Description kur është i mbyllur */}
-  <div
-    className={`transition-all duration-500 ${
-      showInfoUpdate
-        ? "max-h-0 opacity-0 overflow-hidden"
-        : "max-h-40 opacity-100"
-    }`}
-  >
-    <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
-      Hier können Sie Ihre persönlichen Daten und Notfallkontakte aktualisieren.
-    </p>
-  </div>
-
-  {/* Content kur hapet */}
-  <div
-    className={`transition-all duration-500 transform ${
-      showInfoUpdate
-        ? "max-h-[1200px] opacity-100 scale-100"
-        : "max-h-0 opacity-0 scale-95 overflow-hidden"
-    }`}
-  >
-    <div className="p-6">
-     
-        
-  <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
-  {[
-    { name: "firstName", label: "Vorname", type: "text" },
-    { name: "lastName", label: "Nachname ", type: "text" },
-    { name: "email", label: "E-Mail Adresse", type: "email" },
-    { name: "phone", label: "Telefonnummer", type: "tel" },
-{ name: "careCity", label: "Stadt", type: "text" },
-{ name: "careStreet", label: "Hausnummer", type: "text" }
-,
-    { name: "requestFirstName", label: "Notfall Kontakt Name", type: "text" },
-    { name: "requestLastName", label: "Notfall Kontakt Nachname", type: "text" },
-    { name: "requestPhone", label: "Notfall Kontakt Telefonnummer", type: "tel" },
-    { name: "requestEmail", label: "Notfall Kontakt Email", type: "email" },
-  ].map(({ name, label, type }) => (
-    <div key={name} className="flex flex-col gap-1">
-      <label htmlFor={name} className="text-sm font-medium text-gray-700">
-        {label}
-      </label>
-      <input
-  id={name}
-  type={type}
-  name={name}
-  value={updatedData[name] || ""}
-  onChange={handleChange}
-  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm 
-    placeholder-gray-400 focus:ring-2 focus:ring-[#04436F] 
-    focus:outline-none transition"
-/>
-    </div>
-  ))}
-  <button
-    type="submit"
-    className="mt-4 bg-[#B99B5F] text-white py-3 rounded-lg font-semibold text-sm 
-      hover:bg-[#bca77c] transition"
-  >
-    Änderungen speichern
-  </button>
-</form>
-    </div>
-  </div>
-</section>
 
           </div>
 {selectedAppointment && (
@@ -1678,13 +1525,10 @@ Hier können Sie Ihre gespeicherte Zahlungsmethode einsehen und bei Bedarf aktua
             <strong>Dauer:</strong> {selectedAppointment.hours} Std
           </p>
           <p>
-            <strong>Service:</strong> {selectedAppointment.serviceName}
+            <strong>Gebuchte Dienstleistungen:</strong> {selectedAppointment.serviceName}
           </p>
           <p>
-            <strong>Sub-Service:</strong> {selectedAppointment.subServiceName}
-          </p>
-          <p>
-            <strong>Status:</strong> {selectedAppointment.status}
+            <strong>Dienstleistung Unterkategorie:</strong> {selectedAppointment.subServiceName}
           </p>
 
           {/* Butoni për editim */}

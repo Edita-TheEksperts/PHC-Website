@@ -82,16 +82,26 @@ const html = `
 `;
 
 
-    await sendEmail({
-      to: employee.email,
-      subject: "Neuer Einsatz – Bitte bestätigen",
-      html,
-    });
+let emailWarning = null;
 
-    return res.status(200).json({
-      message: "Employee assigned and email sent successfully",
-      schedule: updatedSchedule,
-    });
+try {
+  await sendEmail({
+    to: employee.email,
+    subject: "Neuer Einsatz – Bitte bestätigen",
+    html,
+  });
+} catch (mailError) {
+  console.error("⚠️ Email konnte nicht gesendet werden:", mailError);
+  emailWarning = "Mitarbeiter zugewiesen, aber E-Mail konnte nicht gesendet werden.";
+}
+
+
+return res.status(200).json({
+  message: "Mitarbeiter wurde erfolgreich zugewiesen.",
+  warning: emailWarning, // null ose string
+  schedule: updatedSchedule,
+});
+
 
   } catch (error) {
     console.error("❌ ASSIGN ERROR:", error);

@@ -8,6 +8,10 @@ export default function NewEmployeePage() {
   const [newEmployee, setNewEmployee] = useState({ firstName: "", lastName: "", email: "" });
   const [searchTerm, setSearchTerm] = useState("");
   const [visibleCount, setVisibleCount] = useState(12);
+const [statusFilter, setStatusFilter] = useState("all");
+const [createdDate, setCreatedDate] = useState("");
+
+
 
   useEffect(() => {
     async function fetchEmployees() {
@@ -45,10 +49,7 @@ export default function NewEmployeePage() {
     }
   };
 
-  const filteredEmployees = employees
-    .filter(emp => emp.status !== "approved")
-    .filter(emp => `${emp.firstName} ${emp.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()))
-    .slice(0, visibleCount);
+
 
   const statusColors = {
     approved: "bg-green-100 text-green-800",
@@ -56,17 +57,75 @@ export default function NewEmployeePage() {
     rejected: "bg-red-100 text-red-800"
   };
 
+const filteredEmployees = employees
+  .filter(emp => emp.status !== "approved")
+  .filter(emp =>
+    `${emp.firstName} ${emp.lastName}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  )
+  .filter(emp => {
+    if (statusFilter === "invited") return emp.invited === true;
+    if (statusFilter === "pending") return emp.status === "pending";
+    return true;
+  })
+  .filter(emp => {
+    if (!createdDate) return true;
+    const empDate = new Date(emp.createdAt).toISOString().split("T")[0];
+    return empDate === createdDate;
+  });
+
+
+
   return (
     <AdminLayout>
       <h1 className="text-3xl font-bold text-[#04436F] mb-6">Bewerber</h1>
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search by name..."
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        className="mb-6 p-3 w-full border rounded-lg focus:ring-2 focus:ring-[#04436F]"
-      />
+{/* Search */}
+<div className="mb-6">
+  <label className="block text-sm font-semibold text-gray-700 mb-2">
+    Suche nach Name
+  </label>
+  <input
+    type="text"
+    placeholder="Vor- oder Nachname eingeben..."
+    value={searchTerm}
+    onChange={e => setSearchTerm(e.target.value)}
+    className="p-3 w-full border rounded-lg focus:ring-2 focus:ring-[#04436F]"
+  />
+</div>
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+  {/* Status Filter */}
+  <div>
+    <label className="block text-sm font-semibold text-gray-700 mb-2">
+      Status filtern
+    </label>
+    <select
+      value={statusFilter}
+      onChange={(e) => setStatusFilter(e.target.value)}
+      className="p-3 border rounded-lg w-full"
+    >
+      <option value="all">Alle</option>
+      <option value="invited">Eingeladen</option>
+      <option value="pending">Nicht akzeptiert</option>
+    </select>
+  </div>
+
+  {/* Created Date */}
+  <div>
+    <label className="block text-sm font-semibold text-gray-700 mb-2">
+      Erstellungsdatum
+    </label>
+    <input
+      type="date"
+      value={createdDate}
+      onChange={(e) => setCreatedDate(e.target.value)}
+      className="p-3 border rounded-lg w-full"
+    />
+  </div>
+
+</div>
 
       {/* Employees Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

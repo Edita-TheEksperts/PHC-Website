@@ -317,6 +317,14 @@ const handleManualPay = async () => {
   );
 };
 
+
+
+// ⭐ FINANZEN TOTALS
+const totalBezahlt = bezahlt.reduce((sum, p) => sum + p.amount, 0);
+const totalOffen = offen.reduce((sum, p) => sum + p.amount, 0);
+const totalFehler = fehler.reduce((sum, p) => sum + p.amount, 0);
+
+
   // ⭐ Umsatz calculations
   const now = new Date();
 
@@ -391,20 +399,42 @@ const d = new Date(p.paymentDate);
   </div>
 
 </div>
+{/* ⭐ Finanzen Übersicht */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
 
-{/* ⭐ Umsatz per Kunde */}
-<div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 mb-10">
-  <h2 className="text-xl font-bold text-gray-800 mb-4">Umsatz pro Kunde</h2>
-
-  <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
-    {Object.values(umsatzProKunde).map((k, index) => (
-      <div key={index} className="p-3 bg-gray-50 border rounded-lg">
-        <p><strong>Kunde:</strong> {k.name}</p>
-        <p><strong>Umsatz:</strong> CHF {k.total.toFixed(2)}</p>
-      </div>
-    ))}
+  {/* 🟢 Total Bezahlte */}
+  <div className="p-4 bg-green-50 border border-green-200 rounded-xl">
+    <p className="text-sm font-medium text-green-800">
+      Total Bezahlte Zahlungen
+    </p>
+    <p className="text-2xl font-bold text-green-900">
+      CHF {totalBezahlt.toFixed(2)}
+    </p>
   </div>
+
+  {/* 🟡 Total Ausstehende */}
+  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+    <p className="text-sm font-medium text-yellow-800">
+      Total Ausstehende Zahlungen
+    </p>
+    <p className="text-2xl font-bold text-yellow-900">
+      CHF {totalOffen.toFixed(2)}
+    </p>
+  </div>
+
+  {/* 🔴 Total Fehlgeschlagene */}
+  <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+    <p className="text-sm font-medium text-red-800">
+      Total Fehlgeschlagene Zahlungen
+    </p>
+    <p className="text-2xl font-bold text-red-900">
+      CHF {totalFehler.toFixed(2)}
+    </p>
+  </div>
+
 </div>
+
+
 
         {/* ⭐ FILTER DROPDOWN */}
         <div className="flex gap-3 mb-8">
@@ -421,29 +451,32 @@ const d = new Date(p.paymentDate);
 
         {/* GRID STRUCTURE */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-          {/* 🟢 PAID */}
+          {/* 🔴 ERROR */}
           {renderSection(
-            "🟢 Bezahlte Zahlungen",
+            "🔴 Fehlgeschlagene / Stornierte Zahlungen",
             <div className="space-y-4 max-h-80 overflow-y-auto pr-2">
-              {bezahlt.length === 0 ? (
-                <p className="text-gray-500 italic">Keine bezahlten Zahlungen</p>
+              {fehler.length === 0 ? (
+                <p className="text-gray-500 italic">Keine fehlerhaften Zahlungen</p>
               ) : (
-                bezahlt.map((p) => (
+                fehler.map((p) => (
                   <div
                     key={p.userId + p.amount}
                     onClick={() => openModal(p)}
-                    className="cursor-pointer hover:shadow-xl transition p-4 bg-green-50 border border-green-300 rounded-lg"
+                    className="cursor-pointer hover:shadow-xl transition p-4 bg-red-50 border border-red-300 rounded-lg"
                   >
                     <p><strong>Kunde:</strong> {p.name}</p>
                     <p><strong>Betrag:</strong> CHF {p.amount.toFixed(2)}</p>
-                 <p><strong>Status:</strong> {p.status === "manuell" ? "manuell bezahlt" : "bezahlt"}</p>
-
+                    <p><strong>Status:</strong> fehler</p>
+                    {p.lastError && (
+                      <p className="text-red-600 text-sm">Grund: {p.lastError}</p>
+                    )}
                   </div>
                 ))
               )}
             </div>
           )}
+
+
 
           {/* 🟡 OPEN */}
           {renderSection(
@@ -470,30 +503,34 @@ const d = new Date(p.paymentDate);
             </div>
           )}
 
-          {/* 🔴 ERROR */}
+
+
+
+
+          {/* 🟢 PAID */}
           {renderSection(
-            "🔴 Fehlgeschlagene / Stornierte Zahlungen",
+            "🟢 Bezahlte Zahlungen",
             <div className="space-y-4 max-h-80 overflow-y-auto pr-2">
-              {fehler.length === 0 ? (
-                <p className="text-gray-500 italic">Keine fehlerhaften Zahlungen</p>
+              {bezahlt.length === 0 ? (
+                <p className="text-gray-500 italic">Keine bezahlten Zahlungen</p>
               ) : (
-                fehler.map((p) => (
+                bezahlt.map((p) => (
                   <div
                     key={p.userId + p.amount}
                     onClick={() => openModal(p)}
-                    className="cursor-pointer hover:shadow-xl transition p-4 bg-red-50 border border-red-300 rounded-lg"
+                    className="cursor-pointer hover:shadow-xl transition p-4 bg-green-50 border border-green-300 rounded-lg"
                   >
                     <p><strong>Kunde:</strong> {p.name}</p>
                     <p><strong>Betrag:</strong> CHF {p.amount.toFixed(2)}</p>
-                    <p><strong>Status:</strong> fehler</p>
-                    {p.lastError && (
-                      <p className="text-red-600 text-sm">Grund: {p.lastError}</p>
-                    )}
+                 <p><strong>Status:</strong> {p.status === "manuell" ? "manuell bezahlt" : "bezahlt"}</p>
+
                   </div>
                 ))
               )}
             </div>
           )}
+
+
 
 {renderSection(
   " Gutscheine (mit Nutzung)",
@@ -611,6 +648,21 @@ filterVouchers(vouchers).map((v) => (
 
 
         </div>
+
+        
+{/* ⭐ Umsatz per Kunde */}
+<div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 mt-10">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">Umsatz pro Kunde</h2>
+
+  <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
+    {Object.values(umsatzProKunde).map((k, index) => (
+      <div key={index} className="p-3 bg-gray-50 border rounded-lg">
+        <p><strong>Kunde:</strong> {k.name}</p>
+        <p><strong>Umsatz:</strong> CHF {k.total.toFixed(2)}</p>
+      </div>
+    ))}
+  </div>
+</div>
       </div>
     </AdminLayout>
   );

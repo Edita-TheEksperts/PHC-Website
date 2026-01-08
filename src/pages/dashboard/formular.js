@@ -133,15 +133,7 @@ export default function FormularPage() {
         >
           Dashboard
         </li>
-        <li
-          onClick={() => {
-            router.push("/dashboard/personal-info");
-            setIsOpen(false);
-          }}
-          className="cursor-pointer hover:text-[#A6884A]"
-        >
-          Persönliche Informationen
-        </li>
+        
         <li
           onClick={() => {
             router.push("/dashboard/formular");
@@ -149,7 +141,7 @@ export default function FormularPage() {
           }}
           className="cursor-pointer hover:text-[#A6884A]"
         >
-          Formular
+          Persönliche Informationen
         </li>
       </ul>
     </div>
@@ -172,19 +164,10 @@ export default function FormularPage() {
         Dashboard
       </li>
       <li
-        onClick={() => router.push("/dashboard/personal-info")}
-        className="relative flex items-center gap-3 text-lg font-medium cursor-pointer hover:text-[#A6884A] transition"
-      >
-        Persönliche Informationen
-        {isNotifVisible && (
-          <span className="w-4 h-4 bg-[#04436F] rounded-full animate-pulse"></span>
-        )}
-      </li>
-      <li
         onClick={() => router.push("/dashboard/formular")}
         className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
       >
-        Formular
+        Persönliche Informationen
       </li>
     </ul>
   </nav>
@@ -202,9 +185,16 @@ export default function FormularPage() {
     { label: "Email", key: "email" },
     { label: "Adresse", key: "address" },
     { label: "PLZ", key: "postalCode" },
+    
 
     // city → careCity
     { label: "Ort", key: "careCity" },
+
+    { label: "Notfall Kontakt Vorname", key: "requestFirstName" },
+{ label: "Notfall Kontakt Nachname", key: "requestLastName" },
+{ label: "Notfall Kontakt Telefonnummer", key: "requestPhone" },
+{ label: "Notfall Kontakt E-Mail", key: "requestEmail" },
+
 
     // entranceLocation → careEntrance
     { label: "Stockwerk / Eingangscode", key: "careEntrance" },
@@ -223,9 +213,6 @@ export default function FormularPage() {
 
     // entranceDescription → careEntranceDetails
     { label: "Eingangsbeschreibung", key: "careEntranceDetails" },
-
-    // additionalNotes → specialRequests
-    { label: "Zusätzliche Infos", key: "specialRequests" },
 
     // companionship → companionshipSupport
     { label: "Gesellschaft leisten", key: "companionshipSupport" },
@@ -266,6 +253,9 @@ export default function FormularPage() {
 
     // nutritionSupport → foodSupport
     { label: "Nahrungsaufnahme", key: "foodSupport" },
+
+    { label: "Besondere Wünsche", key: "specialRequests" },
+
 
     // basicCare → basicCareNeeds
     { label: "Grundpflege", key: "basicCareNeeds" },

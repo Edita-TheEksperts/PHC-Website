@@ -86,7 +86,7 @@ const res = await fetch("/api/admin/send-maintenance-email", {
   return (
     <AdminLayout>
       <div className="bg-white rounded-xl shadow p-6 max-w-xl mx-auto space-y-6">
-        <h2 className="text-xl font-bold text-[#04436F]">Systemwartung E-Mail an alle Kunden</h2>
+        <h2 className="text-xl font-bold text-[#04436F]">Systemwartung E-Mail</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <label className="flex flex-col">
@@ -141,7 +141,9 @@ const res = await fetch("/api/admin/send-maintenance-email", {
             sending ? "bg-gray-400 cursor-not-allowed" : "bg-[#04436F] hover:bg-[#03314f]"
           } transition-colors duration-200`}
         >
-          {sending ? "Sende E-Mail..." : `E-Mail an alle ${clients.length} Kunden senden`}
+{sending
+  ? "Sende E-Mail..."
+  : "E-Mail an alle Mitarbeiter und Kunden senden"}
         </button>
 
         {message && (

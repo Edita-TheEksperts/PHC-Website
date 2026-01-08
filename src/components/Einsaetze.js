@@ -267,66 +267,80 @@ export default function Einsaetze() {
   // -----------------------------
   // RENDER LIST FUNCTION
   // -----------------------------
-  const renderList = (list) => {
-    if (!list || list.length === 0)
-      return <p className="text-gray-500">Nothing to show.</p>;
+const renderList = (list) => {
+  if (!list || list.length === 0)
+    return <p className="text-gray-500 mt-4">Nothing to show.</p>;
 
-    return (
-      <div className="space-y-3 mt-4">
-        {list.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => {
-              setSelectedItem(item);
-              setAssignMsg({ type: "", text: "" }); // clear old messages
-              setAssignLoading(false);
-            }}
-            className={`
-              p-4 shadow rounded border cursor-pointer transition
-              ${
-                item.status === "storniert" || item.status === "cancelled"
-                  ? "bg-red-100 border-red-300 hover:bg-red-200"
-                  : "bg-white border-gray-200 hover:bg-blue-50"
-              }
-            `}
-          >
-            <p>
-              <strong>Datum:</strong> {formatDate(item.date)}
-            </p>
-            <p>
-              <strong>Zeit:</strong> {item.startTime || "Keine Zeit"}
-            </p>
-            <p>
-              <strong>Stunden:</strong> {item.hours || "—"}
-            </p>
+  return (
+    <div className="overflow-x-auto mt-4">
+      <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+        <thead className="bg-gray-100 text-sm text-gray-700">
+          <tr>
+            <th className="px-4 py-3 text-left">Erstellt am</th>
+            <th className="px-4 py-3 text-left">Zeit</th>
+            <th className="px-4 py-3 text-left">Stunden</th>
+            <th className="px-4 py-3 text-left">Kunde</th>
+            <th className="px-4 py-3 text-left">Mitarbeiter</th>
+            <th className="px-4 py-3 text-left">Status</th>
+          </tr>
+        </thead>
 
-            {item.user && (
-              <p>
-                <strong>Kunde:</strong> {item.user.firstName} {item.user.lastName}
-              </p>
-            )}
+        <tbody className="divide-y text-sm">
+          {list.map((item) => (
+            <tr
+              key={item.id}
+              onClick={() => {
+                setSelectedItem(item);
+                setAssignMsg({ type: "", text: "" });
+                setAssignLoading(false);
+              }}
+              className={`
+                cursor-pointer transition
+                ${
+                  item.status === "storniert" || item.status === "cancelled"
+                    ? "bg-red-50 hover:bg-red-100"
+                    : "hover:bg-blue-50"
+                }
+              `}
+            >
+              <td className="px-4 py-3">{formatDate(item.date)}</td>
+              <td className="px-4 py-3">{item.startTime || "—"}</td>
+              <td className="px-4 py-3">{item.hours || "—"}</td>
 
-            <p>
-              <strong>Mitarbeiter:</strong>{" "}
-              {item.employee
-                ? `${item.employee.firstName} ${item.employee.lastName}`
-                : "Kein Mitarbeiter zugewiesen"}
-            </p>
+              <td className="px-4 py-3">
+                {item.user
+                  ? `${item.user.firstName} ${item.user.lastName}`
+                  : "—"}
+              </td>
 
-            <p>
-              <strong>Status:</strong> {item.status}
-            </p>
+              <td className="px-4 py-3">
+                {item.employee
+                  ? `${item.employee.firstName} ${item.employee.lastName}`
+                  : "Nicht zugewiesen"}
+              </td>
 
-            {(item.status === "storniert" || item.status === "cancelled") && (
-              <span className="inline-block mt-2 px-2 py-1 text-xs font-semibold bg-red-200 text-red-700 rounded">
-                Storniert
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-    );
-  };
+              <td className="px-4 py-3">
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-semibold
+                    ${
+                      item.status === "storniert" ||
+                      item.status === "cancelled"
+                        ? "bg-red-200 text-red-800"
+                        : "bg-green-100 text-green-800"
+                    }
+                  `}
+                >
+                  {item.status}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 
   // -----------------------------
   // PAGE UI

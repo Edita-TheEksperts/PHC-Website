@@ -32,6 +32,12 @@ export default async function handler(req, res) {
             : String(d)
         )
       : [];
+
+      function normalizeFile(value) {
+  if (typeof value === "string" && value.trim() !== "") return value;
+  return null;
+}
+
 await prisma.employee.create({
   data: {
     // === BASIC ===
@@ -87,13 +93,13 @@ await prisma.employee.create({
     dietaryExperience: data.dietaryExperience || [],
     servicesOffered: data.servicesOffered || [],
 // === FILES ===
-passportFile: data.passportFrontFile || null,
-visaFile: data.workPermitFile || null,
-policeLetterFile: data.policeLetterFile || null,
-cvFile: data.cvFile || null,
-certificateFile: data.certificateFile || null,
-drivingLicenceFile: data.drivingLicenceFile || null,
-profilePhoto: data.profilePhoto || null,
+passportFile: normalizeFile(data.passportFrontFile),
+visaFile: normalizeFile(data.workPermitFile),
+policeLetterFile: normalizeFile(data.policeLetterFile),
+cvFile: normalizeFile(data.cvFile),
+certificateFile: normalizeFile(data.certificateFile),
+drivingLicenceFile: normalizeFile(data.drivingLicenceFile),
+profilePhoto: normalizeFile(data.profilePhoto),
 
 
     // === META ===
