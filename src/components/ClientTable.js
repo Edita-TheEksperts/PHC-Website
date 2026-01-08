@@ -127,13 +127,19 @@ const uniqueServices = [
 
 
 
-const filteredClients = clients
+const activeClients = clients.filter(
+  (client) => client.status !== "gekuendigt"
+);
+
+const filteredClients = activeClients
   .filter((client) => {
     const name = `${client.firstName || ""} ${client.lastName || ""}`.toLowerCase();
     const email = (client.email || "").toLowerCase();
     const phone = (client.phone || "").toLowerCase();
     const serviceNames = (client.services || []).map(s => s.name?.toLowerCase() || "");
-    const firstDate = client.firstDate ? new Date(client.firstDate).toISOString().slice(0, 10) : "";
+    const firstDate = client.firstDate
+      ? new Date(client.firstDate).toISOString().slice(0, 10)
+      : "";
 
     const matchesSearch =
       name.includes(searchTerm.toLowerCase()) ||
@@ -161,6 +167,7 @@ const filteredClients = clients
     }
     return 0;
   });
+
 
 useEffect(() => {
   const initialMap = {};

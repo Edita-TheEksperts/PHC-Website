@@ -241,6 +241,20 @@ if (action === "confirmed") {
                 setIsOpen(false);
               }}
             />
+                     <SidebarLink
+              label="Persönliche Informationen "
+              onClick={() => {
+                router.push("/employee-info");
+                setIsOpen(false);
+              }}
+            />
+                         <SidebarLink
+              label="Bankdetails "
+              onClick={() => {
+                router.push("/employee-bank");
+                setIsOpen(false);
+              }}
+            />
             <SidebarLink
               label="Logout"
               onClick={() => {
@@ -253,39 +267,45 @@ if (action === "confirmed") {
         </div>
       )}
 
-      {/* --- DESKTOP SIDEBAR --- */}
-      <aside className="hidden lg:flex w-64 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
-        <h2 className="text-3xl font-extrabold text-center tracking-wide">
-          PHC
-        </h2>
-        <nav className="space-y-2">
-          <SidebarLink label="Dashboard" onClick={() => router.push("/employee-dashboard")} />
-          <SidebarLink
-            label="Logout"
-            onClick={() => {
-              localStorage.removeItem("email");
-              router.push("/login");
-            }}
-          />
-        </nav>
-      </aside>
+<aside className="hidden lg:flex w-64 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
+  <h2 className="text-3xl font-extrabold text-center tracking-wide">
+    PHC
+  </h2>
+
+  <nav className="space-y-2">
+    <SidebarLink
+      label="Dashboard"
+      onClick={() => router.push("/employee-dashboard")}
+    />
+
+    {/* ➕ LINK I RI */}
+    <SidebarLink
+      label="Persönliche Informationen"
+      onClick={() => router.push("/employee-info")}
+    />
+
+   <SidebarLink
+      label="Bankdetails "
+      onClick={() => router.push("/employee-bank")}
+    />
+    <SidebarLink
+      label="Logout"
+      onClick={() => {
+        localStorage.removeItem("email");
+        router.push("/login");
+      }}
+    />
+  </nav>
+</aside>
+
     </>
       <main className="flex-1 mt-[60px] lg:mt-0 px-4 lg:px-8 py-4 lg:py-10 space-y-10">
-        <h1 className="text-2xl font-bold text-[#04436F] border-b pb-4">Mitarbeiter-Dashboard</h1>
+<h1 className="text-2xl font-bold text-[#04436F] border-b pb-4">
+  Hallo {employeeData?.firstName} {employeeData?.lastName}
+</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          <Card title="👤 Persönliche Informationen">
-            <Info label="Name" value={`${employeeData.firstName} ${employeeData.lastName}`} />
-            <Info label="E-Mail" value={employeeData.email} />
-            <Info label="Telefon" value={employeeData.phone || "—"} />
-            <Info label="Adresse" value={`${employeeData.address || ""} ${employeeData.houseNumber || ""}, ${employeeData.zipCode || ""} ${employeeData.city || ""}, ${employeeData.country || ""}`} />
-          </Card>
-          <Card title="🛠 Berufserfahrung">
-            <Info label="Jahre" value={employeeData.experienceYears} />
-            <Info label="Ort" value={employeeData.experienceWhere || "—"} />
-            <Info label="Firma" value={employeeData.experienceCompany || "—"} />
-            <Info label="Führerschein" value={employeeData.hasLicense ? "Ja" : "Nein"} />
-            <Info label="Autotyp" value={employeeData.licenseType || "—"} />
-          </Card>
+ 
+    
           <Card title="🏖 Urlaub">
             <DatePicker selected={vacationStart} onChange={(date) => { setVacationStart(date); setVacationEnd(null); }} dateFormat="dd.MM.yyyy" placeholderText="Startdatum" minDate={new Date()} className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-2" />
             <DatePicker selected={vacationEnd} onChange={(date) => setVacationEnd(date)} dateFormat="dd.MM.yyyy" placeholderText="Enddatum" minDate={vacationStart || new Date()} className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-4" />
@@ -378,52 +398,9 @@ if (action === "confirmed") {
               </div>
             ))}
           </Card>
-          <Card title="📄 Dokumente">
-            {["passportFile","visaFile","policeLetterFile","cvFile","certificateFile","drivingLicenceFile","profilePhoto"].map((key, i) =>
-              employeeData[key] ? <Info key={i} label={key} value={<a href={employeeData[key]} target="_blank" className="text-[#04436F] underline">Ansehen</a>} /> : <Info key={i} label={key} value="Nicht hochgeladen" />
-            )}
-          </Card>
-          <Card title="🎓 Zusätzliche Infos">
-            <Info label="Spezial-Trainings" value={employeeData.specialTrainings?.join(", ") || "—"} />
-            <Info label="Sprachen" value={employeeData.languages?.join(", ") || "—"} />
-            <Info label="Andere Sprache" value={employeeData.languageOther || "—"} />
-            <Info label="Reisebereitschaft" value={employeeData.howFarCanYouTravel || "—"} />
-          </Card>
-          <Card title="🩺 Pflege & Unterstützung">
-            <Info label="Körperpflege" value={employeeData.bodyCareSupport || "—"} />
-            <Info label="Ernährungserfahrung" value={employeeData.dietaryExperience?.join(", ") || "—"} />
-            <Info label="Mit Tieren arbeiten" value={employeeData.worksWithAnimals || "—"} />
-            <Info label="Allergien" value={employeeData.hasAllergies || "—"} />
-          </Card>
-          <Card title="📊 Status">
-            <Info label="Status" value={employeeData.status} />
-            <Info label="Erstellt" value={new Date(employeeData.createdAt).toLocaleDateString()} />
-          </Card>
-          <Card title="💳 Bankdetails">
-            {paymentSaved ? (
-              <div className="space-y-2 text-sm">
-                <Info label="IBAN" value={payment.iban || "—"} />
-                <Info label="Kontoinhaber" value={payment.accountHolder || "—"} />
-                <Info label="Bankname" value={payment.bankName || "—"} />
-                <Info label="BIC" value={payment.bic || "—"} />
-                <button onClick={handlePaymentEditRequest} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">Änderung anfragen</button>
-                {paymentMsg && <p className="text-sm text-blue-700 mt-2">{paymentMsg}</p>}
-              </div>
-            ) : (
-              <form onSubmit={handlePaymentSubmit} className="space-y-2 text-sm">
-                <input type="text" name="iban" placeholder="IBAN" value={payment.iban} onChange={handlePaymentChange} className="border w-full p-2 rounded" required />
-                <input type="text" name="accountHolder" placeholder="Kontoinhaber" value={payment.accountHolder} onChange={handlePaymentChange} className="border w-full p-2 rounded" required />
-                <input type="text" name="bankName" placeholder="Bankname" value={payment.bankName} onChange={handlePaymentChange} className="border w-full p-2 rounded" />
-                <input type="text" name="bic" placeholder="BIC / SWIFT" value={payment.bic} onChange={handlePaymentChange} className="border w-full p-2 rounded" />
-                <button type="submit" className="bg-[#04436F] text-white px-4 py-2 rounded w-full">Speichern</button>
-                {paymentMsg && <p className="text-green-600 mt-2">{paymentMsg}</p>}
-              </form>
-            )}
-          </Card>
+  
         </div>
-        <Card title="✅ Bestätigte Zuweisungen">
-          <AssignmentsList confirmedAssignments={confirmedAssignments} />
-        </Card>
+   
       </main>
     </div>
   );

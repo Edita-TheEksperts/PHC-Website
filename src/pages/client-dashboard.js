@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import Kundigung from "./kundigung";
+import Kundigung from "./dashboard/kundigung";
 import RegisterForm3 from "../components/RegisterForm3";
 import RegisterForm4 from "../components/RegisterForm4";
 import "react-datepicker/dist/react-datepicker.css";
@@ -26,7 +26,6 @@ import {
 import { addDays, format } from "date-fns";
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import ClientDashboard2 from "../components/ClientDashboard2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -60,17 +59,14 @@ export default function ClientDashboard() {
   const [appointments, setAppointments] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
-const [showInfoUpdate, setShowInfoUpdate] = useState(false);
-const [showMonthlyOverview, setShowMonthlyOverview] = useState(true);
 const [uiMessage, setUiMessage] = useState(null);
-
-  const [updatedData, setUpdatedData] = useState({});
+const [activeTab, setActiveTab] = useState("dashboard");
+const [updatedData, setUpdatedData] = useState({});
 const [showAppointments, setShowAppointments] = useState(true);
 const [showHistory, setShowHistory] = useState(true);
 const [showUserInfo, setShowUserInfo] = useState(true);
 const [showVacations, setShowVacations] = useState(true);
 const [showBooking, setShowBooking] = useState(true);
-  const [showOverlayForm, setShowOverlayForm] = useState(true);
   const [services, setServices] = useState("");
   const [allServices, setAllServices] = useState([]);
 
@@ -81,8 +77,18 @@ const [showBooking, setShowBooking] = useState(true);
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
 // Calculate total hours & km
-const totalHours = appointments.reduce((sum, a) => sum + (a.hours || 0), 0);
-const totalKm = appointments.reduce((sum, a) => sum + (a.kilometers || 0), 0);
+const safeAppointments = Array.isArray(appointments) ? appointments : [];
+
+const totalHours = safeAppointments.reduce(
+  (sum, a) => sum + (a.hours || 0),
+  0
+);
+
+const totalKm = safeAppointments.reduce(
+  (sum, a) => sum + (a.kilometers || 0),
+  0
+);
+
 
 // Define a baseline (contracted) hours/km, for example:
 const contractedHours = 20; // adjust based on your rules
@@ -115,13 +121,11 @@ const extraKm = Math.max(0, totalKm - contractedKm);
 
   useEffect(() => {}, [vacations]);
 
-  useEffect(() => {
-    if (!userData?.id) return;
-
-    fetch(`/api/appointments?userId=${userData.id}`)
-      .then((res) => res.json())
-      .then((data) => setAppointments(data));
-  }, [userData]);
+useEffect(() => {
+  if (userData?.id) {
+    fetchAppointments(userData.id);
+  }
+}, [userData]);
 
   const markAsDone = async (id) => {
     await fetch("/api/appointments", {
@@ -172,6 +176,15 @@ useEffect(() => {
     return ["cancelled", "terminated", "done"].includes(a.status) || isPast;
   });
 
+  const fetchAppointments = async (userId) => {
+  const res = await fetch(`/api/appointments?userId=${userId}`);
+  if (res.ok) {
+    const data = await res.json();
+    setAppointments(data);
+  }
+};
+
+
 const cancelAppointment = async (id) => {
   try {
     const res = await fetch(`/api/appointments?id=${id}&cancel=true`, {
@@ -209,19 +222,6 @@ const cancelAppointment = async (id) => {
   // ⏳ fshi mesazhin pas 4 sekondash
   setTimeout(() => setUiMessage(null), 4000);
 };
-
-const [paymentMethod, setPaymentMethod] = useState(null);
-const [showPaymentBox, setShowPaymentBox] = useState(true);
-
-useEffect(() => {
-  if (!userData?.stripeCustomerId) return;
-
-  fetch(`/api/get-payment-method?customerId=${userData.stripeCustomerId}`)
-    .then(res => res.json())
-    .then(data => setPaymentMethod(data.paymentMethod))
-    .catch(err => console.error("❌ Payment load error:", err));
-}, [userData]);
-
 
   const terminateAppointment = async (id, immediate = false) => {
     await fetch(
@@ -430,17 +430,6 @@ async function handleUpdateCard() {
     alert("Fehler: Zahlungsmethode konnte nicht gespeichert werden.");
   }
 }
-const fetchPaymentMethod = async () => {
-  if (!userData?.stripeCustomerId) return;
-
-  const res = await fetch(
-    `/api/get-payment-method?customerId=${userData.stripeCustomerId}`
-  );
-
-  const data = await res.json();
-
-  setPaymentMethod(data.paymentMethod || null);
-};
 
   const normalize = (str) =>
     str
@@ -530,21 +519,54 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      await fetch("/api/vacation/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          startDate: startDate?.toISOString().split("T")[0], // yyyy-mm-dd
-          endDate: endDate?.toISOString().split("T")[0],
-        }),
-      });
-      setStartDate(null);
-      setEndDate(null);
-      refreshVacations();
-    };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  await fetch("/api/vacation/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId,
+      startDate: start.toISOString().split("T")[0],
+      endDate: end.toISOString().split("T")[0],
+    }),
+  });
+
+// 🔁 për çdo termin aktiv gjatë Urlaub
+for (const appt of appointments) {
+  if (!appt.date || appt.status !== "active") continue;
+
+  const apptDate = new Date(appt.date);
+  const startDay = new Date(start);
+  const endDay = new Date(end);
+
+  apptDate.setHours(12, 0, 0, 0);
+  startDay.setHours(0, 0, 0, 0);
+  endDay.setHours(23, 59, 59, 999);
+
+  if (apptDate >= startDay && apptDate <= endDay) {
+    // ✅ KJO është STORNIEREN i vërtetë
+    await fetch(
+      `/api/admin/schedules/${appt.id}/cancel?cancelledBy=Urlaub`,
+      {
+        method: "PATCH",
+      }
+    );
+  }
+}
+
+// 🔄 rifresko nga backend
+await fetchAppointments(userId);
+
+
+  setStartDate(null);
+  setEndDate(null);
+  refreshVacations();
+};
+
     function isUserDataIncomplete(data) {
       if (!data) return true;
       return (
@@ -564,40 +586,57 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
     }, [userData, notifShownOnce]);
 
     return (
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => {
-            setStartDate(date);
-            setEndDate(null); // reset enddate when start changes
-          }}
-          dateFormat="dd.MM.yyyy"
-          locale="de"
-          placeholderText="dd.mm.yyyy"
-          minDate={new Date()} // don t approve before today date
-          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
-        />
+<form onSubmit={handleSubmit} className="space-y-4">
 
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          dateFormat="dd.MM.yyyy"
-          locale="de"
-          placeholderText="dd.mm.yyyy"
-          minDate={startDate || new Date()} 
-          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
-           popperClassName="z-50"         // 👈 e bën popup sipër
-  popperPlacement="bottom-start" // 👈 hapet poshtë input-it
-  portalId="root-portal"
-        />
+  {/* Startdatum */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Startdatum
+    </label>
+    <DatePicker
+      selected={startDate}
+      onChange={(date) => {
+        setStartDate(date);
+        setEndDate(null);
+      }}
+      dateFormat="dd.MM.yyyy"
+      locale="de"
+      placeholderText="dd.mm.yyyy"
+      minDate={new Date()}
+      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+    />
+  </div>
 
-        <button
-          type="submit"
-          className="bg-[#B99B5F] text-white py-2 px-4 rounded-lg"
-        >
-          Urlaub speichern
-        </button>
-      </form>
+  {/* Enddatum */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Enddatum
+    </label>
+    <DatePicker
+      selected={endDate}
+      onChange={(date) => setEndDate(date)}
+      dateFormat="dd.MM.yyyy"
+      locale="de"
+      placeholderText="dd.mm.yyyy"
+      minDate={startDate || new Date()}
+      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm"
+    />
+  </div>
+
+  {/* Rule info */}
+  <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm rounded-lg p-3">
+    <strong>Hinweis:</strong>  
+    Termine, die in diesen Zeitraum fallen, werden automatisch storniert.
+  </div>
+
+  <button
+    type="submit"
+    className="bg-[#B99B5F] text-white py-2 px-4 rounded-lg"
+  >
+    Urlaub speichern
+  </button>
+</form>
+
     );
   }
 
@@ -624,6 +663,8 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
               </button>
             </div>
           </div>
+
+          
 
           {/* Fullscreen Mobile Menu Overlay */}
           {isOpen && (
@@ -664,6 +705,15 @@ if (!updatedData.careCity || updatedData.careCity.trim() === "") {
                   className="cursor-pointer hover:text-[#A6884A]"
                 >
 Persönliche Informationen                </li>
+
+     <li
+                  onClick={() => {
+                    router.push("/dashboard/finanzen");
+                    setIsOpen(false);
+                  }}
+                  className="cursor-pointer hover:text-[#A6884A]"
+                >
+Finanzen             </li>
               </ul>
             </div>
           )}
@@ -691,6 +741,16 @@ Persönliche Informationen                </li>
               >
              Persönliche Informationen
               </li>
+
+                                    <li
+                onClick={() => {
+                  router.push("/dashboard/finanzen");
+                  setIsOpen(false);
+                }}
+                className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+              >
+                Finanzen
+              </li>
               <li
                 onClick={() => {
                   router.push("/dashboard/kundigung");
@@ -700,6 +760,8 @@ Persönliche Informationen                </li>
               >
                 Kündigung
               </li>
+
+    
             </ul>
           </nav>
         </>
@@ -789,14 +851,15 @@ Persönliche Informationen                </li>
     }}
   >
     <div className="p-6 space-y-4">
-      {appointments.filter((a) => a.status !== "cancelled").length > 0 ? (
+{appointments.filter((a) => a.status === "active").length > 0 ? (
         <ul
           className="space-y-4 max-h-96 overflow-y-auto pr-2 
           scrollbar-thin scrollbar-thumb-[#B99B5F]/40 
           scrollbar-track-transparent"
         >
-          {appointments
-            .filter((a) => a.status !== "cancelled")
+       {  appointments
+  .filter((a) => a.status === "active")
+
             .map((appt) => (
               <li
                 key={appt.id}
@@ -961,8 +1024,6 @@ Persönliche Informationen                </li>
   </div>
 </section>
 
-{/* --- MONATSÜBERSICHT --- */}
-<ClientDashboard2 userId={userData?.id} />
               {/* --- SERVICE HISTORY --- */}
       {/* Serviceverlauf Section */}
 <section
@@ -1009,55 +1070,7 @@ Persönliche Informationen                </li>
         : "max-h-0 opacity-0 scale-95 overflow-hidden"
     }`}
   >
-    {/* Filter buttons */}
-    <div className="flex items-center gap-6 mb-6 px-6 pt-4">
-      {/* Cancelled */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setFilter("cancelled");
-        }}
-        className="flex items-center gap-2 text-sm font-medium"
-      >
-        <span
-          className={`w-4 h-4 rounded-full border-2 ${
-            filter === "cancelled"
-              ? "bg-red-500 border-red-600 scale-110"
-              : "bg-red-300 border-red-400"
-          }`}
-        ></span>
-        <span
-          className={
-            filter === "cancelled" ? "text-red-600" : "text-gray-600"
-          }
-        >
-          Abgebrochen
-        </span>
-      </button>
-
-      {/* Done */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setFilter("done");
-        }}
-        className="flex items-center gap-2 text-sm font-medium"
-      >
-        <span
-          className={`w-4 h-4 rounded-full border-2 ${
-            filter === "done"
-              ? "bg-green-500 border-green-600 scale-110"
-              : "bg-green-300 border-green-400"
-          }`}
-        ></span>
-        <span
-          className={filter === "done" ? "text-green-600" : "text-gray-600"}
-        >
-          Erledigt
-        </span>
-      </button>
-    </div>
-
+ 
     {/* List */}
     <ul
       className="space-y-4 max-h-96 overflow-y-auto pr-2 px-6
@@ -1141,31 +1154,31 @@ Persönliche Informationen                </li>
                 )}
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-2 mt-4">
-                {/* Abbrechen */}
-                <button
-                  onClick={() => cancelAppointment(item.id)}
-                  className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
-                    bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
-                >
-                  Stornieren
-                </button>
+       <div className="flex gap-2 mt-4">
+  {/* ❌ MOS shfaq Stornieren në Serviceverlauf */}
+  {!["cancelled", "done", "terminated"].includes(item.status) && (
+    <button
+      onClick={() => cancelAppointment(item.id)}
+      className="flex-1 px-4 py-2 text-xs font-medium text-red-600 
+        bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
+    >
+      Stornieren
+    </button>
+  )}
 
-                {/* Details */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedAppointment(item);
-                  }}
-                  className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
-                    bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 
-                    cursor-pointer relative z-10"
-                >
-                  Details
-                </button>
-              </div>
+  <button
+    type="button"
+    onClick={(e) => {
+      e.stopPropagation();
+      setSelectedAppointment(item);
+    }}
+    className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
+      bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
+  >
+    Details
+  </button>
+</div>
+
             </li>
           ))
       ) : (
@@ -1197,11 +1210,6 @@ Persönliche Informationen                </li>
     </article>
   </div>
 </section>
-
-          </section>
-
-     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-8">
-
           {/* Neue Buchung planen Section */}
 <section
   className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
@@ -1428,72 +1436,9 @@ Persönliche Informationen                </li>
   </div>
 </section>
 
-          <section
-  className={`bg-white border border-gray-200 transition-all duration-500 ease-in-out overflow-hidden
-  ${showPaymentBox ? "scale-100 opacity-100 rounded-3xl shadow-2xl" : "scale-95 opacity-90 rounded-xl shadow-md"}`}
->
-  
-  <header
-    onClick={() => setShowPaymentBox(prev => !prev)}
-    className="flex items-center justify-between px-6 py-4 cursor-pointer select-none border-b border-gray-100"
-  >
-    
-    <h3 className="text-2xl font-semibold text-[#B99B5F]">
-      Zahlungsmethode
-    </h3>
+          </section>
 
-    {showPaymentBox ? (
-      <ChevronUp className="w-6 h-6 text-gray-500" />
-    ) : (
-      <ChevronDown className="w-6 h-6 text-gray-500" />
-    )}
-  </header>
-  <div
-    className={`transition-all duration-500 ${
-      showInfoUpdate
-        ? "max-h-0 opacity-0 overflow-hidden"
-        : "max-h-40 opacity-100"
-    }`}
-  >
-    <p className="px-6 py-4 text-sm text-gray-500 italic text-left">
-Hier können Sie Ihre gespeicherte Zahlungsmethode einsehen und bei Bedarf aktualisieren.    </p>
-  </div>
-  <div
-    className={`transition-all duration-500 transform ${
-      showPaymentBox
-        ? "max-h-[500px] opacity-100 scale-100"
-        : "max-h-0 opacity-0 scale-95"
-    }`}
-  >
-    <div className="p-6 space-y-4 text-gray-700">
-
-      {/* If no method */}
-      {!paymentMethod && (
-        <p className="italic text-gray-500">
-          Keine Zahlungsmethode gespeichert.
-        </p>
-      )}
-
-      {/* If card exists */}
-      {paymentMethod && (
-        <>
-          <p><strong>Kartentyp:</strong> {paymentMethod.brand}</p>
-          <p><strong>Nummer:</strong> **** **** **** {paymentMethod.last4}</p>
-          <p>
-            <strong>Ablaufdatum:</strong> {paymentMethod.exp_month}/{paymentMethod.exp_year}
-          </p>
-        </>
-      )}
-<button
-  className="mt-3 bg-[#B99B5F] text-white py-2 px-4 rounded-lg"
-  onClick={() => setEditingCard(true)}
->
-  Zahlungsmethode ändern
-</button>
-
-    </div>
-  </div>
-</section>
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-8">
 
 
           </div>
@@ -1609,27 +1554,6 @@ selected={
         </>
       )}
       
-    </div>
-  </div>
-)}
-
-{editingCard && (
-  <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-    <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md relative">
-      <button onClick={() => setEditingCard(false)}>✕</button>
-
-      <h3 className="text-xl font-semibold text-[#B99B5F] mb-4">
-        Neue Zahlungsmethode
-      </h3>
-
-      <CardElement className="border px-3 py-3 rounded-lg" />
-
-      <button
-        onClick={handleUpdateCard}
-        className="w-full bg-[#04436F] text-white py-3 rounded-lg mt-6"
-      >
-        Zahlungsmethode aktualisieren
-      </button>
     </div>
   </div>
 )}
