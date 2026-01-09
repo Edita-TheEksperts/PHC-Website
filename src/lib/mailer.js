@@ -63,47 +63,67 @@ export function createContractPdf(employee) {
   });
 }
 
-/* ---------- EMAIL ---------- */
 export async function sendApprovalEmail(employee, plainPassword) {
   const { email, firstName, lastName } = employee;
 
-  const ndaBuffer = await createNdaPdf(firstName, lastName);
-  const contractBuffer = await createContractPdf(employee);
+  console.log("📨 Starting email process...");
+  console.log("Recipient:", email);
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
+  try {
+    console.log("📄 Generating NDA PDF...");
+    const ndaBuffer = await createNdaPdf(firstName, lastName);
+    console.log("✅ NDA PDF created");
 
-  await transporter.sendMail({
-    from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject: "Willkommen im Prime Home Care Team – Zugangsdaten",
-    html: `
-      <p>Liebe ${firstName},</p>
+    console.log("📄 Generating Contract PDF...");
+    const contractBuffer = await createContractPdf(employee);
+    console.log("✅ Contract PDF created");
 
-      <p>Ihr Profil wurde akzeptiert.</p>
+    console.log("🔌 Creating SMTP transporter...");
+    console.log("SMTP HOST:", process.env.SMTP_HOST);
+    console.log("SMTP PORT:", process.env.SMTP_PORT);
+    console.log("SMTP USER:", process.env.SMTP_USER);
+    console.log("SMTP SECURE:", process.env.SMTP_SECURE);
 
-      <p><strong>Login-Daten:</strong></p>
-      <ul>
-        <li>Email: ${email}</li>
-        <li>Passwort: <strong>${plainPassword}</strong></li>
-      </ul>
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
 
-      <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
+    console.log("📤 Sending email...");
 
-      <p>Im Anhang finden Sie Ihre NDA und Ihren Arbeitsvertrag.</p>
+    const info = await transporter.sendMail({
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: "Willkommen im Prime Home Care Team – Zugangsdaten",
+      html: `
+        <p>Liebe ${firstName},</p>
+        <p>Ihr Profil wurde akzeptiert.</p>
+        <p><strong>Login-Daten:</strong></p>
+        <ul>
+          <li>Email: ${email}</li>
+          <li>Passwort: <strong>${plainPassword}</strong></li>
+        </ul>
+        <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
+        <p>Im Anhang finden Sie Ihre NDA und Ihren Arbeitsvertrag.</p>
+        <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
+      `,
+      attachments: [
+        { filename: `NDA_${firstName}_${lastName}.pdf`, content: ndaBuffer },
+        { filename: `Arbeitsvertrag_${firstName}_${lastName}.pdf`, content: contractBuffer },
+      ],
+    });
 
-      <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
-    `,
-    attachments: [
-      { filename: `NDA_${firstName}_${lastName}.pdf`, content: ndaBuffer },
-      { filename: `Arbeitsvertrag_${firstName}_${lastName}.pdf`, content: contractBuffer },
-    ],
-  });
+    console.log("✅ Email sent successfully!");
+    console.log("📨 Message ID:", info.messageId);
+
+  } catch (error) {
+    console.error("❌ Email sending failed!");
+    console.error("ERROR MESSAGE:", error.message);
+    console.error("FULL ERROR:", error);
+  }
 }

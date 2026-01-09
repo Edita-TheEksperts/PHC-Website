@@ -282,37 +282,39 @@ export default function EmployeeDashboard() {
             </nav>
           </div>
         )}
+<aside className="hidden lg:flex w-72 bg-[#04436F] text-white p-6 shadow-xl flex-col">
+  <h2 className="text-4xl font-bold text-center mb-6 select-none cursor-pointer">
+    PHC
+  </h2>
 
-        <aside className="hidden lg:flex w-72 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
-          <h2 className="text-4xl font-extrabold text-center tracking-wide">
-            PHC
-          </h2>
+  <nav className="flex-grow space-y-3 text-lg">
+    <SidebarLink
+      label="Dashboard"
+      onClick={() => router.push("/employee-dashboard")}
+    />
 
-          <nav className="space-y-2">
-            <SidebarLink
-              label="Dashboard"
-              onClick={() => router.push("/employee-dashboard")}
-            />
+    <SidebarLink
+      label="Persönliche Informationen"
+      onClick={() => router.push("/employee-info")}
+    />
 
-            {/* ➕ LINK I RI */}
-            <SidebarLink
-              label="Persönliche Informationen"
-              onClick={() => router.push("/employee-info")}
-            />
+    <SidebarLink
+      label="Finanzen"
+      onClick={() => router.push("/employee-bank")}
+    />
 
-            <SidebarLink
-              label="Finanzen "
-              onClick={() => router.push("/employee-bank")}
-            />
-            <SidebarLink
-              label="Logout"
-              onClick={() => {
-                localStorage.removeItem("email");
-                router.push("/login");
-              }}
-            />
-          </nav>
-        </aside>
+    {/* Separator */}
+      <SidebarLink
+        label="Logout"
+        onClick={() => {
+          localStorage.removeItem("email");
+          router.push("/login");
+        }}
+      />
+    
+  </nav>
+</aside>
+
       </>
       <main className="flex-1 mt-[60px] lg:mt-0 px-4 lg:px-8 py-4 lg:py-10 space-y-10">
         <h1 className="text-2xl font-bold text-[#04436F] border-b pb-4">

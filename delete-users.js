@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
  * ==============================
  */
 const USER_IDS = [
-  "f12b64cd-d989-4e46-a720-bced1a2a0ae7",
+  "ce4c0ada-1a02-469b-a84a-96663e190ad8",
     "f0fda771-37ec-4f3b-a053-6c403b5ef111",
       "ee37a1f7-b363-414c-ad8c-07113218025c",
         "e84b68da-fb4c-43c5-91eb-98f7013ec3c5",

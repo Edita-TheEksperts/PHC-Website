@@ -258,10 +258,11 @@ useEffect(() => {
   const token = localStorage.getItem("userToken");
 
   // nëse s'ka token → ridrejto menjëherë
-  if (!token) {
-    router.replace("/login");
-    return;
-  }
+if (!token && step !== "done" && step !== "payment") {
+  router.replace("/login");
+  return;
+}
+
 
   const fetchUserData = async () => {
     try {
@@ -725,10 +726,11 @@ Persönliche Informationen                </li>
 Finanzen             </li>
               </ul>
             </div>
-          )}
+          )}  router.replace("/login");
+
 
           {/* --- DESKTOP SIDEBAR --- */}
-          <nav className="hidden lg:flex bg-[#B99B5F] text-white p-4 flex-col shadow-lg lg:w-72">
+          <nav className="hidden lg:flex w-72 bg-[#B99B5F] text-white p-6 space-y-8 shadow-xl flex-col">
             <h1
               className="text-4xl font-bold text-center mb-12 select-none cursor-pointer"
               onClick={() => router.push("/client-dashboard")}
