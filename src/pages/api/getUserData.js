@@ -1,51 +1,77 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../lib/prisma"
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ message: "Method not allowed" });
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" })
   }
 
   try {
-    // Example: Find user by email
-    const email = req.query.email;
+    const token = req.headers.authorization?.split(" ")[1]
+    if (!token) return res.status(401).json({ error: "No Authorization header provided" })
 
-    if (!email) {
-      return res.status(400).json({ message: "Email is required" });
-    }
+    // ⚠️ Këtu zakonisht dekodohet token → userId
+    const userId = "USER_ID_FROM_TOKEN"
 
- const user = await prisma.user.findUnique({
-  where: { email },
-  include: { 
-    healthQuestion: true,
-    services: true,
-    subServices: true
-  }
-});
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        // BASIC
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        address: true,
+        postalCode: true,
+        frequency: true,
 
+        // CONTACT
+        emergencyContactName: true,
+        emergencyContactPhone: true,
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+        // CARE
+        careCity: true,
+        careStreet: true,
+        carePhone: true,
+        carePostalCode: true,
+        careHasParking: true,
+        careArrivalConditions: true,
+        careEntrance: true,
+        careEntranceDetails: true,
 
-    res.status(200).json({
-fullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
-      email: user.email,
-      phone: user.phone,
-      services: user.services,
-      subServices: user.subServices,
-      frequency: user.frequency,
-      timeWindow: user.timeWindow,
-      address: user.address,
-      healthQuestions: {
-        allergies: user.healthQuestion?.allergies || "",
-        specialRequests: user.healthQuestion?.specialRequests || "",
+            services: { select: { id: true, name: true } },
+    subServices: { select: { id: true, name: true } },
+
+        // PERSONAL
+        languages: true,
+        pets: true,
+        hasAllergies: true,
+        allergyDetails: true,
+        behaviorTraits: true,
+
+        // HEALTH
+        healthFindings: true,
+        mobilityAids: true,
+        physicalState: true,
+        mentalDiagnoses: true,
+        incontinenceTypes: true,
+
+        // HOUSEHOLD
+        householdPeople: true,
+        householdRooms: true,
+
+        // EXTRA
+        specialRequests: true,
+        shoppingWithClient: true,
+        transport: true,
+        outings: true,
+        reads: true,
+        playsCards: true,
       },
-    });
+    })
 
-  } catch (error) {
-    console.error("Get user error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(200).json(user)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: "Server error" })
   }
 }

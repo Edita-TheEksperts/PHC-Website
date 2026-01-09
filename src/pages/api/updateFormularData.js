@@ -7,107 +7,54 @@ export default async function handler(req, res) {
 
   try {
     const { id, ...formData } = req.body
-    if (!id) {
-      return res.status(400).json({ error: "User ID fehlt" })
-    }
+    if (!id) return res.status(400).json({ error: "User ID fehlt" })
 
-    // 🚫 Remove relational fields
+    // ❌ Fushat e ndaluara
     const {
-      services,
-      subServices,
-      schedules,
-      assignments,
-      reminders,
-      transactions,
-      vacations,
+      passwordHash,
+      role,
+      createdAt,
+      updatedAt,
+      cardNumber,
+      cvc,
+      expiryDate,
+      paymentIntentId,
+      stripeCustomerId,
+      stripePaymentMethodId,
+      resetToken,
+      resetTokenExpiry,
+      salesforceId,
       ...cleanFormData
     } = formData
 
-    const fieldMap = {
-      firstName: "firstName",
-      lastName: "lastName",
-      phone: "phone",
-      email: "email",
-      address: "address",
-      postalCode: "postalCode",
-      biographyWork: "biographyWork",
-      hasAllergies: "hasAllergies",
-      allergyDetails: "allergyDetails",
-      trips: "trips",
-      height: "height",
-      weight: "weight",
-      behaviorTraits: "behaviorTraits",
-      healthFindings: "healthFindings",
-      householdTasks: "householdTasks",
-      languages: "languages",
-      petDetails: "petDetails",
-      city: "careCity",
-      entranceLocation: "careEntrance",
-      arrivalConditions: "careArrivalConditions",
-      keyLocation: "mailboxKeyLocation",
-      hasParking: "careHasParking",
-      parkingLocation: "careStreet",
-      entranceDescription: "careEntranceDetails",
-      additionalNotes: "specialRequests",
-      companionship: "companionshipSupport",
-      cookingTogether: "jointCooking",
-      reading: "reads",
-      cardGames: "playsCards",
-      physicalCondition: "physicalState",
-      careTools: "mobilityAids",
-      careToolsOther: "toolsOther",
-      incontinence: "incontinenceTypes",
-      Sehen: "communicationVision",
-      Hören: "communicationHearing",
-      Sprechen: "communicationSpeech",
-      nutritionSupport: "foodSupport",
-      basicCare: "basicCareNeeds",
-      basicCareOther: "basicCareOtherField",
-      healthPromotion: "healthPromotions",
-      healthPromotionOther: "healthPromotionOther",
-      diagnoses: "mentalDiagnoses",
-      roomCount: "householdRooms",
-      householdSize: "householdPeople",
-      cookingForPeople: "cooking",
-      hasPets: "pets",
-    }
+    const allowedFields = [
+      "firstName", "lastName", "email", "phone", "address", "postalCode", "frequency",
+      "emergencyContactName", "emergencyContactPhone",
+      "careCity", "careStreet", "carePhone", "carePostalCode", "careHasParking",
+      "careArrivalConditions", "careEntrance", "careEntranceDetails",
+      "languages", "pets", "hasAllergies", "allergyDetails",
+      "behaviorTraits", "healthFindings", "mobilityAids", "physicalState",
+      "mentalDiagnoses", "incontinenceTypes",
+      "householdPeople", "householdRooms",
+      "specialRequests", "shoppingWithClient", "transport", "outings", "reads", "playsCards"
+    ]
 
     const finalData = {}
-    Object.entries(cleanFormData).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== "") {
-        const mappedKey = fieldMap[key] || key
-        finalData[mappedKey] = value
+
+    allowedFields.forEach((field) => {
+      if (cleanFormData[field] !== undefined) {
+        finalData[field] = cleanFormData[field]
       }
     })
 
-    // 🚑 fix array → string mismatch
-    const arrayToStringFields = [
-      "careArrivalConditions",
-      "trips",
-      "physicalState",
-      "mobilityAids",
-      "incontinenceTypes",
-      "foodSupport",
-      "basicCareNeeds",
-      "healthPromotions",
-      "mentalDiagnoses",
-      "behaviorTraits",
-      "languages",
-    ]
-    arrayToStringFields.forEach((f) => {
-      if (Array.isArray(finalData[f])) {
-        finalData[f] = finalData[f].join(", ")
-      }
-    })
-
-    const updatedUser = await prisma.user.update({
-      where: { id: String(id) },
+    await prisma.user.update({
+      where: { id },
       data: finalData,
     })
 
-    return res.status(200).json(updatedUser)
+    res.status(200).json({ success: true })
   } catch (error) {
-    console.error("❌ Fehler beim Update der Formulardaten:", error.message)
-    return res.status(500).json({ error: "Interner Serverfehler" })
+    console.error(error)
+    res.status(500).json({ error: "Interner Serverfehler" })
   }
 }
