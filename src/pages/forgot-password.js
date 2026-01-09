@@ -17,13 +17,11 @@ export default function ForgotPasswordPage() {
     if (res.ok) {
       const data = await res.json();
       setIsError(false);
-      setMessage("E-Mail gschickt! Lueg i dinere Inbox.");
-      setTimeout(() => {
-        window.location.href = `/reset-password?resetToken=${data.resetToken}`;
-      }, 2000);
+      setMessage("Wir haben Ihr Passwort zurückgesetzt. Bitte überprüfen Sie den Link in Ihrer E-Mail.");
+
     } else {
       setIsError(true);
-      setMessage("Die E-Mail het mir nöd gfunde oder es isch öppis schief gloffe.");
+      setMessage("Die E-Mail konnte im System nicht gefunden werden. Bitte registrieren Sie sich oder geben Sie eine andere E-Mail an.");
     }
   }
 

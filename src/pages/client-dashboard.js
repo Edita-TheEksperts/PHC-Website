@@ -77,14 +77,16 @@ const [showBooking, setShowBooking] = useState(true);
   const router = useRouter();
   const [vacations, setVacations] = useState([]);
 // Calculate total hours & km
-const safeAppointments = Array.isArray(appointments) ? appointments : [];
+const doneAppointments = appointments.filter(
+  (a) => a.status === "done"
+);
 
-const totalHours = safeAppointments.reduce(
+const totalHours = doneAppointments.reduce(
   (sum, a) => sum + (a.hours || 0),
   0
 );
 
-const totalKm = safeAppointments.reduce(
+const totalKm = doneAppointments.reduce(
   (sum, a) => sum + (a.kilometers || 0),
   0
 );
@@ -726,7 +728,7 @@ Persönliche Informationen                </li>
 Finanzen             </li>
               </ul>
             </div>
-          )}  router.replace("/login");
+          )} 
 
 
           {/* --- DESKTOP SIDEBAR --- */}
@@ -1166,7 +1168,6 @@ Finanzen             </li>
               </div>
 
        <div className="flex gap-2 mt-4">
-  {/* ❌ MOS shfaq Stornieren në Serviceverlauf */}
   {!["cancelled", "done", "terminated"].includes(item.status) && (
     <button
       onClick={() => cancelAppointment(item.id)}
@@ -1199,26 +1200,29 @@ Finanzen             </li>
       )}
     </ul>
 
-    {/* Zusammenfassung */}
-    <article className="bg-white p-8 rounded-3xl shadow-xl m-6">
-      <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6">
-        Zusammenfassung
-      </h3>
+{/* Zusammenfassung – vetëm nëse ka shërbime */}
+{doneAppointments.length > 0 && (
+  <article className="bg-white p-8 rounded-3xl shadow-xl m-6">
+    <h3 className="text-2xl font-semibold text-[#B99B5F] mb-6">
+      Zusammenfassung
+    </h3>
 
-      <p className="text-lg mb-3">
-        <strong>Gesamtstunden:</strong> {totalHours} Std
-      </p>
-      <p className="text-lg mb-3">
-        <strong>Gesamtkilometer:</strong> {totalKm} km
-      </p>
+    <p className="text-lg mb-3">
+      <strong>Gesamtstunden:</strong> {totalHours} Std
+    </p>
+    <p className="text-lg mb-3">
+      <strong>Gesamtkilometer:</strong> {totalKm} km
+    </p>
 
-      <p className="text-lg mt-6 text-red-600">
-        <strong>Extra Stunden:</strong> {extraHours} Std
-      </p>
-      <p className="text-lg text-red-600">
-        <strong>Extra Kilometer:</strong> {extraKm} km
-      </p>
-    </article>
+    <p className="text-lg mt-6 text-red-600">
+      <strong>Extra Stunden:</strong> {extraHours} Std
+    </p>
+    <p className="text-lg text-red-600">
+      <strong>Extra Kilometer:</strong> {extraKm} km
+    </p>
+  </article>
+)}
+
   </div>
 </section>
           {/* Neue Buchung planen Section */}
