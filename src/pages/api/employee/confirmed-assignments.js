@@ -16,21 +16,23 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-   const assignments = await prisma.assignment.findMany({
+const assignments = await prisma.assignment.findMany({
   where: {
     employeeId: employee.id,
-    confirmationStatus: "accepted", // <-- nese DB e ruan keshtu
+    confirmationStatus: "confirmed",
   },
-  include: {
-    user: {
-      include: {
-        services: true,
-        schedules: true,
-      },
+include: {
+  user: {
+    include: {
+      schedules: true,
+      services: true,
     },
   },
+},
+
   orderBy: { createdAt: "desc" },
 });
+
 
 
     res.status(200).json(assignments);

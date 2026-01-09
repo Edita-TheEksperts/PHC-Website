@@ -7,7 +7,13 @@ const prisma = new PrismaClient();
  * ==============================
  */
 const USER_IDS = [
-  "57184810-4cf4-4c60-a3fb-a3c1809825ef",
+  "f12b64cd-d989-4e46-a720-bced1a2a0ae7",
+    "f0fda771-37ec-4f3b-a053-6c403b5ef111",
+      "ee37a1f7-b363-414c-ad8c-07113218025c",
+        "e84b68da-fb4c-43c5-91eb-98f7013ec3c5",
+          "ba0d28a6-84a5-40f3-9788-dd91ad437ac1",
+            "b31d58b2-f942-4e10-aec7-4817f94f1c74",
+              "b2abbb88-4a0b-4164-880b-3c12979a61d8",
   // "another-user-id",
 ];
 

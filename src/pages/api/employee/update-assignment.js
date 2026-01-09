@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   try {
-    const { scheduleId, hours, kilometers } = req.body;
+const { scheduleId, hours, kilometers, employeeId } = req.body;
 
     if (!scheduleId) {
       return res.status(400).json({ message: "ScheduleId is required" });

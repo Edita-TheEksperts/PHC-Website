@@ -2,7 +2,6 @@ import { prisma } from "../../../lib/prisma";
 import nodemailer from "nodemailer";
 import { sendApprovalEmail } from "../../../lib/emailHelpers";
 
-// Email transport setup
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
@@ -13,7 +12,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// 🔹 Helper to load template and replace {{variables}}
 async function getTemplate(name, variables) {
   const template = await prisma.emailTemplate.findUnique({ where: { name } });
   if (!template) throw new Error(`Template ${name} not found`);
@@ -36,83 +34,96 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "Invalid input" });
     }
 
+    // ✅ Always update assignment first
     const updated = await prisma.assignment.update({
       where: { id: assignmentId },
-      data: { confirmationStatus: action },
+      data: {
+        confirmationStatus: action,
+        status: "active",
+      },
       include: {
-        user: { 
-          include: { 
+        user: {
+          include: {
             services: true,
-            schedules: true   // 👈 important
-          } 
+            schedules: true,
+          },
         },
         employee: true,
       },
     });
 
-if (action === "confirmed") {
-  const { user, employee } = updated;
+    // =========================
+    // 📧 EMAILS (SAFE MODE)
+    // =========================
+    if (action === "confirmed") {
+      try {
+        const { user, employee } = updated;
 
-  // 📧 Send Arbeitsvertrag to the employee
-  if (employee?.email) {
-    await sendApprovalEmail(employee);
-  }
+        if (employee?.email) {
+          await sendApprovalEmail(employee);
+        }
 
-const { subject, body } = await getTemplate("assignmentAccepted", {
-  firstName: user.firstName || "",
-  lastName: user.lastName || "",
-  employeeFirstName: employee.firstName || "",
-  employeeLastName: employee.lastName || "",
-  employeeEmail: employee.email || "",
-  employeePhone: employee.phone || "",
-  serviceName: user.services?.map((s) => s.name).join(", ") || "—",
-  firstDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
- 
-});
-
-
-  await transporter.sendMail({
-    from: `"PHC Team" <${process.env.SMTP_USER}>`,
-    to: user.email,
-    subject,
-    html: body,
-  });
-}
-
-
-    if (action === "rejected") {
-      const employeeId = updated.employee.id;
-
-      const rejectedCount = await prisma.assignment.count({
-        where: { employeeId, confirmationStatus: "rejected" },
-      });
-
-      const warningSent = await prisma.rejectionWarning.findFirst({
-        where: { employeeId },
-      });
-
-      if (rejectedCount >= 3 && !warningSent) {
-        const { subject, body } = await getTemplate("rejectionWarning", {
-          employeeFirstName: updated.employee.firstName,
+        const { subject, body } = await getTemplate("assignmentAccepted", {
+          firstName: user.firstName || "",
+          lastName: user.lastName || "",
+          employeeFirstName: employee.firstName || "",
+          employeeLastName: employee.lastName || "",
+          employeeEmail: employee.email || "",
+          employeePhone: employee.phone || "",
+          serviceName: user.services?.map((s) => s.name).join(", ") || "—",
+          firstDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
         });
 
-    await transporter.sendMail({
-  from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
-  to: updated.employee.email,
-  cc: "admin@phc.ch", 
-  subject,
-  html: body,
-});
-
-
-        await prisma.rejectionWarning.create({
-          data: { employeeId, sentAt: new Date() },
+        await transporter.sendMail({
+          from: `"PHC Team" <${process.env.SMTP_USER}>`,
+          to: user.email,
+          subject,
+          html: body,
         });
+
+      } catch (emailError) {
+        console.error("⚠️ Email failed, but assignment confirmed:", emailError);
       }
     }
 
-    // ✅ return the full assignment object (with schedules)
+    if (action === "rejected") {
+      try {
+        const employeeId = updated.employee.id;
+
+        const rejectedCount = await prisma.assignment.count({
+          where: { employeeId, confirmationStatus: "rejected" },
+        });
+
+        const warningSent = await prisma.rejectionWarning.findFirst({
+          where: { employeeId },
+        });
+
+        if (rejectedCount >= 3 && !warningSent) {
+          const { subject, body } = await getTemplate("rejectionWarning", {
+            employeeFirstName: updated.employee.firstName,
+          });
+
+          await transporter.sendMail({
+            from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+            to: updated.employee.email,
+            cc: "admin@phc.ch",
+            subject,
+            html: body,
+          });
+
+          await prisma.rejectionWarning.create({
+            data: { employeeId, sentAt: new Date() },
+          });
+        }
+
+      } catch (emailError) {
+        console.error("⚠️ Rejection email failed:", emailError);
+      }
+    }
+
+    // ✅ Always return success
     res.status(200).json({ status: "updated", assignment: updated });
+
   } catch (err) {
     console.error("❌ Fehler bei der Bestätigung:", err);
     res.status(500).json({ message: "Serverfehler" });
