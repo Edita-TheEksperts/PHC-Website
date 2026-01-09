@@ -623,11 +623,20 @@ await fetchAppointments(userId);
     />
   </div>
 
-  {/* Rule info */}
-  <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm rounded-lg p-3">
-    <strong>Hinweis:</strong>  
-    Termine, die in diesen Zeitraum fallen, werden automatisch storniert.
-  </div>
+{/* Rule info */}
+<div className="bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm rounded-lg p-3">
+  <strong>Hinweis:</strong>  
+  {" "}Gebuchte Termine, die in diesen Zeitraum fallen, werden automatisch storniert. 
+  Es gelten unsere{" "}
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="underline font-medium hover:text-yellow-900"
+  >
+    AVB
+  </a>.
+</div>
 
   <button
     type="submit"

@@ -12,10 +12,14 @@ export default function EmployeeBank() {
     bankName: "",
     bic: "",
   });
+
   const [paymentSaved, setPaymentSaved] = useState(false);
   const [paymentMsg, setPaymentMsg] = useState("");
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+
+  // 🆕 Monatsbericht / Gesamtzahlung
+  const [paymentTotals, setPaymentTotals] = useState(null);
 
   /* ================= FETCH EMPLOYEE ================= */
   useEffect(() => {
@@ -46,6 +50,15 @@ export default function EmployeeBank() {
         if (data.iban && data.accountHolder && data.bankName) {
           setPaymentSaved(true);
         }
+
+        // 🆕 Fetch Monatsbericht / Gesamtzahlung
+        const resTotals = await fetch("/api/employee/total-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        setPaymentTotals(await resTotals.json());
       } catch (err) {
         console.error(err);
       } finally {
@@ -117,6 +130,7 @@ export default function EmployeeBank() {
 
   return (
     <div className="flex min-h-screen bg-gray-50 text-gray-800">
+
       {/* ================= MOBILE TOP NAV ================= */}
       <div className="lg:hidden bg-[#04436F] text-white fixed top-0 left-0 w-full z-50">
         <div className="flex items-center justify-between p-4">
@@ -175,7 +189,7 @@ export default function EmployeeBank() {
 
       {/* ================= DESKTOP SIDEBAR ================= */}
       <aside className="hidden lg:flex w-64 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
-        <h2 className="text-3xl font-extrabold text-center">PHC</h2>
+        <h2 className="text-4xl font-extrabold text-center tracking-wide">PHC</h2>
         <nav className="space-y-2">
           <SidebarLink
             label="Dashboard"
@@ -196,85 +210,106 @@ export default function EmployeeBank() {
       </aside>
 
       {/* ================= MAIN CONTENT ================= */}
-<main className="flex-1 mt-[64px] lg:mt-0 px-6 py-10 flex justify-center">
-  <div className="w-full max-w-xl">
-  <h1 className="text-2xl font-bold text-[#04436F] mb-6 text-center">
-    💳 Bankdetails
-  </h1>
+      <main className="flex-1 mt-[64px] lg:mt-0 px-6 py-10 flex justify-center">
+        <div className="w-full max-w-xl space-y-8">
 
-  <div className="bg-white rounded-2xl shadow-md border p-6">
+          <h1 className="text-2xl font-bold text-[#04436F] text-center">
+       Finanzen
+          </h1>
 
+          {/* 💰 Gesamtzahlung / Monatsbericht */}
+          <div className="bg-white rounded-2xl shadow-md border p-6">
+            <h2 className="text-lg font-semibold text-[#04436F] border-b pb-2 mb-4">
+             Gesamtzahlung
+            </h2>
 
-        <div className="bg-white rounded-2xl shadow-md border p-6 max-w-xl">
-          {paymentSaved ? (
-            <div className="space-y-3 text-sm">
-              <Info label="IBAN" value={payment.iban} />
-              <Info label="Kontoinhaber" value={payment.accountHolder} />
-              <Info label="Bankname" value={payment.bankName} />
-              <Info label="BIC" value={payment.bic || "—"} />
+            {paymentTotals ? (
+              <div className="space-y-4">
+                <Info label="Service-Stunden" value={`${paymentTotals.thisMonth?.serviceHours ?? 0} Std`} />
+                <Info label="Kilometer" value={`${paymentTotals.thisMonth?.kilometers ?? 0} km`} />
+                <Info label="Einkommen Service" value={`${paymentTotals.thisMonth?.serviceCost ?? 0} CHF`} />
+                <Info label="Einkommen Fahrt" value={`${paymentTotals.thisMonth?.travelCost ?? 0} CHF`} />
 
-              <button
-                onClick={handlePaymentEditRequest}
-                className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg"
-              >
-                Änderung anfragen
-              </button>
+                <div className="flex justify-between bg-[#04436F] text-white px-4 py-2 rounded-lg">
+                  <span>Gesamt</span>
+                  <span>{paymentTotals.thisMonth?.total ?? 0} CHF</span>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">Keine Zahlungen berechnet.</p>
+            )}
+          </div>
 
-              {paymentMsg && (
-                <p className="text-sm text-blue-700 mt-2">{paymentMsg}</p>
-              )}
-            </div>
-          ) : (
-            <form onSubmit={handlePaymentSubmit} className="space-y-3 text-sm">
-              <input
-                type="text"
-                name="iban"
-                placeholder="IBAN"
-                value={payment.iban}
-                onChange={handlePaymentChange}
-                className="border w-full p-2 rounded"
-                required
-              />
-              <input
-                type="text"
-                name="accountHolder"
-                placeholder="Kontoinhaber"
-                value={payment.accountHolder}
-                onChange={handlePaymentChange}
-                className="border w-full p-2 rounded"
-                required
-              />
-              <input
-                type="text"
-                name="bankName"
-                placeholder="Bankname"
-                value={payment.bankName}
-                onChange={handlePaymentChange}
-                className="border w-full p-2 rounded"
-              />
-              <input
-                type="text"
-                name="bic"
-                placeholder="BIC / SWIFT"
-                value={payment.bic}
-                onChange={handlePaymentChange}
-                className="border w-full p-2 rounded"
-              />
+          {/* 💳 Bankdetails */}
+          <div className="bg-white rounded-2xl shadow-md border p-6">
+            {paymentSaved ? (
+              <div className="space-y-3 text-sm">
+                <Info label="IBAN" value={payment.iban} />
+                <Info label="Kontoinhaber" value={payment.accountHolder} />
+                <Info label="Bankname" value={payment.bankName} />
+                <Info label="BIC" value={payment.bic || "—"} />
 
-              <button
-                type="submit"
-                className="bg-[#04436F] text-white px-4 py-2 rounded w-full"
-              >
-                Speichern
-              </button>
+                <button
+                  onClick={handlePaymentEditRequest}
+                  className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg w-full"
+                >
+                  Änderung anfragen
+                </button>
 
-              {paymentMsg && (
-                <p className="text-green-600 mt-2">{paymentMsg}</p>
-              )}
-            </form>
-          )}
-        </div>
-        </div>
+                {paymentMsg && (
+                  <p className="text-sm text-blue-700 mt-2">{paymentMsg}</p>
+                )}
+              </div>
+            ) : (
+              <form onSubmit={handlePaymentSubmit} className="space-y-3 text-sm">
+                <input
+                  type="text"
+                  name="iban"
+                  placeholder="IBAN"
+                  value={payment.iban}
+                  onChange={handlePaymentChange}
+                  className="border w-full p-2 rounded"
+                  required
+                />
+                <input
+                  type="text"
+                  name="accountHolder"
+                  placeholder="Kontoinhaber"
+                  value={payment.accountHolder}
+                  onChange={handlePaymentChange}
+                  className="border w-full p-2 rounded"
+                  required
+                />
+                <input
+                  type="text"
+                  name="bankName"
+                  placeholder="Bankname"
+                  value={payment.bankName}
+                  onChange={handlePaymentChange}
+                  className="border w-full p-2 rounded"
+                />
+                <input
+                  type="text"
+                  name="bic"
+                  placeholder="BIC / SWIFT"
+                  value={payment.bic}
+                  onChange={handlePaymentChange}
+                  className="border w-full p-2 rounded"
+                />
+
+                <button
+                  type="submit"
+                  className="bg-[#04436F] text-white px-4 py-2 rounded w-full"
+                >
+                  Speichern
+                </button>
+
+                {paymentMsg && (
+                  <p className="text-green-600 mt-2">{paymentMsg}</p>
+                )}
+              </form>
+            )}
+          </div>
         </div>
       </main>
     </div>

@@ -1,82 +1,90 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 /**
  * ==============================
- *  USER IDS TO DELETE
+ *  USER (CLIENT) IDS TO DELETE
  * ==============================
- * Vendosi ketu ID-të e userëve që dëshiron të fshihen
  */
 const USER_IDS = [
-  "05284cb2-351b-452f-98fe-67c19c5a4132",
-  "8c691646-3519-46e2-b445-e4a4075899c7",
-  "02a7a3bf-8165-41be-bb53-ac2d4d50621d",
+  "57184810-4cf4-4c60-a3fb-a3c1809825ef",
+  // "another-user-id",
 ];
 
-/**
- * ==============================
- *   DELETE FUNCTION
- * ==============================
- */
 async function deleteUsers() {
   try {
-    console.log("🗑  Starting user deletion...");
+    console.log("🗑  Starting USER deletion...");
 
     for (const userId of USER_IDS) {
       console.log(`\n➡️  Deleting user: ${userId}`);
 
-      // Fshi logs
+      // (Optional) Sigurohu qe ekziston
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { id: true, role: true, email: true },
+      });
+
+      if (!user) {
+        console.log(`⚠️  User not found: ${userId}`);
+        continue;
+      }
+
+      // (Optional) nese do veç client-at:
+      // if (user.role !== "client") {
+      //   console.log(`⚠️  Skipping (role is ${user.role}): ${userId}`);
+      //   continue;
+      // }
+
+      // 1) Activity logs (where user was actor)
       await prisma.activityLog.deleteMany({
-        where: { actorUserId: userId }
+        where: { actorUserId: userId },
       });
 
-      // Fshi reminders
+      // 2) Reminders
       await prisma.reminder.deleteMany({
-        where: { userId }
+        where: { userId },
       });
 
-      // Fshi schedules
-      await prisma.schedule.deleteMany({
-        where: { userId }
-      });
-
-      // Fshi assignments
-      await prisma.assignment.deleteMany({
-        where: { userId }
-      });
-
-      // Fshi vacations
-      await prisma.vacation.deleteMany({
-        where: { userId }
-      });
-
-      // Fshi transactions
+      // 3) Transactions (User side)
       await prisma.transaction.deleteMany({
-        where: { userId }
+        where: { userId },
       });
 
-      // Fshi vouchers mapping table
+      // 4) Assignments (User side)
+      // NOTE: Assignments kanë relation me Schedule; por meqë i fshijmë Schedule poshtë,
+      // këtu i fshijmë assignment-et e user-it direkt.
+      await prisma.assignment.deleteMany({
+        where: { userId },
+      });
+
+      // 5) Schedules (User side)
+      // (Schedule ka transactions + Assignment, por i kemi fshirë më lart)
+      await prisma.schedule.deleteMany({
+        where: { userId },
+      });
+
+      // 6) Vacations (User side)
+      await prisma.vacation.deleteMany({
+        where: { userId },
+      });
+
+      // 7) Lidhjet many-to-many: services, subServices, vouchers
+      // Prisma e bën këtë me disconnect (fshin rreshtat në join table)
       await prisma.user.update({
         where: { id: userId },
         data: {
-          vouchers: {
-            set: []  // remove relations
-          },
-          services: {
-            set: []
-          },
-          subServices: {
-            set: []
-          },
-        }
-      }).catch(() => {});
-
-      // Fshi user-in
-      await prisma.user.delete({
-        where: { id: userId }
+          services: { set: [] },
+          subServices: { set: [] },
+          vouchers: { set: [] },
+        },
       });
 
-      console.log(`✔️ User deleted successfully: ${userId}`);
+      // 8) Finally delete user
+      await prisma.user.delete({
+        where: { id: userId },
+      });
+
+      console.log(`✔️ User deleted successfully: ${userId} (${user.email})`);
     }
 
     console.log("\n🎉 Done! All selected users have been deleted.");

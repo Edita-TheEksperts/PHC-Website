@@ -3,7 +3,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 import AssignmentsList from "../components/AssignmentList";
-import EmployeeScheduleList from "../components/EmployeeScheduleList";
 import { Menu, X } from "lucide-react";
 
 export default function EmployeeDashboard() {
@@ -15,11 +14,16 @@ export default function EmployeeDashboard() {
   const [loading, setLoading] = useState(true);
   const [rejectedAssignments, setRejectedAssignments] = useState([]);
   const [pendingAssignments, setPendingAssignments] = useState([]);
-  const [payment, setPayment] = useState({ iban: "", accountHolder: "", bankName: "", bic: "" });
+  const [payment, setPayment] = useState({
+    iban: "",
+    accountHolder: "",
+    bankName: "",
+    bic: "",
+  });
   const [paymentMsg, setPaymentMsg] = useState("");
   const [paymentSaved, setPaymentSaved] = useState(false);
   const [paymentTotals, setPaymentTotals] = useState(null);
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
   useEffect(() => {
@@ -95,25 +99,28 @@ export default function EmployeeDashboard() {
         bankName: employeeData.bankName || "",
         bic: employeeData.bic || "",
       });
-      if (employeeData.iban && employeeData.accountHolder && employeeData.bankName) {
+      if (
+        employeeData.iban &&
+        employeeData.accountHolder &&
+        employeeData.bankName
+      ) {
         setPaymentSaved(true);
       }
     }
   }, [employeeData]);
-async function sendDocument(employee, documentType) {
-  const res = await fetch("/api/send-documents", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ employee, documentType }),
-  });
+  async function sendDocument(employee, documentType) {
+    const res = await fetch("/api/send-documents", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ employee, documentType }),
+    });
 
-  if (res.ok) {
-    alert(`${documentType} wurde erfolgreich gesendet an ${employee.email}`);
-  } else {
-    alert("Fehler beim Senden des Dokuments.");
+    if (res.ok) {
+      alert(`${documentType} wurde erfolgreich gesendet an ${employee.email}`);
+    } else {
+      alert("Fehler beim Senden des Dokuments.");
+    }
   }
-}
-
 
   const handleVacationSave = async () => {
     if (!vacationStart || !vacationEnd) return;
@@ -127,41 +134,41 @@ async function sendDocument(employee, documentType) {
       }),
     });
     if (res.ok) {
-      setVacations((prev) => [...prev, { start: vacationStart, end: vacationEnd, status: "Geplant" }]);
+      setVacations((prev) => [
+        ...prev,
+        { start: vacationStart, end: vacationEnd, status: "Geplant" },
+      ]);
       setVacationStart(null);
       setVacationEnd(null);
     }
   };
-const handleAssignmentAction = async (assignmentId, action) => {
-  const res = await fetch("/api/employee/confirm-assignment", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ assignmentId, action }),
-  });
+  const handleAssignmentAction = async (assignmentId, action) => {
+    const res = await fetch("/api/employee/confirm-assignment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ assignmentId, action }),
+    });
 
-  if (res.ok) {
-    const data = await res.json();
-    const updated = data.assignment; // ✅ full assignment with user + employee
+    if (res.ok) {
+      const data = await res.json();
+      const updated = data.assignment; // ✅ full assignment with user + employee
 
-    // remove from pending
-    setPendingAssignments((prev) =>
-      prev.filter((a) => a.id !== assignmentId)
-    );
+      // remove from pending
+      setPendingAssignments((prev) =>
+        prev.filter((a) => a.id !== assignmentId)
+      );
 
-    // add to correct state
-if (action === "confirmed") {
-  setConfirmedAssignments((prev) => [...prev, updated]);
-  // ✅ No fetch here anymore, backend handles sending Arbeitsvertrag
-}
+      // add to correct state
+      if (action === "confirmed") {
+        setConfirmedAssignments((prev) => [...prev, updated]);
+        // ✅ No fetch here anymore, backend handles sending Arbeitsvertrag
+      }
 
-
-    if (action === "rejected") {
-      setRejectedAssignments((prev) => [...prev, updated]);
+      if (action === "rejected") {
+        setRejectedAssignments((prev) => [...prev, updated]);
+      }
     }
-  }
-};
-
-
+  };
 
   const handlePaymentChange = (e) => {
     const { name, value } = e.target;
@@ -193,214 +200,275 @@ if (action === "confirmed") {
     if (res.ok) setPaymentMsg("Anfrage wurde an das Team gesendet.");
   };
 
-  if (loading) return <div className="flex justify-center items-center h-screen text-lg text-gray-500">Lade Dashboard...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen text-lg text-gray-500">
+        Lade Dashboard...
+      </div>
+    );
   if (!employeeData) return <div className="p-6">Keine Daten gefunden.</div>;
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800">
       <>
-      {/* --- MOBILE TOP NAVBAR --- */}
-      <div className="lg:hidden bg-[#04436F] text-white shadow-lg w-full fixed top-0 left-0 z-50">
-        <div className="flex items-center justify-between p-4">
-          <h1
-            className="text-xl font-bold cursor-pointer"
-            onClick={() => router.push("/dashboard")}
-          >
-            PHC
-          </h1>
-          <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Fullscreen Overlay Menu (Mobile) */}
-      {isOpen && (
-        <div className="lg:hidden fixed inset-0 bg-[#04436F] text-white z-40 flex flex-col">
-          {/* Close button inside overlay */}
-          <div className="flex items-center justify-between p-4 border-b border-white/20">
+        {/* --- MOBILE TOP NAVBAR --- */}
+        <div className="lg:hidden bg-[#04436F] text-white shadow-lg w-full fixed top-0 left-0 z-50">
+          <div className="flex items-center justify-between p-4">
             <h1
               className="text-xl font-bold cursor-pointer"
-              onClick={() => {
-                router.push("/dashboard");
-                setIsOpen(false);
-              }}
+              onClick={() => router.push("/dashboard")}
             >
               PHC
             </h1>
-            <button onClick={() => setIsOpen(false)}>
-              <X className="w-6 h-6" />
+            <button onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
+        </div>
 
-          <nav className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
+        {/* Fullscreen Overlay Menu (Mobile) */}
+        {isOpen && (
+          <div className="lg:hidden fixed inset-0 bg-[#04436F] text-white z-40 flex flex-col">
+            {/* Close button inside overlay */}
+            <div className="flex items-center justify-between p-4 border-b border-white/20">
+              <h1
+                className="text-xl font-bold cursor-pointer"
+                onClick={() => {
+                  router.push("/dashboard");
+                  setIsOpen(false);
+                }}
+              >
+                PHC
+              </h1>
+              <button onClick={() => setIsOpen(false)}>
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
+              <SidebarLink
+                label="Dashboard"
+                onClick={() => {
+                  router.push("/employee-dashboard");
+                  setIsOpen(false);
+                }}
+              />
+              <SidebarLink
+                label="Persönliche Informationen "
+                onClick={() => {
+                  router.push("/employee-info");
+                  setIsOpen(false);
+                }}
+              />
+              <SidebarLink
+                label="Finanzen "
+                onClick={() => {
+                  router.push("/employee-bank");
+                  setIsOpen(false);
+                }}
+              />
+              <SidebarLink
+                label="Logout"
+                onClick={() => {
+                  localStorage.removeItem("email");
+                  router.push("/login");
+                  setIsOpen(false);
+                }}
+              />
+            </nav>
+          </div>
+        )}
+
+        <aside className="hidden lg:flex w-72 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
+          <h2 className="text-4xl font-extrabold text-center tracking-wide">
+            PHC
+          </h2>
+
+          <nav className="space-y-2">
             <SidebarLink
               label="Dashboard"
-              onClick={() => {
-                router.push("/employee-dashboard");
-                setIsOpen(false);
-              }}
+              onClick={() => router.push("/employee-dashboard")}
             />
-                     <SidebarLink
-              label="Persönliche Informationen "
-              onClick={() => {
-                router.push("/employee-info");
-                setIsOpen(false);
-              }}
+
+            {/* ➕ LINK I RI */}
+            <SidebarLink
+              label="Persönliche Informationen"
+              onClick={() => router.push("/employee-info")}
             />
-                         <SidebarLink
-              label="Bankdetails "
-              onClick={() => {
-                router.push("/employee-bank");
-                setIsOpen(false);
-              }}
+
+            <SidebarLink
+              label="Finanzen "
+              onClick={() => router.push("/employee-bank")}
             />
             <SidebarLink
               label="Logout"
               onClick={() => {
                 localStorage.removeItem("email");
                 router.push("/login");
-                setIsOpen(false);
               }}
             />
           </nav>
-        </div>
-      )}
-
-<aside className="hidden lg:flex w-64 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
-  <h2 className="text-3xl font-extrabold text-center tracking-wide">
-    PHC
-  </h2>
-
-  <nav className="space-y-2">
-    <SidebarLink
-      label="Dashboard"
-      onClick={() => router.push("/employee-dashboard")}
-    />
-
-    {/* ➕ LINK I RI */}
-    <SidebarLink
-      label="Persönliche Informationen"
-      onClick={() => router.push("/employee-info")}
-    />
-
-   <SidebarLink
-      label="Bankdetails "
-      onClick={() => router.push("/employee-bank")}
-    />
-    <SidebarLink
-      label="Logout"
-      onClick={() => {
-        localStorage.removeItem("email");
-        router.push("/login");
-      }}
-    />
-  </nav>
-</aside>
-
-    </>
+        </aside>
+      </>
       <main className="flex-1 mt-[60px] lg:mt-0 px-4 lg:px-8 py-4 lg:py-10 space-y-10">
-<h1 className="text-2xl font-bold text-[#04436F] border-b pb-4">
-  Hallo {employeeData?.firstName} {employeeData?.lastName}
-</h1>
+        <h1 className="text-2xl font-bold text-[#04436F] border-b pb-4">
+          Hallo {employeeData?.firstName} {employeeData?.lastName}
+        </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
- 
-    
-          <Card title="🏖 Urlaub">
-            <DatePicker selected={vacationStart} onChange={(date) => { setVacationStart(date); setVacationEnd(null); }} dateFormat="dd.MM.yyyy" placeholderText="Startdatum" minDate={new Date()} className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-2" />
-            <DatePicker selected={vacationEnd} onChange={(date) => setVacationEnd(date)} dateFormat="dd.MM.yyyy" placeholderText="Enddatum" minDate={vacationStart || new Date()} className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-4" />
-            <button onClick={handleVacationSave} className="bg-[#04436F] text-white w-full py-2 rounded-lg hover:bg-[#033553] transition">Urlaubsanfrage</button>
+          <Card title="Urlaub">
+            <DatePicker
+              selected={vacationStart}
+              onChange={(date) => {
+                setVacationStart(date);
+                setVacationEnd(null);
+              }}
+              dateFormat="dd.MM.yyyy"
+              placeholderText="Startdatum"
+              minDate={new Date()}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-2"
+            />
+            <DatePicker
+              selected={vacationEnd}
+              onChange={(date) => setVacationEnd(date)}
+              dateFormat="dd.MM.yyyy"
+              placeholderText="Enddatum"
+              minDate={vacationStart || new Date()}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-4"
+            />
+            <button
+              onClick={handleVacationSave}
+              className="bg-[#04436F] text-white w-full py-2 rounded-lg hover:bg-[#033553] transition"
+            >
+              Urlaubsanfrage
+            </button>
             <div className="mt-4 space-y-2">
-              {vacations.length === 0 ? <p className="italic text-gray-400 text-center">Kein Urlaub eingetragen</p> : vacations.map((v, i) => {
-                const start = new Date(v.start || v.startDate).toLocaleDateString("de-DE");
-                const end = new Date(v.end || v.endDate).toLocaleDateString("de-DE");
-                return (
-                  <div key={i} className="p-3 bg-gray-50 rounded-lg border flex justify-between">
-                    <span>{start} - {end}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded ${v.status === "approved" ? "bg-green-100 text-green-700" : v.status === "declined" ? "bg-red-100 text-red-700" : "bg-yellow-100 text-yellow-700"}`}>
-                      {v.status === "approved" ? "Genehmigt" : v.status === "declined" ? "Abgelehnt" : "Angefragt"}
-                    </span>
-                  </div>
-                );
-              })}
+              {vacations.length === 0 ? (
+                <p className="italic text-gray-400 text-center">
+                  Kein Urlaub eingetragen
+                </p>
+              ) : (
+                vacations.map((v, i) => {
+                  const start = new Date(
+                    v.start || v.startDate
+                  ).toLocaleDateString("de-DE");
+                  const end = new Date(v.end || v.endDate).toLocaleDateString(
+                    "de-DE"
+                  );
+                  return (
+                    <div
+                      key={i}
+                      className="p-3 bg-gray-50 rounded-lg border flex justify-between"
+                    >
+                      <span>
+                        {start} - {end}
+                      </span>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded ${
+                          v.status === "approved"
+                            ? "bg-green-100 text-green-700"
+                            : v.status === "declined"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                      >
+                        {v.status === "approved"
+                          ? "Genehmigt"
+                          : v.status === "declined"
+                          ? "Abgelehnt"
+                          : "Angefragt"}
+                      </span>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </Card>
-        <Card title="💰 Gesamtzahlung">
-  {paymentTotals ? (
-    <div className="space-y-4">
-<Info label="Service-Stunden" value={`${paymentTotals.thisMonth?.serviceHours ?? 0} Std`} />
-      <Info label="Kilometer" value={`${paymentTotals.thisMonth?.kilometers ?? 0} km`} />
-      <Info label="Einkommen Service" value={`${paymentTotals.thisMonth?.serviceCost ?? 0} CHF`} />
-      <Info label="Einkommen Fahrt" value={`${paymentTotals.thisMonth?.travelCost ?? 0} CHF`} />
-      <div className="flex justify-between bg-[#04436F] text-white px-4 py-2 rounded-lg">
-        <span>Gesamt</span>
-        <span>{paymentTotals.thisMonth?.total ?? 0} CHF</span>
-      </div>
-    </div>
-  ) : (
-    <p className="text-sm text-gray-500">Keine Zahlungen berechnet.</p>
-  )}
-</Card>
-<Card title="📥 Neue Zuweisungen">
-  {pendingAssignments.length === 0 ? (
-    <p className="text-sm text-gray-500">Keine neuen Zuweisungen.</p>
-  ) : (
-    pendingAssignments.map((a) => (
-      <div key={a.id} className="border p-3 rounded mb-3 bg-white shadow-sm">
-        <p>
-          <strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}
-        </p>
-        <p>
-          <strong>Email:</strong> {a.user.email}
-        </p>
-<div className="mt-3 flex items-center gap-3 rounded-lg border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-3 shadow-sm">
-  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600">
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 18a9 9 0 100-18 9 9 0 000 18z" />
-    </svg>
-  </div>
-  <p className="text-sm text-gray-700">
-    <span className="font-semibold text-blue-700">Info:</span> Beim Kunden muss evtl. auch bei der Körperpflege geholfen werden.
-  </p>
-</div>
+          <Card title=" Neue Zuweisungen">
+            {pendingAssignments.length === 0 ? (
+              <p className="text-sm text-gray-500">Keine neuen Zuweisungen.</p>
+            ) : (
+              pendingAssignments.map((a) => (
+                <div
+                  key={a.id}
+                  className="border p-3 rounded mb-3 bg-white shadow-sm"
+                >
+                  <p>
+                    <strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {a.user.email}
+                  </p>
+                  <div className="mt-3 flex items-center gap-3 rounded-lg border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-3 shadow-sm">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 16h-1v-4h-1m1-4h.01M12 18a9 9 0 100-18 9 9 0 000 18z"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-gray-700">
+                      <span className="font-semibold text-blue-700">Info:</span>{" "}
+                      Beim Kunden muss evtl. auch bei der Körperpflege geholfen
+                      werden.
+                    </p>
+                  </div>
 
+                  <div className="mt-4 flex space-x-2">
+                    <button
+                      onClick={() => handleAssignmentAction(a.id, "confirmed")}
+                      className="bg-green-600 text-white px-3 py-1 rounded"
+                    >
+                      Annehmen
+                    </button>
 
-        <div className="mt-4 flex space-x-2">
-          <button
-            onClick={() => handleAssignmentAction(a.id, "confirmed")}
-            className="bg-green-600 text-white px-3 py-1 rounded"
-          >
-            Annehmen
-          </button>
-
-          <button
-            onClick={() => handleAssignmentAction(a.id, "rejected")}
-            className="bg-red-600 text-white px-3 py-1 rounded"
-          >
-            Ablehnen
-          </button>
-        </div>
-      </div>
-    ))
-  )}
-</Card>
-
-<Card title="✅ Bestätigte Zuweisungen">
-  <AssignmentsList confirmedAssignments={confirmedAssignments} />
-</Card>
-
-
-          <Card title="🚫 Abgelehnte Zuweisungen">
-            {rejectedAssignments.length === 0 ? <p className="text-sm text-gray-500">Keine abgelehnten Zuweisungen.</p> : rejectedAssignments.map((a) => (
-              <div key={a.id} className="border p-3 rounded mb-2">
-                <p><strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}</p>
-                <p><strong>Email:</strong> {a.user.email}</p>
-              </div>
-            ))}
+                    <button
+                      onClick={() => handleAssignmentAction(a.id, "rejected")}
+                      className="bg-red-600 text-white px-3 py-1 rounded"
+                    >
+                      Ablehnen
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </Card>
-  
+
+          <Card title="Bestätigte Zuweisungen">
+            <AssignmentsList confirmedAssignments={confirmedAssignments} />
+          </Card>
+
+          <Card title=" Abgelehnte Zuweisungen">
+            {rejectedAssignments.length === 0 ? (
+              <p className="text-sm text-gray-500">
+                Keine abgelehnten Zuweisungen.
+              </p>
+            ) : (
+              rejectedAssignments.map((a) => (
+                <div key={a.id} className="border p-3 rounded mb-2">
+                  <p>
+                    <strong>Kunde:</strong> {a.user.firstName} {a.user.lastName}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {a.user.email}
+                  </p>
+                </div>
+              ))
+            )}
+          </Card>
         </div>
-   
       </main>
     </div>
   );
@@ -408,7 +476,10 @@ if (action === "confirmed") {
 
 function SidebarLink({ label, onClick }) {
   return (
-    <div onClick={onClick} className="px-4 py-2 rounded-lg cursor-pointer font-medium text-sm tracking-wide hover:bg-[#05507F] hover:pl-6 transition-all duration-200">
+    <div
+      onClick={onClick}
+      className="px-4 py-2 rounded-lg cursor-pointer font-medium text-sm tracking-wide hover:bg-[#05507F] hover:pl-6 transition-all duration-200"
+    >
       {label}
     </div>
   );
