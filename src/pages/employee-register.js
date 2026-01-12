@@ -941,7 +941,7 @@ useEffect(() => {
  Reise- und Ferienbegleitung möglich?
   </label>
     <span className="text-sm font-normal text-gray-600">
-   Info: Wochenende Milano oder 10 Tage Kreuzfahrt
+Info: z.B. Wochenende Milano oder 10 Tage Kreuzfahrt 
   </span>
   <select
     name="travelSupport"
@@ -1159,53 +1159,45 @@ useEffect(() => {
   )}
 </div>
 
-
-{/* Datei hochladen */}
-<div className="mt-8 space-y-6">
+<div className="mt-8 flex flex-col gap-6">
   <h3 className="text-lg font-semibold text-gray-800">Datei hochladen</h3>
 
   {[
     { label: "ID oder Reisepass – Vorderseite", key: "passportFrontFile", required: true },
     { label: "ID oder Reisepass – Rückseite", key: "passportBackFile", required: true },
     { label: "Aufenthalts- oder Arbeitsbewilligung", key: "workPermitFile", required: true, hideIfCHPass: true },
-      { label: "Lebenslauf", key: "cvFile", required: true },
-    { label: "Strafregisterauszug", key: "policeLetterFile", required: false, hideOptional: true },
+    { label: "Lebenslauf", key: "cvFile", required: true },
+    { label: "Strafregisterauszug", key: "policeLetterFile", required: false },
     { label: "Zertifikate/Arbeitszeugnisse", key: "certificateFile", required: false },
   ].map((field) => (
     <div
       key={field.key}
       hidden={field.hideIfCHPass && form.residencePermit === "CH Pass"}
-      className="space-y-2"
+      className="flex flex-col gap-2"
     >
-          <label className="block text-sm font-medium text-gray-700">
-      {field.label}{" "}
-     {field.required && <span className="text-red-500 font-bold">*</span>}
+      <label className="text-sm font-medium text-gray-700">
+        {field.label}{" "}
+        {field.required && <span className="text-red-500">*</span>}
+      </label>
 
-    </label>
-
-  <input
-  type="file"
-  id={field.key}
-  name={field.key}
-  accept="image/*,application/pdf"
-  capture="environment"
-  style={{ display: "none" }}
-  onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
-/>
-
+      <input
+        type="file"
+        id={field.key}
+        name={field.key}
+        accept="image/*,application/pdf"
+        style={{ display: "none" }}
+        onChange={(e) => setForm({ ...form, [field.key]: e.target.files[0] })}
+      />
 
       <label
         htmlFor={field.key}
-        className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
+        className="w-fit bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm"
       >
         Datei hochladen
       </label>
 
-      <p className="text-sm text-gray-600">
-{form[field.key]
-  ? form[field.key].name
-  : "Keine Datei ausgewählt"}
-
+      <p className="text-sm text-gray-600 break-all">
+        {form[field.key] ? form[field.key].name : "Keine Datei ausgewählt"}
       </p>
 
       {errors[field.key] && (
@@ -1213,75 +1205,76 @@ useEffect(() => {
       )}
     </div>
   ))}
-{form.hasLicense === "ja" && (
-  <div className="space-y-2">
-    <label className="block text-sm font-medium text-gray-700">
-      Führerschein <span className="text-red-500 font-bold">*</span>
+
+  {form.hasLicense === "ja" && (
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Führerschein <span className="text-red-500">*</span>
+      </label>
+
+      <input
+        type="file"
+        id="drivingLicenceFile"
+        style={{ display: "none" }}
+        onChange={(e) =>
+          setForm({ ...form, drivingLicenceFile: e.target.files[0] })
+        }
+      />
+
+      <label
+        htmlFor="drivingLicenceFile"
+        className="w-fit bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm"
+      >
+        Datei hochladen
+      </label>
+
+      <p className="text-sm text-gray-600 break-all">
+        {form.drivingLicenceFile
+          ? form.drivingLicenceFile.name
+          : "Keine Datei ausgewählt"}
+      </p>
+
+      {errors.drivingLicenceFile && (
+        <p className="text-red-500 text-sm">{errors.drivingLicenceFile}</p>
+      )}
+    </div>
+  )}
+
+  {/* Foto */}
+  <div className="flex flex-col gap-2">
+    <label className="text-sm font-medium text-gray-700">
+      Foto <span className="text-red-500">*</span>
     </label>
 
     <input
       type="file"
-      id="drivingLicenceFile"
-      name="drivingLicenceFile"
-      accept="image/*,application/pdf"
-      capture="environment"
+      id="profilePhoto"
       style={{ display: "none" }}
       onChange={(e) =>
-        setForm({ ...form, drivingLicenceFile: e.target.files[0] })
+        setForm({ ...form, profilePhoto: e.target.files[0] })
       }
     />
 
     <label
-      htmlFor="drivingLicenceFile"
-      className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
+      htmlFor="profilePhoto"
+      className="w-fit bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm"
     >
       Datei hochladen
     </label>
 
-    <p className="text-sm text-gray-600">
-      {form.drivingLicenceFile
-        ? form.drivingLicenceFile.name
+    <p className="text-sm text-gray-600 break-all">
+      {form.profilePhoto
+        ? form.profilePhoto.name
         : "Keine Datei ausgewählt"}
     </p>
 
-    {errors.drivingLicenceFile && (
-      <p className="text-red-500 text-sm">{errors.drivingLicenceFile}</p>
+    {errors.profilePhoto && (
+      <p className="text-red-500 text-sm">{errors.profilePhoto}</p>
     )}
   </div>
-)}
-
 </div>
-{/* Foto Upload */}
-<div className="space-y-2">
-  <label className="block text-sm font-medium text-gray-700">
-    Foto <span className="text-red-500 font-bold">*</span>
-  </label>
 
-  <input
-    type="file"
-    accept="image/*"
-    name="profilePhoto"
-    capture="environment"
-    id="profilePhoto"
-    style={{ display: "none" }}
-    onChange={(e) => setForm({ ...form, profilePhoto: e.target.files[0] })}
-  />
 
-  <label
-    htmlFor="profilePhoto"
-    className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
-  >
-    Datei hochladen
-  </label>
-
-  <p className="text-sm text-gray-600">
-    {form.profilePhoto ? form.profilePhoto.name : "Keine Datei ausgewählt"}
-  </p>
-
-  {errors.profilePhoto && (
-    <p className="text-red-500 text-sm">{errors.profilePhoto}</p>
-  )}
-</div>
 </div>
 
 <div hidden={step !== 4} className="mt-20">

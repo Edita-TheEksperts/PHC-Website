@@ -4,36 +4,44 @@ import Link from 'next/link';
 
 
 export default function LoginPage() {
-    const router = useRouter(); // ← Add this line
-
+    const router = useRouter(); 
+    const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
   
-    async function handleSubmit(e) {
-      e.preventDefault();
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-  
-      if (res.ok) {
-        const data = await res.json();
-localStorage.setItem("userToken", data.token);
-localStorage.setItem("userRole", data.role);
-  localStorage.setItem("email", email); // ← Add this
+async function handleSubmit(e) {
+  e.preventDefault();
+  setError(""); // reset previous error
 
-if (data.role === "employee") {
-  router.push("/employee-dashboard");
-} else if (data.role === "admin") {
-  router.push("/admin-dashboard");
-} else {
-  router.push("/client-dashboard"); // for regular clients/users
+  const res = await fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    setError(
+      "Bitte überprüfen Sie Ihre E-Mail oder Ihr Passwort. Angaben sind nicht korrekt."
+    );
+    return;
+  }
+
+  // ✅ Success
+  localStorage.setItem("userToken", data.token);
+  localStorage.setItem("userRole", data.role);
+  localStorage.setItem("email", email);
+
+  if (data.role === "employee") {
+    router.push("/employee-dashboard");
+  } else if (data.role === "admin") {
+    router.push("/admin-dashboard");
+  } else {
+    router.push("/client-dashboard");
+  }
 }
 
-
-      }
-    }
       
     return (
       <div className="flex bg-[#FAFCFF] max-w-[1410px] mx-auto">
@@ -136,10 +144,17 @@ Willkommen bei PHC          </h1>
   <a href="/forgot-password" className="text-[#04436F] text-sm underline">
       Passwort vergessen?
   </a>
+  
 </div>
+{error && (
+  <div className=" text-red-700 px-4 py-1 rounded mb-6">
+    {error}
+  </div>
+)}
 
   
           </form>
+          
         </div>
   
       </div>

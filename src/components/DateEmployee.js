@@ -57,9 +57,13 @@ const generateTimeOptions = () => {
 
   return (
     <div ref={sectionRef} className="mb-14" hidden={hidden}>
-      <h3 className="font-semibold mb-6 text-lg text-gray-900 tracking-wide">
-        Ihre Verfügbarkeit
-      </h3>
+<h3 className="font-semibold mb-2 text-lg text-gray-900 tracking-wide">
+  Ihre Verfügbarkeit
+</h3>
+
+<p className="text-sm text-gray-600 mb-6">
+ Info: Um Ihre Verfügbarkeit anzugeben Wochentag auswählen und die gewünschte Einsatzzeit auswählen.
+</p>
 
       {/* Add new day */}
       <div className="flex flex-wrap gap-3 mb-8 items-center">
