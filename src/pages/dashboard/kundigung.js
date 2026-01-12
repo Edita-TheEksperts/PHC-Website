@@ -75,6 +75,15 @@ export default function KundigungPage() {
           </li>
                   <li onClick={() => router.push("/dashboard/finanzen")}>
 Finanzen          </li>
+                                  <li
+                onClick={() => {
+                  router.push("/dashboard/kundigung");
+                  setIsOpen(false);
+                }}
+                className="cursor-pointer hover:text-red-400"
+              >
+                Kündigung
+              </li>
         </ul>
       </aside>
 

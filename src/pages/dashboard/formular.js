@@ -176,6 +176,26 @@ subServices: data.subServices || [],
           <li onClick={() => router.push("/dashboard/formular")}>
             Persönliche Informationen
           </li>
+
+                                     <li
+                onClick={() => {
+                  router.push("/dashboard/finanzen");
+                  setIsOpen(false);
+                }}
+                className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
+              >
+                Finanzen
+              </li>
+                           <li
+                onClick={() => {
+                  router.push("/dashboard/kundigung");
+                  setIsOpen(false);
+                }}
+                className="cursor-pointer hover:text-red-400"
+              >
+                Kündigung
+              </li>
+
         </ul>
       </aside>
 

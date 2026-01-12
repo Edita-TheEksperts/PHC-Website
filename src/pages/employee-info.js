@@ -179,28 +179,40 @@ const handleFileUpload = async (file, fieldName) => {
           </nav>
         </div>
       )}
+<aside className="hidden lg:flex w-72 bg-[#04436F] text-white p-6 shadow-xl flex-col">
+<h2 className="text-4xl font-bold text-center mb-20 select-none cursor-pointer">
+  PHC
+</h2>
 
-      {/* ================= DESKTOP SIDEBAR ================= */}
-      <aside className="hidden lg:flex w-64 bg-[#04436F] text-white p-6 space-y-8 shadow-xl flex-col">
-        <h2 className="text-3xl font-extrabold text-center">PHC</h2>
-        <nav className="space-y-2">
-          <SidebarLink
-            label="Dashboard"
-            onClick={() => router.push("/employee-dashboard")}
-          />
-          <SidebarLink
-            label="Persönliche Informationen"
-            onClick={() => router.push("/employee-info")}
-          />
-          <SidebarLink
-            label="Logout"
-            onClick={() => {
-              localStorage.removeItem("email");
-              router.push("/login");
-            }}
-          />
-        </nav>
-      </aside>
+
+  <nav className="flex-grow space-y-2 mb-12 text-lg">
+    <SidebarLink
+      label="Dashboard"
+      onClick={() => router.push("/employee-dashboard")}
+    />
+
+    <SidebarLink
+      label="Persönliche Informationen"
+      onClick={() => router.push("/employee-info")}
+    />
+
+    <SidebarLink
+      label="Finanzen"
+      onClick={() => router.push("/employee-bank")}
+    />
+
+    {/* Separator */}
+      <SidebarLink
+        label="Logout"
+        onClick={() => {
+          localStorage.removeItem("email");
+          router.push("/login");
+        }}
+      />
+    
+  </nav>
+</aside>
+
 
       {/* ================= MAIN CONTENT ================= */}
       <main className="flex-1 mt-[64px] lg:mt-0 px-6 py-10">
@@ -316,14 +328,14 @@ function formatValue(value) {
   if (typeof value === "object") return JSON.stringify(value);
   return value.toString();
 }
-
 function SidebarLink({ label, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="px-4 py-2 rounded-lg cursor-pointer font-medium text-sm hover:bg-[#05507F] transition"
+      className="cursor-pointer text-lg py-2 hover:text-[#05507F] transition-colors duration-200"
     >
       {label}
     </div>
+
   );
 }

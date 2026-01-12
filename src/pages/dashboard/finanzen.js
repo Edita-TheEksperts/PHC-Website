@@ -162,6 +162,15 @@ export default function FinanzenPage() {
           <li onClick={() => router.push("/dashboard/finanzen")}>
             Finanzen
           </li>
+                                   <li
+                onClick={() => {
+                  router.push("/dashboard/kundigung");
+                  setIsOpen(false);
+                }}
+                className="cursor-pointer hover:text-red-400"
+              >
+                Kündigung
+              </li>
         </ul>
       </aside>
 <main className="flex-1 pt-24 lg:pt-12 px-6">

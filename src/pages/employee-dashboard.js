@@ -248,46 +248,40 @@ export default function EmployeeDashboard() {
                 <X className="w-6 h-6" />
               </button>
             </div>
+<nav className="space-y-6">
+  <SidebarLink
+    label="Dashboard"
+    onClick={() => router.push("/employee-dashboard")}
+  />
 
-            <nav className="flex flex-col space-y-6 px-6 py-8 text-lg font-medium">
-              <SidebarLink
-                label="Dashboard"
-                onClick={() => {
-                  router.push("/employee-dashboard");
-                  setIsOpen(false);
-                }}
-              />
-              <SidebarLink
-                label="Persönliche Informationen "
-                onClick={() => {
-                  router.push("/employee-info");
-                  setIsOpen(false);
-                }}
-              />
-              <SidebarLink
-                label="Finanzen "
-                onClick={() => {
-                  router.push("/employee-bank");
-                  setIsOpen(false);
-                }}
-              />
-              <SidebarLink
-                label="Logout"
-                onClick={() => {
-                  localStorage.removeItem("email");
-                  router.push("/login");
-                  setIsOpen(false);
-                }}
-              />
-            </nav>
+  <SidebarLink
+    label="Persönliche Informationen"
+    onClick={() => router.push("/employee-info")}
+  />
+
+  <SidebarLink
+    label="Finanzen"
+    onClick={() => router.push("/employee-bank")}
+  />
+
+  <SidebarLink
+    label="Logout"
+    onClick={() => {
+      localStorage.removeItem("email");
+      router.push("/login");
+    }}
+  />
+</nav>
+
           </div>
         )}
 <aside className="hidden lg:flex w-72 bg-[#04436F] text-white p-6 shadow-xl flex-col">
-  <h2 className="text-4xl font-bold text-center mb-6 select-none cursor-pointer">
-    PHC
-  </h2>
+<h2 className="text-4xl font-bold text-center mb-20 select-none cursor-pointer">
+  PHC
+</h2>
 
-  <nav className="flex-grow space-y-3 text-lg">
+
+  <nav className="flex-grow space-y-2 mb-12 text-lg">
     <SidebarLink
       label="Dashboard"
       onClick={() => router.push("/employee-dashboard")}
@@ -480,12 +474,14 @@ function SidebarLink({ label, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="px-4 py-2 rounded-lg cursor-pointer font-medium text-sm tracking-wide hover:bg-[#05507F] hover:pl-6 transition-all duration-200"
+      className="cursor-pointer text-lg py-2 hover:text-[#05507F] transition-colors duration-200"
     >
       {label}
     </div>
+
   );
 }
+
 
 function Card({ title, children }) {
   return (

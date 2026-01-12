@@ -733,12 +733,12 @@ Finanzen             </li>
 
           {/* --- DESKTOP SIDEBAR --- */}
           <nav className="hidden lg:flex w-72 bg-[#B99B5F] text-white p-6 space-y-8 shadow-xl flex-col">
-            <h1
+            <h2
               className="text-4xl font-bold text-center mb-12 select-none cursor-pointer"
               onClick={() => router.push("/client-dashboard")}
             >
               PHC
-            </h1>
+            </h2>
 
             <ul className="space-y-6 flex-grow">
               <li
