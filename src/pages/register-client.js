@@ -1240,9 +1240,12 @@ body: JSON.stringify({
 ,
       });
       const result = await res.json();
-      if (res.ok) {
-        router.push("/login");
-      } else {
+   
+  if (res.ok) {
+  return true;
+}
+
+       else {
         alert("❌ Fehler beim Speichern: " + result.error);
       }
     } catch (err) {
@@ -3778,9 +3781,8 @@ onChange={(date) => {
 
       try {
         setLoadingStep4(true);
-        await handleOptionalSubmit();
-
-        setStep(5);
+        await handleOptionalSubmit();   // 🔥 këtu ruhen të dhënat
+        setStep(5);                    // 🔥 këtu shkon te Vielen Dank
       } catch (err) {
         console.error("❌ Fehler beim Speichern der Zusatzdaten:", err);
         setFormError(
@@ -3795,7 +3797,9 @@ onChange={(date) => {
   >
     {loadingStep4 ? "Bitte warten..." : "Weiter"}
   </button>
-) 
+)
+
+
 : step === 3 ? (
   <>
     <button
