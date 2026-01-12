@@ -139,7 +139,7 @@ const subscribe = async (e) => {
       <h3 className="text-[#04436F] text-[16px] font-semibold">Kontaktinformationen</h3>
       <div className="flex-1 flex flex-col justify-between text-[#04436F] text-[17px] mt-2">
         <div>
-          <p>Prime Home Care AG <br></br>Schulhausstrasse 1<br/>8834 Schindellegi</p>
+          <p>Prime Home Care AG <br></br>Birkenstrasse 49<br/>6343 Rotkreuz</p>
         </div>
         <div>
           <p>Öffnungszeiten</p>

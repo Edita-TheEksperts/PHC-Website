@@ -32,7 +32,7 @@ export default async function handler(req, res) {
       secure: true,
       auth: {
         user: 'landingpage@phc.ch',
-        pass: '45uYjTaR_N!x4AE',
+        pass: '4Z6j0JmP7ATGC#%!',
       },
     });
 

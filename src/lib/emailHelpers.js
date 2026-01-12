@@ -35,7 +35,7 @@ const contractDate = new Date().toLocaleDateString("de-CH", {
 
     // Arbeitgeberin
     doc.text(
-      "Prime Home Care AG, Schulhausstrasse 1, 8834 Schindellegi Arbeitgeberin",
+      "Prime Home Care AG,Birkenstrasse 49, 6343 Rotkreuz Arbeitgeberin",
       { align: "left" }
     );
     doc.moveDown(1);

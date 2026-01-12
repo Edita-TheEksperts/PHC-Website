@@ -89,14 +89,15 @@ state: {
   knowledgeBase: [
 
     // --- Preise ---
- {
+{
   keywords: ["preise", "kosten", "tarif", "gebühren", "kosten stunde", "preis berechnung", "preisinfo", "preise liste", "preise details"],
-  answer: "Our prices: One-time assignments from CHF 75.–/hour, regular care from CHF 59.–/hour."
+  answer: "Unsere Preise: Einmalige Einsätze ab CHF 75.– pro Stunde, regelmässige Betreuung ab CHF 59.– pro Stunde."
 },
 {
   keywords: ["preis zusammensetzung", "kosten berechnung", "preisdetails", "mindestbuchung"],
-  answer: "The price depends on the number of hours and the hourly rate. The minimum booking is 2 hours. All prices include VAT and have no hidden fees."
-},
+  answer: "Der Preis richtet sich nach der Anzahl der Stunden und dem jeweiligen Stundentarif. Die Mindestbuchung beträgt 2 Stunden. Alle Preise verstehen sich inklusive Mehrwertsteuer und ohne versteckte Kosten."
+}
+,
 
 // --- Vorteile (Warum PHC) ---
 {
@@ -136,7 +137,7 @@ state: {
     // --- Kontakt ---
     {
       keywords: ["kontakt", "telefon", "email", "support", "hotline", "kundendienst", "kontaktformular"],
-      answer: "Sie erreichen uns unter: +41 44 123 45 67 oder per E-Mail an info@phc.ch. Adresse: Prime Home Care AG, Schulhausstrasse 1, 8834 Schindellegi. Öffnungszeiten: 8:30 – 11:00 und 13:30 – 16:00 Uhr."
+      answer: "Sie erreichen uns unter: +41 44 123 45 67 oder per E-Mail an info@phc.ch. Adresse: Prime Home Care AG, Birkenstrasse 49, 6343 Rotkreuz. Öffnungszeiten: 8:30 – 11:00 und 13:30 – 16:00 Uhr."
     },
     {
       keywords: ["öffnungszeiten", "zeiten", "wann erreichbar", "arbeitszeiten"],
@@ -144,7 +145,7 @@ state: {
     },
     {
       keywords: ["adresse", "standort", "büro", "wo sind sie", "anschrift"],
-      answer: "Unsere Adresse: Prime Home Care AG, Schulhausstrasse 1, 8834 Schindellegi."
+      answer: "Unsere Adresse: Prime Home Care AG, Birkenstrasse 49, 6343 Rotkreuz."
     },
 
     // --- Über uns ---

@@ -80,7 +80,7 @@ export default function ContactPage() {
       {/* Contact Info Cards */}
       <div className="flex flex-wrap justify-center gap-[40px] mt-[120px]">
         {[
-          { icon: "location", title: "Schulhausstrasse 1, 8834 Schindellegi" },
+          { icon: "location", title: "Birkenstrasse 49, 6343 Rotkreuz" },
           { icon: "clock", title: "8:30 - 11:00 und 13:30 - 16:00 Uhr" }
         ].map((item, index) => (
           <div key={index} className="lg:w-[675px] w-[350px] py-[20px] px-[10px] lg:py-[20px] lg:px-[60px] bg-[#EAF1F8] gap-[20px] lg:gap-[24px] rounded-[20px] flex flex-row items-left">
