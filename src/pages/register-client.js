@@ -1141,7 +1141,17 @@ mobilityAids: Array.isArray(form.mobilityAids)
 });
 
 
-      const data = await res.json();
+const data = await res.json();
+
+if (!res.ok) {
+  console.error("❌ Backend error:", data);
+  alert("Fehler beim Registrieren: " + (data?.error || "Serverfehler"));
+  return; // ⛔ STOP këtu
+}
+
+if (data.userId) {
+  // vazhdo normal
+}
       if (res.ok && data.userId) {
         const userId = data.userId;
 
@@ -1231,7 +1241,7 @@ body: JSON.stringify({
       });
       const result = await res.json();
       if (res.ok) {
-setStep(5);
+        router.push("/login");
       } else {
         alert("❌ Fehler beim Speichern: " + result.error);
       }

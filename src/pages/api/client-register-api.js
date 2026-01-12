@@ -84,9 +84,12 @@ export default async function handler(req, res) {
        2️⃣ HELPERS (TYPE SAFE)
     -------------------------------------------------- */
 
-    const toStr = (v) => {
-      if (v === undefined || v === null) return null;
-      if (Array.isArray(v)) return v.join(", ");
+const toStr = (v) => {
+  if (v === undefined || v === null) return null;
+  if (Array.isArray(v)) return v.join(", ");
+  return String(v);
+};
+
 const toStrAllowEmpty = (v) => {
   if (v === undefined || v === null) return null;
   if (Array.isArray(v)) return v.join(", ");
@@ -94,8 +97,6 @@ const toStrAllowEmpty = (v) => {
   return String(v);
 };
 
-      return String(v);
-    };
 
     const toInt = (v) => {
       const n = Number(v);
@@ -170,9 +171,9 @@ const toStrAllowEmpty = (v) => {
       emergencyContactPhone: toStr(emergencyContactPhone),
 
       // Allergien & Gesundheit
-      hasAllergies: toBool(hasAllergies),
+hasAllergies: toStr(hasAllergies),
       allergyDetails: toStr(allergyDetails),
-healthFindings: healthFindings ?? "",
+healthFindings: toStr(healthFindings),
       medicalFindings: toStr(medicalFindings),
 
       // Mobilität & Haushalt

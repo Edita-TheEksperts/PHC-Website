@@ -1,47 +1,67 @@
 import nodemailer from "nodemailer";
 
-export async function sendTerminationEmail({ email, firstName, reason }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
+const transporter = nodemailer.createTransport({
+  host: "asmtp.mail.hostpoint.ch",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "landingpage@phc.ch",
+    pass: "4Z6j0JmP7ATGC#%!",
+  },
+});
+
+export async function sendTerminationEmail({ email, firstName, lastName }) {
+  const today = new Date().toLocaleDateString("de-CH");
 
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-      <h2 style="color:#B99B5F;">Vertragskündigung bestätigt</h2>
+    <p>Grüezi ${firstName || ""} ${lastName || ""}</p>
 
-      <p>Liebe/r ${firstName || "Kundin/Kunde"},</p>
+    <p>
+      Wir bestätigen hiermit die Beendigung der Zusammenarbeit zwischen Ihnen und der
+      <strong>Prime Home Care AG</strong>.
+    </p>
 
-      <p>
-        wir bestätigen hiermit die erfolgreiche Kündigung Ihres Vertrags bei
-        <strong>Prime Home Care AG</strong>.
-      </p>
+    <p>
+      Es werden ab <strong>${today}</strong> keine weiteren Dienstleistungen mehr erbracht.
+    </p>
 
-      <p><strong>Grund der Kündigung:</strong><br/>
-      ${reason}</p>
+    <p>
+      Ihr Kundenkonto im Prime-Home-Care-Portal wird entsprechend geschlossen.
+      Ein Zugriff auf das Kundenportal ist danach nicht mehr möglich.
+    </p>
 
-      <p>
-        Ihr Profil wurde archiviert und der Zugriff auf Ihr Konto wurde deaktiviert.
-      </p>
+    <p>
+      Sollten Sie zu einem späteren Zeitpunkt erneut Dienstleistungen über Prime Home Care
+      in Anspruch nehmen wollen, ist eine neue Registrierung sowie eine neue Online-Buchung erforderlich.
+    </p>
 
-      <p>
-        Falls Sie Fragen haben, kontaktieren Sie uns jederzeit unter
-        <a href="mailto:support@primehomecare.ch">support@primehomecare.ch</a>.
-      </p>
+    <p>
+      Wir danken Ihnen für die bisherige Zusammenarbeit.
+    </p>
 
-      <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
-    </div>
+    <p>Freundliche Grüsse</p>
+
+    <p>
+      Prime Home Care AG<br/>
+      Birkenstrasse 49<br/>
+      CH-6343 Rotkreuz<br/>
+      info@phc.ch<br/>
+      www.phc.ch
+    </p>
+
+    <p>
+      <a href="https://phc-website-vert.vercel.app/AVB" target="_blank">
+        AVB und Nutzungsbedingungen
+      </a>
+    </p>
   `;
 
-  await transporter.sendMail({
-    from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+  const info = await transporter.sendMail({
+    from: `"Prime Home Care" <landingpage@phc.ch>`,
     to: email,
-    subject: "Bestätigung Ihrer Vertragskündigung",
+    subject: "Beendigung der Zusammenarbeit mit Prime Home Care",
     html,
   });
+
+  console.log("📨 Kündigung Email sent:", info.messageId);
 }

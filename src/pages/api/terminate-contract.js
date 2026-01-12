@@ -26,57 +26,50 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "Termination reason required" });
     }
 
-    // 🔍 fetch user (for email only)
+    // 🔍 Fetch user (for email)
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { email: true, firstName: true },
+      select: { email: true, firstName: true, lastName: true },
     });
 
-    // 1️⃣ USER → gekuendigt
+    // 1️⃣ Mark user as terminated
     await prisma.user.update({
       where: { id: userId },
-      data: {
-        status: "gekuendigt",
-      },
+      data: { status: "gekuendigt" },
     });
 
-    // 2️⃣ CANCEL **ALL** schedules (NO status filter)
+    // 2️⃣ Cancel all schedules
     await prisma.schedule.updateMany({
       where: {
         userId,
-        NOT: {
-          status: { in: ["cancelled", "done"] },
-        },
+        NOT: { status: { in: ["cancelled", "done"] } },
       },
-      data: {
-        status: "terminated",
-      },
+      data: { status: "terminated" },
     });
 
-    // 3️⃣ TERMINATE assignments
+    // 3️⃣ Terminate assignments
     await prisma.assignment.updateMany({
       where: {
         userId,
         status: "active",
       },
-      data: {
-        status: "terminated",
-      },
+      data: { status: "terminated" },
     });
 
-    // 4️⃣ EMAIL → fire & forget (❗ never break termination)
-    if (user?.email) {
-      sendTerminationEmail({
-        email: user.email,
-        firstName: user.firstName,
-        reason,
-      }).catch((err) => {
-        console.error("⚠️ Termination email failed:", err.message);
-      });
-    }
+if (user?.email) {
+  console.log("📧 Sending termination email to:", user.email);
+
+  await sendTerminationEmail({
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  });
+
+  console.log("✅ Termination email sent successfully");
+}
+
 
     return res.status(200).json({ success: true });
-
   } catch (error) {
     console.error("Terminate contract error:", error);
     return res.status(500).json({ message: "Termination failed" });
