@@ -62,6 +62,7 @@ const scrollToTop = () => {
     country: "",
     canton:"",
   nationality:"",
+  nightShifts: "",
     residencePermit: "",
     experienceYears: "",
     experienceWhere: "",
@@ -200,6 +201,28 @@ const handleChange = (e) => {
     return;
   }
 
+  // 👇 Nëse zgjedh "nein", pastro gjithçka që lidhet me makinën
+  if (name === "hasLicense" && value === "nein") {
+    setForm((prev) => ({
+      ...prev,
+      hasLicense: "nein",
+      licenseType: "",
+      hasCar: "",
+      carAvailableForWork: "",
+      drivingLicenceFile: null,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      licenseType: "",
+      hasCar: "",
+      carAvailableForWork: "",
+      drivingLicenceFile: "",
+    }));
+
+    return;
+  }
+
   setForm((prev) => ({
     ...prev,
     [name]:
@@ -210,6 +233,7 @@ const handleChange = (e) => {
         : value,
   }));
 };
+
 
 const validateStep = () => {
   let newErrors = {};
@@ -276,7 +300,7 @@ if (step === 3) {
 
 
   if (!form.nightShifts) {
-    newErrors.nightShifts = "Bitte auswählen, ob Nachtarbeit möglich ist.";
+newErrors.nightShifts = "Bitte auswählen, ob Feiertagseinsätze möglich sind.";
   }
 
 
@@ -295,6 +319,10 @@ if (step === 3) {
     if (!form.cvFile) newErrors.cvFile = "Bitte Lebenslauf hochladen.";
     if (form.residencePermit !== "CH Pass" && !form.workPermitFile) newErrors.workPermitFile = "Bitte Aufenthalts- oder Arbeitsbewilligung hochladen.";
     if (form.hasLicense === "ja" && !form.drivingLicenceFile) newErrors.drivingLicenceFile = "Bitte Führerschein hochladen.";
+    if (form.hasLicense !== "ja") {
+  delete newErrors.drivingLicenceFile;
+}
+
     if (!form.profilePhoto) newErrors.profilePhoto = "Bitte Foto hochladen.";
   }
 
@@ -1105,8 +1133,7 @@ useEffect(() => {
           </div>
 
           {/* Animated Subservices Section */}
-          <div className="transition-all duration-500 ease-in-out max-h-0 opacity-0 py-0 overflow-hidden">
-            <div className="flex flex-wrap gap-2 px-6">
+<div className="transition-all duration-500 ease-in-out max-h-[300px] opacity-100 py-4 overflow-hidden">            <div className="flex flex-wrap gap-2 px-6">
               {subservices.map((item, idx) => (
                 <span
                   key={idx}
@@ -1186,43 +1213,43 @@ useEffect(() => {
       )}
     </div>
   ))}
-
-  {/* Führerschein */}
-  <div hidden={form.hasLicense !== "ja"} className="space-y-2">
+{form.hasLicense === "ja" && (
+  <div className="space-y-2">
     <label className="block text-sm font-medium text-gray-700">
       Führerschein <span className="text-red-500 font-bold">*</span>
     </label>
+
     <input
       type="file"
       id="drivingLicenceFile"
-        name="drivingLicenceFile"      // ← kërkohet patjetër!
-
+      name="drivingLicenceFile"
       accept="image/*,application/pdf"
       capture="environment"
-      multiple
       style={{ display: "none" }}
-     onChange={(e) => setForm({ ...form, drivingLicenceFile: e.target.files[0] })}
-
-      
+      onChange={(e) =>
+        setForm({ ...form, drivingLicenceFile: e.target.files[0] })
+      }
     />
 
-
-
-      <label
+    <label
       htmlFor="drivingLicenceFile"
       className="inline-block bg-[#04436F] text-white px-4 py-2 rounded-md cursor-pointer hover:bg-[#a6884a] text-sm transition-all duration-150"
     >
       Datei hochladen
     </label>
+
     <p className="text-sm text-gray-600">
-      {form.drivingLicenceFile?.length > 0
-        ? `${form.drivingLicenceFile.length} Datei(en) ausgewählt`
+      {form.drivingLicenceFile
+        ? form.drivingLicenceFile.name
         : "Keine Datei ausgewählt"}
     </p>
+
     {errors.drivingLicenceFile && (
       <p className="text-red-500 text-sm">{errors.drivingLicenceFile}</p>
     )}
   </div>
+)}
+
 </div>
 {/* Foto Upload */}
 <div className="space-y-2">
