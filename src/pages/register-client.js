@@ -1231,7 +1231,7 @@ body: JSON.stringify({
       });
       const result = await res.json();
       if (res.ok) {
-        router.push("/login");
+setStep(5);
       } else {
         alert("❌ Fehler beim Speichern: " + result.error);
       }
@@ -2085,7 +2085,7 @@ onChange={(date) => {
 
                 if (current > minHours) {
                   updated[i].hours = parseFloat(
-                    (current - 0.5).toFixed(1)
+                    (current - 1).toFixed(1)
                   );
                   setForm({ ...form, schedules: updated });
                 }
@@ -2126,10 +2126,8 @@ onChange={(date) => {
                     subServices: [],
                   });
                 } else {
-                  updated[i].hours = Math.min(
-                    parseFloat((current + 0.5).toFixed(1)),
-                    8
-                  );
+            updated[i].hours = Math.min(current + 1, 8);
+
                 }
 
                 setForm({ ...form, schedules: updated });
@@ -3764,19 +3762,14 @@ onChange={(date) => {
   <button
     type="button"
     onClick={async () => {
-      // 1️⃣ Validim i fushave të Step 4
       if (!validateStep()) return;
 
       setFormError("");
 
       try {
-        // 2️⃣ Shfaq loading (opsionale por e sigurt)
         setLoadingStep4(true);
-
-        // 🔥 3️⃣ FIX KRYESOR: RUAN PYETËSORIN NË DB
         await handleOptionalSubmit();
 
-        // 4️⃣ Kalon në hapin final
         setStep(5);
       } catch (err) {
         console.error("❌ Fehler beim Speichern der Zusatzdaten:", err);

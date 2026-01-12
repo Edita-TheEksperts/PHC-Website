@@ -216,26 +216,35 @@ subServices: data.subServices || [],
               <Input label="Adresse" name="address" value={editData.address} onChange={handleChange} />
               <Input label="PLZ" name="postalCode" value={editData.postalCode} onChange={handleChange} />
               <Input label="Stadt" name="city" value={editData.city} onChange={handleChange} />
-              <div className="flex flex-col">
-  <label className="font-semibold mb-1">Service</label>
-  <select className="border rounded px-3 py-2 bg-gray-100" disabled>
-    {editData.services.map((s) => (
-      <option key={s.id} value={s.id}>
-        {s.name}
-      </option>
-    ))}
-  </select>
-</div>
 <div className="flex flex-col">
-  <label className="font-semibold mb-1">Subservice</label>
-  <select className="border rounded px-3 py-2 bg-gray-100" disabled>
-    {editData.subServices.map((s) => (
-      <option key={s.id} value={s.id}>
-        {s.name}
-      </option>
-    ))}
-  </select>
+  <label className="font-semibold mb-2">Services</label>
+
+  {editData.services.length === 0 ? (
+    <p className="text-gray-400">Keine Services</p>
+  ) : (
+    <ul className="list-disc pl-5 space-y-1">
+      {editData.services.map((s) => (
+        <li key={s.id}>{s.name}</li>
+      ))}
+    </ul>
+  )}
 </div>
+
+
+<div className="flex flex-col">
+  <label className="font-semibold mb-2">Subservices</label>
+
+  {editData.subServices.length === 0 ? (
+    <p className="text-gray-400">Keine Subservices</p>
+  ) : (
+    <ul className="list-disc pl-5 space-y-1">
+      {editData.subServices.map((s) => (
+        <li key={s.id}>{s.name}</li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
               <Input label="Notfall Kontakt Name" name="emergencyContactName" value={editData.emergencyContactName} onChange={handleChange} />
 
