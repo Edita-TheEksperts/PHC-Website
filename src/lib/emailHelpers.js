@@ -242,33 +242,71 @@ export async function sendApprovalEmail(employee) {
     },
   });
 
- await transporter.sendMail({
+await transporter.sendMail({
   from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
   to: email,
   subject: `Ihre Einsatzbestätigung – Arbeitsvertrag im Anhang`,
-  text: `Liebe ${firstName}
+  text: `Grüezi ${firstName}
 
-wir freuen uns, Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde. 
-Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail.
+Wir freuen uns Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde.  
 
-Vielen Dank für Ihr Engagement und willkommen im Team von Prime Home Care AG!
+Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail. 
 
-Freundliche Grüsse  
-Prime Home Care AG`,
+Bitte lesen Sie den Arbeitsvertrag sorgfältig durch und unterzeichnen Sie das Dokument digital. 
+
+Vielen Dank für Ihr Engagement und willkommen im Team von Prime Home Care AG. 
+
+Freundliche Grüsse 
+
+Prime Home Care AG 
+
+Birkenstrasse 49 
+
+CH-6343 Rotkreuz 
+
+info@phc.ch 
+
+www.phc.ch 
+
+AVB und Nutzungsbedingungen`,
   html: `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <h2 style="color:#04436F;">Liebe ${firstName},</h2>
-      <p>
-        wir freuen uns, Ihnen mitzuteilen, dass Ihr <strong>Einsatz offiziell bestätigt</strong> wurde.  
-        Den dazugehörigen <strong>Arbeitsvertrag</strong> finden Sie im Anhang dieser E-Mail.
-      </p>
-      <p>
-        Vielen Dank für Ihr Engagement und willkommen im Team von <strong>Prime Home Care AG</strong>!
-      </p>
-      <p style="margin-top:30px;">
-        Freundliche Grüsse<br/>
-        <strong>Prime Home Care AG</strong>
-      </p>
+      <p>Grüezi ${firstName}</p>
+
+      <p>Wir freuen uns Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde.</p>
+
+      <p>Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail.</p>
+
+      <p>Bitte lesen Sie den Arbeitsvertrag sorgfältig durch und unterzeichnen Sie das Dokument digital.</p>
+
+      <p>Vielen Dank für Ihr Engagement und willkommen im Team von Prime Home Care AG.</p>
+
+      <p>Freundliche Grüsse</p>
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
+
     </div>
   `,
   attachments: [
@@ -278,5 +316,6 @@ Prime Home Care AG`,
     },
   ],
 });
+
 
 }

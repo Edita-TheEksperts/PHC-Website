@@ -19,19 +19,42 @@ export async function sendPendingReminders() {
     if (reminder.type === "4h_reminder") {
       subject = "Ihre Betreuung wartet auf Sie";
       body = `
-        <p>Guten Tag ${user.firstName} ${user.lastName},</p>
+        <p>Grüezi ${user.firstName} ${user.lastName},</p>
         <p>Sie haben Ihr Kundenkonto erfolgreich erstellt – vielen Dank! Uns ist aufgefallen, dass Sie noch keine Buchung abgeschlossen haben.</p>
         <p>Möchten Sie Hilfe oder eine telefonische Beratung? Kontaktieren Sie uns gerne unter ${process.env.SUPPORT_PHONE} oder buchen Sie direkt hier: <a href="${process.env.BOOKING_LINK}">Direktlink zur Buchung</a>.</p>
         <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
       `;
     } else if (reminder.type === "48h_reminder") {
-      subject = "Erinnerung: Bitte fehlende Unterlagen hochladen";
-      body = `
-        <p>Guten Tag ${user.firstName} ${user.lastName},</p>
-        <p>Wir bitten Sie freundlich, die noch ausstehenden Dokumente für Ihre Kundenakte hochzuladen. Diese sind erforderlich, um Ihre Betreuung korrekt zu planen und durchzuführen.</p>
-        <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung. Vielen Dank für Ihre Mithilfe!</p>
-        <p>Freundliche Grüsse<br/>Ihr Prime Home Care Team</p>
-      `;
+      subject = "Bitte fehlende Informationen in der Checkliste ergänzen";
+body = `
+  <p>Grüezi ${user.firstName} ${user.lastName},</p>
+
+  <p>Wir bitten Sie freundlich, die noch ausstehenden Informationen auf Ihrer Kundenplattform zu ergänzen.</p>
+
+  <p>Diese sind erforderlich, um Ihre Betreuung korrekt zu planen und durchzuführen.</p>
+
+  <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung. Vielen Dank für Ihre Mithilfe!</p>
+
+  <p>Freundliche Grüsse</p>  
+
+  <p>
+    Prime Home Care AG<br/>
+    Birkenstrasse 49<br/>
+    CH-6343 Rotkreuz<br/>
+    info@phc.ch<br/>
+    www.phc.ch
+  </p>
+
+  <p>
+    <a href="https://phc-website-vert.vercel.app/AVB"
+       target="_blank"
+       rel="noopener noreferrer"
+       style="text-decoration: underline; color: #04436F; font-weight: 500;">
+      AVB und Nutzungsbedingungen
+    </a>
+  </p>
+`;
+
     } else {
       continue; // unknown reminder type
     }

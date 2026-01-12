@@ -13,12 +13,47 @@ const transporter = nodemailer.createTransport({
 async function sendReminderEmail(user, assignment) {
   if (!user.email) return;
 
-  await transporter.sendMail({
-    from: '"Prime Home Care AG" <info@primehomecare.ch>',
-    to: user.email,
-    subject: "Bitte Job akzeptieren",
-    text: `Hallo ${user.firstName},\n\nBitte bestätigen Sie den Job für ${assignment.serviceName}.`,
-  });
+await transporter.sendMail({
+  from: '"Prime Home Care AG" <info@primehomecare.ch>',
+  to: user.email,
+  subject: "Final Reminder: Bitte Job akzeptieren",
+  html: `
+    <p>Grüezi ${employee.firstName}</p>
+
+    <p>Du hast den Job noch nicht bestätigt. Nach 36 Stunden wird der Job automatisch storniert.</p>
+
+    <p>Danke!</p>
+        
+<p>Freundliche Grüsse</p>  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
+  `,
+});
+
+console.log(`Reminder an ${user.email} geschickt.`);
+
 
   console.log(`Reminder an ${user.email} geschickt.`);
 }

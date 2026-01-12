@@ -29,7 +29,32 @@ export async function runAssignmentReminders() {
           html: `
             <p>Hallo ${employee.firstName},</p>
             <p>Bitte bestätige den dir zugewiesenen Einsatz.</p>
-            <p>Prime Home Care</p>
+                
+<p>Freundliche Grüsse</p>  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
           `
         });
 
@@ -78,9 +103,35 @@ export async function runAssignmentReminders() {
             to: admin.email,
             subject: "Einsatz automatisch storniert",
             html: `
-              <p>Hallo Admin,</p>
-              <p>Der Einsatz für MA ${employee.firstName} ${employee.lastName}
-              wurde nach 36h automatisch storniert.</p>
+       <p>Hallo Admin</p> 
+
+<p>Die Zuweisung von ${employee.firstName} ${employee.lastName} wurde nach 36h ohne Bestätigung automatisch storniert.</p>
+    
+<p>Freundliche Grüsse</p>  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
             `
           });
         }

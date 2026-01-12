@@ -80,16 +80,53 @@ if (req.method === "GET") {
       });
 
       try {
-        await sendEmail({
-          to: newAppt.user.email,
-          subject: "Ihre Terminbestätigung bei Prime Home Care AG",
-          html: `
-            <p>Sehr geehrte/r ${newAppt.user.firstName} ${newAppt.user.lastName},</p>
-            <p>Wir bestätigen Ihren Termin am <strong>${newAppt.day}, ${new Date(newAppt.date).toLocaleDateString("de-DE")}</strong> um <strong>${newAppt.startTime}</strong> Uhr.</p>
-            <p>Dauer: ${newAppt.hours} Stunden</p>
-            <p>Vielen Dank für Ihr Vertrauen.<br/>Prime Home Care AG</p>
-          `,
-        });
+    await sendEmail({
+  to: newAppt.user.email,
+  subject: "Ihre Terminbestätigung bei Prime Home Care AG",
+  html: `
+    <p>Grüezi ${newAppt.user.firstName} ${newAppt.user.lastName}</p>
+
+    <p>Wir bestätigen Ihren Termin am</p>
+
+    <p><strong>${newAppt.day}</strong></p>
+
+    <p><strong>${new Date(newAppt.date).toLocaleDateString("de-DE")}</strong></p>
+
+    <p>um <strong>${newAppt.startTime}</strong> Uhr.</p>
+
+    <p>Dauer: <strong>${newAppt.hours} Stunden</strong></p>
+
+    <br/>
+
+    <p>Vielen Dank für Ihr Vertrauen</p>
+
+    
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
+  `,
+});
+
         console.log("✅ Termin-Email gesendet:", newAppt.user.email);
       } catch (err) {
         console.error("❌ Fehler beim Senden der Termin-Email:", err);
@@ -211,17 +248,65 @@ if (req.method === "DELETE") {
         });
       }
 
-      // send cancel confirmation email
-      await sendEmail({
-        to: appt.user.email,
-        subject: "Bestätigung Ihrer Stornierung",
-        html: `
-          <p>Sehr geehrte/r ${appt.user.firstName} ${appt.user.lastName},</p>
-          <p>Ihr Termin am <strong>${appt.day}, ${appt.date.toLocaleDateString("de-DE")}</strong> um <strong>${appt.startTime}</strong> wurde erfolgreich storniert.</p>
-          <p>Rückerstattung: ${refundPercent * 100}%</p>
-          <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
-        `,
-      });
+// send cancel confirmation email
+await sendEmail({
+  to: appt.user.email,
+  subject: "Bestätigung Ihrer Stornierung",
+  html: `
+    <p>Grüezi ${appt.user.firstName} ${appt.user.lastName}</p>
+
+    <p>Ihr Termin am:</p>
+
+    <p><strong>${appt.day}</strong></p>
+
+    <p><strong>${appt.date.toLocaleDateString("de-DE")}</strong></p>
+
+    <p>um <strong>${appt.startTime}</strong> wurde erfolgreich storniert.</p>
+
+    <p>Rückerstattung: <strong>${refundPercent * 100}%</strong></p>
+
+    <br/>
+
+    <p>
+      <a 
+        href="https://phc-website-vert.vercel.app/AVB" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        style="text-decoration: underline; color: #04436F; font-weight: 500;"
+      >
+        Link zu unseren AVB
+      </a>
+    </p>
+
+    
+Freundliche Grüsse  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
+  `,
+});
+
     }
 
     // === KÜNDIGUNG (Terminate) ===
@@ -261,20 +346,71 @@ async function sendEmail({ to, subject, html }) {
 async function sendTerminateEmail(customer, booking, immediate = false) {
   let emailText = immediate
     ? `
-      <p>Sehr geehrte/r ${customer.firstName} ${customer.lastName},</p>
+      <p> Grüezi  ${customer.firstName} ${customer.lastName},</p>
+     <p> Wir bestätigen hiermit die Kündigung unserer Dienstleistung.  </p>
       <p>Oh, schade! Wir bestätigen hiermit die fristlose Kündigung unserer Dienstleistung.</p>
       <p>Gemäss unseren AGBs wird eine Aufwandsentschädigung von <strong>CHF 300.- exkl. MwSt.</strong> berechnet.</p>
       <p>Falls Sie Fragen haben oder weitere Unterstützung benötigen, stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
-      <p>Wir würden uns freuen, Sie in Zukunft wieder als Kunden begrüssen zu dürfen.</p>
-      <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
+    
+<p>Freundliche Grüsse</p>  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
     `
     : `
-      <p>Sehr geehrte/r ${customer.firstName} ${customer.lastName},</p>
+      <p> Grüezi  ${customer.firstName} ${customer.lastName},</p>
+      <p> Wir bestätigen hiermit die Kündigung unserer Dienstleistung.  </p>
       <p>Oh, schade! Wir bestätigen hiermit die Kündigung unserer Dienstleistung.</p>
       <p>Der bereits gezahlte Betrag wird Ihnen innerhalb von <strong>48 Stunden</strong> über die ursprüngliche Zahlungsmethode zurückerstattet.</p>
       <p>Falls Sie Fragen haben oder weitere Unterstützung benötigen, stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
       <p>Wir würden uns freuen, Sie in Zukunft wieder als Kunden begrüssen zu dürfen.</p>
-      <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
+
+<p>Freundliche Grüsse</p>  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
     `;
 
   const info = await transporter.sendMail({

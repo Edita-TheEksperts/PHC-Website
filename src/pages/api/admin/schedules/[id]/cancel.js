@@ -69,27 +69,51 @@ export default async function handler(req, res) {
     // =======================
     // 4️⃣ Email content
     // =======================
-    const html = `
-      <p>Guten Tag,</p>
+const html = `
+  <p>Guten Tag,</p>
 
-      <p>Der folgende Termin wurde storniert.</p>
+  <p>Der folgende Termin wurde storniert.</p>
 
-      <p><strong>Datum:</strong> ${
-        appt.date ? appt.date.toLocaleDateString("de-DE") : "-"
-      }</p>
+  <p><strong>Datum:</strong> ${
+    appt.date ? appt.date.toLocaleDateString("de-DE") : "-"
+  }</p>
 
-      <p><strong>Zeit:</strong> ${appt.startTime || "-"}</p>
+  <p><strong>Zeit:</strong> ${appt.startTime || "-"}</p>
 
-      <p><strong>Service:</strong> ${
-        appt.serviceName || appt.subServiceName || "-"
-      }</p>
+  <p><strong>Service:</strong> ${
+    appt.serviceName || appt.subServiceName || "-"
+  }</p>
 
-      <p><strong>Grund:</strong> ${cancelledBy}</p>
+  <p><strong>Grund:</strong> ${cancelledBy}</p>
 
-      <br/>
-      <p>Mit freundlichen Grüssen<br/>
-      Prime Home Care AG</p>
-    `;
+  <br/>
+  <p>Mit freundlichen Grüssen<br/>
+  Prime Home Care AG</p>
+
+  <!-- ADDED AT THE END -->
+
+  <p>Freundliche Grüsse</p>  
+
+  <p>
+    Prime Home Care AG<br/>
+    Birkenstrasse 49<br/>
+    CH-6343 Rotkreuz<br/>
+    info@phc.ch<br/>
+    www.phc.ch
+  </p>
+
+  <p>
+    <a
+      href="https://phc-website-vert.vercel.app/AVB"
+      target="_blank"
+      rel="noopener noreferrer"
+      style="text-decoration: underline; color: #04436F; font-weight: 500; cursor: pointer;"
+    >
+      AVB und Nutzungsbedingungen
+    </a>
+  </p>
+`;
+
 
     // =======================
     // 5️⃣ Send email

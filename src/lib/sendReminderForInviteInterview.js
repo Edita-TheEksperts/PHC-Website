@@ -24,13 +24,43 @@ Liebe ${emp.firstName},
 
 Wir freuen uns auf ein Gespräch mit Ihnen, jedoch haben wir noch keine Terminbuchung über unseren Kalender erhalten.
 
-Bitte wählen Sie jetzt Ihren Wunschtermin aus:
-${calendlyUrl}
+<p>
+  Bitte wählen Sie jetzt Ihren Wunschtermin aus: 
+  <a href="https://calendly.com/primehomecare" 
+     style="text-decoration: underline; color:#04436F;">
+     Hier Termin vereinbaren
+  </a>
+</p>
+
 
 Bei Fragen helfen wir gerne weiter.
 
+
 Freundliche Grüsse  
-Prime Home Care AG
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
     `;
 
     try {

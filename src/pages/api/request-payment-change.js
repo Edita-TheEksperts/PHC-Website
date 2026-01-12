@@ -25,8 +25,34 @@ export default async function handler(req, res) {
       to: "admin@phc.ch", // Replace with your admin email
       subject: "Zahlungsänderung angefragt",
       html: `
-        <p>Der Mitarbeiter <strong>${name}</strong> (${email}) möchte seine Zahlungsdaten aktualisieren.</p>
+        <p>Der Kunde <strong>${name}</strong> (${email}) möchte seine Zahlungsdaten aktualisieren.</p>
         <p>Bitte kontaktieren Sie ihn für weitere Schritte.</p>
+            
+<p>Freundliche Grüsse</p>  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
       `,
     });
 

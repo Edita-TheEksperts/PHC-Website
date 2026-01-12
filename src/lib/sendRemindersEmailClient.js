@@ -22,24 +22,45 @@ async function sendReminderEmail(user, scheduleDate) {
     day: "numeric",
   });
 
-  const mailOptions = {
-    from: '"Prime Home Care AG" <info@primehomecare.ch>',
-    to: user.email,
-    subject: "In 2 Tagen beginnt Ihre Betreuung.",
-    text: `Guten Tag ${user.firstName} ${user.lastName},
+const mailOptions = {
+  from: '"Prime Home Care AG" <info@primehomecare.ch>',
+  to: user.email,
+  subject: "In 2 Tagen beginnt Ihre Betreuung.",
+  html: `
+    <p>Grüezi ${user.firstName} ${user.lastName},</p>
 
-Am ${formattedDate} beginnt die Betreuung durch Ihre Betreuungsperson.
-Bitte stellen Sie Folgendes bereit:
+    <p>Am <strong>${formattedDate}</strong> um <strong>Zeit</strong> beginnt die Betreuung durch Ihre Betreuungsperson.</p>
 
-• Zugang zur Wohnung  
-• Informationen zu Medikamenten  
-• Tagesstruktur / Gewohnheiten  
+    <p>Bitte stellen Sie Folgendes bereit:</p>
 
-Bei kurzfristigen Änderungen erreichen Sie uns jederzeit unter [Telefonnummer].
+    <ul>
+      <li>Zugang zur Wohnung</li>
+      <li>Tagesstruktur / Gewohnheiten</li>
+    </ul>
 
-Mit besten Grüssen  
-Ihr Team von Prime Home Care AG`,
-  };
+    <p>Bei kurzfristigen Änderungen erreichen Sie uns jederzeit unter <strong>[Telefonnummer]</strong>.</p>
+
+    <p>Mit besten Grüssen</p>
+
+    <p>
+      Prime Home Care AG<br/>
+      Birkenstrasse 49<br/>
+      CH-6343 Rotkreuz<br/>
+      info@phc.ch<br/>
+      www.phc.ch
+    </p>
+
+    <p>
+      <a href="https://phc-website-vert.vercel.app/AVB"
+         target="_blank"
+         rel="noopener noreferrer"
+         style="text-decoration: underline; color: #04436F; font-weight: 500;">
+        AVB und Nutzungsbedingungen
+      </a>
+    </p>
+  `,
+};
+
 
   await transporter.sendMail(mailOptions);
 }

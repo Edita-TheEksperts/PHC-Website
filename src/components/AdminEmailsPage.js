@@ -37,7 +37,31 @@ Ihr Feedback hilft uns, unsere Dienstleistung weiter zu verbessern.
 
 Danke für Ihr Vertrauen!
 
-Prime Home Care AG
+Freundliche Grüsse  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
 `.trim();
 
   async function sendFeedbackEmail() {

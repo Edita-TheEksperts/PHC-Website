@@ -67,8 +67,33 @@ export default async function handler(req, res) {
                 <td style="padding: 10px; border: 1px solid #ddd;">${questions}</td>
               </tr>
             </table>
-            <p style="margin-top: 20px; color: #34495e; text-align: center;">Vielen Dank!</p>
-          </div>
+            
+
+Freundliche Grüsse  
+
+<p>
+  Prime Home Care AG<br/>
+  Birkenstrasse 49<br/>
+  CH-6343 Rotkreuz<br/>
+  info@phc.ch<br/>
+  www.phc.ch
+</p>
+
+<p>
+  <a
+    href="https://phc-website-vert.vercel.app/AVB"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      textDecoration: "underline",
+      color: "#04436F",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    AVB und Nutzungsbedingungen
+  </a>
+</p>         </div>
         `;
 
         // Prepare the attachments array, checking if CV exists
@@ -83,11 +108,10 @@ export default async function handler(req, res) {
           });
         }
 
-        // Send the email with the form data and attachment (if available)
         await transporter.sendMail({
           from: `"Jobs Landing Page" <landingpage@phc.ch>`,
           to: 'landingpage@phc.ch',
-          cc: ['edita.latifi@the-eksperts.com','jobs@phc.ch'],
+          cc: ['admin@phc.ch','jobs@phc.ch'],
           subject: `Formular: Jobs Landing Page ${name}`,
           html: htmlContent,
           attachments: attachments,

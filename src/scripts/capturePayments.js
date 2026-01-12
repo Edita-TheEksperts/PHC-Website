@@ -18,26 +18,51 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// 4. Define email function (no PDF for now)
 async function sendPaymentConfirmationEmail(user, amount, bookingReference) {
   const mailOptions = {
     from: '"Prime Home Care AG" <info@primehomecare.ch>',
     to: user.email,
     subject: "Zahlungsbestätigung / Rechnung zu Ihrer Buchung",
-    text: `Guten Tag ${user.firstName || ""} ${user.lastName || ""},
+    html: `
+      <p>Guten Tag ${user.firstName || ""} ${user.lastName || ""},</p>
 
-Wir bestätigen den Eingang Ihrer Zahlung über CHF ${amount.toFixed(2)} zur Buchung ${bookingReference}.
-Ihre Rechnung finden Sie auf Ihrer persönlichen PHC-Plattform.
+      <p>
+        Wir bestätigen den Eingang Ihrer Zahlung über 
+        <strong>CHF ${amount.toFixed(2)}</strong> 
+        zur Buchung <strong>${bookingReference}</strong>.
+      </p>
 
-Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.
+      <p>
+        Ihre Rechnung finden Sie auf Ihrer persönlichen PHC-Plattform.
+      </p>
 
-Freundliche Grüsse
+      <p>
+        Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.
+      </p>
 
-Prime Home Care AG`,
+      <p>Freundliche Grüsse</p>
+
+      <p>
+        <strong>Prime Home Care AG</strong><br/>
+        Birkenstrasse 49<br/>
+        CH-6343 Rotkreuz<br/>
+        info@phc.ch<br/>
+        www.phc.ch
+      </p>
+
+      <p>
+        <a href="https://phc-website-vert.vercel.app/AVB"
+           target="_blank"
+           style="text-decoration: underline; color:#04436F; font-weight:500;">
+          AVB und Nutzungsbedingungen
+        </a>
+      </p>
+    `,
   };
 
   await transporter.sendMail(mailOptions);
 }
+
 
 // 5. Main function: capture payments & send confirmation email
 export async function capturePendingPayments() {

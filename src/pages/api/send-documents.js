@@ -10,40 +10,85 @@ export default async function handler(req, res) {
   if (!employee?.email || !documentType) {
     return res.status(400).json({ success: false, error: "Missing employee or documentType" });
   }
+const contentMap = {
+  Auflösungschreiben: (employee) => `
+Grüezi ${employee.firstName} ${employee.lastName},
 
-  // Templates
-  const contentMap = {
-    Auflösungschreiben: (employee) => `
-      Sehr geehrte/r ${employee.firstName} ${employee.lastName},
+hiermit bestätigen wir die einvernehmliche Auflösung Ihres Arbeitsvertrags.
 
-      hiermit bestätigen wir die einvernehmliche Auflösung Ihres Arbeitsvertrags.
+Wir danken Ihnen für die Zusammenarbeit und wünschen Ihnen für die Zukunft alles Gute.
 
-      Wir danken Ihnen für die Zusammenarbeit und wünschen Ihnen für die Zukunft alles Gute.
+Freundliche Grüsse  
 
-      Mit freundlichen Grüßen
-      Personalabteilung PHC
-    `,
-    KündigungMA: (employee) => `
-      Sehr geehrte/r ${employee.firstName} ${employee.lastName},
+<p>
+Prime Home Care AG<br/>
+Birkenstrasse 49<br/>
+CH-6343 Rotkreuz<br/>
+info@phc.ch<br/>
+www.phc.ch
+</p>
 
-      hiermit kündigen wir Ihr Arbeitsverhältnis fristgerecht zum nächstmöglichen Zeitpunkt.
+<p>
+  <a href="https://phc-website-vert.vercel.app/AVB"
+     target="_blank"
+     style="text-decoration: underline; color:#04436F; font-weight:500;">
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
+`,
 
-      Vielen Dank für Ihre Mitarbeit und alles Gute für Ihre Zukunft.
+  KündigungMA: (employee) => `
+Grüezi ${employee.firstName} ${employee.lastName},
 
-      Mit freundlichen Grüßen
-      Personalabteilung PHC
-    `,
-    KündigungMAFristlos: (employee) => `
-      Sehr geehrte/r ${employee.firstName} ${employee.lastName},
+hiermit kündigen wir Ihr Arbeitsverhältnis fristgerecht zum nächstmöglichen Zeitpunkt.
 
-      hiermit kündigen wir Ihr Arbeitsverhältnis fristlos mit sofortiger Wirkung.
+Vielen Dank für Ihre Mitarbeit und alles Gute für Ihre Zukunft.
 
-      Bitte setzen Sie sich mit unserer Personalabteilung in Verbindung, um die nächsten Schritte zu klären.
+Freundliche Grüsse  
 
-      Mit freundlichen Grüßen
-      Personalabteilung PHC
-    `,
-  };
+<p>
+Prime Home Care AG<br/>
+Birkenstrasse 49<br/>
+CH-6343 Rotkreuz<br/>
+info@phc.ch<br/>
+www.phc.ch
+</p>
+
+<p>
+  <a href="https://phc-website-vert.vercel.app/AVB"
+     target="_blank"
+     style="text-decoration: underline; color:#04436F; font-weight:500;">
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
+`,
+
+  KündigungMAFristlos: (employee) => `
+Grüezi ${employee.firstName} ${employee.lastName},
+
+Hiermit teilen wir Ihnen mit, dass das bestehende Arbeitsverhältnis mit Ihnen per sofort fristlos beendet wird.
+
+Das entsprechende Kündigungsschreiben ist diesem E-Mail als Dokument beigefügt und wurde rechtsgültig erstellt.
+
+Freundliche Grüsse  
+
+<p>
+Prime Home Care AG<br/>
+Birkenstrasse 49<br/>
+CH-6343 Rotkreuz<br/>
+info@phc.ch<br/>
+www.phc.ch
+</p>
+
+<p>
+  <a href="https://phc-website-vert.vercel.app/AVB"
+     target="_blank"
+     style="text-decoration: underline; color:#04436F; font-weight:500;">
+    AVB und Nutzungsbedingungen
+  </a>
+</p>
+`
+};
 
   const subjectMap = {
     Auflösungschreiben: "Ihr Auflösungsschreiben",
