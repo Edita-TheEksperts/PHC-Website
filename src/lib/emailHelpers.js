@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-
+import PDFDocument from "pdfkit";
 /**
  * Send 'Einsatz - Arbeitsvertrag' PDF to employee when assignment is accepted
  * @param {object} assignment - Assignment object (with user and employee included)
@@ -57,10 +57,6 @@ export async function sendAssignmentContractEmail(assignment) {
     ],
   });
 }
-import PDFDocument from "pdfkit";
-import nodemailer from "nodemailer";
-import { PassThrough } from "stream";
-
 /**
  * Create Arbeitsvertrag PDF
  */
