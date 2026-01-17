@@ -3,41 +3,45 @@ import React, { useState } from "react";
 const AVB = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const sections = [
-    {
-      title: "1. Zweck und Geltungsbereich der allgemeinen Vertragsbedingungen",
-      content: (
-        <>
-          <p>
-            Die Prime Home Care AG (nachfolgend „PHC AG“) bietet eine Plattform,
-            über die Kunden verschiedene Dienstleistungen buchen und abrechnen
-            können. Diese Allgemeinen Vertragsbedingungen (AVB) regeln den Zugang
-            und die Nutzung der Plattform und legen die Rechte und Pflichten der
-            PHC AG, ihrer Mitarbeitenden und der Kunden im Rahmen der
-            Plattformnutzung fest.
-          </p>
-          <p>
-            Die PHC AG agiert als Dienstleistungsanbieter und Arbeitgeber und
-            stellt Kunden Unterstützung in Form von Begleitung, Einkäufen &
-            Erledigungen, Freizeit & Kultur, Gesellschaft & Betreuung,
-            Haushaltshilfe, Unterstützung bei der Grundpflege und Leistungen von
-            Partnerunternehmen zur Verfügung.
-          </p>
-        </>
-      ),
-      text: `Die PHC AG bietet eine Plattform für Dienstleistungen. Diese AVB regeln Zugang und Nutzung. PHC AG agiert als Arbeitgeber und stellt Begleitung, Einkäufe, Freizeit, Betreuung, Haushaltshilfe, Grundpflege und Partnerleistungen bereit.`,
-    },
-    {
-      title: "2. Definitionen",
-      content: (
+ const sections = [
+  {
+    title: "1. Zweck und Geltungsbereich der allgemeinen Vertragsbedingungen",
+    content: (
+      <>
+        <p>
+          Die Prime Home Care AG (nachfolgend „PHC AG“) bietet eine Plattform,
+          über die Kunden verschiedene Dienstleistungen buchen und abrechnen
+          können. Diese Allgemeinen Vertragsbedingungen (AVB) regeln den Zugang
+          und die Nutzung der Plattform und legen die Rechte und Pflichten der
+          PHC AG, ihrer Mitarbeitenden und der Kunden im Rahmen der
+          Plattformnutzung fest.
+        </p>
+        <p>
+          Die PHC AG agiert als Dienstleistungsanbieter und Arbeitgeber und
+          stellt Kunden Unterstützung in Form von Begleitung, Einkäufen &
+          Erledigungen, Freizeit & Kultur, Gesellschaft & Betreuung,
+          Haushaltshilfe, Unterstützung bei der Grundpflege und Leistungen von
+          Partnerunternehmen zur Verfügung.
+        </p>
+      </>
+    ),
+    text:
+      "PHC AG bietet Plattform für Buchung/Abrechnung. AVB regeln Zugang/Nutzung sowie Rechte/Pflichten. Leistungen: Begleitung, Einkäufe, Freizeit, Betreuung, Haushalt, Grundpflege, Partnerleistungen.",
+  },
+  {
+    title: "2. Definitionen",
+    content: (
+      <>
+        <p>Für die AVB gelten folgende Begriffsbestimmungen:</p>
         <ul className="list-disc list-inside space-y-1">
           <li>
             <strong>„Mitarbeiter“:</strong> Personen, die in einem
-            Anstellungsverhältnis zur PHC AG stehen.
+            Anstellungsverhältnis zur PHC AG stehen. Personenbezeichnungen gelten
+            für weibliche und männliche Form.
           </li>
           <li>
-            <strong>„PHC AG“:</strong> Prime Home Care AG mit Sitz in
-            Schindellegi, Schweiz.
+            <strong>„PHC AG“:</strong> Prime Home Care AG mit Sitz in Rotkreuz,
+            Schweiz.
           </li>
           <li>
             <strong>„Kunde“:</strong> Natürliche oder juristische Personen, die
@@ -45,186 +49,359 @@ const AVB = () => {
           </li>
           <li>
             <strong>„Dienstleistung“:</strong> Alle Leistungen, die die PHC AG
-            für Kunden anbietet, darunter auch Partnerleistungen.
+            für Kunden anbietet, darunter auch alle Partnerleistungen.
           </li>
         </ul>
-      ),
-      text: `Mitarbeiter = Personen im Anstellungsverhältnis. PHC AG = Prime Home Care AG in Schindellegi. Kunde = natürliche oder juristische Personen, die Dienstleistungen buchen. Dienstleistung = alle Leistungen inklusive Partnerleistungen.`,
-    },
-    {
-      title: "3. Registrierung und Zustimmung zu den AVB",
-      content: (
+      </>
+    ),
+    text:
+      "Mitarbeiter: angestellt bei PHC AG (Bezeichnungen gelten für w/m). PHC AG: Sitz Rotkreuz. Kunde: natürliche/juristische Personen. Dienstleistung: alle Leistungen inkl. Partnerleistungen.",
+  },
+  {
+    title: "3. Registrierung und Zustimmung zu den AVB",
+    content: (
+      <p>
+        Zur Nutzung der Dienstleistungen muss der Kunde ein persönliches Konto
+        erstellen und bei der Registrierung die erforderlichen Daten angeben.
+        Der Kunde bestätigt mit der Erstellung seines Kontos die AVB und stimmt
+        diesen zu, indem er das Kästchen „Ich akzeptiere die AVB“ anklickt. Der
+        Kunde erhält nach Registrierung eine Bestätigungs-E-Mail.
+      </p>
+    ),
+    text:
+      "Konto erstellen und Daten angeben. Zustimmung durch Anklicken „Ich akzeptiere die AVB“. Bestätigungs-E-Mail nach Registrierung.",
+  },
+  {
+    title: "4. Urheberrecht und geistiges Eigentum",
+    content: (
+      <p>
+        Die Inhalte der Plattform, darunter Texte, Marken, Logos, Bilder und
+        audiovisuelle Medien, sind Eigentum der PHC AG oder werden mit
+        Genehmigung Dritter verwendet und sind durch geistige Eigentumsrechte
+        geschützt. Kein Teil der Website darf ohne Genehmigung als Lizenz zur
+        Nutzung interpretiert werden.
+      </p>
+    ),
+    text:
+      "Inhalte (Texte/Marken/Logos/Bilder/Medien) sind geschützt. Keine Nutzung ohne Genehmigung. Keine Lizenz durch Nutzung der Website.",
+  },
+  {
+    title: "5. Weiterentwicklung der Dienstleistungen und Änderungen der AVB",
+    content: (
+      <>
         <p>
-          Zur Nutzung der Dienstleistungen muss der Kunde ein persönliches Konto
-          erstellen und bei der Registrierung die erforderlichen Daten angeben.
-          Mit der Kontoerstellung stimmt der Kunde den AVB zu und erhält eine
-          Bestätigungs-E-Mail.
+          Die PHC AG behält sich das Recht vor, die AVB und die Plattform
+          entsprechend technischen Anforderungen und zur Optimierung des Angebots
+          anzupassen. Über wesentliche Änderungen werden Kunden per E-Mail
+          informiert. Stimmt der Kunde den Änderungen nicht zu, kann der Vertrag
+          beendet werden.
         </p>
-      ),
-      text: `Zur Nutzung muss ein persönliches Konto erstellt werden. Mit der Registrierung stimmt der Kunde den AVB zu und erhält eine Bestätigung.`,
-    },
-    {
-      title: "4. Nutzung der Website und Inhalte",
-      content: <p>Die Nutzung der Website erfolgt auf eigenes Risiko des Kunden.</p>,
-      text: `Die Nutzung der Website erfolgt auf eigenes Risiko des Kunden.`,
-    },
-    {
-      title: "5. Urheberrecht und geistiges Eigentum",
-      content: (
         <p>
-          Inhalte wie Texte, Marken, Logos, Bilder und audiovisuelle Medien sind
-          Eigentum der PHC AG oder Dritter und geschützt. Keine Nutzung ohne
-          Genehmigung.
+          Sollte der Benutzer innerhalb von 30 Tagen keinen Einspruch erheben,
+          gelten die Änderungen als zur Kenntnis genommen und akzeptiert. Bei
+          einem Widerspruch oder einer Ablehnung werden die Verträge jedoch
+          sofort beendet, und der Benutzer stellt die Nutzung der Plattform und
+          Dienstleistungen ein. Dies erfolgt unbeschadet der vollständigen
+          Erfüllung bestehender Verpflichtungen, insbesondere der Einhaltung
+          aller bereits vereinbarten Dienstleistungsbuchungen durch den Benutzer
+          und PHC AG.
         </p>
-      ),
-      text: `Alle Inhalte sind geistiges Eigentum von PHC AG oder Dritten und dürfen nicht ohne Erlaubnis genutzt werden.`,
-    },
-    {
-      title: "6. Weiterentwicklung der Dienstleistungen und Änderungen der AVB",
-      content: (
-        <>
-          <p>
-            PHC AG darf die AVB und die Plattform anpassen. Über Änderungen
-            werden Kunden informiert. Bei Widerspruch endet der Vertrag.
-          </p>
-          <p>
-            Erfolgt kein Einspruch innerhalb von 30 Tagen, gelten die Änderungen
-            als akzeptiert.
-          </p>
-        </>
-      ),
-      text: `Die PHC AG darf AVB und Plattform anpassen. Kunden werden informiert. Kein Einspruch = Zustimmung. Widerspruch = Vertragsende.`,
-    },
-    {
-      title: "7. Zugang zum Konto und Sicherheit",
-      content: (
+      </>
+    ),
+    text:
+      "PHC AG darf AVB/Plattform anpassen. Info per E-Mail bei wesentlichen Änderungen. Kein Einspruch 30 Tage = akzeptiert. Widerspruch = sofortige Beendigung; bestehende Buchungen/Verpflichtungen bleiben zu erfüllen.",
+  },
+  {
+    title: "6. Zugang zum Konto und Sicherheit",
+    content: (
+      <p>
+        Der Zugang zur Plattform ist nur registrierten Nutzern gestattet. Jeder
+        Benutzer ist für die Sicherheit seiner Zugangsdaten verantwortlich. Im
+        Falle des Verdachts auf Missbrauch oder Verlust der Zugangsdaten ist die
+        PHC AG unverzüglich zu benachrichtigen, um geeignete Massnahmen zu
+        ergreifen.
+      </p>
+    ),
+    text:
+      "Zugang nur für registrierte Nutzer. Jeder schützt Zugangsdaten. Missbrauch/Verdacht sofort melden.",
+  },
+  {
+    title: "7. Buchung und Durchführung der Dienstleistungen",
+    content: (
+      <p>
+        Kunden können Dienstleistungen der PHC AG ausschliesslich über die
+        Plattform buchen. Die Buchung wird durch Auswahl der Dienstleistung und
+        Angabe von Ort und Zeit abgeschlossen.
+      </p>
+    ),
+    text:
+      "Buchung ausschliesslich über Plattform: Dienstleistung wählen, Ort und Zeit angeben.",
+  },
+  {
+    title: "8. Stornierung und Kündigung einer Buchung",
+    content: (
+      <>
+        <h3 className="font-semibold mb-1">8.1 Stornierungsfristen</h3>
         <p>
-          Nur registrierte Nutzer haben Zugang. Benutzer sind für ihre
-          Zugangsdaten verantwortlich und müssen Missbrauch sofort melden.
+          Kunden können ihre Buchung bis zu 14 Tage vor der gebuchten
+          Dienstleistung stornieren, ohne dass ihnen Kosten entstehen.
+          Stornierungen, die weniger als 14 Tage vor der gebuchten Dienstleistung
+          eingehen, werden mit einer Gebühr von 50% belastet. Stornierungen, die
+          weniger als 7 Tage vor der gebuchten Dienstleistung eingehen, werden
+          mit dem gesamten Betrag für die gebuchte Dienstleistung belastet.
         </p>
-      ),
-      text: `Zugang nur für registrierte Nutzer. Jeder ist für seine Zugangsdaten verantwortlich. Missbrauch sofort melden.`,
-    },
-    {
-      title: "8. Buchung und Durchführung der Dienstleistungen",
-      content: (
+
+        <h3 className="font-semibold mt-4 mb-1">8.2 Rückerstattungen</h3>
         <p>
-          Dienstleistungen können über die Plattform gebucht werden durch Auswahl
-          der Leistung, Ort und Zeit.
+          Bei Stornierung wird der volle bzw. der Teilbetrag gemäss 8.1 innerhalb
+          von 48 Stunden über die ursprüngliche Zahlungsmethode zurückerstattet.
         </p>
-      ),
-      text: `Dienstleistungen werden über die Plattform mit Auswahl von Leistung, Ort und Zeit gebucht.`,
-    },
-    {
-      title: "9. Stornierung und Kündigung einer Buchung",
-      content: (
-        <>
-          <p>Bis 14 Tage vorher kostenlos. 14–7 Tage = 50%. Unter 7 Tage = voller Betrag.</p>
-          <p>Rückerstattung bei rechtzeitiger Stornierung innerhalb 48h.</p>
-          <p>Fehlbuchungen bitte über Kontaktformular melden.</p>
-          <p>Sonderaktionen können nicht stornierbar sein.</p>
-          <p>Kündigung nach 3 Monaten mit 14 Tagen Frist möglich. Fristlose Kündigung mit Aufwandspauschale CHF 300 möglich.</p>
-        </>
-      ),
-      text: `Stornierungen: bis 14 Tage kostenlos, 14–7 Tage 50%, unter 7 Tage voller Betrag. Rückerstattung bei rechtzeitiger Stornierung. Fehlbuchungen via Kontakt. Sonderaktionen evtl. nicht stornierbar. Kündigung nach 3 Monaten mit 14 Tagen Frist oder fristlos mit CHF 300.`,
-    },
-    {
-      title: "10. Zahlungsbedingungen",
-      content: (
+
+        <h3 className="font-semibold mt-4 mb-1">8.3 Fehlbuchung</h3>
         <p>
-          Preise stehen auf der Plattform. Zahlung erfolgt per akzeptierter
-          Zahlungsmethode. Belege sind 10 Jahre im Konto verfügbar.
+          Haben Sie irrtümlich eine falsche Buchung getätigt (Datum, Monat, Zeit
+          etc.), kontaktieren Sie uns bitte direkt über unser Kontaktformular.
         </p>
-      ),
-      text: `Preise auf der Plattform. Zahlung per Kreditkarte etc. Belege 10 Jahre verfügbar.`,
-    },
-    {
-      title: "11. Verpflichtungen der PHC AG",
-      content: (
+
+        <h3 className="font-semibold mt-4 mb-1">8.4 Nicht stornierbare Buchungen</h3>
         <p>
-          PHC AG bemüht sich um Verfügbarkeit und Qualität. Störungen werden
-          behoben.
+          In bestimmten Fällen, wie z. B. bei Sonderaktionen oder Rabatten,
+          können Buchungen nicht storniert werden. Dies wird den Kunden vor der
+          Buchung klar mitgeteilt und wird in vollem Umfang verrechnet.
         </p>
-      ),
-      text: `PHC AG sichert Qualität und behebt Störungen.`,
-    },
-    {
-      title: "12. Haftungsbeschränkung der PHC AG",
-      content: (
-        <>
-          <p>Website-Nutzung auf eigenes Risiko.</p>
-          <p>Keine Haftung für direkte/indirekte Schäden, Dokumente oder Ausfälle.</p>
-          <p>Unangemessenes Verhalten kann zu Sperrung führen.</p>
-        </>
-      ),
-      text: `Nutzung auf eigenes Risiko. Keine Haftung für Schäden, Dokumente oder Ausfälle. Missbrauch kann Sperrung bewirken.`,
-    },
-    {
-      title: "13. Allgemeine Pflichten für alle Benutzer",
-      content: (
-        <>
-          <p>Benutzer müssen Gesetze beachten, keine falschen Daten oder Missbrauch.</p>
-          <p>Verboten: Störungen, Eindringen in Systeme, Umleitungen, Überlastung, Verstöße gegen Sicherheit.</p>
-        </>
-      ),
-      text: `Benutzer müssen Gesetze einhalten. Verboten: Verstöße, falsche Daten, Störungen, Eindringen, Überlastung, Sicherheitsverstöße.`,
-    },
-    {
-      title: "14. Pflichten des Kunden",
-      content: (
-        <>
-          <p>Kunden müssen Mitarbeiter respektvoll behandeln.</p>
-          <ul className="list-disc list-inside">
-            <li>Keine unberechtigten Stornierungen</li>
-            <li>Materialien bereitstellen</li>
-            <li>Über Haustiere informieren</li>
-            <li>Kein Kontakt außerhalb der Plattform</li>
-          </ul>
-        </>
-      ),
-      text: `Kundenpflichten: Respektvoller Umgang, keine unberechtigten Stornierungen, Material bereitstellen, Mitarbeiter informieren, kein Direktkontakt.`,
-    },
-    {
-      title: "15. Dauer der Vereinbarung",
-      content: <p>Die AVB gelten unbefristet, bis zur Kündigung.</p>,
-      text: `AVB gelten unbefristet bis zur Kündigung.`,
-    },
-    {
-      title: "16. Versicherung",
-      content: (
+
+        <h3 className="font-semibold mt-4 mb-1">8.5 Kündigungsfrist</h3>
         <p>
-          PHC AG hat eine Haftpflichtversicherung. Schäden müssen mit Foto und
-          binnen 48h gemeldet werden.
+          Das Vertragsverhältnis beginnt mit der Buchung der Dienstleistung und
+          ist auf unbestimmte Zeit abgeschlossen. Das Vertragsverhältnis kann
+          von beiden Parteien jederzeit unter Einhaltung einer Kündigungsfrist
+          von 14 Tagen über das Online-Portal gekündigt werden.
         </p>
-      ),
-      text: `PHC AG hat Versicherung. Schäden mit Foto innerhalb von 48h melden.`,
-    },
-    {
-      title: "17. Datenschutz",
-      content: (
         <p>
-          PHC AG behandelt Daten nach geltendem Datenschutzrecht und eigener
-          Richtlinie.
+          Das Recht zur fristlosen Kündigung aus wichtigen Gründen gemäss Art.
+          404 OR bleibt ausdrücklich vorbehalten. Aus wichtigen Gründen können
+          die Vertragsparteien den Vertrag jederzeit auflösen. Bei Auflösung
+          durch den Kunden wird eine Aufwandsentschädigung von CHF 300.– exkl.
+          MwSt. fällig.
         </p>
-      ),
-      text: `PHC AG verarbeitet Daten nach Datenschutzbestimmungen.`,
-    },
-    {
-      title: "18. Anwendbares Recht",
-      content: <p>Es gilt schweizerisches Recht.</p>,
-      text: `Schweizerisches Recht gilt.`,
-    },
-    {
-      title: "19. Streitbeilegung und Gerichtsstand",
-      content: (
+      </>
+    ),
+    text:
+      "Storno: bis 14 Tage kostenlos; <14 Tage 50%; <7 Tage voller Betrag. Rückerstattung innerhalb 48h über ursprüngliche Zahlungsmethode. Fehlbuchung via Kontaktformular. Sonderaktionen/Rabatte evtl. nicht stornierbar. Kündigung: jederzeit mit 14 Tagen über Online-Portal; fristlos aus wichtigen Gründen (Art. 404 OR); bei Auflösung durch Kunden CHF 300 exkl. MwSt.",
+  },
+  {
+    title: "9. Zahlungsbedingungen",
+    content: (
+      <p>
+        Der Preis für jede Dienstleistung wird auf der Plattform angegeben. Die
+        Zahlung erfolgt über die auf der Plattform akzeptierten Zahlungsmethoden
+        (z. B. Kreditkarte). Die Zahlungsbelege für die dem Kunden erbrachten
+        Dienstleistungen sind jederzeit auf seinem persönlichen Konto verfügbar.
+        Die Rechnung wird dem Kunden auf der Plattform und via E-Mail zur
+        Verfügung gestellt.
+      </p>
+    ),
+    text:
+      "Preis pro Dienstleistung auf Plattform. Zahlung über akzeptierte Methoden (z.B. Kreditkarte). Belege jederzeit im Konto. Rechnung auf Plattform und per E-Mail.",
+  },
+  {
+    title: "10. Verpflichtungen der PHC AG",
+    content: (
+      <p>
+        Die PHC AG ist bemüht, die Plattform und Dienstleistungen kontinuierlich
+        verfügbar zu halten und einen hochwertigen Service zu gewährleisten. Bei
+        Störungen oder Anomalien unternimmt die PHC AG geeignete Massnahmen zur
+        Behebung.
+      </p>
+    ),
+    text:
+      "PHC AG bemüht sich um Verfügbarkeit und hochwertigen Service; behebt Störungen/Anomalien mit geeigneten Massnahmen.",
+  },
+  {
+    title: "11. Haftungsbeschränkung der PHC AG",
+    content: (
+      <>
         <p>
-          Streitigkeiten sollen gütlich beigelegt werden. Kunden sollen sich an
-          den Support wenden.
+          Die Benutzer bestätigen und akzeptieren, dass sie die Website
+          www.phc.ch auf eigenes Risiko aufrufen, nutzen, erkunden und
+          durchsuchen.
         </p>
-      ),
-      text: `Streitigkeiten sollen gütlich beigelegt werden. Kunden wenden sich an den Kundendienst.`,
-    },
-  ];
+        <p>
+          Im Rahmen der geltenden gesetzlichen Bestimmungen haftet die Prime Home
+          Care AG (inkl. verbundener Unternehmen und Beteiligter) in keinem Fall
+          für direkte oder indirekte Schäden (z. B. Kosten, Verluste, Umsatz-
+          oder Gewinneinbussen), die sich aus Zugang, Nutzung oder Unmöglichkeit
+          der Nutzung ergeben.
+        </p>
+        <p>
+          Dokumente, die während der Nutzung heruntergeladen oder erhalten
+          werden, liegen in der alleinigen Verantwortung des Benutzers. Zudem
+          übernimmt die PHC AG keine Haftung für zeitweilige Zugangsprobleme oder
+          -ausfälle, die z. B. auf Benutzerfehler, unkontrollierbare Umstände,
+          höhere Gewalt oder Ausfälle von Netzen/Internetdienstleistungen
+          zurückzuführen sind.
+        </p>
+        <p>
+          Bei unangemessenem Verhalten (z. B. rassistischen Äusserungen) behält
+          sich die PHC AG vor, Funktionalitäten teilweise oder vollständig zu
+          unterbrechen oder auszusetzen.
+        </p>
+      </>
+    ),
+    text:
+      "Website-Nutzung www.phc.ch auf eigenes Risiko. Keine Haftung für direkte/indirekte Schäden im gesetzlichen Rahmen. Downloads in Verantwortung des Nutzers. Keine Haftung für Zugangsprobleme/-ausfälle (Benutzerfehler, höhere Gewalt, Netzausfälle). Unangemessenes Verhalten kann zur (Teil-)Sperrung führen.",
+  },
+  {
+    title: "12. Allgemeine Pflichten für alle Benutzer",
+    content: (
+      <>
+        <p>
+          Der Benutzer verpflichtet sich, die Plattform verantwortungsvoll und in
+          Übereinstimmung mit geltenden Gesetzen und Vorschriften zu nutzen.
+        </p>
+        <p className="mt-2 font-semibold">Insbesondere sind untersagt:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Verstösse gegen Gesetze, öffentliche Ordnung oder Rechte Dritter.</li>
+          <li>Dritten Zugang zum eigenen Konto zu gewähren oder zu übertragen.</li>
+          <li>Beleidigende, verleumderische oder rufschädigende Inhalte.</li>
+          <li>Betrügerische Nutzung (z. B. falsche Identitäten).</li>
+          <li>Vertraulichkeitsverletzungen (Infos zu Buchungen/Interaktionen an Dritte).</li>
+        </ul>
+
+        <p className="mt-4 font-semibold">Ausdrücklich verboten:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Störungen/Behinderung des Betriebs der Plattform oder Dienstleistungen.</li>
+          <li>Versuche, in Systeme von PHC AG einzudringen.</li>
+          <li>Missbräuchliche Umleitung von Ressourcen.</li>
+          <li>Übermässige Belastung der digitalen Infrastruktur.</li>
+          <li>Verletzung von Sicherheits- und Authentifizierungsmassnahmen.</li>
+          <li>Handlungen, die Interessen von PHC AG oder Nutzern schädigen.</li>
+          <li>Verstösse gegen die AVB / missbräuchliche Nutzung.</li>
+        </ul>
+      </>
+    ),
+    text:
+      "Benutzer nutzen Plattform gesetzeskonform/verantwortungsvoll. Untersagt: Gesetzesverstösse, Konto weitergeben, rufschädigende Inhalte, Betrug, Vertraulichkeit brechen. Verboten: Betrieb stören, Eindringen, Ressourcen umleiten, Infrastruktur überlasten, Sicherheitsmassnahmen verletzen, Interessen schädigen, AVB missbrauchen.",
+  },
+  {
+    title: "13. Pflichten des Kunden",
+    content: (
+      <>
+        <p>
+          Der Kunde verpflichtet sich zu einem respektvollen, höflichen und
+          angemessenen Umgang mit den Mitarbeitern. Dies beinhaltet unter anderem:
+        </p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Keine wiederholten und unberechtigten Stornierungen gemäss Stornobedingungen.</li>
+          <li>Notwendige Ausstattungen/Materialien bereitstellen.</li>
+          <li>Vorab über Gegebenheiten informieren (z. B. Haustiere, Allergien/Ängste).</li>
+          <li>Nach Abschluss keinen direkten Kontakt für Leistungen ausserhalb der Plattform.</li>
+        </ul>
+
+        <p className="mt-4">
+          Die Benutzer sind verantwortlich für jede Nutzung der Plattform und der
+          Dienstleistungen sowie für daraus resultierende Schäden. Sie tragen die
+          Verantwortung für ungenaue, unvollständige oder veraltete Angaben bei der
+          Registrierung und deren Konsequenzen.
+        </p>
+      </>
+    ),
+    text:
+      "Kunden: respektvoller Umgang; keine unberechtigten Stornos; Material bereitstellen; über Haustiere/Gegebenheiten informieren; kein Direktkontakt für Off-Platform-Leistungen. Nutzer tragen Verantwortung für Nutzung und falsche/alte Angaben.",
+  },
+  {
+    title: "14. Schadensersatz und Vertragsverstösse",
+    content: (
+      <>
+        <p>
+          Verstösst ein Benutzer oder Kunde gegen diese AVB, gesetzliche Vorschriften
+          oder vertragliche Pflichten gegenüber der PHC AG, haftet der Kunde für
+          sämtliche daraus entstehenden direkten und indirekten Schäden.
+        </p>
+        <p className="mt-2 font-semibold">Dies umfasst insbesondere:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>zusätzliche administrative Aufwände,</li>
+          <li>Kosten für Ersatzorganisationen oder Neuvermittlungen,</li>
+          <li>Ausfälle von vereinbarten Dienstleistungen oder Einnahmen,</li>
+          <li>Schäden an Ruf, Vertrauen oder Geschäftsbeziehungen,</li>
+          <li>allfällige Forderungen Dritter infolge des Vertragsverstosses.</li>
+        </ul>
+        <p className="mt-4">
+          Die PHC AG ist berechtigt, nachgewiesene Schäden sowie pauschalisierte
+          Aufwandsentschädigungen geltend zu machen, sofern diese den üblichen
+          branchen- und marktkonformen Ansätzen entsprechen.
+        </p>
+        <p className="mt-4 font-semibold">Bei schweren oder wiederholten Verstössen kann PHC AG:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>den Zugang zur Plattform vorübergehend oder dauerhaft sperren,</li>
+          <li>bestehende Vertragsverhältnisse fristlos kündigen,</li>
+          <li>rechtliche Schritte einleiten.</li>
+        </ul>
+      </>
+    ),
+    text:
+      "Bei Verstoss: Haftung für direkte/indirekte Schäden (Adminaufwand, Ersatzorganisation, Ausfälle, Rufschäden, Drittforderungen). PHC darf nachgewiesene Schäden + pauschalisierte Entschädigungen geltend machen. Bei schweren/wiederholten Verstössen: Sperrung, fristlose Kündigung, rechtliche Schritte.",
+  },
+  {
+    title: "15. Dauer der Vereinbarung",
+    content: (
+      <p>
+        Diese AVB gelten auf unbestimmte Zeit ab der Annahme durch den Benutzer
+        und bleiben bis zur Kündigung durch eine der Parteien in Kraft.
+      </p>
+    ),
+    text:
+      "AVB gelten unbestimmte Zeit ab Annahme und bis zur Kündigung durch eine Partei.",
+  },
+  {
+    title: "16. Versicherung",
+    content: (
+      <p>
+        Die PHC AG unterhält eine Haftpflichtversicherung, die nachgewiesene
+        Schäden während der Dienstleistung abdeckt. Schäden müssen detailliert
+        mit Fotodokumentation und innerhalb von 48 Stunden nach dem
+        Schadensereignis gemeldet werden.
+      </p>
+    ),
+    text:
+      "Haftpflichtversicherung deckt nachgewiesene Schäden während Dienstleistung. Schaden mit Foto/Details innerhalb 48h melden.",
+  },
+  {
+    title: "17. Datenschutz",
+    content: (
+      <p>
+        Die PHC AG behandelt alle Benutzerdaten gemäss den geltenden
+        Datenschutzbestimmungen und in Übereinstimmung mit der Datenschutzrichtlinie,
+        die auf der Website verfügbar ist.
+      </p>
+    ),
+    text:
+      "Datenverarbeitung gemäss Datenschutzbestimmungen und Datenschutzrichtlinie auf der Website.",
+  },
+  {
+    title: "18. Anwendbares Recht",
+    content: <p>Diese AVB unterliegen dem schweizerischen Recht.</p>,
+    text: "Schweizerisches Recht gilt.",
+  },
+  {
+    title: "19. Streitbeilegung und Gerichtsstand",
+    content: (
+      <p>
+        Im Falle von Streitigkeiten verfolgt die PHC AG eine Politik der gütlichen
+        Einigung. Benutzer werden gebeten, sich bei Problemen an die PHC AG zu
+        wenden, um eine für beide Parteien zufriedenstellende Lösung zu finden.
+      </p>
+    ),
+    text:
+      "Streitigkeiten: gütliche Einigung; bei Problemen an PHC AG wenden.",
+  },
+  {
+    title: "Stand",
+    content: <p>Rotkreuz, im Januar 2026</p>,
+    text: "Rotkreuz, im Januar 2026",
+  },
+];
+
 
   // Filter
   const filteredSections = sections.filter((s) => {
