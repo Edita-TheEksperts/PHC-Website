@@ -146,7 +146,7 @@ const AVB = () => {
           Kunden können ihre Buchung bis zu 14 Tage vor der gebuchten
           Dienstleistung stornieren, ohne dass ihnen Kosten entstehen.
           Stornierungen, die weniger als 14 Tage vor der gebuchten Dienstleistung
-          eingehen, werden mit einer Gebühr von 50% belastet. Stornierungen, die
+          eingehen, werden mit einer Gebühr von 50% belastet. Stornierungen die
           weniger als 7 Tage vor der gebuchten Dienstleistung eingehen, werden
           mit dem gesamten Betrag für die gebuchte Dienstleistung belastet.
         </p>
@@ -172,10 +172,9 @@ const AVB = () => {
 
         <h3 className="font-semibold mt-4 mb-1">8.5 Kündigungsfrist</h3>
         <p>
-          Das Vertragsverhältnis beginnt mit der Buchung der Dienstleistung und
-          ist auf unbestimmte Zeit abgeschlossen. Das Vertragsverhältnis kann
-          von beiden Parteien jederzeit unter Einhaltung einer Kündigungsfrist
-          von 14 Tagen über das Online-Portal gekündigt werden.
+         Das Vertragsverhältnis beginnt mit der Buchung der Dienstleistung und ist auf unbestimmte Zeit abgeschlossen.
+         Der Kunde erklärt sich mit den AVBs der Prime Home Care AG einverstanden mit Abschluss der Buchung. 
+         Das Vertragsverhältnis kann von beiden Parteien jederzeit unter Einhaltung einer Kündigungsfrist von 14 Tagen über das online Portal gekündigt werden.
         </p>
         <p>
           Das Recht zur fristlosen Kündigung aus wichtigen Gründen gemäss Art.
@@ -222,67 +221,109 @@ const AVB = () => {
     content: (
       <>
         <p>
-          Die Benutzer bestätigen und akzeptieren, dass sie die Website
-          www.phc.ch auf eigenes Risiko aufrufen, nutzen, erkunden und
-          durchsuchen.
+       Die Benutzer bestätigen und akzeptieren, dass sie die Website, www.phc.ch, auf eigenes Risiko aufrufen, nutzen, erkunden und durchsuchen.
+      Sie erkennen zudem an und akzeptieren, dass die Prime Home Care AG sowie ihre nationalen und internationalen Tochtergesellschaften, Geschäftsführer, Führungskräfte, Mitarbeiter, Vertreter oder Anteilseigner sowie alle weiteren Beteiligten an der Erstellung, Produktion oder Bereitstellung der Website, im Rahmen der geltenden gesetzlichen Bestimmungen, in keinem Fall für direkte oder indirekte Schäden haften.
+      Dazu zählen auch Rufschädigungen oder sonstige Kosten, Verluste, Umsatz- oder Gewinneinbussen, selbst wenn diese vorhersehbar gewesen wären. 
+      Diese Haftungsbeschränkung gilt für alle Schäden, die sich aus dem Zugang der Benutzer zur Website, deren Nutzung oder der Unmöglichkeit der Nutzung ergeben.
         </p>
         <p>
-          Im Rahmen der geltenden gesetzlichen Bestimmungen haftet die Prime Home
-          Care AG (inkl. verbundener Unternehmen und Beteiligter) in keinem Fall
-          für direkte oder indirekte Schäden (z. B. Kosten, Verluste, Umsatz-
-          oder Gewinneinbussen), die sich aus Zugang, Nutzung oder Unmöglichkeit
-          der Nutzung ergeben.
+        Sämtliche Dokumente, die während der Nutzung der Website heruntergeladen oder auf andere Weise erhalten werden, liegen in der alleinigen Verantwortung des Benutzers, unabhängig davon, ob es sich um einen Kunden, Vertreter oder regulären Nutzer handelt. Zudem übernimmt die PHC AG keine Haftung für zeitweilige Zugangsprobleme oder -ausfälle der Plattform, des Kontos oder der Dienstleistungen, die auf Benutzerfehler, unkontrollierbare Umstände, höhere Gewalt oder Ausfälle der Telekommunikationsnetze sowie Einschränkungen der Internetdienstleistung zurückzuführen sind.
         </p>
         <p>
-          Dokumente, die während der Nutzung heruntergeladen oder erhalten
-          werden, liegen in der alleinigen Verantwortung des Benutzers. Zudem
-          übernimmt die PHC AG keine Haftung für zeitweilige Zugangsprobleme oder
-          -ausfälle, die z. B. auf Benutzerfehler, unkontrollierbare Umstände,
-          höhere Gewalt oder Ausfälle von Netzen/Internetdienstleistungen
-          zurückzuführen sind.
-        </p>
-        <p>
-          Bei unangemessenem Verhalten (z. B. rassistischen Äusserungen) behält
-          sich die PHC AG vor, Funktionalitäten teilweise oder vollständig zu
-          unterbrechen oder auszusetzen.
+          Bei unangemessenem Verhalten, beispielsweise rassistischen Äusserungen, behält sich die PHC AG das Recht vor, die Funktionalitäten der Website teilweise oder vollständig zu unterbrechen oder auszusetzen.
+Die Prime Home Care AG übernimmt keine Haftung für Unterbrechungen oder Aussetzungen der Website-Funktionalitäten, die durch Handlungen oder Unterlassungen von PHC AG oder ihren verbundenen Unternehmen oder Dritten verursacht werden.
         </p>
       </>
     ),
     text:
       "Website-Nutzung www.phc.ch auf eigenes Risiko. Keine Haftung für direkte/indirekte Schäden im gesetzlichen Rahmen. Downloads in Verantwortung des Nutzers. Keine Haftung für Zugangsprobleme/-ausfälle (Benutzerfehler, höhere Gewalt, Netzausfälle). Unangemessenes Verhalten kann zur (Teil-)Sperrung führen.",
   },
-  {
-    title: "12. Allgemeine Pflichten für alle Benutzer",
-    content: (
-      <>
-        <p>
-          Der Benutzer verpflichtet sich, die Plattform verantwortungsvoll und in
-          Übereinstimmung mit geltenden Gesetzen und Vorschriften zu nutzen.
-        </p>
-        <p className="mt-2 font-semibold">Insbesondere sind untersagt:</p>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Verstösse gegen Gesetze, öffentliche Ordnung oder Rechte Dritter.</li>
-          <li>Dritten Zugang zum eigenen Konto zu gewähren oder zu übertragen.</li>
-          <li>Beleidigende, verleumderische oder rufschädigende Inhalte.</li>
-          <li>Betrügerische Nutzung (z. B. falsche Identitäten).</li>
-          <li>Vertraulichkeitsverletzungen (Infos zu Buchungen/Interaktionen an Dritte).</li>
-        </ul>
+{
+  title: "12. Allgemeine Pflichten für alle Benutzer",
+  content: (
+    <>
+      <p>
+        Der Benutzer verpflichtet sich, die Plattform verantwortungsvoll und in
+        Übereinstimmung mit geltenden Gesetzen und Vorschriften zu nutzen.
+        Insbesondere sind folgende Handlungen untersagt:
+      </p>
 
-        <p className="mt-4 font-semibold">Ausdrücklich verboten:</p>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Störungen/Behinderung des Betriebs der Plattform oder Dienstleistungen.</li>
-          <li>Versuche, in Systeme von PHC AG einzudringen.</li>
-          <li>Missbräuchliche Umleitung von Ressourcen.</li>
-          <li>Übermässige Belastung der digitalen Infrastruktur.</li>
-          <li>Verletzung von Sicherheits- und Authentifizierungsmassnahmen.</li>
-          <li>Handlungen, die Interessen von PHC AG oder Nutzern schädigen.</li>
-          <li>Verstösse gegen die AVB / missbräuchliche Nutzung.</li>
-        </ul>
-      </>
-    ),
-    text:
-      "Benutzer nutzen Plattform gesetzeskonform/verantwortungsvoll. Untersagt: Gesetzesverstösse, Konto weitergeben, rufschädigende Inhalte, Betrug, Vertraulichkeit brechen. Verboten: Betrieb stören, Eindringen, Ressourcen umleiten, Infrastruktur überlasten, Sicherheitsmassnahmen verletzen, Interessen schädigen, AVB missbrauchen.",
-  },
+      <ul className="list-disc list-inside space-y-1 mt-2">
+        <li>
+          Verstösse gegen Gesetze, die öffentliche Ordnung oder die Rechte
+          Dritter, sowie Verstösse gegen moralische und ethische Normen.
+        </li>
+        <li>
+          Dritten den Zugang zum eigenen Konto zu gewähren oder zu übertragen.
+        </li>
+        <li>
+          Inhalte zu veröffentlichen, die beleidigend, verleumderisch oder
+          rufschädigend sind oder die Rechte, den Ruf oder das Ansehen von PHC AG
+          oder anderen Nutzern beeinträchtigen könnten.
+        </li>
+        <li>
+          Die Plattform oder Dienstleistungen betrügerisch zu nutzen,
+          beispielsweise durch falsche Identitäten, und das Interesse von PHC AG
+          oder anderen Benutzern zu schädigen.
+        </li>
+        <li>
+          Alle für die Dienstleistungserbringung erforderlichen Informationen an
+          PHC AG zu übermitteln und deren Richtigkeit sicherzustellen.
+        </li>
+        <li>
+          Die Plattform und Dienstleistungen ordnungsgemäss zu nutzen,
+          einschliesslich der Teilnahme an den vorgesehenen Registrierungs-,
+          Buchungs- und Bewertungsprozessen.
+        </li>
+        <li>
+          PHC AG über auftretende Schwierigkeiten oder Probleme mit anderen
+          Benutzern oder in Bezug auf die Nutzung der Plattform, des Kontos und
+          der Dienstleistungen zu informieren.
+        </li>
+        <li>
+          Vertraulichkeit zu wahren und keine Informationen oder Inhalte im
+          Zusammenhang mit den Dienstleistungen, Buchungen oder Interaktionen an
+          Dritte weiterzugeben.
+        </li>
+      </ul>
+
+      <p className="mt-4 font-semibold">
+        Die folgenden Handlungen sind ausdrücklich verboten:
+      </p>
+
+      <ul className="list-disc list-inside space-y-1">
+        <li>
+          Jede Handlung, die den kontinuierlichen Betrieb der Plattform oder
+          Dienstleistungen unterbricht, verzögert oder behindert.
+        </li>
+        <li>
+          Jeder Versuch, in die Systeme von PHC AG einzudringen.
+        </li>
+        <li>
+          Jede missbräuchliche Umleitung von Ressourcen der Plattform oder des
+          Kontos.
+        </li>
+        <li>
+          Jede übermässige Belastung der digitalen Infrastruktur von PHC AG.
+        </li>
+        <li>
+          Verletzungen der Sicherheits- und Authentifizierungsmassnahmen.
+        </li>
+        <li>
+          Handlungen, die die finanziellen, geschäftlichen oder moralischen
+          Interessen von PHC AG und anderen Nutzern schädigen.
+        </li>
+        <li>
+          Verstösse gegen die AVB sowie jede missbräuchliche Nutzung der
+          Plattform und der Dienstleistungen für Zwecke, die über den
+          vorgesehenen Rahmen hinausgehen.
+        </li>
+      </ul>
+    </>
+  ),
+  text:
+    "Benutzer müssen die Plattform gesetzeskonform, verantwortungsvoll und korrekt nutzen. Untersagt sind Gesetzesverstösse, Weitergabe von Konten, rufschädigende Inhalte, betrügerische Nutzung, falsche Angaben und Verletzung der Vertraulichkeit. Ausdrücklich verboten sind Störungen des Betriebs, Systemeingriffe, Ressourcenmissbrauch, Überlastung der Infrastruktur, Sicherheitsverstösse, Schädigung der Interessen von PHC AG oder Nutzern sowie missbräuchliche Nutzung der Plattform.",
+},
   {
     title: "13. Pflichten des Kunden",
     content: (
