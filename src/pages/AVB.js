@@ -501,7 +501,6 @@ Die Prime Home Care AG übernimmt keine Haftung für Unterbrechungen oder Ausset
       "Streitigkeiten: gütliche Einigung; bei Problemen an PHC AG wenden.",
   },
   {
-    title: "Stand",
     content: <p>Rotkreuz, im Januar 2026</p>,
     text: "Rotkreuz, im Januar 2026",
   },
