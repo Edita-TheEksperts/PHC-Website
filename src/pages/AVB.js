@@ -437,6 +437,11 @@ Die Prime Home Care AG übernimmt keine Haftung für Unterbrechungen oder Ausset
           <li>bestehende Vertragsverhältnisse fristlos kündigen,</li>
           <li>rechtliche Schritte einleiten.</li>
         </ul>
+        <p className="mt-4">
+        Die Geltendmachung von weitergehenden gesetzlichen Ansprüchen,
+        insbesondere Schadenersatz- und Genugtuungsansprüchen nach
+        schweizerischem Recht, bleibt ausdrücklich vorbehalten.
+      </p>
       </>
     ),
     text:
