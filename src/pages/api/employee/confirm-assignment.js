@@ -57,32 +57,10 @@ export default async function handler(req, res) {
     // =========================
     if (action === "confirmed") {
       try {
-        const { user, employee } = updated;
-
-        if (employee?.email) {
-          await sendApprovalEmail(employee);
-        }
-
-        const { subject, body } = await getTemplate("assignmentAccepted", {
-          firstName: user.firstName || "",
-          lastName: user.lastName || "",
-          employeeFirstName: employee.firstName || "",
-          employeeLastName: employee.lastName || "",
-          employeeEmail: employee.email || "",
-          employeePhone: employee.phone || "",
-          serviceName: user.services?.map((s) => s.name).join(", ") || "—",
-          firstDate: new Date(updated.createdAt).toLocaleDateString("de-DE"),
-        });
-
-        await transporter.sendMail({
-          from: `"PHC Team" <${process.env.SMTP_USER}>`,
-          to: user.email,
-          subject,
-          html: body,
-        });
-
+        const { sendAssignmentContractEmail } = await import("../../../lib/emailHelpers.js");
+        await sendAssignmentContractEmail(updated);
       } catch (emailError) {
-        console.error("⚠️ Email failed, but assignment confirmed:", emailError);
+        console.error("⚠️ Assignment contract email failed:", emailError);
       }
     }
 
@@ -129,3 +107,4 @@ export default async function handler(req, res) {
     res.status(500).json({ message: "Serverfehler" });
   }
 }
+
