@@ -26,7 +26,7 @@ const Datenschutz = () => {
           Wir erheben und speichern personenbezogene Daten, die Sie uns aktiv
           mitteilen (z. B. durch Kontaktformulare oder Newsletter-Anmeldung).
           Dazu gehören: Name, E-Mail-Adresse, Telefonnummer oder Angaben zu
-          gebuchten Dienstleistungen oder Bewerbungsunterlagen, welche für die
+          gebuchten Dienstleistungen oder Bewerbungsunterlagen welche für die
           Anstellung relevant sind.
         </p>
       </section>
