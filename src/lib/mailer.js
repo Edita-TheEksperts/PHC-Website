@@ -1,63 +1,57 @@
+
 import nodemailer from "nodemailer";
 import PDFDocument from "pdfkit";
 
-/* ---------- NDA PDF ---------- */
-export function createNdaPdf(firstName, lastName) {
+// ---------- Rahmenvereinbarung PDF ----------
+export function createRahmenvereinbarungPdf(employee) {
   return new Promise((resolve) => {
-    const doc = new PDFDocument({ margin: 50 });
+    const doc = new PDFDocument({ margin: 40 });
     const buffers = [];
 
     doc.on("data", buffers.push.bind(buffers));
     doc.on("end", () => resolve(Buffer.concat(buffers)));
 
-    doc.fontSize(20).font("Helvetica-Bold").text("Non-Disclosure Agreement (NDA)", { align: "center" });
-    doc.moveDown(2);
-    doc.fontSize(12).text(`Datum: ${new Date().toLocaleDateString("de-CH")}`);
-    doc.moveDown(2);
-    doc.text(
-      `Mit der Unterzeichnung erklärt sich ${firstName} ${lastName} bereit, alle vertraulichen Informationen von Prime Home Care AG geheim zu halten.`,
-      { align: "justify" }
-    );
 
+    // Page 1 - Header and Title
+    doc.image("public/images/logo.png", doc.page.width / 2 - 60, 30, { width: 120 });
+    doc.moveDown(4.5);
+    doc.fontSize(16).font("Helvetica-Bold").text("Rahmenvereinbarung", { align: "left" });
+    doc.moveDown(1.2);
+    doc.fontSize(11).font("Helvetica").text("zwischen", { align: "left" });
+    doc.moveDown(0.3);
+    doc.fontSize(11).font("Helvetica").text("Prime Home Care AG, Birkenstrasse 49, 6343 Rotkreuz", { continued: true }).font("Helvetica-Bold").text("    Arbeitgeberin");
+    doc.moveDown(0.3);
+    doc.fontSize(11).font("Helvetica").text(`und`, { continued: true });
+    doc.moveDown(0.1);
+    doc.fontSize(11).font("Helvetica").text(`${employee.firstName} ${employee.lastName}, ${employee.street || "[Strasse Nr.]"}, ${employee.zip || "[PLZ]"} ${employee.city || "[Ort]"}`, { continued: true }).font("Helvetica-Bold").text("    Arbeitnehmer");
+    doc.moveDown(1);
+    doc.fontSize(11).font("Helvetica").text("Betreffend gelegentliche Arbeitsleistungen / Teilzeitarbeit");
+    doc.moveDown(1.2);
+    doc.fontSize(11).font("Helvetica-Bold").text("Allgemeines");
+    doc.fontSize(11).font("Helvetica").text("Die in diesem Vertrag enthaltenen Personenbezeichnungen beziehen sich in gleicher Weise auf die weibliche und männliche Form.");
+    doc.moveDown(1);
+    doc.font("Helvetica-Bold").text("1. Inhalt der Vereinbarung");
+    doc.font("Helvetica").text("Der Arbeitnehmer lässt sich in die Mitarbeiter-Datenbank der Arbeitgeberin eintragen. Gestützt auf den Eintrag schliessen die Arbeitgeberin und der Arbeitnehmer vorliegende zeitlich unbefristete Rahmenvereinbarung, welche es der Arbeitgeberin ermöglicht, dem Arbeitnehmer einzelne Arbeitseinsätze im Haushalts- und Betreuungsbereich anzubieten.");
+    doc.moveDown(1);
+    doc.font("Helvetica-Bold").text("2. Rechtliche Qualifikation der Arbeitsangebote");
+    doc.font("Helvetica").text("Bei den Arbeitsangeboten handelt es sich um unechte Arbeit auf Abruf, da es dem Arbeitnehmer freisteht, die jeweiligen Angebote der Arbeitgeberin anzunehmen oder abzulehnen.");
+    doc.moveDown(1);
+    doc.font("Helvetica-Bold").text("3. Einsatzvertrag");
+    doc.font("Helvetica").text("Ein konkreter Arbeitsvertrag entsteht erst, wenn der Arbeitnehmer ein Angebot annimmt und sich zur Leistung von Arbeit verpflichtet. Ein solcher Einsatz wird jeweils in einem schriftlichen Einsatzvertrag vereinbart.");
+    doc.moveDown(1);
+    doc.font("Helvetica-Bold").text("4. Rechtliche Qualifikation der einzelnen Arbeitseinsätze");
+    doc.font("Helvetica").text("a. Die einzelnen Einsatzverträge stellen grundsätzlich Gelegenheitsarbeit dar. Es werden dem Arbeitnehmer ausdrücklich kein minimales Arbeitspensum und keine Kündigungsfristen garantiert.\nb. Erfolgen mehrere und regelmässige Einsätze während einer Dauer von mehr als drei Jahren, wandelt sich der Einsatzvertrag über Gelegenheitsarbeit in ein andauerndes Arbeitsverhältnis über Teilzeitarbeit um. Daran ändert auch nichts, dass die Vertragsparteien bezüglich der einzelnen Arbeitseinsätze über Abschlussfreiheit verfügen.\nDie Umwandlung in ein Teilzeitarbeitsverhältnis bedeutet, dass ab dem vierten Dienstjahr die Arbeitgeberin dem Arbeitnehmer während der Kündigungsfrist von Art. 335c OR bei fehlenden oder geringeren Einsätzen den Bruttodurchschnittslohn zu entrichten hat, wenn der Arbeitnehmer während dieser Zeit seine Arbeitsleistung anbietet.");
+
+    // Page 2 - Signature Page
+    doc.addPage();
+    doc.image("public/images/logo.png", doc.page.width / 2 - 60, 30, { width: 120 });
+    doc.moveDown(10);
+    doc.fontSize(12).font("Helvetica").text(`Rotkreuz, Datum Versand`, { align: "left" });
+    doc.moveDown(2.5);
+    doc.fontSize(12).font("Helvetica-Bold").text("Prime Home Care AG");
     doc.moveDown(3);
-    doc.text("_____________________________");
-    doc.text(`${firstName} ${lastName}`);
-    doc.moveDown(3);
-    doc.text("_____________________________");
-    doc.text("Prime Home Care AG");
-
-    doc.end();
-  });
-}
-
-/* ---------- CONTRACT PDF ---------- */
-export function createContractPdf(employee) {
-  return new Promise((resolve) => {
-    const doc = new PDFDocument({ margin: 50 });
-    const buffers = [];
-
-    doc.on("data", buffers.push.bind(buffers));
-    doc.on("end", () => resolve(Buffer.concat(buffers)));
-
-    const fullName = `${employee.firstName} ${employee.lastName}`;
-    const date = new Date().toLocaleDateString("de-CH");
-
-    doc.fontSize(18).font("Helvetica-Bold").text("Arbeitsvertrag", { align: "center" });
-    doc.moveDown(2);
-    doc.text(`Datum: ${date}`);
-    doc.moveDown(2);
-    doc.text(`Zwischen Prime Home Care AG und ${fullName}.`);
-    doc.moveDown(2);
-    doc.text("Anstellung als Pflegehilfe / Betreuungsperson.");
-    doc.moveDown(2);
-    doc.text("Lohn: CHF 25.00 / Stunde + Ferienentschädigung + 13. Monatslohn.");
-
-    doc.moveDown(3);
-    doc.text("_____________________________");
-    doc.text(fullName);
-    doc.moveDown(3);
-    doc.text("_____________________________");
-    doc.text("Prime Home Care AG");
+    doc.fillColor("black").fontSize(12).font("Helvetica").text("…………………………………………                …………………………………………");
+    doc.text("Arbeitgeberin                                Arbeitnehmer");
 
     doc.end();
   });
@@ -70,13 +64,9 @@ export async function sendApprovalEmail(employee, plainPassword) {
   console.log("Recipient:", email);
 
   try {
-    console.log("📄 Generating NDA PDF...");
-    const ndaBuffer = await createNdaPdf(firstName, lastName);
-    console.log("✅ NDA PDF created");
-
-    console.log("📄 Generating Contract PDF...");
-    const contractBuffer = await createContractPdf(employee);
-    console.log("✅ Contract PDF created");
+    console.log("📄 Generating Rahmenvereinbarung PDF...");
+    const rahmenBuffer = await createRahmenvereinbarungPdf(employee);
+    console.log("✅ Rahmenvereinbarung PDF created");
 
     console.log("🔌 Creating SMTP transporter...");
     console.log("SMTP HOST:", process.env.SMTP_HOST);
@@ -109,12 +99,11 @@ export async function sendApprovalEmail(employee, plainPassword) {
           <li>Passwort: <strong>${plainPassword}</strong></li>
         </ul>
         <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
-        <p>Im Anhang finden Sie Ihre NDA und Ihren Arbeitsvertrag.</p>
+        <p>Im Anhang finden Sie Ihre Rahmenvereinbarung.</p>
         <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
       `,
       attachments: [
-        { filename: `NDA_${firstName}_${lastName}.pdf`, content: ndaBuffer },
-        { filename: `Arbeitsvertrag_${firstName}_${lastName}.pdf`, content: contractBuffer },
+        { filename: `Rahmenvereinbarung_${firstName}_${lastName}.pdf`, content: rahmenBuffer },
       ],
     });
 
