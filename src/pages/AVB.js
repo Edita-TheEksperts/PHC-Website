@@ -143,12 +143,9 @@ const AVB = () => {
       <>
         <h3 className="font-semibold mb-1">8.1 Stornierungsfristen</h3>
         <p>
-          Kunden können ihre Buchung bis zu 14 Tage vor der gebuchten
-          Dienstleistung stornieren, ohne dass ihnen Kosten entstehen.
-          Stornierungen, die weniger als 14 Tage vor der gebuchten Dienstleistung
-          eingehen, werden mit einer Gebühr von 50% belastet. Stornierungen die
-          weniger als 7 Tage vor der gebuchten Dienstleistung eingehen, werden
-          mit dem gesamten Betrag für die gebuchte Dienstleistung belastet.
+         Kunden können ihre Buchung bis zu 14 Tage vor der gebuchten Dienstleistung stornieren, ohne dass ihnen Kosten entstehen. 
+      Stornierungen, die weniger als 14 Tage vor der gebuchten Dienstleistung eingehen, werden mit einer Gebühr von 50% belastet. 
+      Stornierung die weniger als 7 Tage vor der gebuchten Dienstleistung eingehen, werden mit dem gesamten Betrag für die gebuchte Dienstleistung belastet.
         </p>
 
         <h3 className="font-semibold mt-4 mb-1">8.2 Rückerstattungen</h3>
@@ -324,32 +321,94 @@ Die Prime Home Care AG übernimmt keine Haftung für Unterbrechungen oder Ausset
   text:
     "Benutzer müssen die Plattform gesetzeskonform, verantwortungsvoll und korrekt nutzen. Untersagt sind Gesetzesverstösse, Weitergabe von Konten, rufschädigende Inhalte, betrügerische Nutzung, falsche Angaben und Verletzung der Vertraulichkeit. Ausdrücklich verboten sind Störungen des Betriebs, Systemeingriffe, Ressourcenmissbrauch, Überlastung der Infrastruktur, Sicherheitsverstösse, Schädigung der Interessen von PHC AG oder Nutzern sowie missbräuchliche Nutzung der Plattform.",
 },
-  {
-    title: "13. Pflichten des Kunden",
-    content: (
-      <>
-        <p>
-          Der Kunde verpflichtet sich zu einem respektvollen, höflichen und
-          angemessenen Umgang mit den Mitarbeitern. Dies beinhaltet unter anderem:
-        </p>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Keine wiederholten und unberechtigten Stornierungen gemäss Stornobedingungen.</li>
-          <li>Notwendige Ausstattungen/Materialien bereitstellen.</li>
-          <li>Vorab über Gegebenheiten informieren (z. B. Haustiere, Allergien/Ängste).</li>
-          <li>Nach Abschluss keinen direkten Kontakt für Leistungen ausserhalb der Plattform.</li>
-        </ul>
+{
+  title: "13. Pflichten des Kunden",
+  content: (
+    <>
+      <p>
+        Der Kunde verpflichtet sich zu einem respektvollen, höflichen und
+        angemessenen Umgang mit den Mitarbeitern. Dies beinhaltet unter anderem:
+      </p>
 
-        <p className="mt-4">
-          Die Benutzer sind verantwortlich für jede Nutzung der Plattform und der
-          Dienstleistungen sowie für daraus resultierende Schäden. Sie tragen die
-          Verantwortung für ungenaue, unvollständige oder veraltete Angaben bei der
-          Registrierung und deren Konsequenzen.
-        </p>
-      </>
-    ),
-    text:
-      "Kunden: respektvoller Umgang; keine unberechtigten Stornos; Material bereitstellen; über Haustiere/Gegebenheiten informieren; kein Direktkontakt für Off-Platform-Leistungen. Nutzer tragen Verantwortung für Nutzung und falsche/alte Angaben.",
-  },
+      <ul className="list-disc list-inside space-y-1">
+        <li>
+          Keine wiederholten und unberechtigten Stornierungen von Buchungen
+          gemäss den Stornobedingungen.
+        </li>
+        <li>
+          Sicherzustellen, dass die Mitarbeiter alle notwendigen Ausstattungen
+          und Materialien zur Verfügung haben, um die Dienstleistungen unter
+          optimalen Bedingungen zu erbringen.
+        </li>
+        <li>
+          Die Mitarbeiter vorab über spezifische Gegebenheiten am Leistungsort
+          zu informieren, z. B. über das Vorhandensein von Haustieren, die
+          mögliche Allergien oder Ängste auslösen könnten.
+        </li>
+        <li>
+          Nach Abschluss einer Dienstleistung keinen direkten Kontakt mit dem
+          Mitarbeiter aufzunehmen, um Leistungen ausserhalb der Plattform zu
+          organisieren.
+        </li>
+      </ul>
+
+      <p className="mt-4">
+        Die Benutzer sind verantwortlich für jede Form der Nutzung der Plattform
+        und der Dienstleistungen sowie für alle daraus resultierenden Schäden.
+        Sie tragen die alleinige Verantwortung für ungenaue, unvollständige oder
+        veraltete Angaben, die sie bei der Registrierung machen, und deren
+        Konsequenzen:
+      </p>
+
+      <p className="mt-2 font-semibold">Dies umfasst:</p>
+      <ul className="list-disc list-inside space-y-1">
+        <li>
+          Die Inhalte und Informationen, die sie in ihrem Konto veröffentlichen
+          oder über die Plattform bereitstellen.
+        </li>
+        <li>
+          Die ordnungsgemässe Durchführung von Dienstleistungsbuchungen auf der
+          Plattform.
+        </li>
+      </ul>
+
+      <p className="mt-4 font-semibold">
+        Die Benutzer verstehen und akzeptieren, dass folgende Handlungen
+        ausdrücklich untersagt sind:
+      </p>
+
+      <ul className="list-disc list-inside space-y-1">
+        <li>
+          Verhaltensweisen, die die Funktionalität der Plattform oder
+          Dienstleistungen unterbrechen, verlangsamen oder behindern.
+        </li>
+        <li>
+          Versuche des unautorisierten Zugriffs auf die Systeme von PHC AG.
+        </li>
+        <li>
+          Missbrauch von Systemressourcen der Plattform oder des Kontos.
+        </li>
+        <li>
+          Handlungen, die zu einer übermässigen Belastung der Infrastruktur
+          führen.
+        </li>
+        <li>
+          Verletzung von Sicherheits- und Authentifizierungsmassnahmen.
+        </li>
+        <li>
+          Jede Handlung, die den wirtschaftlichen, geschäftlichen oder
+          moralischen Interessen von PHC AG oder anderen Nutzern schadet.
+        </li>
+        <li>
+          Verstösse gegen die AVB sowie die missbräuchliche Verwendung der
+          digitalen Infrastruktur von PHC AG oder jegliche Form der
+          Zweckentfremdung der Plattform und Dienstleistungen.
+        </li>
+      </ul>
+    </>
+  ),
+},
+
   {
     title: "14. Schadensersatz und Vertragsverstösse",
     content: (
