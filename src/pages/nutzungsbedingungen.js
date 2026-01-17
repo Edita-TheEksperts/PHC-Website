@@ -267,19 +267,19 @@ export default function Nutzungsbedingungen() {
     untersagt sind:
     <ul className="list-disc pl-6 mt-2 space-y-1">
       <li>
-        o Verhaltensweisen, die die Funktionalität der Plattform oder Dienstleistungen
+        Verhaltensweisen, die die Funktionalität der Plattform oder Dienstleistungen
         unterbrechen, verlangsamen oder behindern.
       </li>
-      <li>o Versuche des unautorisierten Zugriffs auf die Systeme von PHC AG.</li>
-      <li>o Missbrauch von Systemressourcen der Plattform oder des Kontos.</li>
-      <li>o Handlungen, die zu einer übermässigen Belastung der Infrastruktur führen.</li>
-      <li>o Verletzung von Sicherheits- und Authentifizierungsmassnahmen.</li>
+      <li>Versuche des unautorisierten Zugriffs auf die Systeme von PHC AG.</li>
+      <li>Missbrauch von Systemressourcen der Plattform oder des Kontos.</li>
+      <li>Handlungen, die zu einer übermässigen Belastung der Infrastruktur führen.</li>
+      <li>Verletzung von Sicherheits- und Authentifizierungsmassnahmen.</li>
       <li>
-        o Jede Handlung, die den wirtschaftlichen, geschäftlichen oder moralischen
+        Jede Handlung, die den wirtschaftlichen, geschäftlichen oder moralischen
         Interessen von PHC AG oder anderen Nutzern schadet.
       </li>
       <li>
-        o Verstösse gegen die AVB sowie die missbräuchliche Verwendung der digitalen
+        Verstösse gegen die AVB sowie die missbräuchliche Verwendung der digitalen
         Infrastruktur von PHC AG oder jegliche Form der Zweckentfremdung der Plattform
         und Dienstleistungen.
       </li>
