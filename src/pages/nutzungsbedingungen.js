@@ -254,27 +254,25 @@ export default function Nutzungsbedingungen() {
         </li>
       </ul>
 
-      <p className="mb-2 font-semibold">Dies umfasst:</p>
-      <ul className="list-disc pl-6 mb-4">
-        <li>
-          Die Inhalte und Informationen, die sie in ihrem Konto veröffentlichen
-          oder über die Plattform bereitstellen.
-        </li>
-        <li className="font-semibold">
-          Die Benutzer verstehen und akzeptieren, dass folgende Handlungen ausdrücklich
-          untersagt sind:
-        </li>
-      </ul>
-      <ul className="list-disc pl-6 mb-4">
+     <p className="mb-2 font-semibold">Dies umfasst:</p>
+
+<ul className="list-disc pl-6 mb-4">
+  <li>
+    Die Inhalte und Informationen, die sie in ihrem Konto veröffentlichen oder
+    über die Plattform bereitstellen.
+  </li>
+
+  <li>
+    Die Benutzer verstehen und akzeptieren, dass folgende Handlungen ausdrücklich
+    untersagt sind:
+    <ul className="list-disc pl-6 mt-2 space-y-1">
       <li>
         o Verhaltensweisen, die die Funktionalität der Plattform oder Dienstleistungen
         unterbrechen, verlangsamen oder behindern.
       </li>
       <li>o Versuche des unautorisierten Zugriffs auf die Systeme von PHC AG.</li>
       <li>o Missbrauch von Systemressourcen der Plattform oder des Kontos.</li>
-      <li>
-        o Handlungen, die zu einer übermässigen Belastung der Infrastruktur führen.
-      </li>
+      <li>o Handlungen, die zu einer übermässigen Belastung der Infrastruktur führen.</li>
       <li>o Verletzung von Sicherheits- und Authentifizierungsmassnahmen.</li>
       <li>
         o Jede Handlung, die den wirtschaftlichen, geschäftlichen oder moralischen
@@ -286,6 +284,9 @@ export default function Nutzungsbedingungen() {
         und Dienstleistungen.
       </li>
     </ul>
+  </li>
+</ul>
+
 
       <h2 className="text-xl font-semibold mt-8 mb-2">
         13. Schadensersatz und Vertragsverstösse
