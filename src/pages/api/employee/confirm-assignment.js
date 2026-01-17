@@ -11,7 +11,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS,
   },
 });
-
 async function getTemplate(name, variables) {
   const template = await prisma.emailTemplate.findUnique({ where: { name } });
   if (!template) throw new Error(`Template ${name} not found`);
