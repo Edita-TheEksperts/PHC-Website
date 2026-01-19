@@ -86,7 +86,7 @@ const [loadingStep4, setLoadingStep4] = useState(false);
 
   const today = new Date();
   const minDate = new Date();
-  minDate.setDate(today.getDate() + 10);
+  minDate.setDate(today.getDate() + 1);
   const minDateStr = minDate.toISOString().split("T")[0];
 
   const [user, setUser] = useState(null);
@@ -1293,7 +1293,7 @@ body: JSON.stringify({
   const formatSwissDate = (date) => {
     return format(date, "dd.MM.yyyy");
   };
-  const tenDaysFromToday = addDays(new Date(), 14);
+  const tenDaysFromToday = addDays(new Date(), 1);
 
   const [allServices, setAllServices] = useState([]);
   useEffect(() => {
@@ -1619,7 +1619,7 @@ const discountedTotal =
       form.fixedDayOfMonth
     ) {
       const today = startOfDay(new Date());
-      const minAllowedDate = addDays(today, 14); 
+      const minAllowedDate = addDays(today, 1); 
       const dayOfMonth = Number(form.fixedDayOfMonth);
 
       let candidateMonth = new Date();
@@ -1813,7 +1813,7 @@ const handlePayment = async () => {
 
               if (updatedForm.monthlyWeekIndex && weekday) {
                 const today = new Date();
-                const minDate = addDays(today, 14);
+                const minDate = addDays(today, 1);
 
                 let year = today.getFullYear();
                 let month = today.getMonth();
@@ -1898,7 +1898,7 @@ const handlePayment = async () => {
               baseDate.getMonth(),
               day
             );
-            const minDate = addDays(new Date(), 14);
+            const minDate = addDays(new Date(), 1);
             if (newDate < minDate) {
               newDate.setMonth(newDate.getMonth() + 1);
             }
@@ -1969,7 +1969,7 @@ onChange={(date) => {
 
 />
   <p className="mt-2 text-sm text-gray-500">
-    Es sind nur Termine ab 14 Tagen im Voraus möglich.
+    Es sind nur Termine ab morgen möglich.
   </p>
   {errors.firstDate && <p className="text-red-600 text-sm mt-1">{errors.firstDate}</p>}
 </div>

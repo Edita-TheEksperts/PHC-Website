@@ -22,6 +22,11 @@ export default async (req, res) => {
     );
 
     if (response.status >= 400) {
+      const data = await response.json();
+      // Mailchimp returns 400 with title 'Member Exists' if already subscribed
+      if (data.title === 'Member Exists') {
+        return res.status(400).json({ error: "Diese Email ist bereits registriert. Vielen Dank!" });
+      }
       return res.status(400).json({ error: "There was an error subscribing." });
     }
 
