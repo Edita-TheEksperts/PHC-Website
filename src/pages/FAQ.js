@@ -465,7 +465,7 @@ export default function FAQ() {
         {/* Kunden Section */}
         {filteredKunden.length > 0 && (
           <div className="flex-1 min-w-0 bg-white rounded-[24px] shadow-lg border-2 border-[#B99B5F]/30 p-6 lg:p-8">
-            <h3 className="text-[#B99B5F] text-[30px] lg:text-[36px] font-extrabold mb-6 tracking-tight text-center lg:text-left uppercase drop-shadow-sm">
+            <h3 className="text-[#B99B5F] text-[30px] lg:text-[32px] font-bold mb-6 tracking-tight text-center lg:text-left drop-shadow-sm" style={{ fontFamily: 'Metropolis, sans-serif', letterSpacing: '0.04em' }}>
               Für Kunden
             </h3>
             <div className="space-y-5 lg:space-y-7">
@@ -505,7 +505,7 @@ export default function FAQ() {
         {/* Mitarbeiter Section */}
         {filteredMitarbeiter.length > 0 && (
           <div className="flex-1 min-w-0 bg-white rounded-[24px] shadow-lg border-2 border-[#04436F]/20 p-6 lg:p-8">
-            <h3 className="text-[#04436F] text-[30px] lg:text-[36px] font-extrabold mb-6 tracking-tight text-center lg:text-left uppercase drop-shadow-sm">
+            <h3 className="text-[#04436F] text-[30px] lg:text-[32px] font-bold mb-6 tracking-tight text-center lg:text-left drop-shadow-sm" style={{ fontFamily: 'Metropolis, sans-serif', letterSpacing: '0.04em' }}>
               Für Mitarbeiter
             </h3>
             <div className="space-y-5 lg:space-y-7">
