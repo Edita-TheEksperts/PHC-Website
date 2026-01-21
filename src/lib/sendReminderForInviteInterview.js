@@ -20,54 +20,34 @@ export async function sendReminderForInviteInterview() {
     const subject = "Erinnerung: Termin für Kennenlernen noch nicht vereinbart";
 
     const body = `
-Liebe ${emp.firstName},
-
-Wir freuen uns auf ein Gespräch mit Ihnen, jedoch haben wir noch keine Terminbuchung über unseren Kalender erhalten.
-
-<p>
-  Bitte wählen Sie jetzt Ihren Wunschtermin aus: 
-  <a href="https://calendly.com/primehomecare" 
-     style="text-decoration: underline; color:#04436F;">
-     Hier Termin vereinbaren
-  </a>
-</p>
-
-
-Bei Fragen helfen wir gerne weiter.
-
-
-Freundliche Grüsse  
-
-<p>
-  Prime Home Care AG<br/>
-  Birkenstrasse 49<br/>
-  CH-6343 Rotkreuz<br/>
-  info@phc.ch<br/>
-  www.phc.ch
-</p>
-
-<p>
-  <a
-    href="https://phc-website-vert.vercel.app/AVB"
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      textDecoration: "underline",
-      color: "#04436F",
-      fontWeight: "500",
-      cursor: "pointer"
-    }}
-  >
-    AVB und Nutzungsbedingungen
-  </a>
-</p>
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <p>Grüezi ${emp.firstName},</p>
+        <p>Wir freuen uns auf ein Gespräch mit Ihnen, jedoch haben wir noch keine Terminbuchung über unseren Kalender erhalten.</p>
+        <p>
+          Bitte wählen Sie jetzt Ihren Wunschtermin aus:
+          <a href="https://calendly.com/primehomecare" style="text-decoration: underline; color:#04436F;">Hier Termin vereinbaren</a>
+        </p>
+        <p>Bei Fragen helfen wir gerne weiter.</p>
+        <br>
+        <p>Freundliche Grüsse</p>
+        <p>Prime Home Care AG<br/>
+          Birkenstrasse 49<br/>
+          CH-6343 Rotkreuz<br/>
+          info@phc.ch<br/>
+          www.phc.ch
+        </p>
+        <p>
+          <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+          <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+        </p>
+      </div>
     `;
 
     try {
       await sendEmail({
         to: emp.email,
         subject,
-        text: body,
+        html: body,
       });
     } catch (error) {
       console.error(`❌ Fehler beim Senden an ${emp.email}:`, error);

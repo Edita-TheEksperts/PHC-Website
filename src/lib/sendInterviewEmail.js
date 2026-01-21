@@ -15,15 +15,22 @@ export default async function sendInterviewEmail(email, firstName = "") {
 
    const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
-      <p>Liebe ${firstName || "Bewerber/in"},</p>
-
+      <p>Grüezi ${firstName || "Bewerber/in"},</p>
       <p>Vielen Dank für Ihre Bewerbung bei der <strong>Prime Home Care AG</strong>.</p>
-
       <p>Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen.</p>
-
       <p>Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen.</p>
-
-      <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
+      <br>
+      <p>Freundliche Grüsse</p>
+      <p>Prime Home Care AG<br/>
+        Birkenstrasse 49<br/>
+        CH-6343 Rotkreuz<br/>
+        info@phc.ch<br/>
+        www.phc.ch
+      </p>
+      <p>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      </p>
     </div>
   `;
 

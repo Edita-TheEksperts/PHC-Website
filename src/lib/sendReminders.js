@@ -46,12 +46,8 @@ body = `
   </p>
 
   <p>
-    <a href="https://phc-website-vert.vercel.app/AVB"
-       target="_blank"
-       rel="noopener noreferrer"
-       style="text-decoration: underline; color: #04436F; font-weight: 500;">
-      AVB und Nutzungsbedingungen
-    </a>
+    <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+    <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
   </p>
 `;
 

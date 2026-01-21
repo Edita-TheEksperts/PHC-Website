@@ -46,11 +46,23 @@ export async function sendAssignmentContractEmail(assignment) {
   await transporter.sendMail({
     from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
     to: employee.email,
-    subject: "Einsatz - Arbeitsvertrag für Ihren neuen Einsatz",
+    subject: "Ihre Einsatzbestätigung – Arbeitsvertrag im Anhang",
     html: `
-      <p>Liebe/r ${employee.firstName},</p>
-      <p>Ihr Einsatz wurde bestätigt. Im Anhang finden Sie Ihren Arbeitsvertrag für diesen Einsatz.</p>
-      <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <p>Grüezi ${employee.firstName}</p>
+        <p>Wir freuen uns Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde.</p>
+        <p>Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail.</p>
+        <p>Bitte lesen Sie den Arbeitsvertrag sorgfältig durch und unterzeichnen Sie das Dokument digital.</p>
+        <p>Vielen Dank für Ihr Engagement und willkommen im Team von Prime Home Care AG.</p>
+        <br>
+        <p>Freundliche Grüsse</p>
+        <p>Prime Home Care AG<br>
+        Birkenstrasse 49<br>
+        CH-6343 Rotkreuz<br>
+        info@phc.ch<br>
+        www.phc.ch<br>
+        AVB und Nutzungsbedingungen</p>
+      </div>
     `,
     attachments: [
       { filename: `Einsatz-Arbeitsvertrag_${employee.firstName}_${employee.lastName}.pdf`, content: contractBuffer },

@@ -89,18 +89,31 @@ export async function sendApprovalEmail(employee, plainPassword) {
     const info = await transporter.sendMail({
       from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: "Willkommen im Prime Home Care Team – Zugangsdaten",
+      subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
       html: `
-        <p>Liebe ${firstName},</p>
-        <p>Ihr Profil wurde akzeptiert.</p>
-        <p><strong>Login-Daten:</strong></p>
-        <ul>
-          <li>Email: ${email}</li>
-          <li>Passwort: <strong>${plainPassword}</strong></li>
-        </ul>
-        <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
-        <p>Im Anhang finden Sie Ihre Rahmenvereinbarung.</p>
-        <p>Freundliche Grüsse<br/>Prime Home Care AG</p>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${firstName}</p>
+          <p>Vielen Dank für Ihre Registrierung bei der Prime Home Care AG.</p>
+          <p>Ihr Zugang zum Mitarbeiter-Portal ist jetzt freigeschaltet.</p>
+          <ul>
+            <li>Login-Link: <a href="${process.env.NEXT_PUBLIC_BASE_URL}/login">${process.env.NEXT_PUBLIC_BASE_URL}/login</a></li>
+            <li>Benutzername: ${email}</li>
+            <li>Passwort: <strong>${plainPassword}</strong></li>
+          </ul>
+          <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
+          <p>Im Anhang finden Sie Ihre Rahmenvereinbarung.</p>
+          <br>
+          <p>Freundliche Grüsse</p>
+          <p>Prime Home Care AG<br>
+          Birkenstrasse 49<br>
+          CH-6343 Rotkreuz<br>
+          info@phc.ch<br>
+          www.phc.ch</p>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+        </div>
       `,
       attachments: [
         { filename: `Rahmenvereinbarung_${firstName}_${lastName}.pdf`, content: rahmenBuffer },
