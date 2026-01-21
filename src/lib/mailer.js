@@ -5,14 +5,18 @@ export async function sendSystemMaintenanceEmail({ email, firstName, lastName, d
       to: email,
       subject: 'Information: Vorübergehende Systemwartung',
       html: `
-        <p>Grüezi ${firstName || ''} ${lastName || ''}</p>
-        <p>Am ${date} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.</p>
-        <p>In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${phone || '043 200 10 20'}.</p>
-        <p>Vielen Dank für Ihr Verständnis.</p>
-        <br>
-        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
-        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
-        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${firstName || ''} ${lastName || ''}</p>
+          <p>Am ${date} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.</p>
+          <p>In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${phone || '043 200 10 20'}.</p>
+          <p>Vielen Dank für Ihr Verständnis.</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+        </div>
       `
     });
     console.log('✅ System maintenance email sent');
@@ -28,15 +32,19 @@ export async function sendFeedbackRequestEmail({ email, firstName, lastName, car
       to: email,
       subject: 'Wie zufrieden sind Sie mit unserer Betreuung?',
       html: `
-        <p>Grüezi ${firstName} ${lastName}</p>
-        <p>Wir hoffen, dass Sie mit der Betreuung durch ${caregiverName} zufrieden waren.</p>
-        <p>Wir freuen uns über Ihre Rückmeldung: <a href="${feedbackLink}">${feedbackLink}</a></p>
-        <p>Ihr Feedback hilft uns, unsere Dienstleistung weiter zu verbessern.</p>
-        <p>Danke für Ihr Vertrauen!</p>
-        <br>
-        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
-        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
-        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${firstName} ${lastName}</p>
+          <p>Wir hoffen, dass Sie mit der Betreuung durch ${caregiverName} zufrieden waren.</p>
+          <p>Wir freuen uns über Ihre Rückmeldung: <a href="${feedbackLink}">${feedbackLink}</a></p>
+          <p>Ihr Feedback hilft uns, unsere Dienstleistung weiter zu verbessern.</p>
+          <p>Danke für Ihr Vertrauen!</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+        </div>
       `
     });
     console.log('✅ Feedback request email sent');
@@ -52,15 +60,19 @@ export async function sendAssignmentProposalEmail({ email, firstName, location, 
       to: email,
       subject: 'Neuer Einsatzvorschlag – jetzt in der App bestätigen',
       html: `
-        <p>Hallo ${firstName}</p>
-        <p>Wir haben einen neuen Einsatzvorschlag für Sie in der App hinterlegt.</p>
-        <p><strong>Ort:</strong> ${location}<br><strong>Datum/Zeit:</strong> ${dateTime}</p>
-        <p>Bitte bestätigen oder lehnen Sie den Einsatz direkt in der App innerhalb der nächsten ${deadline || '24 Stunden'} ab.</p>
-        <p>Vielen Dank für Ihre Flexibilität!</p>
-        <br>
-        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
-        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
-        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Hallo ${firstName}</p>
+          <p>Wir haben einen neuen Einsatzvorschlag für Sie in der App hinterlegt.</p>
+          <p><strong>Ort:</strong> ${location}<br><strong>Datum/Zeit:</strong> ${dateTime}</p>
+          <p>Bitte bestätigen oder lehnen Sie den Einsatz direkt in der App innerhalb der nächsten ${deadline || '24 Stunden'} ab.</p>
+          <p>Vielen Dank für Ihre Flexibilität!</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+        </div>
       `
     });
     console.log('✅ Assignment proposal email sent');
@@ -76,17 +88,21 @@ export async function sendAssignmentAcceptedEmail({ email, firstName, lastName, 
       to: email,
       subject: 'Ihre Buchung wurde erfolgreich bestätigt',
       html: `
-        <p>Grüezi ${firstName} ${lastName}</p>
-        <p>Ihre Buchung wurde erfolgreich bestätigt und folgender Mitarbeiter wurde Ihnen zugewiesen.</p>
-        <p><strong>Betreuer:</strong> ${employeeFirstName} ${employeeLastName}</p>
-        <p><strong>Kontakt:</strong> ${employeePhone}</p>
-        <p><strong>Service:</strong> ${serviceName}</p>
-        <p>Startdatum: ${firstDate}</p>
-        <p>Vielen Dank für Ihr Vertrauen.</p>
-        <br>
-        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
-        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
-        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${firstName} ${lastName}</p>
+          <p>Ihre Buchung wurde erfolgreich bestätigt und folgender Mitarbeiter wurde Ihnen zugewiesen.</p>
+          <p><strong>Betreuer:</strong> ${employeeFirstName} ${employeeLastName}</p>
+          <p><strong>Kontakt:</strong> ${employeePhone}</p>
+          <p><strong>Service:</strong> ${serviceName}</p>
+          <p>Startdatum: ${firstDate}</p>
+          <p>Vielen Dank für Ihr Vertrauen.</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+        </div>
       `
     });
     console.log('✅ Assignment accepted email sent');
@@ -102,15 +118,19 @@ export async function sendCancellationConfirmationEmail({ email, firstName, last
       to: email,
       subject: 'Bestätigung Ihrer Stornierung',
       html: `
-        <p>Grüezi ${firstName} ${lastName}</p>
-        <p>Ihr Termin am:<br>${weekday}<br>${date}<br>um ${time} wurde erfolgreich storniert.</p>
-        <p>Service: ${serviceName || ''}</p>
-        <p>Rückerstattung: ${refundPercent || 0}%</p>
-        <br>
-        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
-        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
-        <br><br>
-        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${firstName} ${lastName}</p>
+          <p>Ihr Termin am:<br>${weekday}<br>${date}<br>um ${time} wurde erfolgreich storniert.</p>
+          <p>Service: ${serviceName || ''}</p>
+          <p>Rückerstattung: ${refundPercent || 0}%</p>
+          <br>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        </div>
       `
     });
     console.log('✅ Cancellation confirmation email sent');
@@ -126,14 +146,18 @@ export async function sendPaymentConfirmationEmail({ email, firstName, lastName,
       to: email,
       subject: 'Zahlungsbestätigung / Rechnung zu Ihrer Buchung',
       html: `
-        <p>Grüezi ${firstName} ${lastName}</p>
-        <p>Wir bestätigen den Eingang Ihrer Zahlung über CHF ${amount} zur Buchung ${bookingReference}.</p>
-        <p>Ihre Rechnung finden Sie auf Ihrer persönlichen PHC-Plattform.</p>
-        <p>Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
-        <br>
-        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
-        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
-        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${firstName} ${lastName}</p>
+          <p>Wir bestätigen den Eingang Ihrer Zahlung über CHF ${amount} zur Buchung ${bookingReference}.</p>
+          <p>Ihre Rechnung finden Sie auf Ihrer persönlichen PHC-Plattform.</p>
+          <p>Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+        </div>
       `
     });
     console.log('✅ Payment confirmation email sent');
