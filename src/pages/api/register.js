@@ -64,7 +64,7 @@ async function sendAccountSetupEmail(userEmail, fullName) {
   });
 
   // ✅ Base URL from .env (local or Vercel)
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://phc.ch";
   const token = Math.random().toString(36).substring(2, 15); // example token (you can replace with real one)
   const passwordLink = `${baseUrl}/setpassword?token=${token}`;
 

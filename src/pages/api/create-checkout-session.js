@@ -48,8 +48,8 @@ export default async function handler(req, res) {
         },
       ],
       mode: 'payment',
-success_url: `http://localhost:3000/register-client?service=${encodeURIComponent(service)}&postalCode=${postalCode}&step=4&session_id={CHECKOUT_SESSION_ID}`,
-cancel_url: `http://localhost:3000/register-client?service=${encodeURIComponent(service)}&postalCode=${postalCode}&step=3`,
+success_url: `http://phc.ch/register-client?service=${encodeURIComponent(service)}&postalCode=${postalCode}&step=4&session_id={CHECKOUT_SESSION_ID}`,
+cancel_url: `http://phc.ch/register-client?service=${encodeURIComponent(service)}&postalCode=${postalCode}&step=3`,
 
 
 

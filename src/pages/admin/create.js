@@ -15,7 +15,7 @@ import {
 export async function getServerSideProps() {
   try {
     const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+      process.env.NEXT_PUBLIC_BASE_URL || "phc.ch";
     const res = await fetch(`${baseUrl}/api/admin/vouchers`);
     const data = await res.json();
 

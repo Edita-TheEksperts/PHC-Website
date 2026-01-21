@@ -5,7 +5,7 @@ const DashboardLink = () => {
     <div>
       Sie können Ihre Rechnungen hier einsehen:{" "}
       <a
-        href="http://localhost:3000/client-dashboard"
+        href="http://phc.ch/client-dashboard"
         target="_blank"
         rel="noopener noreferrer"
         style={{ fontWeight: "bold", textDecoration: "underline" }}
@@ -15,7 +15,7 @@ const DashboardLink = () => {
       . <br />
       Falls Sie nicht eingeloggt sind, werden Sie automatisch zur{" "}
       <a
-        href="http://localhost:3000/login"
+        href="http://phc.ch/login"
         target="_blank"
         rel="noopener noreferrer"
         style={{ fontWeight: "bold", textDecoration: "underline" }}

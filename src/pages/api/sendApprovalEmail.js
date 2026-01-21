@@ -5,8 +5,8 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method not allowed");
 
   const { email, firstName } = req.body;
-  const portalUrl = "http://localhost:3000/login"; // ✅ update in prod
-  const setPasswordUrl = `http://localhost:3000/set-password?email=${encodeURIComponent(email)}`;
+  const portalUrl = "http://phc.ch/login"; // ✅ update in prod
+  const setPasswordUrl = `http://phc.ch/set-password?email=${encodeURIComponent(email)}`;
 
   try {
     // Update employee status
