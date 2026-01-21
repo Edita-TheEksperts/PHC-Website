@@ -16,7 +16,7 @@ export default function RegisterEmployee() {
   const router = useRouter();                   // Next.js router
   const [step, setStep] = useState(1);         // Current form step (1 to 4)
   const [isSubmitted, setIsSubmitted] = useState(false); // To show confirmation after submit
-const [stepError, setStepError] = useState("");
+  const [stepError, setStepError] = useState("");
 
   // Component for showing summary rows
   const SummaryRow = ({ label, value }) => (

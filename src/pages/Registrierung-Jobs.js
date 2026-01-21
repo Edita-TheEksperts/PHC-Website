@@ -1,8 +1,10 @@
+
 import Image from 'next/image';
 import Link from "next/link";
-
+import { useState } from "react";
 
 export default function Home() {
+    const [email, setEmail] = useState("");
     return (
         <div className="bg-[#FAFCFF] p-4">
           <section className="lg:block hidden relative max-w-[1300px] h-[800px] mx-auto mt-2 md:mt-[20px] lg:mb-[160px]">
@@ -64,13 +66,29 @@ export default function Home() {
                         "Betreuung mit Herz – Flexibel, digital, genau<br></br> nach deinem Zeitplan!"
                         </p>
 
-                        <Link href="/Registrierung-Jobs-Form1">
-                            <button
-                                className="mt-[6px] font-metropolis flex flex-col items-center text-center font-metropolis text-[18px] font-[500] leading-[21.6px] rounded-[50px] px-[20px] py-[12px] bg-primaryButton transition-all duration-0"
-                            >
-                                Gestalte deine Arbeit so individuell wie du bist
-                            </button>
-                            </Link>
+                        <div className="max-w-md">
+                          <input
+                            type="email"
+                            placeholder="Ihre E-Mail-Adresse"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none mb-2"
+                          />
+                          <button
+                            onClick={() => {
+                              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                              if (!emailRegex.test(email)) {
+                                alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+                                return;
+                              }
+                              localStorage.setItem("employeeEmail", email);
+                              window.location.href = "/employee-register";
+                            }}
+                            className="mt-[6px] font-metropolis flex flex-col items-center text-center font-metropolis text-[18px] font-[500] leading-[21.6px] rounded-[50px] px-[20px] py-[12px] bg-primaryButton transition-all duration-0 w-full"
+                          >
+                            Gestalte deine Arbeit so individuell wie du bist
+                          </button>
+                        </div>
                     </div>
                 </div>
                  </section>
@@ -133,13 +151,29 @@ export default function Home() {
       <p className="lg:hidden block text-[20px] font-[400] leading-[20px] text-[#F1F1F1] px-2 ">
       "Betreuung mit Herz – Flexibel,<br></br> digital, genau nach deinem Zeitplan!"      </p>
 
-      <Link href="/Registrierung-Jobs-Form1">
-                            <button
-                                className="font-metropolis flex flex-col items-center text-center font-metropolis text-[18px] font-[500] leading-[21.6px] rounded-[15px] mt-[32px] px-[20px] py-[12px] bg-primaryButton transition-all duration-0"
-                            >
-                                Gestalte deine Arbeit so <br></br>individuell wie du bist.
-                            </button>
-        </Link>
+        <div className="max-w-md w-full">
+          <input
+            type="email"
+            placeholder="Ihre E-Mail-Adresse"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none mb-2"
+          />
+          <button
+            onClick={() => {
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailRegex.test(email)) {
+                alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+                return;
+              }
+              localStorage.setItem("employeeEmail", email);
+              window.location.href = "/employee-register";
+            }}
+            className="font-metropolis flex flex-col items-center text-center font-metropolis text-[18px] font-[500] leading-[21.6px] rounded-[15px] mt-[32px] px-[20px] py-[12px] bg-primaryButton transition-all duration-0 w-full"
+          >
+            Gestalte deine Arbeit so <br />individuell wie du bist.
+          </button>
+        </div>
     </div>
   </div>
 </section>
@@ -175,16 +209,30 @@ export default function Home() {
   </p>
 
   {/* Button */}
-  <Link href="/Registrierung-Jobs-Form1">
-  <button
-    className="mt-[40px] px-8 py-3 text-white font-metropolis text-[18px] font-medium leading-[21.6px] bg-[#04436F] rounded-full"
-    style={{
-      borderRadius: "50px",
-    }}
-  >
-    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
-  </button>
-  </Link>
+    <div className="max-w-md w-full mx-auto mt-[40px]">
+      <input
+        type="email"
+        placeholder="Ihre E-Mail-Adresse"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none mb-2"
+      />
+      <button
+        onClick={() => {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+            return;
+          }
+          localStorage.setItem("employeeEmail", email);
+          window.location.href = "/employee-register";
+        }}
+        className="mt-[6px] px-8 py-3 text-white font-metropolis text-[18px] font-medium leading-[21.6px] bg-[#04436F] rounded-full w-full"
+        style={{ borderRadius: "50px" }}
+      >
+        Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
+      </button>
+    </div>
 
 </section>
 
@@ -220,23 +268,39 @@ export default function Home() {
     </p>
   {/* Button Section */}
   <div className="flex flex-col items-center justify-center px-[2px] ">
-  <Link href="/Registrierung-Jobs-Form1">
-    <button
-      className="md:py-[12px] md:px-[20px] text-[18px] font-[500] text-white bg-[#04436F] rounded-[10px] px-[20px] py-[12px] "
-      style={{
-        fontSize: '18px',
-        fontWeight: '500',
-        lineHeight: '21.6px', // 135%
-        color: '#FFF',
-        textAlign: 'center',
-        fontFamily: 'Metropolis',
-        background: '#04436F',
-        borderRadius: '10px',
-      }}
-    >
-    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
-    </button>
-    </Link>
+    <div className="max-w-md w-full mx-auto">
+      <input
+        type="email"
+        placeholder="Ihre E-Mail-Adresse"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none mb-2"
+      />
+      <button
+        onClick={() => {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+            return;
+          }
+          localStorage.setItem("employeeEmail", email);
+          window.location.href = "/employee-register";
+        }}
+        className="md:py-[12px] md:px-[20px] text-[18px] font-[500] text-white bg-[#04436F] rounded-[10px] px-[20px] py-[12px] w-full"
+        style={{
+          fontSize: '18px',
+          fontWeight: '500',
+          lineHeight: '21.6px', // 135%
+          color: '#FFF',
+          textAlign: 'center',
+          fontFamily: 'Metropolis',
+          background: '#04436F',
+          borderRadius: '10px',
+        }}
+      >
+        Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
+      </button>
+    </div>
   </div>
 </section>
 
@@ -1523,7 +1587,7 @@ export default function Home() {
         </h2>
 
         <a
-          href="/Registrierung-Jobs-Form1"
+                  href="/employee-register"
           className="mt-4 inline-block rounded-full px-5 py-3 text-white font-medium bg-[#04436F] hover:bg-[#033757] transition"
         >
           Jetzt online bewerben
@@ -1564,17 +1628,33 @@ export default function Home() {
     Gestalte mit uns die Zukunft der Betreuung – werde Teil unseres Teams 
   </p>
 
-  {/* Button */}
-  <Link href="/Registrierung-Jobs-Form1">
-  <button
-    className="mt-[40px] px-8 py-3 text-white font-metropolis text-[18px] font-medium leading-[21.6px] bg-[#04436F] rounded-full"
-    style={{
-      borderRadius: "50px",
-    }}
-  >
-    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
-  </button>
-  </Link>
+
+  {/* Email Input and Button (Desktop) */}
+  <div className="flex flex-col items-center mt-[40px] w-full max-w-[400px] mx-auto">
+    <input
+      type="email"
+      placeholder="Ihre E-Mail-Adresse"
+      value={email}
+      onChange={e => setEmail(e.target.value)}
+      className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none mb-2"
+      required
+    />
+    <button
+      className="w-full px-8 py-3 text-white font-metropolis text-[18px] font-medium leading-[21.6px] bg-[#04436F] rounded-full"
+      style={{ borderRadius: '50px' }}
+      onClick={() => {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+          return;
+        }
+        localStorage.setItem('employeeRegisterEmail', email);
+        window.location.href = '/employee-register';
+      }}
+      disabled={!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
+    >
+      Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
+    </button>
+  </div>
 
 </section>
 <section
@@ -1607,25 +1687,31 @@ export default function Home() {
   >
     Gestalte mit uns die Zukunft der Betreuung – werde Teil unseres Teams 
     </p>
-  {/* Button Section */}
-  <div className="flex flex-col items-center justify-center px-[2px] ">
-  <Link href="/Registrierung-Jobs-Form1">
+  {/* Email Input and Button (Mobile) */}
+  <div className="flex flex-col items-center justify-center px-[2px] w-full max-w-[400px] mx-auto">
+    <input
+      type="email"
+      placeholder="Ihre E-Mail-Adresse"
+      value={email}
+      onChange={e => setEmail(e.target.value)}
+      className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none mb-2"
+      required
+    />
     <button
-      className="md:py-[12px] md:px-[20px] text-[18px] font-[500] text-white bg-[#04436F] rounded-[10px] px-[20px] py-[12px] "
-      style={{
-        fontSize: '18px',
-        fontWeight: '500',
-        lineHeight: '21.6px', // 135%
-        color: '#FFF',
-        textAlign: 'center',
-        fontFamily: 'Metropolis',
-        background: '#04436F',
-        borderRadius: '10px',
+      className="w-full md:py-[12px] md:px-[20px] text-[18px] font-[500] text-white bg-[#04436F] rounded-full px-[20px] py-[12px] disabled:opacity-50"
+      style={{ borderRadius: '50px', fontSize: '18px', fontWeight: '500', lineHeight: '21.6px', color: '#FFF', textAlign: 'center', fontFamily: 'Metropolis', background: '#04436F' }}
+      onClick={() => {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+          return;
+        }
+        localStorage.setItem('employeeRegisterEmail', email);
+        window.location.href = '/employee-register';
       }}
+      disabled={!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
     >
-    Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
+      Hier klicken, um dein Profil zu erstellen und mehr zu erfahren
     </button>
-    </Link>
   </div>
 </section>
 
