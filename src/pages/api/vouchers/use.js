@@ -13,23 +13,33 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing voucher code" });
     }
 
+
     // Find voucher
     const voucher = await prisma.voucher.findUnique({
       where: { code: code.trim().toUpperCase() },
     });
 
     if (!voucher) {
+      console.warn(`[VOUCHER] Not found: code=${code}`);
       return res.status(404).json({ error: "Gutschein nicht gefunden." });
     }
 
     // Check validity
     const now = new Date();
-    const isExpired =
-      (voucher.validUntil && new Date(voucher.validUntil) < now) ||
-      (voucher.maxUses && voucher.usedCount >= voucher.maxUses);
+    const isExpired = voucher.validUntil && new Date(voucher.validUntil) < now;
+    const isMaxed = voucher.maxUses && voucher.usedCount >= voucher.maxUses;
 
-    if (!voucher.isActive || isExpired) {
-      return res.status(400).json({ error: "Gutschein ist abgelaufen oder inaktiv." });
+    if (!voucher.isActive) {
+      console.warn(`[VOUCHER] Inactive: code=${voucher.code}`);
+      return res.status(400).json({ error: "Gutschein ist inaktiv.", reason: "inactive", voucher });
+    }
+    if (isExpired) {
+      console.warn(`[VOUCHER] Expired: code=${voucher.code}, validUntil=${voucher.validUntil}, now=${now.toISOString()}`);
+      return res.status(400).json({ error: "Gutschein ist abgelaufen.", reason: "expired", voucher });
+    }
+    if (isMaxed) {
+      console.warn(`[VOUCHER] Max uses reached: code=${voucher.code}, usedCount=${voucher.usedCount}, maxUses=${voucher.maxUses}`);
+      return res.status(400).json({ error: "Gutschein wurde bereits zu oft verwendet.", reason: "maxed", voucher });
     }
 
     // Prepare update data
@@ -52,6 +62,7 @@ export default async function handler(req, res) {
       discountType: voucher.discountType?.toLowerCase() || null,
       discountValue: voucher.discountValue ?? 0,
       message: "Gutschein erfolgreich eingelöst!",
+      voucher,
     });
 
   } catch (err) {

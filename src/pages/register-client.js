@@ -900,8 +900,6 @@ const handleNext = async () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    
     if (!stripe || !elements) {
       alert("❌ Stripe ist nicht bereit");
       return;
@@ -912,77 +910,108 @@ const handleNext = async () => {
       alert("❌ Kartenfeld fehlt");
       return;
     }
-let secret = clientSecret;
-if (!secret) {
-  try {
-  
-    let currentDiscountType = discountType;
-    let currentDiscountValue = discountValue;
 
-    if (form.voucher) {
-      console.log("🎟️ Checking voucher before payment...");
-      const res = await fetch("/api/admin/vouchers/use", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: form.voucher }),
-      });
-
-      const voucherData = await res.json();
-      console.log("🎟️ Voucher API response:", voucherData);
-
-      if (voucherData.success) {
-        currentDiscountType = voucherData.discountType;
-        currentDiscountValue = voucherData.discountValue;
-
-        setDiscountType(voucherData.discountType);
-        setDiscountValue(voucherData.discountValue);
-        setVoucherMessage(voucherData.message);
-        setVoucherSuccess(true);
-      } else {
-        console.warn("⚠️ Voucher invalid or inactive:", voucherData.error);
+    // 1. Create user before payment (if not already created)
+    let currentUserId = userId || null;
+    if (!currentUserId) {
+      try {
+        const userRes = await fetch("/api/register-user-prepayment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ form }),
+        });
+        const userData = await userRes.json();
+        if (userRes.status === 409 && userData.userId) {
+          // User exists, proceed with userId
+          currentUserId = userData.userId;
+          setUserId(currentUserId);
+          sessionStorage.setItem("userId", currentUserId);
+        } else if (!userRes.ok || !userData.userId) {
+          alert("❌ Fehler beim Anlegen des Benutzers: " + (userData?.message || "Serverfehler"));
+          return;
+        } else {
+          currentUserId = userData.userId;
+          setUserId(currentUserId);
+          sessionStorage.setItem("userId", currentUserId);
+        }
+      } catch (err) {
+        console.error("❌ Fehler beim Anlegen des Benutzers:", err);
+        alert("Fehler beim Anlegen des Benutzers.");
+        return;
       }
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 100)); 
+    let secret = clientSecret;
+    if (!secret) {
+      try {
+        let currentDiscountType = discountType;
+        let currentDiscountValue = discountValue;
 
-    let finalAmount = totalPayment;
+        if (form.voucher) {
+          console.log("🎟️ Checking voucher before payment...");
+          const res = await fetch("/api/admin/vouchers/use", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: form.voucher }),
+          });
 
-    if (currentDiscountType === "percent") {
-      finalAmount = totalPayment - (totalPayment * currentDiscountValue) / 100;
-    } else if (currentDiscountType === "fixed") {
-      finalAmount = totalPayment - currentDiscountValue;
+          const voucherData = await res.json();
+          console.log("🎟️ Voucher API response:", voucherData);
+
+          if (voucherData.success) {
+            currentDiscountType = voucherData.discountType;
+            currentDiscountValue = voucherData.discountValue;
+
+            setDiscountType(voucherData.discountType);
+            setDiscountValue(voucherData.discountValue);
+            setVoucherMessage(voucherData.message);
+            setVoucherSuccess(true);
+          } else {
+            console.warn("⚠️ Voucher invalid or inactive:", voucherData.error);
+          }
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        let finalAmount = totalPayment;
+
+        if (currentDiscountType === "percent") {
+          finalAmount = totalPayment - (totalPayment * currentDiscountValue) / 100;
+        } else if (currentDiscountType === "fixed") {
+          finalAmount = totalPayment - currentDiscountValue;
+        }
+
+        if (finalAmount < 0) finalAmount = 0;
+
+        console.log("🎟️ Voucher check before creating PaymentIntent:");
+        console.log("➡️ Discount type:", currentDiscountType);
+        console.log("➡️ Discount value:", currentDiscountValue);
+        console.log("➡️ Original total:", totalPayment);
+        console.log("➡️ Final total after discount:", finalAmount);
+        console.log("💰 Amount sent to Stripe (in cents):", finalAmount * 100);
+
+        // 2. Create PaymentIntent with userId in metadata
+        const intentRes = await fetch("/api/create-payment-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: Math.round(finalAmount * 100), userId: currentUserId }),
+        });
+
+        const data = await intentRes.json();
+        console.log("✅ Stripe PaymentIntent response:", data);
+
+        if (!data.clientSecret) {
+          alert("❌ clientSecret fehlt. Zahlung kann nicht durchgeführt werden.");
+          return;
+        }
+
+        secret = data.clientSecret;
+      } catch (err) {
+        console.error("❌ Fehler beim Erstellen von PaymentIntent:", err);
+        alert("Fehler beim Erstellen der Zahlungsanfrage.");
+        return;
+      }
     }
-
-    if (finalAmount < 0) finalAmount = 0;
-
-    console.log("🎟️ Voucher check before creating PaymentIntent:");
-    console.log("➡️ Discount type:", currentDiscountType);
-    console.log("➡️ Discount value:", currentDiscountValue);
-    console.log("➡️ Original total:", totalPayment);
-    console.log("➡️ Final total after discount:", finalAmount);
-    console.log("💰 Amount sent to Stripe (in cents):", finalAmount * 100);
-
-    const intentRes = await fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: Math.round(finalAmount * 100) }),
-    });
-
-    const data = await intentRes.json();
-    console.log("✅ Stripe PaymentIntent response:", data);
-
-    if (!data.clientSecret) {
-      alert("❌ clientSecret fehlt. Zahlung kann nicht durchgeführt werden.");
-      return;
-    }
-
-    secret = data.clientSecret;
-  } catch (err) {
-    console.error("❌ Fehler beim Erstellen von PaymentIntent:", err);
-    alert("Fehler beim Erstellen der Zahlungsanfrage.");
-    return;
-  }
-}
     try {
       const { paymentIntent, error } = await stripe.confirmCardPayment(secret, {
         payment_method: {
