@@ -214,7 +214,7 @@ export default function CreateVoucher({ initialVouchers }) {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               >
                 <option value="percent">Prozent (%)</option>
-                <option value="fixed">Fixbetrag (€)</option>
+                <option value="fixed">Fixbetrag (CHF)</option>
               </select>
             </div>
 

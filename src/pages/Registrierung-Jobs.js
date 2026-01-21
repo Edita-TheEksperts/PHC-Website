@@ -1586,12 +1586,32 @@ export default function Home() {
           Wir freuen uns auf Ihre Bewerbung.
         </h2>
 
-        <a
-                  href="/employee-register"
-          className="mt-4 inline-block rounded-full px-5 py-3 text-white font-medium bg-[#04436F] hover:bg-[#033757] transition"
-        >
-          Jetzt online bewerben
-        </a>
+        {/* Email Input and Button for Bewerbung card */}
+        <div className="w-full max-w-md mt-4 flex flex-col">
+          <input
+            type="email"
+            placeholder="Ihre E-Mail-Adresse"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full border border-gray-300 rounded-xl px-5 py-3 text-base focus:ring-2 focus:ring-[#04436F] outline-none mb-2"
+            required
+          />
+          <button
+            onClick={() => {
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailRegex.test(email)) {
+                alert('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+                return;
+              }
+              localStorage.setItem('employeeRegisterEmail', email);
+              window.location.href = '/employee-register';
+            }}
+            className="rounded-full px-5 py-3 text-white font-medium bg-[#04436F] hover:bg-[#033757] transition"
+            disabled={!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
+          >
+            Jetzt online bewerben
+          </button>
+        </div>
       </div>
     </aside>
   </div>
