@@ -5,7 +5,7 @@ async function main() {
     where: { name: "welcomeEmail" },
     data: {
       body: `
- <p>Hallo {{firstName}} {{lastName}},</p>
+ <p>Hallo {{firstName}} {{lastName}}</p>
 <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.</p>
 <p>Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet:</p>
 <ul>
