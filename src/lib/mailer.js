@@ -480,44 +480,56 @@ export async function sendApprovalEmail(employee, plainPassword) {
       },
     });
 
-    console.log("📤 Sending email...");
-
-    const info = await transporter.sendMail({
-      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
-      to: email,
-      subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <p>Grüezi ${firstName}</p>
-          <p>Vielen Dank für Ihre Registrierung bei der Prime Home Care AG.</p>
-          <p>Ihr Zugang zum Mitarbeiter-Portal ist jetzt freigeschaltet.</p>
-          <ul>
-            <li>Login-Link: <a href="${process.env.NEXT_PUBLIC_BASE_URL}/login">${process.env.NEXT_PUBLIC_BASE_URL}/login</a></li>
-            <li>Benutzername: ${email}</li>
-            <li>Passwort: <strong>${plainPassword}</strong></li>
-          </ul>
-          <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
-          <p>Im Anhang finden Sie Ihre Rahmenvereinbarung.</p>
-          <br>
-          <p>Freundliche Grüsse</p>
-          <p>Prime Home Care AG<br>
-          Birkenstrasse 49<br>
-          CH-6343 Rotkreuz<br>
-          info@phc.ch<br>
-          www.phc.ch</p>
-          <p>
-            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
-            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
-          </p>
-        </div>
-      `,
-      attachments: [
-        { filename: `Rahmenvereinbarung_${firstName}_${lastName}.pdf`, content: rahmenBuffer },
-      ],
-    });
-
-    console.log("✅ Email sent successfully!");
-    console.log("📨 Message ID:", info.messageId);
+    try {
+      console.log("📤 Sending approval email...");
+      console.log("To:", email);
+      console.log("SMTP Config:", {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        user: process.env.SMTP_USER,
+        secure: process.env.SMTP_SECURE,
+      });
+      const loginUrl = "https://phc.ch/login";
+      const info = await transporter.sendMail({
+        from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+        to: email,
+        subject: "Willkommen im Prime Home Care Team – Ihr Zugang ist aktiviert",
+        html: `
+          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <p>Grüezi ${firstName}</p>
+            <p>Vielen Dank für Ihre Registrierung bei der Prime Home Care AG.</p>
+            <p>Ihr Zugang zum Mitarbeiter-Portal ist jetzt freigeschaltet.</p>
+            <ul>
+              <li>Login-Link: <a href="${loginUrl}">${loginUrl}</a></li>
+              <li>Benutzername: ${email}</li>
+              <li>Passwort: <strong>${plainPassword}</strong></li>
+            </ul>
+            <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
+            <p>Im Anhang finden Sie Ihre Rahmenvereinbarung.</p>
+            <br>
+            <p>Freundliche Grüsse</p>
+            <p>Prime Home Care AG<br>
+            Birkenstrasse 49<br>
+            CH-6343 Rotkreuz<br>
+            info@phc.ch<br>
+            www.phc.ch</p>
+            <p>
+              <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+              <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+            </p>
+          </div>
+        `,
+        attachments: [
+          { filename: `Rahmenvereinbarung_${firstName}_${lastName}.pdf`, content: rahmenBuffer },
+        ],
+      });
+      console.log("✅ Email sent successfully!");
+      console.log("📨 Message ID:", info.messageId);
+      console.log("Full info:", info);
+    } catch (err) {
+      console.error("❌ Error sending approval email:", err);
+      throw err;
+    }
 
   } catch (error) {
     console.error("❌ Email sending failed!");

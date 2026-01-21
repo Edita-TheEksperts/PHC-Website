@@ -19,12 +19,13 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    // ❌ don't send twice
-    if (employee.invited) {
-      return res.status(200).json({
-        message: "Employee already approved and email already sent",
-      });
-    }
+    // TEMP: Allow re-sending approval email for testing
+    // Commented out the check for 'invited' so you can always trigger the email
+    // if (employee.invited) {
+    //   return res.status(200).json({
+    //     message: "Employee already approved and email already sent",
+    //   });
+    // }
 
     // 🔐 generate NEW password on approval
     const plainPassword = Math.random().toString(36).slice(-8);
