@@ -1,3 +1,375 @@
+// --- System Maintenance Notification (Client) ---
+export async function sendSystemMaintenanceEmail({ email, firstName, lastName, date, timeStart, timeEnd, phone }) {
+  try {
+    await transporter.sendMail({
+      to: email,
+      subject: 'Information: Vorübergehende Systemwartung',
+      html: `
+        <p>Grüezi ${firstName || ''} ${lastName || ''}</p>
+        <p>Am ${date} zwischen ${timeStart} und ${timeEnd} führen wir geplante Wartungsarbeiten an unserem System durch.</p>
+        <p>In diesem Zeitraum ist das Kundenportal vorübergehend nicht erreichbar. Bei dringenden Anliegen erreichen Sie uns telefonisch unter ${phone || '043 200 10 20'}.</p>
+        <p>Vielen Dank für Ihr Verständnis.</p>
+        <br>
+        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      `
+    });
+    console.log('✅ System maintenance email sent');
+  } catch (error) {
+    console.error('❌ Failed to send system maintenance email:', error);
+  }
+}
+
+// --- Feedback Request (Client) ---
+export async function sendFeedbackRequestEmail({ email, firstName, lastName, caregiverName, feedbackLink }) {
+  try {
+    await transporter.sendMail({
+      to: email,
+      subject: 'Wie zufrieden sind Sie mit unserer Betreuung?',
+      html: `
+        <p>Grüezi ${firstName} ${lastName}</p>
+        <p>Wir hoffen, dass Sie mit der Betreuung durch ${caregiverName} zufrieden waren.</p>
+        <p>Wir freuen uns über Ihre Rückmeldung: <a href="${feedbackLink}">${feedbackLink}</a></p>
+        <p>Ihr Feedback hilft uns, unsere Dienstleistung weiter zu verbessern.</p>
+        <p>Danke für Ihr Vertrauen!</p>
+        <br>
+        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      `
+    });
+    console.log('✅ Feedback request email sent');
+  } catch (error) {
+    console.error('❌ Failed to send feedback request email:', error);
+  }
+}
+
+// --- Assignment Proposal/Notification (Employee) ---
+export async function sendAssignmentProposalEmail({ email, firstName, location, dateTime, deadline }) {
+  try {
+    await transporter.sendMail({
+      to: email,
+      subject: 'Neuer Einsatzvorschlag – jetzt in der App bestätigen',
+      html: `
+        <p>Hallo ${firstName}</p>
+        <p>Wir haben einen neuen Einsatzvorschlag für Sie in der App hinterlegt.</p>
+        <p><strong>Ort:</strong> ${location}<br><strong>Datum/Zeit:</strong> ${dateTime}</p>
+        <p>Bitte bestätigen oder lehnen Sie den Einsatz direkt in der App innerhalb der nächsten ${deadline || '24 Stunden'} ab.</p>
+        <p>Vielen Dank für Ihre Flexibilität!</p>
+        <br>
+        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      `
+    });
+    console.log('✅ Assignment proposal email sent');
+  } catch (error) {
+    console.error('❌ Failed to send assignment proposal email:', error);
+  }
+}
+
+// --- Assignment Accepted (Notify Client) ---
+export async function sendAssignmentAcceptedEmail({ email, firstName, lastName, employeeFirstName, employeeLastName, employeePhone, serviceName, firstDate }) {
+  try {
+    await transporter.sendMail({
+      to: email,
+      subject: 'Ihre Buchung wurde erfolgreich bestätigt',
+      html: `
+        <p>Grüezi ${firstName} ${lastName}</p>
+        <p>Ihre Buchung wurde erfolgreich bestätigt und folgender Mitarbeiter wurde Ihnen zugewiesen.</p>
+        <p><strong>Betreuer:</strong> ${employeeFirstName} ${employeeLastName}</p>
+        <p><strong>Kontakt:</strong> ${employeePhone}</p>
+        <p><strong>Service:</strong> ${serviceName}</p>
+        <p>Startdatum: ${firstDate}</p>
+        <p>Vielen Dank für Ihr Vertrauen.</p>
+        <br>
+        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      `
+    });
+    console.log('✅ Assignment accepted email sent');
+  } catch (error) {
+    console.error('❌ Failed to send assignment accepted email:', error);
+  }
+}
+
+// --- Cancellation Confirmation (Client/Employee) ---
+export async function sendCancellationConfirmationEmail({ email, firstName, lastName, weekday, date, time, refundPercent, serviceName }) {
+  try {
+    await transporter.sendMail({
+      to: email,
+      subject: 'Bestätigung Ihrer Stornierung',
+      html: `
+        <p>Grüezi ${firstName} ${lastName}</p>
+        <p>Ihr Termin am:<br>${weekday}<br>${date}<br>um ${time} wurde erfolgreich storniert.</p>
+        <p>Service: ${serviceName || ''}</p>
+        <p>Rückerstattung: ${refundPercent || 0}%</p>
+        <br>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+        <br><br>
+        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+      `
+    });
+    console.log('✅ Cancellation confirmation email sent');
+  } catch (error) {
+    console.error('❌ Failed to send cancellation confirmation email:', error);
+  }
+}
+
+// --- Payment Confirmation (Client) ---
+export async function sendPaymentConfirmationEmail({ email, firstName, lastName, amount, bookingReference }) {
+  try {
+    await transporter.sendMail({
+      to: email,
+      subject: 'Zahlungsbestätigung / Rechnung zu Ihrer Buchung',
+      html: `
+        <p>Grüezi ${firstName} ${lastName}</p>
+        <p>Wir bestätigen den Eingang Ihrer Zahlung über CHF ${amount} zur Buchung ${bookingReference}.</p>
+        <p>Ihre Rechnung finden Sie auf Ihrer persönlichen PHC-Plattform.</p>
+        <p>Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
+        <br>
+        <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      `
+    });
+    console.log('✅ Payment confirmation email sent');
+  } catch (error) {
+    console.error('❌ Failed to send payment confirmation email:', error);
+  }
+}
+// --- Admin Notification: Assignment Cancelled Automatically ---
+export async function sendAdminAssignmentCancelledEmail({ employeeFirstName, employeeLastName }) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <p>Hallo Admin,</p>
+      <p>Die Zuweisung von ${employeeFirstName} ${employeeLastName} wurde nach 36h ohne Bestätigung automatisch storniert.</p>
+      <br>
+      <p>Freundliche Grüsse</p>
+      <p>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+      <p><a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a></p>
+    </div>
+  `;
+  try {
+    await transporter.sendMail({
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: 'admin@phc.ch',
+      subject: 'Assignment automatisch storniert',
+      html,
+    });
+    console.log('✅ Admin assignment cancelled email sent');
+  } catch (error) {
+    console.error('❌ Failed to send admin assignment cancelled email:', error);
+  }
+}
+
+// --- Payment Update Request Email ---
+export async function sendPaymentUpdateRequestEmail({ name, email: userEmail }) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <p>Der Kunde/Employee <strong>${name}</strong> (${userEmail}) möchte seine Zahlungsdaten aktualisieren.</p>
+      <p>Bitte kontaktieren Sie ihn für weitere Schritte.</p>
+    </div>
+  `;
+  try {
+    await transporter.sendMail({
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: 'admin@phc.ch',
+      subject: 'Zahlungsänderung angefragt',
+      html,
+    });
+    console.log('✅ Payment update request email sent');
+  } catch (error) {
+    console.error('❌ Failed to send payment update request email:', error);
+  }
+}
+
+// --- Capacity Limit Notification (Kapazitätsgrenzen) ---
+export async function sendCapacityLimitEmail({ email, firstName, lastName }) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <p>Grüezi ${firstName} ${lastName},</p>
+      <p>Vielen Dank für Ihre Online-Buchung bei Prime Home Care.</p>
+      <p>Leider müssen wir Ihnen mitteilen, dass wir für den von Ihnen gebuchten Zeitraum aktuell keine passenden Kapazitäten zur Verfügung haben. Ein geeignetes Matching zwischen Kunde und Betreuungsperson ist derzeit nicht möglich.</p>
+      <p>Ihre Buchung wird entsprechend nicht ausgeführt. Eine Belastung erfolgt nicht.</p>
+      <p>Gerne können Sie jederzeit eine neue Online-Buchung mit einem alternativen Zeitraum vornehmen.</p>
+      <p>Vielen Dank für Ihr Verständnis.</p>
+      <br>
+      <p>Freundliche Grüsse</p>
+      <p>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+      <p><a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a></p>
+    </div>
+  `;
+  try {
+    await transporter.sendMail({
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Information zur Verfügbarkeit Ihrer Buchung',
+      html,
+    });
+    console.log('✅ Capacity limit email sent');
+  } catch (error) {
+    console.error('❌ Failed to send capacity limit email:', error);
+  }
+}
+
+// --- Client-Initiated Termination ---
+export async function sendClientTerminationEmail({ email, firstName, lastName, endDate }) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <p>Grüezi ${firstName} ${lastName},</p>
+      <p>Wir bestätigen hiermit die Beendigung der Zusammenarbeit zwischen Ihnen und der Prime Home Care AG.</p>
+      <p>Es werden ab ${endDate} keine weiteren Dienstleistungen mehr erbracht.</p>
+      <p>Ihr Kundenkonto im Prime-Home-Care-Portal wird entsprechend geschlossen. Ein Zugriff auf das Kundenportal ist danach nicht mehr möglich.</p>
+      <p>Sollten Sie zu einem späteren Zeitpunkt erneut Dienstleistungen über Prime Home Care in Anspruch nehmen wollen, ist eine neue Registrierung sowie eine neue Online-Buchung erforderlich.</p>
+      <p>Wir danken Ihnen für die bisherige Zusammenarbeit.</p>
+      <br>
+      <p>Freundliche Grüsse</p>
+      <p>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+      <p><a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a></p>
+    </div>
+  `;
+  try {
+    await transporter.sendMail({
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Beendigung der Zusammenarbeit mit Prime Home Care',
+      html,
+    });
+    console.log('✅ Client termination email sent');
+  } catch (error) {
+    console.error('❌ Failed to send client termination email:', error);
+  }
+}
+
+// --- Rejection Warning (Employee) ---
+export async function sendRejectionWarningEmail({ email, firstName }) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <p>Grüezi ${firstName},</p>
+      <p>Uns ist aufgefallen, dass Sie in letzter Zeit mehrere Einsatzvorschläge abgelehnt haben.</p>
+      <p>Bitte beachten Sie, dass eine regelmässige Ablehnung von Einsätzen unsere Einsatzplanung erschwert.</p>
+      <p>Gerne möchten wir mit Ihnen besprechen, ob es bestimmte Gründe gibt und wie wir Sie besser unterstützen können.</p>
+      <a href="https://calendly.com/primehomecare" rel="noopener noreferrer" target="_blank" style="color: #04436F;">Jetzt Termin buchen</a>
+      <br><br>
+      <p>Freundliche Grüsse</p>
+      <p>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+      <p><a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a></p>
+    </div>
+  `;
+  try {
+    await transporter.sendMail({
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Rückmeldung zu Ihren Einsatzentscheidungen',
+      html,
+    });
+    console.log('✅ Rejection warning email sent');
+  } catch (error) {
+    console.error('❌ Failed to send rejection warning email:', error);
+  }
+}
+// --- Client Welcome Email ---
+export async function sendClientWelcomeEmail({ email, firstName, lastName, passwordLink }) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <p>Grüezi ${firstName} ${lastName},</p>
+      <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.</p>
+      <p>Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet. Sie können dort:</p>
+      <ul>
+        <li>Buchungen verwalten</li>
+        <li>Mit uns kommunizieren</li>
+      </ul>
+      <p><strong>Bitte erstellen Sie Ihr Passwort über den folgenden Link:</strong></p>
+      <a href="${passwordLink}"
+         style="display:inline-block; background-color:#B99B5F; color:#fff; padding:10px 18px; border-radius:5px; text-decoration:none; font-weight:bold;">
+        Passwort erstellen
+      </a>
+      <br><br>
+      <p>Freundliche Grüsse</p>
+      <p>Prime Home Care AG<br>
+        Birkenstrasse 49<br>
+        CH-6343 Rotkreuz<br>
+        info@phc.ch<br>
+        www.phc.ch
+      </p>
+      <p>
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      </p>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: `"Prime Home Care AG" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: "Willkommen bei Prime Home Care – Ihr Zugang ist aktiv",
+      html,
+    });
+    console.log("✅ Client welcome email sent to", email);
+  } catch (error) {
+    console.error("❌ Failed to send client welcome email:", error);
+  }
+}
 
 import nodemailer from "nodemailer";
 import PDFDocument from "pdfkit";
