@@ -632,7 +632,7 @@ await fetchAppointments(userId);
   {" "}Gebuchte Termine, die in diesen Zeitraum fallen, werden automatisch storniert. 
   Es gelten unsere{" "}
   <a
-    href="https://phc-website-vert.vercel.app/AVB"
+    href="https://phc.ch/AVB"
     target="_blank"
     rel="noopener noreferrer"
     className="underline font-medium hover:text-yellow-900"

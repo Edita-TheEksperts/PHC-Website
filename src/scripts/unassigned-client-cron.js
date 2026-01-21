@@ -68,7 +68,7 @@ export async function runUnassignedClientEmails() {
           </p>
 
           <p>
-            <a href="https://phc-website-vert.vercel.app/AVB"
+            <a href="https://phc.ch/AVB"
                target="_blank"
                rel="noopener noreferrer"
                style="text-decoration: underline; color: #04436F; font-weight: 500;">

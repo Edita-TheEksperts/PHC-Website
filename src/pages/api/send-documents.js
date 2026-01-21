@@ -29,7 +29,7 @@ www.phc.ch
 </p>
 
 <p>
-  <a href="https://phc-website-vert.vercel.app/AVB"
+  <a href="https://phc.ch/AVB"
      target="_blank"
      style="text-decoration: underline; color:#04436F; font-weight:500;">
     AVB und Nutzungsbedingungen
@@ -55,7 +55,7 @@ www.phc.ch
 </p>
 
 <p>
-  <a href="https://phc-website-vert.vercel.app/AVB"
+  <a href="https://phc.ch/AVB"
      target="_blank"
      style="text-decoration: underline; color:#04436F; font-weight:500;">
     AVB und Nutzungsbedingungen
@@ -81,7 +81,7 @@ www.phc.ch
 </p>
 
 <p>
-  <a href="https://phc-website-vert.vercel.app/AVB"
+  <a href="https://phc.ch/AVB"
      target="_blank"
      style="text-decoration: underline; color:#04436F; font-weight:500;">
     AVB und Nutzungsbedingungen

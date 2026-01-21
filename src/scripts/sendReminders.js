@@ -36,7 +36,7 @@ await transporter.sendMail({
 
 <p>
   <a
-    href="https://phc-website-vert.vercel.app/AVB"
+    href="https://phc.ch/AVB"
     target="_blank"
     rel="noopener noreferrer"
     style={{

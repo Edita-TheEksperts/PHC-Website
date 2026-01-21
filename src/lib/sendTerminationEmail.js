@@ -64,7 +64,7 @@ export async function sendTerminationEmail({ email, firstName, lastName, immedia
         info@phc.ch<br/>
         www.phc.ch</p>
         <br>
-        <p><a href="https://phc-website-vert.vercel.app/AVB" target="_blank">AVB und Nutzungsbedingungen</a></p>
+        <p><a href="https://phc.ch/AVB" target="_blank">AVB und Nutzungsbedingungen</a></p>
       </div>
     `;
   }

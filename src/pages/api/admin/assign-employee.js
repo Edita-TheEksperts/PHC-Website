@@ -61,7 +61,7 @@ export default async function handler(req, res) {
   
     const employee = assignment.employee;
     const user = assignment.user;
-const dashboardUrl = "https://phc-website-vert.vercel.app/employee-dashboard";
+const dashboardUrl = "https://phc.ch/employee-dashboard";
 
 const html = `
 <p>Hallo ${employee.firstName},</p>
