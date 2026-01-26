@@ -29,6 +29,17 @@ import {
 } from "recharts";
 
 export default function DashboardPage() {
+
+  const router = useRouter();
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem("userToken");
+    const role = localStorage.getItem("userRole");
+    if (!token || role !== "admin") {
+      router.replace("/login");
+    }
+  }, []);
+
   const [employees, setEmployees] = useState([]);
   const [approvedEmployees, setApprovedEmployees] = useState([]);
   const [clients, setClients] = useState([]);
@@ -52,9 +63,6 @@ const [activity, setActivity] = useState([
     timestamp: "2025-08-01T08:30:00Z",
   },
 ]);
-
-const router = useRouter();
-
 
 useEffect(() => {
   fetchData();

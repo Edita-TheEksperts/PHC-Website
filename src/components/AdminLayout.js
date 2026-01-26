@@ -7,6 +7,15 @@ export default function AdminLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
     const router = useRouter(); 
 
+  function handleLogout() {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("email");
+      router.replace("/login");
+    }
+  }
+
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
       {/* Mobile toggle button */}
@@ -23,7 +32,7 @@ export default function AdminLayout({ children }) {
           menuOpen ? "block" : "hidden"
         } lg:block`}
       >
-        <h1 className="text-2xl font-bold hidden lg:block">Admin</h1>
+        <h1 className="text-2xl font-semibold hidden lg:block">Admin</h1>
         <nav className="flex flex-col space-y-4">
           <Link href="/admin-dashboard" className="hover:text-blue-400">
             Dashboard
@@ -65,10 +74,12 @@ Systemwartung          </Link>
 >
    Gutschein erstellen
 </Link>
-
-
-
-
+          <button
+            onClick={handleLogout}
+            className="mt-8 bg-white text-black font-semibold py-2 px-4 rounded-lg text-left hover:bg-gray-200"
+          >
+            Logout
+          </button>
         </nav>
       </aside>
 
