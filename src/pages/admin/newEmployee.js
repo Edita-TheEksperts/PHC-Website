@@ -23,13 +23,43 @@ const [createdDate, setCreatedDate] = useState("");
   }, []);
 
   const handleApproval = async (emp) => {
-    await fetch("/api/approve-employee", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: emp.email }) });
-    setEmployees(prev => prev.map(e => e.id === emp.id ? { ...e, status: "approved" } : e));
+    try {
+      const response = await fetch("/api/approve-employee", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: emp.email }) });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error("❌ Approval failed:", data);
+        alert(`Fehler bei der Genehmigung: ${data.message || 'Unbekannter Fehler'}`);
+        return;
+      }
+      
+      console.log("✅ Employee approved:", data);
+      alert(`✅ ${emp.firstName} ${emp.lastName} wurde genehmigt und die E-Mail wurde gesendet.`);
+      setEmployees(prev => prev.map(e => e.id === emp.id ? { ...e, status: "approved" } : e));
+    } catch (error) {
+      console.error("❌ Error approving employee:", error);
+      alert(`Fehler beim Genehmigen: ${error.message}`);
+    }
   };
 
   const handleRejection = async (emp) => {
-    await fetch("/api/reject-employee", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: emp.email }) });
-    setEmployees(prev => prev.map(e => e.id === emp.id ? { ...e, status: "rejected" } : e));
+    try {
+      const response = await fetch("/api/reject-employee", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: emp.email }) });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error("❌ Rejection failed:", data);
+        alert(`Fehler bei der Ablehnung: ${data.message || 'Unbekannter Fehler'}`);
+        return;
+      }
+      
+      console.log("✅ Employee rejected:", data);
+      alert(`✅ ${emp.firstName} ${emp.lastName} wurde abgelehnt und die E-Mail wurde gesendet.`);
+      setEmployees(prev => prev.map(e => e.id === emp.id ? { ...e, status: "rejected" } : e));
+    } catch (error) {
+      console.error("❌ Error rejecting employee:", error);
+      alert(`Fehler beim Ablehnen: ${error.message}`);
+    }
   };
 
   const handleInvite = async (emp) => {

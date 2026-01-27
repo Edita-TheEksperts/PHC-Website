@@ -25,15 +25,21 @@ export default async function handler(req, res) {
     let body = template.body;
     body = body.replace(/{{firstName}}/g, updated.firstName || "");
 
-    await sendEmail({
-      to: email,
-      subject: template.subject,
-      html: body,
-    });
+    try {
+      await sendEmail({
+        to: email,
+        subject: template.subject,
+        html: body,
+      });
+      console.log("✅ Rejection email sent successfully to:", email);
+    } catch (emailError) {
+      console.error("❌ Failed to send rejection email:", emailError);
+      return res.status(500).json({ message: `Employee rejected but email failed: ${emailError.message}` });
+    }
 
     res.status(200).json({ message: "Rejected and email sent." });
   } catch (error) {
     console.error("❌ Reject error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message || "Server error" });
   }
 }

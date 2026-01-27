@@ -535,5 +535,6 @@ export async function sendApprovalEmail(employee, plainPassword) {
     console.error("❌ Email sending failed!");
     console.error("ERROR MESSAGE:", error.message);
     console.error("FULL ERROR:", error);
+    throw new Error(`Failed to send approval email: ${error.message}`);
   }
 }
