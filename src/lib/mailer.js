@@ -397,6 +397,7 @@ export async function sendClientWelcomeEmail({ email, firstName, lastName, passw
 
 import nodemailer from "nodemailer";
 import PDFDocument from "pdfkit";
+import path from "path";
 
 // ---------- Rahmenvereinbarung PDF ----------
 export function createRahmenvereinbarungPdf(employee) {
@@ -409,8 +410,7 @@ export function createRahmenvereinbarungPdf(employee) {
 
 
     // Page 1 - Header and Title
-    doc.image("public/images/logo.png", doc.page.width / 2 - 60, 30, { width: 120 });
-    doc.moveDown(4.5);
+    doc.moveDown(2);
     doc.fontSize(16).font("Helvetica-Bold").text("Rahmenvereinbarung", { align: "left" });
     doc.moveDown(1.2);
     doc.fontSize(11).font("Helvetica").text("zwischen", { align: "left" });
@@ -440,8 +440,7 @@ export function createRahmenvereinbarungPdf(employee) {
 
     // Page 2 - Signature Page
     doc.addPage();
-    doc.image("public/images/logo.png", doc.page.width / 2 - 60, 30, { width: 120 });
-    doc.moveDown(10);
+    doc.moveDown(5);
     doc.fontSize(12).font("Helvetica").text(`Rotkreuz, Datum Versand`, { align: "left" });
     doc.moveDown(2.5);
     doc.fontSize(12).font("Helvetica-Bold").text("Prime Home Care AG");
