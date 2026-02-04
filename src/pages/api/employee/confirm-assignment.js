@@ -1,6 +1,5 @@
 import { prisma } from "../../../lib/prisma";
 import nodemailer from "nodemailer";
-import { sendApprovalEmail } from "../../../lib/emailHelpers";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
