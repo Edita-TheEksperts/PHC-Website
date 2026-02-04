@@ -48,20 +48,23 @@ export async function sendAssignmentContractEmail(assignment) {
     to: employee.email,
     subject: "Ihre Einsatzbestätigung – Arbeitsvertrag im Anhang",
     html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-        <p>Grüezi ${employee.firstName}</p>
-        <p>Wir freuen uns Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde.</p>
-        <p>Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail.</p>
-        <p>Bitte lesen Sie den Arbeitsvertrag sorgfältig durch und unterzeichnen Sie das Dokument digital.</p>
-        <p>Vielen Dank für Ihr Engagement und willkommen im Team von Prime Home Care AG.</p>
-        <br>
-        <p>Freundliche Grüsse</p>
-        <p>Prime Home Care AG<br>
-        Birkenstrasse 49<br>
-        CH-6343 Rotkreuz<br>
-        info@phc.ch<br>
-        www.phc.ch<br>
-        AVB und Nutzungsbedingungen</p>
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width:600px; margin:auto; border:1px solid #eee; border-radius:8px;">
+        <div style="padding:24px 24px 0 24px; text-align:center;">
+          <img src='https://www.phc.ch/phc-logo.png' alt='Prime Home Care Logo' style='max-width:180px; margin-bottom:16px;' />
+        </div>
+        <div style="padding:24px;">
+          <p>Grüezi ${employee.firstName},</p>
+          <p>Wir freuen uns Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde.</p>
+          <p>Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail.</p>
+          <p>Bitte lesen Sie den Arbeitsvertrag sorgfältig durch und unterzeichnen Sie das Dokument digital.</p>
+          <p>Vielen Dank für Ihr Engagement und willkommen im Team von Prime Home Care AG.</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+          <p>
+            <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+            <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+          </p>
+        </div>
       </div>
     `,
     attachments: [
@@ -72,9 +75,47 @@ export async function sendAssignmentContractEmail(assignment) {
 /**
  * Create Arbeitsvertrag PDF
  */
-export function createContractPdf(employee) {
+export async function createContractPdf(employee) {
   return new Promise((resolve) => {
     const doc = new PDFDocument({ margin: 50 });
+
+    // Add logo at the top
+    try {
+      // Download logo from public URL and embed in PDF
+      const https = require('https');
+      const logoUrl = 'https://www.phc.ch/phc-logo.png';
+      const tmp = require('os').tmpdir();
+      const fs = require('fs');
+      const path = require('path');
+      const logoPath = path.join(tmp, 'phc-logo.png');
+      // Use a synchronous check for logo existence, and only download if not present
+      function downloadLogo(callback) {
+        if (fs.existsSync(logoPath)) {
+          callback();
+          return;
+        }
+        const file = fs.createWriteStream(logoPath);
+        https.get(logoUrl, (response) => {
+          response.pipe(file);
+          file.on('finish', () => {
+            file.close(callback);
+          });
+        }).on('error', (err) => {
+          fs.unlink(logoPath, () => {});
+          callback(); // Don't block PDF if logo fails
+        });
+      }
+      // Wait for logo download before adding image
+      downloadLogo(() => {
+        if (fs.existsSync(logoPath)) {
+          doc.image(logoPath, doc.page.width / 2 - 60, 20, { width: 120 });
+        }
+        doc.moveDown(2);
+      });
+    } catch (e) {
+      // Logo not added
+      doc.moveDown(2);
+    }
     const buffers = [];
     doc.on("data", buffers.push.bind(buffers));
     doc.on("end", () => resolve(Buffer.concat(buffers)));
@@ -169,6 +210,10 @@ export function createContractPdf(employee) {
     const labelY = lineY + 5;
     doc.font("Helvetica").fontSize(12).text("Arbeitgeberin", sigLeftX, labelY, { width: lineWidth, align: "center" });
     doc.font("Helvetica").fontSize(12).text("Arbeitnehmer", sigRightX, labelY, { width: lineWidth, align: "center" });
+    // Footer with AVB and Nutzungsbedingungen links
+    const footerY = doc.page.height - 60;
+    doc.fontSize(10).fillColor('#04436F').text('AVB', 50, footerY, { link: 'https://phc.ch/AVB', underline: true });
+    doc.fontSize(10).fillColor('#04436F').text('Nutzungsbedingungen', 120, footerY, { link: 'https://phc.ch/nutzungsbedingungen', underline: true });
     doc.end();
   });
 }

@@ -1,34 +1,68 @@
+
 import Link from "next/link";
 import React, { useState, useContext, useEffect } from "react";
 import { FormContext } from "../context/FormContext";
 
 export default function FormPage01() {
   const { formData, setFormData } = useContext(FormContext);
-   const [isFormValid, setIsFormValid] = useState(false);
-   const validateForm = () => {
-     return (
-       formData.region &&
-       formData.name &&
-       formData.vorname &&
-       emailRegex.test(formData.email) &&
-       formData.cv
-     );
-   };
-   useEffect(() => {
-     setIsFormValid(validateForm());
-   }, [formData]);
-   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-   const handleFileChange = (event) => {
-     const file = event.target.files[0];
-     if (file && file.type === "application/pdf") {
-       setFormData({ ...formData, cv: file });
-     } else {
-       alert("Only PDF files are allowed.");
-     }
-   };
-   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [cvError, setCvError] = useState("");
+  const [certError, setCertError] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Add certificates to formData if not present
+  useEffect(() => {
+    if (!('certificates' in formData)) {
+      setFormData({ ...formData, certificates: null });
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  const validateForm = () => {
+    return (
+      formData.region &&
+      formData.name &&
+      formData.vorname &&
+      emailRegex.test(formData.email) &&
+      formData.cv &&
+      formData.certificates
+    );
+  };
+
+  useEffect(() => {
+    setIsFormValid(validateForm());
+  }, [formData]);
+
+  const handleFileChange = (event, type) => {
+    const file = event.target.files[0];
+    if (file && file.type === "application/pdf") {
+      if (type === "cv") {
+        setFormData({ ...formData, cv: file });
+        setCvError("");
+      } else if (type === "certificates") {
+        setFormData({ ...formData, certificates: file });
+        setCertError("");
+      }
+    } else {
+      if (type === "cv") setCvError("Nur PDF-Dateien sind erlaubt.");
+      if (type === "certificates") setCertError("Nur PDF-Dateien sind erlaubt.");
+    }
+  };
+
 
   const handleClick = async () => {
+    let valid = true;
+    if (!formData.cv) {
+      setCvError("Bitte lade deinen Lebenslauf hoch (PDF).");
+      valid = false;
+    }
+    if (!formData.certificates) {
+      setCertError("Bitte lade Zertifikate und Arbeitszeugnisse hoch (PDF).");
+      valid = false;
+    }
+    if (!valid) return;
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("region", formData.region);
@@ -36,16 +70,16 @@ export default function FormPage01() {
       formDataToSend.append("vorname", formData.vorname);
       formDataToSend.append("email", formData.email);
       formDataToSend.append("questions", formData.questions);
-  
       if (formData.cv) {
         formDataToSend.append("cv", formData.cv, formData.cv.name);
       }
-  
+      if (formData.certificates) {
+        formDataToSend.append("certificates", formData.certificates, formData.certificates.name);
+      }
       const response = await fetch("/api/sendEmail", {
         method: "POST",
         body: formDataToSend,
       });
-  
       if (response.ok) {
         setIsSubmitted(true);
       } else {
@@ -269,38 +303,69 @@ Wähle deine gewünschte<br></br> Region in der du arbeiten<br></br> möchtest u
     value={formData.email || ""}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
   />
-          <label htmlFor="cv-upload" className="cursor-pointer">
 
-<div
-          className="flex flex-col justify-between items-start w-[271px] lg:w-[200px]  h-[75px] px-[13px] py-[17px] border rounded-lg bg-white"
-          style={{
-            border: "1px solid #B7B6BA",
-            borderRadius: "8px",
-          }}
-        >
-       
-          <input
-            type="file"
-            accept=".pdf"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-            id="cv-upload"
-          />
+        {/* Lebenslauf Upload */}
+        <label htmlFor="cv-upload" className="cursor-pointer w-[271px] lg:w-[200px]">
+          <div
+            className="flex flex-col justify-between items-start w-full h-[75px] px-[13px] py-[17px] border rounded-lg bg-white"
+            style={{
+              border: "1px solid #B7B6BA",
+              borderRadius: "8px",
+            }}
+          >
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={e => handleFileChange(e, "cv")}
+              style={{ display: "none" }}
+              id="cv-upload"
+            />
             {formData.cv ? (
               <p className="text-[#1C1B1D] font-metropolis text-[14px] leading-[22px]">
                 {formData.cv.name}
               </p>
             ) : (
-               <p className="text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal">
-               Lebenslauf
-             </p>
-            
+              <p className="text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal">
+                Lebenslauf
+              </p>
             )}
-          
-          <span className="text-[#1C1B1D] font-metropolis text-[10px] leading-[20px] font-normal">
-               Zwingend
-             </span>
-        </div>
+            <span className="text-[#1C1B1D] font-metropolis text-[10px] leading-[20px] font-normal">
+              Zwingend
+            </span>
+            {cvError && <span className="text-red-500 text-xs mt-1">{cvError}</span>}
+          </div>
+        </label>
+
+        {/* Zertifikate und Arbeitszeugnisse Upload */}
+        <label htmlFor="cert-upload" className="cursor-pointer w-[271px] lg:w-[200px] mt-2">
+          <div
+            className="flex flex-col justify-between items-start w-full h-[75px] px-[13px] py-[17px] border rounded-lg bg-white"
+            style={{
+              border: "1px solid #B7B6BA",
+              borderRadius: "8px",
+            }}
+          >
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={e => handleFileChange(e, "certificates")}
+              style={{ display: "none" }}
+              id="cert-upload"
+            />
+            {formData.certificates ? (
+              <p className="text-[#1C1B1D] font-metropolis text-[14px] leading-[22px]">
+                {formData.certificates.name}
+              </p>
+            ) : (
+              <p className="text-[#1C1B1D] font-metropolis text-[18px] leading-[26px] font-normal">
+                Zertifikate und Arbeitszeugnisse
+              </p>
+            )}
+            <span className="text-[#1C1B1D] font-metropolis text-[10px] leading-[20px] font-normal">
+              Zwingend
+            </span>
+            {certError && <span className="text-red-500 text-xs mt-1">{certError}</span>}
+          </div>
         </label>
 </div>
 

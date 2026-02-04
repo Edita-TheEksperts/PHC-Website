@@ -25,25 +25,42 @@ export default function AssignmentsList({ confirmedAssignments = [], onUpdate })
     return client.schedules.map((schedule) => {
       const date = schedule.date ? new Date(schedule.date) : null;
       let status = "future";
-
-      if (date) {
+      if (schedule.status === "cancelled") status = "cancelled";
+      else if (date) {
         if (date.toDateString() === today.toDateString()) status = "inProgress";
         else if (date < today) status = "done";
       }
 
-return {
-  id: `${assignment.id}-${schedule.id}`,
-  assignmentId: assignment.id,
-  scheduleId: schedule.id,
-  employeeId: assignment.employeeId,   // ✅ KJO MUNGONTE
-  clientName: `${client.firstName} ${client.lastName}`,
-  service: client.services?.map((s) => s.name).join(", ") || "—",
-  date,
-  startTime: schedule.startTime,
-  status,
-  baseHours: schedule.hours || 0,
-  baseKm: schedule.kilometers || 0,
-};
+      return {
+        id: `${assignment.id}-${schedule.id}`,
+        assignmentId: assignment.id,
+        scheduleId: schedule.id,
+        employeeId: assignment.employeeId,
+        clientName: `${client.firstName} ${client.lastName}`,
+        service: client.services?.map((s) => s.name).join(", ") || "—",
+        date,
+        startTime: schedule.startTime,
+        status,
+        baseHours: schedule.hours || 0,
+        baseKm: schedule.kilometers || 0,
+      };
+  // Cancel schedule handler
+  const handleCancel = async (s) => {
+    if (!window.confirm("Sind Sie sicher, dass Sie diesen Einsatz stornieren möchten?")) return;
+    try {
+      const res = await fetch("/api/schedule/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scheduleId: s.scheduleId }),
+      });
+      if (!res.ok) throw new Error("Stornierung fehlgeschlagen");
+      alert("Einsatz wurde storniert und alle Parteien informiert.");
+      if (onUpdate) onUpdate();
+    } catch (err) {
+      console.error("❌ Fehler beim Stornieren:", err);
+      alert("❌ Fehler beim Stornieren des Einsatzes.");
+    }
+  };
 
     });
   });
@@ -166,11 +183,31 @@ if (
       )}
 
       {s.status === "inProgress" && (
-        <p className="text-blue-600 mt-2 font-medium">🔄 Läuft gerade</p>
+        <div className="flex items-center gap-2 mt-2">
+          <p className="text-blue-600 font-medium flex-1">🔄 Läuft gerade</p>
+          <button
+            onClick={() => handleCancel(s)}
+            className="bg-red-500 text-white px-3 py-1 rounded"
+          >
+            Stornieren
+          </button>
+        </div>
       )}
 
       {s.status === "future" && (
-        <p className="text-gray-500 mt-2 italic">⏳ Geplant</p>
+        <div className="flex items-center gap-2 mt-2">
+          <p className="text-gray-500 italic flex-1">⏳ Geplant</p>
+          <button
+            onClick={() => handleCancel(s)}
+            className="bg-red-500 text-white px-3 py-1 rounded"
+          >
+            Stornieren
+          </button>
+        </div>
+      )}
+
+      {s.status === "cancelled" && (
+        <p className="text-red-500 mt-2 font-semibold">❌ Storniert</p>
       )}
 
       {s.status === "noSchedule" && (
@@ -193,6 +230,9 @@ if (
 
       <h4 className="text-lg font-semibold text-gray-700 mt-4 mb-2">⏳ Geplant</h4>
       {schedules.filter((s) => s.status === "future").map(renderCard)}
+
+      <h4 className="text-lg font-semibold text-gray-700 mt-4 mb-2">❌ Storniert</h4>
+      {schedules.filter((s) => s.status === "cancelled").map(renderCard)}
     </div>
   );
 }

@@ -427,17 +427,29 @@ const emp = acceptedEmployees.find(e => e.id === rec.employeeId);
            <td className="p-3">
   <div className="flex flex-col gap-2 w-36">
     {/* Assign Button */}
+
+    {/* Assign Button: green before assignment, gray and disabled after */}
     <button
-      disabled={!selectedEmployee[client.id]}
+      disabled={!!assignedMap[client.id] || !selectedEmployee[client.id]}
       onClick={() => handleAssign(client.id)}
       className={`px-3 py-1 rounded text-sm font-medium shadow-sm transition ${
-        selectedEmployee[client.id]
-          ? "bg-green-600 hover:bg-green-700 text-white"
-          : "bg-gray-200 text-gray-400 cursor-not-allowed"
+        assignedMap[client.id]
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : selectedEmployee[client.id]
+            ? "bg-green-600 hover:bg-green-700 text-white"
+            : "bg-gray-200 text-gray-400 cursor-not-allowed"
       }`}
     >
-      Zuordnen
+      {assignedMap[client.id] ? "Zugewiesen" : "Zuordnen"}
     </button>
+
+    {/* Assigned info label */}
+    {assignedMap[client.id] && (
+      <span className="flex items-center gap-1 mt-1 text-xs text-green-700">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path fill="#22c55e" d="M9.293 16.293a1 1 0 0 0 1.414 0l7-7a1 1 0 1 0-1.414-1.414L10 13.586l-2.293-2.293a1 1 0 1 0-1.414 1.414l3 3z"/></svg>
+        Employee assigned
+      </span>
+    )}
 
     {/* View Details Button */}
     <button

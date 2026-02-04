@@ -1,3 +1,65 @@
+// --- Assignment Cancelled Notification (Client, Admin, Employee) ---
+export async function sendAssignmentCancelledEmail({ schedule, reason }) {
+  const { user, employee, date, startTime, hours, serviceName } = schedule;
+  const formattedDate = date ? new Date(date).toLocaleDateString('de-CH') : '';
+  const formattedTime = startTime || '';
+  const duration = hours ? `${hours} Std` : '';
+  const service = serviceName || '';
+
+  // 1. Client notification
+  if (user?.email) {
+    await transporter.sendMail({
+      to: user.email,
+      subject: 'Ihr Einsatz wurde storniert',
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${user.firstName || ''} ${user.lastName || ''},</p>
+          <p>Ihr geplanter Einsatz am <b>${formattedDate}</b> um <b>${formattedTime}</b> (${duration}) für den Service <b>${service}</b> wurde storniert.</p>
+          <p>Grund: ${reason || '-'}</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        </div>
+      `
+    });
+  }
+
+  // 2. Employee notification
+  if (employee?.email) {
+    await transporter.sendMail({
+      to: employee.email,
+      subject: 'Ihr Einsatz wurde storniert',
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <p>Grüezi ${employee.firstName || ''} ${employee.lastName || ''},</p>
+          <p>Ihr geplanter Einsatz am <b>${formattedDate}</b> um <b>${formattedTime}</b> (${duration}) für den Service <b>${service}</b> wurde storniert.</p>
+          <p>Grund: ${reason || '-'}</p>
+          <br>
+          <p>Freundliche Grüsse<br>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+        </div>
+      `
+    });
+  }
+
+  // 3. Admin notification
+  await transporter.sendMail({
+    to: 'admin@phc.ch',
+    subject: 'Einsatz storniert',
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <p>Ein Einsatz wurde storniert:</p>
+        <ul>
+          <li>Kunde: ${user?.firstName || ''} ${user?.lastName || ''} (${user?.email || ''})</li>
+          <li>Mitarbeiter: ${employee?.firstName || ''} ${employee?.lastName || ''} (${employee?.email || ''})</li>
+          <li>Datum: ${formattedDate}</li>
+          <li>Zeit: ${formattedTime}</li>
+          <li>Dauer: ${duration}</li>
+          <li>Service: ${service}</li>
+          <li>Grund: ${reason || '-'}</li>
+        </ul>
+      </div>
+    `
+  });
+}
 // --- System Maintenance Notification (Client) ---
 export async function sendSystemMaintenanceEmail({ email, firstName, lastName, date, timeStart, timeEnd, phone }) {
   try {
@@ -324,9 +386,13 @@ export async function sendRejectionWarningEmail({ email, firstName }) {
       <p>Gerne möchten wir mit Ihnen besprechen, ob es bestimmte Gründe gibt und wie wir Sie besser unterstützen können.</p>
       <a href="https://calendly.com/primehomecare" rel="noopener noreferrer" target="_blank" style="color: #04436F;">Jetzt Termin buchen</a>
       <br><br>
-      <p>Freundliche Grüsse</p>
-      <p>Prime Home Care AG<br>Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
-      <p><a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a></p>
+      <p style="margin-bottom: 5px;"><strong>Freundliche Grüsse</strong></p>
+      <p style="margin-bottom: 5px;"><strong>Prime Home Care AG</strong></p>
+      <p style="margin-bottom: 5px;">Birkenstrasse 49<br>CH-6343 Rotkreuz<br>info@phc.ch<br>www.phc.ch</p>
+      <p style="margin-bottom: 0;">
+        <a href="https://phc.ch/AVB" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">AVB</a> und 
+        <a href="https://phc.ch/nutzungsbedingungen" target="_blank" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Nutzungsbedingungen</a>
+      </p>
     </div>
   `;
   try {

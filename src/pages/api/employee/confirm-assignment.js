@@ -51,6 +51,9 @@ export default async function handler(req, res) {
       },
     });
 
+    // Prevent duplicate contract emails: only send if not already confirmed
+    if (action === "confirmed" && updated.confirmationStatus !== "confirmed") {
+
     // =========================
     // 📧 EMAILS (SAFE MODE)
     // =========================
@@ -58,8 +61,21 @@ export default async function handler(req, res) {
       try {
         const { sendAssignmentContractEmail } = await import("../../../lib/emailHelpers.js");
         await sendAssignmentContractEmail(updated);
+
+        // Send email to client (customer) about assignment acceptance
+        const { sendAssignmentAcceptedEmail } = await import("../../../src/lib/mailer.js");
+        await sendAssignmentAcceptedEmail({
+          email: updated.user.email,
+          firstName: updated.user.firstName,
+          lastName: updated.user.lastName,
+          employeeFirstName: updated.employee.firstName,
+          employeeLastName: updated.employee.lastName,
+          employeePhone: updated.employee.phone || '',
+          serviceName: updated.serviceName || '',
+          firstDate: updated.firstDate || '',
+        });
       } catch (emailError) {
-        console.error("⚠️ Assignment contract email failed:", emailError);
+        console.error("⚠️ Assignment contract/client email failed:", emailError);
       }
     }
 
