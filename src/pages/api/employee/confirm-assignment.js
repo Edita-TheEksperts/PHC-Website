@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         await sendAssignmentContractEmail(updated);
 
         // Send email to client (customer) about assignment acceptance
-        const { sendAssignmentAcceptedEmail } = await import("../../../src/lib/mailer.js");
+        const {sendAssignmentAcceptedEmail} = await import("../../../lib/mailer.js");
         await sendAssignmentAcceptedEmail({
           email: updated.user.email,
           firstName: updated.user.firstName,
