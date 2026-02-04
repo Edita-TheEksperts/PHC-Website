@@ -22,7 +22,6 @@ async function getTemplate(name, variables) {
 
   return { subject: template.subject, body };
 }
-
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
@@ -51,13 +50,9 @@ export default async function handler(req, res) {
       },
     });
 
+
     // Prevent duplicate contract emails: only send if not already confirmed
     if (action === "confirmed" && updated.confirmationStatus !== "confirmed") {
-
-    // =========================
-    // 📧 EMAILS (SAFE MODE)
-    // =========================
-    if (action === "confirmed") {
       try {
         const { sendAssignmentContractEmail } = await import("../../../lib/emailHelpers.js");
         await sendAssignmentContractEmail(updated);
