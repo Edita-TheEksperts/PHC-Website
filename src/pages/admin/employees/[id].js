@@ -298,69 +298,11 @@ const filteredTermine =
               <Item key={f.key} label={f.label} value={formatUrl(employee[f.key], f.label)} />
             ))}
           </Section>
-<Section title=" Führerschein & Fahrzeug">
-
-  {/* Edit Button */}
-  <div className="flex justify-end mb-2">
-    <button
-      onClick={() => {
-        setLicenseData({
-          hasLicense: employee.hasLicense ? "Ja" : "Nein",
-          licenseType: employee.licenseType || "",
-          hasCar: employee.hasCar ? "Ja" : "Nein",
-          carAvailableForWork: employee.carAvailableForWork ? "Ja" : "Nein",
-        });
-        setEditLicense(true);
-      }}
-      className="px-3 py-1 text-sm bg-[#04436F] text-white rounded hover:bg-yellow-600"
-    >
-      Bearbeiten
-    </button>
-  </div>
-
-  <Item label="Hat Lizenz" value={employee.hasLicense ? "Ja" : "Nein"} />
-  <Item label="Typ" value={employee.licenseType} />
-  <Item label="Hat Auto" value={employee.hasCar ? "Ja" : "Nein"} />
-  <Item label="Auto für Arbeit" value={employee.carAvailableForWork ? "Ja" : "Nein"} />
-</Section>
-
-<Section title="⚙️ Schulungen & Sprachen">
-
-  {/* Edit Button */}
-  <div className="flex justify-end mb-2">
-    <button
-      onClick={() => {
-        setSkillsData({
-     specialTrainings: Array.isArray(employee.specialTrainings)
-  ? employee.specialTrainings.join(", ")
-  : (employee.specialTrainings || ""),
-
 languages: Array.isArray(employee.languages)
-  ? employee.languages.join(", ")
-  : (employee.languages || ""),
-
 communicationTraits: Array.isArray(employee.communicationTraits)
-  ? employee.communicationTraits.join(", ")
-  : (employee.communicationTraits || ""),
-
 dietaryExperience: Array.isArray(employee.dietaryExperience)
-  ? employee.dietaryExperience.join(", ")
-  : (employee.dietaryExperience || ""),
 
-        });
-        setEditSkills(true);
-      }}
-      className="px-3 py-1 text-sm bg-[#04436F] text-white rounded hover:bg-yellow-600"
-    >
-      Bearbeiten
-    </button>
-  </div>
-
-  <Item label="Schulungen" value={(employee.specialTrainings || []).join(", ")} />
-  <Item label="Sprachen" value={(employee.languages || []).join(", ")} />
-  <Item label="Kommunikation" value={(employee.communicationTraits || []).join(", ")} />
-  <Item label="Ernährungserfahrung" value={(employee.dietaryExperience || []).join(", ")} />
-</Section>
+      {/* Removed Führerschein & Fahrzeug and Schulungen & Sprachen sections as they are not part of the funnel forms */}
 
         </div>
 

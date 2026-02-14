@@ -113,52 +113,6 @@ export default function EmployeesPage() {
 
   return (
     <AdminLayout>
-      <h1 className="text-2xl sm:text-3xl font-bold text-[#04436F] mb-6">
-       Alle Mitarbeiter
-      </h1>
-
-      {/* Add Employee Form */}
-      <form
-        onSubmit={handleAddEmployee}
-        className="mb-6 p-4 border rounded-lg bg-gray-50 flex flex-col lg:flex-row gap-4"
-      >
-        <input
-          type="text"
-          placeholder="Vorname"
-          value={newEmployee.firstName}
-          onChange={(e) =>
-            setNewEmployee({ ...newEmployee, firstName: e.target.value })
-          }
-          className="border p-2 rounded flex-1"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Nachname"
-          value={newEmployee.lastName}
-          onChange={(e) =>
-            setNewEmployee({ ...newEmployee, lastName: e.target.value })
-          }
-          className="border p-2 rounded flex-1"
-          required
-        />
-        <input
-          type="email"
-          placeholder="E-Mail"
-          value={newEmployee.email}
-          onChange={(e) =>
-            setNewEmployee({ ...newEmployee, email: e.target.value })
-          }
-          className="border p-2 rounded flex-1"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
-        >
-Mitarbeiter hinzufügen        </button>
-      </form>
-
       {/* Employee Table */}
       <EmployeeTable
         employees={employees}
