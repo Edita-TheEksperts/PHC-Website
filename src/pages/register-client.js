@@ -3844,7 +3844,7 @@ onChange={(date) => {
         pointerEvents: "auto", 
       }}
     >
-      Jetzt bezahlen & weiter
+      Jetzt buchen & weiter
     </button>
 
     {loading && (
@@ -3877,6 +3877,8 @@ onChange={(date) => {
   ref={summaryRef}
   className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6"
 >
+
+  <h2 className="text-lg font-semibold text-[#B99B5F] mb-2">Sie haben es bald geschafft, wir benötigen nur noch wenige Angaben.</h2>
   <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
   <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">

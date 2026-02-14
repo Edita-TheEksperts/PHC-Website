@@ -1281,7 +1281,22 @@ Info: z.B. Wochenende Milano oder 10 Tage Kreuzfahrt
   <h2 className="text-2xl font-bold text-[#04436F]">Abschluss</h2>
 
   {isSubmitted ? (
-    <div className="mt-4 p-4 bg-[#f1f1f1] text-[#04436F] rounded-lg shadow">
+    <div className="mt-4 p-4 bg-[#f1f1f1] text-[#04436F] rounded-lg shadow flex items-center gap-3">
+      {submissionMessage === "Dateien werden hochgeladen..." && (
+        <span className="inline-block align-middle">
+          <span className="loader mr-2" style={{
+            display: 'inline-block',
+            width: '22px',
+            height: '22px',
+            border: '3px solid #a6884a',
+            borderTop: '3px solid #f1f1f1',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            verticalAlign: 'middle',
+          }} />
+          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+        </span>
+      )}
       {submissionMessage}
     </div>
   ) : (
