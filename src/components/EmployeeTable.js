@@ -174,19 +174,28 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                       Details
                     </button>
                     <button
-                      onClick={() => handleSendDocument(emp, 'Auflösungschreiben')}
+                      onClick={() => {
+                        const confirmed = window.confirm("Sind Sie sicher, dass Sie diese Aktion durchführen möchten?");
+                        if (confirmed) handleSendDocument(emp, 'Auflösungschreiben');
+                      }}
                       className="bg-yellow-600 hover:bg-yellow-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
                     >
                       Auflösung
                     </button>
                     <button
-                      onClick={() => handleSendDocument(emp, 'KündigungMA')}
+                      onClick={() => {
+                        const confirmed = window.confirm("Sind Sie sicher, dass Sie diese Aktion durchführen möchten?");
+                        if (confirmed) handleSendDocument(emp, 'KündigungMA');
+                      }}
                       className="bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
                     >
                       Kündigung MA
                     </button>
                     <button
-                      onClick={() => handleSendDocument(emp, 'KündigungMAFristlos')}
+                      onClick={() => {
+                        const confirmed = window.confirm("Sind Sie sicher, dass Sie diese Aktion durchführen möchten?");
+                        if (confirmed) handleSendDocument(emp, 'KündigungMAFristlos');
+                      }}
                       className="bg-red-800 hover:bg-red-900 text-white px-2 py-1 rounded-md text-xs font-medium shadow-sm"
                     >
                       Fristlos

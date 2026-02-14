@@ -1132,28 +1132,22 @@ Finanzen             </li>
                   </span>
                 </div>
 
+
                 {item.date && (
                   <p className="flex items-center gap-2 text-xs text-gray-600">
                     <Clock className="w-4 h-4 text-[#B99B5F]" />
-                    {new Date(item.date).toLocaleDateString("de-DE", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
+                    {`
+                      ${new Date(item.date).toLocaleDateString("de-DE", {
+                        weekday: "long",
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric"
+                      })}
+                      · ${item.startTime || "--:--"}
+                      · ${item.hours || 0} Std
+                    `.replace(/\s+/g, ' ').trim()}
                   </p>
                 )}
-
-                <div className="flex items-center gap-4 text-xs text-gray-600">
-                  <span className="flex items-center gap-2">
-                    <AlarmClock className="w-4 h-4 text-[#B99B5F]" />{" "}
-                    {item.startTime}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Hourglass className="w-4 h-4 text-[#B99B5F]" />{" "}
-                    {item.hours} Std
-                  </span>
-                </div>
 
                 {item.serviceName && (
                   <p className="text-xs text-gray-600">
