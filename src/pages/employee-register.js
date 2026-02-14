@@ -248,6 +248,7 @@ if (step === 1) {
   if (!form.zipCode) newErrors.zipCode = "PLZ ist erforderlich.";
   if (!form.city) newErrors.city = "Ort ist erforderlich.";
   if (!form.country) newErrors.country = "Land ist erforderlich.";
+  // Kanton ist kein Mussfeld
 }
 if (step === 2) {
   if (!form.residencePermit) {
@@ -426,8 +427,8 @@ await fetch("/api/send-interview-email", {
     if (!res.ok) throw new Error("API error");
 
  setSubmissionMessage(
-  `Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen. Zu beachten: Der Login Bereich wird nach Bestätigung durch die PHC freigeschaltet.`
-);
+  `Vielen Dank für Ihre Bewerbung bei der Prime Home Care AG. Wir haben Ihre Unterlagen erfolgreich erhalten und werden diese sorgfältig prüfen. Wir melden uns so bald wie möglich mit weiteren Informationen bei Ihnen.`
+ );
 
 
     
@@ -680,9 +681,7 @@ useEffect(() => {
         </option>
       ))}
     </select>
-    {errors.canton && form.canton && (
-      <p className="text-red-600 text-sm mt-1">{errors.canton}</p>
-    )}
+    {/* Kanton ist kein Mussfeld, daher keine Fehleranzeige */}
   </div>
 
 
@@ -873,9 +872,7 @@ useEffect(() => {
         );
       })}
     </div>
-    {errors.desiredWeeklyHours && (
-      <p className="text-red-600 text-sm mt-2">{errors.desiredWeeklyHours}</p>
-    )}
+    {/* Wie viele Stunden pro Woche ist kein Mussfeld, daher keine Fehleranzeige */}
   </div>
 
   <label className="block font-medium mb-1">
@@ -1177,7 +1174,10 @@ Info: z.B. Wochenende Milano oder 10 Tage Kreuzfahrt
     >
       <label className="text-sm font-medium text-gray-700">
         {field.label}{" "}
-        {field.required && <span className="text-red-500">*</span>}
+        {/* Zeige Stern nur, wenn Feld required ist und nicht bei CH Pass */}
+        {field.required && !(field.hideIfCHPass && form.residencePermit === "CH Pass") && (
+          <span className="text-red-500">*</span>
+        )}
       </label>
 
       <input
