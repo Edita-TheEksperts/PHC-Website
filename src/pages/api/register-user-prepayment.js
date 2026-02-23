@@ -82,7 +82,7 @@ export default async function handler(req, res) {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://phc.ch";
       // Generate a simple token (for demo; in production, use a secure, DB-stored token)
       const token = Math.random().toString(36).substring(2, 15);
-      const passwordLink = `${baseUrl}/setpassword?token=${token}`;
+      const passwordLink = `${baseUrl}/forgot-password`;
 
       const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
