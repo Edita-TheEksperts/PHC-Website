@@ -1,65 +1,19 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { Menu, X } from "lucide-react"
+
+// Simple read-only field renderer
+function Field({ label, value }) {
+  return (
+    <div className="flex flex-col border-b border-gray-100 pb-2 mb-2">
+      <span className="font-semibold text-gray-700">{label}</span>
+      <span className="text-gray-900 whitespace-pre-line">{value || "-"}</span>
+    </div>
+  )
+}
 
 export default function FormularPage() {
   const [userData, setUserData] = useState(null)
-const [editData, setEditData] = useState({
-  // BASIC
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  address: "",
-  postalCode: "",
-  frequency: "",
-
-  // EMERGENCY
-  emergencyContactName: "",
-  emergencyContactPhone: "",
-
-  // CARE / LOCATION
-  city: "",
-  careStreet: "",
-  carePhone: "",
-  carePostalCode: "",
-  hasParking: "Nein",
-  arrivalConditions: "",
-  careEntrance: "",
-  careEntranceDetails: "",
-
-  // PERSONAL
-  languages: "",
-  hasPets: "Nein",
-  hasAllergies: "Nein",
-  allergyDetails: "",
-  behaviorTraits: "",
-
-  // HEALTH
-  healthFindings: "",
-  mobilityAids: "",
-  physicalState: "",
-  mentalDiagnoses: "",
-  incontinenceTypes: "",
-services: [],
-subServices: [],
-
-  // HOUSEHOLD
-  householdPeople: "",
-  householdRooms: "",
-
-  // EXTRA
-  additionalNotes: "",
-  shoppingWithClient: "",
-  transport: "",
-  outings: "",
-  reads: "",
-  playsCards: "",
-})
-
-
   const [loading, setLoading] = useState(true)
-  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -74,54 +28,6 @@ subServices: [],
 
         const data = await res.json()
         setUserData(data)
-
-setEditData({
-  firstName: data.firstName || "",
-  lastName: data.lastName || "",
-  email: data.email || "",
-  phone: data.phone || "",
-  address: data.address || "",
-  postalCode: data.postalCode || "",
-  frequency: data.frequency || "",
-
-  emergencyContactName: data.emergencyContactName || "",
-  emergencyContactPhone: data.emergencyContactPhone || "",
-services: data.services || [],
-subServices: data.subServices || [],
-
-  city: data.careCity || "",
-  careStreet: data.careStreet || "",
-  carePhone: data.carePhone || "",
-  carePostalCode: data.carePostalCode || "",
-  hasParking: data.careHasParking || "Nein",
-  arrivalConditions: data.careArrivalConditions || "",
-  careEntrance: data.careEntrance || "",
-  careEntranceDetails: data.careEntranceDetails || "",
-
-  languages: data.languages || "",
-  hasPets: data.pets || "Nein",
-  hasAllergies: data.hasAllergies || "Nein",
-  allergyDetails: data.allergyDetails || "",
-  behaviorTraits: data.behaviorTraits || "",
-
-  healthFindings: data.healthFindings || "",
-  mobilityAids: data.mobilityAids || "",
-  physicalState: data.physicalState || "",
-  mentalDiagnoses: data.mentalDiagnoses || "",
-  incontinenceTypes: data.incontinenceTypes || "",
-
-  householdPeople: data.householdPeople || "",
-  householdRooms: data.householdRooms || "",
-
-  additionalNotes: data.specialRequests || "",
-  shoppingWithClient: data.shoppingWithClient || "",
-  transport: data.transport || "",
-  outings: data.outings || "",
-  reads: data.reads || "",
-  playsCards: data.playsCards || "",
-})
-
-
       } catch (err) {
         console.error(err)
       } finally {
@@ -131,25 +37,6 @@ subServices: data.subServices || [],
 
     fetchUserData()
   }, [router])
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setEditData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSave = async () => {
-    try {
-      const res = await fetch("/api/updateFormularData", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: userData.id, ...editData }),
-      })
-
-      res.ok ? alert("✅ Gespeichert") : alert("❌ Fehler")
-    } catch (err) {
-      console.error(err)
-    }
-  }
 
   if (loading) {
     return (
@@ -161,7 +48,6 @@ subServices: data.subServices || [],
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-
       {/* SIDEBAR */}
       <aside className="hidden lg:flex w-72 bg-[#B99B5F] text-white flex-col p-6">
         <h1
@@ -172,179 +58,121 @@ subServices: data.subServices || [],
         </h1>
 
         <ul className="space-y-6 text-lg">
-          <li onClick={() => router.push("/client-dashboard")}>Dashboard</li>
-          <li onClick={() => router.push("/dashboard/formular")}>
+          <li
+            onClick={() => router.push("/client-dashboard")}
+            className="cursor-pointer hover:text-[#A6884A] transition"
+          >
+            Dashboard
+          </li>
+
+          <li
+            onClick={() => router.push("/dashboard/formular")}
+            className="cursor-pointer hover:text-[#A6884A] transition"
+          >
             Persönliche Informationen
           </li>
 
-                                     <li
-                onClick={() => {
-                  router.push("/dashboard/finanzen");
-                  setIsOpen(false);
-                }}
-                className="text-lg font-medium hover:text-[#A6884A] cursor-pointer transition"
-              >
-                Finanzen
-              </li>
-                           <li
-                onClick={() => {
-                  router.push("/dashboard/kundigung");
-                  setIsOpen(false);
-                }}
-                className="cursor-pointer hover:text-red-400"
-              >
-                Kündigung
-              </li>
+          <li
+            onClick={() => router.push("/dashboard/finanzen")}
+            className="cursor-pointer hover:text-[#A6884A] transition"
+          >
+            Finanzen
+          </li>
 
+          <li
+            onClick={() => router.push("/dashboard/kundigung")}
+            className="cursor-pointer hover:text-red-400 transition"
+          >
+            Kündigung
+          </li>
         </ul>
       </aside>
 
       {/* MAIN */}
       <main className="flex-1 pt-12 px-6">
-        <div className="max-w-5xl">
+        <div className="max-w-5xl mx-auto">
           <div className="bg-white rounded-3xl shadow-lg p-8">
             <h2 className="text-4xl font-bold mb-10 border-b pb-4">
               Persönliche Daten
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {!userData ? (
+              <div className="text-gray-600">Keine Daten gefunden.</div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* BASIC */}
+                <Field label="Vorname" value={userData.firstName} />
+                <Field label="Nachname" value={userData.lastName} />
+                <Field label="E-Mail" value={userData.email} />
+                <Field label="Telefon" value={userData.phone} />
+                <Field label="Adresse" value={userData.address} />
+                <Field label="PLZ" value={userData.postalCode} />
+                <Field label="Stadt" value={userData.careCity || userData.city} />
+                <Field label="Häufigkeit" value={userData.frequency} />
 
-              <Input label="Vorname" name="firstName" value={editData.firstName} onChange={handleChange} />
-              <Input label="Nachname" name="lastName" value={editData.lastName} onChange={handleChange} />
-              <Input label="E-Mail" name="email" value={editData.email} onChange={handleChange} />
-              <Input label="Telefon" name="phone" value={editData.phone} onChange={handleChange} />
-              <Input label="Adresse" name="address" value={editData.address} onChange={handleChange} />
-              <Input label="PLZ" name="postalCode" value={editData.postalCode} onChange={handleChange} />
-              <Input label="Stadt" name="city" value={editData.city} onChange={handleChange} />
-<div className="flex flex-col">
-  <label className="font-semibold mb-2">Services</label>
+                {/* EMERGENCY */}
+                <Field label="Notfall Kontakt Name" value={userData.emergencyContactName} />
+                <Field label="Notfall Kontakt Telefon" value={userData.emergencyContactPhone} />
 
-  {editData.services.length === 0 ? (
-    <p className="text-gray-400">Keine Services</p>
-  ) : (
-    <ul className="list-disc pl-5 space-y-1">
-      {editData.services.map((s) => (
-        <li key={s.id}>{s.name}</li>
-      ))}
-    </ul>
-  )}
-</div>
+                {/* CARE */}
+                <Field label="Pflege Telefon" value={userData.carePhone} />
+                <Field label="Pflege Straße" value={userData.careStreet} />
+                <Field label="Pflege PLZ" value={userData.carePostalCode} />
+                <Field label="Parkplatz vorhanden?" value={userData.careHasParking} />
+                <Field label="Ankunftsbedingungen" value={userData.careArrivalConditions} />
+                <Field label="Eingang" value={userData.careEntrance} />
+                <Field label="Eingang Details" value={userData.careEntranceDetails} />
 
+                {/* PERSONAL */}
+                <Field label="Sprachen" value={userData.languages} />
+                <Field label="Haustiere?" value={userData.pets} />
+                <Field label="Allergien?" value={userData.hasAllergies} />
+                {userData.hasAllergies === "Ja" && (
+                  <Field label="Allergie Details" value={userData.allergyDetails} />
+                )}
+                <Field label="Verhalten" value={userData.behaviorTraits} />
 
-<div className="flex flex-col">
-  <label className="font-semibold mb-2">Subservices</label>
+                {/* HEALTH */}
+                <Field label="Gesundheitliche Hinweise" value={userData.healthFindings} />
+                <Field label="Hilfsmittel" value={userData.mobilityAids} />
+                <Field label="Körperlicher Zustand" value={userData.physicalState} />
+                <Field label="Mentale Diagnosen" value={userData.mentalDiagnoses} />
+                <Field label="Inkontinenz Typen" value={userData.incontinenceTypes} />
 
-  {editData.subServices.length === 0 ? (
-    <p className="text-gray-400">Keine Subservices</p>
-  ) : (
-    <ul className="list-disc pl-5 space-y-1">
-      {editData.subServices.map((s) => (
-        <li key={s.id}>{s.name}</li>
-      ))}
-    </ul>
-  )}
-</div>
+                {/* HOUSEHOLD */}
+                <Field label="Personen im Haushalt" value={userData.householdPeople} />
+                <Field label="Zimmer Anzahl" value={userData.householdRooms} />
 
+                {/* EXTRA */}
+                <Field label="Zusätzliche Hinweise" value={userData.specialRequests} />
+                <Field label="Einkaufen mit Klient" value={userData.shoppingWithClient} />
+                <Field label="Transport" value={userData.transport} />
+                <Field label="Ausflüge" value={userData.outings} />
+                <Field label="Lesen" value={userData.reads} />
+                <Field label="Kartenspiele" value={userData.playsCards} />
 
-              <Input label="Notfall Kontakt Name" name="emergencyContactName" value={editData.emergencyContactName} onChange={handleChange} />
-
-<Input label="Notfall Kontakt Telefon" name="emergencyContactPhone" value={editData.emergencyContactPhone} onChange={handleChange} />
-
-<Input label="Pflege Telefon" name="carePhone" value={editData.carePhone} onChange={handleChange} />
-
-<Input label="Straße" name="careStreet" value={editData.careStreet} onChange={handleChange} />
-
-<Input label="Personen im Haushalt" name="householdPeople" value={editData.householdPeople} onChange={handleChange} />
-
-<Input label="Zimmer Anzahl" name="householdRooms" value={editData.householdRooms} onChange={handleChange} />
-
-<Textarea label="Hilfsmittel" name="mobilityAids" value={editData.mobilityAids} onChange={handleChange} />
-
-<Textarea label="Körperlicher Zustand" name="physicalState" value={editData.physicalState} onChange={handleChange} />
-<Textarea label="Mentale Diagnosen" name="mentalDiagnoses" value={editData.mentalDiagnoses} onChange={handleChange} />
-
-<Textarea label="Inkontinenz Typen" name="incontinenceTypes" value={editData.incontinenceTypes} onChange={handleChange} />
-
-<Textarea label="Einkaufen mit Klient" name="shoppingWithClient" value={editData.shoppingWithClient} onChange={handleChange} />
-
-<Textarea label="Transport" name="transport" value={editData.transport} onChange={handleChange} />
-
-<Textarea label="Ausflüge" name="outings" value={editData.outings} onChange={handleChange} />
-
-<Textarea label="Lesen" name="reads" value={editData.reads} onChange={handleChange} />
-
-<Textarea label="Kartenspiele" name="playsCards" value={editData.playsCards} onChange={handleChange} />
-
-
-
-              <Select label="Parkplatz vorhanden?" name="hasParking" value={editData.hasParking} onChange={handleChange} />
-
-              <Select label="Haustiere?" name="hasPets" value={editData.hasPets} onChange={handleChange} />
-
-              <Select label="Allergien?" name="hasAllergies" value={editData.hasAllergies} onChange={handleChange} />
-
-              {editData.hasAllergies === "Ja" && (
-                <Input
-                  label="Allergie Details"
-                  name="allergyDetails"
-                  value={editData.allergyDetails}
-                  onChange={handleChange}
+                {/* SERVICES */}
+                <Field
+                  label="Services"
+                  value={
+                    Array.isArray(userData.services) && userData.services.length > 0
+                      ? userData.services.map((s) => s.name).join(", ")
+                      : "Keine Services"
+                  }
                 />
-              )}
-
-              <Textarea label="Ankunftsbedingungen" name="arrivalConditions" value={editData.arrivalConditions} onChange={handleChange} />
-
-              <Textarea label="Sprachen (z.B. Deutsch, Englisch)" name="languages" value={editData.languages} onChange={handleChange} />
-
-              <Textarea label="Verhalten" name="behaviorTraits" value={editData.behaviorTraits} onChange={handleChange} />
-
-              <Textarea label="Gesundheitliche Hinweise" name="healthFindings" value={editData.healthFindings} onChange={handleChange} />
-
-              <Textarea label="Zusätzliche Hinweise" name="additionalNotes" value={editData.additionalNotes} onChange={handleChange} />
-
-            </div>
-
-            <button
-              onClick={handleSave}
-              className="mt-10 bg-[#B99B5F] text-white px-8 py-3 rounded-lg hover:bg-[#a6884a]"
-            >
-              Speichern
-            </button>
+                <Field
+                  label="Subservices"
+                  value={
+                    Array.isArray(userData.subServices) && userData.subServices.length > 0
+                      ? userData.subServices.map((s) => s.name).join(", ")
+                      : "Keine Subservices"
+                  }
+                />
+              </div>
+            )}
           </div>
         </div>
       </main>
-    </div>
-  )
-}
-
-/* COMPONENTS */
-
-function Input({ label, ...props }) {
-  return (
-    <div className="flex flex-col">
-      <label className="font-semibold mb-1">{label}</label>
-      <input {...props} className="border rounded px-3 py-2" />
-    </div>
-  )
-}
-
-function Textarea({ label, ...props }) {
-  return (
-    <div className="flex flex-col md:col-span-2">
-      <label className="font-semibold mb-1">{label}</label>
-      <textarea {...props} rows="3" className="border rounded px-3 py-2" />
-    </div>
-  )
-}
-
-function Select({ label, ...props }) {
-  return (
-    <div className="flex flex-col">
-      <label className="font-semibold mb-1">{label}</label>
-      <select {...props} className="border rounded px-3 py-2">
-        <option value="Nein">Nein</option>
-        <option value="Ja">Ja</option>
-      </select>
     </div>
   )
 }
