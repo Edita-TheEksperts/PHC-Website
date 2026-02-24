@@ -227,6 +227,8 @@ export default async function handler(req, res) {
           day: s.day,
           startTime: s.startTime,
           hours: Number(s.hours),
+          serviceName: s.serviceName || null,
+          subServiceName: s.subServiceName || null,
         })),
       });
     } catch (error) {

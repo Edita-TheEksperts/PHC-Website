@@ -370,14 +370,17 @@ if (!token && step !== "done" && step !== "payment") {
       }
 
       // 3. Save appointment after successful payment
+      // Debug: Log the payload before sending
+      const bookingPayload = {
+        ...pendingBooking,
+        email: userData.email,
+        paymentIntentId: paymentIntent.id,
+      };
+      console.log("[DEBUG] Booking payload:", bookingPayload);
       const saveRes = await fetch("/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...pendingBooking,
-          email: userData.email,
-          paymentIntentId: paymentIntent.id,
-        }),
+        body: JSON.stringify(bookingPayload),
       });
 
       if (saveRes.ok) {
@@ -928,7 +931,10 @@ Finanzen             </li>
 
                   {/* Details */}
                   <button
-                    onClick={() => setSelectedAppointment(appt)}
+                    onClick={() => {
+                      const freshAppt = appointments.find(a => a.id === appt.id);
+                      setSelectedAppointment(freshAppt || appt);
+                    }}
                     className="flex-1 px-4 py-2 text-xs font-medium text-[#04436F] 
                       bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100"
                   >
@@ -1541,6 +1547,8 @@ selected={
                     update: {
                       date: editData.date,
                       startTime: editData.startTime,
+                      serviceName:serviceName,
+                      subServiceName: subServiceName,
                     },
                   }),
                 });
@@ -1548,7 +1556,7 @@ selected={
                 setAppointments((prev) =>
                   prev.map((a) =>
                     a.id === selectedAppointment.id
-                      ? { ...a, ...editData }
+                      ? { ...a, ...editData, serviceName: serviceName, subServiceName: subServiceName }
                       : a
                   )
                 );

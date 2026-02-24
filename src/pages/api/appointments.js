@@ -36,6 +36,8 @@ if (req.method === "GET") {
         status: true,
       },
     });
+    // Debug: Log what is fetched from DB
+    console.log("[DEBUG] schedules from DB:", schedules);
 
     const formatted = schedules.map((s) => ({
       ...s,
@@ -56,6 +58,8 @@ if (req.method === "GET") {
         return res.status(400).json({ error: "Missing request body" });
       }
       console.log("📩 POST /appointments body:", req.body);
+      // Debug: Log service and subService specifically
+      console.log("[DEBUG] service:", req.body.service, "subService:", req.body.subService);
 
       const { date, time, service, subService, userId, hours } = req.body;
 
