@@ -135,9 +135,7 @@ export async function createContractPdf(employee) {
     doc.moveDown(1);
     doc.text("Prime Home Care AG, Birkenstrasse 49, 6343 Rotkreuz\tArbeitgeberin");
     doc.moveDown(1);
-    doc.text("und");
-    doc.moveDown(1);
-    doc.text(`${fullName}, ${fullAddress}\tArbeitnehmer`);
+    doc.text(`und ${fullName}, ${fullAddress}\tArbeitnehmer`);
     doc.moveDown(2);
     doc.text("Betreffend gelegentliche Arbeitsleistungen in unechter Arbeit auf Abruf evtl. Teilzeitarbeit.");
     doc.moveDown(1);
