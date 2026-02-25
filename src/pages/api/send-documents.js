@@ -5,10 +5,25 @@ import nodemailer from "nodemailer";
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { employee, documentType } = req.body;
+  const { employee: employeeInput, documentType } = req.body;
 
-  if (!employee?.email || !documentType) {
-    return res.status(400).json({ success: false, error: "Missing employee or documentType" });
+  if (!employeeInput?.id || !documentType) {
+    return res.status(400).json({ success: false, error: "Missing employee id or documentType" });
+  }
+
+  // Fetch employee from DB to ensure latest data
+  let employee;
+  try {
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    employee = await prisma.employee.findUnique({
+      where: { id: employeeInput.id },
+    });
+    if (!employee) {
+      return res.status(404).json({ success: false, error: "Employee not found" });
+    }
+  } catch (dbError) {
+    return res.status(500).json({ success: false, error: "Database error: " + dbError.message });
   }
 
   const contentMap = {
@@ -123,7 +138,7 @@ export default async function handler(req, res) {
     const nachname = employee.lastName || "[Nachname]";
     const vorname = employee.firstName || "[Vorname]";
     const adresse = employee.address || "[Adresse]";
-    const plz = employee.zip || "[PLZ]";
+    const plz = employee.zipCode || "[PLZ]";
     // Header
     doc.image("public/images/phc_logo.png", 220, 30, { width: 150 }).moveDown(3);
     // Address block
