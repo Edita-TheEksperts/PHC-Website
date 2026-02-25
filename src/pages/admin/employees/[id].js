@@ -298,9 +298,11 @@ const filteredTermine =
               <Item key={f.key} label={f.label} value={formatUrl(employee[f.key], f.label)} />
             ))}
           </Section>
-languages: Array.isArray(employee.languages)
-communicationTraits: Array.isArray(employee.communicationTraits)
-dietaryExperience: Array.isArray(employee.dietaryExperience)
+<Section title="Fähigkeiten & Erfahrungen">
+  <Item label="Sprachen" value={Array.isArray(employee.languages) && employee.languages.length > 0 ? employee.languages.join(", ") : "—"} />
+  <Item label="Kommunikationsmerkmale" value={Array.isArray(employee.communicationTraits) && employee.communicationTraits.length > 0 ? employee.communicationTraits.join(", ") : "—"} />
+  <Item label="Erfahrung mit Ernährung" value={Array.isArray(employee.dietaryExperience) && employee.dietaryExperience.length > 0 ? employee.dietaryExperience.join(", ") : "—"} />
+</Section>
 
       {/* Removed Führerschein & Fahrzeug and Schulungen & Sprachen sections as they are not part of the funnel forms */}
 
