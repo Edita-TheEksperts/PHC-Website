@@ -19,6 +19,7 @@ export default async function handler(req, res) {
         status: true,
         invited: true,
         createdAt: true,
+         documentStatus: true,
       },
       orderBy: { createdAt: "desc" },
     });

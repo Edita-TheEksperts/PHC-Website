@@ -249,6 +249,7 @@ model Employee {
   status               String             @default("pending")
   createdAt            DateTime           @default(now())
   bodyCareSupport      String?
+  documentStatus       String?            @default("not_sent")
   carAvailableForWork  String?
   city                 String?
   communicationTraits  String[]

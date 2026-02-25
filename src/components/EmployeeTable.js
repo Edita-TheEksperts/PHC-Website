@@ -150,6 +150,7 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
               <th className="p-3 text-left">E-Mail</th>
               <th className="p-3 text-left">Telefon</th>
               <th className="p-3 text-left">Status</th>
+              <th className="p-3 text-left">Dokumentenstatus</th>
               <th className="p-3 text-left">Aktionen</th>
             </tr>
           </thead>
@@ -164,7 +165,9 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
                 <td className="p-3 capitalize font-semibold">
                   {statusLabels[emp.status] || emp.status}
                 </td>
-
+                <td className="p-3 capitalize font-semibold">
+                  {emp.documentStatus || "—"}
+                </td>
                 <td className="p-2">
                   <div className="flex flex-wrap gap-1">
                     <button
@@ -224,6 +227,12 @@ export default function EmployeeTable({ employees, onApprove, onReject, onInvite
               <span className="font-semibold">Status:</span>{" "}
               <span className="capitalize font-semibold">
                 {statusLabels[emp.status] || emp.status}
+              </span>
+            </p>
+            <p>
+              <span className="font-semibold">Dokumentenstatus:</span>{" "}
+              <span className="capitalize font-semibold">
+                {emp.documentStatus || "—"}
               </span>
             </p>
             <p>

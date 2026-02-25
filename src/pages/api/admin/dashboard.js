@@ -10,12 +10,12 @@ async function fetchEmployees() {
       firstName: true,
       lastName: true,
       email: true,
-      phone: true,          // ✅ ekziston
+      phone: true,
       status: true,
       invited: true,
-      createdAt: true,      // ✅ SHTO KËTË
+      createdAt: true,
       howDidYouHearAboutUs: true,
-
+      documentStatus: true,
       assignments: {
         select: {
           status: true,
@@ -32,7 +32,6 @@ async function fetchEmployees() {
           },
         },
       },
-
       schedules: {
         select: {
           id: true,

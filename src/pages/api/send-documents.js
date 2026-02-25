@@ -10,8 +10,9 @@ export default async function handler(req, res) {
   if (!employee?.email || !documentType) {
     return res.status(400).json({ success: false, error: "Missing employee or documentType" });
   }
-const contentMap = {
-  Auflösungschreiben: (employee) => `
+
+  const contentMap = {
+    Auflösungschreiben: (employee) => `
 <html>
   <body style="font-family: Arial, sans-serif; color: #222; font-size: 15px; line-height: 1.6;">
     <p>Grüezi ${employee.firstName} ${employee.lastName},</p>
@@ -34,7 +35,7 @@ const contentMap = {
   </body>
 </html>
 `,
-  KündigungMA: (employee) => `
+    KündigungMA: (employee) => `
 <html>
   <body style="font-family: Arial, sans-serif; color: #222; font-size: 15px; line-height: 1.6;">
     <p>Grüezi ${employee.firstName} ${employee.lastName},</p>
@@ -58,7 +59,7 @@ const contentMap = {
 </html>
 `,
 
-  KündigungMAFristlos: (employee) => `
+    KündigungMAFristlos: (employee) => `
 <html>
   <body style="font-family: Arial, sans-serif; color: #222; font-size: 15px; line-height: 1.6;">
     <p>Grüezi ${employee.firstName} ${employee.lastName},</p>
@@ -80,8 +81,8 @@ const contentMap = {
     </p>
   </body>
 </html>
-`
-};
+`,
+  };
 
   const subjectMap = {
     Auflösungschreiben: "Ihr Auflösungsschreiben",
@@ -96,10 +97,27 @@ const contentMap = {
   const textContent = contentMap[documentType](employee);
   const subject = subjectMap[documentType];
 
+  // Convert HTML -> plain text fallback (so email looks normal even if client shows text-only)
+  function stripHtml(html) {
+    if (!html) return "";
+    return html
+      .replace(/<\s*br\s*\/?\s*>/gi, "\n")
+      .replace(/<\/p\s*>/gi, "\n\n")
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
   // Generate PDF with custom content for each document type
   function generatePdfContent(doc, employee, documentType) {
     const today = new Date();
-    const datum = today.toLocaleDateString('de-CH');
+    const datum = today.toLocaleDateString("de-CH");
     const ort = employee.city || "[Ort]";
     const kuendigungsdatum = employee.terminationDate || "[Kündigungsdatum]";
     const nachname = employee.lastName || "[Nachname]";
@@ -107,34 +125,37 @@ const contentMap = {
     const adresse = employee.address || "[Adresse]";
     const plz = employee.zip || "[PLZ]";
     // Header
-    doc.image('public/images/phc_logo.png', 220, 30, { width: 150 }).moveDown(3);
+    doc.image("public/images/phc_logo.png", 220, 30, { width: 150 }).moveDown(3);
     // Address block
-    doc.fillColor('red').fontSize(12).text(`${vorname} ${nachname} Mitarbeiter/in\n\n${adresse}\n\n${plz} ${ort}\n\n\n`, { align: 'left' });
-    doc.fillColor('black');
+    doc
+      .fillColor("red")
+      .fontSize(12)
+      .text(`${vorname} ${nachname} Mitarbeiter/in\n\n${adresse}\n\n${plz} ${ort}\n\n\n`, { align: "left" });
+    doc.fillColor("black");
     doc.text(`${ort}, ${datum}\n\n`);
     // Title and salutation
-    if (documentType === 'Auflösungschreiben') {
-      doc.fontSize(14).text('Auflösung des Arbeitsverhältnisses', { bold: true }).moveDown();
-      doc.fontSize(12).fillColor('red').text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
-      doc.fillColor('black').text(
+    if (documentType === "Auflösungschreiben") {
+      doc.fontSize(14).text("Auflösung des Arbeitsverhältnisses", { bold: true }).moveDown();
+      doc.fontSize(12).fillColor("red").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
+      doc.fillColor("black").text(
         `Hiermit bestätigen wir Ihnen die Auflösung Ihres Arbeitsverhältnisses mit der Prime Home Care AG.\n\nDas Arbeitsverhältnis endet per ${kuendigungsdatum} im gegenseitigen Einverständnis. Sämtliche bis zu diesem Zeitpunkt bestehenden Ansprüche (inkl. Lohn, Ferien- und Überzeitguthaben) werden entsprechend den gesetzlichen Vorgaben und unseren Vereinbarungen abgerechnet.\n\nWir bitten Sie, allfällige Arbeitsmaterialien und Unterlagen bis spätestens zu Ihrem letzten Arbeitstag an Ihrem Einsatzort zu deponieren.\n\nWir bedanken uns herzlich für Ihre Mitarbeit und wünschen Ihnen für Ihre berufliche wie auch private Zukunft alles Gute.\n\nFreundliche Grüsse\nPrime Home Care AG\n\nKündigungsdatum, Digitale Unterschrift`
       );
-    } else if (documentType === 'KündigungMA') {
-      doc.fontSize(14).text('Kündigung des Arbeitsverhältnisses', { bold: true }).moveDown();
-      doc.fontSize(12).fillColor('red').text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
-      doc.fillColor('black').text(
+    } else if (documentType === "KündigungMA") {
+      doc.fontSize(14).text("Kündigung des Arbeitsverhältnisses", { bold: true }).moveDown();
+      doc.fontSize(12).fillColor("red").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
+      doc.fillColor("black").text(
         `Wir teilen Ihnen hiermit mit, dass das Arbeitsverhältnis mit der Prime Home Care AG ordentlich und fristgerecht per ${kuendigungsdatum} endet. Die gesetzlich gültige Kündigungsfrist wurde dabei automatisch berücksichtigt.\n\nBis zum Beendigungsdatum bleiben alle bisherigen Vereinbarungen bestehen.\n\nBitte geben Sie alle Arbeitsmaterialien und gegebenenfalls ausgehändigte Schlüssel spätestens an Ihrem letzten Arbeitstag zurück.\n\nWir machen Sie darauf aufmerksam, dass Sie noch 31 Tage ab dem letzten Arbeitstag gegen Nichtberufsunfälle versichert sind. Nach dem Ablauf dieser 31 Tage geniessen Sie keine Unfalldeckung mehr. Es besteht die Möglichkeit bei der SUVA eine Abredeversicherung abzuschliessen.\n\nWir bedanken uns herzlich für Ihre Mitarbeit und wünschen Ihnen für Ihre berufliche wie auch private Zukunft alles Gute.\n\nFreundliche Grüsse\nPrime Home Care AG\n\n${kuendigungsdatum} Digitale Unterschrift`
       );
-    } else if (documentType === 'KündigungMAFristlos') {
-      doc.fontSize(14).text('Kündigung des Arbeitsverhältnisses', { bold: true }).moveDown();
-      doc.fontSize(12).fillColor('red').text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
-      doc.fillColor('black').text(
+    } else if (documentType === "KündigungMAFristlos") {
+      doc.fontSize(14).text("Kündigung des Arbeitsverhältnisses", { bold: true }).moveDown();
+      doc.fontSize(12).fillColor("red").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
+      doc.fillColor("black").text(
         `Hiermit beenden wir das Arbeitsverhältnis mit der Prime Home Care AG mit sofortiger Wirkung.\n\nDiese Entscheidung wurde aufgrund einer schwerwiegenden Situation getroffen, die eine Fortsetzung des Arbeitsverhältnisses unzumutbar macht. Das Arbeitsverhältnis endet deshalb per sofort.\n\nBitte geben Sie sämtliche Arbeitsmaterialien und ausgehändigte Schlüssel umgehend zurück.\n\nWir machen Sie darauf aufmerksam, dass Sie noch 31 Tage ab dem letzten Arbeitstag gegen Nichtberufsunfälle versichert sind. Nach dem Ablauf dieser 31 Tage geniessen Sie keine Unfalldeckung mehr. Es besteht die Möglichkeit bei der SUVA eine Abredeversicherung abzuschliessen.\n\nWir danken Ihnen für die bisherige Zusammenarbeit und wünschen Ihnen für die Zukunft alles Gute.\n\nFreundliche Grüsse\nPrime Home Care AG\n\n${kuendigungsdatum} Digitale Unterschrift`
       );
     }
     // Footer
     doc.moveDown(2);
-    doc.fontSize(10).fillColor('gray').text('Prime Home Care AG – info@phc.ch – www.phc.ch', { align: 'center' });
+    doc.fontSize(10).fillColor("gray").text("Prime Home Care AG – info@phc.ch – www.phc.ch", { align: "center" });
   }
 
   const pdfBuffer = await new Promise((resolve, reject) => {
@@ -167,7 +188,10 @@ const contentMap = {
       from: `"PHC Personalabteilung" <${process.env.SMTP_USER}>`,
       to: employee.email, // ✅ send directly to employee
       subject,
-      text: textContent,
+      // ✅ This makes it display like a normal email in HTML-capable clients
+      html: textContent,
+      // ✅ This makes it display like a normal email in text-only clients
+      text: stripHtml(textContent),
       attachments: [
         {
           filename: `${documentType}.pdf`,
@@ -176,7 +200,20 @@ const contentMap = {
       ],
     });
 
-    res.status(200).json({ success: true });
+    // Update employee documentStatus to the sent document type in DB after successful email send
+    let updatedEmployee = null;
+    try {
+      const { PrismaClient } = await import('@prisma/client');
+      const prisma = new PrismaClient();
+      updatedEmployee = await prisma.employee.update({
+        where: { id: employee.id },
+        data: { documentStatus: documentType },
+      });
+    } catch (dbError) {
+      // Log DB error but do not fail the email send
+      console.error('DB update error:', dbError);
+    }
+    res.status(200).json({ success: true, documentStatus: updatedEmployee?.documentStatus || documentType });
   } catch (error) {
     console.error("Mail error:", error);
     res.status(500).json({ success: false, error: error.message });
