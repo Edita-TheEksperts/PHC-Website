@@ -260,7 +260,7 @@ export default function FormularPage() {
                     <Input label="Pflege PLZ" name="carePostalCode" value={form.carePostalCode} onChange={handleChange} />
                     <Input label="Pflege Stadt" name="careCity" value={form.careCity} onChange={handleChange} />
                     <Input label="Pflege Telefon" name="carePhone" value={form.carePhone} onChange={handleChange} />
-                    <Input label="Parkplatz vorhanden?" name="careHasParking" value={form.careHasParking} onChange={handleChange} />
+                    <Input label="Parkplatz vorhanden?" name="careHasParking" value={form.careHasParking} onChange={handleChange} yesNo={true} />
                     <Input label="Eingang" name="careEntrance" value={form.careEntrance} onChange={handleChange} />
                     <Input label="Eingang Details" name="careEntranceDetails" value={form.careEntranceDetails} onChange={handleChange} />
                     <Input label="Briefkasten Schlüsselort" name="mailboxKeyLocation" value={form.mailboxKeyLocation} onChange={handleChange} />
@@ -295,7 +295,7 @@ export default function FormularPage() {
                     <Input label="Medizinische Hinweise" name="medicalFindings" value={form.medicalFindings} onChange={handleChange} />
                     <Input label="Gesundheitliche Hinweise" name="healthFindings" value={form.healthFindings} onChange={handleChange} />
                     <Input label="Allergie Details" name="allergyDetails" value={form.allergyDetails} onChange={handleChange} />
-                    <Input label="Allergien?" name="hasAllergies" value={form.hasAllergies} onChange={handleChange} />
+                    <Input label="Allergien?" name="hasAllergies" value={form.hasAllergies} onChange={handleChange} yesNo={true} />
 
                     {/* Mental / Verhalten */}
                     <Input label="Mentale Diagnosen" name="mentalDiagnoses" value={form.mentalDiagnoses} onChange={handleChange} />
@@ -304,19 +304,19 @@ export default function FormularPage() {
                     {/* Household */}
                     <Input label="Zimmer Anzahl" name="householdRooms" value={form.householdRooms} onChange={handleChange} />
                     <Input label="Personen im Haushalt" name="householdPeople" value={form.householdPeople} onChange={handleChange} />
-                    <Input label="Haustiere?" name="pets" value={form.pets} onChange={handleChange} />
+                    <Input label="Haustiere?" name="pets" value={form.pets} onChange={handleChange} yesNo={true} />
 
                     {/* Activities */}
                     <Input label="Einkaufstyp" name="shoppingType" value={form.shoppingType} onChange={handleChange} />
-                    <Input label="Einkaufen mit Klient" name="shoppingWithClient" value={form.shoppingWithClient} onChange={handleChange} />
-                    <Input label="Einkaufsartikel" name="shoppingItems" value={form.shoppingItems} onChange={handleChange} />
-                    <Input label="Gemeinsames Kochen" name="jointCooking" value={form.jointCooking} onChange={handleChange} />
-                    <Input label="Kochen" name="cooking" value={form.cooking} onChange={handleChange} />
-                    <Input label="Begleitung" name="companionship" value={form.companionship} onChange={handleChange} />
-                    <Input label="Beruflicher Werdegang" name="biographyWork" value={form.biographyWork} onChange={handleChange} />
-                    <Input label="Lesen" name="reading" value={form.reading} onChange={handleChange} />
-                    <Input label="Kartenspiele" name="cardGames" value={form.cardGames} onChange={handleChange} />
-                    <Input label="Ausflüge" name="trips" value={form.trips} onChange={handleChange} />
+                    <Input label="Einkaufen mit Klient" name="shoppingWithClient" value={form.shoppingWithClient} onChange={handleChange} yesNo={true} />
+                    <Input label="Einkaufsartikel" name="shoppingItems" value={form.shoppingItems} onChange={handleChange} yesNo={true} />
+                    <Input label="Gemeinsames Kochen" name="jointCooking" value={form.jointCooking} onChange={handleChange} yesNo={true} />
+                    <Input label="Kochen" name="cooking" value={form.cooking} onChange={handleChange} yesNo={true} />
+                    <Input label="Begleitung" name="companionship" value={form.companionship} onChange={handleChange} yesNo={true} />
+                    <Input label="Beruflicher Werdegang" name="biographyWork" value={form.biographyWork} onChange={handleChange} yesNo={true} />
+                    <Input label="Lesen" name="reading" value={form.reading} onChange={handleChange} yesNo={true} />
+                    <Input label="Kartenspiele" name="cardGames" value={form.cardGames} onChange={handleChange} yesNo={true} />
+                    <Input label="Ausflüge" name="trips" value={form.trips} onChange={handleChange} yesNo={true} />
 
                     {/* Appointments */}
                     <Input label="Terminarten" name="appointmentTypes" value={form.appointmentTypes} onChange={handleChange} />
