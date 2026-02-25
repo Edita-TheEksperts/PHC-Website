@@ -129,50 +129,129 @@ export default async function handler(req, res) {
       .trim();
   }
 
-  // Generate PDF with custom content for each document type
   function generatePdfContent(doc, employee, documentType) {
-    const today = new Date();
-    const datum = today.toLocaleDateString("de-CH");
-    const ort = employee.city || "[Ort]";
-    const kuendigungsdatum = employee.terminationDate || "[Kündigungsdatum]";
-    const nachname = employee.lastName || "[Nachname]";
-    const vorname = employee.firstName || "[Vorname]";
-    const adresse = employee.address || "[Adresse]";
-    const plz = employee.zipCode || "[PLZ]";
-    // Header
-    doc.image("public/images/phc_logo.png", 220, 30, { width: 150 }).moveDown(3);
-    // Address block
-    doc
-      .fillColor("black")
-      .fontSize(12)
-      .text(`${vorname} ${nachname} Mitarbeiter/in\n\n${adresse}\n\n${plz} ${ort}\n\n\n`, { align: "left" });
-    doc.fillColor("black");
-    doc.text(`${ort}, ${datum}\n\n`);
-    // Title and salutation
-    if (documentType === "Auflösungschreiben") {
-      doc.fontSize(14).text("Auflösung des Arbeitsverhältnisses", { bold: true }).moveDown();
-      doc.fontSize(12).fillColor("black").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
-      doc.fillColor("black").text(
-        `Hiermit bestätigen wir Ihnen die Auflösung Ihres Arbeitsverhältnisses mit der Prime Home Care AG.\n\nDas Arbeitsverhältnis endet per ${kuendigungsdatum} im gegenseitigen Einverständnis. Sämtliche bis zu diesem Zeitpunkt bestehenden Ansprüche (inkl. Lohn, Ferien- und Überzeitguthaben) werden entsprechend den gesetzlichen Vorgaben und unseren Vereinbarungen abgerechnet.\n\nWir bitten Sie, allfällige Arbeitsmaterialien und Unterlagen bis spätestens zu Ihrem letzten Arbeitstag an Ihrem Einsatzort zu deponieren.\n\nWir bedanken uns herzlich für Ihre Mitarbeit und wünschen Ihnen für Ihre berufliche wie auch private Zukunft alles Gute.\n\nFreundliche Grüsse\nPrime Home Care AG\n\nKündigungsdatum, Digitale Unterschrift`
-      );
-    } else if (documentType === "KündigungMA") {
-      doc.fontSize(14).text("Kündigung des Arbeitsverhältnisses", { bold: true }).moveDown();
-      doc.fontSize(12).fillColor("red").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
-      doc.fillColor("black").text(
-        `Wir teilen Ihnen hiermit mit, dass das Arbeitsverhältnis mit der Prime Home Care AG ordentlich und fristgerecht per ${kuendigungsdatum} endet. Die gesetzlich gültige Kündigungsfrist wurde dabei automatisch berücksichtigt.\n\nBis zum Beendigungsdatum bleiben alle bisherigen Vereinbarungen bestehen.\n\nBitte geben Sie alle Arbeitsmaterialien und gegebenenfalls ausgehändigte Schlüssel spätestens an Ihrem letzten Arbeitstag zurück.\n\nWir machen Sie darauf aufmerksam, dass Sie noch 31 Tage ab dem letzten Arbeitstag gegen Nichtberufsunfälle versichert sind. Nach dem Ablauf dieser 31 Tage geniessen Sie keine Unfalldeckung mehr. Es besteht die Möglichkeit bei der SUVA eine Abredeversicherung abzuschliessen.\n\nWir bedanken uns herzlich für Ihre Mitarbeit und wünschen Ihnen für Ihre berufliche wie auch private Zukunft alles Gute.\n\nFreundliche Grüsse\nPrime Home Care AG\n\n${kuendigungsdatum} Digitale Unterschrift`
-      );
-    } else if (documentType === "KündigungMAFristlos") {
-      doc.fontSize(14).text("Kündigung des Arbeitsverhältnisses", { bold: true }).moveDown();
-      doc.fontSize(12).fillColor("red").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
-      doc.fillColor("black").text(
-        `Hiermit beenden wir das Arbeitsverhältnis mit der Prime Home Care AG mit sofortiger Wirkung.\n\nDiese Entscheidung wurde aufgrund einer schwerwiegenden Situation getroffen, die eine Fortsetzung des Arbeitsverhältnisses unzumutbar macht. Das Arbeitsverhältnis endet deshalb per sofort.\n\nBitte geben Sie sämtliche Arbeitsmaterialien und ausgehändigte Schlüssel umgehend zurück.\n\nWir machen Sie darauf aufmerksam, dass Sie noch 31 Tage ab dem letzten Arbeitstag gegen Nichtberufsunfälle versichert sind. Nach dem Ablauf dieser 31 Tage geniessen Sie keine Unfalldeckung mehr. Es besteht die Möglichkeit bei der SUVA eine Abredeversicherung abzuschliessen.\n\nWir danken Ihnen für die bisherige Zusammenarbeit und wünschen Ihnen für die Zukunft alles Gute.\n\nFreundliche Grüsse\nPrime Home Care AG\n\n${kuendigungsdatum} Digitale Unterschrift`
-      );
-    }
-    // Footer
-    doc.moveDown(2);
-    doc.fontSize(10).fillColor("gray").text("Prime Home Care AG – info@phc.ch – www.phc.ch", { align: "center" });
+  const today = new Date();
+
+  // --- Date formatting: dd.mm.yyyy (e.g., 25.02.2026)
+  const letterDate = employee.letterDate ? new Date(employee.letterDate) : today;
+  const datum = new Intl.DateTimeFormat("de-CH", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(letterDate);
+
+  const ort = employee.city || "[Ort]";
+  const kuendigungsdatum = employee.terminationDate || "[Kündigungsdatum]";
+  const nachname = employee.lastName || "[Nachname]";
+  const vorname = employee.firstName || "[Vorname]";
+  const adresse = employee.address || "[Adresse]";
+  const plz = employee.zipCode || "[PLZ]";
+
+  // Use margins similar to a letter layout
+  doc.page.margins = { top: 50, left: 60, right: 60, bottom: 60 };
+
+  // --- Logo: smaller + higher + right aligned
+ const logoWidth = 100;
+const logoY = 20;
+
+// True horizontal center of page
+const logoX = (doc.page.width - logoWidth) / 2;
+
+doc.image("public/images/phc_logo.png", logoX, logoY, { width: logoWidth });
+
+  // Start text a bit below logo area
+  let y = 90;
+
+  // --- Address block
+  doc
+    .fillColor("black")
+    .font("Helvetica")
+    .fontSize(12)
+    .text(
+      `${vorname} ${nachname} Mitarbeiter/in\n\n${adresse}\n\n${plz} ${ort}`,
+      doc.page.margins.left,
+      y,
+      { align: "left" }
+    );
+
+  // Date line (city, date)
+  doc.moveDown(2);
+  doc.text(`Rotkreuz, ${datum}\n\n`);
+
+  // --- Title and salutation
+  if (documentType === "Auflösungschreiben") {
+    doc.font("Helvetica-Bold").fontSize(14).text("Auflösung des Arbeitsverhältnisses");
+    doc.moveDown(1);
+
+    doc.font("Helvetica").fontSize(12).text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
+
+    doc.text(
+      `Hiermit bestätigen wir Ihnen die Auflösung Ihres Arbeitsverhältnisses mit der Prime Home Care AG.\n\n` +
+      `Das Arbeitsverhältnis endet per ${datum} im gegenseitigen Einverständnis. ` +
+      `Sämtliche bis zu diesem Zeitpunkt bestehenden Ansprüche (inkl. Lohn, Ferien- und Überzeitguthaben) ` +
+      `werden entsprechend den gesetzlichen Vorgaben und unseren Vereinbarungen abgerechnet.\n\n` +
+      `Wir bitten Sie, allfällige Arbeitsmaterialien und Unterlagen bis spätestens zu Ihrem letzten Arbeitstag ` +
+      `an Ihrem Einsatzort zu deponieren.\n\n` +
+      `Wir bedanken uns herzlich für Ihre Mitarbeit und wünschen Ihnen für Ihre berufliche wie auch private Zukunft alles Gute.\n\n` +
+      `Freundliche Grüsse\nPrime Home Care AG`
+    );
+
+  } else if (documentType === "KündigungMA") {
+    doc.font("Helvetica-Bold").fontSize(14).text("Kündigung des Arbeitsverhältnisses");
+    doc.moveDown(1);
+
+    doc.font("Helvetica").fontSize(12).fillColor("black").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
+
+    doc.fillColor("black").text(
+      `Wir teilen Ihnen hiermit mit, dass das Arbeitsverhältnis mit der Prime Home Care AG ordentlich und fristgerecht ` +
+      `per ${datum} endet. Die gesetzlich gültige Kündigungsfrist wurde dabei automatisch berücksichtigt.\n\n` +
+      `Bis zum Beendigungsdatum bleiben alle bisherigen Vereinbarungen bestehen.\n\n` +
+      `Bitte geben Sie alle Arbeitsmaterialien und gegebenenfalls ausgehändigte Schlüssel spätestens an Ihrem letzten Arbeitstag zurück.\n\n` +
+      `Wir machen Sie darauf aufmerksam, dass Sie noch 31 Tage ab dem letzten Arbeitstag gegen Nichtberufsunfälle versichert sind. ` +
+      `Nach dem Ablauf dieser 31 Tage geniessen Sie keine Unfalldeckung mehr. Es besteht die Möglichkeit bei der SUVA eine Abredeversicherung abzuschliessen.\n\n` +
+      `Wir bedanken uns herzlich für Ihre Mitarbeit und wünschen Ihnen für Ihre berufliche wie auch private Zukunft alles Gute.\n\n` +
+      `Freundliche Grüsse\nPrime Home Care AG`
+    );
+
+  } else if (documentType === "KündigungMAFristlos") {
+    doc.font("Helvetica-Bold").fontSize(14).text("Kündigung des Arbeitsverhältnisses");
+    doc.moveDown(1);
+
+    doc.font("Helvetica").fontSize(12).fillColor("black").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
+
+    doc.fillColor("black").text(
+      `Hiermit beenden wir das Arbeitsverhältnis mit der Prime Home Care AG mit sofortiger Wirkung.\n\n` +
+      `Diese Entscheidung wurde aufgrund einer schwerwiegenden Situation getroffen, die eine Fortsetzung des Arbeitsverhältnisses unzumutbar macht. ` +
+      `Das Arbeitsverhältnis endet deshalb per sofort.\n\n` +
+      `Bitte geben Sie sämtliche Arbeitsmaterialien und ausgehändigte Schlüssel umgehend zurück.\n\n` +
+      `Wir machen Sie darauf aufmerksam, dass Sie noch 31 Tage ab dem letzten Arbeitstag gegen Nichtberufsunfälle versichert sind. ` +
+      `Nach dem Ablauf dieser 31 Tage geniessen Sie keine Unfalldeckung mehr. Es besteht die Möglichkeit bei der SUVA eine Abredeversicherung abzuschliessen.\n\n` +
+      `Wir danken Ihnen für die bisherige Zusammenarbeit und wünschen Ihnen für die Zukunft alles Gute.\n\n` +
+      `Freundliche Grüsse\nPrime Home Care AG`
+    );
   }
 
+  // --- Signature area (NO placeholder text)
+  // Why: replaces "Kündigungsdatum, Digitale Unterschrift"
+  doc.moveDown(2);
+  doc.font("Helvetica").fontSize(12).text(`${ort}, ${datum}`);
+
+  // --- Footer fixed at bottom
+  const footerText = "Prime Home Care AG – info@phc.ch – www.phc.ch";
+  const footerY = doc.page.height - doc.page.margins.bottom - 15;
+
+  doc
+    .font("Helvetica")
+    .fontSize(10)
+    .fillColor("gray")
+    .text(footerText, doc.page.margins.left, footerY, {
+      width: doc.page.width - doc.page.margins.left - doc.page.margins.right,
+      align: "center",
+    });
+
+  // reset color for safety
+  doc.fillColor("black");
+}
   const pdfBuffer = await new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument();
