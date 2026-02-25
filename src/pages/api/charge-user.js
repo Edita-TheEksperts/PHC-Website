@@ -15,6 +15,11 @@ export default async function handler(req, res) {
     payment_method: user.stripePaymentMethodId,
     off_session: true,
     confirm: true,
+    metadata: {
+      userId: user.id,
+      employeeId: user.employeeId || '',
+      scheduleId: scheduleId || ''
+    }
   });
 
   res.status(200).json({ status: "✅ Charged successfully", id: paymentIntent.id });

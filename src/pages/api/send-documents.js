@@ -128,7 +128,7 @@ export default async function handler(req, res) {
     doc.image("public/images/phc_logo.png", 220, 30, { width: 150 }).moveDown(3);
     // Address block
     doc
-      .fillColor("red")
+      .fillColor("black")
       .fontSize(12)
       .text(`${vorname} ${nachname} Mitarbeiter/in\n\n${adresse}\n\n${plz} ${ort}\n\n\n`, { align: "left" });
     doc.fillColor("black");
@@ -136,7 +136,7 @@ export default async function handler(req, res) {
     // Title and salutation
     if (documentType === "Auflösungschreiben") {
       doc.fontSize(14).text("Auflösung des Arbeitsverhältnisses", { bold: true }).moveDown();
-      doc.fontSize(12).fillColor("red").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
+      doc.fontSize(12).fillColor("black").text(`Sehr geehrte/r Frau/Herr ${nachname}\n\n`);
       doc.fillColor("black").text(
         `Hiermit bestätigen wir Ihnen die Auflösung Ihres Arbeitsverhältnisses mit der Prime Home Care AG.\n\nDas Arbeitsverhältnis endet per ${kuendigungsdatum} im gegenseitigen Einverständnis. Sämtliche bis zu diesem Zeitpunkt bestehenden Ansprüche (inkl. Lohn, Ferien- und Überzeitguthaben) werden entsprechend den gesetzlichen Vorgaben und unseren Vereinbarungen abgerechnet.\n\nWir bitten Sie, allfällige Arbeitsmaterialien und Unterlagen bis spätestens zu Ihrem letzten Arbeitstag an Ihrem Einsatzort zu deponieren.\n\nWir bedanken uns herzlich für Ihre Mitarbeit und wünschen Ihnen für Ihre berufliche wie auch private Zukunft alles Gute.\n\nFreundliche Grüsse\nPrime Home Care AG\n\nKündigungsdatum, Digitale Unterschrift`
       );

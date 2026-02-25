@@ -10,11 +10,18 @@ export default async function handler(req, res) {
   const { amount, userId } = req.body;
 
   try {
+    const { employeeId, scheduleId, paymentMethodId, stripeCustomerId } = req.body;
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: 'chf',
       capture_method: 'manual',
-      metadata: userId ? { userId } : {},
+      customer: stripeCustomerId,
+      payment_method: paymentMethodId,
+      metadata: {
+        userId: userId || '',
+        employeeId: employeeId || '',
+        scheduleId: scheduleId || ''
+      },
     });
 
     // ✅ This is what Stripe sends you
