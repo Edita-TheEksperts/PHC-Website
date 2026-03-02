@@ -326,8 +326,7 @@ Die Prime Home Care AG übernimmt keine Haftung für Unterbrechungen oder Ausset
   content: (
     <>
       <p>
-        Der Kunde verpflichtet sich zu einem respektvollen, höflichen und
-        angemessenen Umgang mit den Mitarbeitern. Dies beinhaltet unter anderem:
+       Der Kunde hat gegenüber den Mitarbeitenden der Prime Home Care AG kein arbeitsrechtliches Weisungsrecht. Anweisungen zur Einsatzplanung, Arbeitsorganisation und Leistungserbringung erfolgen ausschliesslich durch die PHC AG als Arbeitgeberin. Wünsche des Kunden zur konkreten Ausführung der gebuchten Dienstleistung sind der PHC AG mitzuteilen.
       </p>
 
       <ul className="list-disc list-inside space-y-1">
