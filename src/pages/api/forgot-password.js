@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       subject: "Passwort zurücksetzen",
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <p>Hallo ${user.firstName},</p>
+          <p>Hallo ${user.firstName}</p>
           <p>Klicken Sie auf den folgenden Link, um Ihr Passwort zurückzusetzen:</p>
           <a 
             href="${resetLink}"

@@ -99,7 +99,7 @@ export default async function handler(req, res) {
         to: user.email,
         subject: "Willkommen bei Prime Home Care AG – Passwort erstellen",
         html: `
-<p>Hallo ${user.firstName || ""} ${user.lastName || ""},</p>
+<p>Hallo ${user.firstName || ""} ${user.lastName || ""}</p>
 <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.</p>
 <p>Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet:</p>
 <ul>

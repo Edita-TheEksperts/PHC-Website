@@ -28,7 +28,7 @@ const mailOptions = {
   subject: "In 2 Tagen beginnt Ihre Betreuung.",
   html: `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p>Grüezi ${user.firstName} ${user.lastName},</p>
+      <p>Grüezi ${user.firstName} ${user.lastName}</p>
       <p>Am <strong>${formattedDate}</strong> um <strong>Zeit</strong> beginnt die Betreuung durch Ihre Betreuungsperson.</p>
       <p>Bitte stellen Sie Folgendes bereit:</p>
       <ul>

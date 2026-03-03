@@ -53,7 +53,7 @@ export async function sendAssignmentContractEmail(assignment) {
           <img src='https://www.phc.ch/phc-logo.png' alt='Prime Home Care Logo' style='max-width:180px; margin-bottom:16px;' />
         </div>
         <div style="padding:24px;">
-          <p>Grüezi ${employee.firstName},</p>
+          <p>Grüezi ${employee.firstName}</p>
           <p>Wir freuen uns Ihnen mitzuteilen, dass Ihr Einsatz offiziell bestätigt wurde.</p>
           <p>Den dazugehörigen Arbeitsvertrag finden Sie im Anhang dieser E-Mail.</p>
           <p>Bitte lesen Sie den Arbeitsvertrag sorgfältig durch und unterzeichnen Sie das Dokument digital.</p>

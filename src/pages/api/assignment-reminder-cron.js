@@ -27,7 +27,7 @@ export async function runAssignmentReminders() {
           to: employee.email,
           subject: "Reminder: Bitte Job akzeptieren",
           html: `
-            <p>Hallo ${employee.firstName},</p>
+            <p>Hallo ${employee.firstName}</p>
             <p>Bitte bestätige den dir zugewiesenen Einsatz.</p>
                 
 <p>Freundliche Grüsse</p>  
@@ -72,7 +72,7 @@ export async function runAssignmentReminders() {
           to: employee.email,
           subject: "Letzte Erinnerung: Bitte Job akzeptieren",
           html: `
-            <p>Hallo ${employee.firstName},</p>
+            <p>Hallo ${employee.firstName}</p>
             <p>Dies ist die letzte Erinnerung, den Einsatz zu bestätigen.</p>
             <p>Prime Home Care</p>
           `

@@ -350,7 +350,7 @@ async function sendEmail({ to, subject, html }) {
 async function sendTerminateEmail(customer, booking, immediate = false) {
   let emailText = immediate
     ? `
-      <p> Grüezi  ${customer.firstName} ${customer.lastName},</p>
+      <p> Grüezi  ${customer.firstName} ${customer.lastName}</p>
      <p> Wir bestätigen hiermit die Kündigung unserer Dienstleistung.  </p>
       <p>Oh, schade! Wir bestätigen hiermit die fristlose Kündigung unserer Dienstleistung.</p>
       <p>Gemäss unseren AGBs wird eine Aufwandsentschädigung von <strong>CHF 300.- exkl. MwSt.</strong> berechnet.</p>

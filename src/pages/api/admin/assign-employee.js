@@ -64,7 +64,7 @@ export default async function handler(req, res) {
 const dashboardUrl = "https://phc.ch/employee-dashboard";
 
 const html = `
-<p>Hallo ${employee.firstName},</p>
+<p>Hallo ${employee.firstName}</p>
 
 <p>Sie haben einen neuen Einsatz für den Kunden 
 <strong>${user.firstName} ${user.lastName}</strong>.</p>

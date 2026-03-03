@@ -18,7 +18,7 @@ export async function sendCalendlyInvite(email) {
     subject: "Vereinbaren Sie Ihr Interview",
     html: `
       <div style="font-family: Arial, sans-serif; line-height: 1.7; color: #333;">
-        <p>Grüezi ${firstName},</p>
+        <p>Grüezi ${firstName}</p>
         <br>
         <p>Vielen Dank für Ihre Bewerbung – wir freuen uns, Sie näher kennenzulernen!</p>
         <br>

@@ -13,7 +13,8 @@ export async function sendAssignmentCancelledEmail({ schedule, reason }) {
       subject: 'Ihr Einsatz wurde storniert',
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <p>Grüezi ${user.firstName || ''} ${user.lastName || ''},</p>
+        <!-- Logo removed as requested -->
+          <p>Grüezi ${user.firstName || ''} ${user.lastName || ''}</p>
           <p>Ihr geplanter Einsatz am <b>${formattedDate}</b> um <b>${formattedTime}</b> (${duration}) für den Service <b>${service}</b> wurde storniert.</p>
           <p>Grund: ${reason || '-'}</p>
           <br>
@@ -30,7 +31,7 @@ export async function sendAssignmentCancelledEmail({ schedule, reason }) {
       subject: 'Ihr Einsatz wurde storniert',
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <p>Grüezi ${employee.firstName || ''} ${employee.lastName || ''},</p>
+          <p>Grüezi ${employee.firstName || ''} ${employee.lastName || ''}</p>
           <p>Ihr geplanter Einsatz am <b>${formattedDate}</b> um <b>${formattedTime}</b> (${duration}) für den Service <b>${service}</b> wurde storniert.</p>
           <p>Grund: ${reason || '-'}</p>
           <br>
@@ -240,7 +241,7 @@ export async function sendAdminAssignmentCancelledEmail({ employeeFirstName, emp
   });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p>Hallo Admin,</p>
+      <p>Hallo Admin</p>
       <p>Die Zuweisung von ${employeeFirstName} ${employeeLastName} wurde nach 36h ohne Bestätigung automatisch storniert.</p>
       <br>
       <p>Freundliche Grüsse</p>
@@ -304,7 +305,7 @@ export async function sendCapacityLimitEmail({ email, firstName, lastName }) {
   });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p>Grüezi ${firstName} ${lastName},</p>
+      <p>Grüezi ${firstName} ${lastName}</p>
       <p>Vielen Dank für Ihre Online-Buchung bei Prime Home Care.</p>
       <p>Leider müssen wir Ihnen mitteilen, dass wir für den von Ihnen gebuchten Zeitraum aktuell keine passenden Kapazitäten zur Verfügung haben. Ein geeignetes Matching zwischen Kunde und Betreuungsperson ist derzeit nicht möglich.</p>
       <p>Ihre Buchung wird entsprechend nicht ausgeführt. Eine Belastung erfolgt nicht.</p>
@@ -342,7 +343,7 @@ export async function sendClientTerminationEmail({ email, firstName, lastName, e
   });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p>Grüezi ${firstName} ${lastName},</p>
+      <p>Grüezi ${firstName} ${lastName}</p>
       <p>Wir bestätigen hiermit die Beendigung der Zusammenarbeit zwischen Ihnen und der Prime Home Care AG.</p>
       <p>Es werden ab ${endDate} keine weiteren Dienstleistungen mehr erbracht.</p>
       <p>Ihr Kundenkonto im Prime-Home-Care-Portal wird entsprechend geschlossen. Ein Zugriff auf das Kundenportal ist danach nicht mehr möglich.</p>
@@ -380,7 +381,7 @@ export async function sendRejectionWarningEmail({ email, firstName }) {
   });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p>Grüezi ${firstName},</p>
+      <p>Grüezi ${firstName}</p>
       <p>Uns ist aufgefallen, dass Sie in letzter Zeit mehrere Einsatzvorschläge abgelehnt haben.</p>
       <p>Bitte beachten Sie, dass eine regelmässige Ablehnung von Einsätzen unsere Einsatzplanung erschwert.</p>
       <p>Gerne möchten wir mit Ihnen besprechen, ob es bestimmte Gründe gibt und wie wir Sie besser unterstützen können.</p>
@@ -421,7 +422,7 @@ export async function sendClientWelcomeEmail({ email, firstName, lastName, passw
 
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p>Grüezi ${firstName} ${lastName},</p>
+      <p>Grüezi ${firstName} ${lastName}</p>
       <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.</p>
       <p>Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet. Sie können dort:</p>
       <ul>

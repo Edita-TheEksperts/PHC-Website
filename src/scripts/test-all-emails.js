@@ -31,7 +31,7 @@ async function runAllEmails() {
       to: TEST_EMAIL,
       subject: 'Wie zufrieden sind Sie mit unserer Betreuung?',
       html: `
-        <p>Hallo Max Mustermann,</p>
+        <p>Hallo Max Mustermann</p>
         <p>Bitte bewerten Sie die Betreuung durch Frau Müller.</p>
         <p><a href="https://example.com/feedback">Jetzt Feedback geben</a></p>
       `,

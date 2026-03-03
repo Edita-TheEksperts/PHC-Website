@@ -74,7 +74,7 @@ async function sendAccountSetupEmail(userEmail, fullName) {
     to: userEmail,
     subject: "Willkommen bei Prime Home Care AG – Passwort erstellen",
     html: `
-<p>Hallo ${fullName},</p>
+<p>Hallo ${fullName}</p>
 <p>Vielen Dank für Ihre Registrierung bei Prime Home Care AG.</p>
 <p>Ihr Zugang zum Kundenportal wurde erfolgreich eingerichtet:</p>
 <ul>
