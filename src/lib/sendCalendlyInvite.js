@@ -10,7 +10,7 @@ export async function sendCalendlyInvite(email) {
     },
   });
 
-  const calendlyLink = "https://calendly.com/your-company/interview";
+  const calendlyLink = "https://calendly.com/primehomecare";
 
   await transporter.sendMail({
     from: '"Prime Home Care AG" <info@primehomecare.ch>',
@@ -48,6 +48,4 @@ export async function sendCalendlyInvite(email) {
       </div>
     `,
   });
-
-
 }
