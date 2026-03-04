@@ -2127,7 +2127,7 @@ onChange={(date) => {
 
                 if (current > minHours) {
                   updated[i].hours = parseFloat(
-                    (current - 1).toFixed(1)
+                    (current - 0.5).toFixed(1)
                   );
                   setForm({ ...form, schedules: updated });
                 }
@@ -2168,10 +2168,8 @@ onChange={(date) => {
                     subServices: [],
                   });
                 } else {
-            updated[i].hours = Math.min(current + 1, 8);
-
+                  updated[i].hours = Math.min(current + 0.5, 8);
                 }
-
                 setForm({ ...form, schedules: updated });
               }}
               className="w-8 h-8 border rounded-full text-xl flex items-center justify-center"
@@ -2238,7 +2236,10 @@ onChange={(date) => {
       minHours = 2 + (nextSubServices.length - 2);
     }
 
+    // If hours are below new min, increase. If above new min, decrease to min if previously forced higher.
     if ((updated[i].hours ?? 2) < minHours) {
+      updated[i].hours = minHours;
+    } else if ((updated[i].hours ?? 2) > minHours) {
       updated[i].hours = minHours;
     }
 
