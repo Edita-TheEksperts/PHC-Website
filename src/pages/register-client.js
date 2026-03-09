@@ -2196,10 +2196,16 @@ onChange={(date) => {
                       key={srv.id}
                       type="button"
                       onClick={() => {
-                        const updated = isSelected
-                          ? form.services.filter((s) => s !== srv.name)
-                          : [...form.services, srv.name];
-                        setForm((prev) => ({ ...prev, services: updated }));
+                        if (isSelected) {
+                          // Only allow removal if more than one service remains
+                          if ((form.services || []).length > 1) {
+                            const updated = form.services.filter((s) => s !== srv.name);
+                            setForm((prev) => ({ ...prev, services: updated }));
+                          }
+                        } else {
+                          const updated = [...form.services, srv.name];
+                          setForm((prev) => ({ ...prev, services: updated }));
+                        }
                       }}
                       className={`w-full px-4 py-2 text-sm border rounded-lg text-center transition-all duration-200 ${
                         isSelected
@@ -3883,6 +3889,21 @@ onChange={(date) => {
   <h3 className="text-xl font-bold text-gray-800 mb-2">Zusammenfassung</h3>
 
   <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
+        {/* Show selected services */}
+        {form.services && form.services.length > 0 && (
+          <SummaryRow
+            label="Dienstleistung(en)"
+            value={form.services.join(", ")}
+          />
+        )}
+
+        {/* Show selected subservices (unique, flat) */}
+        {form.schedules && form.schedules.some(s => s.subServices && s.subServices.length > 0) && (
+          <SummaryRow
+            label="Zusatzleistungen"
+            value={Array.from(new Set(form.schedules.flatMap(s => s.subServices || []))).join(", ")}
+          />
+        )}
     
     <SummaryRow label="Häufigkeit" value={form.frequency} />
     <SummaryRow
@@ -3895,12 +3916,20 @@ onChange={(date) => {
     <SummaryRow label="Beginndatum" value={form.firstDate} />
 
 <div className="border-t pt-2">
+
   {form.schedules.map((s, i) => {
-    const hours = s.hours || 0;
-    const hourlyRate = form.frequency === "einmalig" ? 75 : 59;
+    const hours = parseFloat(s.hours) || 0;
+    // Use the same buildDate and getSurcharge logic as in totalPayment
+    const date = buildDate(s, form.firstDate);
+    const surcharge = getSurcharge(date);
+    const baseRate = form.frequency === "einmalig" ? 75 : 59;
+    const hourlyRate = baseRate * (1 + surcharge);
     return (
       <p key={i} className="text-sm text-gray-600">
-        {hours} × {hourlyRate} CHF = {(hours * hourlyRate).toFixed(2)} CHF
+        {hours} Std × {hourlyRate.toFixed(2)} CHF = {(hours * hourlyRate).toFixed(2)} CHF
+        {surcharge > 0 && (
+          <span className="text-xs text-gray-400 ml-2">(inkl. Zuschlag)</span>
+        )}
       </p>
     );
   })}
