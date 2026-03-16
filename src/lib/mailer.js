@@ -1,3 +1,17 @@
+import nodemailer from "nodemailer";
+import PDFDocument from "pdfkit";
+import path from "path";
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: process.env.SMTP_SECURE === "true",
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
 // --- Assignment Cancelled Notification (Client, Admin, Employee) ---
 export async function sendAssignmentCancelledEmail({ schedule, reason }) {
   const { user, employee, date, startTime, hours, serviceName } = schedule;
@@ -230,15 +244,6 @@ export async function sendPaymentConfirmationEmail({ email, firstName, lastName,
 }
 // --- Admin Notification: Assignment Cancelled Automatically ---
 export async function sendAdminAssignmentCancelledEmail({ employeeFirstName, employeeLastName }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
       <p>Hallo Admin</p>
@@ -264,15 +269,6 @@ export async function sendAdminAssignmentCancelledEmail({ employeeFirstName, emp
 
 // --- Payment Update Request Email ---
 export async function sendPaymentUpdateRequestEmail({ name, email: userEmail }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
       <p>Der Kunde/Employee <strong>${name}</strong> (${userEmail}) möchte seine Zahlungsdaten aktualisieren.</p>
@@ -294,15 +290,6 @@ export async function sendPaymentUpdateRequestEmail({ name, email: userEmail }) 
 
 // --- Capacity Limit Notification (Kapazitätsgrenzen) ---
 export async function sendCapacityLimitEmail({ email, firstName, lastName }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
       <p>Grüezi ${firstName} ${lastName}</p>
@@ -332,15 +319,6 @@ export async function sendCapacityLimitEmail({ email, firstName, lastName }) {
 
 // --- Client-Initiated Termination ---
 export async function sendClientTerminationEmail({ email, firstName, lastName, endDate }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
       <p>Grüezi ${firstName} ${lastName}</p>
@@ -370,15 +348,6 @@ export async function sendClientTerminationEmail({ email, firstName, lastName, e
 
 // --- Rejection Warning (Employee) ---
 export async function sendRejectionWarningEmail({ email, firstName }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
       <p>Grüezi ${firstName}</p>
@@ -410,15 +379,6 @@ export async function sendRejectionWarningEmail({ email, firstName }) {
 }
 // --- Client Welcome Email ---
 export async function sendClientWelcomeEmail({ email, firstName, lastName, passwordLink }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
 
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -461,10 +421,6 @@ export async function sendClientWelcomeEmail({ email, firstName, lastName, passw
     console.error("❌ Failed to send client welcome email:", error);
   }
 }
-
-import nodemailer from "nodemailer";
-import PDFDocument from "pdfkit";
-import path from "path";
 
 // ---------- Rahmenvereinbarung PDF ----------
 export function createRahmenvereinbarungPdf(employee) {
@@ -592,16 +548,6 @@ export async function sendApprovalEmail(employee, plainPassword) {
     console.log("SMTP PORT:", process.env.SMTP_PORT);
     console.log("SMTP USER:", process.env.SMTP_USER);
     console.log("SMTP SECURE:", process.env.SMTP_SECURE);
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_SECURE === "true",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
 
     try {
       console.log("📤 Sending approval email...");
