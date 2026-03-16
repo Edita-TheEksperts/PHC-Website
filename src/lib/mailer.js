@@ -475,13 +475,13 @@ export function createRahmenvereinbarungPdf(employee) {
     doc.on("data", buffers.push.bind(buffers));
     doc.on("end", () => resolve(Buffer.concat(buffers)));
 
-    // ===== Logo on Top =====
-    doc.image(path.join(process.cwd(), "public/images/phc_logo.png"), {
-      fit: [160, 80],
-      align: "center"
-    });
 
-    doc.moveDown(2);
+    // ===== Centered Logo on Top =====
+    const fitBox = [100, 70]; // width, height
+    const pageWidth = doc.page.width;
+    const logoPath = path.join(process.cwd(), "public/images/phc_logo.png");
+    doc.image(logoPath, (pageWidth - fitBox[0]) / 2, doc.page.margins.top, { fit: fitBox });
+    doc.moveDown(3);
 
     // Page 1 - Header and Title
     doc.fontSize(16).font("Helvetica-Bold").text("Rahmenvereinbarung", { align: "left" });
@@ -625,9 +625,8 @@ export async function sendApprovalEmail(employee, plainPassword) {
             <ul>
               <li>Login-Link: <a href="${loginUrl}">${loginUrl}</a></li>
               <li>Benutzername: ${email}</li>
-              <li>Passwort: <strong>${plainPassword}</strong></li>
             </ul>
-            <p>Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
+            <p>Hier zum Passwort zurücksetzen: <a href="https://www.phc.ch/forgot-password" style="text-decoration:underline;color:#04436F;font-weight:500;cursor:pointer;">Passwort zurücksetzen</a></p>
             <p>Im Anhang finden Sie Ihre Rahmenvereinbarung.</p>
             <br>
             <p>Freundliche Grüsse</p>

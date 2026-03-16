@@ -3879,7 +3879,7 @@ onChange={(date) => {
           </div>
         </form>
       </div>
-<div className="w-full md:w-96 space-y-3">
+{!(testMode ? step === 3 : step === 4) && step !== 5 && <div className="w-full md:w-96 space-y-3">
   <div
   ref={summaryRef}
   className="sticky top-20 bg-white border border-gray-200 rounded-xl p-8 shadow space-y-6"
@@ -3976,7 +3976,7 @@ onChange={(date) => {
   </div>
 </div>
 
-</div>
+</div>}
 
 
 

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node test-documents.js)",
+      "Bash(node -e \":*)"
+    ]
+  }
+}

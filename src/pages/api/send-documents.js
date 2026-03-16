@@ -144,7 +144,7 @@ export default async function handler(req, res) {
   const kuendigungsdatum = employee.terminationDate || "[Kündigungsdatum]";
   const nachname = employee.lastName || "[Nachname]";
   const vorname = employee.firstName || "[Vorname]";
-  const adresse = employee.address || "[Adresse]";
+  const adresse = [employee.address, employee.houseNumber].filter(Boolean).join(" ") || "[Adresse]";
   const plz = employee.zipCode || "[PLZ]";
 
   // Use margins similar to a letter layout
@@ -168,7 +168,7 @@ doc.image("public/images/phc_logo.png", logoX, logoY, { width: logoWidth });
     .font("Helvetica")
     .fontSize(12)
     .text(
-      `${vorname} ${nachname} Mitarbeiter/in\n\n${adresse}\n\n${plz} ${ort}`,
+      `${vorname} ${nachname}\n\n${adresse}\n\n${plz} ${ort}`,
       doc.page.margins.left,
       y,
       { align: "left" }
@@ -176,6 +176,7 @@ doc.image("public/images/phc_logo.png", logoX, logoY, { width: logoWidth });
 
   // Date line (city, date)
   doc.moveDown(2);
+  doc.moveDown(1);
   doc.text(`Rotkreuz, ${datum}\n\n`);
 
   // --- Title and salutation
@@ -234,7 +235,7 @@ doc.image("public/images/phc_logo.png", logoX, logoY, { width: logoWidth });
   // --- Signature area (NO placeholder text)
   // Why: replaces "Kündigungsdatum, Digitale Unterschrift"
   doc.moveDown(2);
-  doc.font("Helvetica").fontSize(12).text(`${ort}, ${datum}`);
+  doc.font("Helvetica").fontSize(12).text(`Rotkreuz, ${datum}`);
 
   // --- Footer fixed at bottom
   const footerText = "Prime Home Care AG – info@phc.ch – www.phc.ch";

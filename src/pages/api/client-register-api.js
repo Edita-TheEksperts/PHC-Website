@@ -1,6 +1,6 @@
 import { prisma } from "../../lib/prisma";
 import crypto from "crypto";
-import { sendEmail } from "../../lib/emails";
+import { sendClientWelcomeEmail } from "../../lib/mailer";
 import { createOrUpdateSalesforceAccount } from "../../lib/salesforce";
 
 export default async function handler(req, res) {
@@ -203,6 +203,8 @@ healthFindings: toStr(healthFindings),
 
     let user = await prisma.user.findUnique({ where: { email } });
 
+    const isNewUser = !user;
+
     if (user) {
       user = await prisma.user.update({
         where: { email },
@@ -256,27 +258,24 @@ healthFindings: toStr(healthFindings),
           },
         },
       });
+    }
 
-      /* -------- SEND WELCOME EMAIL -------- */
+    /* -------- SEND WELCOME EMAIL (new users or users without a password) -------- */
 
-      const template = await prisma.emailTemplate.findUnique({
-        where: { name: "welcomeEmail" },
-      });
+    const shouldSendEmail = isNewUser || !user.password;
+    console.log(`📧 shouldSendEmail: ${shouldSendEmail} (isNewUser: ${isNewUser}, hasPassword: ${!!user.password})`);
 
-      if (template) {
-        const body = template.body
-          .replace(/{{firstName}}/g, firstName ?? "")
-          .replace(/{{lastName}}/g, lastName ?? "")
-          .replace(
-            /{{resetLink}}/g,
-            `${process.env.NEXT_PUBLIC_BASE_URL}/setpassword?token=${resetToken}`
-          );
-
-        await sendEmail({
-          to: email,
-          subject: template.subject,
-          html: body,
+    if (shouldSendEmail) {
+      try {
+        await sendClientWelcomeEmail({
+          email,
+          firstName: firstName ?? "",
+          lastName: lastName ?? "",
+          passwordLink: `${process.env.NEXT_PUBLIC_BASE_URL}/forgot-password`,
         });
+        console.log("✅ Welcome email sent to", email);
+      } catch (emailErr) {
+        console.error("❌ Failed to send welcome email:", emailErr);
       }
     }
 

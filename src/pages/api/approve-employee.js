@@ -19,33 +19,27 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    // TEMP: Allow re-sending approval email for testing
-    // Commented out the check for 'invited' so you can always trigger the email
-    // if (employee.invited) {
-    //   return res.status(200).json({
-    //     message: "Employee already approved and email already sent",
-    //   });
-    // }
+    const alreadyApproved = employee.invited && employee.status === "approved";
 
-    // 🔐 generate NEW password on approval
-    const plainPassword = Math.random().toString(36).slice(-8);
-    const hashedPassword = await bcrypt.hash(plainPassword, 10);
-
+    // Update employee status to approved
     const updated = await prisma.employee.update({
       where: { email },
       data: {
         status: "approved",
-        password: hashedPassword,
         invited: true,
         inviteSentAt: new Date(),
       },
     });
 
-    // 📧 send email NOW
-    await sendApprovalEmail(updated, plainPassword);
+    // Only send email if not already approved/invited before
+    if (!alreadyApproved) {
+      await sendApprovalEmail(updated);
+    }
 
     return res.status(200).json({
-      message: "Employee approved and email with password sent",
+      message: alreadyApproved
+        ? "Employee already approved — email not resent"
+        : "Employee approved and email with reset link sent",
     });
   } catch (error) {
     console.error("❌ Approval error:", error);
